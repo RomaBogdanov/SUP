@@ -3,6 +3,10 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.ServiceModel;
+using System.ServiceModel.Description;
+
+using SupContract;
 
 /// <summary>
 /// Хост суп предназначен для:
@@ -16,7 +20,24 @@ namespace SupHost
     {
         static void Main(string[] args)
         {
-
+            Uri baseAddress = new Uri("http://localhost:7000/HostSUP/");
+            ServiceHost host = new ServiceHost(typeof(TableService1), baseAddress);
+            try
+            {
+                host.AddServiceEndpoint(typeof(ITableService), 
+                    new WSHttpBinding(), "TableService");
+                ServiceMetadataBehavior smb = new ServiceMetadataBehavior();
+                smb.HttpGetEnabled = true;
+                host.Description.Behaviors.Add(smb);
+                host.Open();
+                Console.WriteLine("Нажмите <ENTER> для закрытия хоста.");
+                Console.ReadLine();
+            }
+            catch (Exception err)
+            {
+                Console.WriteLine(err.Message);
+                host.Abort();
+            }
         }
     }
 }
