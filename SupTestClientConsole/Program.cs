@@ -15,12 +15,26 @@ namespace SupTestClientConsole
         {
             ITableService tableService = new TableServiceClient();
             CompositeType ct = new CompositeType();
-            ct.TableName = TableName.TestTable1;
-            DataTable dt = tableService.GetTable(ct);
-            foreach (var item in dt.Select())
+            ct.TableName = TableName.VisOrders;
+            //ct.TableName = TableName.TestTable1;
+            //ct.TableName = TableName.TestTable2Ado;
+            try
             {
-                Console.WriteLine("{0} | {1} | {2}", item[0], item[1], item[2]);
+                DataTable dt = tableService.GetTable(ct);
+                foreach (var item in dt.Select())
+                {
+                    for (int i = 0; i < dt.Columns.Count; i++)
+                    {
+                        Console.Write("{0}\t|", item[i]);
+                    }
+                    Console.WriteLine();
+                }
             }
+            catch (Exception err)
+            {
+                Console.WriteLine(err.Message);
+            }
+            
             Console.ReadLine();
         }
     }

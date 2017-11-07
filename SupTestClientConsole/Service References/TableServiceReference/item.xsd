@@ -11,6 +11,8 @@
   <xs:simpleType name="TableName">
     <xs:restriction base="xs:string">
       <xs:enumeration value="TestTable1" />
+      <xs:enumeration value="VisOrders" />
+      <xs:enumeration value="TestTable2Ado" />
     </xs:restriction>
   </xs:simpleType>
   <xs:element name="TableName" nillable="true" type="tns:TableName" />

@@ -96,6 +96,12 @@ namespace SupTestClientConsole.TableServiceReference {
         
         [System.Runtime.Serialization.EnumMemberAttribute()]
         TestTable1 = 0,
+        
+        [System.Runtime.Serialization.EnumMemberAttribute()]
+        VisOrders = 1,
+        
+        [System.Runtime.Serialization.EnumMemberAttribute()]
+        TestTable2Ado = 2,
     }
     
     [System.CodeDom.Compiler.GeneratedCodeAttribute("System.ServiceModel", "4.0.0.0")]

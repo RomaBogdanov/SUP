@@ -64,9 +64,4 @@ namespace SupContract
             set { tableName = value; }
         }
     }
-    
-    public enum TableName
-    {
-        TestTable1
-    }
 }

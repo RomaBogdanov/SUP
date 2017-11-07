@@ -23,7 +23,12 @@ namespace SupHost
         public DataTable GetTable(CompositeType composite)
         {
             IGetTableBehavior tableBehavior = this.CreateTableBehavior(composite.TableName);
-            return tableBehavior != null ? tableBehavior.GetTable() : null;
+            if (tableBehavior != null)
+            {
+                DataTable dt = tableBehavior.GetTable();
+                return dt;
+            }
+            return null;
         }
 
         IGetTableBehavior CreateTableBehavior(TableName table)
@@ -31,6 +36,14 @@ namespace SupHost
             if (table == TableName.TestTable1)
             {
                 return new GetTestTable1Behavior();
+            }
+            else if (table == TableName.VisOrders)
+            {
+                return new GetVisOrdersTableBehavior();
+            }
+            else if (table == TableName.TestTable2Ado)
+            {
+                return new GetTestTable2AdoBehavior();
             }
             return null;
         }
