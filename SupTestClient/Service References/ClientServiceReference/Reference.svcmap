@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ReferenceGroup xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" ID="5ead5c7b-a7a1-4280-ba82-cd6c1445a7fa" xmlns="urn:schemas-microsoft-com:xml-wcfservicemap">
+  <ClientOptions>
+    <GenerateAsynchronousMethods>false</GenerateAsynchronousMethods>
+    <GenerateTaskBasedAsynchronousMethod>true</GenerateTaskBasedAsynchronousMethod>
+    <EnableDataBinding>true</EnableDataBinding>
+    <ExcludedTypes />
+    <ImportXmlTypes>false</ImportXmlTypes>
+    <GenerateInternalTypes>false</GenerateInternalTypes>
+    <GenerateMessageContracts>false</GenerateMessageContracts>
+    <NamespaceMappings />
+    <CollectionMappings />
+    <GenerateSerializableTypes>true</GenerateSerializableTypes>
+    <Serializer>Auto</Serializer>
+    <UseSerializerForFaults>true</UseSerializerForFaults>
+    <ReferenceAllAssemblies>true</ReferenceAllAssemblies>
+    <ReferencedAssemblies />
+    <ReferencedDataContractTypes />
+    <ServiceContractMappings />
+  </ClientOptions>
+  <MetadataSources>
+    <MetadataSource Address="http://localhost:7000/HostSUP/" Protocol="http" SourceId="1" />
+  </MetadataSources>
+  <Metadata>
+    <MetadataFile FileName="item.xsd" MetadataType="Schema" ID="29ceef73-27c4-47cb-8f42-f07d99277d61" SourceId="1" SourceUrl="http://localhost:7000/HostSUP/?xsd=xsd2" />
+    <MetadataFile FileName="item.disco" MetadataType="Disco" ID="3199a583-02d2-4cd7-8e8f-c8649f89ef9e" SourceId="1" SourceUrl="http://localhost:7000/HostSUP/?disco" />
+    <MetadataFile FileName="item1.xsd" MetadataType="Schema" ID="363d5688-dc92-4f4f-91d1-b25367246981" SourceId="1" SourceUrl="http://localhost:7000/HostSUP/?xsd=xsd1" />
+    <MetadataFile FileName="item2.xsd" MetadataType="Schema" ID="5643c8e8-00c2-4421-9a2d-c0579bfccc37" SourceId="1" SourceUrl="http://localhost:7000/HostSUP/?xsd=xsd0" />
+    <MetadataFile FileName="item3.xsd" MetadataType="Schema" ID="6e843254-8106-4446-a0c1-f5f4cc42bea4" SourceId="1" SourceUrl="http://localhost:7000/HostSUP/?xsd=xsd3" />
+    <MetadataFile FileName="TableService1.wsdl" MetadataType="Wsdl" ID="7863b6e3-f516-46d1-8c2b-307ccb65c609" SourceId="1" SourceUrl="http://localhost:7000/HostSUP/?wsdl" />
+  </Metadata>
+  <Extensions>
+    <ExtensionFile FileName="configuration91.svcinfo" Name="configuration91.svcinfo" />
+    <ExtensionFile FileName="configuration.svcinfo" Name="configuration.svcinfo" />
+  </Extensions>
+</ReferenceGroup>

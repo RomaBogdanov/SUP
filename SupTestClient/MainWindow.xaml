@@ -6,8 +6,14 @@
         xmlns:local="clr-namespace:SupTestClient"
         mc:Ignorable="d"
         Title="MainWindow" Height="547.436" Width="785.256" WindowState="Maximized">
+    <Window.DataContext>
+        <local:ViewModel/>
+    </Window.DataContext>
     <Grid>
-        <Button x:Name="button" Content="Button" HorizontalAlignment="Left" Margin="10,10,0,0" VerticalAlignment="Top" Width="75"/>
+        <DataGrid x:Name="dataGrid" HorizontalAlignment="Stretch"  Margin="10,100,10,10" VerticalAlignment="Stretch" Grid.ColumnSpan="2" ItemsSource="{Binding Table, Mode=TwoWay}"/>
+        <Label x:Name="label" Content="Выберите запрос:" HorizontalAlignment="Left" Margin="10,10,0,0" VerticalAlignment="Top"/>
+        <ComboBox x:Name="comboBox" HorizontalAlignment="Left" Margin="123,14,0,0" VerticalAlignment="Top" Width="235" ItemsSource="{Binding QueriesList}" Text="{Binding QueryName, Mode=TwoWay}"/>
+        <Button x:Name="button" Content="Отправить запрос" HorizontalAlignment="Left" Margin="363,14,0,0" VerticalAlignment="Top" Width="130" Height="22" Command="{Binding ReceiveTable}"/>
 
     </Grid>
 </Window>
