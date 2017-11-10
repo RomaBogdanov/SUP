@@ -55,6 +55,9 @@
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="TableService1.cs" />
+    <Compile Include="Tables\TestTable1Wrapper.cs" />
+    <Compile Include="Tables\VisOrdersTableWrapper.cs" />
+    <Compile Include="Tables\TestTable2AdoWrapper.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />

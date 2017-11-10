@@ -27,10 +27,11 @@ namespace SupHost
         /// <returns></returns>
         public DataTable GetTable(CompositeType composite)
         {
-            IGetTableBehavior tableBehavior = this.CreateTableBehavior(composite.TableName);
-            if (tableBehavior != null)
+            AbstractTableWrapper tableWrapper = 
+                AbstractTableWrapper.GetTableWrapper(composite.TableName);
+            if (tableWrapper != null)
             {
-                DataTable dt = tableBehavior.GetTable();
+                DataTable dt = tableWrapper.GetTable();
                 return dt;
             }
             return null;
@@ -48,21 +49,5 @@ namespace SupHost
             return true;
         }*/
 
-        IGetTableBehavior CreateTableBehavior(TableName table)
-        {
-            if (table == TableName.TestTable1)
-            {
-                return new GetTestTable1Behavior();
-            }
-            else if (table == TableName.VisOrders)
-            {
-                return new GetVisOrdersTableBehavior();
-            }
-            else if (table == TableName.TestTable2Ado)
-            {
-                return new GetTestTable2AdoBehavior();
-            }
-            return null;
-        }
     }
 }
