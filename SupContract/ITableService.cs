@@ -27,10 +27,19 @@ namespace SupContract
         /// <summary>
         /// Процедура получения клиентом таблицы с данными.
         /// </summary>
-        /// <param name="table">Наименование таблицы.</param>
+        /// <param name="composite">Данные для идентификации таблицы.</param>
         /// <returns>Таблица с данными.</returns>
         [OperationContract]
         DataTable GetTable(CompositeType composite);
+
+        /// <summary>
+        /// Процедура передачи серверу строк с новыми данными.
+        /// </summary>
+        /// <param name="composite">Данные для идентификации таблицы.</param>
+        /// <param name="rows">строки с данными.</param>
+        /// <returns></returns>
+        /*[OperationContract]
+        bool InsertRows(CompositeType composite, DataRow[] rows);*/
     }
 
     // Используйте контракт данных, как показано на следующем примере, чтобы добавить сложные типы к сервисным операциям.

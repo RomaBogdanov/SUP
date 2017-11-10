@@ -25,8 +25,9 @@ namespace SupTestClient
             get
             {
                 
-                this.queriesList.Add("Hi");
-                this.queriesList.Add("Hello");
+                this.queriesList.Add("VisOrders");
+                this.queriesList.Add("TestTable1");
+                this.queriesList.Add("TestTable2Ado");
                 return queriesList;
             }
             set
@@ -85,7 +86,18 @@ namespace SupTestClient
 
         private void GetTable()
         {
-            this.Table = this.connector.GetTable(TableName.VisOrders);
+            if (this.QueryName == "VisOrders")
+            {
+                this.Table = this.connector.GetTable(TableName.VisOrders);
+            }
+            else if (this.QueryName == "TestTable1")
+            {
+                this.Table = this.connector.GetTable(TableName.TestTable1);
+            }
+            else if (this.QueryName == "TestTable2Ado")
+            {
+                this.Table = this.connector.GetTable(TableName.TestTable2Ado);
+            }
         }
 
         #endregion

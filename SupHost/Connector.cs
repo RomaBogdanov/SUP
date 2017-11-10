@@ -28,7 +28,7 @@ namespace SupHost
     ///     <li></li>
     /// </ul>
     /// </remarks>
-    public class Connector
+    class Connector
     {
         private static Connector connector;
 

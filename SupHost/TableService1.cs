@@ -20,6 +20,11 @@ namespace SupHost
             return new CompositeType();
         }
 
+        /// <summary>
+        /// Получение таблицы.
+        /// </summary>
+        /// <param name="composite"></param>
+        /// <returns></returns>
         public DataTable GetTable(CompositeType composite)
         {
             IGetTableBehavior tableBehavior = this.CreateTableBehavior(composite.TableName);
@@ -30,6 +35,18 @@ namespace SupHost
             }
             return null;
         }
+
+        /// <summary>
+        /// Запись в таблицу строк.
+        /// </summary>
+        /// <param name="composite"></param>
+        /// <param name="rows"></param>
+        /// <returns></returns>
+        /*public bool InsertRows(CompositeType composite, DataRow[] rows)
+        {
+
+            return true;
+        }*/
 
         IGetTableBehavior CreateTableBehavior(TableName table)
         {

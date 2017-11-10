@@ -45,6 +45,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Tables\AbstractTableWrapper.cs" />
     <Compile Include="Connector.cs" />
     <Compile Include="GetTableBehavior\IGetTableBehavior.cs" />
     <Compile Include="GetTableBehavior\GetTestTable1Behavior.cs" />
