@@ -42,6 +42,18 @@ namespace SupTestClient
             return this.tableService.GetTable(this.compositeType);
         }
 
+        public bool InsertRow(object[] rowValues)
+        {
+            for (int i = 0; i < rowValues.Length; i++)
+            {
+                if (rowValues[i] as DBNull != null)
+                {
+                    rowValues[i] = "";
+                }
+            }
+            return this.tableService.InsertRows(compositeType, rowValues);
+        }
+
         #endregion
 
         #region Private

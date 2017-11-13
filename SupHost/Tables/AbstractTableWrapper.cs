@@ -39,5 +39,13 @@ namespace SupHost
             }
             return this.table;
         }
+
+        public virtual bool InsertRow(object[] values)
+        {
+            DataRow dr = this.table.NewRow();
+            dr.ItemArray = values;
+            this.table.Rows.Add(dr);
+            return true;
+        }
     }
 }

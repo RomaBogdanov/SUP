@@ -38,8 +38,8 @@ namespace SupContract
         /// <param name="composite">Данные для идентификации таблицы.</param>
         /// <param name="rows">строки с данными.</param>
         /// <returns></returns>
-        /*[OperationContract]
-        bool InsertRows(CompositeType composite, DataRow[] rows);*/
+        [OperationContract]
+        bool InsertRows(CompositeType composite, object[] objs);
     }
 
     // Используйте контракт данных, как показано на следующем примере, чтобы добавить сложные типы к сервисным операциям.
@@ -51,6 +51,7 @@ namespace SupContract
         string stringValue = "Hello ";
 
         TableName tableName = TableName.TestTable1;
+        DataRow row = null;
 
         [DataMember]
         public bool BoolValue

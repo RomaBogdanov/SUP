@@ -38,6 +38,7 @@ namespace SupHost
                 Console.WriteLine(err.Message);
                 host.Abort();
             }
+            Console.ReadLine();
         }
     }
 }

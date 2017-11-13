@@ -43,11 +43,16 @@ namespace SupHost
         /// <param name="composite"></param>
         /// <param name="rows"></param>
         /// <returns></returns>
-        /*public bool InsertRows(CompositeType composite, DataRow[] rows)
+        public bool InsertRows(CompositeType composite, object[] objs)
         {
-
+            AbstractTableWrapper tableWrapper =
+                AbstractTableWrapper.GetTableWrapper(composite.TableName);
+            if (tableWrapper != null)
+            {
+                tableWrapper.InsertRow(objs);
+            }
             return true;
-        }*/
+        }
 
     }
 }

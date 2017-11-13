@@ -125,6 +125,15 @@ namespace SupTestClient.ClientServiceReference {
         
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/ITableService/GetTable", ReplyAction="http://tempuri.org/ITableService/GetTableResponse")]
         System.Threading.Tasks.Task<System.Data.DataTable> GetTableAsync(SupTestClient.ClientServiceReference.CompositeType composite);
+        
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/ITableService/InsertRows", ReplyAction="http://tempuri.org/ITableService/InsertRowsResponse")]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(object[]))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(SupTestClient.ClientServiceReference.CompositeType))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(SupTestClient.ClientServiceReference.TableName))]
+        bool InsertRows(SupTestClient.ClientServiceReference.CompositeType composite, object[] objs);
+        
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/ITableService/InsertRows", ReplyAction="http://tempuri.org/ITableService/InsertRowsResponse")]
+        System.Threading.Tasks.Task<bool> InsertRowsAsync(SupTestClient.ClientServiceReference.CompositeType composite, object[] objs);
     }
     
     [System.CodeDom.Compiler.GeneratedCodeAttribute("System.ServiceModel", "4.0.0.0")]
@@ -176,6 +185,14 @@ namespace SupTestClient.ClientServiceReference {
         
         public System.Threading.Tasks.Task<System.Data.DataTable> GetTableAsync(SupTestClient.ClientServiceReference.CompositeType composite) {
             return base.Channel.GetTableAsync(composite);
+        }
+        
+        public bool InsertRows(SupTestClient.ClientServiceReference.CompositeType composite, object[] objs) {
+            return base.Channel.InsertRows(composite, objs);
+        }
+        
+        public System.Threading.Tasks.Task<bool> InsertRowsAsync(SupTestClient.ClientServiceReference.CompositeType composite, object[] objs) {
+            return base.Channel.InsertRowsAsync(composite, objs);
         }
     }
 }

@@ -16,7 +16,9 @@ namespace SupTestClient
         private List<string> queriesList = new List<string>();
         private string queryName = "";
         private DataTable table = new DataTable();
+        private DataView dv;
         private ClientConnector connector;
+        private string testField = "";
 
         #region Public
 
@@ -65,12 +67,38 @@ namespace SupTestClient
             }
         }
 
+        public DataView DV
+        {
+            get { return this.dv; }
+            set
+            {
+                    this.dv = value;
+                    OnPropertyChanged("DV");
+             
+            }
+        }
+
+        public string TestField
+        {
+            get { return this.testField; }
+            set
+            {
+                if (this.testField != value)
+                {
+                    this.testField = value;
+                    OnPropertyChanged("TestField");
+                }
+            }
+        }
+
         public ICommand ReceiveTable
         { get; set; }
 
         public ViewModel()
         {
             this.connector = ClientConnector.CurrentConnector;
+            this.DV = this.Table.AsDataView();
+            this.DV.ListChanged += DV_ListChanged;
             ReceiveTable = new RelayCommand(arg => GetTable());
         }
 
@@ -98,7 +126,21 @@ namespace SupTestClient
             {
                 this.Table = this.connector.GetTable(TableName.TestTable2Ado);
             }
+            this.DV = this.Table.AsDataView();
+            this.DV.ListChanged += DV_ListChanged;
+            this.TestField = this.DV.AllowNew.ToString();
+            
         }
+
+        private void DV_ListChanged(object sender, ListChangedEventArgs e)
+        {
+           if (e.ListChangedType == ListChangedType.ItemAdded)
+           {
+                object[] cols = this.Table.Rows[e.NewIndex].ItemArray;
+                this.connector.InsertRow(cols);
+           }
+        }
+        
 
         #endregion
 
