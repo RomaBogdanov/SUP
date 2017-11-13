@@ -45,6 +45,14 @@ namespace SupHost
             DataRow dr = this.table.NewRow();
             dr.ItemArray = values;
             this.table.Rows.Add(dr);
+            this.getTableBehavior.InsertRow();
+            return true;
+        }
+
+        public virtual bool UpdateRow(object[] values, int numRow)
+        {
+            this.table.Rows[numRow].ItemArray = values;
+            this.getTableBehavior.UpdateRow();
             return true;
         }
     }

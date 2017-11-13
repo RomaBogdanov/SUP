@@ -4,12 +4,16 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Data;
+using System.Data.SqlClient;
+using System.Data.Common;
 
 namespace SupHost
 {
     class GetTestTable2AdoBehavior : IGetTableBehavior
     {
         Connector connector;
+        DataTable table = null;
+        DbDataAdapter adapter = null;
 
         public GetTestTable2AdoBehavior()
         {
@@ -19,24 +23,21 @@ namespace SupHost
         public DataTable GetTable()
         {
             string query = "select * from TestTab";
-            DataTable dt = null;
-            dt = this.connector.GetDataTable(query);
-            DataTable dt1 = new DataTable("TestTab");
-            for (int i = 0; i < dt.Columns.Count; i++)
-            {
-                DataColumn d = dt.Columns[i];
-                dt1.Columns.Add(d.ColumnName);
-            }
-            foreach (DataRow item in dt.Select())
-            {
-                DataRow r = dt1.NewRow();
-                for (int i = 0; i < dt.Columns.Count; i++)
-                {
-                    r[i] = item[i];
-                }
-                dt1.Rows.Add(r);
-            }
-            return dt1;
+            ConnectionToDataBaseSetup setup = this.connector.GetDataTable(query);
+            this.table = setup.Table;
+            this.adapter = setup.DataAdapter;
+            this.table.TableName = "TestTab";
+            return this.table;
+        }
+
+        public void InsertRow()
+        {
+            this.connector.UpdateTable(this.table, this.adapter);
+        }
+
+        public void UpdateRow()
+        {
+            this.connector.UpdateTable(this.table, this.adapter);
         }
     }
 }

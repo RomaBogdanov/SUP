@@ -43,7 +43,7 @@ namespace SupHost
         /// <param name="composite"></param>
         /// <param name="rows"></param>
         /// <returns></returns>
-        public bool InsertRows(CompositeType composite, object[] objs)
+        public bool InsertRow(CompositeType composite, object[] objs)
         {
             AbstractTableWrapper tableWrapper =
                 AbstractTableWrapper.GetTableWrapper(composite.TableName);
@@ -54,5 +54,22 @@ namespace SupHost
             return true;
         }
 
+        /// <summary>
+        /// Обновление строки в таблице.
+        /// </summary>
+        /// <param name="composite"></param>
+        /// <param name="rowNumber"></param>
+        /// <param name="objs"></param>
+        /// <returns></returns>
+        public bool UpdateRow(CompositeType composite, int rowNumber, object[] objs)
+        {
+            AbstractTableWrapper tableWrapper =
+                AbstractTableWrapper.GetTableWrapper(composite.TableName);
+            if (tableWrapper != null)
+            {
+                tableWrapper.UpdateRow(objs, rowNumber);
+            }
+            return true;
+        }
     }
 }

@@ -33,13 +33,22 @@ namespace SupContract
         DataTable GetTable(CompositeType composite);
 
         /// <summary>
-        /// Процедура передачи серверу строк с новыми данными.
+        /// Процедура передачи серверу строки с новыми данными.
         /// </summary>
         /// <param name="composite">Данные для идентификации таблицы.</param>
-        /// <param name="rows">строки с данными.</param>
+        /// <param name="objs">строки с данными.</param>
         /// <returns></returns>
         [OperationContract]
-        bool InsertRows(CompositeType composite, object[] objs);
+        bool InsertRow(CompositeType composite, object[] objs);
+
+        /// <summary>
+        /// Процедура передачи серверу строки с изменёнными данными.
+        /// </summary>
+        /// <param name="composite"></param>
+        /// <param name="objs"></param>
+        /// <returns></returns>
+        [OperationContract]
+        bool UpdateRow(CompositeType composite, int rowNumber, object[] objs);
     }
 
     // Используйте контракт данных, как показано на следующем примере, чтобы добавить сложные типы к сервисным операциям.
@@ -51,7 +60,7 @@ namespace SupContract
         string stringValue = "Hello ";
 
         TableName tableName = TableName.TestTable1;
-        DataRow row = null;
+        //DataRow row = null;
 
         [DataMember]
         public bool BoolValue

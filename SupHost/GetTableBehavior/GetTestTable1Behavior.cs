@@ -25,6 +25,15 @@ namespace SupHost
             return this.table;
         }
 
+        public void InsertRow()
+        {
+            
+        }
+
+        public void UpdateRow()
+        {
+        }
+
         void CreateRows()
         {
             this.AddRow("1", "2", "3");
@@ -40,5 +49,6 @@ namespace SupHost
             dr[2] = column3;
             this.table.Rows.Add(dr);
         }
+
     }
 }

@@ -4,12 +4,15 @@ using System.Data;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Data.Common;
 
 namespace SupHost
 {
     class GetVisOrdersTableBehavior : IGetTableBehavior
     {
         Connector connector;
+        DataTable table = null;
+        DbDataAdapter adapter = null;
 
         public GetVisOrdersTableBehavior()
         {
@@ -19,13 +22,21 @@ namespace SupHost
         public DataTable GetTable()
         {
             string query = "select * from vis_orders";
-            DataTable dt = new DataTable("vis_orders");
-            dt = this.connector.GetDataTable(query);
-            if (dt.TableName == null | dt.TableName == "")
-            {
-                dt.TableName = "vis_orders";
-            }
-            return dt;
+            ConnectionToDataBaseSetup setup = this.connector.GetDataTable(query);
+            this.table = setup.Table;
+            this.adapter = setup.DataAdapter;
+            this.table.TableName = "vis_orders";
+            return this.table;
+        }
+
+        public void InsertRow()
+        {
+            this.connector.UpdateTable(this.table, this.adapter);
+        }
+
+        public void UpdateRow()
+        {
+            this.connector.UpdateTable(this.table, this.adapter);
         }
     }
 }

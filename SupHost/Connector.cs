@@ -51,45 +51,24 @@ namespace SupHost
             }
         }
 
-        public DataTable GetDataTable(string query)
+        public ConnectionToDataBaseSetup GetDataTable(string query)
         {
             DataTable dt = new DataTable();
             this.connection.Open();
             SqlDataAdapter da = new SqlDataAdapter(query, connection);
             da.Fill(dt);
             this.connection.Close();
-            return dt;
+            return new ConnectionToDataBaseSetup()
+            { Table = dt, DataAdapter = da };
         }
 
-        /*public void SelectData(string query)
+        public void UpdateTable(DataTable dataTable, DbDataAdapter adapter)
         {
             this.connection.Open();
-            SqlCommand command = new SqlCommand(query, connection);
-            SqlDataReader a = command.ExecuteReader();
-            while (a.Read())
-            {
-                for (int i = 0; i < a.FieldCount; i++)
-                {
-                    Console.Write(a.GetString(i) + "\t");
-                    if (i == a.FieldCount - 1)
-                    {
-                        Console.WriteLine();
-                    }
-                }
-            }
+            SqlCommandBuilder cb = new SqlCommandBuilder((SqlDataAdapter)adapter);
+            adapter.Update(dataTable);
             this.connection.Close();
         }
-
-        /// <summary>
-        /// Отправка запросов для редактирования данных в БД.
-        /// </summary>
-        /// <param name="query"></param>
-        public void ChangeData(string query)
-        {
-            this.connection.Open();
-            SqlCommand command = new SqlCommand(query, connection);
-            command.ExecuteNonQuery();
-        }*/
 
         #endregion
 
@@ -112,5 +91,14 @@ namespace SupHost
         }
 
         #endregion
+    }
+
+    /// <summary>
+    /// Класс, содержащий настройки для 
+    /// </summary>
+    public class ConnectionToDataBaseSetup
+    {
+        public DataTable Table { get; set; }
+        public DbDataAdapter DataAdapter { get; set; }
     }
 }

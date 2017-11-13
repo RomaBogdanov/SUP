@@ -10,5 +10,7 @@ namespace SupHost
     interface IGetTableBehavior
     {
         DataTable GetTable();
+        void InsertRow();
+        void UpdateRow();
     }
 }

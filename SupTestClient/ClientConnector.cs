@@ -51,7 +51,19 @@ namespace SupTestClient
                     rowValues[i] = "";
                 }
             }
-            return this.tableService.InsertRows(compositeType, rowValues);
+            return this.tableService.InsertRow(compositeType, rowValues);
+        }
+
+        public bool UpdateRow(object[] rowValues, int numRow)
+        {
+            for (int i = 0; i < rowValues.Length; i++)
+            {
+                if (rowValues[i] as DBNull != null)
+                {
+                    rowValues[i] = "";
+                }
+            }
+            return this.tableService.UpdateRow(compositeType, numRow, rowValues);
         }
 
         #endregion

@@ -126,14 +126,23 @@ namespace SupTestClient.ClientServiceReference {
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/ITableService/GetTable", ReplyAction="http://tempuri.org/ITableService/GetTableResponse")]
         System.Threading.Tasks.Task<System.Data.DataTable> GetTableAsync(SupTestClient.ClientServiceReference.CompositeType composite);
         
-        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/ITableService/InsertRows", ReplyAction="http://tempuri.org/ITableService/InsertRowsResponse")]
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/ITableService/InsertRow", ReplyAction="http://tempuri.org/ITableService/InsertRowResponse")]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(object[]))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(SupTestClient.ClientServiceReference.CompositeType))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(SupTestClient.ClientServiceReference.TableName))]
-        bool InsertRows(SupTestClient.ClientServiceReference.CompositeType composite, object[] objs);
+        bool InsertRow(SupTestClient.ClientServiceReference.CompositeType composite, object[] objs);
         
-        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/ITableService/InsertRows", ReplyAction="http://tempuri.org/ITableService/InsertRowsResponse")]
-        System.Threading.Tasks.Task<bool> InsertRowsAsync(SupTestClient.ClientServiceReference.CompositeType composite, object[] objs);
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/ITableService/InsertRow", ReplyAction="http://tempuri.org/ITableService/InsertRowResponse")]
+        System.Threading.Tasks.Task<bool> InsertRowAsync(SupTestClient.ClientServiceReference.CompositeType composite, object[] objs);
+        
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/ITableService/UpdateRow", ReplyAction="http://tempuri.org/ITableService/UpdateRowResponse")]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(object[]))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(SupTestClient.ClientServiceReference.CompositeType))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(SupTestClient.ClientServiceReference.TableName))]
+        bool UpdateRow(SupTestClient.ClientServiceReference.CompositeType composite, int rowNumber, object[] objs);
+        
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/ITableService/UpdateRow", ReplyAction="http://tempuri.org/ITableService/UpdateRowResponse")]
+        System.Threading.Tasks.Task<bool> UpdateRowAsync(SupTestClient.ClientServiceReference.CompositeType composite, int rowNumber, object[] objs);
     }
     
     [System.CodeDom.Compiler.GeneratedCodeAttribute("System.ServiceModel", "4.0.0.0")]
@@ -187,12 +196,20 @@ namespace SupTestClient.ClientServiceReference {
             return base.Channel.GetTableAsync(composite);
         }
         
-        public bool InsertRows(SupTestClient.ClientServiceReference.CompositeType composite, object[] objs) {
-            return base.Channel.InsertRows(composite, objs);
+        public bool InsertRow(SupTestClient.ClientServiceReference.CompositeType composite, object[] objs) {
+            return base.Channel.InsertRow(composite, objs);
         }
         
-        public System.Threading.Tasks.Task<bool> InsertRowsAsync(SupTestClient.ClientServiceReference.CompositeType composite, object[] objs) {
-            return base.Channel.InsertRowsAsync(composite, objs);
+        public System.Threading.Tasks.Task<bool> InsertRowAsync(SupTestClient.ClientServiceReference.CompositeType composite, object[] objs) {
+            return base.Channel.InsertRowAsync(composite, objs);
+        }
+        
+        public bool UpdateRow(SupTestClient.ClientServiceReference.CompositeType composite, int rowNumber, object[] objs) {
+            return base.Channel.UpdateRow(composite, rowNumber, objs);
+        }
+        
+        public System.Threading.Tasks.Task<bool> UpdateRowAsync(SupTestClient.ClientServiceReference.CompositeType composite, int rowNumber, object[] objs) {
+            return base.Channel.UpdateRowAsync(composite, rowNumber, objs);
         }
     }
 }
