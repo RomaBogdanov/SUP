@@ -39,5 +39,10 @@ namespace SupHost
         {
             this.connector.UpdateTable(this.table, this.adapter);
         }
+
+        public void DeleteRow()
+        {
+            this.connector.UpdateTable(this.table, this.adapter);
+        }
     }
 }

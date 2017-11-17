@@ -19,8 +19,23 @@ namespace SupTestClient
         private DataView dv;
         private ClientConnector connector;
         private string testField = "";
+        private object currentItem;
 
         #region Public
+
+        public object CurrentItem
+        {
+            get
+            { return this.currentItem; }
+            set
+            {
+                if (this.currentItem != value & value != null)
+                {
+                    this.currentItem = value;
+                    OnPropertyChanged("CurrentItem");
+                }
+            }
+        }
 
         public List<string> QueriesList
         {
@@ -94,14 +109,18 @@ namespace SupTestClient
         public ICommand ReceiveTable
         { get; set; }
 
+        public ICommand DeleteRow
+        { get; set; }
+
         public ViewModel()
         {
             this.connector = ClientConnector.CurrentConnector;
             this.DV = this.Table.AsDataView();
             this.DV.ListChanged += DV_ListChanged;
             ReceiveTable = new RelayCommand(arg => GetTable());
+            DeleteRow = new RelayCommand(arg => DelRow(arg));
         }
-
+        
         #endregion
 
         protected virtual void OnPropertyChanged(string propertyName)
@@ -128,8 +147,14 @@ namespace SupTestClient
             }
             this.DV = this.Table.AsDataView();
             this.DV.ListChanged += DV_ListChanged;
-            this.TestField = this.DV.AllowNew.ToString();
-            
+            this.TestField = this.DV.AllowNew.ToString();    
+        }
+
+        private void DelRow(object arg)
+        {
+            DataRowView dv = arg as DataRowView;
+            if (dv == null) return;
+            dv.Delete();
         }
 
         private void DV_ListChanged(object sender, ListChangedEventArgs e)
@@ -143,6 +168,10 @@ namespace SupTestClient
             {
                 object[] cols = this.Table.Rows[e.OldIndex].ItemArray;
                 this.connector.UpdateRow(cols, e.OldIndex);
+            }
+            else if (e.ListChangedType == ListChangedType.ItemDeleted)
+            {
+                this.connector.DeleteRow(e.NewIndex);
             }
         }
         

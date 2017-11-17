@@ -34,6 +34,11 @@ namespace SupHost
         {
         }
 
+        public void DeleteRow()
+        {
+            
+        }
+
         void CreateRows()
         {
             this.AddRow("1", "2", "3");
@@ -49,6 +54,5 @@ namespace SupHost
             dr[2] = column3;
             this.table.Rows.Add(dr);
         }
-
     }
 }

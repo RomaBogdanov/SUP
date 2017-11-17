@@ -49,9 +49,9 @@ namespace SupHost
                 AbstractTableWrapper.GetTableWrapper(composite.TableName);
             if (tableWrapper != null)
             {
-                tableWrapper.InsertRow(objs);
+                return tableWrapper.InsertRow(objs);
             }
-            return true;
+            return false;
         }
 
         /// <summary>
@@ -67,9 +67,26 @@ namespace SupHost
                 AbstractTableWrapper.GetTableWrapper(composite.TableName);
             if (tableWrapper != null)
             {
-                tableWrapper.UpdateRow(objs, rowNumber);
+                return tableWrapper.UpdateRow(objs, rowNumber);
             }
-            return true;
+            return false;
+        }
+
+        /// <summary>
+        /// Удаление строки из таблицы.
+        /// </summary>
+        /// <param name="composite"></param>
+        /// <param name="rowNumber"></param>
+        /// <returns></returns>
+        public bool DeleteRow(CompositeType composite, int rowNumber)
+        {
+            AbstractTableWrapper tableWrapper =
+                AbstractTableWrapper.GetTableWrapper(composite.TableName);
+            if (tableWrapper != null)
+            {
+                return tableWrapper.DeleteRow(rowNumber);
+            }
+            return false;
         }
     }
 }

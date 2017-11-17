@@ -10,12 +10,13 @@
         <local:ViewModel/>
     </Window.DataContext>
     <Grid>
-        <DataGrid x:Name="dataGrid" HorizontalAlignment="Stretch"  Margin="10,100,10,10" VerticalAlignment="Stretch" Grid.ColumnSpan="2" ItemsSource="{Binding Table, Mode=TwoWay}"/>
+        <DataGrid x:Name="dataGrid" HorizontalAlignment="Stretch"  Margin="10,100,10,10" VerticalAlignment="Stretch" Grid.ColumnSpan="2" ItemsSource="{Binding DV, Mode=TwoWay}" CurrentItem="{Binding CurrentItem, Mode=TwoWay}"/>
         <Label x:Name="label" Content="Выберите запрос:" HorizontalAlignment="Left" Margin="10,10,0,0" VerticalAlignment="Top"/>
         <ComboBox x:Name="comboBox" HorizontalAlignment="Left" Margin="123,14,0,0" VerticalAlignment="Top" Width="235" ItemsSource="{Binding QueriesList}" Text="{Binding QueryName, Mode=TwoWay}"/>
         <Button x:Name="button" Content="Отправить запрос" HorizontalAlignment="Left" Margin="363,14,0,0" VerticalAlignment="Top" Width="130" Height="22" Command="{Binding ReceiveTable}"/>
         <Label x:Name="label1" Content="Тестовое поле:" HorizontalAlignment="Left" Margin="10,41,0,0" VerticalAlignment="Top"/>
         <TextBox x:Name="textBox" HorizontalAlignment="Left" Height="23" Margin="123,45,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="235" Text="{Binding TestField, Mode=TwoWay}"/>
+        <Button x:Name="button1" Content="Удалить строку" HorizontalAlignment="Left" Margin="498,14,0,0" VerticalAlignment="Top" Width="130" Height="22" Command="{Binding DeleteRow}" CommandParameter="{Binding CurrentItem}"/>
 
     </Grid>
 </Window>

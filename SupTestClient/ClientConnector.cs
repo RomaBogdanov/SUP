@@ -66,6 +66,11 @@ namespace SupTestClient
             return this.tableService.UpdateRow(compositeType, numRow, rowValues);
         }
 
+        public bool DeleteRow(int numRow)
+        {
+            return this.tableService.DeleteRow(compositeType, numRow);
+        }
+
         #endregion
 
         #region Private

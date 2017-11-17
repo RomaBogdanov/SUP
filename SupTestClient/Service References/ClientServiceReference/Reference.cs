@@ -143,6 +143,12 @@ namespace SupTestClient.ClientServiceReference {
         
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/ITableService/UpdateRow", ReplyAction="http://tempuri.org/ITableService/UpdateRowResponse")]
         System.Threading.Tasks.Task<bool> UpdateRowAsync(SupTestClient.ClientServiceReference.CompositeType composite, int rowNumber, object[] objs);
+        
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/ITableService/DeleteRow", ReplyAction="http://tempuri.org/ITableService/DeleteRowResponse")]
+        bool DeleteRow(SupTestClient.ClientServiceReference.CompositeType composite, int rowNumber);
+        
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/ITableService/DeleteRow", ReplyAction="http://tempuri.org/ITableService/DeleteRowResponse")]
+        System.Threading.Tasks.Task<bool> DeleteRowAsync(SupTestClient.ClientServiceReference.CompositeType composite, int rowNumber);
     }
     
     [System.CodeDom.Compiler.GeneratedCodeAttribute("System.ServiceModel", "4.0.0.0")]
@@ -210,6 +216,14 @@ namespace SupTestClient.ClientServiceReference {
         
         public System.Threading.Tasks.Task<bool> UpdateRowAsync(SupTestClient.ClientServiceReference.CompositeType composite, int rowNumber, object[] objs) {
             return base.Channel.UpdateRowAsync(composite, rowNumber, objs);
+        }
+        
+        public bool DeleteRow(SupTestClient.ClientServiceReference.CompositeType composite, int rowNumber) {
+            return base.Channel.DeleteRow(composite, rowNumber);
+        }
+        
+        public System.Threading.Tasks.Task<bool> DeleteRowAsync(SupTestClient.ClientServiceReference.CompositeType composite, int rowNumber) {
+            return base.Channel.DeleteRowAsync(composite, rowNumber);
         }
     }
 }

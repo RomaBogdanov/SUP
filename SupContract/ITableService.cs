@@ -44,11 +44,21 @@ namespace SupContract
         /// <summary>
         /// Процедура передачи серверу строки с изменёнными данными.
         /// </summary>
-        /// <param name="composite"></param>
-        /// <param name="objs"></param>
+        /// <param name="composite">Данныме для идентификации таблицы.</param>
+        /// <param name="objs">строки с данными.</param>
         /// <returns></returns>
         [OperationContract]
         bool UpdateRow(CompositeType composite, int rowNumber, object[] objs);
+
+        /// <summary>
+        /// Процедура удаления с сервера строки с изменёнными данными.
+        /// </summary>
+        /// <param name="composite">Данные для идентификации таблицы.</param>
+        /// <param name="rowNumber">Номер строки.</param>
+        /// <param name="objs">строки с данными.</param>
+        /// <returns></returns>
+        [OperationContract]
+        bool DeleteRow(CompositeType composite, int rowNumber);
     }
 
     // Используйте контракт данных, как показано на следующем примере, чтобы добавить сложные типы к сервисным операциям.

@@ -55,5 +55,12 @@ namespace SupHost
             this.getTableBehavior.UpdateRow();
             return true;
         }
+
+        public virtual bool DeleteRow(int numRow)
+        {
+            this.table.Rows[numRow].Delete();
+            this.getTableBehavior.DeleteRow();
+            return true;
+        }
     }
 }

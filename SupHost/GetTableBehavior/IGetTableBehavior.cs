@@ -12,5 +12,6 @@ namespace SupHost
         DataTable GetTable();
         void InsertRow();
         void UpdateRow();
+        void DeleteRow();
     }
 }

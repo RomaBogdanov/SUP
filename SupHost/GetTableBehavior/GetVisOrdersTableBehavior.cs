@@ -24,6 +24,7 @@ namespace SupHost
             string query = "select * from vis_orders";
             ConnectionToDataBaseSetup setup = this.connector.GetDataTable(query);
             this.table = setup.Table;
+            this.table.PrimaryKey = new DataColumn[] { this.table.Columns["f_order_id"] };
             this.adapter = setup.DataAdapter;
             this.table.TableName = "vis_orders";
             return this.table;
@@ -35,6 +36,11 @@ namespace SupHost
         }
 
         public void UpdateRow()
+        {
+            this.connector.UpdateTable(this.table, this.adapter);
+        }
+
+        public void DeleteRow()
         {
             this.connector.UpdateTable(this.table, this.adapter);
         }
