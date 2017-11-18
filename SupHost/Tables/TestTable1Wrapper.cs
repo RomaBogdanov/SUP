@@ -10,6 +10,6 @@ namespace SupHost
     class TestTable1Wrapper : AbstractTableWrapper
     {
         public TestTable1Wrapper()
-        { this.getTableBehavior = new GetTestTable1Behavior(); }
+        { this.getTableBehavior = new TestTable1Behavior(); }
     }
 }

@@ -10,6 +10,6 @@ namespace SupHost
     class TestTable2AdoWrapper : AbstractTableWrapper
     {
         public TestTable2AdoWrapper()
-        { this.getTableBehavior = new GetTestTable2AdoBehavior(); }
+        { this.getTableBehavior = new TestTable2AdoBehavior(); }
     }
 }

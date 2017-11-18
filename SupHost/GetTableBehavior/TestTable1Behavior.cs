@@ -7,11 +7,11 @@ using System.Threading.Tasks;
 
 namespace SupHost
 {
-    class GetTestTable1Behavior : IGetTableBehavior
+    class TestTable1Behavior : ITableBehavior
     {
         DataTable table;
 
-        public GetTestTable1Behavior()
+        public TestTable1Behavior()
         {
             this.table = new DataTable("TabTest1");
             this.table.Columns.Add("ColTest1");

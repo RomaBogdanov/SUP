@@ -1,32 +1,32 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Data;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Data;
+using System.Data.SqlClient;
 using System.Data.Common;
 
 namespace SupHost
 {
-    class GetVisOrdersTableBehavior : IGetTableBehavior
+    class TestTable2AdoBehavior : ITableBehavior
     {
         Connector connector;
         DataTable table = null;
         DbDataAdapter adapter = null;
 
-        public GetVisOrdersTableBehavior()
+        public TestTable2AdoBehavior()
         {
             this.connector = Connector.CurrentConnector;
         }
 
         public DataTable GetTable()
         {
-            string query = "select * from vis_orders";
+            string query = "select * from TestTab";
             ConnectionToDataBaseSetup setup = this.connector.GetDataTable(query);
             this.table = setup.Table;
-            this.table.PrimaryKey = new DataColumn[] { this.table.Columns["f_order_id"] };
             this.adapter = setup.DataAdapter;
-            this.table.TableName = "vis_orders";
+            this.table.TableName = "TestTab";
             return this.table;
         }
 

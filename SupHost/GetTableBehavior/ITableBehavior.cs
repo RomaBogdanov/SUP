@@ -7,7 +7,7 @@ using System.Data;
 
 namespace SupHost
 {
-    interface IGetTableBehavior
+    interface ITableBehavior
     {
         DataTable GetTable();
         void InsertRow();

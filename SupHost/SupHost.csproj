@@ -47,10 +47,10 @@
   <ItemGroup>
     <Compile Include="Tables\AbstractTableWrapper.cs" />
     <Compile Include="Connector.cs" />
-    <Compile Include="GetTableBehavior\IGetTableBehavior.cs" />
-    <Compile Include="GetTableBehavior\GetTestTable1Behavior.cs" />
-    <Compile Include="GetTableBehavior\GetVisOrdersTableBehavior.cs" />
-    <Compile Include="GetTableBehavior\GetTestTable2AdoBehavior.cs" />
+    <Compile Include="GetTableBehavior\ITableBehavior.cs" />
+    <Compile Include="GetTableBehavior\TestTable1Behavior.cs" />
+    <Compile Include="GetTableBehavior\VisOrdersTableBehavior.cs" />
+    <Compile Include="GetTableBehavior\TestTable2AdoBehavior.cs" />
     <Compile Include="Logger.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

@@ -15,7 +15,7 @@ namespace SupHost
 
         protected DataTable table;
 
-        protected IGetTableBehavior getTableBehavior;
+        protected ITableBehavior getTableBehavior;
 
         static AbstractTableWrapper()
         {

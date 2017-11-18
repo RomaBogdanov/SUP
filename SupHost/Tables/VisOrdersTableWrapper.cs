@@ -10,6 +10,6 @@ namespace SupHost
     class VisOrdersTableWrapper : AbstractTableWrapper
     {
         public VisOrdersTableWrapper()
-        { this.getTableBehavior = new GetVisOrdersTableBehavior(); }
+        { this.getTableBehavior = new VisOrdersTableBehavior(); }
     }
 }
