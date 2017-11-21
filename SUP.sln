@@ -11,6 +11,11 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SupTestClientWPF", "SupTest
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SupTestClientConsole", "SupTestClientConsole\SupTestClientConsole.csproj", "{F678040F-7001-412E-AD50-B6D770048CA9}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Manual", "Manual", "{6E92BA8D-D0BA-47F0-BDEC-D1B87AD6EBC4}"
+	ProjectSection(SolutionItems) = preProject
+		Manual.html = Manual.html
+	EndProjectSection
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU

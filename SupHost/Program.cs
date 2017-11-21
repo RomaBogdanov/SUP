@@ -43,15 +43,15 @@ namespace SupHost
                 smb.HttpGetEnabled = true;
                 host.Description.Behaviors.Add(smb);
                 host.Open();
-                Console.WriteLine("Нажмите <ENTER> для закрытия хоста.");
+                Console.WriteLine("Нажмите <ENTER> для закрытия сервера.");
                 Console.ReadLine();
             }
             catch (Exception err)
             {
                 Console.WriteLine(err.Message);
                 host.Abort();
+                Console.ReadLine();
             }
-            Console.ReadLine();
         }
     }
 }

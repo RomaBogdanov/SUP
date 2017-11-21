@@ -159,12 +159,13 @@ namespace SupTestClient
 
         private void DV_ListChanged(object sender, ListChangedEventArgs e)
         {
-            if (e.ListChangedType == ListChangedType.ItemAdded)
+            if (e.ListChangedType == ListChangedType.ItemAdded && 
+                this.Table.Rows.Count - 1 == e.NewIndex)
             {
                 object[] cols = this.Table.Rows[e.NewIndex].ItemArray;
                 this.connector.InsertRow(cols);
             }
-            else if (e.ListChangedType== ListChangedType.ItemChanged)
+            else if (e.ListChangedType == ListChangedType.ItemChanged)
             {
                 object[] cols = this.Table.Rows[e.OldIndex].ItemArray;
                 this.connector.UpdateRow(cols, e.OldIndex);

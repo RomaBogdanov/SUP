@@ -56,6 +56,7 @@ namespace SupHost
             DataTable dt = new DataTable();
             this.connection.Open();
             SqlDataAdapter da = new SqlDataAdapter(query, connection);
+            SqlCommandBuilder cb = new SqlCommandBuilder(da);
             da.Fill(dt);
             this.connection.Close();
             return new ConnectionToDataBaseSetup()
@@ -65,7 +66,7 @@ namespace SupHost
         public void UpdateTable(DataTable dataTable, DbDataAdapter adapter)
         {
             this.connection.Open();
-            SqlCommandBuilder cb = new SqlCommandBuilder((SqlDataAdapter)adapter);
+            
             adapter.Update(dataTable);
             this.connection.Close();
         }

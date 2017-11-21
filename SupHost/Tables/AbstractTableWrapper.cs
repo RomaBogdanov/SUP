@@ -43,7 +43,29 @@ namespace SupHost
         public virtual bool InsertRow(object[] values)
         {
             DataRow dr = this.table.NewRow();
-            dr.ItemArray = values;
+            for (int i = 0; i < this.table.Columns.Count; i++)
+            {
+                try
+                {
+                    dr[this.table.Columns[i]] = values[i];
+                }
+                catch (Exception)
+                {
+                    
+                }
+            }
+            /*foreach (var column in this.table.Columns)
+            {
+                try
+                {
+                    //((DataColumn)column)
+                }
+                catch (Exception err)
+                {
+                    
+                }
+            }*/
+            //dr.ItemArray = values;
             this.table.Rows.Add(dr);
             this.getTableBehavior.InsertRow();
             return true;
@@ -51,7 +73,19 @@ namespace SupHost
 
         public virtual bool UpdateRow(object[] values, int numRow)
         {
-            this.table.Rows[numRow].ItemArray = values;
+            //this.table.Rows[numRow].ItemArray = values;
+            DataRow dr = this.table.Rows[numRow];
+            for (int i = 0; i < this.table.Columns.Count; i++)
+            {
+                try
+                {
+                    dr[this.table.Columns[i]] = values[i];
+                }
+                catch (Exception)
+                {
+
+                }
+            }
             this.getTableBehavior.UpdateRow();
             return true;
         }
