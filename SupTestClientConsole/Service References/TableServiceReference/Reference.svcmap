@@ -19,15 +19,16 @@
     <ServiceContractMappings />
   </ClientOptions>
   <MetadataSources>
-    <MetadataSource Address="http://localhost:7000/HostSUP/" Protocol="http" SourceId="1" />
+    <MetadataSource Address="http://localhost:7000/HostSUP" Protocol="http" SourceId="1" />
   </MetadataSources>
   <Metadata>
-    <MetadataFile FileName="item.xsd" MetadataType="Schema" ID="05eb03bf-bcbc-4ab1-af51-8f737220e4f1" SourceId="1" SourceUrl="http://localhost:7000/HostSUP/?xsd=xsd2" />
-    <MetadataFile FileName="item.disco" MetadataType="Disco" ID="84d9d46f-e1ea-4912-a174-0968b8c0b508" SourceId="1" SourceUrl="http://localhost:7000/HostSUP/?disco" />
-    <MetadataFile FileName="item1.xsd" MetadataType="Schema" ID="aa69fb06-24a3-4d7e-ab5b-82b99e54a8d1" SourceId="1" SourceUrl="http://localhost:7000/HostSUP/?xsd=xsd1" />
-    <MetadataFile FileName="item2.xsd" MetadataType="Schema" ID="5b214d5d-ce75-4df0-bf11-c4516712538c" SourceId="1" SourceUrl="http://localhost:7000/HostSUP/?xsd=xsd0" />
-    <MetadataFile FileName="item3.xsd" MetadataType="Schema" ID="cae38b4c-86ff-47b8-9b7b-b57621006510" SourceId="1" SourceUrl="http://localhost:7000/HostSUP/?xsd=xsd3" />
-    <MetadataFile FileName="TableService1.wsdl" MetadataType="Wsdl" ID="c87f5803-5959-4d88-975c-b86cbd33a4b2" SourceId="1" SourceUrl="http://localhost:7000/HostSUP/?wsdl" />
+    <MetadataFile FileName="HostSUP.xsd" MetadataType="Schema" ID="c8ccf044-2baa-429f-9d1b-3b7d07fa2ec6" SourceId="1" SourceUrl="http://localhost:7000/HostSUP?xsd=xsd3" />
+    <MetadataFile FileName="HostSUP1.xsd" MetadataType="Schema" ID="1cee8245-7b2b-4138-8ce6-c5bef4ecebfa" SourceId="1" SourceUrl="http://localhost:7000/HostSUP?xsd=xsd0" />
+    <MetadataFile FileName="HostSUP2.xsd" MetadataType="Schema" ID="5af4c873-0412-4739-90ba-f4e9bdecc865" SourceId="1" SourceUrl="http://localhost:7000/HostSUP?xsd=xsd1" />
+    <MetadataFile FileName="HostSUP3.xsd" MetadataType="Schema" ID="aa206010-28f4-4b89-acd2-49c28248c0fe" SourceId="1" SourceUrl="http://localhost:7000/HostSUP?xsd=xsd2" />
+    <MetadataFile FileName="TableService11.wsdl" MetadataType="Wsdl" ID="1eb068b7-bb89-4780-b79b-028fc4c2e15c" SourceId="1" SourceUrl="http://localhost:7000/HostSUP?wsdl" />
+    <MetadataFile FileName="HostSUP4.xsd" MetadataType="Schema" ID="d26578d6-3c1f-4138-a32f-976c0fe9768d" SourceId="1" SourceUrl="http://localhost:7000/HostSUP?xsd=xsd4" />
+    <MetadataFile FileName="HostSUP.disco" MetadataType="Disco" ID="53075792-4823-484e-b357-899119512aaf" SourceId="1" SourceUrl="http://localhost:7000/HostSUP?disco" />
   </Metadata>
   <Extensions>
     <ExtensionFile FileName="configuration91.svcinfo" Name="configuration91.svcinfo" />

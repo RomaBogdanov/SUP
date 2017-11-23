@@ -71,6 +71,22 @@ namespace SupHost
             this.connection.Close();
         }
 
+        public bool ConnectionAttempt()
+        {
+            //ConnectionState a = this.connection.State;
+            try
+            {
+                this.connection.Open();
+                this.connection.Close();
+                return true;
+            }
+            catch (Exception err)
+            {
+                this.logger.Error(err.Message);
+                return false;
+            }
+        }
+
         #endregion
 
         #region Private
@@ -78,20 +94,44 @@ namespace SupHost
         private Connector()
         {
             this.logger = Logger.CurrentLogger;
+            string connectionString = this.GetConnectionString();
+            this.connection = new SqlConnection(connectionString);
+            this.connection.InfoMessage += Connection_InfoMessage;
+            this.connection.StateChange += Connection_StateChange;
+        }
+
+        private void Connection_StateChange(object sender, StateChangeEventArgs e)
+        {
+            this.logger.Info(e.CurrentState.ToString());
+        }
+
+        private void Connection_InfoMessage(object sender, SqlInfoMessageEventArgs e)
+        {
+            this.logger.Error(e.Message);
+        }
+
+        /// <summary>
+        /// Получение строки подключения к БД.
+        /// </summary>
+        /// <returns></returns>
+        private string GetConnectionString()
+        {
             string connectionString;
+            //ConfigurationManager.OpenExeConfiguration(ConfigurationUserLevel.PerUserRoamingAndLocal);
             if (ConfigurationManager.ConnectionStrings.Count != 0)
             {
-                connectionString = ConfigurationManager.ConnectionStrings["BaseConnection"].ConnectionString;
+                connectionString = ConfigurationManager
+                    .ConnectionStrings["BaseConnection"].ConnectionString;
             }
             else
             {
                 this.logger.Warn("Строка поключения отсутствует в файле конфигурации системы");
-                return;
+                connectionString = "";
             }
-            this.connection = new SqlConnection(connectionString);
+            return connectionString;
         }
-
         #endregion
+
     }
 
     /// <summary>

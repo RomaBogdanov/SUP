@@ -6,6 +6,10 @@ using System.Threading.Tasks;
 using System.ServiceModel;
 using System.ServiceModel.Description;
 
+using System.Security.Principal;
+using System.Diagnostics;
+using System.Reflection;
+
 using SupContract;
 
 /// <summary>
@@ -33,22 +37,63 @@ namespace SupHost
     {
         static void Main(string[] args)
         {
-            Uri baseAddress = new Uri("http://localhost:7000/HostSUP/");
-            ServiceHost host = new ServiceHost(typeof(TableService1), baseAddress);
+            WindowsPrincipal p = new WindowsPrincipal(WindowsIdentity.GetCurrent());
+            
+            bool hasAdmRights = p.IsInRole(WindowsBuiltInRole.Administrator);
+            if (!hasAdmRights)
+            {
+                ProcessStartInfo procInfo = new ProcessStartInfo();
+                procInfo.Verb = "runas";
+                procInfo.FileName = Assembly.GetExecutingAssembly().Location;
+                Process.Start(procInfo);
+                Process.GetCurrentProcess().Close();
+                return;
+            }
+
+            Connector con = Connector.CurrentConnector;
+            Logger logger = Logger.CurrentLogger;
+            //Uri baseAddress = new Uri("http://localhost:7000/HostSUP/");
+            //ServiceHost host = new ServiceHost(typeof(TableService1), baseAddress);
+            ServiceHost host = new ServiceHost(typeof(TableService1));
+            
             try
             {
-                host.AddServiceEndpoint(typeof(ITableService), 
+                /*host.AddServiceEndpoint(typeof(ITableService), 
                     new WSHttpBinding(), "TableService");
                 ServiceMetadataBehavior smb = new ServiceMetadataBehavior();
                 smb.HttpGetEnabled = true;
                 host.Description.Behaviors.Add(smb);
+                host.Open();*/
+                //ServiceHost host = new ServiceHost(typeof(TableService1));
                 host.Open();
-                Console.WriteLine("Нажмите <ENTER> для закрытия сервера.");
-                Console.ReadLine();
+                while (true)
+                {
+                    Console.WriteLine("1. Нажмите <ENTER> для закрытия сервера.");
+                    Console.WriteLine("2. Нажмите v для проверки соединения с " +
+                        "базой данных Visitors");
+                    string mes = Console.ReadLine();
+                    if (mes == "")
+                    {
+                        break;
+                    }
+                    if (mes == "v")
+                    {
+                        if (con.ConnectionAttempt())
+                        {
+                            logger.Info("Соединение с БД нормальное");
+                        }
+                        else
+                        {
+                            logger.Warn("Соединение с БД настроено неправильно");
+                        }
+                        continue;
+                    }
+                }
+                host.Close();
             }
             catch (Exception err)
             {
-                Console.WriteLine(err.Message);
+                logger.Error(err.Message);
                 host.Abort();
                 Console.ReadLine();
             }

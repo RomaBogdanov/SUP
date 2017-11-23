@@ -30,11 +30,26 @@ namespace SupHost
             }
         }
 
+        public void Info(string message)
+        {
+            Console.ForegroundColor = ConsoleColor.Green;
+            Console.WriteLine("{0}  INFO: {1}", DateTime.Now, message);
+            Console.ResetColor();
+        }
+
         public void Warn(string message)
-        { }
+        {
+            Console.ForegroundColor = ConsoleColor.Yellow;
+            Console.WriteLine("{0}  WARN: {1}", DateTime.Now, message);
+            Console.ResetColor();
+        }
 
         public void Error(string message)
-        { }
+        {
+            Console.ForegroundColor = ConsoleColor.Red;
+            Console.WriteLine("{0}  ERROR: {1}", DateTime.Now, message);
+            Console.ResetColor();
+        }
 
         #endregion
 

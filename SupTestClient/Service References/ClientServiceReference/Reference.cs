@@ -127,18 +127,18 @@ namespace SupTestClient.ClientServiceReference {
         System.Threading.Tasks.Task<System.Data.DataTable> GetTableAsync(SupTestClient.ClientServiceReference.CompositeType composite);
         
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/ITableService/InsertRow", ReplyAction="http://tempuri.org/ITableService/InsertRowResponse")]
-        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(object[]))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(SupTestClient.ClientServiceReference.CompositeType))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(SupTestClient.ClientServiceReference.TableName))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(object[]))]
         bool InsertRow(SupTestClient.ClientServiceReference.CompositeType composite, object[] objs);
         
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/ITableService/InsertRow", ReplyAction="http://tempuri.org/ITableService/InsertRowResponse")]
         System.Threading.Tasks.Task<bool> InsertRowAsync(SupTestClient.ClientServiceReference.CompositeType composite, object[] objs);
         
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/ITableService/UpdateRow", ReplyAction="http://tempuri.org/ITableService/UpdateRowResponse")]
-        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(object[]))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(SupTestClient.ClientServiceReference.CompositeType))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(SupTestClient.ClientServiceReference.TableName))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(object[]))]
         bool UpdateRow(SupTestClient.ClientServiceReference.CompositeType composite, int rowNumber, object[] objs);
         
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/ITableService/UpdateRow", ReplyAction="http://tempuri.org/ITableService/UpdateRowResponse")]

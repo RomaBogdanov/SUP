@@ -56,31 +56,31 @@
   <ItemGroup>
     <None Include="App.config" />
     <None Include="Properties\DataSources\System.Data.DataTable.datasource" />
-    <None Include="Service References\TableServiceReference\item.xsd">
+    <None Include="Service References\TableServiceReference\HostSUP.xsd">
       <SubType>Designer</SubType>
     </None>
-    <None Include="Service References\TableServiceReference\item1.xsd">
+    <None Include="Service References\TableServiceReference\HostSUP1.xsd">
       <SubType>Designer</SubType>
     </None>
-    <None Include="Service References\TableServiceReference\item2.xsd">
+    <None Include="Service References\TableServiceReference\HostSUP2.xsd">
       <SubType>Designer</SubType>
     </None>
-    <None Include="Service References\TableServiceReference\item3.xsd">
+    <None Include="Service References\TableServiceReference\HostSUP3.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Service References\TableServiceReference\HostSUP4.xsd">
       <SubType>Designer</SubType>
     </None>
     <None Include="Service References\TableServiceReference\SupTestClientConsole.TableServiceReference.CompositeType.datasource">
       <DependentUpon>Reference.svcmap</DependentUpon>
     </None>
-    <None Include="Service References\TableServiceReference\TableService1.wsdl" />
+    <None Include="Service References\TableServiceReference\TableService11.wsdl" />
   </ItemGroup>
   <ItemGroup>
     <WCFMetadata Include="Service References\" />
   </ItemGroup>
   <ItemGroup>
     <WCFMetadataStorage Include="Service References\TableServiceReference\" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Service References\TableServiceReference\item.disco" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Service References\TableServiceReference\configuration91.svcinfo" />
@@ -93,6 +93,9 @@
       <Generator>WCF Proxy Generator</Generator>
       <LastGenOutput>Reference.cs</LastGenOutput>
     </None>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Service References\TableServiceReference\HostSUP.disco" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
