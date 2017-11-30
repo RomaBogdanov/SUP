@@ -23,6 +23,9 @@ namespace SupHost
             wrappers.Add(TableName.TestTable1.ToString(), new TestTable1Wrapper());
             wrappers.Add(TableName.TestTable2Ado.ToString(), new TestTable2AdoWrapper());
             wrappers.Add(TableName.VisOrders.ToString(), new VisOrdersTableWrapper());
+            wrappers.Add(TableName.VisOrderElements.ToString(), new VisOrderElementsTableWrapper());
+            wrappers.Add(TableName.VisOrganizations.ToString(), new VisOrganizationsTableWrapper());
+            wrappers.Add(TableName.VisVisitors.ToString(), new VisVisitorsTableWrapper());
         }
 
         public static AbstractTableWrapper GetTableWrapper(TableName table)
@@ -54,18 +57,6 @@ namespace SupHost
                     
                 }
             }
-            /*foreach (var column in this.table.Columns)
-            {
-                try
-                {
-                    //((DataColumn)column)
-                }
-                catch (Exception err)
-                {
-                    
-                }
-            }*/
-            //dr.ItemArray = values;
             this.table.Rows.Add(dr);
             this.getTableBehavior.InsertRow();
             return true;
@@ -73,7 +64,6 @@ namespace SupHost
 
         public virtual bool UpdateRow(object[] values, int numRow)
         {
-            //this.table.Rows[numRow].ItemArray = values;
             DataRow dr = this.table.Rows[numRow];
             for (int i = 0; i < this.table.Columns.Count; i++)
             {

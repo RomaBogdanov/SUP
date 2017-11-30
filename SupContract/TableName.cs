@@ -10,6 +10,9 @@ namespace SupContract
     {
         TestTable1,
         VisOrders,
-        TestTable2Ado
+        TestTable2Ado,
+        VisOrderElements,
+        VisVisitors,
+        VisOrganizations
     }
 }
