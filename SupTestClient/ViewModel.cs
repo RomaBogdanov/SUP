@@ -6,7 +6,8 @@ using System.Threading.Tasks;
 using System.ComponentModel;
 using System.Data;
 using System.Windows.Input;
-using SupTestClient.ClientServiceReference;
+using SupClientConnectionLib;
+using SupClientConnectionLib.ServiceRef;
 
 namespace SupTestClient
 {
@@ -14,10 +15,12 @@ namespace SupTestClient
     {
         public event PropertyChangedEventHandler PropertyChanged;
         private List<string> queriesList = new List<string>();
+        private Dictionary<string, TableName> queriesDict = 
+            new Dictionary<string, TableName>();
         private string queryName = "";
         private DataTable table = new DataTable();
         private DataView dv;
-        private ClientConnector connector;
+        private ServerConnector connector;
         private string testField = "";
         private object currentItem;
 
@@ -40,11 +43,7 @@ namespace SupTestClient
         public List<string> QueriesList
         {
             get
-            {
-                
-                this.queriesList.Add("VisOrders");
-                this.queriesList.Add("TestTable1");
-                this.queriesList.Add("TestTable2Ado");
+            {    
                 return queriesList;
             }
             set
@@ -114,7 +113,16 @@ namespace SupTestClient
 
         public ViewModel()
         {
-            this.connector = ClientConnector.CurrentConnector;
+            for (int i = 0; i < 100; i++)
+            {
+                TableName t = (TableName)i;
+                if (!(t.ToString() == "" | t.ToString() == i.ToString()))
+                {
+                    this.queriesList.Add(t.ToString());
+                    this.queriesDict.Add(t.ToString(), t);
+                }
+            }
+            this.connector = ServerConnector.CurrentConnector;
             this.DV = this.Table.AsDataView();
             this.DV.ListChanged += DV_ListChanged;
             ReceiveTable = new RelayCommand(arg => GetTable());
@@ -133,18 +141,7 @@ namespace SupTestClient
 
         private void GetTable()
         {
-            if (this.QueryName == "VisOrders")
-            {
-                this.Table = this.connector.GetTable(TableName.VisOrders);
-            }
-            else if (this.QueryName == "TestTable1")
-            {
-                this.Table = this.connector.GetTable(TableName.TestTable1);
-            }
-            else if (this.QueryName == "TestTable2Ado")
-            {
-                this.Table = this.connector.GetTable(TableName.TestTable2Ado);
-            }
+            this.Table = this.connector.GetTable(this.queriesDict[this.QueryName]);
             this.DV = this.Table.AsDataView();
             this.DV.ListChanged += DV_ListChanged;
             this.TestField = this.DV.AllowNew.ToString();    
@@ -176,7 +173,6 @@ namespace SupTestClient
             }
         }
         
-
         #endregion
 
     }

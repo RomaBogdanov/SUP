@@ -28,12 +28,23 @@
             <Label Grid.Column="0">Список на:</Label>
             <DatePicker Grid.Column="1" Margin="3" Text="{Binding SelectedDate, Mode=TwoWay}"></DatePicker>
             <Label Grid.Column="2" Margin="30,2,2,2">Посетителей:</Label>
-            <TextBox Grid.Column="3" Margin="3"></TextBox>
+            <TextBox Grid.Column="3" Margin="3" Text="{Binding Path=CountVisitors, Mode=TwoWay}" TextAlignment="Center"></TextBox>
             <Label Grid.Column="4" Margin="30,2,2,2">Автотранспорт:</Label>
-            <TextBox Grid.Column="5" Margin="3"></TextBox>
+            <TextBox Grid.Column="5" Margin="3" Text="{Binding Path=CountCars, Mode=TwoWay}" TextAlignment="Center"></TextBox>
         </Grid>
         <Grid Grid.Row="1">
-            <DataGrid Margin="2"></DataGrid>
+            <DataGrid Margin="2" ItemsSource="{Binding Path=DView, Mode=TwoWay}" CurrentItem="{Binding CurrentItem, Mode=TwoWay}" AutoGenerateColumns="False">
+                <DataGrid.Columns>
+                    <DataGridTextColumn Header="№ заявки" Binding="{Binding OrderID}"></DataGridTextColumn>
+                    <DataGridTextColumn Header="ФИО" Binding="{Binding FullName}"></DataGridTextColumn>
+                    <DataGridTextColumn Header="Организация" Binding="{Binding Organization}"></DataGridTextColumn>
+                    <DataGridTextColumn Header="От" Binding="{Binding From}"></DataGridTextColumn>
+                    <DataGridTextColumn Header="До" Binding="{Binding To}"></DataGridTextColumn>
+                    <DataGridTextColumn Header="Статус" Binding="{Binding Status}"></DataGridTextColumn>
+                    <DataGridTextColumn Header="Принимающий" Binding="{Binding Signed}"></DataGridTextColumn>
+                    <DataGridTextColumn Header="Согласовано" Binding="{Binding Adjusted}"></DataGridTextColumn>
+                </DataGrid.Columns>
+            </DataGrid>
         </Grid>
         <Grid Grid.Row="2">
             <Grid>
@@ -93,9 +104,9 @@
                         <ColumnDefinition Width="1*" MinWidth="22"></ColumnDefinition>
                         <ColumnDefinition Width="4*"></ColumnDefinition>
                     </Grid.ColumnDefinitions>
-                    <TextBox Grid.Column="0" Margin="3"></TextBox>
+                    <TextBox Grid.Column="0" Margin="3" Text="{Binding Path=CurrentItem.OrderID, Mode=TwoWay}"></TextBox>
                     <Label Grid.Column="1">от</Label>
-                    <TextBox Grid.Column="2" Margin="3"></TextBox>
+                    <TextBox Grid.Column="2" Margin="3" Text="{Binding Path=CurrentItem.OrderDate, Mode=TwoWay}"></TextBox>
                 </Grid>
                 <ComboBox Grid.Row="2" Grid.Column="1" Margin="2" Grid.ColumnSpan="3"></ComboBox>
                 <TextBox Grid.Row="3" Grid.Column="1" Margin="2"></TextBox>
@@ -121,11 +132,11 @@
                 <Label Grid.Row="6" Grid.Column="4">Документ</Label>
                 <Label Grid.Row="7" Grid.Column="4">Серия</Label>
                 <Label Grid.Row="8" Grid.Column="4">Применить</Label>
-                <TextBox Grid.Row="1" Grid.Column="5" Margin="2"></TextBox>
-                <TextBox Grid.Row="2" Grid.Column="5" Margin="2"></TextBox>
-                <TextBox Grid.Row="3" Grid.Column="5" Margin="2"></TextBox>
-                <ComboBox Grid.Row="4" Grid.Column="5" Margin="2"></ComboBox>
-                <ComboBox Grid.Row="5" Grid.Column="5" Margin="2"></ComboBox>
+                <TextBox Grid.Row="1" Grid.Column="5" Margin="2" Text="{Binding Path=CurrentItem.Family, Mode=TwoWay}"></TextBox>
+                <TextBox Grid.Row="2" Grid.Column="5" Margin="2" Text="{Binding Path=CurrentItem.FirstName, Mode=TwoWay}"></TextBox>
+                <TextBox Grid.Row="3" Grid.Column="5" Margin="2" Text="{Binding Path=CurrentItem.LastName, Mode=TwoWay}"></TextBox>
+                <TextBox Grid.Row="4" Grid.Column="5" Margin="2" Text="{Binding Path=CurrentItem.Organization, Mode=TwoWay}"></TextBox>
+                <TextBox Grid.Row="5" Grid.Column="5" Margin="2" Text="{Binding Path=CurrentItem.Job, Mode=TwoWay}"></TextBox>
                 <ComboBox Grid.Row="6" Grid.Column="5" Margin="2"></ComboBox>
                 <Grid Grid.Row="7" Grid.Column="5">
                     <Grid.ColumnDefinitions>
@@ -135,9 +146,9 @@
                         <ColumnDefinition Width="40"></ColumnDefinition>
                         <ColumnDefinition></ColumnDefinition>
                     </Grid.ColumnDefinitions>
-                    <TextBox Grid.Column="0" Margin="2"></TextBox>
+                    <TextBox Grid.Column="0" Margin="2" Text="{Binding Path=CurrentItem.DocSeria, Mode=TwoWay}"></TextBox>
                     <Label Grid.Column="1" HorizontalAlignment="Right">номер</Label>
-                    <TextBox Grid.Column="2" Margin="2"></TextBox>
+                    <TextBox Grid.Column="2" Margin="2" Text="{Binding Path=CurrentItem.DocNumber, Mode=TwoWay}"></TextBox>
                     <Label Grid.Column="3" HorizontalAlignment="Right">тел.:</Label>
                     <TextBox Grid.Column="4" Margin="2"></TextBox>
                 </Grid>

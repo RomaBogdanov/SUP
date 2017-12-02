@@ -58,7 +58,6 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
-    <Compile Include="ClientConnector.cs" />
     <Compile Include="RelayCommand.cs" />
     <Compile Include="Service References\ClientServiceReference\Reference.cs">
       <AutoGen>True</AutoGen>
@@ -148,6 +147,12 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="Service References\ClientServiceReference\HostSUP.disco" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\SupClientConnectionLib\SupClientConnectionLib.csproj">
+      <Project>{82871529-5311-44ba-96a8-adbe27300d03}</Project>
+      <Name>SupClientConnectionLib</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

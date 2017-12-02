@@ -4,9 +4,10 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Data;
-using SupTestClient.ClientServiceReference;
+using SupClientConnectionLib.ServiceRef;
 
-namespace SupTestClient
+
+namespace SupClientConnectionLib
 {
     /// <summary>
     /// Класс инкапсюлирующий подключение со стороны клиента к серверу.
@@ -15,21 +16,21 @@ namespace SupTestClient
     /// Реализует паттерн одиночка для организации единого подключения
     /// из всех точек приложения.
     /// </remarks>
-    class ClientConnector
+    public class ServerConnector
     {
-        private static ClientConnector connector;
+        private static ServerConnector connector;
         ITableService tableService;
         CompositeType compositeType;
 
         #region Public
 
-        public static ClientConnector CurrentConnector
+        public static ServerConnector CurrentConnector
         {
             get
             {
                 if (connector == null)
                 {
-                    connector = new ClientConnector();
+                    connector = new ServerConnector();
                     return connector;
                 }
                 return connector;
@@ -75,13 +76,12 @@ namespace SupTestClient
 
         #region Private
 
-        private ClientConnector()
+        private ServerConnector()
         {
             this.tableService = new TableServiceClient();
             this.compositeType = new CompositeType();
         }
 
         #endregion
-
     }
 }
