@@ -33,7 +33,7 @@
             <TextBox Grid.Column="5" Margin="3" Text="{Binding Path=CountCars, Mode=TwoWay}" TextAlignment="Center"></TextBox>
         </Grid>
         <Grid Grid.Row="1">
-            <DataGrid Margin="2" ItemsSource="{Binding Path=DView, Mode=TwoWay}" CurrentItem="{Binding CurrentItem, Mode=TwoWay}" AutoGenerateColumns="False">
+            <DataGrid Margin="2" ItemsSource="{Binding Path=DView, Mode=TwoWay}" CurrentItem="{Binding CurrentItem, Mode=TwoWay}" AutoGenerateColumns="True">
                 <DataGrid.Columns>
                     <DataGridTextColumn Header="№ заявки" Binding="{Binding OrderID}"></DataGridTextColumn>
                     <DataGridTextColumn Header="ФИО" Binding="{Binding FullName}"></DataGridTextColumn>

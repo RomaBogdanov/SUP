@@ -16,6 +16,7 @@ namespace SUPClient
         public event PropertyChangedEventHandler PropertyChanged;
 
         private ServerConnector connector;
+        private Dictionary<string, ServerConnector> tabConnectors;
 
         private string selectedDate;
         private int countVisitors;
@@ -25,8 +26,8 @@ namespace SUPClient
         private DataTable tabOrders = new DataTable();
         private DataTable tabOrderElements = new DataTable();
         private DataTable tabComplex = new DataTable();
-        private IEnumerable<Tst> dView;
-        private Tst currentItem;
+        private IEnumerable<FullOrder> dView;
+        private FullOrder currentItem;
         private string lastName;
         private string firstName;
         private string patronName;
@@ -70,7 +71,7 @@ namespace SUPClient
             }
         }
 
-        public IEnumerable<Tst> DView
+        public IEnumerable<FullOrder> DView
         {
             get { return this.dView; }
             set
@@ -80,7 +81,7 @@ namespace SUPClient
             }
         }
 
-        public Tst CurrentItem
+        public FullOrder CurrentItem
         {
             get { return this.currentItem; }
             set
@@ -89,13 +90,6 @@ namespace SUPClient
                 {
                     this.currentItem = value;
                     OnPropertyChanged("CurrentItem");
-                    /*if (this.currentItem is DataRowView)
-                    {
-                        DataRow dr = ((DataRowView)this.currentItem).Row;
-                        this.LastName = dr["f_family"].ToString();
-                        this.FirstName = dr["f_fst_name"].ToString();
-                        this.PatronName = dr["f_sec_name"].ToString();
-                    }*/
                 }
             }
         }
@@ -142,15 +136,37 @@ namespace SUPClient
         public Orders1ViewModel()
         {
             this.SelectedDate = DateTime.Now.ToString();
-            this.connector = ServerConnector.CurrentConnector;
-            this.tabVisitors = this.connector.GetTable(TableName.VisVisitors);
-            this.tabOrganizations = this.connector.GetTable(TableName.VisOrganizations);
-            this.tabOrders = this.connector.GetTable(TableName.VisOrders);
-            this.tabOrderElements = this.connector.GetTable(TableName.VisOrderElements);
-            var a = from vis in this.tabVisitors.AsEnumerable()
+            this.tabConnectors = new Dictionary<string, ServerConnector>();
+            ServerConnector a = new ServerConnector();
+            this.tabVisitors = a.GetTable(TableName.VisVisitors);
+            this.tabConnectors.Add(this.tabVisitors.TableName, a);
+            a = new ServerConnector();
+            this.tabOrganizations = a.GetTable(TableName.VisOrganizations);
+            this.tabConnectors.Add(this.tabOrganizations.TableName, new ServerConnector());
+            a = new ServerConnector();
+            this.tabOrders = a.GetTable(TableName.VisOrders);
+            this.tabConnectors.Add(this.tabOrders.TableName, new ServerConnector());
+            a = new ServerConnector();
+            this.tabOrderElements = a.GetTable(TableName.VisOrderElements);
+            this.tabConnectors.Add(this.tabOrderElements.TableName, new ServerConnector());
+            //this.connector = ServerConnector.CurrentConnector;
+            /*this.tabVisitors = this.tabConnectors[tabVisitors]
+                .GetTable(TableName.VisVisitors);*/
+            this.tabVisitors.ColumnChanged += TabVisitors_ColumnChanged;
+            this.tabVisitors.RowChanged += TabVisitors_RowChanged;
+            /*this.tabOrganizations = this.tabConnectors[this.tabOrganizations]
+                .GetTable(TableName.VisOrganizations);
+            this.tabOrders = this.tabConnectors[this.tabOrders]
+                .GetTable(TableName.VisOrders);
+            this.tabOrderElements = this.tabConnectors[this.tabOrderElements]
+                .GetTable(TableName.VisOrderElements);*/
+            var visitors = from vis in this.tabVisitors.AsEnumerable()
                     join org in this.tabOrganizations.AsEnumerable()
                     on vis.Field<int>("f_org_id") equals org.Field<int>("f_org_id")
-                    select new { VisID = vis.Field<int>("f_visitor_id"),
+                    select new Visitor {
+                        VisitorInf = vis,
+                        OrganizationInf = org,
+                        VisID = vis.Field<int>("f_visitor_id"),
                         FullName = vis.Field<string>("f_full_name"),
                         Organization = org.Field<string>("f_full_org_name"),
                         Family = vis.Field<string>("f_family"),
@@ -160,11 +176,13 @@ namespace SUPClient
                         DocSeria = vis.Field<string>("f_doc_seria"),
                         DocNumber = vis.Field<string>("f_doc_num")
                     };
-            var b = from orel in this.tabOrderElements.AsEnumerable()
+            var orders = from orel in this.tabOrderElements.AsEnumerable()
                     join or in this.tabOrders.AsEnumerable()
                     on orel.Field<int>("f_ord_id") equals or.Field<int>("f_ord_id")
-                    select new
+                    select new Order
                     {
+                        OrderInf = or,
+                        OrderElemInf = orel,
                         OrderID = orel.Field<int>("f_ord_id"),
                         VisID = orel.Field<int>("f_visitor_id"),
                         From = or.Field<DateTime>("f_date_from"),
@@ -174,48 +192,52 @@ namespace SUPClient
                         Adjusted = or.Field<int>("f_adjusted_with"),
                         OrderDate = or.Field<DateTime>("f_ord_date")
                     };
-            var c = from aa in a
-                    join bb in b
-                    on aa.VisID equals bb.VisID
-                    select new Tst
+             var fullOrders = from visitor in visitors
+                    join order in orders
+                    on visitor.VisID equals order.VisID
+                    select new FullOrder
                     {
-                        OrderID = bb.OrderID.ToString(),
-                        FullName = aa.FullName,
-                        Organization = aa.Organization,
-                        From = bb.From,
-                        To = bb.To,
-                        Status = bb.Status,
-                        Signed = bb.Signed,
-                        Adjusted = bb.Adjusted,
-                        OrderDate = bb.OrderDate,
-                        Family = aa.Family,
-                        FirstName = aa.FirstName,
-                        LastName = aa.LastName,
-                        Job = aa.Job,
-                        DocSeria = aa.DocSeria,
-                        DocNumber = aa.DocNumber
+                        VisitorInf = visitor.VisitorInf,
+                        OrganizationInf = visitor.OrganizationInf,
+                        OrderInf = order.OrderInf,
+                        OrderElemInf = order.OrderElemInf,
+                        OrderID = order.OrderID.ToString(),
+                        FullName = visitor.FullName,
+                        Organization = visitor.Organization,
+                        From = order.From,
+                        To = order.To,
+                        Status = order.Status,
+                        Signed = order.Signed,
+                        Adjusted = order.Adjusted,
+                        OrderDate = order.OrderDate,
+                        Family = visitor.Family,
+                        FirstName = visitor.FirstName,
+                        LastName = visitor.LastName,
+                        Job = visitor.Job,
+                        DocSeria = visitor.DocSeria,
+                        DocNumber = visitor.DocNumber
                     };
-            this.DView = c;
-            //this.DView = this.tabVisitors.AsDataView();
+            //IEnumerable<Tst> tsten = new List<Tst>() { new Tst() };
+            //c = c.Union(tsten);
+            //IEnumerable<Tst> tsten2 = new List<Tst>() { c.ElementAt(0) };
+            //c = c.Except(tsten2);
+            this.DView = fullOrders;
         }
 
-        public class Tst
+        private void TabVisitors_RowChanged(object sender, DataRowChangeEventArgs e)
         {
-            public string OrderID { get; set; }
-            public string FullName { get; set; }
-            public string Organization { get; set; }
-            public DateTime From { get; set; }
-            public DateTime To { get; set; }
-            public string Status { get; set; }
-            public int Signed { get; set; }
-            public int Adjusted { get; set; }
-            public DateTime OrderDate { get; set; }
-            public string Family { get; set; }
-            public string FirstName { get; set; }
-            public string LastName { get; set; }
-            public string DocSeria { get; set; }
-            public string DocNumber { get; set; }
-            public string Job { get; set; }
+            if (e.Action == DataRowAction.Change)
+            {
+                DataTable dt = (DataTable)sender;
+                int i = dt.Rows.IndexOf(e.Row);
+                this.tabConnectors[dt.TableName].UpdateRow(e.Row.ItemArray, i);
+                //this.connector.UpdateRow(e.Row.ItemArray, i);
+            }
+        }
+
+        private void TabVisitors_ColumnChanged(object sender, DataColumnChangeEventArgs e)
+        {
+            
         }
 
         protected virtual void OnPropertyChanged(string propertyName)
@@ -224,4 +246,106 @@ namespace SUPClient
                 new PropertyChangedEventArgs(propertyName));
         }
     }
+
+    public class Visitor
+    {
+        public DataRow VisitorInf { get; set; }
+        public DataRow OrganizationInf { get; set; }
+
+        public int VisID { get; set; }
+        public string FullName { get; set; }
+        public string Organization { get; set; }
+        public string Family { get; set; }
+        public string FirstName { get; set; }
+        public string LastName { get; set; }
+        public string Job { get; set; }
+        public string DocSeria { get; set; }
+        public string DocNumber { get; set; }
+    }
+
+    public class Order
+    {
+        public DataRow OrderInf { get; set; }
+        public DataRow OrderElemInf { get; set; }
+        
+        public int OrderID { get; set; }
+        public int VisID { get; set; }
+        public DateTime From { get; set; }
+        public DateTime To { get; set; }
+        public string Status { get; set; }
+        public int Signed { get; set; }
+        public int Adjusted { get; set; }
+        public DateTime OrderDate { get; set; }
+    }
+
+    public class FullOrder
+    {
+        private string family = "";
+        private string firstName = "";
+        private string lastName = "";
+
+        public DataRow VisitorInf { get; set; }
+        public DataRow OrganizationInf { get; set; }
+        public DataRow OrderInf { get; set; }
+        public DataRow OrderElemInf { get; set; }
+
+        public string OrderID { get; set; }
+        public string FullName { get; set; }
+        public string Organization { get; set; }
+        public DateTime From { get; set; }
+        public DateTime To { get; set; }
+        public string Status { get; set; }
+        public int Signed { get; set; }
+        public int Adjusted { get; set; }
+        public DateTime OrderDate { get; set; }
+        public string Family
+        {
+            get { return this.family; }
+            set
+            {
+                if (this.family != value)
+                {
+                    this.family = value;
+                    if ((string)this.VisitorInf["f_family"] != value)
+                    {
+                        this.VisitorInf["f_family"] = value;
+                    }
+                }
+            }
+        }
+        public string FirstName
+        {
+            get { return this.firstName; }
+            set
+            {
+                if (this.firstName != value)
+                {
+                    this.firstName = value;
+                    if ((string)this.VisitorInf["f_fst_name"] != value)
+                    {
+                        this.VisitorInf["f_fst_name"] = value;
+                    }
+                }
+            }
+        }
+        public string LastName
+        {
+            get { return this.lastName; }
+            set
+            {
+                if (this.lastName != value)
+                {
+                    this.lastName = value;
+                    if ((string)this.VisitorInf["f_sec_name"] != value)
+                    {
+                        this.VisitorInf["f_sec_name"] = value;
+                    }
+                }
+            }
+        }
+        public string DocSeria { get; set; }
+        public string DocNumber { get; set; }
+        public string Job { get; set; }
+    }
+
 }

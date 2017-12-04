@@ -24,7 +24,7 @@ namespace SupClientConnectionLib
 
         #region Public
 
-        public static ServerConnector CurrentConnector
+        /*public static ServerConnector CurrentConnector
         {
             get
             {
@@ -35,7 +35,7 @@ namespace SupClientConnectionLib
                 }
                 return connector;
             }
-        }
+        }*/
 
         public DataTable GetTable(TableName tableName)
         {
@@ -76,7 +76,7 @@ namespace SupClientConnectionLib
 
         #region Private
 
-        private ServerConnector()
+        public ServerConnector()
         {
             this.tableService = new TableServiceClient();
             this.compositeType = new CompositeType();
