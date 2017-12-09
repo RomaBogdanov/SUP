@@ -5,7 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Data;
 using System.ComponentModel;
-
+using System.Windows.Input;
 using SupClientConnectionLib;
 using SupClientConnectionLib.ServiceRef;
 
@@ -15,7 +15,6 @@ namespace SUPClient
     {
         public event PropertyChangedEventHandler PropertyChanged;
 
-        private ServerConnector connector;
         private Dictionary<string, ServerConnector> tabConnectors;
 
         private string selectedDate;
@@ -28,9 +27,6 @@ namespace SUPClient
         private DataTable tabComplex = new DataTable();
         private IEnumerable<FullOrder> dView;
         private FullOrder currentItem;
-        private string lastName;
-        private string firstName;
-        private string patronName;
 
         public string SelectedDate
         {
@@ -94,72 +90,34 @@ namespace SUPClient
             }
         }
 
-        public string LastName
-        {
-            get { return this.lastName; }
-            set
-            {
-                if (this.lastName != value)
-                {
-                    this.lastName = value;
-                    OnPropertyChanged("LastName");
-                }
-            }
-        }
+        public ICommand CreateOrder
+        { get; set; }
 
-        public string FirstName
-        {
-            get { return this.firstName; }
-            set
-            {
-                if (this.firstName != value)
-                {
-                    this.firstName = value;
-                    OnPropertyChanged("FirstName");
-                }
-            }
-        }
-
-        public string PatronName
-        {
-            get { return this.patronName; }
-            set
-            {
-                if (this.patronName != value)
-                {
-                    this.patronName = value;
-                    OnPropertyChanged("PatronName");
-                }
-            }
-        }
+        public ICommand SaveOrder
+        { get; set; }
 
         public Orders1ViewModel()
         {
+            this.CreateOrder = new RelayCommand(arg => CreateOrderMeth());
+            this.SaveOrder = new RelayCommand(arg => SaveOrderMeth());
             this.SelectedDate = DateTime.Now.ToString();
             this.tabConnectors = new Dictionary<string, ServerConnector>();
-            ServerConnector a = new ServerConnector();
-            this.tabVisitors = a.GetTable(TableName.VisVisitors);
-            this.tabConnectors.Add(this.tabVisitors.TableName, a);
-            a = new ServerConnector();
-            this.tabOrganizations = a.GetTable(TableName.VisOrganizations);
-            this.tabConnectors.Add(this.tabOrganizations.TableName, new ServerConnector());
-            a = new ServerConnector();
-            this.tabOrders = a.GetTable(TableName.VisOrders);
-            this.tabConnectors.Add(this.tabOrders.TableName, new ServerConnector());
-            a = new ServerConnector();
-            this.tabOrderElements = a.GetTable(TableName.VisOrderElements);
-            this.tabConnectors.Add(this.tabOrderElements.TableName, new ServerConnector());
-            //this.connector = ServerConnector.CurrentConnector;
-            /*this.tabVisitors = this.tabConnectors[tabVisitors]
-                .GetTable(TableName.VisVisitors);*/
-            this.tabVisitors.ColumnChanged += TabVisitors_ColumnChanged;
-            this.tabVisitors.RowChanged += TabVisitors_RowChanged;
-            /*this.tabOrganizations = this.tabConnectors[this.tabOrganizations]
-                .GetTable(TableName.VisOrganizations);
-            this.tabOrders = this.tabConnectors[this.tabOrders]
-                .GetTable(TableName.VisOrders);
-            this.tabOrderElements = this.tabConnectors[this.tabOrderElements]
-                .GetTable(TableName.VisOrderElements);*/
+            ServerConnector sc = new ServerConnector();
+            this.tabVisitors = sc.GetTable(TableName.VisVisitors);
+            this.tabConnectors.Add(this.tabVisitors.TableName, sc);
+            sc = new ServerConnector();
+            this.tabOrganizations = sc.GetTable(TableName.VisOrganizations);
+            this.tabConnectors.Add(this.tabOrganizations.TableName, sc);
+            sc = new ServerConnector();
+            this.tabOrders = sc.GetTable(TableName.VisOrders);
+            this.tabConnectors.Add(this.tabOrders.TableName, sc);
+            sc = new ServerConnector();
+            this.tabOrderElements = sc.GetTable(TableName.VisOrderElements);
+            this.tabConnectors.Add(this.tabOrderElements.TableName, sc);
+            this.tabVisitors.RowChanged += Table_RowChanged;
+            this.tabOrganizations.RowChanged += Table_RowChanged;
+            this.tabOrders.RowChanged += Table_RowChanged;
+            this.tabOrderElements.RowChanged += Table_RowChanged;
             var visitors = from vis in this.tabVisitors.AsEnumerable()
                     join org in this.tabOrganizations.AsEnumerable()
                     on vis.Field<int>("f_org_id") equals org.Field<int>("f_org_id")
@@ -224,26 +182,73 @@ namespace SUPClient
             this.DView = fullOrders;
         }
 
-        private void TabVisitors_RowChanged(object sender, DataRowChangeEventArgs e)
-        {
-            if (e.Action == DataRowAction.Change)
-            {
-                DataTable dt = (DataTable)sender;
-                int i = dt.Rows.IndexOf(e.Row);
-                this.tabConnectors[dt.TableName].UpdateRow(e.Row.ItemArray, i);
-                //this.connector.UpdateRow(e.Row.ItemArray, i);
-            }
-        }
-
-        private void TabVisitors_ColumnChanged(object sender, DataColumnChangeEventArgs e)
-        {
-            
-        }
-
         protected virtual void OnPropertyChanged(string propertyName)
         {
-            this.PropertyChanged?.Invoke(this, 
+            this.PropertyChanged?.Invoke(this,
                 new PropertyChangedEventArgs(propertyName));
+        }
+
+        private void Table_RowChanged(object sender, DataRowChangeEventArgs e)
+        {
+            DataTable dt;
+            switch (e.Action)
+            {
+                case DataRowAction.Nothing:
+                    break;
+                case DataRowAction.Delete:
+                    break;
+                case DataRowAction.Change:
+                    dt = (DataTable)sender;
+                    int i = dt.Rows.IndexOf(e.Row);
+                    this.tabConnectors[dt.TableName].UpdateRow(e.Row.ItemArray, i);
+                    break;
+                case DataRowAction.Rollback:
+                    break;
+                case DataRowAction.Commit:
+                    break;
+                case DataRowAction.Add:
+                    dt = (DataTable)sender;
+                    this.tabConnectors[dt.TableName].InsertRow(e.Row.ItemArray);
+                    break;
+                case DataRowAction.ChangeOriginal:
+                    break;
+                case DataRowAction.ChangeCurrentAndOriginal:
+                    break;
+                default:
+                    break;
+            }
+            /*if (e.Action == DataRowAction.Change)
+            {
+                
+            }*/
+        }
+
+        private void CreateOrderMeth()
+        {
+            this.CurrentItem = new FullOrder();
+            DataRow dr1, dr2, dr3, dr4;
+            dr2 = this.tabOrganizations.NewRow();
+            this.tabOrganizations.Rows.Add(dr2);
+            this.CurrentItem.OrganizationInf = dr2;
+            dr1 = this.tabVisitors.NewRow();
+            dr1["f_org_id"] = dr2["f_org_id"];
+            this.tabVisitors.Rows.Add(dr1);
+            this.CurrentItem.VisitorInf = dr1;
+            dr4 = this.tabOrders.NewRow();
+            this.tabOrders.Rows.Add(dr4);
+            this.CurrentItem.OrderInf = dr4;
+            dr3 = this.tabOrderElements.NewRow();
+            dr3["f_ord_id"] = dr4["f_ord_id"];
+            dr3["f_visitor_id"] = dr1["f_visitor_id"];
+            this.tabOrderElements.Rows.Add(dr3);
+            this.CurrentItem.OrderElemInf = dr3;
+        }
+
+        private void SaveOrderMeth()
+        {
+            IEnumerable<FullOrder> unionFullOrd = 
+                new List<FullOrder> { this.CurrentItem };
+            this.DView.Union(unionFullOrd);
         }
     }
 
@@ -283,6 +288,9 @@ namespace SUPClient
         private string family = "";
         private string firstName = "";
         private string lastName = "";
+        private string organization = "";
+        private DateTime fromDate;
+        private DateTime toDate;
 
         public DataRow VisitorInf { get; set; }
         public DataRow OrganizationInf { get; set; }
@@ -291,9 +299,55 @@ namespace SUPClient
 
         public string OrderID { get; set; }
         public string FullName { get; set; }
-        public string Organization { get; set; }
-        public DateTime From { get; set; }
-        public DateTime To { get; set; }
+        public string Organization
+        {
+            get { return this.organization; }
+            set
+            {
+                if (this.organization != value)
+                {
+                    this.organization = value;
+                    // TODO: фрагмент кода исключительно для демонстрационных целей!!!
+                    // При первой возможности заменить на нормальный с подключением
+                    // списка организаций и изменением в ссылках на организации
+                    // в таблице визитёров, а не организаций.
+                    if ((string)this.OrganizationInf["f_full_org_name"] != value)
+                    {
+                        this.OrganizationInf["f_full_org_name"] = value;
+                    }
+                }
+            }
+        }
+        public DateTime From
+        {
+            get { return this.fromDate; }
+            set
+            {
+                if (this.fromDate != value)
+                {
+                    this.fromDate = value;
+                    if ((DateTime)this.OrderInf["f_date_from"] != value)
+                    {
+                        this.OrderInf["f_date_from"] = value;
+                    }
+                }
+            }
+        }
+        public DateTime To
+        {
+            get { return this.toDate; }
+            set
+            {
+                if (this.toDate!=value)
+                {
+                    this.toDate = value;
+                    if ((DateTime)this.OrderInf["f_date_to"] != value)
+                    {
+                        this.OrderInf["f_date_to"] = value;
+                    }
+                }
+            }
+        }
         public string Status { get; set; }
         public int Signed { get; set; }
         public int Adjusted { get; set; }
@@ -306,7 +360,7 @@ namespace SUPClient
                 if (this.family != value)
                 {
                     this.family = value;
-                    if ((string)this.VisitorInf["f_family"] != value)
+                    if (this.VisitorInf["f_family"] is DBNull || (string)this.VisitorInf["f_family"] != value)
                     {
                         this.VisitorInf["f_family"] = value;
                     }
@@ -321,7 +375,8 @@ namespace SUPClient
                 if (this.firstName != value)
                 {
                     this.firstName = value;
-                    if ((string)this.VisitorInf["f_fst_name"] != value)
+                    if (this.VisitorInf["f_fst_name"] is DBNull || 
+                        (string)this.VisitorInf["f_fst_name"] != value)
                     {
                         this.VisitorInf["f_fst_name"] = value;
                     }

@@ -38,7 +38,6 @@ namespace SupHost
             if (table == null)
             {
                 this.table = this.getTableBehavior.GetTable();
-                return this.table;
             }
             return this.table;
         }

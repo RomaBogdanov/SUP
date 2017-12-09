@@ -24,7 +24,7 @@ namespace SupClientConnectionLib
 
         #region Public
 
-        /*public static ServerConnector CurrentConnector
+        public static ServerConnector CurrentConnector
         {
             get
             {
@@ -35,7 +35,7 @@ namespace SupClientConnectionLib
                 }
                 return connector;
             }
-        }*/
+        }
 
         public DataTable GetTable(TableName tableName)
         {

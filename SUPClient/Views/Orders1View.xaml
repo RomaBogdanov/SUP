@@ -33,7 +33,7 @@
             <TextBox Grid.Column="5" Margin="3" Text="{Binding Path=CountCars, Mode=TwoWay}" TextAlignment="Center"></TextBox>
         </Grid>
         <Grid Grid.Row="1">
-            <DataGrid Margin="2" ItemsSource="{Binding Path=DView, Mode=TwoWay}" CurrentItem="{Binding CurrentItem, Mode=TwoWay}" AutoGenerateColumns="True">
+            <DataGrid Margin="2" ItemsSource="{Binding Path=DView, Mode=TwoWay}" CurrentItem="{Binding CurrentItem, Mode=TwoWay}" AutoGenerateColumns="False">
                 <DataGrid.Columns>
                     <DataGridTextColumn Header="№ заявки" Binding="{Binding OrderID}"></DataGridTextColumn>
                     <DataGridTextColumn Header="ФИО" Binding="{Binding FullName}"></DataGridTextColumn>
@@ -76,7 +76,7 @@
                         <ColumnDefinition Width="100*"></ColumnDefinition>
                     </Grid.ColumnDefinitions>
                     <Button Grid.Column="0" Margin="3" Content="Сканировать заявку"></Button>
-                    <Button Grid.Column="1" Margin="3" Content="Создать"></Button>
+                    <Button Grid.Column="1" Margin="3" Content="Создать" Command="{Binding CreateOrder}"></Button>
                     <Button Grid.Column="2" Margin="3" Content="Найти"></Button>
                     <Button Grid.Column="3" Margin="3" Content="Принять"></Button>
                     <Button Grid.Column="4" Margin="3" Content="Отложить"></Button>
@@ -106,14 +106,14 @@
                     </Grid.ColumnDefinitions>
                     <TextBox Grid.Column="0" Margin="3" Text="{Binding Path=CurrentItem.OrderID, Mode=TwoWay}"></TextBox>
                     <Label Grid.Column="1">от</Label>
-                    <TextBox Grid.Column="2" Margin="3" Text="{Binding Path=CurrentItem.OrderDate, Mode=TwoWay}"></TextBox>
+                    <DatePicker Grid.Column="2" Margin="3" SelectedDate="{Binding Path=CurrentItem.OrderDate, Mode=TwoWay}"></DatePicker>
                 </Grid>
                 <ComboBox Grid.Row="2" Grid.Column="1" Margin="2" Grid.ColumnSpan="3"></ComboBox>
                 <TextBox Grid.Row="3" Grid.Column="1" Margin="2"></TextBox>
                 <TextBox Grid.Row="4" Grid.Column="1" Margin="2"></TextBox>
                 <ComboBox Grid.Row="5" Grid.Column="1" Margin="2" Grid.ColumnSpan="3"></ComboBox>
                 <TextBox Grid.Row="6" Grid.Column="1" Margin="2" Grid.ColumnSpan="3"></TextBox>
-                <DatePicker Grid.Row="7" Grid.Column="1" Margin="2"></DatePicker>
+                <DatePicker Grid.Row="7" Grid.Column="1" Margin="2" SelectedDate="{Binding CurrentItem.From, Mode=TwoWay}"></DatePicker>
                 <TextBox Grid.Row="8" Grid.Column="1" Margin="2"></TextBox>
                 <Label Grid.Row="3" Grid.Column="2" HorizontalAlignment="Right">тел.:</Label>
                 <Label Grid.Row="4" Grid.Column="2" HorizontalAlignment="Right">тел.:</Label>
@@ -122,7 +122,7 @@
                 <Button Grid.Row="1" Grid.Column="3" Margin="2" Content="Активная"></Button>
                 <TextBox Grid.Row="3" Grid.Column="3" Margin="2"></TextBox>
                 <TextBox Grid.Row="4" Grid.Column="3" Margin="2"></TextBox>
-                <DatePicker Grid.Row="7" Grid.Column="3" Margin="2"></DatePicker>
+                <DatePicker Grid.Row="7" Grid.Column="3" Margin="2" SelectedDate="{Binding CurrentItem.To, Mode=TwoWay}"></DatePicker>
                 <TextBox Grid.Row="8" Grid.Column="3" Margin="2"></TextBox>
                 <Label Grid.Row="1" Grid.Column="4">Фамилия</Label>
                 <Label Grid.Row="2" Grid.Column="4">Имя</Label>
@@ -167,7 +167,7 @@
                 <Button Content="Редактировать" Grid.Column="0" Margin="5"></Button>
                 <Button Content="Очистить" Grid.Column="1" Margin="5"></Button>
                 <Button Content="Блокировать" Grid.Column="2" Margin="5"></Button>
-                <Button Content="Сохранить" Grid.Column="4" Margin="5"></Button>
+                <Button Content="Сохранить" Grid.Column="4" Margin="5" Command="{Binding SaveOrder}"></Button>
             </Grid>
         </Grid>
     </Grid>

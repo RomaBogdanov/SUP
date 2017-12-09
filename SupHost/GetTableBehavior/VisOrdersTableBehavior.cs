@@ -12,7 +12,8 @@ namespace SupHost
         {
             this.query = "select * from vis_orders";
             this.primaryKeyColumns = new string[1];
-            this.primaryKeyColumns[0] = "f_order_id";
+            this.primaryKeyColumns[0] = "f_ord_id";
+            this.autoPrimaryKey = true;
             this.tableName = "vis_orders";
         }
     }

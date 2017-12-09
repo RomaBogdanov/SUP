@@ -13,6 +13,7 @@ namespace SupHost
             this.query = "select * from vis_order_elements";
             this.primaryKeyColumns = new string[1];
             this.primaryKeyColumns[0] = "f_oe_id";
+            this.autoPrimaryKey = true;
             this.tableName = "vis_order_elements";
         }
     }
