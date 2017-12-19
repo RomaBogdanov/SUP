@@ -1,4 +1,6 @@
-﻿using System;
+﻿#define Test
+
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -26,7 +28,10 @@ namespace SUPClient
         private DataTable tabOrderElements = new DataTable();
         private DataTable tabComplex = new DataTable();
         private IEnumerable<FullOrder> dView;
+        private IEnumerable<Org> orgs;
+        private IEnumerable<Peoples> allPeoples;
         private FullOrder currentItem;
+        private bool editingOrder = false;
 
         public string SelectedDate
         {
@@ -77,6 +82,26 @@ namespace SUPClient
             }
         }
 
+        public IEnumerable<Org> Orgs
+        {
+            get { return this.orgs; }
+            set
+            {
+                this.orgs = value;
+                OnPropertyChanged("Orgs");
+            }
+        }
+
+        public IEnumerable<Peoples> AllPeoples
+        {
+            get { return this.allPeoples; }
+            set
+            {
+                this.allPeoples = value;
+                OnPropertyChanged("AllPeoples");
+            }
+        }
+
         public FullOrder CurrentItem
         {
             get { return this.currentItem; }
@@ -90,16 +115,36 @@ namespace SUPClient
             }
         }
 
+        /// <summary>
+        /// Редактировать заявку.
+        /// </summary>
+        public bool EditingOrder
+        {
+            get { return this.editingOrder; }
+            set
+            {
+                if (this.editingOrder != value)
+                {
+                    this.editingOrder = value;
+                    OnPropertyChanged("EditingOrder");
+                }
+            }
+        }
+        
         public ICommand CreateOrder
         { get; set; }
 
         public ICommand SaveOrder
         { get; set; }
 
+        public ICommand EditOrder
+        { get; set; }
+
         public Orders1ViewModel()
         {
             this.CreateOrder = new RelayCommand(arg => CreateOrderMeth());
             this.SaveOrder = new RelayCommand(arg => SaveOrderMeth());
+            this.EditOrder = new RelayCommand(arg => EditOrderMethod());
             this.SelectedDate = DateTime.Now.ToString();
             this.tabConnectors = new Dictionary<string, ServerConnector>();
             ServerConnector sc = new ServerConnector();
@@ -118,68 +163,176 @@ namespace SUPClient
             this.tabOrganizations.RowChanged += Table_RowChanged;
             this.tabOrders.RowChanged += Table_RowChanged;
             this.tabOrderElements.RowChanged += Table_RowChanged;
+#if !Test
             var visitors = from vis in this.tabVisitors.AsEnumerable()
+                           join org in this.tabOrganizations.AsEnumerable()
+                           on vis.Field<int>("f_org_id") equals org.Field<int>("f_org_id")
+                           select new Visitor
+                           {
+                               VisitorInf = vis,
+                               OrganizationInf = org,
+                               VisID = vis.Field<int>("f_visitor_id"),
+                               FullName = vis.Field<string>("f_full_name"),
+                               Organization = org.Field<string>("f_full_org_name"),
+                               Family = vis.Field<string>("f_family"),
+                               FirstName = vis.Field<string>("f_fst_name"),
+                               LastName = vis.Field<string>("f_sec_name"),
+                               Job = vis.Field<string>("f_job"),
+                               DocSeria = vis.Field<string>("f_doc_seria"),
+                               DocNumber = vis.Field<string>("f_doc_num"),
+                               Phone = vis.Field<string>("f_phones")
+                           };
+            var ordersExt = from or in this.tabOrders.AsEnumerable()
+                            join vis in visitors
+                            on or.Field<int>("f_visitor_id") equals vis.VisID
+                            select new
+                            {
+                                Order = or,
+                                Person = vis
+                            };
+
+            var orders = from orel in this.tabOrderElements.AsEnumerable()
+                         join or in this.tabOrders.AsEnumerable()
+                         on orel.Field<int>("f_ord_id") equals or.Field<int>("f_ord_id")
+                         select new Order
+                         {
+                             OrderInf = or,
+                             OrderElemInf = orel,
+                             OrderID = orel.Field<int>("f_ord_id"),
+                             VisID = orel.Field<int>("f_visitor_id"),
+                             From = or.Field<DateTime>("f_date_from"),
+                             To = or.Field<DateTime>("f_date_to"),
+                             Status = or.Field<string>("f_notes"),
+                             Signed = or.Field<int>("f_signed_by"),
+                             Adjusted = or.Field<int>("f_adjusted_with"),
+                             OrderDate = or.Field<DateTime>("f_ord_date")
+                         };
+            var fullOrders = from visitor in visitors
+                             join order in orders
+                             on visitor.VisID equals order.VisID
+                             select new FullOrder
+                             {
+                                 VisitorInf = visitor.VisitorInf,
+                                 OrganizationInf = visitor.OrganizationInf,
+                                 OrderInf = order.OrderInf,
+                                 OrderElemInf = order.OrderElemInf,
+                                 OrderID = order.OrderID.ToString(),
+                                 FullName = visitor.FullName,
+                                 Organization = visitor.Organization,
+                                 From = order.From,
+                                 To = order.To,
+                                 Status = order.Status,
+                                 Signed = order.Signed,
+                                 Adjusted = order.Adjusted,
+                                 OrderDate = order.OrderDate,
+                                 Family = visitor.Family,
+                                 FirstName = visitor.FirstName,
+                                 LastName = visitor.LastName,
+                                 Job = visitor.Job,
+                                 DocSeria = visitor.DocSeria,
+                                 DocNumber = visitor.DocNumber,
+                                 Phone = visitor.Phone
+                             };
+            NewMethod();
+
+        }
+
+        private void NewMethod()
+        {
+            NewMethod();
+        }
+
+        private void NewMethod()
+        {
+#endif
+            Query();
+        }
+
+        private void Query()
+        {
+            var t = from p in this.tabOrganizations.AsEnumerable()
+                    select new Org
+                    {
+                        Id = p.Field<int>("f_org_id"),
+                        FullNameOrganization = p.Field<string>("f_full_org_name")
+                    };
+            this.Orgs = t;
+
+            var t1 = from p1 in this.tabVisitors.AsEnumerable()
+                     select new Peoples
+                     {
+                         Id = p1.Field<int>("f_visitor_id"),
+                         FullName = p1.Field<string>("f_full_name")
+                     };
+            this.AllPeoples = t1;
+
+            var a = from vis in this.tabVisitors.AsEnumerable()
                     join org in this.tabOrganizations.AsEnumerable()
                     on vis.Field<int>("f_org_id") equals org.Field<int>("f_org_id")
-                    select new Visitor {
-                        VisitorInf = vis,
-                        OrganizationInf = org,
-                        VisID = vis.Field<int>("f_visitor_id"),
-                        FullName = vis.Field<string>("f_full_name"),
-                        Organization = org.Field<string>("f_full_org_name"),
-                        Family = vis.Field<string>("f_family"),
-                        FirstName = vis.Field<string>("f_fst_name"),
-                        LastName = vis.Field<string>("f_sec_name"),
-                        Job = vis.Field<string>("f_job"),
-                        DocSeria = vis.Field<string>("f_doc_seria"),
-                        DocNumber = vis.Field<string>("f_doc_num")
-                    };
-            var orders = from orel in this.tabOrderElements.AsEnumerable()
-                    join or in this.tabOrders.AsEnumerable()
-                    on orel.Field<int>("f_ord_id") equals or.Field<int>("f_ord_id")
-                    select new Order
+                    select new
                     {
-                        OrderInf = or,
-                        OrderElemInf = orel,
-                        OrderID = orel.Field<int>("f_ord_id"),
-                        VisID = orel.Field<int>("f_visitor_id"),
-                        From = or.Field<DateTime>("f_date_from"),
-                        To = or.Field<DateTime>("f_date_to"),
-                        Status = or.Field<string>("f_notes"),
-                        Signed = or.Field<int>("f_signed_by"),
-                        Adjusted = or.Field<int>("f_adjusted_with"),
-                        OrderDate = or.Field<DateTime>("f_ord_date")
+                        Person = vis,
+                        Organization = org
                     };
-             var fullOrders = from visitor in visitors
-                    join order in orders
-                    on visitor.VisID equals order.VisID
-                    select new FullOrder
+            var b = from or in this.tabOrders.AsEnumerable()
+                    join per in a
+                    on or.Field<int>("f_signed_by") equals per.Person.Field<int>("f_visitor_id")
+                    select new
                     {
-                        VisitorInf = visitor.VisitorInf,
-                        OrganizationInf = visitor.OrganizationInf,
-                        OrderInf = order.OrderInf,
-                        OrderElemInf = order.OrderElemInf,
-                        OrderID = order.OrderID.ToString(),
-                        FullName = visitor.FullName,
-                        Organization = visitor.Organization,
-                        From = order.From,
-                        To = order.To,
-                        Status = order.Status,
-                        Signed = order.Signed,
-                        Adjusted = order.Adjusted,
-                        OrderDate = order.OrderDate,
-                        Family = visitor.Family,
-                        FirstName = visitor.FirstName,
-                        LastName = visitor.LastName,
-                        Job = visitor.Job,
-                        DocSeria = visitor.DocSeria,
-                        DocNumber = visitor.DocNumber
+                        Order = or,
+                        PersonSigned = per.Person,
+                        OrganizationSigned = per.Organization
                     };
+            var c = from or in b
+                    join per in a
+                    on or.Order.Field<int>("f_adjusted_with") equals per.Person.Field<int>("f_visitor_id")
+                    select new
+                    {
+                        Order = or.Order,
+                        PersonSigned = or.PersonSigned,
+                        OrganizationSigned = or.OrganizationSigned,
+                        PersonAdjusted = per.Person,
+                        OrganizationAdjusted = per.Organization
+                    };
+            var d = from orel in this.tabOrderElements.AsEnumerable()
+                    join or in c
+                    on orel.Field<int>("f_ord_id") equals or.Order.Field<int>("f_ord_id")
+                    select new
+                    {
+                        Order = or.Order,
+                        PersonSigned = or.PersonSigned,
+                        OrganizationSigned = or.OrganizationSigned,
+                        PersonAdjusted = or.PersonAdjusted,
+                        OrganizationAdjusted = or.OrganizationAdjusted,
+                        OrderElements = orel
+                    };
+            var fullOrders = from orel in d
+                             join vis in a
+                             on orel.OrderElements.Field<int>("f_visitor_id") equals vis.Person.Field<int>("f_visitor_id")
+                             select new FullOrder(this.Refresh)
+                             {
+                                 VisitorsTab = this.tabVisitors,
+                                 OrganizationsTab = this.tabOrganizations,
+                                 OrdersTab = this.tabOrders,
+                                 OrderElementsTab = this.tabOrderElements,
+                                 Order = orel.Order,
+                                 PersonSigned = orel.PersonSigned,
+                                 OrganizationSigned = orel.OrganizationSigned,
+                                 PersonAdjusted = orel.PersonAdjusted,
+                                 OrganizationAdjusted = orel.OrganizationAdjusted,
+                                 OrderElements = orel.OrderElements,
+                                 Visitor = vis.Person,
+                                 VisitorOrganization = vis.Organization
+                             };
             //IEnumerable<Tst> tsten = new List<Tst>() { new Tst() };
             //c = c.Union(tsten);
             //IEnumerable<Tst> tsten2 = new List<Tst>() { c.ElementAt(0) };
             //c = c.Except(tsten2);
             this.DView = fullOrders;
+            if (fullOrders.Count() > 0)
+            {
+                this.CurrentItem = fullOrders.ElementAt(0);
+            }
         }
 
         protected virtual void OnPropertyChanged(string propertyName)
@@ -217,14 +370,11 @@ namespace SUPClient
                 default:
                     break;
             }
-            /*if (e.Action == DataRowAction.Change)
-            {
-                
-            }*/
         }
 
         private void CreateOrderMeth()
         {
+#if !Test
             this.CurrentItem = new FullOrder();
             DataRow dr1, dr2, dr3, dr4;
             dr2 = this.tabOrganizations.NewRow();
@@ -242,6 +392,7 @@ namespace SUPClient
             dr3["f_visitor_id"] = dr1["f_visitor_id"];
             this.tabOrderElements.Rows.Add(dr3);
             this.CurrentItem.OrderElemInf = dr3;
+#endif
         }
 
         private void SaveOrderMeth()
@@ -250,7 +401,21 @@ namespace SUPClient
                 new List<FullOrder> { this.CurrentItem };
             this.DView.Union(unionFullOrd);
         }
+
+
+        private void EditOrderMethod()
+        {
+            this.EditingOrder = !this.EditingOrder;
+        }
+
+        private void Refresh()
+        {
+            this.Query();
+        }
+
     }
+
+#if !Test
 
     public class Visitor
     {
@@ -266,6 +431,7 @@ namespace SUPClient
         public string Job { get; set; }
         public string DocSeria { get; set; }
         public string DocNumber { get; set; }
+        public string Phone { get; set; }
     }
 
     public class Order
@@ -360,7 +526,8 @@ namespace SUPClient
                 if (this.family != value)
                 {
                     this.family = value;
-                    if (this.VisitorInf["f_family"] is DBNull || (string)this.VisitorInf["f_family"] != value)
+                    if (this.VisitorInf["f_family"] is DBNull || 
+                        (string)this.VisitorInf["f_family"] != value)
                     {
                         this.VisitorInf["f_family"] = value;
                     }
@@ -398,9 +565,22 @@ namespace SUPClient
                 }
             }
         }
+        public string Phone { get; set; }
         public string DocSeria { get; set; }
         public string DocNumber { get; set; }
         public string Job { get; set; }
     }
+#endif
 
+    public class Org
+    {
+        public int Id { get; set; }
+        public string FullNameOrganization { get; set; }
+    }
+
+    public class Peoples
+    {
+        public int Id { get; set; }
+        public string FullName { get; set; }
+    }
 }
