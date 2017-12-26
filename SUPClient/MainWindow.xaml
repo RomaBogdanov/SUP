@@ -66,7 +66,9 @@
             <TabItem Header="Заявки">
                 <local:Orders1View></local:Orders1View>
             </TabItem>
-            <TabItem Header="Посетители"></TabItem>
+            <TabItem Header="Посетители">
+                <local:Visitors1View></local:Visitors1View>
+            </TabItem>
         </TabControl>
     </Grid>
 </Window>
