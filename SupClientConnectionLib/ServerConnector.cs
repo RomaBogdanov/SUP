@@ -16,21 +16,21 @@ namespace SupClientConnectionLib
     /// Реализует паттерн одиночка для организации единого подключения
     /// из всех точек приложения.
     /// </remarks>
-    public class ServerConnector
+    public class ClientConnector
     {
-        private static ServerConnector connector;
+        private static ClientConnector connector;
         ITableService tableService;
         CompositeType compositeType;
 
         #region Public
 
-        public static ServerConnector CurrentConnector
+        public static ClientConnector CurrentConnector
         {
             get
             {
                 if (connector == null)
                 {
-                    connector = new ServerConnector();
+                    connector = new ClientConnector();
                     return connector;
                 }
                 return connector;
@@ -76,7 +76,7 @@ namespace SupClientConnectionLib
 
         #region Private
 
-        public ServerConnector()
+        public ClientConnector()
         {
             this.tableService = new TableServiceClient();
             this.compositeType = new CompositeType();

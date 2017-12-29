@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 14
-VisualStudioVersion = 14.0.25420.1
+# Visual Studio 15
+VisualStudioVersion = 15.0.27130.2010
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SupHost", "SupHost\SupHost.csproj", "{26CA47B8-6802-4D1E-93A8-B3B2F9B5EB57}"
 EndProject
@@ -19,6 +19,12 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SUPClient", "SUPClient\SUPClient.csproj", "{1AF477DA-8AF3-41D7-8CD9-BC9F8400F898}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SupClientConnectionLib", "SupClientConnectionLib\SupClientConnectionLib.csproj", "{82871529-5311-44BA-96A8-ADBE27300D03}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Databases", "Databases", "{BD16B3D5-58FA-4D9E-AA36-12073EC0875B}"
+	ProjectSection(SolutionItems) = preProject
+		Databases\CreateTestDatas.sql = Databases\CreateTestDatas.sql
+		Databases\CreateVisitors.sql = Databases\CreateVisitors.sql
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -53,5 +59,8 @@ Global
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {FB6BE81F-6EC8-4D12-9E75-A4D5FE727466}
 	EndGlobalSection
 EndGlobal

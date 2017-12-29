@@ -20,7 +20,7 @@ namespace SupTestClient
         private string queryName = "";
         private DataTable table = new DataTable();
         private DataView dv;
-        private ServerConnector connector;
+        private ClientConnector connector;
         private string testField = "";
         private object currentItem;
 
@@ -122,7 +122,7 @@ namespace SupTestClient
                     this.queriesDict.Add(t.ToString(), t);
                 }
             }
-            this.connector = ServerConnector.CurrentConnector;
+            this.connector = ClientConnector.CurrentConnector;
             this.DV = this.Table.AsDataView();
             this.DV.ListChanged += DV_ListChanged;
             ReceiveTable = new RelayCommand(arg => GetTable());

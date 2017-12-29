@@ -17,7 +17,7 @@ namespace SUPClient
     {
         public event PropertyChangedEventHandler PropertyChanged;
 
-        private Dictionary<string, ServerConnector> tabConnectors;
+        private Dictionary<string, ClientConnector> tabConnectors;
 
         private string selectedDate;
         private int countVisitors;
@@ -146,17 +146,17 @@ namespace SUPClient
             this.SaveOrder = new RelayCommand(arg => SaveOrderMeth());
             this.EditOrder = new RelayCommand(arg => EditOrderMethod());
             this.SelectedDate = DateTime.Now.ToString();
-            this.tabConnectors = new Dictionary<string, ServerConnector>();
-            ServerConnector sc = new ServerConnector();
+            this.tabConnectors = new Dictionary<string, ClientConnector>();
+            ClientConnector sc = new ClientConnector();
             this.tabVisitors = sc.GetTable(TableName.VisVisitors);
             this.tabConnectors.Add(this.tabVisitors.TableName, sc);
-            sc = new ServerConnector();
+            sc = new ClientConnector();
             this.tabOrganizations = sc.GetTable(TableName.VisOrganizations);
             this.tabConnectors.Add(this.tabOrganizations.TableName, sc);
-            sc = new ServerConnector();
+            sc = new ClientConnector();
             this.tabOrders = sc.GetTable(TableName.VisOrders);
             this.tabConnectors.Add(this.tabOrders.TableName, sc);
-            sc = new ServerConnector();
+            sc = new ClientConnector();
             this.tabOrderElements = sc.GetTable(TableName.VisOrderElements);
             this.tabConnectors.Add(this.tabOrderElements.TableName, sc);
             this.tabVisitors.RowChanged += Table_RowChanged;
