@@ -11,11 +11,6 @@ namespace SUPClient
     {
         private event Action OrderChange;
 
-        public FullOrder(Action action)
-        {
-            this.OrderChange = action;
-        }
-
         public DataTable VisitorsTab { get; set; }
         public DataTable OrganizationsTab { get; set; }
         public DataTable OrdersTab { get; set; }
@@ -281,5 +276,11 @@ namespace SUPClient
                 Order["f_notes"] = value;
             }
         }
+
+        public FullOrder(Action action)
+        {
+            this.OrderChange = action;
+        }
+
     }
 }
