@@ -24,6 +24,7 @@ namespace SupClientConnectionLib
 
         #region Public
 
+        //TODO: убрать синглтон из данного класса, т.к. он не используется.
         public static ClientConnector CurrentConnector
         {
             get
@@ -71,11 +72,7 @@ namespace SupClientConnectionLib
         {
             return this.tableService.DeleteRow(compositeType, numRow);
         }
-
-        #endregion
-
-        #region Private
-
+        
         public ClientConnector()
         {
             this.tableService = new TableServiceClient();

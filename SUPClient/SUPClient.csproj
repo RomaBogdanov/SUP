@@ -58,9 +58,15 @@
     <Compile Include="EnumerationClasses\Org.cs" />
     <Compile Include="EnumerationClasses\People.cs" />
     <Compile Include="Models\IOrders1Model.cs" />
+    <Compile Include="Models\Order1Model1.cs" />
+    <Compile Include="TabsSingleton\OrderElementsWrapper.cs" />
+    <Compile Include="TabsSingleton\OrdersWrapper.cs" />
+    <Compile Include="TabsSingleton\OrganizationsWrapper.cs" />
+    <Compile Include="TabsSingleton\TableWrapper.cs" />
     <Compile Include="Views\Visitors1View.xaml.cs">
       <DependentUpon>Visitors1View.xaml</DependentUpon>
     </Compile>
+    <Compile Include="TabsSingleton\VisitorsWrapper.cs" />
     <Page Include="MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
