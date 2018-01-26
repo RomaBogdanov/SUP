@@ -1,6 +1,4 @@
-﻿#define Refact
-
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -23,7 +21,7 @@ namespace SUPClient
         private string selectedDate;
         private int countVisitors;
         private int countCars;
-        private IEnumerable<FullOrder> dView;
+        private IEnumerable<FullOrder> fullOrders;
         private IEnumerable<Org> orgs;
         private IEnumerable<People> allPeoples;
         private FullOrder currentItem;
@@ -74,13 +72,13 @@ namespace SUPClient
             }
         }
 
-        public IEnumerable<FullOrder> DView
+        public IEnumerable<FullOrder> FullOrders
         {
-            get { return this.dView; }
+            get { return this.fullOrders; }
             set
             {
-                this.dView = value;
-                OnPropertyChanged("DView");
+                this.fullOrders = value;
+                OnPropertyChanged("FullOrders");
             }
         }
 

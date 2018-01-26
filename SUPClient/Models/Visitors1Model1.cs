@@ -9,37 +9,17 @@ using SupClientConnectionLib.ServiceRef;
 
 namespace SUPClient
 {
-    class Order1Model1 : IOrders1Model
+    class Visitors1Model1 : IVisitors1Model
     {
         private Dictionary<string, ClientConnector> tabConnectors;
         private DataTable tabVisitors;
         private DataTable tabOrganizations;
         private DataTable tabOrders;
         private DataTable tabOrderElements;
-        
-        private Orders1ViewModel viewModel;
 
-        public void CreateOrder()
-        {
-            this.CreateOrderMeth();
-        }
+        private Visitors1ViewModel viewModel;
 
-        public void DeleteOrder()
-        {
-            this.DeleteOrderMeth();
-        }
-
-        public void EditOrder()
-        {
-            this.EditOrderMeth();
-        }
-
-        public void SaveOrder()
-        {
-            this.SaveOrderMeth();
-        }
-
-        public Order1Model1(Orders1ViewModel viewModel)
+        public Visitors1Model1(Visitors1ViewModel viewModel)
         {
             this.viewModel = viewModel;
 
@@ -63,6 +43,7 @@ namespace SUPClient
             this.tabOrderElements.RowChanged += Table_RowChanged;
             this.Query();
         }
+
 
         private void Table_RowChanged(object sender, DataRowChangeEventArgs e)
         {
@@ -113,7 +94,7 @@ namespace SUPClient
                                     Id = p.Field<int>("f_org_id"),
                                     FullNameOrganization = p.Field<string>("f_full_org_name")
                                 };
-            this.viewModel.Orgs = organizations;
+            //this.viewModel.Orgs = organizations;
 
             var peoples = from p1 in this.tabVisitors.AsEnumerable()
                           select new People
@@ -121,7 +102,7 @@ namespace SUPClient
                               Id = p1.Field<int>("f_visitor_id"),
                               FullName = p1.Field<string>("f_full_name")
                           };
-            this.viewModel.AllPeoples = peoples;
+            //this.viewModel.AllPeoples = peoples;
 
             var personAllInfo = from vis in this.tabVisitors.AsEnumerable()
                                 join org in this.tabOrganizations.AsEnumerable()
@@ -190,57 +171,5 @@ namespace SUPClient
             this.Query();
         }
 
-        private void CreateOrderMeth()
-        {
-            FullOrder newOrder = new FullOrder(this.Refresh)
-            {
-                VisitorsTab = this.tabVisitors,
-                OrganizationsTab = this.tabOrganizations,
-                OrdersTab = this.tabOrders,
-                OrderElementsTab = this.tabOrderElements
-            };
-            newOrder.Order = this.tabOrders.NewRow();
-            DataRow dataRow = this.tabOrders.Select("f_ord_id=0")[0];
-            object[] objs = dataRow.ItemArray;
-            for (int i = 1; i < objs.Length; i++)
-            {
-                newOrder.Order[i] = dataRow[i];
-            }
-            this.tabOrders.Rows.Add(newOrder.Order);
-            newOrder.OrderElements = this.tabOrderElements.NewRow();
-            newOrder.OrderElements["f_ord_id"] = newOrder.Order["f_ord_id"];
-            newOrder.OrderElements["f_visitor_id"] = 0;
-            newOrder.OrderElements["f_passes"] = "";
-            this.tabOrderElements.Rows.Add(newOrder.OrderElements);
-            newOrder.PersonSigned = this.tabVisitors.Select("f_visitor_id='0'")[0];
-            newOrder.OrganizationSigned = this.tabOrganizations.Select("f_org_id='0'")[0];
-            newOrder.PersonAdjusted = this.tabVisitors.Select("f_visitor_id='0'")[0];
-            newOrder.OrganizationAdjusted = this.tabOrganizations.Select("f_org_id='0'")[0];
-            newOrder.Visitor = this.tabVisitors.Select("f_visitor_id='0'")[0];
-            newOrder.VisitorOrganization = this.tabOrganizations.Select("f_org_id='0'")[0];
-            this.viewModel.CurrentItem = newOrder;
-        }
-
-        private void SaveOrderMeth()
-        {
-            IEnumerable<FullOrder> unionFullOrd =
-                new List<FullOrder> { this.viewModel.CurrentItem };
-            this.viewModel.FullOrders.Union(unionFullOrd);
-        }
-
-
-        private void EditOrderMeth()
-        {
-            this.viewModel.EditingOrder = !this.viewModel.EditingOrder;
-        }
-
-        private void DeleteOrderMeth()
-        {
-            FullOrder fullOrder = this.viewModel.CurrentItem;
-            this.tabOrderElements.Rows.Remove(fullOrder.OrderElements);
-            this.tabOrders.Rows.Remove(fullOrder.Order);
-            this.viewModel.numOrd = "0";
-            this.Refresh();
-        }
     }
 }

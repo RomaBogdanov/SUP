@@ -57,6 +57,7 @@
     </ApplicationDefinition>
     <Compile Include="EnumerationClasses\Org.cs" />
     <Compile Include="EnumerationClasses\People.cs" />
+    <Compile Include="Models\IVisitors1Model.cs" />
     <Compile Include="Models\IOrders1Model.cs" />
     <Compile Include="Models\Order1Model1.cs" />
     <Compile Include="TabsSingleton\OrderElementsWrapper.cs" />
@@ -67,6 +68,8 @@
       <DependentUpon>Visitors1View.xaml</DependentUpon>
     </Compile>
     <Compile Include="TabsSingleton\VisitorsWrapper.cs" />
+    <Compile Include="ViewModels\Visitors1ViewModel.cs" />
+    <Compile Include="Models\Visitors1Model1.cs" />
     <Page Include="MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
