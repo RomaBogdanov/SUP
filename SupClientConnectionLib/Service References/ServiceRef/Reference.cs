@@ -158,6 +158,12 @@ namespace SupClientConnectionLib.ServiceRef {
         
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/ITableService/DeleteRow", ReplyAction="http://tempuri.org/ITableService/DeleteRowResponse")]
         System.Threading.Tasks.Task<bool> DeleteRowAsync(SupClientConnectionLib.ServiceRef.CompositeType composite, int rowNumber);
+        
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/ITableService/GetImage", ReplyAction="http://tempuri.org/ITableService/GetImageResponse")]
+        byte[] GetImage(int id);
+        
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/ITableService/GetImage", ReplyAction="http://tempuri.org/ITableService/GetImageResponse")]
+        System.Threading.Tasks.Task<byte[]> GetImageAsync(int id);
     }
     
     [System.CodeDom.Compiler.GeneratedCodeAttribute("System.ServiceModel", "4.0.0.0")]
@@ -233,6 +239,14 @@ namespace SupClientConnectionLib.ServiceRef {
         
         public System.Threading.Tasks.Task<bool> DeleteRowAsync(SupClientConnectionLib.ServiceRef.CompositeType composite, int rowNumber) {
             return base.Channel.DeleteRowAsync(composite, rowNumber);
+        }
+        
+        public byte[] GetImage(int id) {
+            return base.Channel.GetImage(id);
+        }
+        
+        public System.Threading.Tasks.Task<byte[]> GetImageAsync(int id) {
+            return base.Channel.GetImageAsync(id);
         }
     }
 }

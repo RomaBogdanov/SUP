@@ -24,6 +24,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Databases", "Databases", "{
 	ProjectSection(SolutionItems) = preProject
 		Databases\CreateTestDatas.sql = Databases\CreateTestDatas.sql
 		Databases\CreateVisitors.sql = Databases\CreateVisitors.sql
+		CreateVisitorsBaseData.sql = CreateVisitorsBaseData.sql
 	EndProjectSection
 EndProject
 Global

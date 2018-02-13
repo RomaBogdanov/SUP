@@ -72,6 +72,11 @@ namespace SupClientConnectionLib
         {
             return this.tableService.DeleteRow(compositeType, numRow);
         }
+
+        public byte[] GetImage(int id)
+        {
+            return this.tableService.GetImage(id);
+        }
         
         public ClientConnector()
         {

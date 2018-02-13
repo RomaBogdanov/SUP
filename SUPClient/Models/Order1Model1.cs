@@ -182,7 +182,14 @@ namespace SUPClient
                                  VisitorOrganization = vis.Organization
                              };
             this.viewModel.FullOrders = fullOrders;
-            this.viewModel.CurrentItem = fullOrders.First(p => p.OrderID == this.viewModel.numOrd);
+            try
+            {
+                this.viewModel.CurrentItem = fullOrders.First(p => p.OrderID == this.viewModel.numOrd);
+            }
+            catch (Exception)
+            {
+                this.viewModel.CurrentItem = fullOrders.First();
+            }
         }
 
         private void Refresh()
@@ -211,6 +218,11 @@ namespace SUPClient
             newOrder.OrderElements["f_ord_id"] = newOrder.Order["f_ord_id"];
             newOrder.OrderElements["f_visitor_id"] = 0;
             newOrder.OrderElements["f_passes"] = "";
+            newOrder.OrderElements["f_catcher_id"] = 0;
+            newOrder.OrderElements["f_time_from"] = DateTime.Now;
+            newOrder.OrderElements["f_time_to"] = DateTime.Now;
+            newOrder.OrderElements["f_rec_date"] = DateTime.Now;
+            newOrder.OrderElements["f_rec_operator"] = 0;
             this.tabOrderElements.Rows.Add(newOrder.OrderElements);
             newOrder.PersonSigned = this.tabVisitors.Select("f_visitor_id='0'")[0];
             newOrder.OrganizationSigned = this.tabOrganizations.Select("f_org_id='0'")[0];

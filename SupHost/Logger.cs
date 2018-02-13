@@ -30,6 +30,13 @@ namespace SupHost
             }
         }
 
+        public void Debug(string message)
+        {
+            Console.ForegroundColor = ConsoleColor.DarkMagenta;
+            Console.WriteLine("{0}  DEBUG: {1}", DateTime.Now, message);
+            Console.ResetColor();
+        }
+
         public void Info(string message)
         {
             Console.ForegroundColor = ConsoleColor.Green;

@@ -12,13 +12,15 @@ namespace SupHost
     abstract class AbstractTableWrapper
     {
         private static Dictionary<string, AbstractTableWrapper> wrappers;
-
+        private Logger logger = Logger.CurrentLogger;
         protected DataTable table;
 
         protected ITableBehavior getTableBehavior;
 
         static AbstractTableWrapper()
         {
+            //TODO: сделать со всем этим колхозом что-нибуть. Например: 
+            //вынести в конфиг и создавать через рефлексию и фабрику.
             wrappers = new Dictionary<string, AbstractTableWrapper>();
             wrappers.Add(TableName.TestTable1.ToString(), new TestTable1Wrapper());
             wrappers.Add(TableName.TestTable2Ado.ToString(), new TestTable2AdoWrapper());
@@ -51,13 +53,14 @@ namespace SupHost
                 {
                     dr[this.table.Columns[i]] = values[i];
                 }
-                catch (Exception)
+                catch (Exception err)
                 {
-                    
+                    this.logger.Error(err.Message + err.StackTrace);
                 }
             }
             this.table.Rows.Add(dr);
             this.getTableBehavior.InsertRow();
+            this.logger.Debug($"В таблице {this.table.TableName} добавлена строка");
             return true;
         }
 
@@ -70,12 +73,13 @@ namespace SupHost
                 {
                     dr[this.table.Columns[i]] = values[i];
                 }
-                catch (Exception)
+                catch (Exception err)
                 {
-
+                    this.logger.Error(err.Message + err.StackTrace);
                 }
             }
             this.getTableBehavior.UpdateRow();
+            this.logger.Debug($"В таблице {this.table.TableName} отредактирована строка");
             return true;
         }
 
@@ -83,6 +87,7 @@ namespace SupHost
         {
             this.table.Rows[numRow].Delete();
             this.getTableBehavior.DeleteRow();
+            this.logger.Debug($"В таблице {this.table.TableName} удалена строка");
             return true;
         }
     }

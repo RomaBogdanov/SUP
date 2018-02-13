@@ -6,6 +6,8 @@ using System.Threading.Tasks;
 using System.Data;
 using SupClientConnectionLib;
 using SupClientConnectionLib.ServiceRef;
+using System.IO;
+using System.Windows.Media.Imaging;
 
 namespace SUPClient
 {
@@ -44,10 +46,26 @@ namespace SUPClient
             this.Query();
         }
 
+        /// <summary>
+        /// Получает фотографию визитёра соответствующего заявке.
+        /// </summary>
+        /// <param name="fullOrder"></param>
+        public void GetImage(FullOrder fullOrder)
+        {
+            ClientConnector connector = new ClientConnector();
+            byte[] b = connector.GetImage((int)fullOrder.Visitor["f_visitor_id"]);
+            MemoryStream memoryStream = new MemoryStream(b);
+            BitmapImage im = new BitmapImage();
+            im.BeginInit();
+            im.StreamSource = memoryStream;
+            im.EndInit();
+            this.viewModel.Picture = im;
+        }
 
         private void Table_RowChanged(object sender, DataRowChangeEventArgs e)
         {
-            DataTable dt;
+            Refresh();
+            /*DataTable dt;
             switch (e.Action)
             {
                 case DataRowAction.Nothing:
@@ -73,14 +91,14 @@ namespace SUPClient
                     break;
                 default:
                     break;
-            }
+            }*/
         }
 
         private void Table_RowDeleting(object sender, DataRowChangeEventArgs e)
-        {
+        {/*
             DataTable dataTable = (DataTable)sender;
             int i = dataTable.Rows.IndexOf(e.Row);
-            this.tabConnectors[dataTable.TableName].DeleteRow(i);
+            this.tabConnectors[dataTable.TableName].DeleteRow(i);*/
         }
 
         /// <summary>
@@ -163,13 +181,20 @@ namespace SUPClient
                                  VisitorOrganization = vis.Organization
                              };
             this.viewModel.FullOrders = fullOrders;
-            this.viewModel.CurrentItem = fullOrders.First(p => p.OrderID == this.viewModel.numOrd);
+            try
+            {
+                this.viewModel.CurrentItem = fullOrders.First(p => p.OrderID == this.viewModel.numOrd);
+            }
+            catch (Exception)
+            {
+                this.viewModel.CurrentItem = fullOrders.First();
+            }
+            this.GetImage(this.viewModel.CurrentItem);
         }
 
         private void Refresh()
         {
             this.Query();
         }
-
     }
 }

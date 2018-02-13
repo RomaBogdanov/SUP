@@ -6,7 +6,8 @@ using System.Threading.Tasks;
 
 namespace SUPClient
 {
-    class IVisitors1Model
+    interface IVisitors1Model
     {
+        void GetImage(FullOrder fullOrder);
     }
 }

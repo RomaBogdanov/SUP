@@ -5,6 +5,8 @@ using System.Text;
 using System.Threading.Tasks;
 using System.ComponentModel;
 using System.Windows.Input;
+using System.IO;
+using System.Windows.Media.Imaging;
 
 namespace SUPClient
 {
@@ -14,7 +16,7 @@ namespace SUPClient
         IVisitors1Model visitors1Model;
         private IEnumerable<FullOrder> fullOrders;
         private FullOrder currentItem;
-
+        private BitmapImage picture;
         public string numOrd = "0";
 
         public IEnumerable<FullOrder> FullOrders
@@ -36,6 +38,20 @@ namespace SUPClient
                     this.currentItem = value;
                     this.numOrd = currentItem.OrderID;
                     OnPropertyChanged("CurrentItem");
+                    this.visitors1Model?.GetImage(this.currentItem);
+                }
+            }
+        }
+
+        public BitmapImage Picture
+        {
+            get { return this.picture; }
+            set
+            {
+                if (this.picture != value)
+                {
+                    this.picture = value;
+                    OnPropertyChanged("Picture");
                 }
             }
         }

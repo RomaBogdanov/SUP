@@ -15,7 +15,7 @@ namespace SupContract
     /// <summary>
     /// Контракт для синхронизации логических таблиц сервера и клиента.
     /// </summary>
-    [ServiceContract]
+    [ServiceContract(ProtectionLevel = System.Net.Security.ProtectionLevel.None)]
     public interface ITableService
     {
         [OperationContract]
@@ -59,6 +59,13 @@ namespace SupContract
         /// <returns></returns>
         [OperationContract]
         bool DeleteRow(CompositeType composite, int rowNumber);
+
+        /// <summary>
+        /// Процедура получения изображения в виде набора байтов.
+        /// </summary>
+        /// <returns></returns>
+        [OperationContract]
+        byte[] GetImage(int id);
     }
 
     // Используйте контракт данных, как показано на следующем примере, чтобы добавить сложные типы к сервисным операциям.

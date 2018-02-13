@@ -94,7 +94,7 @@
                     <RowDefinition Height="26"></RowDefinition>
                 </Grid.RowDefinitions>
                 <Rectangle Grid.Row="0" Margin="1" Stroke="Black"></Rectangle>
-                <Image Grid.Row="0" Margin="2"></Image>
+                <Image Grid.Row="0" Margin="2" Source="{Binding Picture, Mode=TwoWay}"></Image>
                 <CheckBox Grid.Row="1" Margin="2" Content="Использовать фото" VerticalAlignment="Center" HorizontalAlignment="Center"></CheckBox>
             </Grid>
             

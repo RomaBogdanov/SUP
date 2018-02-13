@@ -10,13 +10,25 @@
         <local:ViewModel/>
     </Window.DataContext>
     <Grid>
-        <DataGrid x:Name="dataGrid" HorizontalAlignment="Stretch"  Margin="10,100,10,10" VerticalAlignment="Stretch" Grid.ColumnSpan="2" ItemsSource="{Binding DV, Mode=TwoWay}" CurrentItem="{Binding CurrentItem, Mode=TwoWay}"/>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="80"></RowDefinition>
+            <RowDefinition Height="*"></RowDefinition>
+        </Grid.RowDefinitions>
+        
         <Label x:Name="label" Content="Выберите запрос:" HorizontalAlignment="Left" Margin="10,10,0,0" VerticalAlignment="Top"/>
         <ComboBox x:Name="comboBox" HorizontalAlignment="Left" Margin="123,14,0,0" VerticalAlignment="Top" Width="235" ItemsSource="{Binding QueriesList}" Text="{Binding QueryName, Mode=TwoWay}"/>
         <Button x:Name="button" Content="Отправить запрос" HorizontalAlignment="Left" Margin="363,14,0,0" VerticalAlignment="Top" Width="130" Height="22" Command="{Binding ReceiveTable}"/>
         <Label x:Name="label1" Content="Тестовое поле:" HorizontalAlignment="Left" Margin="10,41,0,0" VerticalAlignment="Top"/>
         <TextBox x:Name="textBox" HorizontalAlignment="Left" Height="23" Margin="123,45,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="235" Text="{Binding TestField, Mode=TwoWay}"/>
         <Button x:Name="button1" Content="Удалить строку" HorizontalAlignment="Left" Margin="498,14,0,0" VerticalAlignment="Top" Width="130" Height="22" Command="{Binding DeleteRow}" CommandParameter="{Binding CurrentItem}"/>
-
+        <Button Content="Получить изображение" HorizontalAlignment="Left" Margin="363,45,0,0" VerticalAlignment="Top" Width="130" Command="{Binding GetImage}"/>
+        <Grid Grid.Row="1">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="3*"></ColumnDefinition>
+                <ColumnDefinition Width="1*"></ColumnDefinition>
+            </Grid.ColumnDefinitions>
+            <DataGrid x:Name="dataGrid" HorizontalAlignment="Stretch"  Margin="10,10,10,10" VerticalAlignment="Stretch" ItemsSource="{Binding DV, Mode=TwoWay}" CurrentItem="{Binding CurrentItem, Mode=TwoWay}"/>
+            <Image Grid.Column="1" Source="{Binding Picture, Mode=TwoWay}" Margin="10"></Image>
+        </Grid>
     </Grid>
 </Window>

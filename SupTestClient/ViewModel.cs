@@ -8,6 +8,8 @@ using System.Data;
 using System.Windows.Input;
 using SupClientConnectionLib;
 using SupClientConnectionLib.ServiceRef;
+using System.IO;
+using System.Windows.Media.Imaging;
 
 namespace SupTestClient
 {
@@ -23,6 +25,7 @@ namespace SupTestClient
         private ClientConnector connector;
         private string testField = "";
         private object currentItem;
+        private BitmapImage picture;
 
         #region Public
 
@@ -105,10 +108,26 @@ namespace SupTestClient
             }
         }
 
+        public BitmapImage Picture
+        {
+            get { return this.picture; }
+            set
+            {
+                if (this.picture != value)
+                {
+                    this.picture = value;
+                    OnPropertyChanged("Picture");
+                }
+            }
+        }
+
         public ICommand ReceiveTable
         { get; set; }
 
         public ICommand DeleteRow
+        { get; set; }
+
+        public ICommand GetImage
         { get; set; }
 
         public ViewModel()
@@ -127,8 +146,9 @@ namespace SupTestClient
             this.DV.ListChanged += DV_ListChanged;
             ReceiveTable = new RelayCommand(arg => GetTable());
             DeleteRow = new RelayCommand(arg => DelRow(arg));
+            GetImage = new RelayCommand(arg => GImage());
         }
-        
+
         #endregion
 
         protected virtual void OnPropertyChanged(string propertyName)
@@ -141,10 +161,18 @@ namespace SupTestClient
 
         private void GetTable()
         {
-            this.Table = this.connector.GetTable(this.queriesDict[this.QueryName]);
-            this.DV = this.Table.AsDataView();
-            this.DV.ListChanged += DV_ListChanged;
-            this.TestField = this.DV.AllowNew.ToString();    
+            try
+            {
+                this.Table = this.connector.GetTable(this.queriesDict[this.QueryName]);
+                this.DV = this.Table.AsDataView();
+                this.DV.ListChanged += DV_ListChanged;
+                this.TestField = this.DV.AllowNew.ToString();
+            }
+            catch (Exception err)
+            {
+                TestField = $"{err.Message}: {err.StackTrace}";
+                
+            }
         }
 
         private void DelRow(object arg)
@@ -172,7 +200,19 @@ namespace SupTestClient
                 this.connector.DeleteRow(e.NewIndex);
             }
         }
-        
+
+        private void GImage()
+        {
+            byte[] b = this.connector.GetImage(3);
+            MemoryStream memoryStream = new MemoryStream(b);
+            //Picture = memoryStream;
+            BitmapImage im = new BitmapImage();
+            im.BeginInit();
+            im.StreamSource = memoryStream;
+            im.EndInit();
+            Picture = im;
+        }
+
         #endregion
 
     }
