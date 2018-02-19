@@ -23,9 +23,8 @@ namespace SUPClient
             return currentTable;
         }
 
-        private VisitorsWrapper()
+        private VisitorsWrapper() : base()
         {
-            this.connector = new ClientConnector();
             this.table = connector.GetTable(TableName.VisVisitors);
         }
     }

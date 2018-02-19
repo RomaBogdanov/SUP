@@ -22,9 +22,8 @@ namespace SUPClient
             return currentTable;
         }
 
-        private OrderElementsWrapper()
+        private OrderElementsWrapper() : base()
         {
-            this.connector = new ClientConnector();
             this.table = connector.GetTable(TableName.VisOrderElements);
         }
     }

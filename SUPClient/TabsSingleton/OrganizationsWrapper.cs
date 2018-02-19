@@ -22,9 +22,8 @@ namespace SUPClient
             return currentTable;
         }
 
-        private OrganizationsWrapper()
+        private OrganizationsWrapper() : base()
         {
-            this.connector = new ClientConnector();
             this.table = connector.GetTable(TableName.VisOrganizations);
         }
     }

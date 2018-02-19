@@ -95,10 +95,12 @@ namespace SUPClient
         }
 
         private void Table_RowDeleting(object sender, DataRowChangeEventArgs e)
-        {/*
+        {
+            /*
             DataTable dataTable = (DataTable)sender;
             int i = dataTable.Rows.IndexOf(e.Row);
-            this.tabConnectors[dataTable.TableName].DeleteRow(i);*/
+            this.tabConnectors[dataTable.TableName].DeleteRow(i);
+            */
         }
 
         /// <summary>
