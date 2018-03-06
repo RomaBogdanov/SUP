@@ -130,43 +130,55 @@ namespace SupClientConnectionLib.ServiceRef {
         System.Threading.Tasks.Task<SupClientConnectionLib.ServiceRef.CompositeType> GetDataUsingDataContractAsync(SupClientConnectionLib.ServiceRef.CompositeType composite);
         
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/ITableService/GetTable", ReplyAction="http://tempuri.org/ITableService/GetTableResponse")]
-        System.Data.DataTable GetTable(SupClientConnectionLib.ServiceRef.CompositeType composite);
+        System.Data.DataTable GetTable(SupClientConnectionLib.ServiceRef.CompositeType composite, string login);
         
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/ITableService/GetTable", ReplyAction="http://tempuri.org/ITableService/GetTableResponse")]
-        System.Threading.Tasks.Task<System.Data.DataTable> GetTableAsync(SupClientConnectionLib.ServiceRef.CompositeType composite);
+        System.Threading.Tasks.Task<System.Data.DataTable> GetTableAsync(SupClientConnectionLib.ServiceRef.CompositeType composite, string login);
         
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/ITableService/InsertRow", ReplyAction="http://tempuri.org/ITableService/InsertRowResponse")]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(SupClientConnectionLib.ServiceRef.CompositeType))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(SupClientConnectionLib.ServiceRef.TableName))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(object[]))]
-        bool InsertRow(SupClientConnectionLib.ServiceRef.CompositeType composite, object[] objs);
+        bool InsertRow(SupClientConnectionLib.ServiceRef.CompositeType composite, object[] objs, string login);
         
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/ITableService/InsertRow", ReplyAction="http://tempuri.org/ITableService/InsertRowResponse")]
-        System.Threading.Tasks.Task<bool> InsertRowAsync(SupClientConnectionLib.ServiceRef.CompositeType composite, object[] objs);
+        System.Threading.Tasks.Task<bool> InsertRowAsync(SupClientConnectionLib.ServiceRef.CompositeType composite, object[] objs, string login);
         
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/ITableService/UpdateRow", ReplyAction="http://tempuri.org/ITableService/UpdateRowResponse")]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(SupClientConnectionLib.ServiceRef.CompositeType))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(SupClientConnectionLib.ServiceRef.TableName))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(object[]))]
-        bool UpdateRow(SupClientConnectionLib.ServiceRef.CompositeType composite, int rowNumber, object[] objs);
+        bool UpdateRow(SupClientConnectionLib.ServiceRef.CompositeType composite, int rowNumber, object[] objs, string login);
         
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/ITableService/UpdateRow", ReplyAction="http://tempuri.org/ITableService/UpdateRowResponse")]
-        System.Threading.Tasks.Task<bool> UpdateRowAsync(SupClientConnectionLib.ServiceRef.CompositeType composite, int rowNumber, object[] objs);
+        System.Threading.Tasks.Task<bool> UpdateRowAsync(SupClientConnectionLib.ServiceRef.CompositeType composite, int rowNumber, object[] objs, string login);
         
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/ITableService/DeleteRow", ReplyAction="http://tempuri.org/ITableService/DeleteRowResponse")]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(SupClientConnectionLib.ServiceRef.CompositeType))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(SupClientConnectionLib.ServiceRef.TableName))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(object[]))]
-        bool DeleteRow(SupClientConnectionLib.ServiceRef.CompositeType composite, object[] row);
+        bool DeleteRow(SupClientConnectionLib.ServiceRef.CompositeType composite, object[] row, string login);
         
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/ITableService/DeleteRow", ReplyAction="http://tempuri.org/ITableService/DeleteRowResponse")]
-        System.Threading.Tasks.Task<bool> DeleteRowAsync(SupClientConnectionLib.ServiceRef.CompositeType composite, object[] row);
+        System.Threading.Tasks.Task<bool> DeleteRowAsync(SupClientConnectionLib.ServiceRef.CompositeType composite, object[] row, string login);
         
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/ITableService/GetImage", ReplyAction="http://tempuri.org/ITableService/GetImageResponse")]
-        byte[] GetImage(int id);
+        byte[] GetImage(int id, string login);
         
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/ITableService/GetImage", ReplyAction="http://tempuri.org/ITableService/GetImageResponse")]
-        System.Threading.Tasks.Task<byte[]> GetImageAsync(int id);
+        System.Threading.Tasks.Task<byte[]> GetImageAsync(int id, string login);
+        
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/ITableService/Authorize", ReplyAction="http://tempuri.org/ITableService/AuthorizeResponse")]
+        bool Authorize(string login, string pass);
+        
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/ITableService/Authorize", ReplyAction="http://tempuri.org/ITableService/AuthorizeResponse")]
+        System.Threading.Tasks.Task<bool> AuthorizeAsync(string login, string pass);
+        
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/ITableService/ExitAuthorize", ReplyAction="http://tempuri.org/ITableService/ExitAuthorizeResponse")]
+        bool ExitAuthorize(string login);
+        
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/ITableService/ExitAuthorize", ReplyAction="http://tempuri.org/ITableService/ExitAuthorizeResponse")]
+        System.Threading.Tasks.Task<bool> ExitAuthorizeAsync(string login);
     }
     
     [System.CodeDom.Compiler.GeneratedCodeAttribute("System.ServiceModel", "4.0.0.0")]
@@ -235,44 +247,60 @@ namespace SupClientConnectionLib.ServiceRef {
             return base.Channel.GetDataUsingDataContractAsync(composite);
         }
         
-        public System.Data.DataTable GetTable(SupClientConnectionLib.ServiceRef.CompositeType composite) {
-            return base.Channel.GetTable(composite);
+        public System.Data.DataTable GetTable(SupClientConnectionLib.ServiceRef.CompositeType composite, string login) {
+            return base.Channel.GetTable(composite, login);
         }
         
-        public System.Threading.Tasks.Task<System.Data.DataTable> GetTableAsync(SupClientConnectionLib.ServiceRef.CompositeType composite) {
-            return base.Channel.GetTableAsync(composite);
+        public System.Threading.Tasks.Task<System.Data.DataTable> GetTableAsync(SupClientConnectionLib.ServiceRef.CompositeType composite, string login) {
+            return base.Channel.GetTableAsync(composite, login);
         }
         
-        public bool InsertRow(SupClientConnectionLib.ServiceRef.CompositeType composite, object[] objs) {
-            return base.Channel.InsertRow(composite, objs);
+        public bool InsertRow(SupClientConnectionLib.ServiceRef.CompositeType composite, object[] objs, string login) {
+            return base.Channel.InsertRow(composite, objs, login);
         }
         
-        public System.Threading.Tasks.Task<bool> InsertRowAsync(SupClientConnectionLib.ServiceRef.CompositeType composite, object[] objs) {
-            return base.Channel.InsertRowAsync(composite, objs);
+        public System.Threading.Tasks.Task<bool> InsertRowAsync(SupClientConnectionLib.ServiceRef.CompositeType composite, object[] objs, string login) {
+            return base.Channel.InsertRowAsync(composite, objs, login);
         }
         
-        public bool UpdateRow(SupClientConnectionLib.ServiceRef.CompositeType composite, int rowNumber, object[] objs) {
-            return base.Channel.UpdateRow(composite, rowNumber, objs);
+        public bool UpdateRow(SupClientConnectionLib.ServiceRef.CompositeType composite, int rowNumber, object[] objs, string login) {
+            return base.Channel.UpdateRow(composite, rowNumber, objs, login);
         }
         
-        public System.Threading.Tasks.Task<bool> UpdateRowAsync(SupClientConnectionLib.ServiceRef.CompositeType composite, int rowNumber, object[] objs) {
-            return base.Channel.UpdateRowAsync(composite, rowNumber, objs);
+        public System.Threading.Tasks.Task<bool> UpdateRowAsync(SupClientConnectionLib.ServiceRef.CompositeType composite, int rowNumber, object[] objs, string login) {
+            return base.Channel.UpdateRowAsync(composite, rowNumber, objs, login);
         }
         
-        public bool DeleteRow(SupClientConnectionLib.ServiceRef.CompositeType composite, object[] row) {
-            return base.Channel.DeleteRow(composite, row);
+        public bool DeleteRow(SupClientConnectionLib.ServiceRef.CompositeType composite, object[] row, string login) {
+            return base.Channel.DeleteRow(composite, row, login);
         }
         
-        public System.Threading.Tasks.Task<bool> DeleteRowAsync(SupClientConnectionLib.ServiceRef.CompositeType composite, object[] row) {
-            return base.Channel.DeleteRowAsync(composite, row);
+        public System.Threading.Tasks.Task<bool> DeleteRowAsync(SupClientConnectionLib.ServiceRef.CompositeType composite, object[] row, string login) {
+            return base.Channel.DeleteRowAsync(composite, row, login);
         }
         
-        public byte[] GetImage(int id) {
-            return base.Channel.GetImage(id);
+        public byte[] GetImage(int id, string login) {
+            return base.Channel.GetImage(id, login);
         }
         
-        public System.Threading.Tasks.Task<byte[]> GetImageAsync(int id) {
-            return base.Channel.GetImageAsync(id);
+        public System.Threading.Tasks.Task<byte[]> GetImageAsync(int id, string login) {
+            return base.Channel.GetImageAsync(id, login);
+        }
+        
+        public bool Authorize(string login, string pass) {
+            return base.Channel.Authorize(login, pass);
+        }
+        
+        public System.Threading.Tasks.Task<bool> AuthorizeAsync(string login, string pass) {
+            return base.Channel.AuthorizeAsync(login, pass);
+        }
+        
+        public bool ExitAuthorize(string login) {
+            return base.Channel.ExitAuthorize(login);
+        }
+        
+        public System.Threading.Tasks.Task<bool> ExitAuthorizeAsync(string login) {
+            return base.Channel.ExitAuthorizeAsync(login);
         }
     }
 }

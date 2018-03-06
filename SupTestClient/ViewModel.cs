@@ -17,7 +17,7 @@ namespace SupTestClient
     {
         public event PropertyChangedEventHandler PropertyChanged;
         private List<string> queriesList = new List<string>();
-        private Dictionary<string, TableName> queriesDict = 
+        private Dictionary<string, TableName> queriesDict =
             new Dictionary<string, TableName>();
         private string queryName = "";
         private DataTable table = new DataTable();
@@ -28,7 +28,51 @@ namespace SupTestClient
         private BitmapImage picture;
         private string msgs = "";
 
+        private string login;
+        private string password;
+        bool IsAuthorization = false;
+        private string enterButtonContent = "Войти";
+
         #region Public
+
+        public string EnterButtonContent
+        {
+            get { return this.enterButtonContent; }
+            set
+            {
+                if (this.enterButtonContent != value)
+                {
+                    this.enterButtonContent = value;
+                    OnPropertyChanged("EnterButtonContent");
+                }
+            }
+        }
+
+        public string Login
+        {
+            get { return this.login; }
+            set
+            {
+                if (this.login != value)
+                {
+                    this.login = value;
+                    OnPropertyChanged("Login");
+                }
+            }
+        }
+
+        public string Password
+        {
+            get { return this.password; }
+            set
+            {
+                if (this.password != value)
+                {
+                    this.password = value;
+                    OnPropertyChanged("Password");
+                }
+            }
+        }
 
         public object CurrentItem
         {
@@ -144,6 +188,9 @@ namespace SupTestClient
         public ICommand GetImage
         { get; set; }
 
+        public ICommand Enter
+        { get; set; }
+
         public ViewModel()
         {
             for (int i = 0; i < 100; i++)
@@ -164,6 +211,7 @@ namespace SupTestClient
             ReceiveTable = new RelayCommand(arg => GetTable());
             DeleteRow = new RelayCommand(arg => DelRow(arg));
             GetImage = new RelayCommand(arg => GImage());
+            Enter = new RelayCommand(arg => Entering());
         }
 
         private void Connector_OnInsert(string tableName, object[] objs)
@@ -264,6 +312,29 @@ namespace SupTestClient
             im.StreamSource = memoryStream;
             im.EndInit();
             Picture = im;
+        }
+
+        private void Entering()
+        {
+            if (IsAuthorization)
+            {
+                this.connector.ExitAuthorize();
+                IsAuthorization = false;
+                this.EnterButtonContent = "Войти";
+            }
+            else
+            {
+                if (this.connector.Authorize(Login, Password))
+                {
+                    IsAuthorization = true;
+                    this.EnterButtonContent = "Выйти";
+                }
+                else
+                {
+                    IsAuthorization = false;
+                    this.EnterButtonContent = "Войти";
+                }
+            }
         }
 
         #endregion

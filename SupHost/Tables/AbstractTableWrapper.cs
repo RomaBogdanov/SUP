@@ -16,7 +16,7 @@ namespace SupHost
         public event Action<string, object[]> OnDeleteRow;
 
         private static Dictionary<string, AbstractTableWrapper> wrappers;
-        private Logger logger = Logger.CurrentLogger;
+        protected Logger logger = Logger.CurrentLogger;
         protected DataTable table;
 
         protected ITableBehavior getTableBehavior;

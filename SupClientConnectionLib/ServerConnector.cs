@@ -23,6 +23,7 @@ namespace SupClientConnectionLib
         private static ClientConnector connector;
         ITableService tableService;
         CompositeType compositeType;
+        Authorizer authorizer;
 
         public event Action<string, object[]> OnInsert;
         public event Action<string, int, object[]> OnUpdate;
@@ -44,10 +45,22 @@ namespace SupClientConnectionLib
             }
         }
 
+        public bool Authorize(string login, string pass)
+        {
+            authorizer.Login = login;
+            return this.tableService.Authorize(authorizer.Login, pass);
+        }
+
+        public bool ExitAuthorize()
+        {
+            return this.tableService.ExitAuthorize(authorizer.Login);
+        }
+
         public DataTable GetTable(TableName tableName)
         {
             this.compositeType.TableName = tableName;
-            return this.tableService.GetTable(this.compositeType);
+            return this.tableService.GetTable(this.compositeType, 
+                authorizer.Login);
         }
 
         public bool InsertRow(object[] rowValues)
@@ -62,7 +75,8 @@ namespace SupClientConnectionLib
             bool b;
             lock (this.tableService)
             {
-                b = this.tableService.InsertRow(compositeType, rowValues);
+                b = this.tableService.InsertRow(compositeType, rowValues, 
+                    authorizer.Login);
             }
             return b;
         }
@@ -76,21 +90,24 @@ namespace SupClientConnectionLib
                     rowValues[i] = "";
                 }
             }
-            return this.tableService.UpdateRow(compositeType, numRow, rowValues);
+            return this.tableService.UpdateRow(compositeType, numRow, 
+                rowValues, authorizer.Login);
         }
 
         public bool DeleteRow(object[] objs)
         {
-            return this.tableService.DeleteRow(compositeType, objs);
+            return this.tableService.DeleteRow(compositeType, objs, 
+                authorizer.Login);
         }
 
         public byte[] GetImage(int id)
         {
-            return this.tableService.GetImage(id);
+            return this.tableService.GetImage(id, authorizer.Login);
         }
         
         public ClientConnector()
         {
+            authorizer = Authorizer.AppAuthorizer;
             NewMessageHandler messageHandler = new NewMessageHandler();
             messageHandler.OnInsert += MessageHandler_OnInsert;
             messageHandler.OnUpdate += MessageHandler_OnUpdate;
@@ -105,7 +122,8 @@ namespace SupClientConnectionLib
             this.OnInsert?.Invoke(tableName, objs);
         }
 
-        private void MessageHandler_OnUpdate(string tableName, int rowNumber, object[] objs)
+        private void MessageHandler_OnUpdate(string tableName, int rowNumber, 
+            object[] objs)
         {
             this.OnUpdate?.Invoke(tableName, rowNumber, objs);
         }

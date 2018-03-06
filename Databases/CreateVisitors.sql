@@ -425,14 +425,20 @@ ALTER TABLE vis_spr_order_types
 ADD PRIMARY KEY (f_order_type_id)
 
 -- Создание vis_users
+if OBJECT_ID('vis_users','U') is not null
+   drop table vis_users;
+go
 
 CREATE TABLE vis_users
-    (f_user_id                     int NOT NULL,
-    f_user                         VARCHAR(50),
+    (f_user_id                     int identity primary key not null,
+    f_user                         VARCHAR(50) unique not null,
     f_db_user                      VARCHAR(50),
     f_db_password                  VARCHAR(50),
     f_password                     VARCHAR(50))
-	
+
+alter table vis_users
+	alter column f_password varchar(50) not null;
+
 -- Создание vis_visitors
 
 CREATE TABLE vis_visitors

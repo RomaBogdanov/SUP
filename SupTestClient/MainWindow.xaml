@@ -24,6 +24,7 @@
         <Button Content="Получить изображение" HorizontalAlignment="Left" Margin="363,45,0,0" VerticalAlignment="Top" Width="130" Command="{Binding GetImage}"/>
         <Grid Grid.Row="1">
             <Grid.RowDefinitions>
+                <RowDefinition Height="90"></RowDefinition>
                 <RowDefinition Height="1*"/>
                 <RowDefinition Height="1*"/>
             </Grid.RowDefinitions>
@@ -31,9 +32,25 @@
                 <ColumnDefinition Width="2*"></ColumnDefinition>
                 <ColumnDefinition Width="1*"></ColumnDefinition>
             </Grid.ColumnDefinitions>
-            <DataGrid x:Name="dataGrid" HorizontalAlignment="Stretch"  Margin="10,10,10,10" VerticalAlignment="Stretch" ItemsSource="{Binding DV, Mode=TwoWay}" CurrentItem="{Binding CurrentItem, Mode=TwoWay}" Grid.RowSpan="2"/>
-            <Image Grid.Column="1" Source="{Binding Picture, Mode=TwoWay}" Margin="10"></Image>
-            <TextBlock Grid.Column="1" Grid.Row="1" Text="{Binding Path=Msgs}" Margin="10" TextWrapping="Wrap"></TextBlock>
+            <DataGrid x:Name="dataGrid" HorizontalAlignment="Stretch"  Margin="10,10,10,10" VerticalAlignment="Stretch" ItemsSource="{Binding DV, Mode=TwoWay}" CurrentItem="{Binding CurrentItem, Mode=TwoWay}" Grid.RowSpan="3"/>
+            <Grid Grid.Column="1" Grid.Row="0">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="60"/>
+                    <ColumnDefinition Width="*"/>
+                </Grid.ColumnDefinitions>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="1*"/>
+                    <RowDefinition Height="1*"/>
+                    <RowDefinition Height="1*"/>
+                </Grid.RowDefinitions>
+                <Label Grid.Row="0">Логин:</Label>
+                <Label Grid.Row="1">Пароль:</Label>
+                <TextBox Grid.Row="0" Grid.Column="1" Margin="3" Text="{Binding Path=Login, Mode=TwoWay}"></TextBox>
+                <TextBox Grid.Row="1" Grid.Column="1" Margin="3" Text="{Binding Path=Password, Mode=TwoWay}"></TextBox>
+                <Button Grid.Row="2" Margin="3" Grid.ColumnSpan="2" Content="{Binding Path=EnterButtonContent, Mode=TwoWay}" Command="{Binding Enter}"></Button>
+            </Grid>
+            <Image Grid.Column="1" Grid.Row="1" Source="{Binding Picture, Mode=TwoWay}" Margin="10"></Image>
+            <TextBlock Grid.Column="1" Grid.Row="2" Text="{Binding Path=Msgs}" Margin="10" TextWrapping="Wrap"></TextBlock>
         </Grid>
     </Grid>
 </Window>

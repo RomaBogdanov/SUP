@@ -425,6 +425,98 @@
       </wsp:All>
     </wsp:ExactlyOne>
   </wsp:Policy>
+  <wsp:Policy wsu:Id="TableService_Authorize_Input_policy">
+    <wsp:ExactlyOne>
+      <wsp:All>
+        <sp:SignedParts xmlns:sp="http://schemas.xmlsoap.org/ws/2005/07/securitypolicy">
+          <sp:Body />
+          <sp:Header Name="Sequence" Namespace="http://schemas.xmlsoap.org/ws/2005/02/rm" />
+          <sp:Header Name="SequenceAcknowledgement" Namespace="http://schemas.xmlsoap.org/ws/2005/02/rm" />
+          <sp:Header Name="AckRequested" Namespace="http://schemas.xmlsoap.org/ws/2005/02/rm" />
+          <sp:Header Name="ChannelInstance" Namespace="http://schemas.microsoft.com/ws/2005/02/duplex" />
+          <sp:Header Name="To" Namespace="http://www.w3.org/2005/08/addressing" />
+          <sp:Header Name="From" Namespace="http://www.w3.org/2005/08/addressing" />
+          <sp:Header Name="FaultTo" Namespace="http://www.w3.org/2005/08/addressing" />
+          <sp:Header Name="ReplyTo" Namespace="http://www.w3.org/2005/08/addressing" />
+          <sp:Header Name="MessageID" Namespace="http://www.w3.org/2005/08/addressing" />
+          <sp:Header Name="RelatesTo" Namespace="http://www.w3.org/2005/08/addressing" />
+          <sp:Header Name="Action" Namespace="http://www.w3.org/2005/08/addressing" />
+        </sp:SignedParts>
+        <sp:EncryptedParts xmlns:sp="http://schemas.xmlsoap.org/ws/2005/07/securitypolicy">
+          <sp:Body />
+        </sp:EncryptedParts>
+      </wsp:All>
+    </wsp:ExactlyOne>
+  </wsp:Policy>
+  <wsp:Policy wsu:Id="TableService_Authorize_output_policy">
+    <wsp:ExactlyOne>
+      <wsp:All>
+        <sp:SignedParts xmlns:sp="http://schemas.xmlsoap.org/ws/2005/07/securitypolicy">
+          <sp:Body />
+          <sp:Header Name="Sequence" Namespace="http://schemas.xmlsoap.org/ws/2005/02/rm" />
+          <sp:Header Name="SequenceAcknowledgement" Namespace="http://schemas.xmlsoap.org/ws/2005/02/rm" />
+          <sp:Header Name="AckRequested" Namespace="http://schemas.xmlsoap.org/ws/2005/02/rm" />
+          <sp:Header Name="ChannelInstance" Namespace="http://schemas.microsoft.com/ws/2005/02/duplex" />
+          <sp:Header Name="To" Namespace="http://www.w3.org/2005/08/addressing" />
+          <sp:Header Name="From" Namespace="http://www.w3.org/2005/08/addressing" />
+          <sp:Header Name="FaultTo" Namespace="http://www.w3.org/2005/08/addressing" />
+          <sp:Header Name="ReplyTo" Namespace="http://www.w3.org/2005/08/addressing" />
+          <sp:Header Name="MessageID" Namespace="http://www.w3.org/2005/08/addressing" />
+          <sp:Header Name="RelatesTo" Namespace="http://www.w3.org/2005/08/addressing" />
+          <sp:Header Name="Action" Namespace="http://www.w3.org/2005/08/addressing" />
+        </sp:SignedParts>
+        <sp:EncryptedParts xmlns:sp="http://schemas.xmlsoap.org/ws/2005/07/securitypolicy">
+          <sp:Body />
+        </sp:EncryptedParts>
+      </wsp:All>
+    </wsp:ExactlyOne>
+  </wsp:Policy>
+  <wsp:Policy wsu:Id="TableService_ExitAuthorize_Input_policy">
+    <wsp:ExactlyOne>
+      <wsp:All>
+        <sp:SignedParts xmlns:sp="http://schemas.xmlsoap.org/ws/2005/07/securitypolicy">
+          <sp:Body />
+          <sp:Header Name="Sequence" Namespace="http://schemas.xmlsoap.org/ws/2005/02/rm" />
+          <sp:Header Name="SequenceAcknowledgement" Namespace="http://schemas.xmlsoap.org/ws/2005/02/rm" />
+          <sp:Header Name="AckRequested" Namespace="http://schemas.xmlsoap.org/ws/2005/02/rm" />
+          <sp:Header Name="ChannelInstance" Namespace="http://schemas.microsoft.com/ws/2005/02/duplex" />
+          <sp:Header Name="To" Namespace="http://www.w3.org/2005/08/addressing" />
+          <sp:Header Name="From" Namespace="http://www.w3.org/2005/08/addressing" />
+          <sp:Header Name="FaultTo" Namespace="http://www.w3.org/2005/08/addressing" />
+          <sp:Header Name="ReplyTo" Namespace="http://www.w3.org/2005/08/addressing" />
+          <sp:Header Name="MessageID" Namespace="http://www.w3.org/2005/08/addressing" />
+          <sp:Header Name="RelatesTo" Namespace="http://www.w3.org/2005/08/addressing" />
+          <sp:Header Name="Action" Namespace="http://www.w3.org/2005/08/addressing" />
+        </sp:SignedParts>
+        <sp:EncryptedParts xmlns:sp="http://schemas.xmlsoap.org/ws/2005/07/securitypolicy">
+          <sp:Body />
+        </sp:EncryptedParts>
+      </wsp:All>
+    </wsp:ExactlyOne>
+  </wsp:Policy>
+  <wsp:Policy wsu:Id="TableService_ExitAuthorize_output_policy">
+    <wsp:ExactlyOne>
+      <wsp:All>
+        <sp:SignedParts xmlns:sp="http://schemas.xmlsoap.org/ws/2005/07/securitypolicy">
+          <sp:Body />
+          <sp:Header Name="Sequence" Namespace="http://schemas.xmlsoap.org/ws/2005/02/rm" />
+          <sp:Header Name="SequenceAcknowledgement" Namespace="http://schemas.xmlsoap.org/ws/2005/02/rm" />
+          <sp:Header Name="AckRequested" Namespace="http://schemas.xmlsoap.org/ws/2005/02/rm" />
+          <sp:Header Name="ChannelInstance" Namespace="http://schemas.microsoft.com/ws/2005/02/duplex" />
+          <sp:Header Name="To" Namespace="http://www.w3.org/2005/08/addressing" />
+          <sp:Header Name="From" Namespace="http://www.w3.org/2005/08/addressing" />
+          <sp:Header Name="FaultTo" Namespace="http://www.w3.org/2005/08/addressing" />
+          <sp:Header Name="ReplyTo" Namespace="http://www.w3.org/2005/08/addressing" />
+          <sp:Header Name="MessageID" Namespace="http://www.w3.org/2005/08/addressing" />
+          <sp:Header Name="RelatesTo" Namespace="http://www.w3.org/2005/08/addressing" />
+          <sp:Header Name="Action" Namespace="http://www.w3.org/2005/08/addressing" />
+        </sp:SignedParts>
+        <sp:EncryptedParts xmlns:sp="http://schemas.xmlsoap.org/ws/2005/07/securitypolicy">
+          <sp:Body />
+        </sp:EncryptedParts>
+      </wsp:All>
+    </wsp:ExactlyOne>
+  </wsp:Policy>
   <wsp:Policy wsu:Id="TableService_InsRow_output_policy">
     <wsp:ExactlyOne>
       <wsp:All>
@@ -545,6 +637,18 @@
   <wsdl:message name="ITableService_GetImage_OutputMessage">
     <wsdl:part name="parameters" element="tns:GetImageResponse" />
   </wsdl:message>
+  <wsdl:message name="ITableService_Authorize_InputMessage">
+    <wsdl:part name="parameters" element="tns:Authorize" />
+  </wsdl:message>
+  <wsdl:message name="ITableService_Authorize_OutputMessage">
+    <wsdl:part name="parameters" element="tns:AuthorizeResponse" />
+  </wsdl:message>
+  <wsdl:message name="ITableService_ExitAuthorize_InputMessage">
+    <wsdl:part name="parameters" element="tns:ExitAuthorize" />
+  </wsdl:message>
+  <wsdl:message name="ITableService_ExitAuthorize_OutputMessage">
+    <wsdl:part name="parameters" element="tns:ExitAuthorizeResponse" />
+  </wsdl:message>
   <wsdl:message name="ITableService_InsRow_OutputCallbackMessage">
     <wsdl:part name="parameters" element="tns:InsRow" />
   </wsdl:message>
@@ -582,6 +686,14 @@
     <wsdl:operation name="GetImage">
       <wsdl:input wsaw:Action="http://tempuri.org/ITableService/GetImage" message="tns:ITableService_GetImage_InputMessage" />
       <wsdl:output wsaw:Action="http://tempuri.org/ITableService/GetImageResponse" message="tns:ITableService_GetImage_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="Authorize">
+      <wsdl:input wsaw:Action="http://tempuri.org/ITableService/Authorize" message="tns:ITableService_Authorize_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/ITableService/AuthorizeResponse" message="tns:ITableService_Authorize_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="ExitAuthorize">
+      <wsdl:input wsaw:Action="http://tempuri.org/ITableService/ExitAuthorize" message="tns:ITableService_ExitAuthorize_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/ITableService/ExitAuthorizeResponse" message="tns:ITableService_ExitAuthorize_OutputMessage" />
     </wsdl:operation>
     <wsdl:operation name="InsRow">
       <wsdl:output wsaw:Action="http://tempuri.org/ITableService/InsRow" message="tns:ITableService_InsRow_OutputCallbackMessage" />
@@ -670,6 +782,28 @@
       </wsdl:input>
       <wsdl:output>
         <wsp:PolicyReference URI="#TableService_GetImage_output_policy" />
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="Authorize">
+      <soap12:operation soapAction="http://tempuri.org/ITableService/Authorize" style="document" />
+      <wsdl:input>
+        <wsp:PolicyReference URI="#TableService_Authorize_Input_policy" />
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <wsp:PolicyReference URI="#TableService_Authorize_output_policy" />
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="ExitAuthorize">
+      <soap12:operation soapAction="http://tempuri.org/ITableService/ExitAuthorize" style="document" />
+      <wsdl:input>
+        <wsp:PolicyReference URI="#TableService_ExitAuthorize_Input_policy" />
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <wsp:PolicyReference URI="#TableService_ExitAuthorize_output_policy" />
         <soap12:body use="literal" />
       </wsdl:output>
     </wsdl:operation>

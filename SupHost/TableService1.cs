@@ -17,6 +17,8 @@ namespace SupHost
     {
         ITableCallback callback;
         readonly int timeOut = 200;
+        Accounts users = Accounts.GetAccounts();
+        private Logger logger = Logger.CurrentLogger;
 
         ITableCallback Callback
         {
@@ -50,6 +52,12 @@ namespace SupHost
         /// <returns></returns>
         public DataTable GetTable(CompositeType composite, string login)
         {
+            if (!this.users.IsExist(login))
+            {
+                this.logger.Warn($@"Попытка запроса к серверу 
+                    незарегистрированным аккаунтом {login}");
+                return null;
+            }
             AbstractTableWrapper tableWrapper = 
                 AbstractTableWrapper.GetTableWrapper(composite.TableName);
             if (tableWrapper != null)
@@ -100,6 +108,12 @@ namespace SupHost
         /// <returns></returns>
         public bool InsertRow(CompositeType composite, object[] objs, string login)
         {
+            if (!this.users.IsExist(login))
+            {
+                this.logger.Warn($@"Попытка запроса к серверу 
+                    незарегистрированным аккаунтом {login}");
+                return false;
+            }
             AbstractTableWrapper tableWrapper =
                 AbstractTableWrapper.GetTableWrapper(composite.TableName);
             /*if (tableWrapper != null)
@@ -119,6 +133,12 @@ namespace SupHost
         /// <returns></returns>
         public bool UpdateRow(CompositeType composite, int rowNumber, object[] objs, string login)
         {
+            if (!this.users.IsExist(login))
+            {
+                this.logger.Warn($@"Попытка запроса к серверу 
+                    незарегистрированным аккаунтом {login}");
+                return false;
+            }
             AbstractTableWrapper tableWrapper =
                 AbstractTableWrapper.GetTableWrapper(composite.TableName);
             return tableWrapper?.UpdateRow(objs, rowNumber) ?? false;
@@ -132,6 +152,12 @@ namespace SupHost
         /// <returns></returns>
         public bool DeleteRow(CompositeType composite, object[] objs, string login)
         {
+            if (!this.users.IsExist(login))
+            {
+                this.logger.Warn($@"Попытка запроса к серверу 
+                    незарегистрированным аккаунтом {login}");
+                return false;
+            }
             AbstractTableWrapper tableWrapper =
                 AbstractTableWrapper.GetTableWrapper(composite.TableName);
             return tableWrapper?.DeleteRow(objs) ?? false;
@@ -178,12 +204,38 @@ namespace SupHost
 
         public bool Authorize(string login, string pass)
         {
-            throw new NotImplementedException();
+            //TODO: обязательно переработать. Данный вариант выступает как заглушка.
+            // Проверка на существование уже зарегистрированного пользователя.
+            if (this.users.IsExist(login))
+            {
+                logger.Warn($@"Попытка зарегистрироваться под уже 
+                    зарегистрированным аккаунтом {login}");
+                return false;
+            }
+            VisUsersTableWrapper visUsersTableWrapper = 
+                VisUsersTableWrapper.GetVisUsersTableWrapper();
+            if (visUsersTableWrapper.ExistingLogin(login, pass))
+            {
+                this.users.AddAccount(login);
+                logger.Info($"Зарегистрировался аккаунт {login}");
+                return true;
+            }
+            return false;
         }
 
         public bool ExitAuthorize(string login)
         {
-            throw new NotImplementedException();
+            if (this.users.IsExist(login))
+            {
+                this.users.RemoveAccount(login);
+                this.logger.Info($"Аккаунт {login} вышел из системы");
+            }
+            else
+            {
+                this.logger.Error($@"Незарегистрированный аккаунт {login} вышел 
+                    из системы");
+            }
+            return true;
         }
     }
 }

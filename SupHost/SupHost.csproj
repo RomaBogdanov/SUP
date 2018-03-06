@@ -61,7 +61,9 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Accounts.cs" />
     <Compile Include="GetTableBehavior\VisitorsDBTableBehavior.cs" />
+    <Compile Include="GetTableBehavior\VisUsersTableBehavior.cs" />
     <Compile Include="Tables\AbstractTableWrapper.cs" />
     <Compile Include="Connector.cs" />
     <Compile Include="GetTableBehavior\ITableBehavior.cs" />
@@ -79,6 +81,7 @@
     <Compile Include="GetTableBehavior\VisOrderElementsTableBehavior.cs" />
     <Compile Include="GetTableBehavior\VisOrganizationsTableBehavior.cs" />
     <Compile Include="Tables\VisOrderElementsTableWrapper.cs" />
+    <Compile Include="Tables\VisUsersTableWrapper.cs" />
     <Compile Include="Tables\VisVisitorsTableWrapper.cs" />
     <Compile Include="Tables\VisOrganizationsTableWrapper.cs" />
   </ItemGroup>
