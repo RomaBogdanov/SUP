@@ -17,6 +17,7 @@ namespace SupHost
             this.table.Columns.Add("ColTest1");
             this.table.Columns.Add("ColTest2");
             this.table.Columns.Add("ColTest3");
+            this.table.PrimaryKey = new DataColumn[] { this.table.Columns["ColTest1"] };
             this.CreateRows();
         }
 

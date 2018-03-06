@@ -26,6 +26,7 @@ namespace SupTestClient
         private string testField = "";
         private object currentItem;
         private BitmapImage picture;
+        private string msgs = "";
 
         #region Public
 
@@ -121,6 +122,19 @@ namespace SupTestClient
             }
         }
 
+        public string Msgs
+        {
+            get { return this.msgs; }
+            set
+            {
+                if (this.msgs != value)
+                {
+                    this.msgs = value;
+                    OnPropertyChanged("Msgs");
+                }
+            }
+        }
+
         public ICommand ReceiveTable
         { get; set; }
 
@@ -142,11 +156,42 @@ namespace SupTestClient
                 }
             }
             this.connector = ClientConnector.CurrentConnector;
+            this.connector.OnInsert += Connector_OnInsert;
+            this.connector.OnDelete += Connector_OnDelete;
+            this.connector.OnUpdate += Connector_OnUpdate;
             this.DV = this.Table.AsDataView();
             this.DV.ListChanged += DV_ListChanged;
             ReceiveTable = new RelayCommand(arg => GetTable());
             DeleteRow = new RelayCommand(arg => DelRow(arg));
             GetImage = new RelayCommand(arg => GImage());
+        }
+
+        private void Connector_OnInsert(string tableName, object[] objs)
+        {
+            if (!this.table.Rows.Contains(objs[0]))
+            {
+                table.Rows.Add(objs);
+            }
+        }
+
+        private void Connector_OnUpdate(string tableName, int rowNumber, object[] objs)
+        {
+            DataRow row = table.Rows.Find(objs[0]);
+            if (row != null)
+            {
+                row.ItemArray = objs;
+                table.AcceptChanges();
+            }
+        }
+
+        private void Connector_OnDelete(string tableName, object[] objs)
+        {
+            DataRow row = table.Rows.Find(objs[0]);
+            if (row != null)
+            {
+                table.Rows.Remove(row);
+            }
+
         }
 
         #endregion
@@ -164,21 +209,29 @@ namespace SupTestClient
             try
             {
                 this.Table = this.connector.GetTable(this.queriesDict[this.QueryName]);
+                this.Table.RowDeleting += Table_RowDeleting;
                 this.DV = this.Table.AsDataView();
                 this.DV.ListChanged += DV_ListChanged;
                 this.TestField = this.DV.AllowNew.ToString();
             }
             catch (Exception err)
             {
-                TestField = $"{err.Message}: {err.StackTrace}";
+                this.Msgs = $"{err.Message}: {err.StackTrace}";
                 
             }
+        }
+
+        private void Table_RowDeleting(object sender, DataRowChangeEventArgs e)
+        {
+            //this.connector.DeleteRow(e.Row.ItemArray);
+            //throw new NotImplementedException();
         }
 
         private void DelRow(object arg)
         {
             DataRowView dv = arg as DataRowView;
             if (dv == null) return;
+            this.connector.DeleteRow(dv.Row.ItemArray);
             dv.Delete();
         }
 
@@ -197,7 +250,7 @@ namespace SupTestClient
             }
             else if (e.ListChangedType == ListChangedType.ItemDeleted)
             {
-                this.connector.DeleteRow(e.NewIndex);
+                //this.connector.DeleteRow(this.Table.Rows[e.NewIndex].ItemArray);
             }
         }
 

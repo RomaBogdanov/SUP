@@ -15,7 +15,7 @@ namespace SupContract
     /// <summary>
     /// Контракт для синхронизации логических таблиц сервера и клиента.
     /// </summary>
-    [ServiceContract(ProtectionLevel = System.Net.Security.ProtectionLevel.None)]
+    [ServiceContract(CallbackContract = typeof(ITableCallback))]
     public interface ITableService
     {
         [OperationContract]
@@ -30,7 +30,7 @@ namespace SupContract
         /// <param name="composite">Данные для идентификации таблицы.</param>
         /// <returns>Таблица с данными.</returns>
         [OperationContract]
-        DataTable GetTable(CompositeType composite);
+        DataTable GetTable(CompositeType composite, string login);
 
         /// <summary>
         /// Процедура передачи серверу строки с новыми данными.
@@ -39,7 +39,7 @@ namespace SupContract
         /// <param name="objs">строки с данными.</param>
         /// <returns></returns>
         [OperationContract]
-        bool InsertRow(CompositeType composite, object[] objs);
+        bool InsertRow(CompositeType composite, object[] objs, string login);
 
         /// <summary>
         /// Процедура передачи серверу строки с изменёнными данными.
@@ -48,7 +48,7 @@ namespace SupContract
         /// <param name="objs">строки с данными.</param>
         /// <returns></returns>
         [OperationContract]
-        bool UpdateRow(CompositeType composite, int rowNumber, object[] objs);
+        bool UpdateRow(CompositeType composite, int rowNumber, object[] objs, string login);
 
         /// <summary>
         /// Процедура удаления с сервера строки с изменёнными данными.
@@ -58,14 +58,31 @@ namespace SupContract
         /// <param name="objs">строки с данными.</param>
         /// <returns></returns>
         [OperationContract]
-        bool DeleteRow(CompositeType composite, int rowNumber);
+        bool DeleteRow(CompositeType composite, object[] row, string login);
 
         /// <summary>
         /// Процедура получения изображения в виде набора байтов.
         /// </summary>
         /// <returns></returns>
         [OperationContract]
-        byte[] GetImage(int id);
+        byte[] GetImage(int id, string login);
+
+        /// <summary>
+        /// Процедура авторизации.
+        /// </summary>
+        /// <param name="login"></param>
+        /// <param name="pass"></param>
+        /// <returns></returns>
+        [OperationContract]
+        bool Authorize(string login, string pass);
+
+        /// <summary>
+        /// Процедура выхода из профиля.
+        /// </summary>
+        /// <param name="login"></param>
+        /// <returns></returns>
+        [OperationContract]
+        bool ExitAuthorize(string login);
     }
 
     // Используйте контракт данных, как показано на следующем примере, чтобы добавить сложные типы к сервисным операциям.

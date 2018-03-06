@@ -11,6 +11,10 @@ namespace SupHost
 {
     abstract class AbstractTableWrapper
     {
+        public event Action<string, object[]> OnAddRow;
+        public event Action<string, int, object[]> OnUpdateRow;
+        public event Action<string, object[]> OnDeleteRow;
+
         private static Dictionary<string, AbstractTableWrapper> wrappers;
         private Logger logger = Logger.CurrentLogger;
         protected DataTable table;
@@ -60,6 +64,7 @@ namespace SupHost
             }
             this.table.Rows.Add(dr);
             this.getTableBehavior.InsertRow();
+            this.OnAddRow(this.table.TableName, values);
             this.logger.Debug($"В таблице {this.table.TableName} добавлена строка");
             return true;
         }
@@ -79,15 +84,21 @@ namespace SupHost
                 }
             }
             this.getTableBehavior.UpdateRow();
+            this.OnUpdateRow(this.table.TableName, numRow, values);
             this.logger.Debug($"В таблице {this.table.TableName} отредактирована строка");
             return true;
         }
 
-        public virtual bool DeleteRow(int numRow)
+        public virtual bool DeleteRow(object[] objs)
         {
-            this.table.Rows[numRow].Delete();
-            this.getTableBehavior.DeleteRow();
-            this.logger.Debug($"В таблице {this.table.TableName} удалена строка");
+            if (table.Rows.Contains(objs[0]))
+            {
+                this.table.Rows.Remove(table.Rows.Find(objs[0]));
+                //this.table.Rows[numRow].Delete();
+                this.getTableBehavior.DeleteRow();
+                this.OnDeleteRow(this.table.TableName, objs);
+                this.logger.Debug($"В таблице {this.table.TableName} удалена строка");
+            }
             return true;
         }
     }

@@ -56,31 +56,28 @@
   <ItemGroup>
     <None Include="app.config" />
     <None Include="Properties\DataSources\System.Data.DataTable.datasource" />
-    <None Include="Service References\ServiceRef\HostSUP.xsd">
+    <None Include="Service References\ServiceRef\Arrays.xsd">
       <SubType>Designer</SubType>
     </None>
-    <None Include="Service References\ServiceRef\HostSUP1.xsd">
+    <None Include="Service References\ServiceRef\service.wsdl" />
+    <None Include="Service References\ServiceRef\service.xsd">
       <SubType>Designer</SubType>
     </None>
-    <None Include="Service References\ServiceRef\HostSUP2.xsd">
-      <SubType>Designer</SubType>
-    </None>
-    <None Include="Service References\ServiceRef\HostSUP3.xsd">
-      <SubType>Designer</SubType>
-    </None>
-    <None Include="Service References\ServiceRef\HostSUP4.xsd">
+    <None Include="Service References\ServiceRef\service1.xsd">
       <SubType>Designer</SubType>
     </None>
     <None Include="Service References\ServiceRef\SupClientConnectionLib.ServiceRef.CompositeType.datasource">
       <DependentUpon>Reference.svcmap</DependentUpon>
     </None>
-    <None Include="Service References\ServiceRef\TableService1.wsdl" />
+    <None Include="Service References\ServiceRef\SupContract.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Service References\ServiceRef\System.Data.xsd">
+      <SubType>Designer</SubType>
+    </None>
   </ItemGroup>
   <ItemGroup>
     <WCFMetadataStorage Include="Service References\ServiceRef\" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Service References\ServiceRef\HostSUP.disco" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Service References\ServiceRef\configuration91.svcinfo" />

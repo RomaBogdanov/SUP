@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Data;
+using System.ServiceModel;
 using SupClientConnectionLib.ServiceRef;
 
 
@@ -16,11 +17,16 @@ namespace SupClientConnectionLib
     /// Реализует паттерн одиночка для организации единого подключения
     /// из всех точек приложения.
     /// </remarks>
+    [CallbackBehavior(ConcurrencyMode = ConcurrencyMode.Reentrant)]
     public class ClientConnector
     {
         private static ClientConnector connector;
         ITableService tableService;
         CompositeType compositeType;
+
+        public event Action<string, object[]> OnInsert;
+        public event Action<string, int, object[]> OnUpdate;
+        public event Action<string, object[]> OnDelete;
 
         #region Public
 
@@ -53,7 +59,12 @@ namespace SupClientConnectionLib
                     rowValues[i] = "";
                 }
             }
-            return this.tableService.InsertRow(compositeType, rowValues);
+            bool b;
+            lock (this.tableService)
+            {
+                b = this.tableService.InsertRow(compositeType, rowValues);
+            }
+            return b;
         }
 
         public bool UpdateRow(object[] rowValues, int numRow)
@@ -68,9 +79,9 @@ namespace SupClientConnectionLib
             return this.tableService.UpdateRow(compositeType, numRow, rowValues);
         }
 
-        public bool DeleteRow(int numRow)
+        public bool DeleteRow(object[] objs)
         {
-            return this.tableService.DeleteRow(compositeType, numRow);
+            return this.tableService.DeleteRow(compositeType, objs);
         }
 
         public byte[] GetImage(int id)
@@ -80,10 +91,54 @@ namespace SupClientConnectionLib
         
         public ClientConnector()
         {
-            this.tableService = new TableServiceClient();
+            NewMessageHandler messageHandler = new NewMessageHandler();
+            messageHandler.OnInsert += MessageHandler_OnInsert;
+            messageHandler.OnUpdate += MessageHandler_OnUpdate;
+            messageHandler.OnDelete += MessageHandler_OnDelete;
+            InstanceContext instanceContext = new InstanceContext(messageHandler);
+            this.tableService = new TableServiceClient(instanceContext);
             this.compositeType = new CompositeType();
+        }
+
+        private void MessageHandler_OnInsert(string tableName, object[] objs)
+        {
+            this.OnInsert?.Invoke(tableName, objs);
+        }
+
+        private void MessageHandler_OnUpdate(string tableName, int rowNumber, object[] objs)
+        {
+            this.OnUpdate?.Invoke(tableName, rowNumber, objs);
+        }
+
+        private void MessageHandler_OnDelete(string tableName, object[] objs)
+        {
+            this.OnDelete?.Invoke(tableName, objs);
         }
 
         #endregion
     }
+
+    public class NewMessageHandler : ITableServiceCallback
+    {
+        public event Action<string, object[]> OnInsert;
+        public event Action<string, int, object[]> OnUpdate;
+        public event Action<string, object[]> OnDelete;
+
+        public void InsRow(string tableName, object[] objs)
+        {
+            this.OnInsert?.Invoke(tableName, objs);
+        }
+
+        public void UpdRow(string tableName, int rowNumber, object[] objs)
+        {
+            this.OnUpdate?.Invoke(tableName, rowNumber, objs);
+        }
+
+        public void DelRow(string tableName, object[] objs)
+        {
+            this.OnDelete?.Invoke(tableName, objs);
+        } 
+
+    }
+
 }

@@ -114,7 +114,7 @@ namespace SupClientConnectionLib.ServiceRef {
     }
     
     [System.CodeDom.Compiler.GeneratedCodeAttribute("System.ServiceModel", "4.0.0.0")]
-    [System.ServiceModel.ServiceContractAttribute(ConfigurationName="ServiceRef.ITableService")]
+    [System.ServiceModel.ServiceContractAttribute(ConfigurationName="ServiceRef.ITableService", CallbackContract=typeof(SupClientConnectionLib.ServiceRef.ITableServiceCallback))]
     public interface ITableService {
         
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/ITableService/GetData", ReplyAction="http://tempuri.org/ITableService/GetDataResponse")]
@@ -154,10 +154,13 @@ namespace SupClientConnectionLib.ServiceRef {
         System.Threading.Tasks.Task<bool> UpdateRowAsync(SupClientConnectionLib.ServiceRef.CompositeType composite, int rowNumber, object[] objs);
         
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/ITableService/DeleteRow", ReplyAction="http://tempuri.org/ITableService/DeleteRowResponse")]
-        bool DeleteRow(SupClientConnectionLib.ServiceRef.CompositeType composite, int rowNumber);
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(SupClientConnectionLib.ServiceRef.CompositeType))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(SupClientConnectionLib.ServiceRef.TableName))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(object[]))]
+        bool DeleteRow(SupClientConnectionLib.ServiceRef.CompositeType composite, object[] row);
         
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/ITableService/DeleteRow", ReplyAction="http://tempuri.org/ITableService/DeleteRowResponse")]
-        System.Threading.Tasks.Task<bool> DeleteRowAsync(SupClientConnectionLib.ServiceRef.CompositeType composite, int rowNumber);
+        System.Threading.Tasks.Task<bool> DeleteRowAsync(SupClientConnectionLib.ServiceRef.CompositeType composite, object[] row);
         
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/ITableService/GetImage", ReplyAction="http://tempuri.org/ITableService/GetImageResponse")]
         byte[] GetImage(int id);
@@ -167,30 +170,53 @@ namespace SupClientConnectionLib.ServiceRef {
     }
     
     [System.CodeDom.Compiler.GeneratedCodeAttribute("System.ServiceModel", "4.0.0.0")]
+    public interface ITableServiceCallback {
+        
+        [System.ServiceModel.OperationContractAttribute(IsOneWay=true, Action="http://tempuri.org/ITableService/InsRow")]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(SupClientConnectionLib.ServiceRef.CompositeType))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(SupClientConnectionLib.ServiceRef.TableName))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(object[]))]
+        void InsRow(string tableName, object[] objs);
+        
+        [System.ServiceModel.OperationContractAttribute(IsOneWay=true, Action="http://tempuri.org/ITableService/UpdRow")]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(SupClientConnectionLib.ServiceRef.CompositeType))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(SupClientConnectionLib.ServiceRef.TableName))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(object[]))]
+        void UpdRow(string tableName, int rowNumber, object[] objs);
+        
+        [System.ServiceModel.OperationContractAttribute(IsOneWay=true, Action="http://tempuri.org/ITableService/DelRow")]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(SupClientConnectionLib.ServiceRef.CompositeType))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(SupClientConnectionLib.ServiceRef.TableName))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(object[]))]
+        void DelRow(string tableName, object[] objs);
+    }
+    
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.ServiceModel", "4.0.0.0")]
     public interface ITableServiceChannel : SupClientConnectionLib.ServiceRef.ITableService, System.ServiceModel.IClientChannel {
     }
     
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.CodeDom.Compiler.GeneratedCodeAttribute("System.ServiceModel", "4.0.0.0")]
-    public partial class TableServiceClient : System.ServiceModel.ClientBase<SupClientConnectionLib.ServiceRef.ITableService>, SupClientConnectionLib.ServiceRef.ITableService {
+    public partial class TableServiceClient : System.ServiceModel.DuplexClientBase<SupClientConnectionLib.ServiceRef.ITableService>, SupClientConnectionLib.ServiceRef.ITableService {
         
-        public TableServiceClient() {
+        public TableServiceClient(System.ServiceModel.InstanceContext callbackInstance) : 
+                base(callbackInstance) {
         }
         
-        public TableServiceClient(string endpointConfigurationName) : 
-                base(endpointConfigurationName) {
+        public TableServiceClient(System.ServiceModel.InstanceContext callbackInstance, string endpointConfigurationName) : 
+                base(callbackInstance, endpointConfigurationName) {
         }
         
-        public TableServiceClient(string endpointConfigurationName, string remoteAddress) : 
-                base(endpointConfigurationName, remoteAddress) {
+        public TableServiceClient(System.ServiceModel.InstanceContext callbackInstance, string endpointConfigurationName, string remoteAddress) : 
+                base(callbackInstance, endpointConfigurationName, remoteAddress) {
         }
         
-        public TableServiceClient(string endpointConfigurationName, System.ServiceModel.EndpointAddress remoteAddress) : 
-                base(endpointConfigurationName, remoteAddress) {
+        public TableServiceClient(System.ServiceModel.InstanceContext callbackInstance, string endpointConfigurationName, System.ServiceModel.EndpointAddress remoteAddress) : 
+                base(callbackInstance, endpointConfigurationName, remoteAddress) {
         }
         
-        public TableServiceClient(System.ServiceModel.Channels.Binding binding, System.ServiceModel.EndpointAddress remoteAddress) : 
-                base(binding, remoteAddress) {
+        public TableServiceClient(System.ServiceModel.InstanceContext callbackInstance, System.ServiceModel.Channels.Binding binding, System.ServiceModel.EndpointAddress remoteAddress) : 
+                base(callbackInstance, binding, remoteAddress) {
         }
         
         public string GetData(int value) {
@@ -233,12 +259,12 @@ namespace SupClientConnectionLib.ServiceRef {
             return base.Channel.UpdateRowAsync(composite, rowNumber, objs);
         }
         
-        public bool DeleteRow(SupClientConnectionLib.ServiceRef.CompositeType composite, int rowNumber) {
-            return base.Channel.DeleteRow(composite, rowNumber);
+        public bool DeleteRow(SupClientConnectionLib.ServiceRef.CompositeType composite, object[] row) {
+            return base.Channel.DeleteRow(composite, row);
         }
         
-        public System.Threading.Tasks.Task<bool> DeleteRowAsync(SupClientConnectionLib.ServiceRef.CompositeType composite, int rowNumber) {
-            return base.Channel.DeleteRowAsync(composite, rowNumber);
+        public System.Threading.Tasks.Task<bool> DeleteRowAsync(SupClientConnectionLib.ServiceRef.CompositeType composite, object[] row) {
+            return base.Channel.DeleteRowAsync(composite, row);
         }
         
         public byte[] GetImage(int id) {

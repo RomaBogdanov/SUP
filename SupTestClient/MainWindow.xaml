@@ -14,7 +14,7 @@
             <RowDefinition Height="80"></RowDefinition>
             <RowDefinition Height="*"></RowDefinition>
         </Grid.RowDefinitions>
-        
+
         <Label x:Name="label" Content="Выберите запрос:" HorizontalAlignment="Left" Margin="10,10,0,0" VerticalAlignment="Top"/>
         <ComboBox x:Name="comboBox" HorizontalAlignment="Left" Margin="123,14,0,0" VerticalAlignment="Top" Width="235" ItemsSource="{Binding QueriesList}" Text="{Binding QueryName, Mode=TwoWay}"/>
         <Button x:Name="button" Content="Отправить запрос" HorizontalAlignment="Left" Margin="363,14,0,0" VerticalAlignment="Top" Width="130" Height="22" Command="{Binding ReceiveTable}"/>
@@ -23,12 +23,17 @@
         <Button x:Name="button1" Content="Удалить строку" HorizontalAlignment="Left" Margin="498,14,0,0" VerticalAlignment="Top" Width="130" Height="22" Command="{Binding DeleteRow}" CommandParameter="{Binding CurrentItem}"/>
         <Button Content="Получить изображение" HorizontalAlignment="Left" Margin="363,45,0,0" VerticalAlignment="Top" Width="130" Command="{Binding GetImage}"/>
         <Grid Grid.Row="1">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="1*"/>
+                <RowDefinition Height="1*"/>
+            </Grid.RowDefinitions>
             <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="3*"></ColumnDefinition>
+                <ColumnDefinition Width="2*"></ColumnDefinition>
                 <ColumnDefinition Width="1*"></ColumnDefinition>
             </Grid.ColumnDefinitions>
-            <DataGrid x:Name="dataGrid" HorizontalAlignment="Stretch"  Margin="10,10,10,10" VerticalAlignment="Stretch" ItemsSource="{Binding DV, Mode=TwoWay}" CurrentItem="{Binding CurrentItem, Mode=TwoWay}"/>
+            <DataGrid x:Name="dataGrid" HorizontalAlignment="Stretch"  Margin="10,10,10,10" VerticalAlignment="Stretch" ItemsSource="{Binding DV, Mode=TwoWay}" CurrentItem="{Binding CurrentItem, Mode=TwoWay}" Grid.RowSpan="2"/>
             <Image Grid.Column="1" Source="{Binding Picture, Mode=TwoWay}" Margin="10"></Image>
+            <TextBlock Grid.Column="1" Grid.Row="1" Text="{Binding Path=Msgs}" Margin="10" TextWrapping="Wrap"></TextBlock>
         </Grid>
     </Grid>
 </Window>

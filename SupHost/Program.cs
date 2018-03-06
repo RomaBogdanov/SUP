@@ -66,6 +66,7 @@ namespace SupHost
                 host.Open();*/
                 //ServiceHost host = new ServiceHost(typeof(TableService1));
                 host.Open();
+                logger.Info(host.BaseAddresses[0].AbsoluteUri);
                 while (true)
                 {
                     Console.WriteLine("1. Нажмите <ENTER> для закрытия сервера.");

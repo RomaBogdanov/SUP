@@ -7,11 +7,32 @@ using System.Threading.Tasks;
 using SupContract;
 using System.Data.Sql;
 using System.Data.SqlClient;
+using System.ServiceModel;
+using System.Threading;
 
 namespace SupHost
 {
-    class TableService1 : ITableService
+    [ServiceBehavior(InstanceContextMode = InstanceContextMode.PerCall)]
+    public class TableService1 : ITableService
     {
+        ITableCallback callback;
+        readonly int timeOut = 200;
+
+        ITableCallback Callback
+        {
+            get
+            {
+                return OperationContext
+                    .Current
+                    .GetCallbackChannel<ITableCallback>();
+            }
+        }
+
+        public TableService1()
+        {
+
+        }
+
         public string GetData(int value)
         {
             return "This method don't use!";
@@ -27,16 +48,48 @@ namespace SupHost
         /// </summary>
         /// <param name="composite"></param>
         /// <returns></returns>
-        public DataTable GetTable(CompositeType composite)
+        public DataTable GetTable(CompositeType composite, string login)
         {
             AbstractTableWrapper tableWrapper = 
                 AbstractTableWrapper.GetTableWrapper(composite.TableName);
             if (tableWrapper != null)
             {
+                callback = Callback;
+                tableWrapper.OnAddRow += TableWrapper_OnAddRow;
+                tableWrapper.OnUpdateRow += TableWrapper_OnUpdateRow;
+                tableWrapper.OnDeleteRow += TableWrapper_OnDeleteRow;
                 DataTable dt = tableWrapper.GetTable();
                 return dt;
             }
             return null;
+        }
+
+        private void TableWrapper_OnAddRow(string tableName, object[] objs)
+        {
+            Task.Run(() =>
+            {
+                Thread.Sleep(timeOut);
+                this.callback.InsRow(tableName, objs);
+            });
+        }
+
+        private void TableWrapper_OnUpdateRow(
+            string tableName, int rowNumber, object[] objs)
+        {
+            Task.Run(() =>
+            {
+                Thread.Sleep(timeOut);
+                this.callback.UpdRow(tableName, rowNumber, objs);
+            });
+        }
+
+        private void TableWrapper_OnDeleteRow(string tableName, object[] objs)
+        {
+            Task.Run(() =>
+            {
+                Thread.Sleep(timeOut);
+                this.callback.DelRow(tableName, objs);
+            });
         }
 
         /// <summary>
@@ -45,15 +98,16 @@ namespace SupHost
         /// <param name="composite"></param>
         /// <param name="rows"></param>
         /// <returns></returns>
-        public bool InsertRow(CompositeType composite, object[] objs)
+        public bool InsertRow(CompositeType composite, object[] objs, string login)
         {
             AbstractTableWrapper tableWrapper =
                 AbstractTableWrapper.GetTableWrapper(composite.TableName);
-            if (tableWrapper != null)
+            /*if (tableWrapper != null)
             {
                 return tableWrapper.InsertRow(objs);
             }
-            return false;
+            return false;*/
+            return tableWrapper?.InsertRow(objs) ?? false;
         }
 
         /// <summary>
@@ -63,32 +117,24 @@ namespace SupHost
         /// <param name="rowNumber"></param>
         /// <param name="objs"></param>
         /// <returns></returns>
-        public bool UpdateRow(CompositeType composite, int rowNumber, object[] objs)
+        public bool UpdateRow(CompositeType composite, int rowNumber, object[] objs, string login)
         {
             AbstractTableWrapper tableWrapper =
                 AbstractTableWrapper.GetTableWrapper(composite.TableName);
-            if (tableWrapper != null)
-            {
-                return tableWrapper.UpdateRow(objs, rowNumber);
-            }
-            return false;
+            return tableWrapper?.UpdateRow(objs, rowNumber) ?? false;
         }
 
         /// <summary>
         /// Удаление строки из таблицы.
         /// </summary>
         /// <param name="composite"></param>
-        /// <param name="rowNumber"></param>
+        /// <param name="objs"></param>
         /// <returns></returns>
-        public bool DeleteRow(CompositeType composite, int rowNumber)
+        public bool DeleteRow(CompositeType composite, object[] objs, string login)
         {
             AbstractTableWrapper tableWrapper =
                 AbstractTableWrapper.GetTableWrapper(composite.TableName);
-            if (tableWrapper != null)
-            {
-                return tableWrapper.DeleteRow(rowNumber);
-            }
-            return false;
+            return tableWrapper?.DeleteRow(objs) ?? false;
         }
 
         /// <summary>
@@ -96,7 +142,7 @@ namespace SupHost
         /// </summary>
         /// <param name="id"></param>
         /// <returns></returns>
-        public byte[] GetImage(int id)
+        public byte[] GetImage(int id, string login)
         {
             //TODO: обязательно переработать. Данный вариант выступает как заглушка. 
             string conSt = "Server = MISTEROWL; Database = dbTest; Trusted_Connection = True; ";
@@ -128,6 +174,16 @@ namespace SupHost
                 cn.Close();
             }
             return bytes;
+        }
+
+        public bool Authorize(string login, string pass)
+        {
+            throw new NotImplementedException();
+        }
+
+        public bool ExitAuthorize(string login)
+        {
+            throw new NotImplementedException();
         }
     }
 }
