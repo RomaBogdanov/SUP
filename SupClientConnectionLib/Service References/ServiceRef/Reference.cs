@@ -174,6 +174,12 @@ namespace SupClientConnectionLib.ServiceRef {
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/ITableService/Authorize", ReplyAction="http://tempuri.org/ITableService/AuthorizeResponse")]
         System.Threading.Tasks.Task<bool> AuthorizeAsync(string login, string pass);
         
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/ITableService/CheckAuthorize", ReplyAction="http://tempuri.org/ITableService/CheckAuthorizeResponse")]
+        bool CheckAuthorize(string login);
+        
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/ITableService/CheckAuthorize", ReplyAction="http://tempuri.org/ITableService/CheckAuthorizeResponse")]
+        System.Threading.Tasks.Task<bool> CheckAuthorizeAsync(string login);
+        
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/ITableService/ExitAuthorize", ReplyAction="http://tempuri.org/ITableService/ExitAuthorizeResponse")]
         bool ExitAuthorize(string login);
         
@@ -293,6 +299,14 @@ namespace SupClientConnectionLib.ServiceRef {
         
         public System.Threading.Tasks.Task<bool> AuthorizeAsync(string login, string pass) {
             return base.Channel.AuthorizeAsync(login, pass);
+        }
+        
+        public bool CheckAuthorize(string login) {
+            return base.Channel.CheckAuthorize(login);
+        }
+        
+        public System.Threading.Tasks.Task<bool> CheckAuthorizeAsync(string login) {
+            return base.Channel.CheckAuthorizeAsync(login);
         }
         
         public bool ExitAuthorize(string login) {

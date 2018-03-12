@@ -47,8 +47,51 @@ namespace SupClientConnectionLib
 
         public bool Authorize(string login, string pass)
         {
-            authorizer.Login = login;
-            return this.tableService.Authorize(authorizer.Login, pass);
+            authorizer.Login = login ?? "";
+            bool b = false;
+            try
+            {
+                b = this.tableService.Authorize(authorizer.Login, pass ?? "");
+            }
+            catch (ProtocolException)
+            {
+                this.tableService = new TableServiceClient(instanceContext);
+                this.compositeType = new CompositeType();
+                try
+                {
+                    b = this.tableService.Authorize(authorizer.Login, pass ?? "");
+                }
+                catch
+                {
+                    b = false;
+                }
+            }
+            catch (CommunicationObjectFaultedException)
+            {
+                this.tableService = new TableServiceClient(instanceContext);
+                this.compositeType = new CompositeType();
+                try
+                {
+                    b = this.tableService.Authorize(authorizer.Login, pass ?? "");
+                }
+                catch
+                {
+                    b = false;
+                }
+            }
+            return b;
+        }
+        
+        public bool CheckAuthorize()
+        {
+            try
+            {
+                return this.tableService.CheckAuthorize(authorizer.Login);
+            }
+            catch (Exception)
+            {
+                return false;
+            }
         }
 
         public bool ExitAuthorize()
@@ -104,15 +147,18 @@ namespace SupClientConnectionLib
         {
             return this.tableService.GetImage(id, authorizer.Login);
         }
-        
+
+        NewMessageHandler messageHandler;
+        InstanceContext instanceContext;
+
         public ClientConnector()
         {
             authorizer = Authorizer.AppAuthorizer;
-            NewMessageHandler messageHandler = new NewMessageHandler();
+            messageHandler = new NewMessageHandler();
             messageHandler.OnInsert += MessageHandler_OnInsert;
             messageHandler.OnUpdate += MessageHandler_OnUpdate;
             messageHandler.OnDelete += MessageHandler_OnDelete;
-            InstanceContext instanceContext = new InstanceContext(messageHandler);
+            instanceContext = new InstanceContext(messageHandler);
             this.tableService = new TableServiceClient(instanceContext);
             this.compositeType = new CompositeType();
         }

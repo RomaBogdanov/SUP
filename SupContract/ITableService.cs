@@ -77,6 +77,14 @@ namespace SupContract
         bool Authorize(string login, string pass);
 
         /// <summary>
+        /// Процедура подтверждения авторизации.
+        /// </summary>
+        /// <param name="login"></param>
+        /// <returns></returns>
+        [OperationContract]
+        bool CheckAuthorize(string login);
+
+        /// <summary>
         /// Процедура выхода из профиля.
         /// </summary>
         /// <param name="login"></param>

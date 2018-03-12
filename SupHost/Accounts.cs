@@ -3,13 +3,16 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Timers;
 
 namespace SupHost
 {
     class Accounts
     {
         static Accounts accounts;
-        List<string> listAccs = new List<string>();
+        Dictionary<string, int> listAccs = new Dictionary<string, int>();
+        int maxTime = 60000;
+        int elapsedTime = 30000;
 
         public static Accounts GetAccounts()
         {
@@ -22,7 +25,7 @@ namespace SupHost
 
         public bool IsExist(string login)
         {
-            if (listAccs.Contains(login))
+            if (listAccs.ContainsKey(login))
             {
                 return true;
             }
@@ -31,7 +34,7 @@ namespace SupHost
 
         public void AddAccount(string login)
         {
-            this.listAccs.Add(login);
+            this.listAccs.Add(login, 0);
         }
 
         public void RemoveAccount(string login)
@@ -39,7 +42,39 @@ namespace SupHost
             this.listAccs.Remove(login);
         }
 
+        public bool CheckAccount(string login)
+        {
+            if (listAccs.ContainsKey(login))
+            {
+                listAccs[login] = 0;
+                return true;
+            }
+            return false;
+        }
+
         private Accounts()
-        { }
+        {
+            var timer = new Timer(elapsedTime);
+            timer.Elapsed += Timer_Elapsed;
+            timer.Start();
+        }
+
+        private void Timer_Elapsed(object sender, ElapsedEventArgs e)
+        {
+            lock (this.listAccs)
+            {
+                foreach (var item in this.listAccs)
+                {
+                    if (item.Value >= maxTime)
+                    {
+                        this.listAccs.Remove(item.Key);
+                    }
+                    else
+                    {
+                        this.listAccs[item.Key] += elapsedTime;
+                    }
+                }
+            }
+        }
     }
 }

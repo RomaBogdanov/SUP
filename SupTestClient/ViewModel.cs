@@ -10,6 +10,7 @@ using SupClientConnectionLib;
 using SupClientConnectionLib.ServiceRef;
 using System.IO;
 using System.Windows.Media.Imaging;
+using System.Timers;
 
 namespace SupTestClient
 {
@@ -32,6 +33,8 @@ namespace SupTestClient
         private string password;
         bool IsAuthorization = false;
         private string enterButtonContent = "Войти";
+        Timer timer;
+        int timerInterval = 3000;
 
         #region Public
 
@@ -212,6 +215,8 @@ namespace SupTestClient
             DeleteRow = new RelayCommand(arg => DelRow(arg));
             GetImage = new RelayCommand(arg => GImage());
             Enter = new RelayCommand(arg => Entering());
+            timer = new Timer(timerInterval);
+            timer.Elapsed += Timer_Elapsed;
         }
 
         private void Connector_OnInsert(string tableName, object[] objs)
@@ -239,7 +244,6 @@ namespace SupTestClient
             {
                 table.Rows.Remove(row);
             }
-
         }
 
         #endregion
@@ -321,6 +325,7 @@ namespace SupTestClient
                 this.connector.ExitAuthorize();
                 IsAuthorization = false;
                 this.EnterButtonContent = "Войти";
+                timer.Stop();
             }
             else
             {
@@ -328,12 +333,31 @@ namespace SupTestClient
                 {
                     IsAuthorization = true;
                     this.EnterButtonContent = "Выйти";
+                    timer.Start();
                 }
                 else
                 {
                     IsAuthorization = false;
                     this.EnterButtonContent = "Войти";
+                    this.Msgs = "Аутентификация не прошла";
+                    timer.Stop();
                 }
+            }
+        }
+
+        private void Timer_Elapsed(object sender, ElapsedEventArgs e)
+        {
+            bool a = this.connector.CheckAuthorize();
+            if (a)
+            {
+                IsAuthorization = true;
+                this.EnterButtonContent = "Выйти";
+            }
+            else
+            {
+                IsAuthorization = false;
+                this.EnterButtonContent = "Войти";
+                timer.Stop();
             }
         }
 

@@ -58,7 +58,7 @@ namespace SupHost
                     незарегистрированным аккаунтом {login}");
                 return null;
             }
-            AbstractTableWrapper tableWrapper = 
+            AbstractTableWrapper tableWrapper =
                 AbstractTableWrapper.GetTableWrapper(composite.TableName);
             if (tableWrapper != null)
             {
@@ -212,7 +212,7 @@ namespace SupHost
                     зарегистрированным аккаунтом {login}");
                 return false;
             }
-            VisUsersTableWrapper visUsersTableWrapper = 
+            VisUsersTableWrapper visUsersTableWrapper =
                 VisUsersTableWrapper.GetVisUsersTableWrapper();
             if (visUsersTableWrapper.ExistingLogin(login, pass))
             {
@@ -221,6 +221,11 @@ namespace SupHost
                 return true;
             }
             return false;
+        }
+
+        public bool CheckAuthorize(string login)
+        {
+            return users.CheckAccount(login);
         }
 
         public bool ExitAuthorize(string login)
