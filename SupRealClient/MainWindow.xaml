@@ -1,0 +1,88 @@
+﻿<Window x:Class="SupRealClient.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:SupRealClient"
+        mc:Ignorable="d"
+        Title="Программа учёта посетителей" Height="350" Width="525" WindowState="Maximized">
+    <Window.DataContext>
+        <local:MainWindowViewModel/>
+    </Window.DataContext>
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="25"/>
+            <RowDefinition Height="50"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="30"/>
+        </Grid.RowDefinitions>
+        <Menu Grid.RowSpan="1">
+            <MenuItem Header="Действия" FontSize="18">
+                <MenuItem Header="Отчёт" IsEnabled="False"/>
+                <MenuItem Header="Сохранить" IsEnabled="False"/>
+                <Separator />
+                <MenuItem Header="Просмотр" IsEnabled="False"/>
+                <MenuItem Header="Печать" IsEnabled="False"/>
+                <Separator />
+                <MenuItem Header="Регистрация" IsEnabled="False"/>
+                <MenuItem Header="Сменить пароль" IsEnabled="False"/>
+                <Separator />
+                <MenuItem Header="Выход" Command="{Binding Path=UserExit}" IsEnabled="{Binding Path=IsUserEnter, Mode=TwoWay}"/>
+            </MenuItem>
+            <MenuItem Header="Списки" FontSize="18">
+                <MenuItem Header="Организации" Command="{Binding Path = ListOrganizationsClick}"/>
+                <MenuItem Header="Дочерние акционерные общества" IsEnabled="False"/>
+                <MenuItem Header="Главные организации" IsEnabled="False"/>
+                <MenuItem Header="Структура главных организаций" IsEnabled="False"/>
+                <MenuItem Header="Гражданства" IsEnabled="False"/>
+                <MenuItem Header="Документы" IsEnabled="False"/>
+                <MenuItem Header="Посетители" IsEnabled="False"/>
+                <MenuItem Header="Пропуска" IsEnabled="False"/>
+                <MenuItem Header="Кабинеты" IsEnabled="False"/>
+                <MenuItem Header="Зоны доступа" IsEnabled="False"/>
+            </MenuItem>
+            <MenuItem Header="Сервис" FontSize="18">
+                <MenuItem Header="Очистка базы данных..." IsEnabled="False"/>
+                <MenuItem Header="Настройки..." IsEnabled="False"/>
+            </MenuItem>
+            <MenuItem Header="Окно" FontSize="18">
+                <MenuItem Header="Посетители" IsEnabled="False"/>
+                <MenuItem Header="Посещения" IsEnabled="False"/>
+                <MenuItem Header="Заявки" IsEnabled="False"/>
+                <Separator />
+                <MenuItem Header="Горизонтальной мозаикой" IsEnabled="False"/>
+                <MenuItem Header="Вертикальной мозаикой" IsEnabled="False"/>
+                <MenuItem Header="Каскадом" IsEnabled="False"/>
+                <Separator />
+                <MenuItem Header="Закрыть окно" IsEnabled="False"/>
+                <MenuItem Header="Закрыть всё" IsEnabled="False"/>
+            </MenuItem>
+            <MenuItem Header="Справка" FontSize="18">
+                <MenuItem Header="Содержание" IsEnabled="False"/>
+                <Separator />
+                <MenuItem Header="О программе..." IsEnabled="False"/>
+            </MenuItem>
+        </Menu>
+        <DockPanel Grid.Row="1" Background="LightGray">
+            <Button Content="Посетители" FontSize="18" IsEnabled="False"/>
+            <Button Content="Заявки" FontSize="18" IsEnabled="False"/>
+            <Button Content="Посещения" FontSize="18" IsEnabled="False"/>
+            <Button Content="Отчёт" FontSize="18" IsEnabled="False"/>
+            <Button Content="Сохранить" FontSize="18" IsEnabled="False"/>
+            <Button Content="Наименование" FontSize="18" IsEnabled="False"/>
+            <Button Content="Регистрация" FontSize="18" IsEnabled="False"/>
+            <Button/>
+        </DockPanel>
+        <!--<local:Authorize1View Grid.Row="2"></local:Authorize1View>-->
+        <ContentControl x:Name="aaa" Grid.Row="2" Content="{Binding Path=Control}" ></ContentControl>
+        <Grid Grid.Row="3">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="200"/>
+                <ColumnDefinition Width="200"/>
+                <ColumnDefinition Width="*"/>
+            </Grid.ColumnDefinitions>
+            <TextBox Margin="2" Grid.Column="0" FontSize="18" Text="{Binding Path=AuthorizedUser, Mode=TwoWay}"></TextBox>
+            <TextBox Margin="2" Grid.Column="1" FontSize="18"></TextBox>
+        </Grid>
+    </Grid>
+</Window>

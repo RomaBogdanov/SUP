@@ -1,0 +1,165 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+using System.ComponentModel;
+using System.Windows.Input;
+using System.Windows.Media;
+using System.Timers;
+using SupClientConnectionLib;
+using SupClientConnectionLib.ServiceRef;
+using System.Windows.Controls;
+
+namespace SupRealClient
+{
+    class Authorize1ViewModel : INotifyPropertyChanged
+    {
+        public event PropertyChangedEventHandler PropertyChanged;
+
+        private string login;
+        private string password;
+        bool IsAuthorization = false;
+        Timer timer;
+        int timerInterval = 3000;
+        private ClientConnector connector;
+        private MainWindowViewModel mainWindowViewModel;
+        private string msg = "";
+        private Brush infoStyle = Brushes.Red;
+        SetupStorage setupStorage = SetupStorage.Current;
+
+        public string Login
+        {
+            get { return this.login; }
+            set
+            {
+                if (this.login != value)
+                {
+                    this.login = value;
+                    OnPropertyChanged("Login");
+                }
+            }
+        }
+
+        public string Password
+        {
+            get { return this.password; }
+            set
+            {
+                if (this.password != value)
+                {
+                    this.password = value;
+                    OnPropertyChanged("Password");
+                }
+            }
+        }
+
+        public string Msg
+        {
+            get { return msg; }
+            set
+            {
+                this.msg = value;
+                OnPropertyChanged("Msg");
+            }
+        }
+
+        public Brush InfoStyle
+        {
+            get { return this.infoStyle; }
+            set
+            {
+                this.infoStyle = value;
+                OnPropertyChanged("InfoStyle");
+            }
+        }
+
+        public ICommand Enter
+        { get; set; }
+
+        public Authorize1ViewModel()
+        {
+            //this.mainWindowViewModel = MainWindowViewModel.Current;
+            this.connector = ClientConnector.CurrentConnector;
+            Enter = new RelayCommand(arg => Entering(arg));
+            timer = new Timer(timerInterval);
+            timer.Elapsed += Timer_Elapsed;
+        }
+
+        protected virtual void OnPropertyChanged(string propertyName)
+        {
+            this.PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
+        }
+
+        private void Entering(object password)
+        {
+            this.mainWindowViewModel = MainWindowViewModel.Current;
+            this.Password = ((PasswordBox)password).Password;
+            ((PasswordBox)password).Clear();
+            if (IsAuthorization)
+            {
+                this.connector.ExitAuthorize();
+                IsAuthorization = false;
+                //System.Windows.Forms.MessageBox.Show("Войти");
+                this.mainWindowViewModel.AuthorizedUser = "Пользователь не назначен";
+                this.InfoStyle = Brushes.Red;
+                this.Msg = "Неуспешная попытка авторизации!";
+                setupStorage.UserExit = true;
+                this.ClearEnterData();
+                //this.EnterButtonContent = "Войти";
+                timer.Stop();
+            }
+            else
+            {
+                if (this.connector.Authorize(Login, Password))
+                {
+                    IsAuthorization = true;
+                    //System.Windows.Forms.MessageBox.Show("Выйти");
+                    this.mainWindowViewModel.AuthorizedUser = Login;
+                    this.InfoStyle = Brushes.Green;
+                    this.Msg = "Пользователь авторизован!";
+                    setupStorage.UserExit = false;
+                    this.ClearEnterData();
+                    //this.EnterButtonContent = "Выйти";
+                    timer.Start();
+                }
+                else
+                {
+                    IsAuthorization = false;
+                    //System.Windows.Forms.MessageBox.Show("Войти");
+                    this.mainWindowViewModel.AuthorizedUser = "Пользователь не назначен";
+                    this.InfoStyle = Brushes.Red;
+                    this.Msg = "Неуспешная попытка авторизации!";
+                    setupStorage.UserExit = true;
+                    this.ClearEnterData();
+                    //this.EnterButtonContent = "Войти";
+                    //this.Msgs = "Аутентификация не прошла";
+                    timer.Stop();
+                }
+            }
+        }
+
+        private void Timer_Elapsed(object sender, ElapsedEventArgs e)
+        {
+            bool a = this.connector.CheckAuthorize();
+            if (a)
+            {
+                IsAuthorization = true;
+                //this.EnterButtonContent = "Выйти";
+            }
+            else
+            {
+                IsAuthorization = false;
+                //this.EnterButtonContent = "Войти";
+                timer.Stop();
+            }
+        }
+
+        private void ClearEnterData()
+        {
+            this.Login = "";
+            this.Password = "";
+            
+        }
+    }
+}
