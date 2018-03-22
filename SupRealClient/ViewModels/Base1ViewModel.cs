@@ -8,7 +8,7 @@ using System.Windows.Input;
 
 namespace SupRealClient
 {
-    class Base1ViewModel : INotifyPropertyChanged
+    public class Base1ViewModel : INotifyPropertyChanged
     {
         public event PropertyChangedEventHandler PropertyChanged;
         public int numItem = -1;

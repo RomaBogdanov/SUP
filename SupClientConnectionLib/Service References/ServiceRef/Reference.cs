@@ -114,6 +114,9 @@ namespace SupClientConnectionLib.ServiceRef {
         
         [System.Runtime.Serialization.EnumMemberAttribute()]
         VisDocuments = 6,
+        
+        [System.Runtime.Serialization.EnumMemberAttribute()]
+        VisCountries = 7,
     }
     
     [System.CodeDom.Compiler.GeneratedCodeAttribute("System.ServiceModel", "4.0.0.0")]

@@ -20,6 +20,7 @@ namespace SupRealClient
         bool userExitOpened = false;
         SetupStorage setupStorage = SetupStorage.Current;
         Window windowDocuments;
+        Window windowNations;
 
         public static MainWindowViewModel Current
         {
@@ -69,6 +70,9 @@ namespace SupRealClient
         public ICommand ListDocumentsClick
         { get; set; }
 
+        public ICommand ListNationsClick
+        { get; set; }
+
         public ICommand UserExit
         { get; set; }
 
@@ -80,6 +84,7 @@ namespace SupRealClient
             Current = this;
             ListOrganizationsClick = new RelayCommand(arg => ListOrganizationsOpen());
             ListDocumentsClick = new RelayCommand(arg => OpenDocumentsWindow());
+            ListNationsClick = new RelayCommand(arg => OpenNationsWindow());
             UserExit = new RelayCommand(arg => UserExitProc());
             setupStorage.ChangeUserExit += arg => IsUserEnter = !arg;
             Close = new RelayCommand(arg => ExitApp());
@@ -110,12 +115,24 @@ namespace SupRealClient
             windowDocuments.Activate();
         }
 
+        private void OpenNationsWindow()
+        {
+            windowNations = windowNations ?? new NationsWindView();
+            windowNations.Show();
+            windowNations.Activate();
+        }
+
         private void ExitApp()
         {
             if (this.windowDocuments != null)
             {
                 (this.windowDocuments as DocumentsWindView).IsRealClose = true;
                 this.windowDocuments.Close();
+            }
+            if (this.windowNations != null)
+            {
+                (this.windowNations as NationsWindView).IsRealClose = true;
+                this.windowNations.Close();
             }
             ClientConnector clientConnector = ClientConnector.CurrentConnector;
             if (clientConnector.CheckAuthorize())

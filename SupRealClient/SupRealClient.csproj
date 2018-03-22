@@ -61,6 +61,10 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Page Include="Views\NationsWindView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Views\Search1View.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -89,9 +93,17 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
+    <Compile Include="Models\AddItemNationsModel.cs" />
+    <Compile Include="TabsSingleton\CountriesWrapper.cs" />
+    <Compile Include="Models\Base1NationsModel.cs" />
     <Compile Include="Models\AddItemDocumentsModel.cs" />
     <Compile Include="Models\IAddItem1Model.cs" />
     <Compile Include="Models\UpdateItemDocumentsModel.cs" />
+    <Compile Include="EnumerationClasses\Nation.cs" />
+    <Compile Include="Models\UpdateItemNationsModel.cs" />
+    <Compile Include="Views\NationsWindView.xaml.cs">
+      <DependentUpon>NationsWindView.xaml</DependentUpon>
+    </Compile>
     <Compile Include="ViewModels\AddItem1ViewModel.cs" />
     <Compile Include="Views\Search1View.xaml.cs">
       <DependentUpon>Search1View.xaml</DependentUpon>

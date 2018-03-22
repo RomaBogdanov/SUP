@@ -86,6 +86,8 @@
     <Compile Include="Tables\VisUsersTableWrapper.cs" />
     <Compile Include="Tables\VisVisitorsTableWrapper.cs" />
     <Compile Include="Tables\VisOrganizationsTableWrapper.cs" />
+    <Compile Include="GetTableBehavior\VisCountriesTableBehavior.cs" />
+    <Compile Include="Tables\VisCountriesTableWrapper.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />

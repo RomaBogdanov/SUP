@@ -14,6 +14,7 @@ namespace SupContract
         VisOrderElements,
         VisVisitors,
         VisOrganizations,
-        VisDocuments
+        VisDocuments,
+        VisCountries
     }
 }

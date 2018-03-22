@@ -40,7 +40,7 @@
                 <MenuItem Header="Дочерние акционерные общества" IsEnabled="False"/>
                 <MenuItem Header="Главные организации" IsEnabled="False"/>
                 <MenuItem Header="Структура главных организаций" IsEnabled="False"/>
-                <MenuItem Header="Гражданства" IsEnabled="False"/>
+                <MenuItem Header="Гражданства" Command="{Binding Path=ListNationsClick}"/>
                 <MenuItem Header="Документы" Command="{Binding Path=ListDocumentsClick}"/>
                 <MenuItem Header="Посетители" IsEnabled="False"/>
                 <MenuItem Header="Пропуска" IsEnabled="False"/>

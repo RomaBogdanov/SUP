@@ -11,16 +11,13 @@ namespace SupRealClient
 {
     class Base1DocsModel : Base1ModelAbstr
     {
-        private DataTable tabDocuments;
-        private ClientConnector tabConnector;
-        private string tabName;
-        private Base1ViewModel viewModel;
+        
 
         public Base1DocsModel(Base1ViewModel viewModel)
         {
             this.viewModel = viewModel;
             DocumentsWrapper documentsWrapper = DocumentsWrapper.CurrentTable();
-            tabDocuments = documentsWrapper.Table;
+            table = documentsWrapper.Table;
             tabConnector = documentsWrapper.Connector;
             tabName = documentsWrapper.Table.TableName;
             documentsWrapper.OnChanged += Query;
@@ -52,7 +49,6 @@ namespace SupRealClient
                 this.viewModel.CurrentItem = this.viewModel.Set.First();
                 this.viewModel.numItem = 
                     (this.viewModel.CurrentItem as Document).Id;
-                //this.viewModel.Focused = true;
                 this.viewModel.SelectedIndex = 0;
             }
             else
@@ -66,34 +62,16 @@ namespace SupRealClient
             this.viewModel.CurrentItem = this.viewModel.Set.Last();
             this.viewModel.numItem =
                 (this.viewModel.CurrentItem as Document).Id;
-            //this.viewModel.Focused = true;
             this.viewModel.SelectedIndex = this.viewModel.Set.Count() - 1;
         }
 
         public override void Farther()
         {
-            throw new NotImplementedException();
-        }
-
-        public override void Next()
-        {
-            if (this.viewModel.SelectedIndex < this.viewModel.Set.Count() - 1)
-            {
-                this.viewModel.SelectedIndex++;
-            }
-        }
-
-        public override void Prev()
-        {
-            if (this.viewModel.SelectedIndex > 0)
-            {
-                this.viewModel.SelectedIndex--;
-            }
+            //throw new NotImplementedException();
         }
 
         public override void Searching(string pattern)
         {
-            //var a = this.viewModel.Set.First(arg => (arg as Document).DocName.StartsWith(pattern));
             var indSet = this.viewModel.Set
                 .Select((arg, index) =>
                 new { index, at = (arg as Document).DocName.StartsWith(pattern) });
@@ -103,15 +81,9 @@ namespace SupRealClient
                 this.viewModel.SelectedIndex; 
         }
 
-        public override void Search()
-        {
-            Search1View search1View = new Search1View();
-            search1View.Show();
-        }
-
         private void Query()
         {
-            var documents = from docs in tabDocuments.AsEnumerable()
+            var documents = from docs in table.AsEnumerable()
                             select new Document()
                             {
                                 Id = docs.Field<int>("f_doc_id"),
