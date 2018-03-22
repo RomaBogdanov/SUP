@@ -261,7 +261,7 @@ ADD PRIMARY KEY (f_dep_id)
 
 CREATE TABLE vis_documents
     (f_doc_id                      int NOT NULL,
-    f_doc_name                     VARCHAR(20),
+    f_doc_name                     VARCHAR(40),
     f_deleted                      CHAR(1),
     f_rec_date                     DATE,
     f_rec_operator                 int)

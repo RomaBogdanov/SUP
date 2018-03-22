@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.ComponentModel;
+using System.Windows;
 using System.Windows.Input;
 using System.Windows.Controls;
 using SupClientConnectionLib;
@@ -18,6 +19,7 @@ namespace SupRealClient
         string authorizedUser;
         bool userExitOpened = false;
         SetupStorage setupStorage = SetupStorage.Current;
+        Window windowDocuments;
 
         public static MainWindowViewModel Current
         {
@@ -64,15 +66,23 @@ namespace SupRealClient
         public ICommand ListOrganizationsClick
         { get; set; }
 
+        public ICommand ListDocumentsClick
+        { get; set; }
+
         public ICommand UserExit
+        { get; set; }
+
+        public ICommand Close
         { get; set; }
 
         public MainWindowViewModel()
         {
             Current = this;
             ListOrganizationsClick = new RelayCommand(arg => ListOrganizationsOpen());
+            ListDocumentsClick = new RelayCommand(arg => OpenDocumentsWindow());
             UserExit = new RelayCommand(arg => UserExitProc());
             setupStorage.ChangeUserExit += arg => IsUserEnter = !arg;
+            Close = new RelayCommand(arg => ExitApp());
         }
 
         protected virtual void OnPropertyChanged(string propertyName) =>
@@ -93,5 +103,25 @@ namespace SupRealClient
             Control = new Authorize1View();
         }
 
+        private void OpenDocumentsWindow()
+        {
+            windowDocuments = windowDocuments ?? new DocumentsWindView();
+            windowDocuments.Show();
+            windowDocuments.Activate();
+        }
+
+        private void ExitApp()
+        {
+            if (this.windowDocuments != null)
+            {
+                (this.windowDocuments as DocumentsWindView).IsRealClose = true;
+                this.windowDocuments.Close();
+            }
+            ClientConnector clientConnector = ClientConnector.CurrentConnector;
+            if (clientConnector.CheckAuthorize())
+            {
+                clientConnector.ExitAuthorize();
+            }
+        }
     }
 }

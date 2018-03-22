@@ -13,6 +13,7 @@ namespace SupRealClient
     {
         protected DataTable table;
         protected ClientConnector connector;
+        public event Action OnChanged;
 
         public DataTable Table { get { return this.table; } }
 
@@ -21,6 +22,45 @@ namespace SupRealClient
         protected TableWrapper()
         {
             this.connector = new ClientConnector();
+            this.connector.OnInsert += Connector_OnInsert;
+            this.connector.OnUpdate += Connector_OnUpdate;
+            this.connector.OnDelete += Connector_OnDelete;
+        }
+
+        private void Connector_OnInsert(string tableName, object[] objs)
+        {
+            if (tableName == table.TableName && !this.table.Rows.Contains(objs[0]))
+            {
+                table.Rows.Add(objs);
+                this.OnChanged();
+            }
+        }
+
+        private void Connector_OnUpdate(string tableName, int rowNumber, object[] objs)
+        {
+            if (tableName == table.TableName)
+            {
+                DataRow row = table.Rows.Find(objs[0]);
+                if (row != null)
+                {
+                    row.ItemArray = objs;
+                    table.AcceptChanges();
+                    this.OnChanged();
+                }
+            }
+        }
+
+        private void Connector_OnDelete(string tableName, object[] objs)
+        {
+            if (tableName == table.TableName)
+            {
+                DataRow row = table.Rows.Find(objs[0]);
+                if (row != null)
+                {
+                    table.Rows.Remove(row);
+                    this.OnChanged();
+                }
+            }
         }
 
         protected void Subscribe()
@@ -37,7 +77,7 @@ namespace SupRealClient
         private void Table_RowChanged(object sender, DataRowChangeEventArgs e)
         {
             // TODO: перевести взаимодействие таблиц с сервером в табличные обёртки. 
-            /*DataTable dt;
+            DataTable dt;
             switch (e.Action)
             {
                 case DataRowAction.Nothing:
@@ -47,7 +87,8 @@ namespace SupRealClient
                 case DataRowAction.Change:
                     dt = (DataTable)sender;
                     int i = dt.Rows.IndexOf(e.Row);
-                    this.tabConnectors[dt.TableName].UpdateRow(e.Row.ItemArray, i);
+                    this.OnChanged();
+                    this.Connector.UpdateRow(e.Row.ItemArray, i);
                     break;
                 case DataRowAction.Rollback:
                     break;
@@ -55,7 +96,8 @@ namespace SupRealClient
                     break;
                 case DataRowAction.Add:
                     dt = (DataTable)sender;
-                    this.tabConnectors[dt.TableName].InsertRow(e.Row.ItemArray);
+                    this.OnChanged();
+                    this.Connector.InsertRow(e.Row.ItemArray);
                     break;
                 case DataRowAction.ChangeOriginal:
                     break;
@@ -63,7 +105,7 @@ namespace SupRealClient
                     break;
                 default:
                     break;
-            }*/
+            }
         }
     }
 }

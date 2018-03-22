@@ -1,0 +1,40 @@
+﻿<Window x:Class="SupRealClient.Search1View"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:SupRealClient"
+        mc:Ignorable="d"
+        Title="Поиск" Height="270" Width="300">
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="2*"/>
+            <ColumnDefinition Width="2*"/>
+            <ColumnDefinition Width="1*"/>
+            <ColumnDefinition Width="2*"/>
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="50"/>
+            <RowDefinition Height="85"/>
+            <RowDefinition Height="50"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+        <GroupBox Header="Значение поля" Grid.Row="0" Grid.ColumnSpan="4">
+            <TextBox></TextBox>
+        </GroupBox>
+        <GroupBox Header="Тип поиска" Grid.Row="1" Grid.ColumnSpan="4">
+            <StackPanel>
+                <CheckBox Content="Учитывать регистр"></CheckBox>
+                <RadioButton Content="Точное совпадение"></RadioButton>
+                <RadioButton Content="Совпадение с начала"></RadioButton>
+                <RadioButton Content="Любое совпадение"></RadioButton>
+            </StackPanel>
+        </GroupBox>
+        <GroupBox Header="Поля" Grid.Row="2" Grid.ColumnSpan="4">
+            <ComboBox></ComboBox>
+        </GroupBox>
+        <Button Grid.Row="3" Grid.Column="0" Content="Начало"></Button>
+        <Button Grid.Row="3" Grid.Column="1" Content="Далее"></Button>
+        <Button Grid.Row="3" Grid.Column="3" Content="Отмена"></Button>
+    </Grid>
+</Window>

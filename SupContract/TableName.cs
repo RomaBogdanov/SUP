@@ -13,6 +13,7 @@ namespace SupContract
         TestTable2Ado,
         VisOrderElements,
         VisVisitors,
-        VisOrganizations
+        VisOrganizations,
+        VisDocuments
     }
 }

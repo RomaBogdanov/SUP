@@ -62,6 +62,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Accounts.cs" />
+    <Compile Include="GetTableBehavior\VisDocumentsTableBehavior.cs" />
     <Compile Include="GetTableBehavior\VisitorsDBTableBehavior.cs" />
     <Compile Include="GetTableBehavior\VisUsersTableBehavior.cs" />
     <Compile Include="Tables\AbstractTableWrapper.cs" />
@@ -75,6 +76,7 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="TableService1.cs" />
     <Compile Include="Tables\TestTable1Wrapper.cs" />
+    <Compile Include="Tables\VisDocumentsTableWrapper.cs" />
     <Compile Include="Tables\VisOrdersTableWrapper.cs" />
     <Compile Include="Tables\TestTable2AdoWrapper.cs" />
     <Compile Include="GetTableBehavior\VisVisitorsTableBehavior.cs" />

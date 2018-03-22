@@ -51,7 +51,7 @@ namespace SupRealClient
         public ICommand Delete
         { get; set; }
 
-        public Organizations1ViewModel(IOrganizations1Model model)
+        public Organizations1ViewModel()
         {
             this.model = new Organizations1Model(this);
             this.CreateCommands();

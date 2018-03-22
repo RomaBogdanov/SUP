@@ -16,6 +16,7 @@
       <xs:enumeration value="VisOrderElements" />
       <xs:enumeration value="VisVisitors" />
       <xs:enumeration value="VisOrganizations" />
+      <xs:enumeration value="VisDocuments" />
     </xs:restriction>
   </xs:simpleType>
   <xs:element name="TableName" nillable="true" type="tns:TableName" />

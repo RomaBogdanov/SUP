@@ -10,19 +10,17 @@ using System.Windows.Documents;
 using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
 using System.Windows.Shapes;
 
 namespace SupRealClient
 {
     /// <summary>
-    /// Логика взаимодействия для Organizations1View.xaml
+    /// Логика взаимодействия для Search1View.xaml
     /// </summary>
-    public partial class Organizations1View : UserControl
+    public partial class Search1View : Window
     {
-        public Organizations1View()
+        public Search1View()
         {
-            DataContext = new Organizations1ViewModel();
             InitializeComponent();
         }
     }

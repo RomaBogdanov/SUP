@@ -6,9 +6,9 @@
              xmlns:local="clr-namespace:SupRealClient"
              mc:Ignorable="d" 
              d:DesignHeight="300" d:DesignWidth="300">
-    <UserControl.DataContext>
+    <!--<UserControl.DataContext>
         <local:Organizations1ViewModel />
-    </UserControl.DataContext>
+    </UserControl.DataContext>-->
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="1*"/>

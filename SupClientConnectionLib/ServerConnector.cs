@@ -30,8 +30,7 @@ namespace SupClientConnectionLib
         public event Action<string, object[]> OnDelete;
 
         #region Public
-
-        //TODO: убрать синглтон из данного класса, т.к. он не используется.
+        
         public static ClientConnector CurrentConnector
         {
             get

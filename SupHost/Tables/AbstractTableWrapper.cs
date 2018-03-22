@@ -32,6 +32,7 @@ namespace SupHost
             wrappers.Add(TableName.VisOrderElements.ToString(), new VisOrderElementsTableWrapper());
             wrappers.Add(TableName.VisOrganizations.ToString(), new VisOrganizationsTableWrapper());
             wrappers.Add(TableName.VisVisitors.ToString(), new VisVisitorsTableWrapper());
+            wrappers.Add(TableName.VisDocuments.ToString(), new VisDocumentsTableWrapper());
         }
 
         public static AbstractTableWrapper GetTableWrapper(TableName table)

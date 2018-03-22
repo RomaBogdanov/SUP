@@ -10,20 +10,26 @@ using System.Windows.Documents;
 using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
 using System.Windows.Shapes;
 
 namespace SupRealClient
 {
     /// <summary>
-    /// Логика взаимодействия для Organizations1View.xaml
+    /// Логика взаимодействия для AddItem1View.xaml
     /// </summary>
-    public partial class Organizations1View : UserControl
+    public partial class AddItem1View : Window
     {
-        public Organizations1View()
+        public AddItem1View(IAddItem1Model model)
         {
-            DataContext = new Organizations1ViewModel();
+            model.OnClose += Hanling_OnClose;
+            DataContext = new AddItem1ViewModel();
+            ((AddItem1ViewModel)DataContext).SetModel(model);
             InitializeComponent();
+        }
+
+        private void Hanling_OnClose()
+        {
+            this.Close();
         }
     }
 }

@@ -4,8 +4,14 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:SupRealClient"
+        xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
         mc:Ignorable="d"
         Title="Программа учёта посетителей" Height="350" Width="525" WindowState="Maximized">
+    <i:Interaction.Triggers>
+        <i:EventTrigger EventName="Closing">
+            <i:InvokeCommandAction Command="{Binding Close}"/>
+        </i:EventTrigger>
+    </i:Interaction.Triggers>
     <Window.DataContext>
         <local:MainWindowViewModel/>
     </Window.DataContext>
@@ -35,7 +41,7 @@
                 <MenuItem Header="Главные организации" IsEnabled="False"/>
                 <MenuItem Header="Структура главных организаций" IsEnabled="False"/>
                 <MenuItem Header="Гражданства" IsEnabled="False"/>
-                <MenuItem Header="Документы" IsEnabled="False"/>
+                <MenuItem Header="Документы" Command="{Binding Path=ListDocumentsClick}"/>
                 <MenuItem Header="Посетители" IsEnabled="False"/>
                 <MenuItem Header="Пропуска" IsEnabled="False"/>
                 <MenuItem Header="Кабинеты" IsEnabled="False"/>
