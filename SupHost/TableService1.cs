@@ -16,7 +16,7 @@ namespace SupHost
     public class TableService1 : ITableService
     {
         ITableCallback callback;
-        readonly int timeOut = 200;
+        readonly int timeOut = 400;
         Accounts users = Accounts.GetAccounts();
         private Logger logger = Logger.CurrentLogger;
 

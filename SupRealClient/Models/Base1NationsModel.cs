@@ -63,7 +63,7 @@ namespace SupRealClient
         {
             var indSet = this.viewModel.Set
                 .Select((arg, index) =>
-                new { index, at = (arg as Document).DocName.StartsWith(pattern) });
+                new { index, at = (arg as Nation).CountryName.StartsWith(pattern) });
             this.viewModel.SelectedIndex =
                 indSet.FirstOrDefault(arg1 => arg1.at == true) != null ?
                 indSet.FirstOrDefault(arg1 => arg1.at == true).index :

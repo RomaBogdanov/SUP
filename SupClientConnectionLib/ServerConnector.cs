@@ -132,8 +132,13 @@ namespace SupClientConnectionLib
                     rowValues[i] = "";
                 }
             }
-            return this.tableService.UpdateRow(compositeType, numRow, 
-                rowValues, authorizer.Login);
+            bool b;
+            lock (this.tableService)
+            {
+                b = this.tableService.UpdateRow(compositeType, numRow,
+                    rowValues, authorizer.Login);
+            }
+            return b;
         }
 
         public bool DeleteRow(object[] objs)
