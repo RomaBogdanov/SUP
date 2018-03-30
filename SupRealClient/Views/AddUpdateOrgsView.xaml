@@ -1,0 +1,36 @@
+﻿<Window x:Class="SupRealClient.AddUpdateOrgsView"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:SupRealClient"
+        mc:Ignorable="d"
+        Title="Добавление организации" Height="320" Width="300">
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="1*"/>
+            <ColumnDefinition Width="1*"/>
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="30"/>
+            <RowDefinition Height="30"/>
+            <RowDefinition Height="30"/>
+            <RowDefinition Height="30"/>
+            <RowDefinition Height="30"/>
+            <RowDefinition Height="30"/>
+            <RowDefinition Height="30"/>
+            <RowDefinition Height="30"/>
+            <RowDefinition Height="1*"/>
+        </Grid.RowDefinitions>
+        <Label Content="Тип:" Grid.ColumnSpan="2"></Label>
+        <TextBox Grid.Row="1" Grid.ColumnSpan="2" Text="{Binding Path=Type, Mode=TwoWay}"></TextBox>
+        <Label Content="Название:" Grid.Row="2" Grid.ColumnSpan="2"></Label>
+        <TextBox Grid.Row="3" Grid.ColumnSpan="2" Text="{Binding Path=Name, Mode=TwoWay}"></TextBox>
+        <Label Content="Комментарий:" Grid.Row="4" Grid.ColumnSpan="2"></Label>
+        <TextBox Grid.Row="5" Grid.ColumnSpan="2" Text="{Binding Path=Comment,Mode=TwoWay}"></TextBox>
+        <Label Content="Основное название:" Grid.Row="6" Grid.ColumnSpan="2"></Label>
+        <TextBox Grid.Row="7" Grid.ColumnSpan="2" Text="{Binding Path=FullName, Mode=TwoWay}"></TextBox>
+        <Button Grid.Row="8" Content="Ок" Command="{Binding Path=Ok}"></Button>
+        <Button Grid.Row="8" Grid.Column="1" Content="Отмена" Command="{Binding Path=Cancel}"></Button>
+    </Grid>
+</Window>

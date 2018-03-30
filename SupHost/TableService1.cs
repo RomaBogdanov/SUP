@@ -116,11 +116,6 @@ namespace SupHost
             }
             AbstractTableWrapper tableWrapper =
                 AbstractTableWrapper.GetTableWrapper(composite.TableName);
-            /*if (tableWrapper != null)
-            {
-                return tableWrapper.InsertRow(objs);
-            }
-            return false;*/
             return tableWrapper?.InsertRow(objs) ?? false;
         }
 

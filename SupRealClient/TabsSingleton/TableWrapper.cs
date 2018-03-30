@@ -43,6 +43,14 @@ namespace SupRealClient
                 DataRow row = table.Rows.Find(objs[0]);
                 if (row != null)
                 {
+                    int l = row.ItemArray.Length;
+                    for (int i = 0; i < l; i++)
+                    {
+                        if (row.Table.Columns[i].DataType == typeof(int))
+                        {
+                            objs[i] = objs[i].ToString() == "" ? 0 : objs[i];
+                        }
+                    }
                     row.ItemArray = objs;
                     table.AcceptChanges();
                     this.OnChanged();

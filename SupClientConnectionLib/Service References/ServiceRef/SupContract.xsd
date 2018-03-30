@@ -18,6 +18,10 @@
       <xs:enumeration value="VisOrganizations" />
       <xs:enumeration value="VisDocuments" />
       <xs:enumeration value="VisCountries" />
+      <xs:enumeration value="VisCards" />
+      <xs:enumeration value="VisNewUser" />
+      <xs:enumeration value="VisSprCardstates" />
+      <xs:enumeration value="VisVisits" />
     </xs:restriction>
   </xs:simpleType>
   <xs:element name="TableName" nillable="true" type="tns:TableName" />

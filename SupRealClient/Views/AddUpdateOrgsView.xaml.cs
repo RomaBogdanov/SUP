@@ -10,20 +10,26 @@ using System.Windows.Documents;
 using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
 using System.Windows.Shapes;
 
 namespace SupRealClient
 {
     /// <summary>
-    /// Логика взаимодействия для Organizations1View.xaml
+    /// Логика взаимодействия для AddUpdateOrgsView.xaml
     /// </summary>
-    public partial class Organizations1View : UserControl
+    public partial class AddUpdateOrgsView : Window
     {
-        public Organizations1View()
+        public AddUpdateOrgsView(IAddUpdateOrgsModel model)
         {
-            DataContext = new Organizations1ViewModel();
+            model.OnClose += Handling_OnClose;
+            DataContext = new AddUpdateOrgsViewModel();
+            ((AddUpdateOrgsViewModel)DataContext).SetModel(model);
             InitializeComponent();
+        }
+
+        private void Handling_OnClose()
+        {
+            this.Close();
         }
     }
 }

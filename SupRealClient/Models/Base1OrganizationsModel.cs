@@ -7,12 +7,13 @@ using System.Data;
 
 namespace SupRealClient
 {
-    class Base1NationsModel : Base1ModelAbstr
+    class Base1OrganizationsModel : Base1ModelAbstr
     {
-        public Base1NationsModel(Base1ViewModel viewModel)
+
+        public Base1OrganizationsModel(Base1ViewModel viewModel)
         {
             this.viewModel = viewModel;
-            CountriesWrapper countriesWrapper = CountriesWrapper.CurrentTable();
+            OrganizationsWrapper countriesWrapper = OrganizationsWrapper.CurrentTable();
             table = countriesWrapper.Table;
             tabConnector = countriesWrapper.Connector;
             tabName = countriesWrapper.Table.TableName;
@@ -22,8 +23,8 @@ namespace SupRealClient
 
         public override void Add()
         {
-            AddItem1View addItem1View = new AddItem1View(new AddItemNationsModel());
-            addItem1View.Show();
+            AddUpdateOrgsView orgsView = new AddUpdateOrgsView(new AddOrgsModel());
+            orgsView.Show();
         }
 
         public override void Begin()
@@ -32,7 +33,7 @@ namespace SupRealClient
             {
                 this.viewModel.CurrentItem = this.viewModel.Set.First();
                 this.viewModel.numItem =
-                    (this.viewModel.CurrentItem as Nation).Id;
+                    (this.viewModel.CurrentItem as Organization).Id;
                 this.viewModel.SelectedIndex = 0;
             }
             else
@@ -45,50 +46,46 @@ namespace SupRealClient
         {
             this.viewModel.CurrentItem = this.viewModel.Set.Last();
             this.viewModel.numItem =
-                (this.viewModel.CurrentItem as Nation).Id;
+                (this.viewModel.CurrentItem as Organization).Id;
             this.viewModel.SelectedIndex = this.viewModel.Set.Count() - 1;
         }
 
         public override void EnterCurrentItem(object item)
         {
-            this.viewModel.numItem = (item as Nation).Id;
+            this.viewModel.numItem = (item as Organization).Id;
         }
 
         public override void Farther()
         {
-            //throw new NotImplementedException();
+            throw new NotImplementedException();
         }
 
         public override void Searching(string pattern)
         {
-            var indSet = this.viewModel.Set
-                .Select((arg, index) =>
-                new { index, at = (arg as Nation).CountryName.StartsWith(pattern) });
-            this.viewModel.SelectedIndex =
-                indSet.FirstOrDefault(arg1 => arg1.at == true) != null ?
-                indSet.FirstOrDefault(arg1 => arg1.at == true).index :
-                this.viewModel.SelectedIndex;
+            throw new NotImplementedException();
         }
 
         public override void Update()
         {
-            AddItem1View addItem1View = new AddItem1View(
-                new UpdateItemNationsModel((Nation)this.viewModel.CurrentItem));
-            addItem1View.Show();
+            AddUpdateOrgsView orgsView = 
+                new AddUpdateOrgsView(new UpdateOrgsModel(
+                    (Organization)this.viewModel.CurrentItem));
+            orgsView.Show();
         }
 
         protected override void Query()
         {
-            var nations = from nats in table.AsEnumerable()
-                            select new Nation()
-                            {
-                                Id = nats.Field<int>("f_cntr_id"),
-                                CountryName = nats.Field<string>("f_cntr_name"),
-                                Deleted = nats.Field<string>("f_deleted"),
-                                RecDate = nats.Field<DateTime>("f_rec_date"),
-                                RecOperator = nats.Field<int>("f_rec_operator")
-                            };
-            this.viewModel.Set = nations;
+            var organizations = from orgs in table.AsEnumerable()
+                                where orgs.Field<int>("f_org_id") != 0
+                                select new Organization()
+                                {
+                                    Id = orgs.Field<int>("f_org_id"),
+                                    Type = orgs.Field<string>("f_org_type"),
+                                    FullName = orgs.Field<string>("f_full_org_name"),
+                                    Name = orgs.Field<string>("f_org_name"),
+                                    Comment = orgs.Field<string>("f_comment")
+                                };
+            this.viewModel.Set = organizations;
             if (viewModel.numItem == -1)
             {
                 this.Begin();
@@ -97,7 +94,7 @@ namespace SupRealClient
             {
                 try
                 {
-                    this.viewModel.CurrentItem = nations.First(
+                    this.viewModel.CurrentItem = organizations.First(
                         arg => arg.Id == this.viewModel.numItem);
                 }
                 catch (Exception)

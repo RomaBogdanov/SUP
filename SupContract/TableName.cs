@@ -15,6 +15,10 @@ namespace SupContract
         VisVisitors,
         VisOrganizations,
         VisDocuments,
-        VisCountries
+        VisCountries,
+        VisCards,
+        VisNewUser,
+        VisSprCardstates,
+        VisVisits
     }
 }

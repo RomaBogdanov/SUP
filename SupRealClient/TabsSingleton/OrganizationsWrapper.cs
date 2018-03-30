@@ -25,6 +25,7 @@ namespace SupRealClient
         private OrganizationsWrapper() : base()
         {
             this.table = connector.GetTable(TableName.VisOrganizations);
+            this.Subscribe();
         }
     }
 }

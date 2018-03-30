@@ -43,7 +43,7 @@
                 <MenuItem Header="Гражданства" Command="{Binding Path=ListNationsClick}"/>
                 <MenuItem Header="Документы" Command="{Binding Path=ListDocumentsClick}"/>
                 <MenuItem Header="Посетители" IsEnabled="False"/>
-                <MenuItem Header="Пропуска" IsEnabled="False"/>
+                <MenuItem Header="Пропуска" Command="{Binding Path=ListCardsClick}"/>
                 <MenuItem Header="Кабинеты" IsEnabled="False"/>
                 <MenuItem Header="Зоны доступа" IsEnabled="False"/>
             </MenuItem>
@@ -80,7 +80,7 @@
             <Button/>
         </DockPanel>
         <!--<local:Authorize1View Grid.Row="2"></local:Authorize1View>-->
-        <ContentControl x:Name="aaa" Grid.Row="2" Content="{Binding Path=Control}" ></ContentControl>
+        <ContentControl x:Name="aaa" Grid.Row="2" Content="{Binding Path=Control}" Visibility="{Binding Path=LoginVisibility, Mode=OneWay}" ></ContentControl>
         <Grid Grid.Row="3">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="200"/>

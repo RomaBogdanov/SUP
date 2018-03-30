@@ -10,6 +10,7 @@ using System.Timers;
 using SupClientConnectionLib;
 using SupClientConnectionLib.ServiceRef;
 using System.Windows.Controls;
+using System.Windows;
 
 namespace SupRealClient
 {
@@ -120,6 +121,7 @@ namespace SupRealClient
                     this.Msg = "Пользователь авторизован!";
                     setupStorage.UserExit = false;
                     this.ClearEnterData();
+                    new System.Threading.Thread(Invisible).Start();
                     //this.EnterButtonContent = "Выйти";
                     timer.Start();
                 }
@@ -160,6 +162,12 @@ namespace SupRealClient
             this.Login = "";
             this.Password = "";
             
+        }
+
+        private void Invisible()
+        {
+            System.Threading.Thread.Sleep(1000);
+            this.mainWindowViewModel.LoginVisibility = Visibility.Hidden;
         }
     }
 }

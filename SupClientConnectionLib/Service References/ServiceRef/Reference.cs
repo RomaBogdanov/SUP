@@ -117,6 +117,18 @@ namespace SupClientConnectionLib.ServiceRef {
         
         [System.Runtime.Serialization.EnumMemberAttribute()]
         VisCountries = 7,
+        
+        [System.Runtime.Serialization.EnumMemberAttribute()]
+        VisCards = 8,
+        
+        [System.Runtime.Serialization.EnumMemberAttribute()]
+        VisNewUser = 9,
+        
+        [System.Runtime.Serialization.EnumMemberAttribute()]
+        VisSprCardstates = 10,
+        
+        [System.Runtime.Serialization.EnumMemberAttribute()]
+        VisVisits = 11,
     }
     
     [System.CodeDom.Compiler.GeneratedCodeAttribute("System.ServiceModel", "4.0.0.0")]

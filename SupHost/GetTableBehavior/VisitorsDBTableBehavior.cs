@@ -56,5 +56,20 @@ namespace SupHost
             this.connector.UpdateTable(this.table, this.adapter);
         }
 
+        /// <summary>
+        /// Процедура рассчитанная на стандартную таблицу с одной колонкой
+        /// выступающей как id.
+        /// </summary>
+        /// <param name="tableName"></param>
+        /// <param name="idColumn"></param>
+        protected void StandartSetup(string tableName, string idColumn)
+        {
+            this.query = $"select * from {tableName}";
+            this.primaryKeyColumns = new string[1];
+            this.primaryKeyColumns[0] = idColumn;
+            this.autoPrimaryKey = true;
+            this.tableName = tableName;
+        }
+
     }
 }

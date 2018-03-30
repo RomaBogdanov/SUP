@@ -81,7 +81,7 @@ namespace SupRealClient
                 this.viewModel.SelectedIndex; 
         }
 
-        private void Query()
+        protected override void Query()
         {
             var documents = from docs in table.AsEnumerable()
                             select new Document()

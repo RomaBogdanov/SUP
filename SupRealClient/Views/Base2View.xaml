@@ -1,0 +1,52 @@
+﻿<UserControl x:Class="SupRealClient.Base2View"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:SupRealClient"
+             mc:Ignorable="d" 
+             d:DesignHeight="300" d:DesignWidth="300">
+    <!--<UserControl.DataContext>
+        <local:Organizations1ViewModel />
+    </UserControl.DataContext>-->
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="1*"/>
+            <ColumnDefinition Width="1*"/>
+            <ColumnDefinition Width="1*"/>
+            <ColumnDefinition Width="1*"/>
+            <ColumnDefinition Width="1*"/>
+            <ColumnDefinition Width="1*"/>
+            <ColumnDefinition Width="1*"/>
+            <ColumnDefinition Width="1*"/>
+            <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width="1*"/>
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="1*"/>
+            <RowDefinition Height="30"/>
+            <RowDefinition Height="30"/>
+            <RowDefinition Height="50"/>
+        </Grid.RowDefinitions>
+        <DataGrid Name="baseTab" Grid.Row="0" ItemsSource="{Binding Path=Set, Mode=TwoWay}" CurrentItem="{Binding Path=CurrentItem, Mode=TwoWay}" AutoGenerateColumns="False" Grid.RowSpan="3" Grid.ColumnSpan="10" Focusable="True" SelectedItem="{Binding Path=CurrentItem, Mode=TwoWay}" SelectedIndex="{Binding Path=SelectedIndex, Mode=TwoWay}">
+            <!--<DataGrid.Columns>
+                <DataGridTextColumn Header="Тип" Binding="{Binding Type}">
+                </DataGridTextColumn>
+                <DataGridTextColumn Header="Название организации" Binding="{Binding Name}"></DataGridTextColumn>
+                <DataGridTextColumn Header="Примечание" Binding="{Binding Note}"></DataGridTextColumn>
+                <DataGridTextColumn Header="Основное название" Binding="{Binding FullName}"></DataGridTextColumn>
+            </DataGrid.Columns>-->
+        </DataGrid>
+        <Label Grid.Row="1" Grid.ColumnSpan="10" Content="Поиск по полю:" Margin="1"></Label>
+        <TextBox Name="aaa" Grid.Row="2" Grid.ColumnSpan="10" Margin="1" Text="{Binding Path=SearchingText, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+        <Button Grid.Row="3" Grid.Column="0" Content="Начало" Margin="1" Command="{Binding Path=Begin}"></Button>
+        <Button Grid.Row="3" Grid.Column="1" Content="Пред." Margin="1" Command="{Binding Path=Prev}"/>
+        <Button Grid.Row="3" Grid.Column="2" Content="След." Margin="1" Command="{Binding Path=Next}"/>
+        <Button Grid.Row="3" Grid.Column="3" Content="Конец" Margin="1" Command="{Binding Path=End}"/>
+        <Button Grid.Row="3" Grid.Column="4" Content="Добавить" Margin="1" Command="{Binding Path=Add}"></Button>
+        <Button Grid.Row="3" Grid.Column="5" Content="Правка" Margin="1" Command="{Binding Path=Update}"/>
+        <Button Grid.Row="3" Grid.Column="6" Content="Найти..." Margin="1" Command="{Binding Path=Search}"/>
+        <Button Grid.Row="3" Grid.Column="7" Content="Далее..." Margin="1" Command="{Binding Path=Farther}"/>
+        <Button Grid.Row="3" Grid.Column="9" Content="Закрыть" Margin="1" Command="{Binding Path=Close}"/>
+    </Grid>
+</UserControl>

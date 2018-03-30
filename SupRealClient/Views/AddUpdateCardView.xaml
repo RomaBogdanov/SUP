@@ -1,0 +1,41 @@
+﻿<Window x:Class="SupRealClient.AddUpdateCardView"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:SupRealClient"
+        mc:Ignorable="d"
+        Title="Добавление пропуска" Height="320" Width="300">
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="1*"/>
+            <ColumnDefinition Width="1*"/>
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="30"/>
+            <RowDefinition Height="30"/>
+            <RowDefinition Height="30"/>
+            <RowDefinition Height="30"/>
+            <RowDefinition Height="30"/>
+            <RowDefinition Height="30"/>
+            <RowDefinition Height="30"/>
+            <RowDefinition Height="30"/>
+            <RowDefinition Height="1*"/>
+        </Grid.RowDefinitions>
+        <Label Grid.Row="0" Grid.Column="0" Content="Пропуск:"></Label>
+        <Label Grid.Row="0" Grid.Column="1" Content="Внесен в БД:"></Label>
+        <TextBox Grid.Row="1" Grid.Column="0" Text="{Binding Path=CurdNum, Mode=TwoWay}"></TextBox>
+        <TextBox  Grid.Row="1" Grid.Column="1" Text="{Binding Path=CreateDate, Mode=TwoWay}"></TextBox>
+        <Label Grid.Row="2" Grid.Column="0" Content="Текущее состояние:"></Label>
+        <TextBox Grid.Row="3" Grid.Column="0" Grid.ColumnSpan="2" IsEnabled="False" Text="{Binding Path=State, Mode=TwoWay}"></TextBox>
+        <Label Grid.Row="4" Grid.Column="0" Grid.ColumnSpan="2" Content="Номер пропуска в MultiAccess:"></Label>
+        <TextBox Grid.Row="5" Grid.Column="0" Grid.ColumnSpan="2" Text="{Binding Path=NumMAFW, Mode=TwoWay}"></TextBox>
+        <Label Grid.Row="6" Grid.Column="0" Content="Комментарий:"></Label>
+        <TextBox Grid.Row="7" Grid.Column="0" Grid.ColumnSpan="2" Text="{Binding Path=Comment, Mode=TwoWay}"></TextBox>
+        <Button  Grid.Row="8" Grid.Column="0" Content="Изменить состояние" Command="{Binding Path=ChangeState}"></Button>
+        <StackPanel Name="pan" Grid.Row="8" Grid.Column="1" Orientation="Horizontal">
+            <Button Content="Ок" Width="73" Command="{Binding Path=Ok}"></Button>
+            <Button Content="Отмена" Width="73" Command="{Binding Path=Cancel}"></Button>
+        </StackPanel>
+    </Grid>
+</Window>

@@ -11,7 +11,7 @@ using System.Windows.Controls;
 
 namespace SupRealClient
 {
-    class Organizations1ViewModel : INotifyPropertyChanged
+    class Base2ViewModel : INotifyPropertyChanged
     {
         public event PropertyChangedEventHandler PropertyChanged;
 
@@ -51,7 +51,7 @@ namespace SupRealClient
         public ICommand Delete
         { get; set; }
 
-        public Organizations1ViewModel()
+        public Base2ViewModel()
         {
             this.model = new Organizations1Model(this);
             this.CreateCommands();

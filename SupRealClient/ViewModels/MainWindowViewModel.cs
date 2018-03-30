@@ -21,11 +21,24 @@ namespace SupRealClient
         SetupStorage setupStorage = SetupStorage.Current;
         Window windowDocuments;
         Window windowNations;
+        Window windowOrganizations;
+        Window windowCards;
+        Visibility loginVisibility = Visibility.Visible;
 
         public static MainWindowViewModel Current
         {
             get;
             private set;
+        }
+
+        public Visibility LoginVisibility
+        {
+            get { return loginVisibility; }
+            set
+            {
+                this.loginVisibility = value;
+                OnPropertyChanged("LoginVisibility");
+            }
         }
 
         public ContentControl Control
@@ -73,6 +86,9 @@ namespace SupRealClient
         public ICommand ListNationsClick
         { get; set; }
 
+        public ICommand ListCardsClick
+        { get; set; }
+
         public ICommand UserExit
         { get; set; }
 
@@ -85,6 +101,7 @@ namespace SupRealClient
             ListOrganizationsClick = new RelayCommand(arg => ListOrganizationsOpen());
             ListDocumentsClick = new RelayCommand(arg => OpenDocumentsWindow());
             ListNationsClick = new RelayCommand(arg => OpenNationsWindow());
+            ListCardsClick = new RelayCommand(arg => OpenCardsWindow());
             UserExit = new RelayCommand(arg => UserExitProc());
             setupStorage.ChangeUserExit += arg => IsUserEnter = !arg;
             Close = new RelayCommand(arg => ExitApp());
@@ -96,7 +113,10 @@ namespace SupRealClient
 
         private void ListOrganizationsOpen()
         {
-            Control = new Organizations1View();
+            //Control = new Base2View();
+            windowOrganizations = windowOrganizations ?? new OrganizationsWindView();
+            windowOrganizations.Show();
+            windowOrganizations.Activate();
         }
 
 
@@ -106,6 +126,7 @@ namespace SupRealClient
             clientConnector.ExitAuthorize();
             setupStorage.UserExit = true;
             Control = new Authorize1View();
+            LoginVisibility = Visibility.Visible;
         }
 
         private void OpenDocumentsWindow()
@@ -122,6 +143,13 @@ namespace SupRealClient
             windowNations.Activate();
         }
 
+        private void OpenCardsWindow()
+        {
+            windowCards = windowCards ?? new CardsWindView();
+            windowCards.Show();
+            windowCards.Activate();
+        }
+
         private void ExitApp()
         {
             if (this.windowDocuments != null)
@@ -133,6 +161,16 @@ namespace SupRealClient
             {
                 (this.windowNations as NationsWindView).IsRealClose = true;
                 this.windowNations.Close();
+            }
+            if (this.windowOrganizations != null)
+            {
+                (this.windowOrganizations as OrganizationsWindView).IsRealClose = true;
+                this.windowOrganizations.Close();
+            }
+            if (this.windowCards != null)
+            {
+                (this.windowCards as CardsWindView).IsRealClose = true;
+                this.windowCards.Close();
             }
             ClientConnector clientConnector = ClientConnector.CurrentConnector;
             if (clientConnector.CheckAuthorize())

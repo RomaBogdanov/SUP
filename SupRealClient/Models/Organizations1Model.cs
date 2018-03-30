@@ -14,9 +14,9 @@ namespace SupRealClient
         private DataTable tabOrganizations;
         private ClientConnector tabConnector;
         private string tabName;
-        private Organizations1ViewModel viewModel;
+        private Base2ViewModel viewModel;
 
-        public Organizations1Model(Organizations1ViewModel viewModel)
+        public Organizations1Model(Base2ViewModel viewModel)
         {
             this.viewModel = viewModel;
             OrganizationsWrapper organizationsWrapper = OrganizationsWrapper.CurrentTable();
@@ -54,7 +54,7 @@ namespace SupRealClient
                                     Type = orgs.Field<string>("f_org_type"),
                                     FullName = orgs.Field<string>("f_full_org_name"),
                                     Name = orgs.Field<string>("f_org_name"),
-                                    Note = orgs.Field<string>("f_comment")
+                                    Comment = orgs.Field<string>("f_comment")
                                 };
             this.viewModel.Organizations = organizations;
         }

@@ -88,6 +88,14 @@
     <Compile Include="Tables\VisOrganizationsTableWrapper.cs" />
     <Compile Include="GetTableBehavior\VisCountriesTableBehavior.cs" />
     <Compile Include="Tables\VisCountriesTableWrapper.cs" />
+    <Compile Include="GetTableBehavior\VisCardsTableBehavior.cs" />
+    <Compile Include="GetTableBehavior\VisNewUserTableBehavior.cs" />
+    <Compile Include="GetTableBehavior\VisSprCardstatesTableBehavior.cs" />
+    <Compile Include="GetTableBehavior\VisVisitsTableBehavior.cs" />
+    <Compile Include="Tables\VisCardsTableWrapper.cs" />
+    <Compile Include="Tables\VisNewUserTableWrapper.cs" />
+    <Compile Include="Tables\VisSprCardstatesTableWrapper.cs" />
+    <Compile Include="Tables\VisVisitsTableWrapper.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />

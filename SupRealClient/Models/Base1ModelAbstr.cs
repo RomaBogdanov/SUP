@@ -49,5 +49,6 @@ namespace SupRealClient
         {
             OnClose?.Invoke();
         }
+        protected abstract void Query();
     }
 }

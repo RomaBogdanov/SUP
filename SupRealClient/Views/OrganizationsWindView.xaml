@@ -1,0 +1,12 @@
+﻿<Window x:Class="SupRealClient.OrganizationsWindView"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:SupRealClient"
+        mc:Ignorable="d"
+        Title="OrganizationsWindView" Height="600" Width="1000" Closing="Window_Closing">
+    <Grid>
+        <local:Base2View x:Name="base2"></local:Base2View>
+    </Grid>
+</Window>
