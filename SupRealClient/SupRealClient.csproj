@@ -249,7 +249,9 @@
   <ItemGroup>
     <None Include="App.config" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Content Include="TabsSingleton\Wrappers.xml" />
+  </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\SupClientConnectionLib\SupClientConnectionLib.csproj">
       <Project>{82871529-5311-44ba-96a8-adbe27300d03}</Project>
