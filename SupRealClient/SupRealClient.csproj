@@ -88,6 +88,12 @@
     <Compile Include="Search\SearchContext.cs" />
     <Compile Include="Search\SearchResult.cs" />
     <Compile Include="Search\StartWithStrategy.cs" />
+    <Compile Include="TabsSingleton\CountriesWrapper.cs" />
+    <Compile Include="TabsSingleton\Wrappers.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Wrappers.tt</DependentUpon>
+    </Compile>
     <Compile Include="ViewModels\AddUpdateCardViewModel.cs" />
     <Compile Include="ViewModels\ErrorViewModel.cs" />
     <Compile Include="ViewModels\Search1ViewModel.cs" />
@@ -106,8 +112,6 @@
       <DependentUpon>CardsWindView.xaml</DependentUpon>
     </Compile>
     <Compile Include="EnumerationClasses\Card.cs" />
-    <Compile Include="TabsSingleton\VisitsWrapper.cs" />
-    <Compile Include="TabsSingleton\VisitorsWrapper.cs" />
     <Compile Include="ViewManager.cs" />
     <Page Include="ErrorWindow.xaml">
       <SubType>Designer</SubType>
@@ -161,15 +165,11 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Compile Include="TabsSingleton\SprCardstatesWrapper.cs" />
-    <Compile Include="TabsSingleton\NewUserWrapper.cs" />
-    <Compile Include="TabsSingleton\CardsWrapper.cs" />
     <Compile Include="Models\Base1OrganizationsModel.cs" />
     <Compile Include="Models\AddItemNationsModel.cs" />
     <Compile Include="Views\OrganizationsWindView.xaml.cs">
       <DependentUpon>OrganizationsWindView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="TabsSingleton\CountriesWrapper.cs" />
     <Compile Include="Models\Base1NationsModel.cs" />
     <Compile Include="Models\AddItemDocumentsModel.cs" />
     <Compile Include="Models\IAddItem1Model.cs" />
@@ -193,7 +193,6 @@
     <Compile Include="EnumerationClasses\Document.cs" />
     <Compile Include="Models\Base1DocsModel.cs" />
     <Compile Include="Models\Base1ModelAbstr.cs" />
-    <Compile Include="TabsSingleton\DocumentsWrapper.cs" />
     <Compile Include="ViewModels\Base1ViewModel.cs" />
     <Compile Include="Views\DocumentsWindView.xaml.cs">
       <DependentUpon>DocumentsWindView.xaml</DependentUpon>
@@ -206,7 +205,6 @@
     <Compile Include="EnumerationClasses\Organization.cs" />
     <Compile Include="SetupStorage.cs" />
     <Compile Include="TabsSingleton\TableWrapper.cs" />
-    <Compile Include="TabsSingleton\OrganizationsWrapper.cs" />
     <Compile Include="ViewModels\Base2ViewModel.cs" />
     <Compile Include="Views\Base2View.xaml.cs">
       <DependentUpon>Base2View.xaml</DependentUpon>
@@ -250,6 +248,10 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="TabsSingleton\Wrappers.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <LastGenOutput>Wrappers.cs</LastGenOutput>
+    </Content>
     <Content Include="TabsSingleton\Wrappers.xml" />
   </ItemGroup>
   <ItemGroup>
@@ -257,6 +259,9 @@
       <Project>{82871529-5311-44ba-96a8-adbe27300d03}</Project>
       <Name>SupClientConnectionLib</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

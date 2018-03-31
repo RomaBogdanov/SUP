@@ -1,0 +1,56 @@
+﻿<#@ template language="C#" debug="false" hostspecific="true"#>
+<#@ assembly name="System.Xml" #>
+<#@ assembly name="System.Xml.Linq" #>
+<#@ assembly name="System.Core" #>
+<#@ import namespace="System.Linq" #>
+<#@ import namespace="System.Xml" #>
+<#@ import namespace="System.Xml.Linq" #>
+<#@ import namespace="System.IO" #>
+<#@ output extension=".cs" #><#
+
+var entityTypeRelativePath = @"Wrappers.xml";
+
+var entityTypePath = Host.ResolvePath(entityTypeRelativePath);
+
+var entityTypeDoc = XDocument.Load(entityTypePath);
+var entityQuery = from entity in entityTypeDoc.Root.Elements()
+	let name = entity.Attribute("Name")
+	let type = entity.Attribute("Type")
+	let comment = entity.Attribute("Comment")
+	where name != null && !string.IsNullOrEmpty(name.Value)
+	select new
+	{
+		Name = name.Value,
+		Type = type.Value,
+		Comment = comment.Value,
+		Element = entity
+	};
+#>
+using SupClientConnectionLib.ServiceRef;
+
+namespace SupRealClient.TabsSingleton
+{
+<#foreach(var entity in entityQuery) { #>
+	/// <summary>
+	/// <#=entity.Comment#>
+	/// </summary>
+	partial class <#=entity.Name#> : TableWrapper
+	{
+		static <#=entity.Name#> currentTable;
+
+        public static <#=entity.Name#> CurrentTable()
+            => currentTable = currentTable ?? new <#=entity.Name#>();
+
+        private <#=entity.Name#>() : base()
+        {
+            this.table = connector.GetTable(TableName.<#=entity.Type#>);
+            this.Subscribe();
+			DoSomething();
+        }
+
+		// TODO - Для примера как можно переопределить метод
+		partial void DoSomething();
+    }
+
+<#}#>
+}

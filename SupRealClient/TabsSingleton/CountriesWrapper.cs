@@ -1,20 +1,12 @@
-﻿using SupClientConnectionLib.ServiceRef;
-
-namespace SupRealClient.TabsSingleton
+﻿namespace SupRealClient.TabsSingleton
 {
-    class CountriesWrapper : TableWrapper
+    // Пример как можно расширить функционал сгенерированного класса
+    partial class CountriesWrapper
     {
-        static CountriesWrapper currentTable;
-
-        public static CountriesWrapper CurrentTable()
+        partial void DoSomething()
         {
-            return currentTable = currentTable ?? new CountriesWrapper();
-        }
-
-        private CountriesWrapper() : base()
-        {
-            this.table = connector.GetTable(TableName.VisCountries);
-            this.Subscribe();
+            // TODO - если здесь поставить breakpoint, то при открытии формы "Страны" попадаем сюда
+            // Таким образом можно расширять функционал отдельных классов, если понадобится
         }
     }
 }
