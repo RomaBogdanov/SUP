@@ -1,16 +1,13 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using SupRealClient.Common.Data;
+using System;
 
-namespace SupRealClient
+namespace SupRealClient.Models
 {
     public interface IAddUpdateCardModel
     {
         event Action OnClose;
-        AddUpdateCardViewModel ViewModel { set; }
-        void Ok();
+        CardData Data { get; }
+        void Ok(CardData data);
         void Cancel();
         void ChangeState();
     }

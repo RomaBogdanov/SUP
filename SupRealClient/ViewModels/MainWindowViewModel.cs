@@ -1,16 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.ComponentModel;
+﻿using System.ComponentModel;
 using System.Windows;
 using System.Windows.Input;
 using System.Windows.Controls;
 using SupClientConnectionLib;
-using SupClientConnectionLib.ServiceRef;
+using SupRealClient.Views;
 
-namespace SupRealClient
+namespace SupRealClient.ViewModels
 {
     class MainWindowViewModel : INotifyPropertyChanged
     {

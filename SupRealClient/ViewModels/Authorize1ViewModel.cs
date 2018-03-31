@@ -1,18 +1,12 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.ComponentModel;
+﻿using System.ComponentModel;
 using System.Windows.Input;
 using System.Windows.Media;
 using System.Timers;
 using SupClientConnectionLib;
-using SupClientConnectionLib.ServiceRef;
 using System.Windows.Controls;
 using System.Windows;
 
-namespace SupRealClient
+namespace SupRealClient.ViewModels
 {
     class Authorize1ViewModel : INotifyPropertyChanged
     {

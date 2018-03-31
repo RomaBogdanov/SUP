@@ -1,27 +1,30 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Data;
 using SupClientConnectionLib;
+using SupRealClient.EnumerationClasses;
+using SupRealClient.Common.Data;
+using SupRealClient.TabsSingleton;
 
-namespace SupRealClient
+namespace SupRealClient.Models
 {
+    /// <summary>
+    /// Обновление организации - модель
+    /// </summary>
     class UpdateOrgsModel : IAddUpdateOrgsModel
     {
-        private AddUpdateOrgsViewModel viewModel;
         private Organization organization;
 
-        public AddUpdateOrgsViewModel ViewModel
+        public OrganizationData Data
         {
-            set
+            get
             {
-                this.viewModel = value;
-                this.viewModel.Type = organization.Type;
-                this.viewModel.Name = organization.Name;
-                this.viewModel.Comment = organization.Comment;
-                this.viewModel.FullName = organization.FullName;
+                return new OrganizationData
+                {
+                    Type = organization.Type,
+                    Name = organization.Name,
+                    Comment = organization.Comment,
+                    FullName = organization.FullName
+                };
             }
         }
 
@@ -35,18 +38,17 @@ namespace SupRealClient
             OnClose?.Invoke();
         }
 
-        public void Ok()
+        public void Ok(OrganizationData data)
         {
             OrganizationsWrapper organizations =
                 OrganizationsWrapper.CurrentTable();
-            if (!(this.viewModel.Type == "" | this.viewModel.Name == "" |
-                this.viewModel.FullName == ""))
+            if (!(data.Type == "" | data.Name == "" | data.FullName == ""))
             {
                 DataRow row = organizations.Table.Rows.Find(organization.Id);
-                row["f_org_type"] = this.viewModel.Type;
-                row["f_org_name"] = this.viewModel.Name;
-                row["f_comment"] = this.viewModel.Comment;
-                row["f_full_org_name"] = this.viewModel.FullName;
+                row["f_org_type"] = data.Type;
+                row["f_org_name"] = data.Name;
+                row["f_comment"] = data.Comment;
+                row["f_full_org_name"] = data.FullName;
                 row["f_rec_date"] = DateTime.Now;
                 row["f_rec_operator"] = Authorizer.AppAuthorizer.Login;
             }

@@ -1,9 +1,10 @@
-﻿<Window x:Class="SupRealClient.Search1View"
+﻿<Window x:Class="SupRealClient.Views.Search1View"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        xmlns:local="clr-namespace:SupRealClient"
+        xmlns:local="clr-namespace:SupRealClient.Views"
+		xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
         mc:Ignorable="d"
         Title="Поиск" Height="270" Width="300">
     <Grid>
@@ -20,21 +21,60 @@
             <RowDefinition Height="*"/>
         </Grid.RowDefinitions>
         <GroupBox Header="Значение поля" Grid.Row="0" Grid.ColumnSpan="4">
-            <TextBox></TextBox>
+			<TextBox Text="{Binding Path=Text, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}">
+				<i:Interaction.Triggers>
+					<i:EventTrigger EventName="TextChanged">
+						<i:InvokeCommandAction Command="{Binding Find}"/>
+					</i:EventTrigger>
+				</i:Interaction.Triggers>
+			</TextBox>
         </GroupBox>
         <GroupBox Header="Тип поиска" Grid.Row="1" Grid.ColumnSpan="4">
             <StackPanel>
-                <CheckBox Content="Учитывать регистр"></CheckBox>
-                <RadioButton Content="Точное совпадение"></RadioButton>
-                <RadioButton Content="Совпадение с начала"></RadioButton>
-                <RadioButton Content="Любое совпадение"></RadioButton>
+				<CheckBox Content="Учитывать регистр" IsChecked="{Binding Path=Register, Mode=TwoWay}">
+					<i:Interaction.Triggers>
+						<i:EventTrigger EventName="Checked">
+							<i:InvokeCommandAction Command="{Binding Find}"/>
+						</i:EventTrigger>
+						<i:EventTrigger EventName="Unchecked">
+							<i:InvokeCommandAction Command="{Binding Find}"/>
+						</i:EventTrigger>
+					</i:Interaction.Triggers>
+				</CheckBox>
+				<RadioButton Content="Точное совпадение" IsChecked="{Binding Path=Equal, Mode=TwoWay}">
+					<i:Interaction.Triggers>
+						<i:EventTrigger EventName="Checked">
+							<i:InvokeCommandAction Command="{Binding Find}"/>
+						</i:EventTrigger>
+					</i:Interaction.Triggers>
+				</RadioButton>
+				<RadioButton Content="Совпадение с начала" IsChecked="{Binding Path=StartWith, Mode=TwoWay}">
+					<i:Interaction.Triggers>
+						<i:EventTrigger EventName="Checked">
+							<i:InvokeCommandAction Command="{Binding Find}"/>
+						</i:EventTrigger>
+					</i:Interaction.Triggers>
+				</RadioButton>
+				<RadioButton Content="Любое совпадение" IsChecked="{Binding Path=Contains, Mode=TwoWay}">
+					<i:Interaction.Triggers>
+						<i:EventTrigger EventName="Checked">
+							<i:InvokeCommandAction Command="{Binding Find}"/>
+						</i:EventTrigger>
+					</i:Interaction.Triggers>
+				</RadioButton>
             </StackPanel>
         </GroupBox>
         <GroupBox Header="Поля" Grid.Row="2" Grid.ColumnSpan="4">
-            <ComboBox></ComboBox>
-        </GroupBox>
-        <Button Grid.Row="3" Grid.Column="0" Content="Начало"></Button>
-        <Button Grid.Row="3" Grid.Column="1" Content="Далее"></Button>
-        <Button Grid.Row="3" Grid.Column="3" Content="Отмена"></Button>
+			<ComboBox ItemsSource="{Binding Path=Fields, Mode=OneWay}" DisplayMemberPath="Value" SelectedValuePath="Key" SelectedValue="{Binding Path=Field, Mode=TwoWay}">
+				<i:Interaction.Triggers>
+					<i:EventTrigger EventName="SelectionChanged">
+						<i:InvokeCommandAction Command="{Binding Find}"/>
+					</i:EventTrigger>
+				</i:Interaction.Triggers>
+			</ComboBox> 
+		</GroupBox>
+		<Button Grid.Row="3" Grid.Column="0" Content="Начало" Command="{Binding Begin}" IsEnabled="{Binding Path=BeginEnabled, Mode=OneWay}"></Button>
+		<Button Grid.Row="3" Grid.Column="1" Content="Далее" Command="{Binding Next}" IsEnabled="{Binding Path=NextEnabled, Mode=OneWay}"></Button>
+		<Button Grid.Row="3" Grid.Column="3" Content="Отмена" Command="{Binding Cancel}"></Button>
     </Grid>
 </Window>

@@ -1,16 +1,16 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Data;
+using SupRealClient.TabsSingleton;
+using SupRealClient.EnumerationClasses;
+using SupRealClient.Common.Interfaces;
 
-namespace SupRealClient
+namespace SupRealClient.Models
 {
     class Base1OrganizationsModel : Base1ModelAbstr
     {
-
-        public Base1OrganizationsModel(Base1ViewModel viewModel)
+        public Base1OrganizationsModel(IBase1ViewModel viewModel)
         {
             this.viewModel = viewModel;
             OrganizationsWrapper countriesWrapper = OrganizationsWrapper.CurrentTable();
@@ -23,8 +23,7 @@ namespace SupRealClient
 
         public override void Add()
         {
-            AddUpdateOrgsView orgsView = new AddUpdateOrgsView(new AddOrgsModel());
-            orgsView.Show();
+            ViewManager.Instance.AddObject(new AddOrgsModel());
         }
 
         public override void Begin()
@@ -32,27 +31,27 @@ namespace SupRealClient
             if (this.viewModel.Set.Count() > 0)
             {
                 this.viewModel.CurrentItem = this.viewModel.Set.First();
-                this.viewModel.numItem =
+                this.viewModel.NumItem =
                     (this.viewModel.CurrentItem as Organization).Id;
                 this.viewModel.SelectedIndex = 0;
             }
             else
             {
-                this.viewModel.numItem = -1;
+                this.viewModel.NumItem = -1;
             }
         }
 
         public override void End()
         {
             this.viewModel.CurrentItem = this.viewModel.Set.Last();
-            this.viewModel.numItem =
+            this.viewModel.NumItem =
                 (this.viewModel.CurrentItem as Organization).Id;
             this.viewModel.SelectedIndex = this.viewModel.Set.Count() - 1;
         }
 
         public override void EnterCurrentItem(object item)
         {
-            this.viewModel.numItem = (item as Organization).Id;
+            this.viewModel.NumItem = (item as Organization).Id;
         }
 
         public override void Farther()
@@ -67,10 +66,7 @@ namespace SupRealClient
 
         public override void Update()
         {
-            AddUpdateOrgsView orgsView = 
-                new AddUpdateOrgsView(new UpdateOrgsModel(
-                    (Organization)this.viewModel.CurrentItem));
-            orgsView.Show();
+            ViewManager.Instance.UpdateObject(new UpdateOrgsModel((Organization)this.viewModel.CurrentItem));
         }
 
         protected override void Query()
@@ -86,7 +82,7 @@ namespace SupRealClient
                                     Comment = orgs.Field<string>("f_comment")
                                 };
             this.viewModel.Set = organizations;
-            if (viewModel.numItem == -1)
+            if (viewModel.NumItem == -1)
             {
                 this.Begin();
             }
@@ -95,13 +91,32 @@ namespace SupRealClient
                 try
                 {
                     this.viewModel.CurrentItem = organizations.First(
-                        arg => arg.Id == this.viewModel.numItem);
+                        arg => arg.Id == this.viewModel.NumItem);
                 }
                 catch (Exception)
                 {
                     this.Begin();
                 }
             }
+        }
+
+        public override DataRow[] Rows
+        {
+            get
+            {
+                return (from orgs in table.AsEnumerable() where orgs.Field<int>("f_org_id") != 0 select orgs).AsEnumerable().ToArray();
+            }
+        }
+
+        public override IDictionary<string, string> GetFields()
+        {
+            return new Dictionary<string, string>()
+            {
+                { "f_org_type", "Тип" },
+                { "f_full_org_name", "Основное название" },
+                { "f_org_name", "Название организации" },
+                { "f_comment", "Примечание" },
+            };
         }
     }
 }

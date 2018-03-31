@@ -1,26 +1,20 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Data;
 using SupClientConnectionLib;
+using SupRealClient.EnumerationClasses;
+using SupRealClient.Common.Data;
+using SupRealClient.TabsSingleton;
 
-namespace SupRealClient
+namespace SupRealClient.Models
 {
+    /// <summary>
+    /// Обновление документа - модель
+    /// </summary>
     class UpdateItemDocumentsModel : IAddItem1Model
     {
-        private AddItem1ViewModel viewModel;
         private Document document;
 
-        public AddItem1ViewModel ViewModel
-        {
-            set
-            {
-                this.viewModel = value;
-                this.viewModel.Field = document.DocName;
-            }
-        }
+        public FieldData Data { get { return new FieldData { Field = document.DocName }; } }
 
         public event Action OnClose;
 
@@ -29,13 +23,13 @@ namespace SupRealClient
             this.document = document;
         }
 
-        public void Ok()
+        public void Ok(FieldData data)
         {
             DocumentsWrapper documents = DocumentsWrapper.CurrentTable();
-            if (this.viewModel.Field != "")
+            if (data.Field != "")
             {
                 DataRow dataRow = documents.Table.Rows.Find(document.Id);
-                dataRow["f_doc_name"] = this.viewModel.Field;
+                dataRow["f_doc_name"] = data.Field;
                 dataRow["f_rec_date"] = DateTime.Now;
                 dataRow["f_rec_operator"] = Authorizer.AppAuthorizer.Login;
             }

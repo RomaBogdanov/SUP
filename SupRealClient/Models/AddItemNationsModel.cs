@@ -1,36 +1,32 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Data;
 using SupClientConnectionLib;
+using SupRealClient.Common.Data;
+using SupRealClient.TabsSingleton;
 
-namespace SupRealClient
+namespace SupRealClient.Models
 {
+    /// <summary>
+    /// Добавление страны - модель
+    /// </summary>
     class AddItemNationsModel : IAddItem1Model
     {
-        private AddItem1ViewModel viewModel;
-
-        public AddItem1ViewModel ViewModel
-        {
-            set { this.viewModel = value; }
-        }
-
         public event Action OnClose;
+
+        public FieldData Data { get { return new FieldData(); } }
 
         public void Cancel()
         {
             OnClose?.Invoke();
         }
 
-        public void Ok()
+        public void Ok(FieldData data)
         {
             CountriesWrapper countries = CountriesWrapper.CurrentTable();
-            if (this.viewModel.Field != "")
+            if (data.Field != "")
             {
                 DataRow row = countries.Table.NewRow();
-                row["f_cntr_name"] = this.viewModel.Field;
+                row["f_cntr_name"] = data.Field;
                 row["f_deleted"] = "N";
                 row["f_rec_date"] = DateTime.Now;
                 row["f_rec_operator"] = Authorizer.AppAuthorizer.Login;

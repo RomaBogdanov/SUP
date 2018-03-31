@@ -99,7 +99,8 @@ namespace SUPClient
         {
             DataTable dataTable = (DataTable)sender;
             int i = dataTable.Rows.IndexOf(e.Row);
-            this.tabConnectors[dataTable.TableName].DeleteRow(i);
+            //this.tabConnectors[dataTable.TableName].DeleteRow(i);             // Все равно не собирается в 2017 студии!!!
+            this.tabConnectors[dataTable.TableName].DeleteRow(new object[] { e.Row });
         }
 
         /// <summary>

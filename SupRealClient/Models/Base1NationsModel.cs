@@ -1,15 +1,16 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Data;
+using SupRealClient.TabsSingleton;
+using SupRealClient.EnumerationClasses;
+using SupRealClient.Common.Interfaces;
 
-namespace SupRealClient
+namespace SupRealClient.Models
 {
     class Base1NationsModel : Base1ModelAbstr
     {
-        public Base1NationsModel(Base1ViewModel viewModel)
+        public Base1NationsModel(IBase1ViewModel viewModel)
         {
             this.viewModel = viewModel;
             CountriesWrapper countriesWrapper = CountriesWrapper.CurrentTable();
@@ -22,8 +23,7 @@ namespace SupRealClient
 
         public override void Add()
         {
-            AddItem1View addItem1View = new AddItem1View(new AddItemNationsModel());
-            addItem1View.Show();
+            ViewManager.Instance.Add(new AddItemNationsModel());
         }
 
         public override void Begin()
@@ -31,27 +31,27 @@ namespace SupRealClient
             if (this.viewModel.Set.Count() > 0)
             {
                 this.viewModel.CurrentItem = this.viewModel.Set.First();
-                this.viewModel.numItem =
+                this.viewModel.NumItem =
                     (this.viewModel.CurrentItem as Nation).Id;
                 this.viewModel.SelectedIndex = 0;
             }
             else
             {
-                this.viewModel.numItem = -1;
+                this.viewModel.NumItem = -1;
             }
         }
 
         public override void End()
         {
             this.viewModel.CurrentItem = this.viewModel.Set.Last();
-            this.viewModel.numItem =
+            this.viewModel.NumItem =
                 (this.viewModel.CurrentItem as Nation).Id;
             this.viewModel.SelectedIndex = this.viewModel.Set.Count() - 1;
         }
 
         public override void EnterCurrentItem(object item)
         {
-            this.viewModel.numItem = (item as Nation).Id;
+            this.viewModel.NumItem = (item as Nation).Id;
         }
 
         public override void Farther()
@@ -72,9 +72,7 @@ namespace SupRealClient
 
         public override void Update()
         {
-            AddItem1View addItem1View = new AddItem1View(
-                new UpdateItemNationsModel((Nation)this.viewModel.CurrentItem));
-            addItem1View.Show();
+            ViewManager.Instance.Update(new UpdateItemNationsModel((Nation)this.viewModel.CurrentItem));
         }
 
         protected override void Query()
@@ -89,7 +87,7 @@ namespace SupRealClient
                                 RecOperator = nats.Field<int>("f_rec_operator")
                             };
             this.viewModel.Set = nations;
-            if (viewModel.numItem == -1)
+            if (viewModel.NumItem == -1)
             {
                 this.Begin();
             }
@@ -98,13 +96,18 @@ namespace SupRealClient
                 try
                 {
                     this.viewModel.CurrentItem = nations.First(
-                        arg => arg.Id == this.viewModel.numItem);
+                        arg => arg.Id == this.viewModel.NumItem);
                 }
                 catch (Exception)
                 {
                     this.Begin();
                 }
             }
+        }
+
+        public override IDictionary<string, string> GetFields()
+        {
+            return new Dictionary<string, string>() { { "f_cntr_name", "Название" } };
         }
     }
 }

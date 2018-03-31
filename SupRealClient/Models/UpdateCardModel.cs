@@ -1,27 +1,30 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Data;
 using SupClientConnectionLib;
+using SupRealClient.EnumerationClasses;
+using SupRealClient.Common.Data;
+using SupRealClient.TabsSingleton;
 
-namespace SupRealClient
+namespace SupRealClient.Models
 {
+    /// <summary>
+    /// Обновление пропуска - модель
+    /// </summary>
     class UpdateCardModel : IAddUpdateCardModel
     {
-        private AddUpdateCardViewModel viewModel;
         private Card card;
 
-        public AddUpdateCardViewModel ViewModel
+        public CardData Data
         {
-            set
+            get
             {
-                this.viewModel = value;
-                this.viewModel.CurdNum = card.CurdNum;
-                this.viewModel.Comment = card.Comment;
-                this.viewModel.NumMAFW = card.NumMAFW;
-                this.viewModel.CreateDate = card.ChangeDate;
+                return new CardData
+                {
+                    CurdNum = card.CurdNum,
+                    Comment = card.Comment,
+                    NumMAFW = card.NumMAFW,
+                    CreateDate = card.ChangeDate
+                };
             }
         }
 
@@ -42,15 +45,15 @@ namespace SupRealClient
             throw new NotImplementedException();
         }
 
-        public void Ok()
+        public void Ok(CardData data)
         {
             CardsWrapper cards = CardsWrapper.CurrentTable();
             DataRow row = cards.Table.Rows.Find(card.Id);
-            row["f_card_num"] = card.CurdNum;
-            row["f_card_text"] = card.NumMAFW;
-            row["f_comment"] = card.Comment;
+            row["f_card_num"] = data.CurdNum;
+            row["f_card_text"] = data.NumMAFW;
+            row["f_comment"] = data.Comment;
             row["f_rec_operator"] = Authorizer.AppAuthorizer.Login;
-            row["f_rec_date"] = card.ChangeDate;
+            row["f_rec_date"] = data.CreateDate;
             Cancel();
         }
     }

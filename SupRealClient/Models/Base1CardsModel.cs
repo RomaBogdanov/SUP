@@ -1,11 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Data;
+using SupRealClient.TabsSingleton;
+using SupRealClient.EnumerationClasses;
+using SupRealClient.Common.Interfaces;
 
-namespace SupRealClient
+namespace SupRealClient.Models
 {
     class Base1CardsModel : Base1ModelAbstr
     {
@@ -15,7 +16,7 @@ namespace SupRealClient
         NewUserWrapper newUserWrapper = NewUserWrapper.CurrentTable();
         VisitorsWrapper visitorsWrapper = VisitorsWrapper.CurrentTable();
 
-        public Base1CardsModel(Base1ViewModel viewModel)
+        public Base1CardsModel(IBase1ViewModel viewModel)
         {
             this.viewModel = viewModel;
             this.cardsWrapper.OnChanged += this.Query;
@@ -28,8 +29,7 @@ namespace SupRealClient
 
         public override void Add()
         {
-            AddUpdateCardView cardView = new AddUpdateCardView(new AddCardModel());
-            cardView.Show();
+            ViewManager.Instance.AddObject(new AddCardModel());
         }
 
         public override void Begin()
@@ -37,27 +37,27 @@ namespace SupRealClient
             if (this.viewModel.Set.Count() > 0)
             {
                 this.viewModel.CurrentItem = this.viewModel.Set.First();
-                this.viewModel.numItem =
+                this.viewModel.NumItem =
                     (this.viewModel.CurrentItem as Card).Id;
                 this.viewModel.SelectedIndex = 0;
             }
             else
             {
-                this.viewModel.numItem = -1;
+                this.viewModel.NumItem = -1;
             }
         }
 
         public override void End()
         {
             this.viewModel.CurrentItem = this.viewModel.Set.Last();
-            this.viewModel.numItem =
+            this.viewModel.NumItem =
                 (this.viewModel.CurrentItem as Card).Id;
             this.viewModel.SelectedIndex = this.viewModel.Set.Count() - 1;
         }
 
         public override void EnterCurrentItem(object item)
         {
-            this.viewModel.numItem = (item as Card).Id;
+            this.viewModel.NumItem = (item as Card).Id;
         }
 
         public override void Farther()
@@ -72,10 +72,7 @@ namespace SupRealClient
 
         public override void Update()
         {
-            AddUpdateCardView cardView = 
-                new AddUpdateCardView(new UpdateCardModel(
-                    (Card)this.viewModel.CurrentItem));
-            cardView.Show();
+            ViewManager.Instance.UpdateObject(new UpdateCardModel((Card)this.viewModel.CurrentItem));
         }
 
         protected override void Query()
@@ -113,7 +110,7 @@ namespace SupRealClient
                                 .PersonName.ToString())
                         };
             this.viewModel.Set = cards;
-            if (viewModel.numItem == -1)
+            if (viewModel.NumItem == -1)
             {
                 this.Begin();
             }
@@ -122,7 +119,7 @@ namespace SupRealClient
                 try
                 {
                     this.viewModel.CurrentItem = cards.First(
-                        arg => arg.Id == this.viewModel.numItem);
+                        arg => arg.Id == this.viewModel.NumItem);
                 }
                 catch (Exception)
                 {
@@ -132,6 +129,12 @@ namespace SupRealClient
 
             
         }
+
+        public override IDictionary<string, string> GetFields()
+        {
+            return new Dictionary<string, string>();
+        }
+
         class CardsPersons
         {
             public int IdCard { get; set; }

@@ -1,12 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using SupRealClient.Models;
+using SupRealClient.Common.Data;
 using System.ComponentModel;
 using System.Windows.Input;
 
-namespace SupRealClient
+namespace SupRealClient.ViewModels
 {
     public class AddItem1ViewModel : INotifyPropertyChanged
     {
@@ -40,8 +37,8 @@ namespace SupRealClient
         public void SetModel(IAddItem1Model addItem1Model)
         {
             this.model = addItem1Model;
-            this.model.ViewModel = this;
-            this.Ok = new RelayCommand(arg => this.model.Ok());
+            this.Field = model.Data.Field;
+            this.Ok = new RelayCommand(arg => this.model.Ok(new FieldData { Field = Field }));
             this.Cancel = new RelayCommand(arg => this.model.Cancel());
         }
 

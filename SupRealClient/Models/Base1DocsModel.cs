@@ -1,19 +1,16 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Data;
-using SupClientConnectionLib;
-using SupClientConnectionLib.ServiceRef;
+using SupRealClient.TabsSingleton;
+using SupRealClient.EnumerationClasses;
+using SupRealClient.Common.Interfaces;
 
-namespace SupRealClient
+namespace SupRealClient.Models
 {
     class Base1DocsModel : Base1ModelAbstr
     {
-        
-
-        public Base1DocsModel(Base1ViewModel viewModel)
+        public Base1DocsModel(IBase1ViewModel viewModel)
         {
             this.viewModel = viewModel;
             DocumentsWrapper documentsWrapper = DocumentsWrapper.CurrentTable();
@@ -26,20 +23,17 @@ namespace SupRealClient
 
         public override void EnterCurrentItem(object item)
         {
-            this.viewModel.numItem = (item as Document).Id;
+            this.viewModel.NumItem = (item as Document).Id;
         }
 
         public override void Add()
         {
-            AddItem1View addItem1View = new AddItem1View(new AddItemDocumentsModel());
-            addItem1View.Show();
+            ViewManager.Instance.Add(new AddItemDocumentsModel());
         }
 
         public override void Update()
         {
-            AddItem1View addItem1View = new AddItem1View(
-                new UpdateItemDocumentsModel((Document)this.viewModel.CurrentItem));
-            addItem1View.Show();
+            ViewManager.Instance.Update(new UpdateItemDocumentsModel((Document)this.viewModel.CurrentItem));
         }  
 
         public override void Begin()
@@ -47,20 +41,20 @@ namespace SupRealClient
             if (this.viewModel.Set.Count() > 0)
             {
                 this.viewModel.CurrentItem = this.viewModel.Set.First();
-                this.viewModel.numItem = 
+                this.viewModel.NumItem = 
                     (this.viewModel.CurrentItem as Document).Id;
                 this.viewModel.SelectedIndex = 0;
             }
             else
             {
-                this.viewModel.numItem = -1;
+                this.viewModel.NumItem = -1;
             }
         }
 
         public override void End()
         {
             this.viewModel.CurrentItem = this.viewModel.Set.Last();
-            this.viewModel.numItem =
+            this.viewModel.NumItem =
                 (this.viewModel.CurrentItem as Document).Id;
             this.viewModel.SelectedIndex = this.viewModel.Set.Count() - 1;
         }
@@ -93,7 +87,7 @@ namespace SupRealClient
                                 RecOperator = docs.Field<int>("f_rec_operator")
                             };
             this.viewModel.Set = documents;
-            if (viewModel.numItem == -1)
+            if (viewModel.NumItem == -1)
             {
                 this.Begin();
             }
@@ -102,7 +96,7 @@ namespace SupRealClient
                 try
                 {
                     this.viewModel.CurrentItem = documents.First(
-                        arg => arg.Id == this.viewModel.numItem);
+                        arg => arg.Id == this.viewModel.NumItem);
                 }
                 catch (Exception)
                 {
@@ -111,5 +105,9 @@ namespace SupRealClient
             }
         }
 
+        public override IDictionary<string, string> GetFields()
+        {
+            return new Dictionary<string, string>() { { "f_doc_name", "Название" } };
+        }
     }
 }

@@ -1,23 +1,22 @@
-﻿using System;
+﻿using SupRealClient.Common.Interfaces;
+using SupRealClient.Models;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.ComponentModel;
 using System.Windows.Input;
 
-namespace SupRealClient
+namespace SupRealClient.ViewModels
 {
-    public class Base1ViewModel : INotifyPropertyChanged
+    public class Base1ViewModel : IBase1ViewModel, INotifyPropertyChanged
     {
         public event PropertyChangedEventHandler PropertyChanged;
-        public int numItem = -1;
         private Base1ModelAbstr model;
         private IEnumerable<object> set;
         private object currentItem;
         private bool focused = false;
         private int selectedIndex;
         private string searchingText;
+
+        public int NumItem { get; set; } = -1;
 
         public string SearchingText
         {

@@ -1,12 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using SupRealClient.Models;
+using SupRealClient.Common.Data;
+using System;
 using System.ComponentModel;
 using System.Windows.Input;
 
-namespace SupRealClient
+namespace SupRealClient.ViewModels
 {
     public class AddUpdateCardViewModel : INotifyPropertyChanged
     {
@@ -85,8 +83,18 @@ namespace SupRealClient
         public void SetModel(IAddUpdateCardModel addItem1Model)
         {
             this.model = addItem1Model;
-            this.model.ViewModel = this;
-            this.Ok = new RelayCommand(arg => this.model.Ok());
+            this.CurdNum = model.Data.CurdNum;
+            this.CreateDate = model.Data.CreateDate;
+            this.NumMAFW = model.Data.NumMAFW;
+            this.Comment = model.Data.Comment;
+
+            this.Ok = new RelayCommand(arg => this.model.Ok(new CardData
+            {
+                CurdNum = CurdNum,
+                CreateDate = CreateDate,
+                NumMAFW = NumMAFW,
+                Comment = Comment
+            }));
             this.Cancel = new RelayCommand(arg => this.model.Cancel());
             this.ChangeState = new RelayCommand(arg => this.model.ChangeState());
         }

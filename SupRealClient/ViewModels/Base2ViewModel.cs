@@ -1,17 +1,13 @@
-﻿using System;
+﻿using SupRealClient.Common.Interfaces;
+using SupRealClient.EnumerationClasses;
+using SupRealClient.Models;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.ComponentModel;
 using System.Windows.Input;
-using SupClientConnectionLib;
-using SupClientConnectionLib.ServiceRef;
-using System.Windows.Controls;
 
-namespace SupRealClient
+namespace SupRealClient.ViewModels
 {
-    class Base2ViewModel : INotifyPropertyChanged
+    class Base2ViewModel : IBase2ViewModel, INotifyPropertyChanged
     {
         public event PropertyChangedEventHandler PropertyChanged;
 

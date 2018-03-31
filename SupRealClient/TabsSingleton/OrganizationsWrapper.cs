@@ -1,12 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using SupClientConnectionLib;
-using SupClientConnectionLib.ServiceRef;
+﻿using SupClientConnectionLib.ServiceRef;
 
-namespace SupRealClient
+namespace SupRealClient.TabsSingleton
 {
     class OrganizationsWrapper : TableWrapper
     {

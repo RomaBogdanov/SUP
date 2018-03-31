@@ -1,26 +1,20 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Data;
 using SupClientConnectionLib;
+using SupRealClient.EnumerationClasses;
+using SupRealClient.Common.Data;
+using SupRealClient.TabsSingleton;
 
-namespace SupRealClient
+namespace SupRealClient.Models
 {
+    /// <summary>
+    /// Обновление страны - модель
+    /// </summary>
     class UpdateItemNationsModel : IAddItem1Model
     {
-        private AddItem1ViewModel viewModel;
         private Nation nation;
 
-        public AddItem1ViewModel ViewModel
-        {
-            set
-            {
-                this.viewModel = value;
-                this.viewModel.Field = nation.CountryName;
-            }
-        }
+        public FieldData Data { get { return new FieldData { Field = nation.CountryName }; } }
 
         public event Action OnClose;
 
@@ -34,13 +28,13 @@ namespace SupRealClient
             OnClose?.Invoke();
         }
 
-        public void Ok()
+        public void Ok(FieldData data)
         {
             CountriesWrapper countries = CountriesWrapper.CurrentTable();
-            if (this.viewModel.Field != "")
+            if (data.Field != "")
             {
                 DataRow dataRow = countries.Table.Rows.Find(nation.Id);
-                dataRow["f_cntr_name"] = this.viewModel.Field;
+                dataRow["f_cntr_name"] = data.Field;
                 dataRow["f_rec_date"] = DateTime.Now;
                 dataRow["f_rec_operator"] = Authorizer.AppAuthorizer.Login;
             }

@@ -1,22 +1,21 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Data;
 using SupClientConnectionLib;
-using SupClientConnectionLib.ServiceRef;
+using SupRealClient.TabsSingleton;
+using SupRealClient.EnumerationClasses;
+using SupRealClient.Common.Interfaces;
 
-namespace SupRealClient
+namespace SupRealClient.Models
 {
     class Organizations1Model : IOrganizations1Model
     {
         private DataTable tabOrganizations;
         private ClientConnector tabConnector;
         private string tabName;
-        private Base2ViewModel viewModel;
+        private IBase2ViewModel viewModel;
 
-        public Organizations1Model(Base2ViewModel viewModel)
+        public Organizations1Model(IBase2ViewModel viewModel)
         {
             this.viewModel = viewModel;
             OrganizationsWrapper organizationsWrapper = OrganizationsWrapper.CurrentTable();

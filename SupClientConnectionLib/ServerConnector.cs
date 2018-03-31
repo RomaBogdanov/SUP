@@ -78,6 +78,20 @@ namespace SupClientConnectionLib
                     b = false;
                 }
             }
+            catch (EndpointNotFoundException)
+            {
+                this.tableService = new TableServiceClient(instanceContext);
+                this.compositeType = new CompositeType();
+                try
+                {
+                    b = this.tableService.Authorize(authorizer.Login, pass ?? "");
+                }
+                catch
+                {
+                    b = false;
+                }
+            }
+
             return b;
         }
         

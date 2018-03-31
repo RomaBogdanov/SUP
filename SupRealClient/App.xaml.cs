@@ -1,10 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Configuration;
-using System.Data;
-using System.Linq;
-using System.Threading.Tasks;
+﻿using SupRealClient.ViewModels;
 using System.Windows;
+using System.Windows.Threading;
 
 namespace SupRealClient
 {
@@ -13,5 +9,16 @@ namespace SupRealClient
     /// </summary>
     public partial class App : Application
     {
+        public App()
+        {
+            this.DispatcherUnhandledException += App_DispatcherUnhandledException;
+        }
+
+        private void App_DispatcherUnhandledException(object sender, DispatcherUnhandledExceptionEventArgs e)
+        {
+            e.Handled = true;
+            var errorWindow = new ErrorWindow(new ErrorViewModel(e.Exception, "Проверьте соединение с сервером"));
+            errorWindow.ShowDialog();
+        }
     }
 }
