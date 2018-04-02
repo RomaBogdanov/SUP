@@ -116,6 +116,7 @@ namespace SupRealClient
         /// <param name="withChildren"></param>
         public void CloseWindow(IWindow window, bool withChildren, CancelEventArgs e)
         {
+            // Перед закрытием окна, закрываем все его дочерние окна рекурсивно
             if (withChildren)
             {
                 foreach (var wnd in windows.Values.Where(w => w.ParentWindow == window))
@@ -131,6 +132,7 @@ namespace SupRealClient
         /// </summary>
         public void ExitApp()
         {
+            // Закрываем все окна при выходе
             foreach (var window in windows.Values)
             {
                 Close(window);

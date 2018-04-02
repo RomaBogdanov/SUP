@@ -1,0 +1,11 @@
+﻿<?xml version="1.0" encoding="utf-8" ?> 
+<Enum Name="View">
+  <Item Name="AddItem1View" />
+  <Item Name="AddUpdateCardView" />
+  <Item Name="AddUpdateOrgsView" />
+  <Item Name="CardsWindView" />
+  <Item Name="DocumentsWindView" />
+  <Item Name="NationsWindView" />
+  <Item Name="OrganizationsWindView" />
+  <Item Name="Search1View" />
+</Enum>

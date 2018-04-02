@@ -114,6 +114,11 @@
     </Compile>
     <Compile Include="EnumerationClasses\Card.cs" />
     <Compile Include="ViewManager.cs" />
+    <Compile Include="Views\Views.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Views.tt</DependentUpon>
+    </Compile>
     <Page Include="ErrorWindow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -254,6 +259,11 @@
       <LastGenOutput>Wrappers.cs</LastGenOutput>
     </Content>
     <Content Include="TabsSingleton\Wrappers.xml" />
+    <Content Include="Views\Views.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <LastGenOutput>Views.cs</LastGenOutput>
+    </Content>
+    <Content Include="Views\Views.xml" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\SupClientConnectionLib\SupClientConnectionLib.csproj">

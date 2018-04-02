@@ -1,7 +1,5 @@
-﻿using SupRealClient.Common.Interfaces;
-using SupRealClient.Models;
+﻿using SupRealClient.Models;
 using SupRealClient.ViewModels;
-using System.ComponentModel;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Data;
@@ -11,14 +9,8 @@ namespace SupRealClient.Views
     /// <summary>
     /// Логика взаимодействия для CardsWindView.xaml
     /// </summary>
-    public partial class CardsWindView : Window, IWindow
+    public partial class CardsWindView : Window
     {
-        public bool IsRealClose { get; set; } = true;
-
-        public string WindowName { get; private set; } = "CardsWindView";
-
-        public IWindow ParentWindow { get; set; }
-
         public CardsWindView()
         {
             InitializeComponent();
@@ -74,26 +66,6 @@ namespace SupRealClient.Views
                 Binding = new Binding("ChangeDate")
             };
             base2.baseTab.Columns.Add(dataGridTextColumn);
-        }
-
-        private void Handling_OnClose()
-        {
-            this.Hide();
-        }
-
-        private void Window_Closing(object sender, CancelEventArgs e)
-        {
-            ViewManager.Instance.CloseWindow(this, true, e);
-        }
-
-        public void CloseWindow(CancelEventArgs e)
-        {
-            if (!IsRealClose)
-            {
-                IsRealClose = true;
-                e.Cancel = true;
-                Handling_OnClose();
-            }
         }
     }
 }
