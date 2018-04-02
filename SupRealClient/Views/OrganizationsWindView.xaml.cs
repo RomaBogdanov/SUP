@@ -1,5 +1,7 @@
-﻿using SupRealClient.Models;
+﻿using SupRealClient.Common.Interfaces;
+using SupRealClient.Models;
 using SupRealClient.ViewModels;
+using System.ComponentModel;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Data;
@@ -9,15 +11,19 @@ namespace SupRealClient.Views
     /// <summary>
     /// Логика взаимодействия для OrganizationsWindView.xaml
     /// </summary>
-    public partial class OrganizationsWindView : Window
+    public partial class OrganizationsWindView : Window, IWindow
     {
-        public bool IsRealClose { get; set; } = false;
+        public bool IsRealClose { get; set; } = true;
+
+        public string WindowName { get; private set; } = "OrganizationsWindView";
+
+        public IWindow ParentWindow { get; set; }
 
         public OrganizationsWindView()
         {
             InitializeComponent();
             Base1ModelAbstr b = new Base1OrganizationsModel(
-                (Base1ViewModel)base2.DataContext);
+                (Base1ViewModel)base2.DataContext, this);
             b.OnClose += Handling_OnClose;
             base2.SetViewModel(b);
             DataGridTextColumn dataGridTextColumn = new DataGridTextColumn
@@ -51,10 +57,16 @@ namespace SupRealClient.Views
             this.Hide();
         }
 
-        private void Window_Closing(object sender, System.ComponentModel.CancelEventArgs e)
+        private void Window_Closing(object sender, CancelEventArgs e)
+        {
+            ViewManager.Instance.CloseWindow(this, true, e);
+        }
+
+        public void CloseWindow(CancelEventArgs e)
         {
             if (!IsRealClose)
             {
+                IsRealClose = true;
                 e.Cancel = true;
                 Handling_OnClose();
             }
