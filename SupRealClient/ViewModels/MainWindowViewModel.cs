@@ -4,6 +4,7 @@ using System.Windows.Input;
 using System.Windows.Controls;
 using SupClientConnectionLib;
 using SupRealClient.Views;
+using System;
 
 namespace SupRealClient.ViewModels
 {
@@ -18,6 +19,7 @@ namespace SupRealClient.ViewModels
         Window windowNations;
         Window windowOrganizations;
         Window windowCards;
+        Window windowZones;
         Visibility loginVisibility = Visibility.Visible;
 
         public static MainWindowViewModel Current
@@ -84,6 +86,9 @@ namespace SupRealClient.ViewModels
         public ICommand ListCardsClick
         { get; set; }
 
+        public ICommand ListZonesClick
+        { get; set; }
+
         public ICommand UserExit
         { get; set; }
 
@@ -97,6 +102,7 @@ namespace SupRealClient.ViewModels
             ListDocumentsClick = new RelayCommand(arg => OpenDocumentsWindow());
             ListNationsClick = new RelayCommand(arg => OpenNationsWindow());
             ListCardsClick = new RelayCommand(arg => OpenCardsWindow());
+            ListZonesClick = new RelayCommand(arg => OpenZonesWindow());
             UserExit = new RelayCommand(arg => UserExitProc());
             setupStorage.ChangeUserExit += arg => IsUserEnter = !arg;
             Close = new RelayCommand(arg => ExitApp());
@@ -145,6 +151,13 @@ namespace SupRealClient.ViewModels
             windowCards.Activate();
         }
 
+        private void OpenZonesWindow()
+        {
+            windowZones = windowZones ?? new ZonesWindView();
+            windowZones.Show();
+            windowZones.Activate();
+        }
+
         private void ExitApp()
         {
             if (this.windowDocuments != null)
@@ -166,6 +179,11 @@ namespace SupRealClient.ViewModels
             {
                 (this.windowCards as CardsWindView).IsRealClose = true;
                 this.windowCards.Close();
+            }
+            if (this.windowZones != null)
+            {
+                (this.windowZones as ZonesWindView).IsRealClose = true;
+                this.windowZones.Close(); 
             }
             ClientConnector clientConnector = ClientConnector.CurrentConnector;
             if (clientConnector.CheckAuthorize())

@@ -72,6 +72,8 @@
     <Compile Include="Common\Interfaces\IBase2ViewModel.cs" />
     <Compile Include="Models\AddCardModel.cs" />
     <Compile Include="Common\Data\SearchData.cs" />
+    <Compile Include="Models\Base3ModelAbstr.cs" />
+    <Compile Include="Models\Base3ZonesModel.cs" />
     <Compile Include="Models\IAddUpdateCardModel.cs" />
     <Compile Include="Models\ISearch1Model.cs" />
     <Compile Include="Models\Search1Model.cs" />
@@ -95,6 +97,7 @@
       <DependentUpon>Wrappers.tt</DependentUpon>
     </Compile>
     <Compile Include="ViewModels\AddUpdateCardViewModel.cs" />
+    <Compile Include="ViewModels\Base3ViewModel.cs" />
     <Compile Include="ViewModels\ErrorViewModel.cs" />
     <Compile Include="ViewModels\Search1ViewModel.cs" />
     <Compile Include="Views\AddUpdateCardView.xaml.cs">
@@ -108,11 +111,17 @@
       <DependentUpon>AddUpdateOrgsView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Models\Base1CardsModel.cs" />
+    <Compile Include="Views\Base3View.xaml.cs">
+      <DependentUpon>Base3View.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Views\CardsWindView.xaml.cs">
       <DependentUpon>CardsWindView.xaml</DependentUpon>
     </Compile>
     <Compile Include="EnumerationClasses\Card.cs" />
     <Compile Include="ViewManager.cs" />
+    <Compile Include="Views\ZonesWindView.xaml.cs">
+      <DependentUpon>ZonesWindView.xaml</DependentUpon>
+    </Compile>
     <Page Include="ErrorWindow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -122,6 +131,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Views\AddUpdateOrgsView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\Base3View.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -219,6 +232,10 @@
       <DependentUpon>MainWindow.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
+    <Page Include="Views\ZonesWindView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Properties\AssemblyInfo.cs">
