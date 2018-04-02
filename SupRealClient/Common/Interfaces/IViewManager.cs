@@ -1,5 +1,6 @@
 ﻿using SupRealClient.Models;
 using System.ComponentModel;
+using System.Windows;
 
 namespace SupRealClient.Common.Interfaces
 {
@@ -55,6 +56,12 @@ namespace SupRealClient.Common.Interfaces
         /// <param name="window"></param>
         /// <param name="withChildren"></param>
         void CloseWindow(IWindow window, bool withChildren, CancelEventArgs e);
+
+        /// <summary>
+        /// Минимизировать/раскрыть дочерние окна
+        /// </summary>
+        /// <param name="window"></param>
+        void SetChildrenState(Window window, bool isMain);
 
         /// <summary>
         /// Выход из приложения

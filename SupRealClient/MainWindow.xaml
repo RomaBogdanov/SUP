@@ -6,7 +6,7 @@
         xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
         xmlns:local="clr-namespace:SupRealClient.ViewModels"
         mc:Ignorable="d"
-        Title="Программа учёта посетителей" Height="350" Width="525" WindowState="Maximized">
+        Title="Программа учёта посетителей" Height="350" Width="525" WindowState="Maximized" StateChanged="Window_StateChanged">
     <i:Interaction.Triggers>
         <i:EventTrigger EventName="Closing">
             <i:InvokeCommandAction Command="{Binding Close}"/>

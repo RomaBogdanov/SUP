@@ -114,17 +114,52 @@ namespace SupRealClient
         /// </summary>
         /// <param name="window"></param>
         /// <param name="withChildren"></param>
-        public void CloseWindow(IWindow window, bool withChildren, CancelEventArgs e)
+        public void CloseWindow(IWindow window, bool withChildren,
+            CancelEventArgs e)
         {
             // Перед закрытием окна, закрываем все его дочерние окна рекурсивно
             if (withChildren)
             {
-                foreach (var wnd in windows.Values.Where(w => w.ParentWindow == window))
+                foreach (var wnd in windows.Values.
+                    Where(w => w.ParentWindow == window))
                 {
                     CloseWindow(wnd, withChildren, e);
                 }
             }
             window.CloseWindow(e);
+        }
+
+        /// <summary>
+        /// Минимизировать/раскрыть дочерние окна
+        /// </summary>
+        /// <param name="window"></param>
+        public void SetChildrenState(Window window, bool isMain)
+        {
+            if (window == null)
+            {
+                return;
+            }
+            if (window.WindowState != WindowState.Minimized &&
+                window.WindowState != WindowState.Normal)
+            {
+                return;
+            }
+            if (isMain)
+            {
+                foreach (var wnd in windows.Values)
+                {
+                    (wnd as Window).WindowState = window.WindowState;
+                }
+            }
+            else
+            {
+                foreach (var wnd in windows.Values.
+                    Where(w => w.ParentWindow == window))
+                {
+                    SetChildrenState(wnd as Window, isMain);
+                    (wnd as Window).WindowState = window.WindowState;
+                }
+            }
         }
 
         /// <summary>

@@ -11,5 +11,14 @@ namespace SupRealClient
         {
             InitializeComponent();
         }
+
+        private void Window_StateChanged(object sender, System.EventArgs e)
+        {
+            var window = sender as Window;
+            if (window.WindowState == WindowState.Minimized || window.WindowState == WindowState.Normal)
+            {
+                ViewManager.Instance.SetChildrenState(sender as Window, true);
+            }
+        }
     }
 }

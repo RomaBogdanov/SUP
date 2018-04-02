@@ -1,5 +1,7 @@
 ﻿using SupRealClient.Common.Interfaces;
+using System;
 using System.ComponentModel;
+using System.Windows;
 
 namespace SupRealClient.Views
 {
@@ -33,6 +35,11 @@ namespace SupRealClient.Views
         {
             ViewManager.Instance.CloseWindow(this, true, e);
         }
+
+        private void Window_StateChanged(object sender, EventArgs e)
+        {
+            ViewManager.Instance.SetChildrenState(sender as Window, false);
+        }
     }
 
 	/// <summary>
@@ -64,6 +71,11 @@ namespace SupRealClient.Views
         private void Window_Closing(object sender, CancelEventArgs e)
         {
             ViewManager.Instance.CloseWindow(this, true, e);
+        }
+
+        private void Window_StateChanged(object sender, EventArgs e)
+        {
+            ViewManager.Instance.SetChildrenState(sender as Window, false);
         }
     }
 
@@ -97,6 +109,11 @@ namespace SupRealClient.Views
         {
             ViewManager.Instance.CloseWindow(this, true, e);
         }
+
+        private void Window_StateChanged(object sender, EventArgs e)
+        {
+            ViewManager.Instance.SetChildrenState(sender as Window, false);
+        }
     }
 
 	/// <summary>
@@ -128,6 +145,11 @@ namespace SupRealClient.Views
         private void Window_Closing(object sender, CancelEventArgs e)
         {
             ViewManager.Instance.CloseWindow(this, true, e);
+        }
+
+        private void Window_StateChanged(object sender, EventArgs e)
+        {
+            ViewManager.Instance.SetChildrenState(sender as Window, false);
         }
     }
 
@@ -161,6 +183,11 @@ namespace SupRealClient.Views
         {
             ViewManager.Instance.CloseWindow(this, true, e);
         }
+
+        private void Window_StateChanged(object sender, EventArgs e)
+        {
+            ViewManager.Instance.SetChildrenState(sender as Window, false);
+        }
     }
 
 	/// <summary>
@@ -192,6 +219,11 @@ namespace SupRealClient.Views
         private void Window_Closing(object sender, CancelEventArgs e)
         {
             ViewManager.Instance.CloseWindow(this, true, e);
+        }
+
+        private void Window_StateChanged(object sender, EventArgs e)
+        {
+            ViewManager.Instance.SetChildrenState(sender as Window, false);
         }
     }
 
@@ -225,6 +257,11 @@ namespace SupRealClient.Views
         {
             ViewManager.Instance.CloseWindow(this, true, e);
         }
+
+        private void Window_StateChanged(object sender, EventArgs e)
+        {
+            ViewManager.Instance.SetChildrenState(sender as Window, false);
+        }
     }
 
 	/// <summary>
@@ -257,6 +294,11 @@ namespace SupRealClient.Views
         {
             ViewManager.Instance.CloseWindow(this, true, e);
         }
+
+        private void Window_StateChanged(object sender, EventArgs e)
+        {
+            ViewManager.Instance.SetChildrenState(sender as Window, false);
+        }
     }
 
 	/// <summary>
@@ -288,6 +330,11 @@ namespace SupRealClient.Views
         private void Window_Closing(object sender, CancelEventArgs e)
         {
             ViewManager.Instance.CloseWindow(this, true, e);
+        }
+
+        private void Window_StateChanged(object sender, EventArgs e)
+        {
+            ViewManager.Instance.SetChildrenState(sender as Window, false);
         }
     }
 
