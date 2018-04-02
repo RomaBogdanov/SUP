@@ -34,7 +34,7 @@ namespace SupRealClient.Models
 				var table = searchHelper.Rows;
                 for (int i = 0; i < table.Length; i++)
 				{
-                    if (context.Execute(table[i].Field<string>(searchData.Field), searchData.Text))
+                    if (context.Execute(table[i].Field<object>(searchData.Field), searchData.Text))
 					{
 						findResult = true;
 						result.Add(i);

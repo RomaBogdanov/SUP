@@ -25,7 +25,7 @@ namespace SupRealClient.Views
         {
             InitializeComponent();
             Base3ModelAbstr b = new Base3ZonesModel(
-                (Base3ViewModel)base3.DataContext);
+                (Base3ViewModel)base3.DataContext, this);
             b.OnClose += Handling_OnClose;
             base3.SetViewModel(b);
             DataGridTextColumn dataGridTextColumn = new DataGridTextColumn

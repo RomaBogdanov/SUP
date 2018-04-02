@@ -16,10 +16,14 @@ namespace SupRealClient.Models
         NewUserWrapper newUserWrapper = NewUserWrapper.CurrentTable();
         VisitorsWrapper visitorsWrapper = VisitorsWrapper.CurrentTable();
 
+        private DataRow[] rows;
+
         public Base1CardsModel(IBase1ViewModel viewModel, IWindow parent)
         {
             this.viewModel = viewModel;
             this.parent = parent;
+            //CardsWrapper documentsWrapper = CardsWrapper.CurrentTable();
+            //table = documentsWrapper.Table;
             this.cardsWrapper.OnChanged += this.Query;
             this.sprCardstatesWrapper.OnChanged += this.Query;
             this.visitsWrapper.OnChanged += this.Query;
@@ -127,13 +131,27 @@ namespace SupRealClient.Models
                     this.Begin();
                 }
             }
+        }
 
-            
+        public override DataRow[] Rows
+        {
+            get
+            {
+                return (from c in cardsWrapper.Table.AsEnumerable()
+                        join s in sprCardstatesWrapper.Table.AsEnumerable()
+                        on c.Field<int>("f_state_id") equals s.Field<int>("f_state_id")
+                        select c).AsEnumerable().ToArray();
+            }
         }
 
         public override IDictionary<string, string> GetFields()
         {
-            return new Dictionary<string, string>();
+            return new Dictionary<string, string>()
+            {
+                { "f_card_num", "Пропуск" },
+                { "f_comment", "Примечание" },
+                //{ "f_state_text", "Состояние" },
+            };
         }
 
         class CardsPersons

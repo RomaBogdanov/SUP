@@ -12,9 +12,10 @@ namespace SupRealClient.Models
 {
     class Base3ZonesModel : Base3ModelAbstr
     {
-        public Base3ZonesModel(IBase1ViewModel viewModel)
+        public Base3ZonesModel(IBase1ViewModel viewModel, IWindow parent)
         {
             this.viewModel = viewModel;
+            this.parent = parent;
             DocumentsWrapper documentsWrapper = DocumentsWrapper.CurrentTable();
             table = documentsWrapper.Table;
             tabConnector = documentsWrapper.Connector;
