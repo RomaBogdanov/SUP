@@ -21,8 +21,6 @@ namespace SupRealClient.Views
     /// </summary>
     public partial class ZonesWindView : Window
     {
-        public bool IsRealClose { get; set; } = false;
-
         public ZonesWindView()
         {
             InitializeComponent();
@@ -36,21 +34,6 @@ namespace SupRealClient.Views
                 Binding = new Binding("DocName")
             };
             base3.BaseTab.Columns.Add(dataGridTextColumn);
-        }
-
-        private void Handling_OnClose()
-        {
-            this.Hide();
-        }
-
-        private void Window_Closing(object sender, 
-            System.ComponentModel.CancelEventArgs e)
-        {
-            if (!IsRealClose)
-            {
-                e.Cancel = true;
-                Handling_OnClose();
-            }
         }
     }
 }

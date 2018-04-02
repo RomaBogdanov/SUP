@@ -30,12 +30,12 @@ namespace SupRealClient.Models
 
         public override void Add()
         {
-            ViewManager.Instance.Add(new AddItemDocumentsModel());
+            ViewManager.Instance.Add(new AddItemDocumentsModel(), parent);
         }
 
         public override void Update()
         {
-            ViewManager.Instance.Update(new UpdateItemDocumentsModel((Document)this.viewModel.CurrentItem));
+            ViewManager.Instance.Update(new UpdateItemDocumentsModel((Document)this.viewModel.CurrentItem), parent);
         }
 
         public override void Begin()

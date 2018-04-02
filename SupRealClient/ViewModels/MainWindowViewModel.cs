@@ -4,7 +4,6 @@ using System.Windows.Input;
 using System.Windows.Controls;
 using SupClientConnectionLib;
 using SupRealClient.Views;
-using System;
 
 namespace SupRealClient.ViewModels
 {
@@ -15,7 +14,6 @@ namespace SupRealClient.ViewModels
         string authorizedUser;
         bool userExitOpened = false;
         SetupStorage setupStorage = SetupStorage.Current;
-        Window windowZones;
         Visibility loginVisibility = Visibility.Visible;
 
         public static MainWindowViewModel Current
@@ -98,7 +96,7 @@ namespace SupRealClient.ViewModels
             ListDocumentsClick = new RelayCommand(arg => ViewManager.Instance.OpenWindow("DocumentsWindView"));
             ListNationsClick = new RelayCommand(arg => ViewManager.Instance.OpenWindow("NationsWindView"));
             ListCardsClick = new RelayCommand(arg => ViewManager.Instance.OpenWindow("CardsWindView"));
-            ListZonesClick = new RelayCommand(arg => OpenZonesWindow());
+            ListZonesClick = new RelayCommand(arg => ViewManager.Instance.OpenWindow("ZonesWindView"));
             UserExit = new RelayCommand(arg => UserExitProc());
             setupStorage.ChangeUserExit += arg => IsUserEnter = !arg;
             Close = new RelayCommand(arg => ExitApp());
@@ -116,22 +114,10 @@ namespace SupRealClient.ViewModels
             Control = new Authorize1View();
             LoginVisibility = Visibility.Visible;
         }
-
-        private void OpenZonesWindow()
-        {
-            windowZones = windowZones ?? new ZonesWindView();
-            windowZones.Show();
-            windowZones.Activate();
-        }
-
+        
         private void ExitApp()
         {
             ViewManager.Instance.ExitApp();
-            if (this.windowZones != null)
-            {
-                (this.windowZones as ZonesWindView).IsRealClose = true;
-                this.windowZones.Close(); 
-            }
             ClientConnector clientConnector = ClientConnector.CurrentConnector;
             if (clientConnector.CheckAuthorize())
             {

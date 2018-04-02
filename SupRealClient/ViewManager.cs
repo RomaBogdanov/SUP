@@ -181,6 +181,8 @@ namespace SupRealClient
                     return new CardsWindView();
                 case "OrganizationsWindView":
                     return new OrganizationsWindView();
+                case "ZonesWindView":
+                    return new ZonesWindView();
             }
 
             return null;

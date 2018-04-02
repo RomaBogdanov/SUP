@@ -259,4 +259,36 @@ namespace SupRealClient.Views
         }
     }
 
+	/// <summary>
+	/// Логика взаимодействия для ZonesWindView.xaml - базовая часть для всех View
+	/// </summary>
+	public partial class ZonesWindView : IWindow
+	{
+        public bool IsRealClose { get; set; } = true;
+
+        public string WindowName { get; private set; } = "ZonesWindView";
+
+        public IWindow ParentWindow { get; set; }
+
+		public void CloseWindow(CancelEventArgs e)
+        {
+            if (!IsRealClose)
+            {
+                IsRealClose = true;
+                e.Cancel = true;
+                Handling_OnClose();
+            }
+        }
+		
+        private void Handling_OnClose()
+        {
+            this.Hide();
+        }
+
+        private void Window_Closing(object sender, CancelEventArgs e)
+        {
+            ViewManager.Instance.CloseWindow(this, true, e);
+        }
+    }
+
 }

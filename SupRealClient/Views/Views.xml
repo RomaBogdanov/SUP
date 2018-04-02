@@ -8,4 +8,5 @@
   <Item Name="NationsWindView" />
   <Item Name="OrganizationsWindView" />
   <Item Name="Search1View" />
+  <Item Name="ZonesWindView" />
 </Enum>
