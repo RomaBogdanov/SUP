@@ -10,9 +10,10 @@ namespace SupRealClient.Models
 {
     class Base1NationsModel : Base1ModelAbstr
     {
-        public Base1NationsModel(IBase1ViewModel viewModel)
+        public Base1NationsModel(IBase1ViewModel viewModel, IWindow parent)
         {
             this.viewModel = viewModel;
+            this.parent = parent;
             CountriesWrapper countriesWrapper = CountriesWrapper.CurrentTable();
             table = countriesWrapper.Table;
             tabConnector = countriesWrapper.Connector;
@@ -23,7 +24,7 @@ namespace SupRealClient.Models
 
         public override void Add()
         {
-            ViewManager.Instance.Add(new AddItemNationsModel());
+            ViewManager.Instance.Add(new AddItemNationsModel(), parent);
         }
 
         public override void Begin()
@@ -72,7 +73,7 @@ namespace SupRealClient.Models
 
         public override void Update()
         {
-            ViewManager.Instance.Update(new UpdateItemNationsModel((Nation)this.viewModel.CurrentItem));
+            ViewManager.Instance.Update(new UpdateItemNationsModel((Nation)this.viewModel.CurrentItem), parent);
         }
 
         protected override void Query()

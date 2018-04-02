@@ -16,10 +16,5 @@ namespace SupRealClient.Views
             ((AddUpdateCardViewModel)DataContext).SetModel(model);
             InitializeComponent();
         }
-
-        private void Handling_OnClose()
-        {
-            this.Close();
-        }
     }
 }

@@ -13,6 +13,7 @@ namespace SupRealClient.Models
         protected ClientConnector tabConnector;
         protected string tabName;
         protected IBase1ViewModel viewModel;
+        protected IWindow parent;
 
         public event Action OnClose;
         public abstract void EnterCurrentItem(object item);
@@ -21,7 +22,7 @@ namespace SupRealClient.Models
 
         public virtual void Search()
         {
-            ViewManager.Instance.Search(this);
+            ViewManager.Instance.Search(this, parent);
         }
 
         public abstract void Farther();

@@ -11,15 +11,10 @@ namespace SupRealClient.Views
     {
         public AddItem1View(IAddItem1Model model)
         {
-            model.OnClose += Hanling_OnClose;
+            model.OnClose += Handling_OnClose;
             DataContext = new AddItem1ViewModel();
             ((AddItem1ViewModel)DataContext).SetModel(model);
             InitializeComponent();
-        }
-
-        private void Hanling_OnClose()
-        {
-            this.Close();
         }
     }
 }

@@ -15,10 +15,6 @@ namespace SupRealClient.ViewModels
         string authorizedUser;
         bool userExitOpened = false;
         SetupStorage setupStorage = SetupStorage.Current;
-        Window windowDocuments;
-        Window windowNations;
-        Window windowOrganizations;
-        Window windowCards;
         Window windowZones;
         Visibility loginVisibility = Visibility.Visible;
 
@@ -98,10 +94,10 @@ namespace SupRealClient.ViewModels
         public MainWindowViewModel()
         {
             Current = this;
-            ListOrganizationsClick = new RelayCommand(arg => ListOrganizationsOpen());
-            ListDocumentsClick = new RelayCommand(arg => OpenDocumentsWindow());
-            ListNationsClick = new RelayCommand(arg => OpenNationsWindow());
-            ListCardsClick = new RelayCommand(arg => OpenCardsWindow());
+            ListOrganizationsClick = new RelayCommand(arg => ViewManager.Instance.OpenWindow("OrganizationsWindView"));
+            ListDocumentsClick = new RelayCommand(arg => ViewManager.Instance.OpenWindow("DocumentsWindView"));
+            ListNationsClick = new RelayCommand(arg => ViewManager.Instance.OpenWindow("NationsWindView"));
+            ListCardsClick = new RelayCommand(arg => ViewManager.Instance.OpenWindow("CardsWindView"));
             ListZonesClick = new RelayCommand(arg => OpenZonesWindow());
             UserExit = new RelayCommand(arg => UserExitProc());
             setupStorage.ChangeUserExit += arg => IsUserEnter = !arg;
@@ -111,44 +107,14 @@ namespace SupRealClient.ViewModels
         protected virtual void OnPropertyChanged(string propertyName) =>
             this.PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
 
-
-        private void ListOrganizationsOpen()
-        {
-            //Control = new Base2View();
-            windowOrganizations = windowOrganizations ?? new OrganizationsWindView();
-            windowOrganizations.Show();
-            windowOrganizations.Activate();
-        }
-
-
         private void UserExitProc()
         {
             ClientConnector clientConnector = ClientConnector.CurrentConnector;
             clientConnector.ExitAuthorize();
             setupStorage.UserExit = true;
+            // TODO - Отвязать ссылку на View из ViewModel
             Control = new Authorize1View();
             LoginVisibility = Visibility.Visible;
-        }
-
-        private void OpenDocumentsWindow()
-        {
-            windowDocuments = windowDocuments ?? new DocumentsWindView();
-            windowDocuments.Show();
-            windowDocuments.Activate();
-        }
-
-        private void OpenNationsWindow()
-        {
-            windowNations = windowNations ?? new NationsWindView();
-            windowNations.Show();
-            windowNations.Activate();
-        }
-
-        private void OpenCardsWindow()
-        {
-            windowCards = windowCards ?? new CardsWindView();
-            windowCards.Show();
-            windowCards.Activate();
         }
 
         private void OpenZonesWindow()
@@ -160,26 +126,7 @@ namespace SupRealClient.ViewModels
 
         private void ExitApp()
         {
-            if (this.windowDocuments != null)
-            {
-                (this.windowDocuments as DocumentsWindView).IsRealClose = true;
-                this.windowDocuments.Close();
-            }
-            if (this.windowNations != null)
-            {
-                (this.windowNations as NationsWindView).IsRealClose = true;
-                this.windowNations.Close();
-            }
-            if (this.windowOrganizations != null)
-            {
-                (this.windowOrganizations as OrganizationsWindView).IsRealClose = true;
-                this.windowOrganizations.Close();
-            }
-            if (this.windowCards != null)
-            {
-                (this.windowCards as CardsWindView).IsRealClose = true;
-                this.windowCards.Close();
-            }
+            ViewManager.Instance.ExitApp();
             if (this.windowZones != null)
             {
                 (this.windowZones as ZonesWindView).IsRealClose = true;

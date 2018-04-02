@@ -65,6 +65,7 @@
     </ApplicationDefinition>
     <Compile Include="Common\Interfaces\ISearchHelper.cs" />
     <Compile Include="Common\Interfaces\IViewManager.cs" />
+    <Compile Include="Common\Interfaces\IWindow.cs" />
     <Compile Include="ErrorWindow.xaml.cs">
       <DependentUpon>ErrorWindow.xaml</DependentUpon>
     </Compile>
@@ -121,6 +122,11 @@
     <Compile Include="ViewManager.cs" />
     <Compile Include="Views\ZonesWindView.xaml.cs">
       <DependentUpon>ZonesWindView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Views.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Views.tt</DependentUpon>
     </Compile>
     <Page Include="ErrorWindow.xaml">
       <SubType>Designer</SubType>
@@ -270,6 +276,11 @@
       <LastGenOutput>Wrappers.cs</LastGenOutput>
     </Content>
     <Content Include="TabsSingleton\Wrappers.xml" />
+    <Content Include="Views\Views.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <LastGenOutput>Views.cs</LastGenOutput>
+    </Content>
+    <Content Include="Views\Views.xml" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\SupClientConnectionLib\SupClientConnectionLib.csproj">

@@ -6,7 +6,7 @@
         xmlns:local="clr-namespace:SupRealClient.Views"
 		xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
         mc:Ignorable="d"
-        Title="Поиск" Height="270" Width="300">
+        Title="Поиск" Height="270" Width="300" Closing="Window_Closing">
     <Grid>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="2*"/>

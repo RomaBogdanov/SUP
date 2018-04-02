@@ -11,13 +11,11 @@ namespace SupRealClient.Views
     /// </summary>
     public partial class CardsWindView : Window
     {
-        public bool IsRealClose { get; set; } = false;
-
         public CardsWindView()
         {
             InitializeComponent();
             Base1ModelAbstr b = new Base1CardsModel(
-                (Base1ViewModel)base2.DataContext);
+                (Base1ViewModel)base2.DataContext, this);
             b.OnClose += Handling_OnClose;
             base2.SetViewModel(b);
             DataGridTextColumn dataGridTextColumn = new DataGridTextColumn
@@ -68,20 +66,6 @@ namespace SupRealClient.Views
                 Binding = new Binding("ChangeDate")
             };
             base2.baseTab.Columns.Add(dataGridTextColumn);
-        }
-
-        private void Handling_OnClose()
-        {
-            this.Hide();
-        }
-
-        private void Window_Closing(object sender, System.ComponentModel.CancelEventArgs e)
-        {
-            if (!IsRealClose)
-            {
-                e.Cancel = true;
-                Handling_OnClose();
-            }
         }
     }
 }

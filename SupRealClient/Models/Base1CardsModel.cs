@@ -16,9 +16,10 @@ namespace SupRealClient.Models
         NewUserWrapper newUserWrapper = NewUserWrapper.CurrentTable();
         VisitorsWrapper visitorsWrapper = VisitorsWrapper.CurrentTable();
 
-        public Base1CardsModel(IBase1ViewModel viewModel)
+        public Base1CardsModel(IBase1ViewModel viewModel, IWindow parent)
         {
             this.viewModel = viewModel;
+            this.parent = parent;
             this.cardsWrapper.OnChanged += this.Query;
             this.sprCardstatesWrapper.OnChanged += this.Query;
             this.visitsWrapper.OnChanged += this.Query;
@@ -29,7 +30,7 @@ namespace SupRealClient.Models
 
         public override void Add()
         {
-            ViewManager.Instance.AddObject(new AddCardModel());
+            ViewManager.Instance.AddObject(new AddCardModel(), parent);
         }
 
         public override void Begin()
@@ -72,7 +73,7 @@ namespace SupRealClient.Models
 
         public override void Update()
         {
-            ViewManager.Instance.UpdateObject(new UpdateCardModel((Card)this.viewModel.CurrentItem));
+            ViewManager.Instance.UpdateObject(new UpdateCardModel((Card)this.viewModel.CurrentItem), parent);
         }
 
         protected override void Query()
