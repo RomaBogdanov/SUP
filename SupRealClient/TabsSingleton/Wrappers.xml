@@ -3,7 +3,6 @@
   <Item Name="CardsWrapper" Type="VisCards" Comment="??" />
   <Item Name="CountriesWrapper" Type="VisCountries" Comment="??" />
   <Item Name="DocumentsWrapper" Type="VisDocuments" Comment="??" />
-  <Item Name="NewUserWrapper" Type="VisNewUser" Comment="??" />
   <Item Name="OrganizationsWrapper" Type="VisOrganizations" Comment="??" />
   <Item Name="SprCardstatesWrapper" Type="VisSprCardstates" Comment="??" />
   <Item Name="VisitorsWrapper" Type="VisVisitors" Comment="??" />

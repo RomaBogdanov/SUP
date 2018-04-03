@@ -13,14 +13,14 @@ namespace SupTestClientConsole
     {
         static void Main(string[] args)
         {
-            ITableService tableService = new TableServiceClient();
+            ITableService tableService = new TableServiceClient(null);
             CompositeType ct = new CompositeType();
             ct.TableName = TableName.VisOrders;
             //ct.TableName = TableName.TestTable1;
             //ct.TableName = TableName.TestTable2Ado;
             try
             {
-                DataTable dt = tableService.GetTable(ct);
+                DataTable dt = tableService.GetTable(ct, "");
                 foreach (var item in dt.Select())
                 {
                     for (int i = 0; i < dt.Columns.Count; i++)

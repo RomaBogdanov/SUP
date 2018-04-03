@@ -326,7 +326,8 @@ namespace SupTestClient
             }
             else
             {
-                if (this.connector.Authorize(Login, Password))
+                int id = this.connector.Authorize(Login, Password);
+                if (id > 0)
                 {
                     IsAuthorization = true;
                     this.EnterButtonContent = "Выйти";

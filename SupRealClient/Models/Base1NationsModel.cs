@@ -79,14 +79,14 @@ namespace SupRealClient.Models
         protected override void Query()
         {
             var nations = from nats in table.AsEnumerable()
-                            select new Nation()
+                          select new Nation()
                             {
                                 Id = nats.Field<int>("f_cntr_id"),
                                 CountryName = nats.Field<string>("f_cntr_name"),
                                 Deleted = nats.Field<string>("f_deleted"),
                                 RecDate = nats.Field<DateTime>("f_rec_date"),
                                 RecOperator = nats.Field<int>("f_rec_operator")
-                            };
+                          };
             this.viewModel.Set = nations;
             if (viewModel.NumItem == -1)
             {
@@ -108,7 +108,10 @@ namespace SupRealClient.Models
 
         public override IDictionary<string, string> GetFields()
         {
-            return new Dictionary<string, string>() { { "f_cntr_name", "Название" } };
+            return new Dictionary<string, string>()
+            {
+                { "f_cntr_name", "Название" }
+            };
         }
     }
 }

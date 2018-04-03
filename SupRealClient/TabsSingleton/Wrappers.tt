@@ -45,11 +45,7 @@ namespace SupRealClient.TabsSingleton
         {
             this.table = connector.GetTable(TableName.<#=entity.Type#>);
             this.Subscribe();
-			DoSomething();
         }
-
-		// TODO - Для примера как можно переопределить метод
-		partial void DoSomething();
     }
 
 <#}#>

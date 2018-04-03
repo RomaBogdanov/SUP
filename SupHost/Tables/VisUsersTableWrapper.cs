@@ -30,7 +30,7 @@ namespace SupHost
             this.getTableBehavior = new VisUsersTableBehavior();
         }
 
-        public bool ExistingLogin(string login, string pass)
+        public int ExistingLogin(string login, string pass)
         {
             // Делаем постоянное обновление данных из базы данных на случай,
             // если туда внесли новые.
@@ -42,17 +42,18 @@ namespace SupHost
             {
                 this.logger.Warn($@"Попытка зарегистрироваться под 
                     несуществующим аккаунтом {login}");
-                return false;
+                return -1;
             }
             if (a.Count() > 1)
             {
                 this.logger.Error($"Количество аккаунтов {login} больше одного!");
-                return false;
+                return -1;
             }
-            if (a.ElementAt(0)["f_password"].ToString() == pass) return true;
+            if (a.ElementAt(0)["f_pass"].ToString() == pass)
+                return (int)a.ElementAt(0)["f_user_id"];
             this.logger.Warn($@"Попытка зарегистрироваться под 
                     аккаунтом {login}. Ввод неправильного пароля.");
-            return false;
+            return -1;
         }
     }
 }

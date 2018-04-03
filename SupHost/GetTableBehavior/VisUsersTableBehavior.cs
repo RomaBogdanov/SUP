@@ -10,11 +10,11 @@ namespace SupHost
     {
         public VisUsersTableBehavior()
         {
-            this.query = "select * from vis_users";
+            this.query = "select * from vis_new_user";
             this.primaryKeyColumns = new string[1];
             this.primaryKeyColumns[0] = "f_user_id";
             this.autoPrimaryKey = true;
-            this.tableName = "vis_users";
+            this.tableName = "vis_new_user";
         }
     }
 }

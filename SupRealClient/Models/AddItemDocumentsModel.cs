@@ -24,7 +24,7 @@ namespace SupRealClient.Models
                 row["f_doc_name"] = data.Field;
                 row["f_deleted"] = "N";
                 row["f_rec_date"] = DateTime.Now;
-                row["f_rec_operator"] = Authorizer.AppAuthorizer.Login;
+                row["f_rec_operator"] = Authorizer.AppAuthorizer.Id;
                 documents.Table.Rows.Add(row);
             }
             Cancel();

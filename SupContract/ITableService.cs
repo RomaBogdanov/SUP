@@ -72,9 +72,9 @@ namespace SupContract
         /// </summary>
         /// <param name="login"></param>
         /// <param name="pass"></param>
-        /// <returns></returns>
+        /// <returns>user Id</returns>
         [OperationContract]
-        bool Authorize(string login, string pass);
+        int Authorize(string login, string pass);
 
         /// <summary>
         /// Процедура подтверждения авторизации.

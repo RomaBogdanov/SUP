@@ -32,9 +32,9 @@ namespace SupHost
             return false;
         }
 
-        public void AddAccount(string login)
+        public void AddAccount(string login, int id)
         {
-            this.listAccs.Add(login, 0);
+            this.listAccs.Add(login, id);
         }
 
         public void RemoveAccount(string login)

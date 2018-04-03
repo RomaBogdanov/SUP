@@ -17,7 +17,7 @@ namespace SupContract
         VisDocuments,
         VisCountries,
         VisCards,
-        VisNewUser,
+        VisNewUser, // TODO - удалить
         VisSprCardstates,
         VisVisits
     }

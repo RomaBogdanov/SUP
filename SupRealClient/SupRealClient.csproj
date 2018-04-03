@@ -91,7 +91,6 @@
     <Compile Include="Search\SearchContext.cs" />
     <Compile Include="Search\SearchResult.cs" />
     <Compile Include="Search\StartWithStrategy.cs" />
-    <Compile Include="TabsSingleton\CountriesWrapper.cs" />
     <Compile Include="TabsSingleton\Wrappers.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>

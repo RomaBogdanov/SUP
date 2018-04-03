@@ -13,7 +13,6 @@ namespace SupRealClient.Models
         CardsWrapper cardsWrapper = CardsWrapper.CurrentTable();
         SprCardstatesWrapper sprCardstatesWrapper = SprCardstatesWrapper.CurrentTable();
         VisitsWrapper visitsWrapper = VisitsWrapper.CurrentTable();
-        NewUserWrapper newUserWrapper = NewUserWrapper.CurrentTable();
         VisitorsWrapper visitorsWrapper = VisitorsWrapper.CurrentTable();
 
         private DataRow[] rows;
@@ -27,7 +26,6 @@ namespace SupRealClient.Models
             this.cardsWrapper.OnChanged += this.Query;
             this.sprCardstatesWrapper.OnChanged += this.Query;
             this.visitsWrapper.OnChanged += this.Query;
-            this.newUserWrapper.OnChanged += this.Query;
             this.visitorsWrapper.OnChanged += this.Query;
             this.Query();
         }

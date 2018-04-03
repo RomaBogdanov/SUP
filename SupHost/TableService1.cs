@@ -197,7 +197,7 @@ namespace SupHost
             return bytes;
         }
 
-        public bool Authorize(string login, string pass)
+        public int Authorize(string login, string pass)
         {
             //TODO: обязательно переработать. Данный вариант выступает как заглушка.
             // Проверка на существование уже зарегистрированного пользователя.
@@ -205,17 +205,18 @@ namespace SupHost
             {
                 logger.Warn($@"Попытка зарегистрироваться под уже 
                     зарегистрированным аккаунтом {login}");
-                return false;
+                return -1;
             }
             VisUsersTableWrapper visUsersTableWrapper =
                 VisUsersTableWrapper.GetVisUsersTableWrapper();
-            if (visUsersTableWrapper.ExistingLogin(login, pass))
+            int id = visUsersTableWrapper.ExistingLogin(login, pass);
+            if (id > 0)
             {
-                this.users.AddAccount(login);
+                this.users.AddAccount(login, id);
                 logger.Info($"Зарегистрировался аккаунт {login}");
-                return true;
+                return id;
             }
-            return false;
+            return -1;
         }
 
         public bool CheckAuthorize(string login)

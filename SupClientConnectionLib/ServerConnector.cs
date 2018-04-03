@@ -44,13 +44,13 @@ namespace SupClientConnectionLib
             }
         }
 
-        public bool Authorize(string login, string pass)
+        public int Authorize(string login, string pass)
         {
             authorizer.Login = login ?? "";
-            bool b = false;
+            authorizer.Id = -1;
             try
             {
-                b = this.tableService.Authorize(authorizer.Login, pass ?? "");
+                authorizer.Id = this.tableService.Authorize(authorizer.Login, pass ?? "");
             }
             catch (ProtocolException)
             {
@@ -58,11 +58,10 @@ namespace SupClientConnectionLib
                 this.compositeType = new CompositeType();
                 try
                 {
-                    b = this.tableService.Authorize(authorizer.Login, pass ?? "");
+                    authorizer.Id = this.tableService.Authorize(authorizer.Login, pass ?? "");
                 }
                 catch
                 {
-                    b = false;
                 }
             }
             catch (CommunicationObjectFaultedException)
@@ -71,11 +70,10 @@ namespace SupClientConnectionLib
                 this.compositeType = new CompositeType();
                 try
                 {
-                    b = this.tableService.Authorize(authorizer.Login, pass ?? "");
+                    authorizer.Id = this.tableService.Authorize(authorizer.Login, pass ?? "");
                 }
                 catch
                 {
-                    b = false;
                 }
             }
             catch (EndpointNotFoundException)
@@ -84,15 +82,14 @@ namespace SupClientConnectionLib
                 this.compositeType = new CompositeType();
                 try
                 {
-                    b = this.tableService.Authorize(authorizer.Login, pass ?? "");
+                    authorizer.Id = this.tableService.Authorize(authorizer.Login, pass ?? "");
                 }
                 catch
                 {
-                    b = false;
                 }
             }
 
-            return b;
+            return authorizer.Id;
         }
         
         public bool CheckAuthorize()
