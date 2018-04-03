@@ -15,6 +15,7 @@ namespace SupRealClient.ViewModels
         bool userExitOpened = false;
         SetupStorage setupStorage = SetupStorage.Current;
         Visibility loginVisibility = Visibility.Visible;
+        Visibility dataVisibility = Visibility.Hidden;
 
         public static MainWindowViewModel Current
         {
@@ -29,6 +30,16 @@ namespace SupRealClient.ViewModels
             {
                 this.loginVisibility = value;
                 OnPropertyChanged("LoginVisibility");
+            }
+        }
+
+        public Visibility DataVisibility
+        {
+            get { return dataVisibility; }
+            set
+            {
+                this.dataVisibility = value;
+                OnPropertyChanged("DataVisibility");
             }
         }
 
@@ -113,6 +124,7 @@ namespace SupRealClient.ViewModels
             // TODO - Отвязать ссылку на View из ViewModel
             Control = new Authorize1View();
             LoginVisibility = Visibility.Visible;
+            DataVisibility = Visibility.Hidden;
         }
         
         private void ExitApp()

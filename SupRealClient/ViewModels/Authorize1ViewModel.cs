@@ -116,6 +116,7 @@ namespace SupRealClient.ViewModels
                     this.Msg = "Пользователь авторизован!";
                     setupStorage.UserExit = false;
                     this.ClearEnterData();
+                    this.mainWindowViewModel.DataVisibility = Visibility.Visible;
                     new System.Threading.Thread(Invisible).Start();
                     //this.EnterButtonContent = "Выйти";
                     timer.Start();
