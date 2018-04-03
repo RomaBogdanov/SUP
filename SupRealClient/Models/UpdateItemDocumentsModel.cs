@@ -25,8 +25,9 @@ namespace SupRealClient.Models
 
         public void Ok(FieldData data)
         {
-            using (DocumentsWrapper documents = DocumentsWrapper.CurrentTable())
-            {
+            //using (DocumentsWrapper documents = DocumentsWrapper.CurrentTable())
+            //{
+            DocumentsWrapper documents = DocumentsWrapper.CurrentTable();
                 if (data.Field != "")
                 {
                     DataRow dataRow = documents.Table.Rows.Find(document.Id);
@@ -34,7 +35,7 @@ namespace SupRealClient.Models
                     dataRow["f_rec_date"] = DateTime.Now;
                     dataRow["f_rec_operator"] = Authorizer.AppAuthorizer.Id;
                 }
-            }
+            //}
             Cancel();
         }
 

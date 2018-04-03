@@ -22,9 +22,11 @@ namespace SupRealClient.Models
 
         public void Ok(OrganizationData data)
         {
-            using (OrganizationsWrapper organizations =
-                OrganizationsWrapper.CurrentTable())
-            {
+            //using (OrganizationsWrapper organizations =
+            //    OrganizationsWrapper.CurrentTable())
+            //{
+            OrganizationsWrapper organizations =
+                OrganizationsWrapper.CurrentTable();
                 if (!(data.Type == "" | data.Name == "" | data.FullName == ""))
                 {
                     DataRow row = organizations.Table.NewRow();
@@ -36,7 +38,7 @@ namespace SupRealClient.Models
                     row["f_rec_operator"] = Authorizer.AppAuthorizer.Id;
                     organizations.Table.Rows.Add(row);
                 }
-            }
+            //}
             Cancel();
         }
     }

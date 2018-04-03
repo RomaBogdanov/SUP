@@ -30,8 +30,9 @@ namespace SupRealClient.Models
 
         public void Ok(FieldData data)
         {
-            using (CountriesWrapper countries = CountriesWrapper.CurrentTable())
-            {
+            //using (CountriesWrapper countries = CountriesWrapper.CurrentTable())
+            //{
+            CountriesWrapper countries = CountriesWrapper.CurrentTable();
                 if (data.Field != "")
                 {
                     DataRow dataRow = countries.Table.Rows.Find(nation.Id);
@@ -39,7 +40,7 @@ namespace SupRealClient.Models
                     dataRow["f_rec_date"] = DateTime.Now;
                     dataRow["f_rec_operator"] = Authorizer.AppAuthorizer.Id;
                 }
-            }
+            //}
             Cancel();
         }
     }

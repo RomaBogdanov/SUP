@@ -17,8 +17,9 @@ namespace SupRealClient.Models
 
         public void Ok(FieldData data)
         {
-            using (DocumentsWrapper documents = DocumentsWrapper.CurrentTable())
-            {
+            //using (DocumentsWrapper documents = DocumentsWrapper.CurrentTable())
+            //{
+            DocumentsWrapper documents = DocumentsWrapper.CurrentTable();
                 if (data.Field != "")
                 {
                     DataRow row = documents.Table.NewRow();
@@ -28,7 +29,7 @@ namespace SupRealClient.Models
                     row["f_rec_operator"] = Authorizer.AppAuthorizer.Id;
                     documents.Table.Rows.Add(row);
                 }
-            }
+            //}
             Cancel();
         }
 

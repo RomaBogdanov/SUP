@@ -47,15 +47,16 @@ namespace SupRealClient.Models
 
         public void Ok(CardData data)
         {
-            using (CardsWrapper cards = CardsWrapper.CurrentTable())
-            {
+            //using (CardsWrapper cards = CardsWrapper.CurrentTable())
+            //{
+            CardsWrapper cards = CardsWrapper.CurrentTable();
                 DataRow row = cards.Table.Rows.Find(card.Id);
                 row["f_card_num"] = data.CurdNum;
                 row["f_card_text"] = data.NumMAFW;
                 row["f_comment"] = data.Comment;
                 row["f_rec_operator"] = Authorizer.AppAuthorizer.Id;
                 row["f_rec_date"] = data.CreateDate;
-            }
+            //}
             Cancel();
         }
     }
