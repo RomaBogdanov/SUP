@@ -22,19 +22,16 @@ namespace SupRealClient.Models
 
         public void Ok(FieldData data)
         {
-            //using (CountriesWrapper countries = CountriesWrapper.CurrentTable())
-            //{
             CountriesWrapper countries = CountriesWrapper.CurrentTable();
-                if (data.Field != "")
-                {
-                    DataRow row = countries.Table.NewRow();
-                    row["f_cntr_name"] = data.Field;
-                    row["f_deleted"] = "N";
-                    row["f_rec_date"] = DateTime.Now;
-                    row["f_rec_operator"] = Authorizer.AppAuthorizer.Id;
-                    countries.Table.Rows.Add(row);
-                }
-            //}
+            if (data.Field != "")
+            {
+                DataRow row = countries.Table.NewRow();
+                row["f_cntr_name"] = data.Field;
+                row["f_deleted"] = "N";
+                row["f_rec_date"] = DateTime.Now;
+                row["f_rec_operator"] = Authorizer.AppAuthorizer.Id;
+                countries.Table.Rows.Add(row);
+            }
             Cancel();
         }
     }

@@ -4,6 +4,7 @@ using System.Windows.Input;
 using System.Windows.Controls;
 using SupClientConnectionLib;
 using SupRealClient.Views;
+using SupRealClient.TabsSingleton;
 
 namespace SupRealClient.ViewModels
 {
@@ -129,6 +130,7 @@ namespace SupRealClient.ViewModels
         
         private void ExitApp()
         {
+            //TableWrapper.DisposeAll();
             ViewManager.Instance.ExitApp();
             ClientConnector clientConnector = ClientConnector.CurrentConnector;
             if (clientConnector.CheckAuthorize())

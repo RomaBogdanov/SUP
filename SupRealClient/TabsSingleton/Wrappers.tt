@@ -39,7 +39,14 @@ namespace SupRealClient.TabsSingleton
 		static <#=entity.Name#> currentTable;
 
         public static <#=entity.Name#> CurrentTable()
-            => currentTable = currentTable ?? new <#=entity.Name#>();
+        {
+            if (currentTable == null)
+            {
+                currentTable = new <#=entity.Name#>();
+                wrappers.Add(currentTable);
+            }
+            return currentTable;
+        }
 
         private <#=entity.Name#>() : base()
         {

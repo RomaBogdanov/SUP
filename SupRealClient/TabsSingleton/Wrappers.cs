@@ -10,7 +10,14 @@ namespace SupRealClient.TabsSingleton
 		static UsersWrapper currentTable;
 
         public static UsersWrapper CurrentTable()
-            => currentTable = currentTable ?? new UsersWrapper();
+        {
+            if (currentTable == null)
+            {
+                currentTable = new UsersWrapper();
+                wrappers.Add(currentTable);
+            }
+            return currentTable;
+        }
 
         private UsersWrapper() : base()
         {
@@ -27,7 +34,14 @@ namespace SupRealClient.TabsSingleton
 		static CardsWrapper currentTable;
 
         public static CardsWrapper CurrentTable()
-            => currentTable = currentTable ?? new CardsWrapper();
+        {
+            if (currentTable == null)
+            {
+                currentTable = new CardsWrapper();
+                wrappers.Add(currentTable);
+            }
+            return currentTable;
+        }
 
         private CardsWrapper() : base()
         {
@@ -44,7 +58,14 @@ namespace SupRealClient.TabsSingleton
 		static CountriesWrapper currentTable;
 
         public static CountriesWrapper CurrentTable()
-            => currentTable = currentTable ?? new CountriesWrapper();
+        {
+            if (currentTable == null)
+            {
+                currentTable = new CountriesWrapper();
+                wrappers.Add(currentTable);
+            }
+            return currentTable;
+        }
 
         private CountriesWrapper() : base()
         {
@@ -61,7 +82,14 @@ namespace SupRealClient.TabsSingleton
 		static DocumentsWrapper currentTable;
 
         public static DocumentsWrapper CurrentTable()
-            => currentTable = currentTable ?? new DocumentsWrapper();
+        {
+            if (currentTable == null)
+            {
+                currentTable = new DocumentsWrapper();
+                wrappers.Add(currentTable);
+            }
+            return currentTable;
+        }
 
         private DocumentsWrapper() : base()
         {
@@ -78,7 +106,14 @@ namespace SupRealClient.TabsSingleton
 		static OrganizationsWrapper currentTable;
 
         public static OrganizationsWrapper CurrentTable()
-            => currentTable = currentTable ?? new OrganizationsWrapper();
+        {
+            if (currentTable == null)
+            {
+                currentTable = new OrganizationsWrapper();
+                wrappers.Add(currentTable);
+            }
+            return currentTable;
+        }
 
         private OrganizationsWrapper() : base()
         {
@@ -95,7 +130,14 @@ namespace SupRealClient.TabsSingleton
 		static SprCardstatesWrapper currentTable;
 
         public static SprCardstatesWrapper CurrentTable()
-            => currentTable = currentTable ?? new SprCardstatesWrapper();
+        {
+            if (currentTable == null)
+            {
+                currentTable = new SprCardstatesWrapper();
+                wrappers.Add(currentTable);
+            }
+            return currentTable;
+        }
 
         private SprCardstatesWrapper() : base()
         {
@@ -112,7 +154,14 @@ namespace SupRealClient.TabsSingleton
 		static VisitorsWrapper currentTable;
 
         public static VisitorsWrapper CurrentTable()
-            => currentTable = currentTable ?? new VisitorsWrapper();
+        {
+            if (currentTable == null)
+            {
+                currentTable = new VisitorsWrapper();
+                wrappers.Add(currentTable);
+            }
+            return currentTable;
+        }
 
         private VisitorsWrapper() : base()
         {
@@ -129,7 +178,14 @@ namespace SupRealClient.TabsSingleton
 		static VisitsWrapper currentTable;
 
         public static VisitsWrapper CurrentTable()
-            => currentTable = currentTable ?? new VisitsWrapper();
+        {
+            if (currentTable == null)
+            {
+                currentTable = new VisitsWrapper();
+                wrappers.Add(currentTable);
+            }
+            return currentTable;
+        }
 
         private VisitsWrapper() : base()
         {

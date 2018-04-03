@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Data;
 using SupClientConnectionLib;
 
@@ -8,6 +9,7 @@ namespace SupRealClient.TabsSingleton
     {
         protected DataTable table;
         protected ClientConnector connector;
+        protected static List<TableWrapper> wrappers = new List<TableWrapper>();
         public event Action OnChanged;
 
         public DataTable Table { get { return this.table; } }
@@ -31,6 +33,14 @@ namespace SupRealClient.TabsSingleton
             {
                 this.table.RowChanged -= Table_RowChanged;
                 this.table.RowDeleting -= Table_RowDeleting;
+            }
+        }
+
+        public static void DisposeAll()
+        {
+            foreach (var wrapper in wrappers)
+            {
+                wrapper.Dispose();
             }
         }
 
