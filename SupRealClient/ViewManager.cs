@@ -231,7 +231,7 @@ namespace SupRealClient
 
         private void Close(IWindow window)
         {
-            (window as Window).Closing -= window.Window_Closing;
+            window.Unsuscribe();
             (window as Window).Close();
             window.IsRealClose = true;
         }

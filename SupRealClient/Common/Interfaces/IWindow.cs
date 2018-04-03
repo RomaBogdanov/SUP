@@ -25,6 +25,6 @@ namespace SupRealClient.Common.Interfaces
         /// <param name="e"></param>
         void CloseWindow(CancelEventArgs e);
 
-        void Window_Closing(object sender, CancelEventArgs e);
+        void Unsuscribe();
     }
 }
