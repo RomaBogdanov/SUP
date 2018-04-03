@@ -4,7 +4,7 @@ using SupClientConnectionLib;
 
 namespace SupRealClient.TabsSingleton
 {
-    class TableWrapper
+    class TableWrapper : IDisposable
     {
         protected DataTable table;
         protected ClientConnector connector;
@@ -20,6 +20,18 @@ namespace SupRealClient.TabsSingleton
             this.connector.OnInsert += Connector_OnInsert;
             this.connector.OnUpdate += Connector_OnUpdate;
             this.connector.OnDelete += Connector_OnDelete;
+        }
+
+        public void Dispose()
+        {
+            this.connector.OnInsert -= Connector_OnInsert;
+            this.connector.OnUpdate -= Connector_OnUpdate;
+            this.connector.OnDelete -= Connector_OnDelete;
+            if (this.table != null)
+            {
+                this.table.RowChanged -= Table_RowChanged;
+                this.table.RowDeleting -= Table_RowDeleting;
+            }
         }
 
         private void Connector_OnInsert(string tableName, object[] objs)

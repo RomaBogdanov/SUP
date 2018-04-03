@@ -17,15 +17,17 @@ namespace SupRealClient.Models
 
         public void Ok(FieldData data)
         {
-            DocumentsWrapper documents = DocumentsWrapper.CurrentTable();
-            if (data.Field != "")
+            using (DocumentsWrapper documents = DocumentsWrapper.CurrentTable())
             {
-                DataRow row = documents.Table.NewRow();
-                row["f_doc_name"] = data.Field;
-                row["f_deleted"] = "N";
-                row["f_rec_date"] = DateTime.Now;
-                row["f_rec_operator"] = Authorizer.AppAuthorizer.Id;
-                documents.Table.Rows.Add(row);
+                if (data.Field != "")
+                {
+                    DataRow row = documents.Table.NewRow();
+                    row["f_doc_name"] = data.Field;
+                    row["f_deleted"] = "N";
+                    row["f_rec_date"] = DateTime.Now;
+                    row["f_rec_operator"] = Authorizer.AppAuthorizer.Id;
+                    documents.Table.Rows.Add(row);
+                }
             }
             Cancel();
         }

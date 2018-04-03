@@ -30,11 +30,13 @@ namespace SupRealClient.Models
 			{
 				result = new SearchResult();
 				var context = new SearchContext();
-				context.SetStrategy(CompareStrategyFactory.Create(searchData.Register, searchData.Equal, searchData.StartWith, searchData.Contains));
+				context.SetStrategy(CompareStrategyFactory.Create(searchData.Register,
+                    searchData.Equal, searchData.StartWith, searchData.Contains));
 				var table = searchHelper.Rows;
                 for (int i = 0; i < table.Length; i++)
 				{
-                    if (context.Execute(table[i].Field<object>(searchData.Field), searchData.Text))
+                    if (context.Execute(table[i].Field<object>(searchData.Field),
+                        searchData.Text))
 					{
 						findResult = true;
 						result.Add(i);

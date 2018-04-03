@@ -168,9 +168,9 @@ namespace SupRealClient
         public void ExitApp()
         {
             // Закрываем все окна при выходе
-            foreach (var window in windows.Values)
+            for (int i = windows.Values.Count - 1; i >= 0; i--)
             {
-                Close(window);
+                Close(windows.Values.ElementAt(i));
             }
         }
 
@@ -182,7 +182,7 @@ namespace SupRealClient
             }
             if (windows.ContainsKey(name))
             {
-                Close(windows[name]);
+                Hide(windows[name]);
                 windows.Remove(name);
             }
             window.ParentWindow = parent;
@@ -223,8 +223,15 @@ namespace SupRealClient
             return null;
         }
 
+        private void Hide(IWindow window)
+        {
+            (window as Window).Close();
+            window.IsRealClose = true;
+        }
+
         private void Close(IWindow window)
         {
+            (window as Window).Closing -= window.Window_Closing;
             (window as Window).Close();
             window.IsRealClose = true;
         }

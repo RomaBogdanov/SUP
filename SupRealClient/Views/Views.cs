@@ -16,6 +16,11 @@ namespace SupRealClient.Views
 
         public IWindow ParentWindow { get; set; }
 
+		public void Window_Closing(object sender, CancelEventArgs e)
+        {
+            ViewManager.Instance.CloseWindow(this, true, e);
+        }
+
 		public void CloseWindow(CancelEventArgs e)
         {
             if (!IsRealClose)
@@ -29,11 +34,6 @@ namespace SupRealClient.Views
         private void Handling_OnClose()
         {
             this.Hide();
-        }
-
-        private void Window_Closing(object sender, CancelEventArgs e)
-        {
-            ViewManager.Instance.CloseWindow(this, true, e);
         }
 
         private void Window_StateChanged(object sender, EventArgs e)
@@ -53,6 +53,11 @@ namespace SupRealClient.Views
 
         public IWindow ParentWindow { get; set; }
 
+		public void Window_Closing(object sender, CancelEventArgs e)
+        {
+            ViewManager.Instance.CloseWindow(this, true, e);
+        }
+
 		public void CloseWindow(CancelEventArgs e)
         {
             if (!IsRealClose)
@@ -66,11 +71,6 @@ namespace SupRealClient.Views
         private void Handling_OnClose()
         {
             this.Hide();
-        }
-
-        private void Window_Closing(object sender, CancelEventArgs e)
-        {
-            ViewManager.Instance.CloseWindow(this, true, e);
         }
 
         private void Window_StateChanged(object sender, EventArgs e)
@@ -90,6 +90,11 @@ namespace SupRealClient.Views
 
         public IWindow ParentWindow { get; set; }
 
+		public void Window_Closing(object sender, CancelEventArgs e)
+        {
+            ViewManager.Instance.CloseWindow(this, true, e);
+        }
+
 		public void CloseWindow(CancelEventArgs e)
         {
             if (!IsRealClose)
@@ -103,11 +108,6 @@ namespace SupRealClient.Views
         private void Handling_OnClose()
         {
             this.Hide();
-        }
-
-        private void Window_Closing(object sender, CancelEventArgs e)
-        {
-            ViewManager.Instance.CloseWindow(this, true, e);
         }
 
         private void Window_StateChanged(object sender, EventArgs e)
@@ -127,6 +127,11 @@ namespace SupRealClient.Views
 
         public IWindow ParentWindow { get; set; }
 
+		public void Window_Closing(object sender, CancelEventArgs e)
+        {
+            ViewManager.Instance.CloseWindow(this, true, e);
+        }
+
 		public void CloseWindow(CancelEventArgs e)
         {
             if (!IsRealClose)
@@ -140,11 +145,6 @@ namespace SupRealClient.Views
         private void Handling_OnClose()
         {
             this.Hide();
-        }
-
-        private void Window_Closing(object sender, CancelEventArgs e)
-        {
-            ViewManager.Instance.CloseWindow(this, true, e);
         }
 
         private void Window_StateChanged(object sender, EventArgs e)
@@ -164,6 +164,11 @@ namespace SupRealClient.Views
 
         public IWindow ParentWindow { get; set; }
 
+		public void Window_Closing(object sender, CancelEventArgs e)
+        {
+            ViewManager.Instance.CloseWindow(this, true, e);
+        }
+
 		public void CloseWindow(CancelEventArgs e)
         {
             if (!IsRealClose)
@@ -177,11 +182,6 @@ namespace SupRealClient.Views
         private void Handling_OnClose()
         {
             this.Hide();
-        }
-
-        private void Window_Closing(object sender, CancelEventArgs e)
-        {
-            ViewManager.Instance.CloseWindow(this, true, e);
         }
 
         private void Window_StateChanged(object sender, EventArgs e)
@@ -201,6 +201,11 @@ namespace SupRealClient.Views
 
         public IWindow ParentWindow { get; set; }
 
+		public void Window_Closing(object sender, CancelEventArgs e)
+        {
+            ViewManager.Instance.CloseWindow(this, true, e);
+        }
+
 		public void CloseWindow(CancelEventArgs e)
         {
             if (!IsRealClose)
@@ -214,11 +219,6 @@ namespace SupRealClient.Views
         private void Handling_OnClose()
         {
             this.Hide();
-        }
-
-        private void Window_Closing(object sender, CancelEventArgs e)
-        {
-            ViewManager.Instance.CloseWindow(this, true, e);
         }
 
         private void Window_StateChanged(object sender, EventArgs e)
@@ -238,6 +238,11 @@ namespace SupRealClient.Views
 
         public IWindow ParentWindow { get; set; }
 
+		public void Window_Closing(object sender, CancelEventArgs e)
+        {
+            ViewManager.Instance.CloseWindow(this, true, e);
+        }
+
 		public void CloseWindow(CancelEventArgs e)
         {
             if (!IsRealClose)
@@ -251,11 +256,6 @@ namespace SupRealClient.Views
         private void Handling_OnClose()
         {
             this.Hide();
-        }
-
-        private void Window_Closing(object sender, CancelEventArgs e)
-        {
-            ViewManager.Instance.CloseWindow(this, true, e);
         }
 
         private void Window_StateChanged(object sender, EventArgs e)
@@ -275,6 +275,11 @@ namespace SupRealClient.Views
 
         public IWindow ParentWindow { get; set; }
 
+		public void Window_Closing(object sender, CancelEventArgs e)
+        {
+            ViewManager.Instance.CloseWindow(this, true, e);
+        }
+
 		public void CloseWindow(CancelEventArgs e)
         {
             if (!IsRealClose)
@@ -288,11 +293,6 @@ namespace SupRealClient.Views
         private void Handling_OnClose()
         {
             this.Hide();
-        }
-
-        private void Window_Closing(object sender, CancelEventArgs e)
-        {
-            ViewManager.Instance.CloseWindow(this, true, e);
         }
 
         private void Window_StateChanged(object sender, EventArgs e)
@@ -312,6 +312,11 @@ namespace SupRealClient.Views
 
         public IWindow ParentWindow { get; set; }
 
+		public void Window_Closing(object sender, CancelEventArgs e)
+        {
+            ViewManager.Instance.CloseWindow(this, true, e);
+        }
+
 		public void CloseWindow(CancelEventArgs e)
         {
             if (!IsRealClose)
@@ -325,11 +330,6 @@ namespace SupRealClient.Views
         private void Handling_OnClose()
         {
             this.Hide();
-        }
-
-        private void Window_Closing(object sender, CancelEventArgs e)
-        {
-            ViewManager.Instance.CloseWindow(this, true, e);
         }
 
         private void Window_StateChanged(object sender, EventArgs e)
