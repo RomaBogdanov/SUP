@@ -122,13 +122,16 @@ namespace SupTestClientConsole.TableServiceReference {
         VisCards = 8,
         
         [System.Runtime.Serialization.EnumMemberAttribute()]
-        VisNewUser = 9,
+        VisUsers = 9,
         
         [System.Runtime.Serialization.EnumMemberAttribute()]
         VisSprCardstates = 10,
         
         [System.Runtime.Serialization.EnumMemberAttribute()]
         VisVisits = 11,
+        
+        [System.Runtime.Serialization.EnumMemberAttribute()]
+        VisClientUsers = 12,
     }
     
     [System.CodeDom.Compiler.GeneratedCodeAttribute("System.ServiceModel", "4.0.0.0")]

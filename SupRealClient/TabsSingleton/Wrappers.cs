@@ -3,6 +3,23 @@
 namespace SupRealClient.TabsSingleton
 {
 	/// <summary>
+	/// Пользователи без пароля
+	/// </summary>
+	partial class UsersWrapper : TableWrapper
+	{
+		static UsersWrapper currentTable;
+
+        public static UsersWrapper CurrentTable()
+            => currentTable = currentTable ?? new UsersWrapper();
+
+        private UsersWrapper() : base()
+        {
+            this.table = connector.GetTable(TableName.VisClientUsers);
+            this.Subscribe();
+        }
+    }
+
+	/// <summary>
 	/// ??
 	/// </summary>
 	partial class CardsWrapper : TableWrapper

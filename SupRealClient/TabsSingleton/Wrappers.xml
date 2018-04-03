@@ -1,5 +1,6 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?> 
 <Enum Name="WrapperType">
+  <Item Name="UsersWrapper" Type="VisClientUsers" Comment="Пользователи без пароля" />
   <Item Name="CardsWrapper" Type="VisCards" Comment="??" />
   <Item Name="CountriesWrapper" Type="VisCountries" Comment="??" />
   <Item Name="DocumentsWrapper" Type="VisDocuments" Comment="??" />

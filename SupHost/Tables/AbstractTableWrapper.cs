@@ -28,6 +28,7 @@ namespace SupHost
             wrappers = new Dictionary<string, AbstractTableWrapper>();
             wrappers.Add(TableName.TestTable1.ToString(), new TestTable1Wrapper());
             wrappers.Add(TableName.TestTable2Ado.ToString(), new TestTable2AdoWrapper());
+            wrappers.Add(TableName.VisClientUsers.ToString(), new VisClientUsersTableWrapper());
             wrappers.Add(TableName.VisOrders.ToString(), new VisOrdersTableWrapper());
             wrappers.Add(TableName.VisOrderElements.ToString(), new VisOrderElementsTableWrapper());
             wrappers.Add(TableName.VisOrganizations.ToString(), new VisOrganizationsTableWrapper());
