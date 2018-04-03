@@ -6,7 +6,12 @@
         xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
         xmlns:local="clr-namespace:SupRealClient.ViewModels"
         mc:Ignorable="d"
-        Title="Программа учёта посетителей" Height="350" Width="525" WindowState="Maximized" StateChanged="Window_StateChanged">
+        Title="Программа учёта посетителей" 
+        Height="350" Width="525"
+        WindowState="Maximized">
+
+    <!--d:DesignHeight="600" d:DesignWidth="1200"-->
+    
     <i:Interaction.Triggers>
         <i:EventTrigger EventName="Closing">
             <i:InvokeCommandAction Command="{Binding Close}"/>
@@ -17,13 +22,18 @@
     </Window.DataContext>
     <Grid>
         <Grid.RowDefinitions>
-            <RowDefinition Height="25"/>
+            <RowDefinition Height="30"/>
             <RowDefinition Height="50"/>
             <RowDefinition Height="*"/>
             <RowDefinition Height="30"/>
         </Grid.RowDefinitions>
-        <Menu Grid.RowSpan="1">
-            <MenuItem Header="Действия" FontSize="18">
+        
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="120"/>
+            <ColumnDefinition/>
+        </Grid.ColumnDefinitions>
+        <Menu Grid.RowSpan="1" Grid.Column="1" Background="White">
+            <MenuItem Header="Действия" Style="{DynamicResource MenuItemStyle}">
                 <MenuItem Header="Отчёт" IsEnabled="False"/>
                 <MenuItem Header="Сохранить" IsEnabled="False"/>
                 <Separator />
@@ -35,7 +45,7 @@
                 <Separator />
                 <MenuItem Header="Выход" Command="{Binding Path=UserExit}" IsEnabled="{Binding Path=IsUserEnter, Mode=TwoWay}"/>
             </MenuItem>
-            <MenuItem Header="Списки" FontSize="18">
+            <MenuItem Header="Списки" FontSize="18" Style="{DynamicResource MenuItemStyle}">
                 <MenuItem Header="Организации" Command="{Binding Path = ListOrganizationsClick}"/>
                 <MenuItem Header="Дочерние акционерные общества" IsEnabled="False"/>
                 <MenuItem Header="Главные организации" IsEnabled="False"/>
@@ -45,13 +55,13 @@
                 <MenuItem Header="Посетители" IsEnabled="False"/>
                 <MenuItem Header="Пропуска" Command="{Binding Path=ListCardsClick}"/>
                 <MenuItem Header="Кабинеты" IsEnabled="False"/>
-                <MenuItem Header="Зоны доступа" Command="{Binding Path=ListZonesClick}"/>
+                <MenuItem Header="Зоны доступа" IsEnabled="False"/>
             </MenuItem>
-            <MenuItem Header="Сервис" FontSize="18">
+            <MenuItem Header="Сервис" FontSize="18" Style="{DynamicResource MenuItemStyle}">
                 <MenuItem Header="Очистка базы данных..." IsEnabled="False"/>
                 <MenuItem Header="Настройки..." IsEnabled="False"/>
             </MenuItem>
-            <MenuItem Header="Окно" FontSize="18">
+            <MenuItem Header="Окно" FontSize="18" Style="{DynamicResource MenuItemStyle}">
                 <MenuItem Header="Посетители" IsEnabled="False"/>
                 <MenuItem Header="Посещения" IsEnabled="False"/>
                 <MenuItem Header="Заявки" IsEnabled="False"/>
@@ -63,25 +73,116 @@
                 <MenuItem Header="Закрыть окно" IsEnabled="False"/>
                 <MenuItem Header="Закрыть всё" IsEnabled="False"/>
             </MenuItem>
-            <MenuItem Header="Справка" FontSize="18">
+            <MenuItem Header="Справка" FontSize="18" Style="{DynamicResource MenuItemStyle}">
                 <MenuItem Header="Содержание" IsEnabled="False"/>
                 <Separator />
                 <MenuItem Header="О программе..." IsEnabled="False"/>
             </MenuItem>
         </Menu>
-        <DockPanel Grid.Row="1" Background="LightGray">
-            <Button Content="Посетители" FontSize="18" IsEnabled="False"/>
-            <Button Content="Заявки" FontSize="18" IsEnabled="False"/>
-            <Button Content="Посещения" FontSize="18" IsEnabled="False"/>
-            <Button Content="Отчёт" FontSize="18" IsEnabled="False"/>
-            <Button Content="Сохранить" FontSize="18" IsEnabled="False"/>
-            <Button Content="Наименование" FontSize="18" IsEnabled="False"/>
-            <Button Content="Регистрация" FontSize="18" IsEnabled="False"/>
-            <Button/>
-        </DockPanel>
+        <Grid
+            Grid.Row="1" 
+            Grid.RowSpan="2"
+            Grid.Column="0">
+            <Grid.RowDefinitions>
+                <RowDefinition/>
+                <RowDefinition/>
+                <RowDefinition/>
+                <RowDefinition/>
+                <RowDefinition/>
+                <RowDefinition/>
+                <RowDefinition/>
+                <RowDefinition/>
+            </Grid.RowDefinitions>
+            <Button Grid.Row="0" IsEnabled="False" Style="{DynamicResource ButtonStyle}">
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition/>
+                        <RowDefinition/>
+                    </Grid.RowDefinitions>
+                    <Image Grid.Row="0" Source="Resources/Посетители.jpg"></Image>
+                    <TextBlock Grid.Row="1" Text="Посетители"></TextBlock>
+                </Grid>
+            </Button>
+            <Button Grid.Row="1" IsEnabled="False" Style="{DynamicResource ButtonStyle}">
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition/>
+                        <RowDefinition/>
+                    </Grid.RowDefinitions>
+                    <Image Grid.Row="0" Source="Resources/Заявки.png"></Image>
+                    <TextBlock Grid.Row="1" Text="Заявки"></TextBlock>
+                </Grid>
+            </Button>
+            <Button Grid.Row="2" IsEnabled="False" Style="{DynamicResource ButtonStyle}">
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition/>
+                        <RowDefinition/>
+                    </Grid.RowDefinitions>
+                    <Image Grid.Row="0" Source="Resources/Посещения.png"></Image>
+                    <TextBlock Grid.Row="1" Text="Посещения"></TextBlock>
+                </Grid>
+            </Button>
+            <Button Grid.Row="3" IsEnabled="False" Style="{DynamicResource ButtonStyle}">
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition/>
+                        <RowDefinition/>
+                    </Grid.RowDefinitions>
+                    <Image Grid.Row="0" Source="Resources/Отчёт.png"></Image>
+                    <TextBlock Grid.Row="1" Text="Отчёт"></TextBlock>
+                </Grid>
+            </Button>
+            <Button Grid.Row="4" IsEnabled="False" Style="{DynamicResource ButtonStyle}">
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition/>
+                        <RowDefinition/>
+                    </Grid.RowDefinitions>
+                    <Image Grid.Row="0" Source="Resources/Сохранить.png"></Image>
+                    <TextBlock Grid.Row="1" Text="Сохранить"></TextBlock>
+                </Grid>
+            </Button>
+            <Button Grid.Row="5" IsEnabled="False" Style="{DynamicResource ButtonStyle}">
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition/>
+                        <RowDefinition/>
+                    </Grid.RowDefinitions>
+                    <Image Grid.Row="0" Source="Resources/Наименования.png"></Image>
+                    <TextBlock Grid.Row="1" Text="Наименование"></TextBlock>
+                </Grid>
+            </Button>
+            <Button Grid.Row="6" IsEnabled="False" Style="{DynamicResource ButtonStyle}">
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition/>
+                        <RowDefinition/>
+                    </Grid.RowDefinitions>
+                    <Image Grid.Row="0" Source="Resources/Регистрация3.jpg"></Image>
+                    <TextBlock Grid.Row="1" Text="Регистрация"></TextBlock>
+                </Grid>
+            </Button>
+            <Button Grid.Row="7" Style="{DynamicResource ButtonStyle}"/>
+        </Grid>
+        <!--<DockPanel 
+            Grid.Row="1" 
+            Grid.RowSpan="3"
+            Grid.Column="0"
+            Background="LightGray">
+            <Button DockPanel.Dock="Top" Content="Посетители" IsEnabled="True"/>
+            <Button DockPanel.Dock="Top" Content="Заявки" IsEnabled="True" Style="{DynamicResource ButtonStyle}"/>
+            <Button DockPanel.Dock="Top" Content="Посещения" IsEnabled="True" Style="{DynamicResource ButtonStyle}"/>
+            <Button DockPanel.Dock="Top" Content="Отчёт" IsEnabled="False" Style="{DynamicResource ButtonStyle}"/>
+            <Button DockPanel.Dock="Top" Content="Сохранить" IsEnabled="False" Style="{DynamicResource ButtonStyle}"/>
+            <Button DockPanel.Dock="Top" Content="Наименование" IsEnabled="False" Style="{DynamicResource ButtonStyle}"/>
+            <Button DockPanel.Dock="Top" Content="Регистрация" IsEnabled="False" />
+            <Button DockPanel.Dock="Top" Style="{DynamicResource ButtonStyle}"/>
+        </DockPanel>-->
         <!--<local:Authorize1View Grid.Row="2"></local:Authorize1View>-->
-        <ContentControl x:Name="aaa" Grid.Row="2" Content="{Binding Path=Control}" Visibility="{Binding Path=LoginVisibility, Mode=OneWay}" ></ContentControl>
-        <Grid Grid.Row="3">
+        <ContentControl x:Name="aaa" Grid.Row="1" Grid.RowSpan="2" Grid.Column="1" Content="{Binding Path=Control}" Visibility="{Binding Path=LoginVisibility, Mode=OneWay}" ></ContentControl>
+        <Grid Grid.Row="3"
+              Grid.Column="1">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="200"/>
                 <ColumnDefinition Width="200"/>

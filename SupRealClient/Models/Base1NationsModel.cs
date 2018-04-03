@@ -10,10 +10,9 @@ namespace SupRealClient.Models
 {
     class Base1NationsModel : Base1ModelAbstr
     {
-        public Base1NationsModel(IBase1ViewModel viewModel, IWindow parent)
+        public Base1NationsModel(IBase1ViewModel viewModel)
         {
             this.viewModel = viewModel;
-            this.parent = parent;
             CountriesWrapper countriesWrapper = CountriesWrapper.CurrentTable();
             table = countriesWrapper.Table;
             tabConnector = countriesWrapper.Connector;
@@ -24,7 +23,7 @@ namespace SupRealClient.Models
 
         public override void Add()
         {
-            ViewManager.Instance.Add(new AddItemNationsModel(), parent);
+            ViewManager.Instance.Add(new AddItemNationsModel());
         }
 
         public override void Begin()
@@ -73,20 +72,20 @@ namespace SupRealClient.Models
 
         public override void Update()
         {
-            ViewManager.Instance.Update(new UpdateItemNationsModel((Nation)this.viewModel.CurrentItem), parent);
+            ViewManager.Instance.Update(new UpdateItemNationsModel((Nation)this.viewModel.CurrentItem));
         }
 
         protected override void Query()
         {
             var nations = from nats in table.AsEnumerable()
-                          select new Nation()
+                            select new Nation()
                             {
                                 Id = nats.Field<int>("f_cntr_id"),
                                 CountryName = nats.Field<string>("f_cntr_name"),
                                 Deleted = nats.Field<string>("f_deleted"),
                                 RecDate = nats.Field<DateTime>("f_rec_date"),
                                 RecOperator = nats.Field<int>("f_rec_operator")
-                          };
+                            };
             this.viewModel.Set = nations;
             if (viewModel.NumItem == -1)
             {
@@ -108,10 +107,7 @@ namespace SupRealClient.Models
 
         public override IDictionary<string, string> GetFields()
         {
-            return new Dictionary<string, string>()
-            {
-                { "f_cntr_name", "Название" }
-            };
+            return new Dictionary<string, string>() { { "f_cntr_name", "Название" } };
         }
     }
 }

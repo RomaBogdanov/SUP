@@ -10,14 +10,19 @@ namespace SupRealClient.Views
     /// </summary>
     public partial class Search1View : Window
     {
-        public Search1View(ISearchHelper searchHelper)
+		public Search1View(ISearchHelper searchHelper)
 		{
 			var model = new Search1Model();
 			model.SetSearchHelper(searchHelper);
-			model.OnClose += Handling_OnClose;
+			model.OnClose += Hanling_OnClose;
 			DataContext = new Search1ViewModel();
 			((Search1ViewModel)DataContext).SetModel(model);
 			InitializeComponent();
 		}
-    }
+
+		private void Hanling_OnClose()
+		{
+			this.Close();
+		}
+	}
 }

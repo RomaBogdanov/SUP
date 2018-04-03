@@ -34,7 +34,7 @@ namespace SupRealClient.Models
             row["f_state_id"] = 1;
             row["f_card_text"] = data.NumMAFW;
             row["f_comment"] = data.Comment;
-            row["f_rec_operator"] = Authorizer.AppAuthorizer.Id;
+            row["f_rec_operator"] = Authorizer.AppAuthorizer.Login;
             row["f_rec_date"] = data.CreateDate;
             row["f_lost_date"] = DateTime.MinValue;
             cards.Table.Rows.Add(row);

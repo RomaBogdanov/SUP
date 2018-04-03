@@ -9,7 +9,7 @@ namespace SupRealClient.ViewModels
     public class Base1ViewModel : IBase1ViewModel, INotifyPropertyChanged
     {
         public event PropertyChangedEventHandler PropertyChanged;
-        protected Base1ModelAbstr model;
+        private Base1ModelAbstr model;
         private IEnumerable<object> set;
         private object currentItem;
         private bool focused = false;
@@ -103,7 +103,7 @@ namespace SupRealClient.ViewModels
         public ICommand TextChanged
         { get; set; }
         */
-        public virtual void SetModel(Base1ModelAbstr modelAbstr)
+        public void SetModel(Base1ModelAbstr modelAbstr)
         {
             this.model = modelAbstr;
             this.Add = new RelayCommand(arg => model.Add());

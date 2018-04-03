@@ -13,26 +13,23 @@ namespace SupRealClient.Models
         CardsWrapper cardsWrapper = CardsWrapper.CurrentTable();
         SprCardstatesWrapper sprCardstatesWrapper = SprCardstatesWrapper.CurrentTable();
         VisitsWrapper visitsWrapper = VisitsWrapper.CurrentTable();
+        NewUserWrapper newUserWrapper = NewUserWrapper.CurrentTable();
         VisitorsWrapper visitorsWrapper = VisitorsWrapper.CurrentTable();
 
-        private DataRow[] rows;
-
-        public Base1CardsModel(IBase1ViewModel viewModel, IWindow parent)
+        public Base1CardsModel(IBase1ViewModel viewModel)
         {
             this.viewModel = viewModel;
-            this.parent = parent;
-            //CardsWrapper documentsWrapper = CardsWrapper.CurrentTable();
-            //table = documentsWrapper.Table;
             this.cardsWrapper.OnChanged += this.Query;
             this.sprCardstatesWrapper.OnChanged += this.Query;
             this.visitsWrapper.OnChanged += this.Query;
+            this.newUserWrapper.OnChanged += this.Query;
             this.visitorsWrapper.OnChanged += this.Query;
             this.Query();
         }
 
         public override void Add()
         {
-            ViewManager.Instance.AddObject(new AddCardModel(), parent);
+            ViewManager.Instance.AddObject(new AddCardModel());
         }
 
         public override void Begin()
@@ -75,7 +72,7 @@ namespace SupRealClient.Models
 
         public override void Update()
         {
-            ViewManager.Instance.UpdateObject(new UpdateCardModel((Card)this.viewModel.CurrentItem), parent);
+            ViewManager.Instance.UpdateObject(new UpdateCardModel((Card)this.viewModel.CurrentItem));
         }
 
         protected override void Query()
@@ -129,27 +126,13 @@ namespace SupRealClient.Models
                     this.Begin();
                 }
             }
-        }
 
-        public override DataRow[] Rows
-        {
-            get
-            {
-                return (from c in cardsWrapper.Table.AsEnumerable()
-                        join s in sprCardstatesWrapper.Table.AsEnumerable()
-                        on c.Field<int>("f_state_id") equals s.Field<int>("f_state_id")
-                        select c).AsEnumerable().ToArray();
-            }
+            
         }
 
         public override IDictionary<string, string> GetFields()
         {
-            return new Dictionary<string, string>()
-            {
-                { "f_card_num", "Пропуск" },
-                { "f_comment", "Примечание" },
-                //{ "f_state_text", "Состояние" },
-            };
+            return new Dictionary<string, string>();
         }
 
         class CardsPersons

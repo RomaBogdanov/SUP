@@ -106,8 +106,7 @@ namespace SupRealClient.ViewModels
             }
             else
             {
-                int id = this.connector.Authorize(Login, Password);
-                if (id > 0)
+                if (this.connector.Authorize(Login, Password))
                 {
                     IsAuthorization = true;
                     //System.Windows.Forms.MessageBox.Show("Выйти");

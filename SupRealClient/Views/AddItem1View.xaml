@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:SupRealClient.Views"
         mc:Ignorable="d"
-        Title="Добавление" Height="150" Width="300" Closing="Window_Closing" StateChanged="Window_StateChanged">
+        Title="Добавление" Height="150" Width="300">
     <Grid>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="1*"/>

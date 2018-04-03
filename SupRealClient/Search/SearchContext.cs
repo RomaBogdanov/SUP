@@ -12,10 +12,9 @@
 			strategy = _strategy;
 		}
 
-		public bool Execute(object value1, string value2)
+		public bool Execute(string value1, string value2)
 		{
-            string str = value1 != null ? value1.ToString() : "";
-			return strategy.Execute(str ?? "", value2 ?? "");
+			return strategy.Execute(value1 ?? "", value2 ?? "");
 		}
 	}
 }

@@ -16,7 +16,11 @@ namespace SupRealClient.TabsSingleton
         {
             this.table = connector.GetTable(TableName.VisCards);
             this.Subscribe();
+			DoSomething();
         }
+
+		// TODO - Для примера как можно переопределить метод
+		partial void DoSomething();
     }
 
 	/// <summary>
@@ -33,7 +37,11 @@ namespace SupRealClient.TabsSingleton
         {
             this.table = connector.GetTable(TableName.VisCountries);
             this.Subscribe();
+			DoSomething();
         }
+
+		// TODO - Для примера как можно переопределить метод
+		partial void DoSomething();
     }
 
 	/// <summary>
@@ -50,7 +58,32 @@ namespace SupRealClient.TabsSingleton
         {
             this.table = connector.GetTable(TableName.VisDocuments);
             this.Subscribe();
+			DoSomething();
         }
+
+		// TODO - Для примера как можно переопределить метод
+		partial void DoSomething();
+    }
+
+	/// <summary>
+	/// ??
+	/// </summary>
+	partial class NewUserWrapper : TableWrapper
+	{
+		static NewUserWrapper currentTable;
+
+        public static NewUserWrapper CurrentTable()
+            => currentTable = currentTable ?? new NewUserWrapper();
+
+        private NewUserWrapper() : base()
+        {
+            this.table = connector.GetTable(TableName.VisNewUser);
+            this.Subscribe();
+			DoSomething();
+        }
+
+		// TODO - Для примера как можно переопределить метод
+		partial void DoSomething();
     }
 
 	/// <summary>
@@ -67,7 +100,11 @@ namespace SupRealClient.TabsSingleton
         {
             this.table = connector.GetTable(TableName.VisOrganizations);
             this.Subscribe();
+			DoSomething();
         }
+
+		// TODO - Для примера как можно переопределить метод
+		partial void DoSomething();
     }
 
 	/// <summary>
@@ -84,7 +121,11 @@ namespace SupRealClient.TabsSingleton
         {
             this.table = connector.GetTable(TableName.VisSprCardstates);
             this.Subscribe();
+			DoSomething();
         }
+
+		// TODO - Для примера как можно переопределить метод
+		partial void DoSomething();
     }
 
 	/// <summary>
@@ -101,7 +142,11 @@ namespace SupRealClient.TabsSingleton
         {
             this.table = connector.GetTable(TableName.VisVisitors);
             this.Subscribe();
+			DoSomething();
         }
+
+		// TODO - Для примера как можно переопределить метод
+		partial void DoSomething();
     }
 
 	/// <summary>
@@ -118,7 +163,11 @@ namespace SupRealClient.TabsSingleton
         {
             this.table = connector.GetTable(TableName.VisVisits);
             this.Subscribe();
+			DoSomething();
         }
+
+		// TODO - Для примера как можно переопределить метод
+		partial void DoSomething();
     }
 
 }

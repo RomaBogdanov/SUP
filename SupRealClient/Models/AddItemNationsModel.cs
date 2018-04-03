@@ -29,7 +29,7 @@ namespace SupRealClient.Models
                 row["f_cntr_name"] = data.Field;
                 row["f_deleted"] = "N";
                 row["f_rec_date"] = DateTime.Now;
-                row["f_rec_operator"] = Authorizer.AppAuthorizer.Id;
+                row["f_rec_operator"] = Authorizer.AppAuthorizer.Login;
                 countries.Table.Rows.Add(row);
             }
             Cancel();

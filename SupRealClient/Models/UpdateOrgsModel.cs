@@ -50,7 +50,7 @@ namespace SupRealClient.Models
                 row["f_comment"] = data.Comment;
                 row["f_full_org_name"] = data.FullName;
                 row["f_rec_date"] = DateTime.Now;
-                row["f_rec_operator"] = Authorizer.AppAuthorizer.Id;
+                row["f_rec_operator"] = Authorizer.AppAuthorizer.Login;
             }
             Cancel();
         }

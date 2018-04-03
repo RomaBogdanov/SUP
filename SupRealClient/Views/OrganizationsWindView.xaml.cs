@@ -11,11 +11,13 @@ namespace SupRealClient.Views
     /// </summary>
     public partial class OrganizationsWindView : Window
     {
+        public bool IsRealClose { get; set; } = false;
+
         public OrganizationsWindView()
         {
             InitializeComponent();
             Base1ModelAbstr b = new Base1OrganizationsModel(
-                (Base1ViewModel)base2.DataContext, this);
+                (Base1ViewModel)base2.DataContext);
             b.OnClose += Handling_OnClose;
             base2.SetViewModel(b);
             DataGridTextColumn dataGridTextColumn = new DataGridTextColumn
@@ -42,6 +44,20 @@ namespace SupRealClient.Views
                 Binding = new Binding("FullName")
             };
             base2.baseTab.Columns.Add(dataGridTextColumn);
+        }
+
+        private void Handling_OnClose()
+        {
+            this.Hide();
+        }
+
+        private void Window_Closing(object sender, System.ComponentModel.CancelEventArgs e)
+        {
+            if (!IsRealClose)
+            {
+                e.Cancel = true;
+                Handling_OnClose();
+            }
         }
     }
 }

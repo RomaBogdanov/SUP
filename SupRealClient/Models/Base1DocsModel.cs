@@ -10,10 +10,9 @@ namespace SupRealClient.Models
 {
     class Base1DocsModel : Base1ModelAbstr
     {
-        public Base1DocsModel(IBase1ViewModel viewModel, IWindow parent)
+        public Base1DocsModel(IBase1ViewModel viewModel)
         {
             this.viewModel = viewModel;
-            this.parent = parent;
             DocumentsWrapper documentsWrapper = DocumentsWrapper.CurrentTable();
             table = documentsWrapper.Table;
             tabConnector = documentsWrapper.Connector;
@@ -29,12 +28,12 @@ namespace SupRealClient.Models
 
         public override void Add()
         {
-            ViewManager.Instance.Add(new AddItemDocumentsModel(), parent);
+            ViewManager.Instance.Add(new AddItemDocumentsModel());
         }
 
         public override void Update()
         {
-            ViewManager.Instance.Update(new UpdateItemDocumentsModel((Document)this.viewModel.CurrentItem), parent);
+            ViewManager.Instance.Update(new UpdateItemDocumentsModel((Document)this.viewModel.CurrentItem));
         }  
 
         public override void Begin()

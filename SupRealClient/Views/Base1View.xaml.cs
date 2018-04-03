@@ -20,6 +20,9 @@ namespace SupRealClient.Views
         {
             ((Base1ViewModel)DataContext).SetModel(model);
             InitializeComponent();
+            
+            /*baseTab.Focus();
+            baseTab.SelectedIndex = 2;*/
         }
 
         public DataGrid BaseTab

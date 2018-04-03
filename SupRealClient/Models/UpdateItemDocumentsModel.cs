@@ -31,7 +31,7 @@ namespace SupRealClient.Models
                 DataRow dataRow = documents.Table.Rows.Find(document.Id);
                 dataRow["f_doc_name"] = data.Field;
                 dataRow["f_rec_date"] = DateTime.Now;
-                dataRow["f_rec_operator"] = Authorizer.AppAuthorizer.Id;
+                dataRow["f_rec_operator"] = Authorizer.AppAuthorizer.Login;
             }
             Cancel();
         }

@@ -5,9 +5,18 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:SupRealClient.Views"
         mc:Ignorable="d"
-        Title="Документы" Height="600" Width="600" Closing="Window_Closing" StateChanged="Window_StateChanged">
+        Title="Документы" Height="600" Width="600" Closing="Window_Closing">
     <Grid>
         <local:Base1View x:Name="base1">
+            <!--<BaseTab>
+                <DataGrid.Columns>
+                    <DataGridTextColumn Header="Тип" Binding="{Binding Type}">
+                    </DataGridTextColumn>
+                    <DataGridTextColumn Header="Название организации" Binding="{Binding Name}"></DataGridTextColumn>
+                    <DataGridTextColumn Header="Примечание" Binding="{Binding Note}"></DataGridTextColumn>
+                    <DataGridTextColumn Header="Основное название" Binding="{Binding FullName}"></DataGridTextColumn>
+                </DataGrid.Columns>
+            </BaseTab>-->
         </local:Base1View>
     </Grid>
 </Window>

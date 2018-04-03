@@ -65,7 +65,6 @@
     </ApplicationDefinition>
     <Compile Include="Common\Interfaces\ISearchHelper.cs" />
     <Compile Include="Common\Interfaces\IViewManager.cs" />
-    <Compile Include="Common\Interfaces\IWindow.cs" />
     <Compile Include="ErrorWindow.xaml.cs">
       <DependentUpon>ErrorWindow.xaml</DependentUpon>
     </Compile>
@@ -73,8 +72,6 @@
     <Compile Include="Common\Interfaces\IBase2ViewModel.cs" />
     <Compile Include="Models\AddCardModel.cs" />
     <Compile Include="Common\Data\SearchData.cs" />
-    <Compile Include="Models\Base3ModelAbstr.cs" />
-    <Compile Include="Models\Base3ZonesModel.cs" />
     <Compile Include="Models\IAddUpdateCardModel.cs" />
     <Compile Include="Models\ISearch1Model.cs" />
     <Compile Include="Models\Search1Model.cs" />
@@ -91,13 +88,13 @@
     <Compile Include="Search\SearchContext.cs" />
     <Compile Include="Search\SearchResult.cs" />
     <Compile Include="Search\StartWithStrategy.cs" />
+    <Compile Include="TabsSingleton\CountriesWrapper.cs" />
     <Compile Include="TabsSingleton\Wrappers.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
       <DependentUpon>Wrappers.tt</DependentUpon>
     </Compile>
     <Compile Include="ViewModels\AddUpdateCardViewModel.cs" />
-    <Compile Include="ViewModels\Base3ViewModel.cs" />
     <Compile Include="ViewModels\ErrorViewModel.cs" />
     <Compile Include="ViewModels\Search1ViewModel.cs" />
     <Compile Include="Views\AddUpdateCardView.xaml.cs">
@@ -111,22 +108,11 @@
       <DependentUpon>AddUpdateOrgsView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Models\Base1CardsModel.cs" />
-    <Compile Include="Views\Base3View.xaml.cs">
-      <DependentUpon>Base3View.xaml</DependentUpon>
-    </Compile>
     <Compile Include="Views\CardsWindView.xaml.cs">
       <DependentUpon>CardsWindView.xaml</DependentUpon>
     </Compile>
     <Compile Include="EnumerationClasses\Card.cs" />
     <Compile Include="ViewManager.cs" />
-    <Compile Include="Views\ZonesWindView.xaml.cs">
-      <DependentUpon>ZonesWindView.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Views\Views.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>Views.tt</DependentUpon>
-    </Compile>
     <Page Include="ErrorWindow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -136,10 +122,6 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Views\AddUpdateOrgsView.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="Views\Base3View.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -237,10 +219,6 @@
       <DependentUpon>MainWindow.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
-    <Page Include="Views\ZonesWindView.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Properties\AssemblyInfo.cs">
@@ -270,16 +248,32 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
+    <Resource Include="Resources\Посетители.jpg">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Resources\Регистрация3.jpg">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Resources\Заявки.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Resources\Сохранить.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Resources\Отчёт.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Resources\Наименования.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Resources\Посещения.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Resource>
     <Content Include="TabsSingleton\Wrappers.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
       <LastGenOutput>Wrappers.cs</LastGenOutput>
     </Content>
     <Content Include="TabsSingleton\Wrappers.xml" />
-    <Content Include="Views\Views.tt">
-      <Generator>TextTemplatingFileGenerator</Generator>
-      <LastGenOutput>Views.cs</LastGenOutput>
-    </Content>
-    <Content Include="Views\Views.xml" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\SupClientConnectionLib\SupClientConnectionLib.csproj">
@@ -290,5 +284,6 @@
   <ItemGroup>
     <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

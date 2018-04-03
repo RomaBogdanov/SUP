@@ -1,10 +1,6 @@
 ﻿using SupRealClient.Common.Interfaces;
 using SupRealClient.Models;
 using SupRealClient.Views;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Linq;
-using System.Windows;
 
 namespace SupRealClient
 {
@@ -12,221 +8,59 @@ namespace SupRealClient
 
     public class ViewManager : IViewManager
     {
-        private static IViewManager viewManager;
-
-        private IDictionary<string, IWindow> windows =
-            new Dictionary<string, IWindow>();
+        public static IViewManager viewManager;
 
         public static IViewManager Instance
         {
             get { return viewManager = viewManager ?? new ViewManager(); }
         }
 
-        /// <summary>
-        /// Добавить поле в таблицу
-        /// </summary>
-        /// <param name="model"></param>
-        public void Add(IAddItem1Model model, IWindow parent)
+        public void Add(IAddItem1Model model)
         {
-            ReopenWindow("AddItem1View." + model.ToString(),
-                new AddItem1View(model), parent);
+            AddItem1View addItem1View = new AddItem1View(model);
+            addItem1View.Show();
         }
 
-        /// <summary>
-        /// Добавить поле в таблицу
-        /// </summary>
-        /// <param name="model"></param>
-        /// TODO - Пока криво - потом переделать
-        public void AddObject(object model, IWindow parent)
+        // Пока криво - потом переделать
+        public void AddObject(object model)
         {
             if (model is AddOrgsModel)
             {
-                ReopenWindow("AddOrgsView",
-                    new AddUpdateOrgsView(model as AddOrgsModel), parent);
+                AddUpdateOrgsView orgsView = new AddUpdateOrgsView(model as AddOrgsModel);
+                orgsView.Show();
             }
             else if (model is AddCardModel)
             {
-                ReopenWindow("AddCardView",
-                    new AddUpdateCardView(model as AddCardModel), parent);
+                AddUpdateCardView cardView = new AddUpdateCardView(model as AddCardModel);
+                cardView.Show();
             }
         }
 
-        /// <summary>
-        /// Редактировать поле таблицы
-        /// </summary>
-        /// <param name="model"></param>
-        public void Update(IAddItem1Model model, IWindow parent)
+        public void Update(IAddItem1Model model)
         {
-            ReopenWindow("UpdateItem1View." + model.ToString(),
-                new AddItem1View(model), parent);
+            AddItem1View addItem1View = new AddItem1View(model);
+            addItem1View.Show();
         }
 
-        /// <summary>
-        /// Редактировать поле таблицы
-        /// </summary>
-        /// <param name="model"></param>
-        /// TODO - Пока криво - потом переделать
-        public void UpdateObject(object model, IWindow parent)
+        // Пока криво - потом переделать
+        public void UpdateObject(object model)
         {
             if (model is UpdateOrgsModel)
             {
-                ReopenWindow("UpdateOrgsView",
-                    new AddUpdateOrgsView(model as UpdateOrgsModel), parent);
+                AddUpdateOrgsView orgsView = new AddUpdateOrgsView(model as UpdateOrgsModel);
+                orgsView.Show();
             }
             else if (model is UpdateCardModel)
             {
-                ReopenWindow("UpdateCardView",
-                    new AddUpdateCardView(model as UpdateCardModel), parent);
+                AddUpdateCardView cardView = new AddUpdateCardView(model as UpdateCardModel);
+                cardView.Show();
             }
         }
 
-        /// <summary>
-        /// Поиск в таблице
-        /// </summary>
-        /// <param name="searchHelper"></param>
-        public void Search(ISearchHelper searchHelper, IWindow parent)
+        public void Search(ISearchHelper searchHelper)
         {
-            ReopenWindow("Search1View." + searchHelper.ToString(),
-                new Search1View(searchHelper), parent);
-        }
-
-        /// <summary>
-        /// Открыть окно
-        /// </summary>
-        /// <param name="name"></param>
-        public void OpenWindow(string name)
-        {
-            IWindow window = windows.ContainsKey(name) ?
-                windows[name] : CreateWindow(name);
-            if (window == null)
-            {
-                return;
-            }
-            if (!windows.ContainsKey(name))
-            {
-                windows[name] = window;
-            }
-            OpenWindow(window);
-        }
-
-        /// <summary>
-        /// Закрыть окно
-        /// </summary>
-        /// <param name="window"></param>
-        /// <param name="withChildren"></param>
-        public void CloseWindow(IWindow window, bool withChildren,
-            CancelEventArgs e)
-        {
-            // Перед закрытием окна, закрываем все его дочерние окна рекурсивно
-            if (withChildren)
-            {
-                foreach (var wnd in windows.Values.
-                    Where(w => w.ParentWindow == window))
-                {
-                    CloseWindow(wnd, withChildren, e);
-                }
-            }
-            window.CloseWindow(e);
-        }
-
-        /// <summary>
-        /// Минимизировать/раскрыть дочерние окна
-        /// </summary>
-        /// <param name="window"></param>
-        public void SetChildrenState(Window window, bool isMain)
-        {
-            if (window == null)
-            {
-                return;
-            }
-            if (window.WindowState != WindowState.Minimized &&
-                window.WindowState != WindowState.Normal)
-            {
-                return;
-            }
-            if (isMain)
-            {
-                foreach (var wnd in windows.Values)
-                {
-                    (wnd as Window).WindowState = window.WindowState;
-                }
-            }
-            else
-            {
-                foreach (var wnd in windows.Values.
-                    Where(w => w.ParentWindow == window))
-                {
-                    SetChildrenState(wnd as Window, isMain);
-                    (wnd as Window).WindowState = window.WindowState;
-                }
-            }
-        }
-
-        /// <summary>
-        /// Выход из приложения
-        /// </summary>
-        public void ExitApp()
-        {
-            // Закрываем все окна при выходе
-            foreach (var window in windows.Values)
-            {
-                Close(window);
-            }
-        }
-
-        private void ReopenWindow(string name, IWindow window, IWindow parent)
-        {
-            if (window == null)
-            {
-                return;
-            }
-            if (windows.ContainsKey(name))
-            {
-                Close(windows[name]);
-                windows.Remove(name);
-            }
-            window.ParentWindow = parent;
-            windows[name] = window;
-            OpenWindow(window);
-        }
-
-        private void OpenWindow(IWindow window)
-        {
-            if (window == null)
-            {
-                return;
-            }
-            if (window.IsRealClose)
-            {
-                window.IsRealClose = false;
-                (window as Window).Show();
-            }
-            (window as Window).Activate();
-        }
-
-        private IWindow CreateWindow(string name)
-        {
-            switch (name)
-            {
-                case "DocumentsWindView":
-                    return new DocumentsWindView();
-                case "NationsWindView":
-                    return new NationsWindView();
-                case "CardsWindView":
-                    return new CardsWindView();
-                case "OrganizationsWindView":
-                    return new OrganizationsWindView();
-                case "ZonesWindView":
-                    return new ZonesWindView();
-            }
-
-            return null;
-        }
-
-        private void Close(IWindow window)
-        {
-            (window as Window).Close();
-            window.IsRealClose = true;
+            Search1View search1View = new Search1View(searchHelper);
+            search1View.Show();
         }
     }
 }

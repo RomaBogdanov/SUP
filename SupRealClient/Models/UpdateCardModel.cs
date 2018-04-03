@@ -52,7 +52,7 @@ namespace SupRealClient.Models
             row["f_card_num"] = data.CurdNum;
             row["f_card_text"] = data.NumMAFW;
             row["f_comment"] = data.Comment;
-            row["f_rec_operator"] = Authorizer.AppAuthorizer.Id;
+            row["f_rec_operator"] = Authorizer.AppAuthorizer.Login;
             row["f_rec_date"] = data.CreateDate;
             Cancel();
         }
