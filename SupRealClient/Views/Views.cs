@@ -22,7 +22,7 @@ namespace SupRealClient.Views
             {
                 IsRealClose = true;
                 e.Cancel = true;
-                Handling_OnClose();
+                this.Hide();
             }
         }
 
@@ -38,7 +38,7 @@ namespace SupRealClient.Views
 		
         private void Handling_OnClose()
         {
-            this.Hide();
+            this.Close();
         }
 
         private void Window_StateChanged(object sender, EventArgs e)
@@ -64,7 +64,7 @@ namespace SupRealClient.Views
             {
                 IsRealClose = true;
                 e.Cancel = true;
-                Handling_OnClose();
+                this.Hide();
             }
         }
 
@@ -80,7 +80,7 @@ namespace SupRealClient.Views
 		
         private void Handling_OnClose()
         {
-            this.Hide();
+            this.Close();
         }
 
         private void Window_StateChanged(object sender, EventArgs e)
@@ -106,7 +106,7 @@ namespace SupRealClient.Views
             {
                 IsRealClose = true;
                 e.Cancel = true;
-                Handling_OnClose();
+                this.Hide();
             }
         }
 
@@ -122,7 +122,7 @@ namespace SupRealClient.Views
 		
         private void Handling_OnClose()
         {
-            this.Hide();
+            this.Close();
         }
 
         private void Window_StateChanged(object sender, EventArgs e)
@@ -148,7 +148,7 @@ namespace SupRealClient.Views
             {
                 IsRealClose = true;
                 e.Cancel = true;
-                Handling_OnClose();
+                this.Hide();
             }
         }
 
@@ -164,7 +164,7 @@ namespace SupRealClient.Views
 		
         private void Handling_OnClose()
         {
-            this.Hide();
+            this.Close();
         }
 
         private void Window_StateChanged(object sender, EventArgs e)
@@ -190,7 +190,7 @@ namespace SupRealClient.Views
             {
                 IsRealClose = true;
                 e.Cancel = true;
-                Handling_OnClose();
+                this.Hide();
             }
         }
 
@@ -206,7 +206,7 @@ namespace SupRealClient.Views
 		
         private void Handling_OnClose()
         {
-            this.Hide();
+            this.Close();
         }
 
         private void Window_StateChanged(object sender, EventArgs e)
@@ -232,7 +232,7 @@ namespace SupRealClient.Views
             {
                 IsRealClose = true;
                 e.Cancel = true;
-                Handling_OnClose();
+                this.Hide();
             }
         }
 
@@ -248,7 +248,7 @@ namespace SupRealClient.Views
 		
         private void Handling_OnClose()
         {
-            this.Hide();
+            this.Close();
         }
 
         private void Window_StateChanged(object sender, EventArgs e)
@@ -274,7 +274,7 @@ namespace SupRealClient.Views
             {
                 IsRealClose = true;
                 e.Cancel = true;
-                Handling_OnClose();
+                this.Hide();
             }
         }
 
@@ -290,7 +290,7 @@ namespace SupRealClient.Views
 		
         private void Handling_OnClose()
         {
-            this.Hide();
+            this.Close();
         }
 
         private void Window_StateChanged(object sender, EventArgs e)
@@ -316,7 +316,7 @@ namespace SupRealClient.Views
             {
                 IsRealClose = true;
                 e.Cancel = true;
-                Handling_OnClose();
+                this.Hide();
             }
         }
 
@@ -332,7 +332,7 @@ namespace SupRealClient.Views
 		
         private void Handling_OnClose()
         {
-            this.Hide();
+            this.Close();
         }
 
         private void Window_StateChanged(object sender, EventArgs e)
@@ -358,7 +358,7 @@ namespace SupRealClient.Views
             {
                 IsRealClose = true;
                 e.Cancel = true;
-                Handling_OnClose();
+                this.Hide();
             }
         }
 
@@ -374,7 +374,7 @@ namespace SupRealClient.Views
 		
         private void Handling_OnClose()
         {
-            this.Hide();
+            this.Close();
         }
 
         private void Window_StateChanged(object sender, EventArgs e)
