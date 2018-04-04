@@ -9,4 +9,5 @@
   <Item Name="OrganizationsWindView" />
   <Item Name="Search1View" />
   <Item Name="ZonesWindView" />
+  <Item Name="CabinetsWindView" />
 </Enum>

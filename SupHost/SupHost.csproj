@@ -63,6 +63,11 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Accounts.cs" />
+    <Compile Include="VisTablesCreating.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>VisTablesCreating.tt</DependentUpon>
+    </Compile>
     <Compile Include="GetTableBehavior\VisClientUsersTableBehavior.cs" />
     <Compile Include="GetTableBehavior\VisDocumentsTableBehavior.cs" />
     <Compile Include="GetTableBehavior\VisitorsDBTableBehavior.cs" />
@@ -97,6 +102,8 @@
     <Compile Include="Tables\VisCardsTableWrapper.cs" />
     <Compile Include="Tables\VisSprCardstatesTableWrapper.cs" />
     <Compile Include="Tables\VisVisitsTableWrapper.cs" />
+    <Compile Include="GetTableBehavior\VisCabinetsTableBehavior.cs" />
+    <Compile Include="VisCabinetsTableWrapper.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
@@ -107,7 +114,13 @@
       <Name>SupContract</Name>
     </ProjectReference>
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Content Include="VisTablesCreating.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <LastGenOutput>VisTablesCreating.cs</LastGenOutput>
+    </Content>
+    <Content Include="VisTablesCreating.xml" />
+  </ItemGroup>
   <ItemGroup>
     <BootstrapperPackage Include=".NETFramework,Version=v4.5.2">
       <Visible>False</Visible>
@@ -119,6 +132,9 @@
       <ProductName>.NET Framework 3.5 SP1</ProductName>
       <Install>false</Install>
     </BootstrapperPackage>
+  </ItemGroup>
+  <ItemGroup>
+    <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

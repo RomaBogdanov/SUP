@@ -25,20 +25,38 @@ namespace SupHost
         {
             //TODO: сделать со всем этим колхозом что-нибуть. Например: 
             //вынести в конфиг и создавать через рефлексию и фабрику.
-            wrappers = new Dictionary<string, AbstractTableWrapper>();
-            wrappers.Add(TableName.TestTable1.ToString(), new TestTable1Wrapper());
-            wrappers.Add(TableName.TestTable2Ado.ToString(), new TestTable2AdoWrapper());
-            wrappers.Add(TableName.VisClientUsers.ToString(), new VisClientUsersTableWrapper());
-            wrappers.Add(TableName.VisOrders.ToString(), new VisOrdersTableWrapper());
-            wrappers.Add(TableName.VisOrderElements.ToString(), new VisOrderElementsTableWrapper());
-            wrappers.Add(TableName.VisOrganizations.ToString(), new VisOrganizationsTableWrapper());
-            wrappers.Add(TableName.VisVisitors.ToString(), new VisVisitorsTableWrapper());
-            wrappers.Add(TableName.VisDocuments.ToString(), new VisDocumentsTableWrapper());
-            wrappers.Add(TableName.VisCountries.ToString(), new VisCountriesTableWrapper());
-            wrappers.Add(TableName.VisCards.ToString(), new VisCardsTableWrapper());
-            wrappers.Add(TableName.VisSprCardstates.ToString(), new VisSprCardstatesTableWrapper());
-            wrappers.Add(TableName.VisVisits.ToString(), new VisVisitsTableWrapper());
+            wrappers = new Dictionary<string, AbstractTableWrapper>
+            {
+                { TableName.TestTable1.ToString(), new TestTable1Wrapper() },
+                { TableName.TestTable2Ado.ToString(), new TestTable2AdoWrapper() },
+                { TableName.VisClientUsers.ToString(), new VisClientUsersTableWrapper() },
+                { TableName.VisOrders.ToString(), new VisOrdersTableWrapper() },
+                { TableName.VisOrderElements.ToString(), new VisOrderElementsTableWrapper() },
+                { TableName.VisOrganizations.ToString(), new VisOrganizationsTableWrapper() },
+                { TableName.VisVisitors.ToString(), new VisVisitorsTableWrapper() },
+                { TableName.VisDocuments.ToString(), new VisDocumentsTableWrapper() },
+                { TableName.VisCountries.ToString(), new VisCountriesTableWrapper() },
+                { TableName.VisCards.ToString(), new VisCardsTableWrapper() },
+                { TableName.VisSprCardstates.ToString(), new VisSprCardstatesTableWrapper() },
+                { TableName.VisVisits.ToString(), new VisVisitsTableWrapper() },
+                { TableName.VisCabinets.ToString(), new VisCabinetsTableWrapper() },
+                { TableName.VisZones.ToString(), new VisZonesTableWrapper() },
+                { TableName.VisCabinetsZones.ToString(), new VisCabinetsZonesTableWrapper() },
+                { TableName.VisZoneTypes.ToString(), new VisZoneTypesTableWrapper() }
+            };
         }
+        /*
+        protected static void Add(string tabName, AbstractTableWrapper table)
+        {
+            for (int i = 0; i < 200; i++)
+            {
+                TableName t = (TableName)i;
+                if (t.ToString() == tabName)
+                {
+                    wrappers.Add(t.ToString(), table);
+                }
+            }
+        }*/
 
         public static AbstractTableWrapper GetTableWrapper(TableName table)
         {

@@ -194,4 +194,100 @@ namespace SupRealClient.TabsSingleton
         }
     }
 
+	/// <summary>
+	/// ??
+	/// </summary>
+	partial class CabinetsWrapper : TableWrapper
+	{
+		static CabinetsWrapper currentTable;
+
+        public static CabinetsWrapper CurrentTable()
+        {
+            if (currentTable == null)
+            {
+                currentTable = new CabinetsWrapper();
+                wrappers.Add(currentTable);
+            }
+            return currentTable;
+        }
+
+        private CabinetsWrapper() : base()
+        {
+            this.table = connector.GetTable(TableName.VisCabinets);
+            this.Subscribe();
+        }
+    }
+
+	/// <summary>
+	/// ??
+	/// </summary>
+	partial class ZonesWrapper : TableWrapper
+	{
+		static ZonesWrapper currentTable;
+
+        public static ZonesWrapper CurrentTable()
+        {
+            if (currentTable == null)
+            {
+                currentTable = new ZonesWrapper();
+                wrappers.Add(currentTable);
+            }
+            return currentTable;
+        }
+
+        private ZonesWrapper() : base()
+        {
+            this.table = connector.GetTable(TableName.VisZones);
+            this.Subscribe();
+        }
+    }
+
+	/// <summary>
+	/// ??
+	/// </summary>
+	partial class CabinetsZonesWrapper : TableWrapper
+	{
+		static CabinetsZonesWrapper currentTable;
+
+        public static CabinetsZonesWrapper CurrentTable()
+        {
+            if (currentTable == null)
+            {
+                currentTable = new CabinetsZonesWrapper();
+                wrappers.Add(currentTable);
+            }
+            return currentTable;
+        }
+
+        private CabinetsZonesWrapper() : base()
+        {
+            this.table = connector.GetTable(TableName.VisCabinetsZones);
+            this.Subscribe();
+        }
+    }
+
+	/// <summary>
+	/// ??
+	/// </summary>
+	partial class ZoneTypesWrapper : TableWrapper
+	{
+		static ZoneTypesWrapper currentTable;
+
+        public static ZoneTypesWrapper CurrentTable()
+        {
+            if (currentTable == null)
+            {
+                currentTable = new ZoneTypesWrapper();
+                wrappers.Add(currentTable);
+            }
+            return currentTable;
+        }
+
+        private ZoneTypesWrapper() : base()
+        {
+            this.table = connector.GetTable(TableName.VisZoneTypes);
+            this.Subscribe();
+        }
+    }
+
 }

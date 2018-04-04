@@ -17,39 +17,33 @@ using SupRealClient.ViewModels;
 namespace SupRealClient.Views
 {
     /// <summary>
-    /// Логика взаимодействия для ZonesWindView.xaml
+    /// Логика взаимодействия для CabinetsWindView.xaml
     /// </summary>
-    public partial class ZonesWindView : Window
+    public partial class CabinetsWindView : Window
     {
-        public ZonesWindView()
+        public CabinetsWindView()
         {
             InitializeComponent();
-            Base3ModelAbstr b = new Base3ZonesModel(
+            Base3ModelAbstr b = new Base3CabinetsModel(
                 (Base3ViewModel)base3.DataContext, this);
             b.OnClose += Handling_OnClose;
             base3.SetViewModel(b);
             DataGridTextColumn dataGridTextColumn = new DataGridTextColumn
             {
-                Header = "Тип зоны",
-                Binding = new Binding("Type")
+                Header = "Номер кабинета",
+                Binding = new Binding("CabNum")
             };
             base3.BaseTab.Columns.Add(dataGridTextColumn);
             dataGridTextColumn = new DataGridTextColumn
             {
-                Header = "Номер",
-                Binding = new Binding("ZoneNum")
+                Header = "Описание",
+                Binding = new Binding("Descript")
             };
             base3.BaseTab.Columns.Add(dataGridTextColumn);
             dataGridTextColumn = new DataGridTextColumn
             {
-                Header = "Название",
-                Binding = new Binding("Name")
-            };
-            base3.BaseTab.Columns.Add(dataGridTextColumn);
-            dataGridTextColumn = new DataGridTextColumn
-            {
-                Header = "Привязанные двери",
-                Binding = new Binding("RelatedDoors")
+                Header = "Номер двери",
+                Binding = new Binding("DoorNum")
             };
             base3.BaseTab.Columns.Add(dataGridTextColumn);
         }

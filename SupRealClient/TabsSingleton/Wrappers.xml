@@ -8,4 +8,8 @@
   <Item Name="SprCardstatesWrapper" Type="VisSprCardstates" Comment="??" />
   <Item Name="VisitorsWrapper" Type="VisVisitors" Comment="??" />
   <Item Name="VisitsWrapper" Type="VisVisits" Comment="??" />
+  <Item Name="CabinetsWrapper" Type="VisCabinets" Comment="??" />
+  <Item Name="ZonesWrapper" Type="VisZones" Comment="??" />
+  <Item Name="CabinetsZonesWrapper" Type="VisCabinetsZones" Comment="??" />
+  <Item Name="ZoneTypesWrapper" Type="VisZoneTypes" Comment="??" />
 </Enum>

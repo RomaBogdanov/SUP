@@ -63,9 +63,11 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="EnumerationClasses\Cabinet.cs" />
     <Compile Include="Common\Interfaces\ISearchHelper.cs" />
     <Compile Include="Common\Interfaces\IViewManager.cs" />
     <Compile Include="Common\Interfaces\IWindow.cs" />
+    <Compile Include="EnumerationClasses\Zone.cs" />
     <Compile Include="ErrorWindow.xaml.cs">
       <DependentUpon>ErrorWindow.xaml</DependentUpon>
     </Compile>
@@ -73,6 +75,7 @@
     <Compile Include="Common\Interfaces\IBase2ViewModel.cs" />
     <Compile Include="Models\AddCardModel.cs" />
     <Compile Include="Common\Data\SearchData.cs" />
+    <Compile Include="Models\Base3CabinetsModel.cs" />
     <Compile Include="Models\Base3ModelAbstr.cs" />
     <Compile Include="Models\Base3ZonesModel.cs" />
     <Compile Include="Models\IAddUpdateCardModel.cs" />
@@ -114,6 +117,9 @@
     <Compile Include="Views\Base3View.xaml.cs">
       <DependentUpon>Base3View.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Views\CabinetsWindView.xaml.cs">
+      <DependentUpon>CabinetsWindView.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Views\CardsWindView.xaml.cs">
       <DependentUpon>CardsWindView.xaml</DependentUpon>
     </Compile>
@@ -140,6 +146,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Views\Base3View.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\CabinetsWindView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

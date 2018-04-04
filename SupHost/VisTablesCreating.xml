@@ -1,0 +1,6 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<Enum Name="WrapperType">
+  <Item Name="VisZones" TabName="vis_zones" ColId="f_zone_id" Comment="??" />
+  <Item Name="VisCabinetsZones" TabName="vis_cabinets_zones" ColId="f_cabinet_zone_id" Comment="??" />
+  <Item Name="VisZoneTypes" TabName="vis_zone_types" ColId="f_zone_type_id" Comment="??" />
+</Enum>

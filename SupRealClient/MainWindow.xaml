@@ -44,7 +44,7 @@
                 <MenuItem Header="Документы" Command="{Binding Path=ListDocumentsClick}"/>
                 <MenuItem Header="Посетители" IsEnabled="False"/>
                 <MenuItem Header="Пропуска" Command="{Binding Path=ListCardsClick}"/>
-                <MenuItem Header="Кабинеты" IsEnabled="False"/>
+                <MenuItem Header="Кабинеты" Command="{Binding Path=ListCabinetsClick}"/>
                 <MenuItem Header="Зоны доступа" Command="{Binding Path=ListZonesClick}"/>
             </MenuItem>
             <MenuItem Header="Сервис" FontSize="18">
