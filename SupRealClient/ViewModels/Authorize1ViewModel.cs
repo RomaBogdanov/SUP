@@ -106,7 +106,8 @@ namespace SupRealClient.ViewModels
             }
             else
             {
-                if (this.connector.Authorize(Login, Password))
+                //TODO в этом месте высыпает ошибку и не даёт запустить в дебаге SupRealClient, обманываю if (==1).
+                if (this.connector.Authorize(Login, Password) == 1)
                 {
                     IsAuthorization = true;
                     //System.Windows.Forms.MessageBox.Show("Выйти");

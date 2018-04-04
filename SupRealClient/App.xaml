@@ -15,6 +15,31 @@
                  <Setter Property="FontSize" Value="16"/>
                 <Setter Property="Background" Value="White"/>
             </Style>
-         </ResourceDictionary>
+
+            <Style x:Key="SmallStyle" TargetType="Button" BasedOn="{StaticResource SquareButtonStyle}">
+                <Setter Property="FontSize" Value="15"/>
+            </Style>
+
+            <Style x:Key="MiddleStyle" TargetType="Button" BasedOn="{StaticResource SquareButtonStyle}">
+                <Setter Property="FontSize" Value="18"/>
+            </Style>
+
+            <Style x:Key="BigStyle" TargetType="Button" BasedOn="{StaticResource SquareButtonStyle}">
+                <Setter Property="FontSize" Value="21"/>
+            </Style>
+
+            <ResourceDictionary.MergedDictionaries>
+                <!-- MahApps.Metro resource dictionaries. Make sure that all file names are Case Sensitive! -->
+                <ResourceDictionary Source="pack://application:,,,/MahApps.Metro;component/Styles/Controls.xaml" />
+                <ResourceDictionary Source="pack://application:,,,/MahApps.Metro;component/Styles/Fonts.xaml" />
+                <ResourceDictionary Source="pack://application:,,,/MahApps.Metro;component/Styles/Colors.xaml" />
+                <ResourceDictionary Source="pack://application:,,,/MahApps.Metro;component/Styles/controls.buttons.xaml" />
+                <ResourceDictionary Source="pack://application:,,,/MahApps.Metro;component/Styles/flatbutton.xaml" />
+                <!-- Accent and AppTheme setting -->
+                <ResourceDictionary Source="pack://application:,,,/MahApps.Metro;component/Styles/Accents/Blue.xaml" />
+                <ResourceDictionary Source="pack://application:,,,/MahApps.Metro;component/Styles/Accents/BaseLight.xaml" />
+            </ResourceDictionary.MergedDictionaries>
+             
+        </ResourceDictionary>
     </Application.Resources>
 </Application>
