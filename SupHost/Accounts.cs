@@ -59,6 +59,15 @@ namespace SupHost
             timer.Start();
         }
 
+        public int GetUserId(string login)
+        {
+            if (listAccs.ContainsKey(login))
+            {
+                return listAccs[login];
+            }
+            return -1;
+        }
+
         private void Timer_Elapsed(object sender, ElapsedEventArgs e)
         {
             lock (this.listAccs)
