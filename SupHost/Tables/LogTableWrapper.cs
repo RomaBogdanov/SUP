@@ -13,6 +13,8 @@ namespace SupHost
 
         private ITableBehavior getTableBehavior;
         private DataTable table;
+        private Logger logger = Logger.CurrentLogger;
+        private object lockDb = new object();
 
         public static LogTableWrapper GetLogTableWrapper()
         {
@@ -37,40 +39,25 @@ namespace SupHost
             return this.table;
         }
 
-        public void Write(string message, string severity)
+        public void Write(LogData logData)
         {
-            try
-            {
-                this.GetTable();
-                DataRow row = this.table.NewRow();
-                row["f_log_severety"] = severity;
-                row["f_log_message"] = message;
-                row["f_rec_date"] = DateTime.Now;
-                this.InsertRow(row.ItemArray);
-            }
-            catch (Exception)
-            {
-                // TODO
-            }
-        }
-
-        private bool InsertRow(object[] values)
-        {
-            DataRow dr = this.table.NewRow();
-            for (int i = 0; i < this.table.Columns.Count; i++)
+            lock (lockDb)
             {
                 try
                 {
-                    dr[this.table.Columns[i]] = values[i];
+                    this.GetTable();
+                    DataRow row = this.table.NewRow();
+                    row["f_log_severety"] = logData.Severity;
+                    row["f_log_message"] = logData.Message;
+                    row["f_rec_date"] = logData.Date;
+                    this.table.Rows.Add(row);
+                    this.getTableBehavior.InsertRow();
                 }
-                catch (Exception)
+                catch (Exception err)
                 {
-                    // TODO
+                    this.logger.ErrorMessage(err.Message + err.StackTrace);
                 }
             }
-            this.table.Rows.Add(dr);
-            this.getTableBehavior.InsertRow();
-            return true;
         }
     }
 }

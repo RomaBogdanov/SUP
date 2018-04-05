@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Configuration;
+using System.Threading;
 
 namespace SupHost
 {
@@ -56,15 +57,11 @@ namespace SupHost
             Write(message, "ERROR", ConsoleColor.Red);
         }
 
-        private void Write(string message, string severity, ConsoleColor color)
+        public void ErrorMessage(string message)
         {
-            Console.ForegroundColor = color;
-            Console.WriteLine("{0}  {1}: {2}", DateTime.Now, severity, message);
+            Console.ForegroundColor = ConsoleColor.Red;
+            Console.WriteLine("{0}  ERROR: {1}", DateTime.Now, message);
             Console.ResetColor();
-            if (dbLog)
-            {
-                logTableWrapper.Write(message, severity);
-            }
         }
 
         #endregion
@@ -72,6 +69,32 @@ namespace SupHost
         #region Private
 
         private Logger() { }
+
+        private void Write(string message, string severity, ConsoleColor color)
+        {
+            Console.ForegroundColor = color;
+            Console.WriteLine("{0}  {1}: {2}", DateTime.Now, severity, message);
+            Console.ResetColor();
+            if (dbLog)
+            {
+                // Пишем в базу в отдельном потоке, чтобы не блокировать консольный ввод
+                var thread = new Thread(LogToDb);
+                thread.Start(new LogData
+                {
+                    Date = DateTime.Now,
+                    Severity = severity,
+                    Message = message
+                });
+            }
+        }
+
+        private void LogToDb(object logData)
+        {
+            if (logData is LogData)
+            {
+                logTableWrapper.Write(logData as LogData);
+            }
+        }
 
         #endregion
     }

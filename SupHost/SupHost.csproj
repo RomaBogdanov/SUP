@@ -69,6 +69,7 @@
     <Compile Include="GetTableBehavior\VisitorsDBTableBehavior.cs" />
     <Compile Include="GetTableBehavior\VisUsersTableBehavior.cs" />
     <Compile Include="LogConnector.cs" />
+    <Compile Include="LogData.cs" />
     <Compile Include="Tables\AbstractTableWrapper.cs" />
     <Compile Include="Connector.cs" />
     <Compile Include="GetTableBehavior\ITableBehavior.cs" />

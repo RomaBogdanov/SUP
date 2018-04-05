@@ -11,16 +11,11 @@ namespace SupHost
         protected DbDataAdapter adapter = null;
 
         protected string query = "";
-        protected string[] primaryKeyColumns;
-        protected bool autoPrimaryKey = false;
         protected string tableName = "";
 
         public LogTableBehavior()
         {
-            this.query = "select* from vis_log";
-            this.primaryKeyColumns = new string[1];
-            this.primaryKeyColumns[0] = "f_log_id";
-            this.autoPrimaryKey = true;
+            this.query = "select * from vis_log";
             this.tableName = "vis_log";
         }
 
@@ -28,16 +23,6 @@ namespace SupHost
         {
             ConnectionToDataBaseSetup setup = this.connector.GetDataTable(this.query);
             this.table = setup.Table;
-            DataColumn[] dcs = new DataColumn[primaryKeyColumns.Length];
-            for (int i = 0; i < dcs.Length; i++)
-            {
-                dcs[i] = this.table.Columns[this.primaryKeyColumns[i]];
-                if (this.autoPrimaryKey)
-                {
-                    this.table.Columns[this.primaryKeyColumns[i]].AutoIncrement = true;
-                }
-            }
-            this.table.PrimaryKey = dcs;
             this.adapter = setup.DataAdapter;
             this.table.TableName = this.tableName;
             return this.table;
