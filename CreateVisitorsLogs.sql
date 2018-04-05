@@ -6,9 +6,8 @@ use VisitorsLogs;
 go
 
 -- Создание vis_log
-
 CREATE TABLE vis_log
-    (f_log_id                      int NOT NULL,
+    (f_log_id                      bigint NOT NULL IDENTITY(1,1),
 	f_table_name                   VARCHAR(1000),  -- если нужно, сюда можно писать название таблицы из базы Visitors для привязки
 	f_table_id                     int,            -- если нужно, сюда можно писать id из таблицы базы Visitors для привязки
 	f_rec_operator                 int,            -- если нужно, сюда можно писать id пользователя из таблицы базы Visitors для привязки
@@ -20,4 +19,3 @@ CREATE TABLE vis_log
 
 ALTER TABLE vis_log
 ADD PRIMARY KEY (f_log_id)
-

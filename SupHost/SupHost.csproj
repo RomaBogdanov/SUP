@@ -63,10 +63,12 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Accounts.cs" />
+    <Compile Include="GetTableBehavior\LogTableBehavior.cs" />
     <Compile Include="GetTableBehavior\VisClientUsersTableBehavior.cs" />
     <Compile Include="GetTableBehavior\VisDocumentsTableBehavior.cs" />
     <Compile Include="GetTableBehavior\VisitorsDBTableBehavior.cs" />
     <Compile Include="GetTableBehavior\VisUsersTableBehavior.cs" />
+    <Compile Include="LogConnector.cs" />
     <Compile Include="Tables\AbstractTableWrapper.cs" />
     <Compile Include="Connector.cs" />
     <Compile Include="GetTableBehavior\ITableBehavior.cs" />
@@ -77,6 +79,7 @@
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="TableService1.cs" />
+    <Compile Include="Tables\LogTableWrapper.cs" />
     <Compile Include="Tables\TestTable1Wrapper.cs" />
     <Compile Include="Tables\VisClientUsersTableWrapper.cs" />
     <Compile Include="Tables\VisDocumentsTableWrapper.cs" />

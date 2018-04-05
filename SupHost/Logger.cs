@@ -1,8 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using System.Configuration;
 
 namespace SupHost
 {
@@ -15,6 +12,10 @@ namespace SupHost
     {
         private static Logger logger;
 
+        private bool dbLog;
+
+        LogTableWrapper logTableWrapper;
+
         #region Public
 
         public static Logger CurrentLogger
@@ -24,6 +25,11 @@ namespace SupHost
                 if (logger == null)
                 {
                     logger = new Logger();
+                    bool.TryParse(ConfigurationManager.AppSettings["dBlog"], out logger.dbLog);
+                    if (logger.dbLog)
+                    {
+                        logger.logTableWrapper = LogTableWrapper.GetLogTableWrapper();
+                    }
                     return logger;
                 }
                 return logger;
@@ -32,30 +38,33 @@ namespace SupHost
 
         public void Debug(string message)
         {
-            Console.ForegroundColor = ConsoleColor.DarkMagenta;
-            Console.WriteLine("{0}  DEBUG: {1}", DateTime.Now, message);
-            Console.ResetColor();
+            Write(message, "DEBUG", ConsoleColor.DarkMagenta);
         }
 
         public void Info(string message)
         {
-            Console.ForegroundColor = ConsoleColor.Green;
-            Console.WriteLine("{0}  INFO: {1}", DateTime.Now, message);
-            Console.ResetColor();
+            Write(message, "INFO", ConsoleColor.Green);
         }
 
         public void Warn(string message)
         {
-            Console.ForegroundColor = ConsoleColor.Yellow;
-            Console.WriteLine("{0}  WARN: {1}", DateTime.Now, message);
-            Console.ResetColor();
+            Write(message, "WARN", ConsoleColor.Yellow);
         }
 
         public void Error(string message)
         {
-            Console.ForegroundColor = ConsoleColor.Red;
-            Console.WriteLine("{0}  ERROR: {1}", DateTime.Now, message);
+            Write(message, "ERROR", ConsoleColor.Red);
+        }
+
+        private void Write(string message, string severity, ConsoleColor color)
+        {
+            Console.ForegroundColor = color;
+            Console.WriteLine("{0}  {1}: {2}", DateTime.Now, severity, message);
             Console.ResetColor();
+            if (dbLog)
+            {
+                logTableWrapper.Write(message, severity);
+            }
         }
 
         #endregion
