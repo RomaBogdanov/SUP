@@ -50,6 +50,8 @@ namespace SupHost
                     row["f_log_severety"] = logData.Severity;
                     row["f_log_message"] = logData.Message;
                     row["f_rec_date"] = logData.Date;
+                    row["f_log_class"] = logData.Class;
+                    row["f_rec_operator"] = logData.User >= 0 ? (object)logData.User : DBNull.Value;
                     this.table.Rows.Add(row);
                     this.getTableBehavior.InsertRow();
                 }

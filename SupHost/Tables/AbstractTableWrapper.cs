@@ -71,7 +71,7 @@ namespace SupHost
             this.table.Rows.Add(dr);
             this.getTableBehavior.InsertRow();
             this.OnAddRow(this.table.TableName, values);
-            this.logger.Debug($"В таблице {this.table.TableName} добавлена строка");
+            this.logger.Debug($"В таблице {this.table.TableName} добавлена строка", GetUserId(dr));
             return true;
         }
 
@@ -91,7 +91,7 @@ namespace SupHost
             }
             this.getTableBehavior.UpdateRow();
             this.OnUpdateRow(this.table.TableName, numRow, values);
-            this.logger.Debug($"В таблице {this.table.TableName} отредактирована строка");
+            this.logger.Debug($"В таблице {this.table.TableName} отредактирована строка", GetUserId(dr));
             return true;
         }
 
@@ -103,9 +103,15 @@ namespace SupHost
                 //this.table.Rows[numRow].Delete();
                 this.getTableBehavior.DeleteRow();
                 this.OnDeleteRow(this.table.TableName, objs);
+                // TODO - добавить пользователя в логирование
                 this.logger.Debug($"В таблице {this.table.TableName} удалена строка");
             }
             return true;
+        }
+
+        private int GetUserId(DataRow dr)
+        {
+            return this.table.Columns.Contains("f_rec_operator") ? (int)dr["f_rec_operator"] : -1;
         }
     }
 }

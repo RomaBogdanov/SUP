@@ -37,24 +37,52 @@ namespace SupHost
             }
         }
 
-        public void Debug(string message)
+        public void Debug(string message, int user = -1)
         {
-            Write(message, "DEBUG", ConsoleColor.DarkMagenta);
+            Write(new LogData
+            {
+                Date = DateTime.Now,
+                Severity = "DEBUG",
+                Message = message,
+                Class = new System.Diagnostics.StackTrace().ToString(),
+                User = user,
+            }, ConsoleColor.DarkMagenta);
         }
 
-        public void Info(string message)
+        public void Info(string message, int user = -1)
         {
-            Write(message, "INFO", ConsoleColor.Green);
+            Write(new LogData
+            {
+                Date = DateTime.Now,
+                Severity = "INFO",
+                Message = message,
+                Class = new System.Diagnostics.StackTrace().ToString(),
+                User = user,
+            }, ConsoleColor.Green);
         }
 
-        public void Warn(string message)
+        public void Warn(string message, int user = -1)
         {
-            Write(message, "WARN", ConsoleColor.Yellow);
+            Write(new LogData
+            {
+                Date = DateTime.Now,
+                Severity = "WARN",
+                Message = message,
+                Class = new System.Diagnostics.StackTrace().ToString(),
+                User = user,
+            }, ConsoleColor.Yellow);
         }
 
-        public void Error(string message)
+        public void Error(string message, int user = -1)
         {
-            Write(message, "ERROR", ConsoleColor.Red);
+            Write(new LogData
+            {
+                Date = DateTime.Now,
+                Severity = "ERROR",
+                Message = message,
+                Class = new System.Diagnostics.StackTrace().ToString(),
+                User = user,
+            }, ConsoleColor.Red);
         }
 
         public void ErrorMessage(string message)
@@ -70,21 +98,16 @@ namespace SupHost
 
         private Logger() { }
 
-        private void Write(string message, string severity, ConsoleColor color)
+        private void Write(LogData logData, ConsoleColor color)
         {
             Console.ForegroundColor = color;
-            Console.WriteLine("{0}  {1}: {2}", DateTime.Now, severity, message);
+            Console.WriteLine("{0}  {1}: {2}", DateTime.Now, logData.Severity, logData.Message);
             Console.ResetColor();
             if (dbLog)
             {
                 // Пишем в базу в отдельном потоке, чтобы не блокировать консольный ввод
                 var thread = new Thread(LogToDb);
-                thread.Start(new LogData
-                {
-                    Date = DateTime.Now,
-                    Severity = severity,
-                    Message = message
-                });
+                thread.Start(logData);
             }
         }
 
