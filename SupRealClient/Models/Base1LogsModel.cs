@@ -1,4 +1,5 @@
-﻿using SupRealClient.Common.Interfaces;
+﻿using SupClientConnectionLib;
+using SupRealClient.Common.Interfaces;
 using SupRealClient.EnumerationClasses;
 using SupRealClient.TabsSingleton;
 using System;
@@ -72,7 +73,8 @@ namespace SupRealClient.Models
         protected override void Query()
         {
             var logs = from l in table.AsEnumerable()
-                            select new LogItem
+                       where Authorizer.AppAuthorizer.Id.Equals(l.Field<object>("f_rec_operator"))
+                       select new LogItem
                             {
                                 Id = l.Field<long>("f_log_id"),
                                 Severity = l.Field<string>("f_log_severety"),
