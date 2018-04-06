@@ -66,6 +66,7 @@
     <Compile Include="Common\Interfaces\ISearchHelper.cs" />
     <Compile Include="Common\Interfaces\IViewManager.cs" />
     <Compile Include="Common\Interfaces\IWindow.cs" />
+    <Compile Include="EnumerationClasses\LogItem.cs" />
     <Compile Include="ErrorWindow.xaml.cs">
       <DependentUpon>ErrorWindow.xaml</DependentUpon>
     </Compile>
@@ -73,6 +74,7 @@
     <Compile Include="Common\Interfaces\IBase2ViewModel.cs" />
     <Compile Include="Models\AddCardModel.cs" />
     <Compile Include="Common\Data\SearchData.cs" />
+    <Compile Include="Models\Base1LogsModel.cs" />
     <Compile Include="Models\Base3ModelAbstr.cs" />
     <Compile Include="Models\Base3ZonesModel.cs" />
     <Compile Include="Models\IAddUpdateCardModel.cs" />
@@ -119,6 +121,9 @@
     </Compile>
     <Compile Include="EnumerationClasses\Card.cs" />
     <Compile Include="ViewManager.cs" />
+    <Compile Include="Views\LogsWindView.xaml.cs">
+      <DependentUpon>LogsWindView.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Views\ZonesWindView.xaml.cs">
       <DependentUpon>ZonesWindView.xaml</DependentUpon>
     </Compile>
@@ -144,6 +149,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Views\CardsWindView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\LogsWindView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

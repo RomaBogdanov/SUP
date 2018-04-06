@@ -132,6 +132,9 @@ namespace SupClientConnectionLib.ServiceRef {
         
         [System.Runtime.Serialization.EnumMemberAttribute()]
         VisClientUsers = 12,
+        
+        [System.Runtime.Serialization.EnumMemberAttribute()]
+        VisClientLogs = 13,
     }
     
     [System.CodeDom.Compiler.GeneratedCodeAttribute("System.ServiceModel", "4.0.0.0")]

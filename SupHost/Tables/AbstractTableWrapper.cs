@@ -38,6 +38,7 @@ namespace SupHost
             wrappers.Add(TableName.VisCards.ToString(), new VisCardsTableWrapper());
             wrappers.Add(TableName.VisSprCardstates.ToString(), new VisSprCardstatesTableWrapper());
             wrappers.Add(TableName.VisVisits.ToString(), new VisVisitsTableWrapper());
+            wrappers.Add(TableName.VisClientLogs.ToString(), new VisClientLogsTableWrapper());
         }
 
         public static AbstractTableWrapper GetTableWrapper(TableName table)

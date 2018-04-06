@@ -20,6 +20,7 @@ namespace SupContract
         VisUsers,
         VisSprCardstates,
         VisVisits,
-        VisClientUsers
+        VisClientUsers,
+        VisClientLogs
     }
 }

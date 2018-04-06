@@ -218,6 +218,8 @@ namespace SupRealClient
                     return new OrganizationsWindView();
                 case "ZonesWindView":
                     return new ZonesWindView();
+                case "LogsWindView":
+                    return new LogsWindView();
             }
 
             return null;
