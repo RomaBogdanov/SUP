@@ -22,7 +22,7 @@ namespace SupContract
         VisVisits,
         VisClientUsers,
         VisCabinets,
-        VisClientLogs
+        VisClientLogs,
         VisZones,
         VisCabinetsZones,
         VisZoneTypes

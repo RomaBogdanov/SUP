@@ -400,7 +400,7 @@ namespace SupRealClient.Views
             {
                 IsRealClose = true;
                 e.Cancel = true;
-                Handling_OnClose();
+                this.Hide();
             }
         }
 
@@ -416,7 +416,7 @@ namespace SupRealClient.Views
 		
         private void Handling_OnClose()
         {
-            this.Hide();
+            this.Close();
         }
 
         private void Window_StateChanged(object sender, EventArgs e)
@@ -426,13 +426,13 @@ namespace SupRealClient.Views
     }
 
 	/// <summary>
-	/// Логика взаимодействия для AddUpdateCabinetView.xaml - базовая часть для всех View
+	/// Логика взаимодействия для LogsWindView.xaml - базовая часть для всех View
 	/// </summary>
-	/*public partial class AddUpdateCabinetView : IWindow
+	public partial class LogsWindView : IWindow
 	{
         public bool IsRealClose { get; set; } = true;
 
-        public string WindowName { get; private set; } = "AddUpdateCabinetView";
+        public string WindowName { get; private set; } = "LogsWindView";
 
         public IWindow ParentWindow { get; set; }
 
@@ -442,7 +442,7 @@ namespace SupRealClient.Views
             {
                 IsRealClose = true;
                 e.Cancel = true;
-                Handling_OnClose();
+                this.Hide();
             }
         }
 
@@ -458,13 +458,13 @@ namespace SupRealClient.Views
 		
         private void Handling_OnClose()
         {
-            this.Hide();
+            this.Close();
         }
 
         private void Window_StateChanged(object sender, EventArgs e)
         {
             ViewManager.Instance.SetChildrenState(sender as Window, false);
         }
-    }*/
+    }
 
 }
