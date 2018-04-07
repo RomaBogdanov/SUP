@@ -1,8 +1,6 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using System.Configuration;
+using System.Threading;
 
 namespace SupHost
 {
@@ -15,6 +13,10 @@ namespace SupHost
     {
         private static Logger logger;
 
+        private bool dbLog;
+
+        LogTableWrapper logTableWrapper;
+
         #region Public
 
         public static Logger CurrentLogger
@@ -24,34 +26,66 @@ namespace SupHost
                 if (logger == null)
                 {
                     logger = new Logger();
+                    bool.TryParse(ConfigurationManager.AppSettings["dBlog"], out logger.dbLog);
+                    if (logger.dbLog)
+                    {
+                        logger.logTableWrapper = LogTableWrapper.GetLogTableWrapper();
+                    }
                     return logger;
                 }
                 return logger;
             }
         }
 
-        public void Debug(string message)
+        public void Debug(string message, int user = -1)
         {
-            Console.ForegroundColor = ConsoleColor.DarkMagenta;
-            Console.WriteLine("{0}  DEBUG: {1}", DateTime.Now, message);
-            Console.ResetColor();
+            Write(new LogData
+            {
+                Date = DateTime.Now,
+                Severity = "DEBUG",
+                Message = message,
+                Class = new System.Diagnostics.StackTrace().ToString(),
+                User = user,
+            }, ConsoleColor.DarkMagenta);
         }
 
-        public void Info(string message)
+        public void Info(string message, int user = -1)
         {
-            Console.ForegroundColor = ConsoleColor.Green;
-            Console.WriteLine("{0}  INFO: {1}", DateTime.Now, message);
-            Console.ResetColor();
+            Write(new LogData
+            {
+                Date = DateTime.Now,
+                Severity = "INFO",
+                Message = message,
+                Class = new System.Diagnostics.StackTrace().ToString(),
+                User = user,
+            }, ConsoleColor.Green);
         }
 
-        public void Warn(string message)
+        public void Warn(string message, int user = -1)
         {
-            Console.ForegroundColor = ConsoleColor.Yellow;
-            Console.WriteLine("{0}  WARN: {1}", DateTime.Now, message);
-            Console.ResetColor();
+            Write(new LogData
+            {
+                Date = DateTime.Now,
+                Severity = "WARN",
+                Message = message,
+                Class = new System.Diagnostics.StackTrace().ToString(),
+                User = user,
+            }, ConsoleColor.Yellow);
         }
 
-        public void Error(string message)
+        public void Error(string message, int user = -1)
+        {
+            Write(new LogData
+            {
+                Date = DateTime.Now,
+                Severity = "ERROR",
+                Message = message,
+                Class = new System.Diagnostics.StackTrace().ToString(),
+                User = user,
+            }, ConsoleColor.Red);
+        }
+
+        public void ErrorMessage(string message)
         {
             Console.ForegroundColor = ConsoleColor.Red;
             Console.WriteLine("{0}  ERROR: {1}", DateTime.Now, message);
@@ -63,6 +97,27 @@ namespace SupHost
         #region Private
 
         private Logger() { }
+
+        private void Write(LogData logData, ConsoleColor color)
+        {
+            Console.ForegroundColor = color;
+            Console.WriteLine("{0}  {1}: {2}", DateTime.Now, logData.Severity, logData.Message);
+            Console.ResetColor();
+            if (dbLog)
+            {
+                // Пишем в базу в отдельном потоке, чтобы не блокировать консольный ввод
+                var thread = new Thread(LogToDb);
+                thread.Start(logData);
+            }
+        }
+
+        private void LogToDb(object logData)
+        {
+            if (logData is LogData)
+            {
+                logTableWrapper.Write(logData as LogData);
+            }
+        }
 
         #endregion
     }

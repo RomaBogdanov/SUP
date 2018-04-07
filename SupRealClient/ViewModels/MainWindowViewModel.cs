@@ -98,6 +98,9 @@ namespace SupRealClient.ViewModels
         public ICommand ListZonesClick
         { get; set; }
 
+        public ICommand LogsClick
+        { get; set; }
+
         public ICommand UserExit
         { get; set; }
 
@@ -113,6 +116,7 @@ namespace SupRealClient.ViewModels
             ListCardsClick = new RelayCommand(arg => ViewManager.Instance.OpenWindow("CardsWindView"));
             ListZonesClick = new RelayCommand(arg => ViewManager.Instance.OpenWindow("ZonesWindView"));
             ListCabinetsClick = new RelayCommand(arg => ViewManager.Instance.OpenWindow("CabinetsWindView"));
+            LogsClick = new RelayCommand(arg => ViewManager.Instance.OpenWindow("LogsWindView"));
             UserExit = new RelayCommand(arg => UserExitProc());
             setupStorage.ChangeUserExit += arg => IsUserEnter = !arg;
             Close = new RelayCommand(arg => ExitApp());

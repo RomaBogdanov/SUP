@@ -50,6 +50,7 @@
             <MenuItem Header="Сервис" FontSize="18">
                 <MenuItem Header="Очистка базы данных..." IsEnabled="False"/>
                 <MenuItem Header="Настройки..." IsEnabled="False"/>
+                <MenuItem Header="Логи" IsEnabled="True" Command="{Binding Path=LogsClick}"/>
             </MenuItem>
             <MenuItem Header="Окно" FontSize="18">
                 <MenuItem Header="Посетители" IsEnabled="False"/>

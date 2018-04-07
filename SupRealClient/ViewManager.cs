@@ -220,6 +220,8 @@ namespace SupRealClient
                     return new ZonesWindView();
                 case "CabinetsWindView":
                     return new CabinetsWindView();
+                case "LogsWindView":
+                    return new LogsWindView();
             }
 
             return null;

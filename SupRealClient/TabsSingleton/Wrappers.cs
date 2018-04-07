@@ -27,6 +27,30 @@ namespace SupRealClient.TabsSingleton
     }
 
 	/// <summary>
+	/// Логи сервера
+	/// </summary>
+	partial class LogsWrapper : TableWrapper
+	{
+		static LogsWrapper currentTable;
+
+        public static LogsWrapper CurrentTable()
+        {
+            if (currentTable == null)
+            {
+                currentTable = new LogsWrapper();
+                wrappers.Add(currentTable);
+            }
+            return currentTable;
+        }
+
+        private LogsWrapper() : base()
+        {
+            this.table = connector.GetTable(TableName.VisClientLogs);
+            this.Subscribe();
+        }
+    }
+
+	/// <summary>
 	/// ??
 	/// </summary>
 	partial class CardsWrapper : TableWrapper

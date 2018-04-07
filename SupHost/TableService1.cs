@@ -213,7 +213,7 @@ namespace SupHost
             if (id > 0)
             {
                 this.users.AddAccount(login, id);
-                logger.Info($"Зарегистрировался аккаунт {login}");
+                logger.Info($"Зарегистрировался аккаунт {login}", id);
                 return id;
             }
             return -1;
@@ -228,8 +228,9 @@ namespace SupHost
         {
             if (this.users.IsExist(login))
             {
+                int id = this.users.GetUserId(login);
                 this.users.RemoveAccount(login);
-                this.logger.Info($"Аккаунт {login} вышел из системы");
+                this.logger.Info($"Аккаунт {login} вышел из системы", id);
             }
             else
             {
