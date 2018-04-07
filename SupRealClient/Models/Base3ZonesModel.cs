@@ -7,6 +7,7 @@ using SupRealClient.Common.Interfaces;
 using System.Data;
 using SupRealClient.EnumerationClasses;
 using SupRealClient.TabsSingleton;
+using SupRealClient.Views;
 
 namespace SupRealClient.Models
 {
@@ -38,12 +39,17 @@ namespace SupRealClient.Models
 
         public override void Add()
         {
-            ViewManager.Instance.Add(new AddItemDocumentsModel(), parent);
+            //ViewManager.Instance.Add(new AddItemDocumentsModel(), parent);
+            AddUpdateZoneWindView addUpdateZoneWindView = new AddUpdateZoneWindView();
+            addUpdateZoneWindView.Show();
         }
 
         public override void Update()
         {
-            ViewManager.Instance.Update(new UpdateItemDocumentsModel((Document)this.viewModel.CurrentItem), parent);
+            //ViewManager.Instance.Update(new UpdateItemDocumentsModel((Document)this.viewModel.CurrentItem), parent);
+            AddUpdateZoneWindView addUpdateZoneWindView = 
+                new AddUpdateZoneWindView((Zone)this.viewModel.CurrentItem);
+            addUpdateZoneWindView.Show();
         }
 
         public override void Begin()

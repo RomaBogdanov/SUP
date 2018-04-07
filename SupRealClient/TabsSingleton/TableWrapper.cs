@@ -48,8 +48,15 @@ namespace SupRealClient.TabsSingleton
         {
             if (tableName == table.TableName && !this.table.Rows.Contains(objs[0]))
             {
-                table.Rows.Add(objs);
-                this.OnChanged();
+                try
+                {
+                    table.Rows.Add(objs);
+                    this.OnChanged();
+                }
+                catch 
+                {
+                    
+                }
             }
         }
 
@@ -92,10 +99,22 @@ namespace SupRealClient.TabsSingleton
         {
             this.table.RowChanged += Table_RowChanged;
             this.table.RowDeleting += Table_RowDeleting;
+            this.table.RowDeleted += Table_RowDeleted;
+        }
+
+        private void Table_RowDeleted(object sender, DataRowChangeEventArgs e)
+        {
+            this.table.AcceptChanges();
+            this.OnChanged();
         }
 
         private void Table_RowDeleting(object sender, DataRowChangeEventArgs e)
         {
+            this.connector.DeleteRow(e.Row.ItemArray);
+            //System.Threading.Thread.Sleep(300);
+            /*DataTable dt = (DataTable)sender;
+            this.connector.DeleteRow(e.Row.ItemArray);
+            dt.AcceptChanges();*/
             //throw new NotImplementedException();
         }
 
@@ -108,6 +127,7 @@ namespace SupRealClient.TabsSingleton
                 case DataRowAction.Nothing:
                     break;
                 case DataRowAction.Delete:
+                    this.OnChanged();
                     break;
                 case DataRowAction.Change:
                     dt = (DataTable)sender;

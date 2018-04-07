@@ -36,7 +36,7 @@
         <Button Grid.Row="4" Grid.Column="1" Content="Пред." Margin="1" Command="{Binding Path=Prev}"></Button>
         <Button Grid.Row="4" Grid.Column="2" Content="След." Margin="1" Command="{Binding Path=Next}"></Button>
         <Button Grid.Row="4" Grid.Column="3" Content="Конец" Margin="1" Command="{Binding Path=End}"></Button>
-        <Button Grid.Row="4" Grid.Column="4" Content="Просмотр" Margin="1"></Button>
+        <Button Grid.Row="4" Grid.Column="4" Content="Просмотр" Margin="1" Command="{Binding Path=Update}"></Button>
         <Button Grid.Row="4" Grid.Column="5" Content="Закрыть" Margin="1" Command="{Binding Path=Close}" Grid.ColumnSpan="2"></Button>
 
     </Grid>

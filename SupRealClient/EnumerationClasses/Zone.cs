@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace SupRealClient.EnumerationClasses
 {
-    class Zone
+    public class Zone
     {
         public int Id { get; set; }
         public int ZoneNum { get; set; }
