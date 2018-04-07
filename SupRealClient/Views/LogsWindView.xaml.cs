@@ -36,12 +36,12 @@ namespace SupRealClient.Views
                 Binding = new Binding("Message")
             };
             base1.BaseTab.Columns.Add(dataGridTextColumn);
-            dataGridTextColumn = new DataGridTextColumn
-            {
-                Header = "Пользователь",
-                Binding = new Binding("RecOperator")
-            };
-            base1.BaseTab.Columns.Add(dataGridTextColumn);
+            //dataGridTextColumn = new DataGridTextColumn
+            //{
+            //    Header = "Пользователь",
+            //    Binding = new Binding("RecOperator")
+            //};
+            //base1.BaseTab.Columns.Add(dataGridTextColumn);
         }
     }
 }
