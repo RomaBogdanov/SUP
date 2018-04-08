@@ -222,6 +222,8 @@ namespace SupRealClient
                     return new CabinetsWindView();
                 case "LogsWindView":
                     return new LogsWindView();
+                case "MainOrganisationStructureView":
+                    return new MainOrganisationStructureView();
             }
 
             return null;

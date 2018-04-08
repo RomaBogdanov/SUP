@@ -11,4 +11,5 @@
   <Item Name="ZonesWindView" />
   <Item Name="CabinetsWindView" />
   <Item Name="LogsWindView" />
+  <Item Name="MainOrganisationStructureView" />
 </Enum>

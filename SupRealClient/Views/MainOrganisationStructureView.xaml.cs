@@ -23,6 +23,7 @@ namespace SupRealClient.Views
         public MainOrganisationStructureView()
         {
             InitializeComponent();
+            
         }
 
         private void TreeView_OnSelectedItemChanged(object sender, RoutedPropertyChangedEventArgs<object> e)

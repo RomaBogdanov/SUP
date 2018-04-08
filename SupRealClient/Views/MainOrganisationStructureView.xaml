@@ -9,7 +9,7 @@
         mc:Ignorable="d"
         Title="Структура главных организаций" Height="400" Width="500"
         ResizeMode="NoResize"
-        WindowStartupLocation="CenterScreen">
+        WindowStartupLocation="CenterScreen" Closing="Window_Closing">
     <mah:MetroWindow.DataContext>
         <viewModels:MainOrganizationViewModel/>
     </mah:MetroWindow.DataContext>

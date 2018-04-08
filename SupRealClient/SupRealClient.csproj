@@ -99,9 +99,7 @@
     <Compile Include="Models\OrganizationStructure\Unit.cs" />
     <Compile Include="Models\Search1Model.cs" />
     <Compile Include="Models\UpdateCardModel.cs" />
-    <Compile Include="Common\Data\CardData.cs" />
     <Compile Include="Common\Data\FieldData.cs" />
-    <Compile Include="Common\Data\OrganizationData.cs" />
     <Compile Include="Properties\Annotations.cs" />
     <Compile Include="Search\CompareStrategyFactory.cs" />
     <Compile Include="Search\ContainsStrategy.cs" />

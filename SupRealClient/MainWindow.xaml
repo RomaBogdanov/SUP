@@ -74,7 +74,7 @@
                 <MenuItem Header="Организации" Command="{Binding Path = ListOrganizationsClick}"/>
                 <MenuItem Header="Дочерние акционерные общества" IsEnabled="False"/>
                 <MenuItem Header="Главные организации" IsEnabled="False"/>
-                <MenuItem Header="Структура главных организаций" IsEnabled="False"/>
+                <MenuItem Header="Структура главных организаций" Command="{Binding Path=ListBaseOrgsStructClick}"/>
                 <MenuItem Header="Гражданства" Command="{Binding Path=ListNationsClick}"/>
                 <MenuItem Header="Документы" Command="{Binding Path=ListDocumentsClick}"/>
                 <MenuItem Header="Посетители" IsEnabled="False"/>
