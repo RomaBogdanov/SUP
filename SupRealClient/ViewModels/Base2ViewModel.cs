@@ -21,7 +21,7 @@ namespace SupRealClient.ViewModels
             set
             {
                 this.organizations = value;
-                OnPropertyChanged("Organizations");
+                OnPropertyChanged("Items");
             }
         }
 
