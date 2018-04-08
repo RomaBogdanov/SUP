@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Data;
 using SupClientConnectionLib;
-using SupRealClient.Common.Data;
+using SupRealClient.EnumerationClasses;
 using SupRealClient.TabsSingleton;
 
 namespace SupRealClient.Models
@@ -11,7 +11,7 @@ namespace SupRealClient.Models
     /// </summary>
     class AddOrgsModel : IAddUpdateOrgsModel
     {
-        public OrganizationData Data { get { return new OrganizationData(); } }
+        public Organization Data { get { return new Organization(); } }
 
         public event Action OnClose;
 
@@ -20,7 +20,7 @@ namespace SupRealClient.Models
             OnClose?.Invoke();
         }
 
-        public void Ok(OrganizationData data)
+        public void Ok(Organization data)
         {
             OrganizationsWrapper organizations =
                 OrganizationsWrapper.CurrentTable();

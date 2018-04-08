@@ -1,4 +1,4 @@
-﻿using SupRealClient.Common.Data;
+﻿using SupRealClient.EnumerationClasses;
 using System;
 
 namespace SupRealClient.Models
@@ -6,8 +6,8 @@ namespace SupRealClient.Models
     public interface IAddUpdateOrgsModel
     {
         event Action OnClose;
-        OrganizationData Data { get; }
-        void Ok(OrganizationData data);
+        Organization Data { get; }
+        void Ok(Organization data);
         void Cancel();
     }
 }

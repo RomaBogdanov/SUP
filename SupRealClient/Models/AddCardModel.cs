@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Data;
 using SupClientConnectionLib;
-using SupRealClient.Common.Data;
+using SupRealClient.EnumerationClasses;
 using SupRealClient.TabsSingleton;
 
 namespace SupRealClient.Models
@@ -11,7 +11,7 @@ namespace SupRealClient.Models
     /// </summary>
     class AddCardModel : IAddUpdateCardModel
     {
-        public CardData Data { get { return new CardData(); } }
+        public Card Data { get { return new Card(); } }
 
         public event Action OnClose;
 
@@ -25,7 +25,7 @@ namespace SupRealClient.Models
             throw new NotImplementedException();
         }
 
-        public void Ok(CardData data)
+        public void Ok(Card data)
         {
             CardsWrapper cards = CardsWrapper.CurrentTable();
             DataRow row = cards.Table.NewRow();
