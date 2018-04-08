@@ -1,7 +1,7 @@
 ﻿using SupRealClient.Models;
-using SupRealClient.Common.Data;
 using System.ComponentModel;
 using System.Windows.Input;
+using SupRealClient.EnumerationClasses;
 
 namespace SupRealClient.ViewModels
 {
@@ -80,7 +80,7 @@ namespace SupRealClient.ViewModels
             this.Comment = model.Data.Comment;
             this.FullName = model.Data.FullName;
 
-            this.Ok = new RelayCommand(arg => this.model.Ok(new OrganizationData
+            this.Ok = new RelayCommand(arg => this.model.Ok(new Organization
             {
                 Type = Type,
                 Name = Name,

@@ -93,9 +93,7 @@
     <Compile Include="Models\ISearch1Model.cs" />
     <Compile Include="Models\Search1Model.cs" />
     <Compile Include="Models\UpdateCardModel.cs" />
-    <Compile Include="Common\Data\CardData.cs" />
     <Compile Include="Common\Data\FieldData.cs" />
-    <Compile Include="Common\Data\OrganizationData.cs" />
     <Compile Include="Search\CompareStrategyFactory.cs" />
     <Compile Include="Search\ContainsStrategy.cs" />
     <Compile Include="Search\EqualStrategy.cs" />

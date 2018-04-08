@@ -1,8 +1,8 @@
 ﻿using SupRealClient.Models;
-using SupRealClient.Common.Data;
 using System;
 using System.ComponentModel;
 using System.Windows.Input;
+using SupRealClient.EnumerationClasses;
 
 namespace SupRealClient.ViewModels
 {
@@ -88,7 +88,7 @@ namespace SupRealClient.ViewModels
             this.NumMAFW = model.Data.NumMAFW;
             this.Comment = model.Data.Comment;
 
-            this.Ok = new RelayCommand(arg => this.model.Ok(new CardData
+            this.Ok = new RelayCommand(arg => this.model.Ok(new Card
             {
                 CurdNum = CurdNum,
                 CreateDate = CreateDate,

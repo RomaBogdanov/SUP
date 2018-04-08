@@ -1,4 +1,4 @@
-﻿using SupRealClient.Common.Data;
+﻿using SupRealClient.EnumerationClasses;
 using System;
 
 namespace SupRealClient.Models
@@ -6,8 +6,8 @@ namespace SupRealClient.Models
     public interface IAddUpdateCardModel
     {
         event Action OnClose;
-        CardData Data { get; }
-        void Ok(CardData data);
+        Card Data { get; }
+        void Ok(Card data);
         void Cancel();
         void ChangeState();
     }
