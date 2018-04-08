@@ -85,6 +85,7 @@
             <MenuItem Header="Сервис" FontSize="{Binding ElementName=FontSizeLixtBox, Path=SelectedItem.Content}">
                 <MenuItem Header="Очистка базы данных..." IsEnabled="False"/>
                 <MenuItem Header="Настройки..." IsEnabled="False"/>
+                <MenuItem Header="Логи" IsEnabled="True" Command="{Binding Path=LogsClick}"/>
             </MenuItem>
             <MenuItem Header="Окно" FontSize="{Binding ElementName=FontSizeLixtBox, Path=SelectedItem.Content}">
                 <MenuItem Header="Посетители" IsEnabled="False"/>
