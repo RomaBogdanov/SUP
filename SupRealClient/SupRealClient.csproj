@@ -91,11 +91,18 @@
     <Compile Include="Models\Base3ZonesModel.cs" />
     <Compile Include="Models\IAddUpdateCardModel.cs" />
     <Compile Include="Models\ISearch1Model.cs" />
+    <Compile Include="Models\OrganizationStructure\Department.cs" />
+    <Compile Include="Models\OrganizationStructure\IModel.cs" />
+    <Compile Include="Models\OrganizationStructure\MainOrganization.cs" />
+    <Compile Include="Models\OrganizationStructure\ModelBase.cs" />
+    <Compile Include="Models\OrganizationStructure\Organization.cs" />
+    <Compile Include="Models\OrganizationStructure\Unit.cs" />
     <Compile Include="Models\Search1Model.cs" />
     <Compile Include="Models\UpdateCardModel.cs" />
     <Compile Include="Common\Data\CardData.cs" />
     <Compile Include="Common\Data\FieldData.cs" />
     <Compile Include="Common\Data\OrganizationData.cs" />
+    <Compile Include="Properties\Annotations.cs" />
     <Compile Include="Search\CompareStrategyFactory.cs" />
     <Compile Include="Search\ContainsStrategy.cs" />
     <Compile Include="Search\EqualStrategy.cs" />
@@ -113,7 +120,17 @@
     <Compile Include="ViewModels\AddUpdateCardViewModel.cs" />
     <Compile Include="ViewModels\Base3ViewModel.cs" />
     <Compile Include="ViewModels\ErrorViewModel.cs" />
+    <Compile Include="ViewModels\MainOrganizationViewModel.cs" />
     <Compile Include="ViewModels\Search1ViewModel.cs" />
+    <Compile Include="ViewModels\UnitViewModel.cs" />
+    <Compile Include="ViewModels\UniversalViewModel.cs" />
+    <Compile Include="ViewModels\ViewModelBase.cs" />
+    <Compile Include="Views\AddDepartmentView.xaml.cs">
+      <DependentUpon>AddDepartmentView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\AddUnitView.xaml.cs">
+      <DependentUpon>AddUnitView.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Views\AddUpdateCabinetView.xaml.cs">
       <DependentUpon>AddUpdateCabinetView.xaml</DependentUpon>
     </Compile>
@@ -145,6 +162,9 @@
     <Compile Include="Views\LogsWindView.xaml.cs">
       <DependentUpon>LogsWindView.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Views\MainOrganisationStructureView.xaml.cs">
+      <DependentUpon>MainOrganisationStructureView.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Views\ZonesWindView.xaml.cs">
       <DependentUpon>ZonesWindView.xaml</DependentUpon>
     </Compile>
@@ -154,6 +174,14 @@
       <DependentUpon>Views.tt</DependentUpon>
     </Compile>
     <Page Include="ErrorWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\AddDepartmentView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\AddUnitView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -186,6 +214,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Views\LogsWindView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\MainOrganisationStructureView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -312,6 +344,31 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
+    <Resource Include="Resources\Заявки.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Resources\Наименования.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Resources\Отчёт.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Resources\Посетители.jpg">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Resources\Посещения.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Resources\Регистрация3.jpg">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Resources\Сохранить.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Resources\Добавить.ico">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Resources\Редактировать.jpg" />
     <Content Include="TabsSingleton\Wrappers.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
       <LastGenOutput>Wrappers.cs</LastGenOutput>
