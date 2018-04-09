@@ -63,7 +63,8 @@
             Grid.Column="0"
             Command="{Binding }"
             Style="{DynamicResource SquareButtonStyle1}" 
-            Margin="5">
+            Margin="5"
+            IsEnabled="{Binding DepartmentEnabled}">
             <Grid>
                 <Grid.RowDefinitions>
                     <RowDefinition/>
@@ -85,7 +86,8 @@
             Grid.Column="1"
             Command="{Binding AddUnitCommand}"
             Style="{DynamicResource SquareButtonStyle1}" 
-            Margin="5">
+            Margin="5"
+            IsEnabled="{Binding UnitEnabled}">
             <Grid>
                 <Grid.RowDefinitions>
                     <RowDefinition/>

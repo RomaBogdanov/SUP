@@ -92,7 +92,10 @@
     <Compile Include="Models\IAddUpdateCardModel.cs" />
     <Compile Include="Models\ISearch1Model.cs" />
     <Compile Include="Models\OrganizationStructure\Department.cs" />
-    <Compile Include="Models\OrganizationStructure\IModel.cs" />
+    <Compile Include="Models\OrganizationStructure\Interfaces\IDepartment.cs" />
+    <Compile Include="Models\OrganizationStructure\Interfaces\IModel.cs" />
+    <Compile Include="Models\OrganizationStructure\Interfaces\IOrganization.cs" />
+    <Compile Include="Models\OrganizationStructure\Interfaces\IUnit.cs" />
     <Compile Include="Models\OrganizationStructure\MainOrganization.cs" />
     <Compile Include="Models\OrganizationStructure\ModelBase.cs" />
     <Compile Include="Models\OrganizationStructure\Organization.cs" />
@@ -123,6 +126,7 @@
     <Compile Include="ViewModels\UnitViewModel.cs" />
     <Compile Include="ViewModels\UniversalViewModel.cs" />
     <Compile Include="ViewModels\ViewModelBase.cs" />
+    <Compile Include="ViewModels\VisitorsViewModel.cs" />
     <Compile Include="Views\AddDepartmentView.xaml.cs">
       <DependentUpon>AddDepartmentView.xaml</DependentUpon>
     </Compile>
@@ -162,6 +166,9 @@
     </Compile>
     <Compile Include="Views\MainOrganisationStructureView.xaml.cs">
       <DependentUpon>MainOrganisationStructureView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\VisitorsView.xaml.cs">
+      <DependentUpon>VisitorsView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\ZonesWindView.xaml.cs">
       <DependentUpon>ZonesWindView.xaml</DependentUpon>
@@ -309,6 +316,10 @@
       <DependentUpon>MainWindow.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
+    <Page Include="Views\VisitorsView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Views\ZonesWindView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>

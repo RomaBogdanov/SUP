@@ -4,10 +4,11 @@ using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using SupRealClient.Models.OrganizationStructure.Interfaces;
 
 namespace SupRealClient.Models.OrganizationStructure
 {
-    public class Department : ModelBase
+    public class Department : ModelBase, IDepartment
     {
         public ObservableCollection<Unit> Items
         {

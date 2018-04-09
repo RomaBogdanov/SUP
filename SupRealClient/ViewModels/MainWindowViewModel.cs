@@ -110,6 +110,9 @@ namespace SupRealClient.ViewModels
         public ICommand Close
         { get; set; }
 
+        public ICommand OpenVisitorsCommand
+        { get; set; }
+
         public MainWindowViewModel()
         {
             Current = this;
@@ -124,10 +127,22 @@ namespace SupRealClient.ViewModels
             UserExit = new RelayCommand(arg => UserExitProc());
             setupStorage.ChangeUserExit += arg => IsUserEnter = !arg;
             Close = new RelayCommand(arg => ExitApp());
+            OpenVisitorsCommand = new RelayCommand(obj => OpenVisitors());
         }
 
         protected virtual void OnPropertyChanged(string propertyName) =>
             this.PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
+
+        private void OpenVisitors()
+        {
+            var visitorsViewModel = new VisitorsViewModel();
+
+            var window = new VisitorsView {DataContext = visitorsViewModel};
+            window.ShowDialog();
+            
+            var dc = window.DataContext;
+            dc.ToString();
+        }
 
         private void UserExitProc()
         {

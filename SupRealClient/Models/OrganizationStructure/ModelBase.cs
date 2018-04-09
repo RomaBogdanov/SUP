@@ -6,6 +6,7 @@ using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading.Tasks;
 using SupRealClient.Annotations;
+using SupRealClient.Models.OrganizationStructure.Interfaces;
 
 namespace SupRealClient.Models.OrganizationStructure
 {
