@@ -157,6 +157,8 @@
     </Compile>
     <Compile Include="EnumerationClasses\Card.cs" />
     <Compile Include="ViewManager.cs" />
+    <Compile Include="Views\Converters\DataGridTextSearch.cs" />
+    <Compile Include="Views\Converters\SearchValueConverter.cs" />
     <Compile Include="Views\LogsWindView.xaml.cs">
       <DependentUpon>LogsWindView.xaml</DependentUpon>
     </Compile>

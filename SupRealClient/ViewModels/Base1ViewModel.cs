@@ -1,7 +1,9 @@
 ﻿using SupRealClient.Common.Interfaces;
 using SupRealClient.Models;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.ComponentModel;
+using System.Windows.Controls;
 using System.Windows.Input;
 
 namespace SupRealClient.ViewModels
@@ -12,6 +14,7 @@ namespace SupRealClient.ViewModels
         protected Base1ModelAbstr model;
         private IEnumerable<object> set;
         private object currentItem;
+        private DataGridCellInfo currentCell;
         private bool focused = false;
         private int selectedIndex;
         private string searchingText;
@@ -24,8 +27,8 @@ namespace SupRealClient.ViewModels
             set
             {
                 this.searchingText = value;
-                this.model?.Searching(this.searchingText);
                 OnPropertyChanged("SearchingText");
+                //this.model?.Searching(this.searchingText.ToUpper());
             }
         }
 
