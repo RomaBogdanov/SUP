@@ -5,13 +5,12 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Input;
 using SupRealClient.Models.OrganizationStructure;
-using SupRealClient.Models.OrganizationStructure.Interfaces;
 
 namespace SupRealClient.ViewModels
 {
-    public class UnitViewModel : ViewModelBase
+    public class DepartmentViewModel : ViewModelBase
     {
-        public UnitViewModel()
+        public DepartmentViewModel()
         {
             OkCommand = new RelayCommand(obj => Ok());
         }
@@ -44,7 +43,7 @@ namespace SupRealClient.ViewModels
 
         public void Ok()
         {
-            Model = new Unit {Description = Description};
+            Model = new Department { Description = Description };
         }
     }
 }

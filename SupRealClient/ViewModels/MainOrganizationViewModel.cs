@@ -18,6 +18,21 @@ namespace SupRealClient.ViewModels
             set
             {
                 _selectedObject = value;
+                if (value.GetType().GetInterface("IUnit") != null)
+                {
+                    UnitEnabled = true;
+                    DepartmentEnabled = false;
+                }
+                else if (value.GetType().GetInterface("IDepartment") != null)
+                {
+                    UnitEnabled = true;
+                    DepartmentEnabled = true;
+                }
+                else if (value.GetType().GetInterface("IOrganization") != null)
+                {
+                    UnitEnabled = false;
+                    DepartmentEnabled = true;
+                }
                 OnPropertyChanged();
             }
         }
@@ -33,6 +48,28 @@ namespace SupRealClient.ViewModels
             }
         } 
         private ObservableCollection<MainOrganization> _organizations = new ObservableCollection<MainOrganization>();
+
+        public bool UnitEnabled
+        {
+            get { return _unitEnabled; }
+            set
+            {
+                _unitEnabled = value; 
+                OnPropertyChanged();
+            }
+        }
+        private bool _unitEnabled;
+
+        public bool DepartmentEnabled
+        {
+            get { return _departmentEnabled; }
+            set
+            {
+                _departmentEnabled = value;
+                OnPropertyChanged();
+            }
+        }
+        private bool _departmentEnabled;
 
         public ICommand AddDepartmentCommand { get; set; }
         public ICommand AddUnitCommand { get; set; }
