@@ -9,7 +9,7 @@
         mc:Ignorable="d"
         Title="Программа учёта посетителей" FontSize="18"
         Height="350" Width="525"
-        WindowState="Maximized">
+        WindowState="Maximized" StateChanged="Window_StateChanged">
 
     <!--d:DesignHeight="600" d:DesignWidth="1200"-->
 

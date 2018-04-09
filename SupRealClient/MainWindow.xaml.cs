@@ -1,4 +1,5 @@
-﻿using System.Windows;
+﻿using System;
+using System.Windows;
 
 namespace SupRealClient
 {
@@ -12,7 +13,7 @@ namespace SupRealClient
             InitializeComponent();
         }
 
-        private void Window_StateChanged(object sender, System.EventArgs e)
+        private void Window_StateChanged(object sender, EventArgs e)
         {
             var window = sender as Window;
             if (window.WindowState == WindowState.Minimized || window.WindowState == WindowState.Normal)
