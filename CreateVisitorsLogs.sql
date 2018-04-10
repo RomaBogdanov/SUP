@@ -7,7 +7,7 @@ go
 
 -- Создание vis_log
 CREATE TABLE vis_log
-    (f_log_id                      bigint NOT NULL IDENTITY(1,1),
+    (f_log_id                      bigint NOT NULL,
 	f_table_name                   VARCHAR(1000),  -- если нужно, сюда можно писать название таблицы из базы Visitors для привязки
 	f_table_id                     int,            -- если нужно, сюда можно писать id из таблицы базы Visitors для привязки
 	f_rec_operator                 int,            -- если нужно, сюда можно писать id пользователя из таблицы базы Visitors для привязки

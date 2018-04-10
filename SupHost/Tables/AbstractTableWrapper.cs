@@ -43,7 +43,7 @@ namespace SupHost
                 { TableName.VisZones.ToString(), new VisZonesTableWrapper() },
                 { TableName.VisCabinetsZones.ToString(), new VisCabinetsZonesTableWrapper() },
                 { TableName.VisZoneTypes.ToString(), new VisZoneTypesTableWrapper() },
-                { TableName.VisClientLogs.ToString(), new VisClientLogsTableWrapper() }
+                { TableName.VisClientLogs.ToString(), new LogTableWrapper() }
             };
         }
 
@@ -78,7 +78,7 @@ namespace SupHost
             this.table.Rows.Add(dr);
             this.getTableBehavior.InsertRow();
             this.OnAddRow(this.table.TableName, values);
-            this.logger.Debug($"В таблице {this.table.TableName} добавлена строка", GetUserId(dr));
+            LogMessage($"В таблице {this.table.TableName} добавлена строка", dr);
             return true;
         }
 
@@ -98,7 +98,7 @@ namespace SupHost
             }
             this.getTableBehavior.UpdateRow();
             this.OnUpdateRow(this.table.TableName, numRow, values);
-            this.logger.Debug($"В таблице {this.table.TableName} отредактирована строка", GetUserId(dr));
+            LogMessage($"В таблице {this.table.TableName} отредактирована строка", dr);
             return true;
         }
 
@@ -114,6 +114,11 @@ namespace SupHost
                 this.logger.Debug($"В таблице {this.table.TableName} удалена строка");
             }
             return true;
+        }
+
+        protected virtual void LogMessage(string message, DataRow dr)
+        {
+            this.logger.Debug(message, GetUserId(dr));
         }
 
         private int GetUserId(DataRow dr)
