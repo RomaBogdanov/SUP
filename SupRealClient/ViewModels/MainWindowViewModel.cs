@@ -137,7 +137,7 @@ namespace SupRealClient.ViewModels
         {
             var visitorsViewModel = new VisitorsViewModel();
 
-            var window = new VisitorsView {DataContext = visitorsViewModel};
+            var window = new VisitorsView1 {DataContext = visitorsViewModel};
             window.ShowDialog();
             
             var dc = window.DataContext;
