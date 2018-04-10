@@ -13,7 +13,7 @@ namespace SupRealClient.Views.Converters
 
             if (!string.IsNullOrEmpty(searchText) && !string.IsNullOrEmpty(cellText))
             {
-                return cellText.ToUpper().StartsWith(searchText.ToUpper());
+                return cellText.ToUpper().Contains(searchText.ToUpper());
             }
             return false;
         }
