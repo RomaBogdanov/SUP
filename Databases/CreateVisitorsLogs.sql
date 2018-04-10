@@ -15,7 +15,8 @@ CREATE TABLE vis_log
 	f_log_class                    VARCHAR(MAX),   -- класс, в котором произошло событие
     f_log_message                  VARCHAR(1000),
     f_rec_date                     DATE,
-	f_comment                      VARCHAR(200))   -- комментарий, на всякий случай
+	f_comment                      VARCHAR(200),   -- комментарий, на всякий случай
+	f_machine                      VARCHAR(200))   -- имя машины
 
 ALTER TABLE vis_log
 ADD PRIMARY KEY (f_log_id)
