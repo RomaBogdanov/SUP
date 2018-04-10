@@ -48,4 +48,36 @@
 			this.getTableBehavior = new VisZoneTypesTableBehavior(); 
 		}
     }
+
+    partial class VisDepartmentTableBehavior : VisitorsDBTableBehavior
+    {
+        public VisDepartmentTableBehavior()
+        {
+            this.StandartSetup("vis_departaments", "f_dep_id");
+        }
+    }
+
+	partial class VisDepartmentTableWrapper : AbstractTableWrapper
+    {
+        public VisDepartmentTableWrapper()
+        { 
+			this.getTableBehavior = new VisDepartmentTableBehavior(); 
+		}
+    }
+
+    partial class VisDepartmentSectionTableBehavior : VisitorsDBTableBehavior
+    {
+        public VisDepartmentSectionTableBehavior()
+        {
+            this.StandartSetup("vis_departament_sections", "f_section_id");
+        }
+    }
+
+	partial class VisDepartmentSectionTableWrapper : AbstractTableWrapper
+    {
+        public VisDepartmentSectionTableWrapper()
+        { 
+			this.getTableBehavior = new VisDepartmentSectionTableBehavior(); 
+		}
+    }
 }

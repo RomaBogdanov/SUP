@@ -92,14 +92,16 @@
     <Compile Include="Models\IAddUpdateCardModel.cs" />
     <Compile Include="Models\ISearch1Model.cs" />
     <Compile Include="Models\OrganizationStructure\Department.cs" />
+    <Compile Include="Models\OrganizationStructure\EditDepModel.cs" />
+    <Compile Include="Models\OrganizationStructure\EditUnitModel.cs" />
     <Compile Include="Models\OrganizationStructure\Interfaces\IDepartment.cs" />
     <Compile Include="Models\OrganizationStructure\Interfaces\IModel.cs" />
-    <Compile Include="Models\OrganizationStructure\Interfaces\IOrganization.cs" />
-    <Compile Include="Models\OrganizationStructure\Interfaces\IUnit.cs" />
     <Compile Include="Models\OrganizationStructure\MainOrganization.cs" />
     <Compile Include="Models\OrganizationStructure\ModelBase.cs" />
     <Compile Include="Models\OrganizationStructure\Organization.cs" />
     <Compile Include="Models\OrganizationStructure\Unit.cs" />
+    <Compile Include="Models\OrganizationStructure\AddUnitModel.cs" />
+    <Compile Include="Models\OrganizationStructure\AddDepModel.cs" />
     <Compile Include="Models\Search1Model.cs" />
     <Compile Include="Models\UpdateCardModel.cs" />
     <Compile Include="Common\Data\FieldData.cs" />
@@ -124,7 +126,6 @@
     <Compile Include="ViewModels\MainOrganizationViewModel.cs" />
     <Compile Include="ViewModels\Search1ViewModel.cs" />
     <Compile Include="ViewModels\UnitViewModel.cs" />
-    <Compile Include="ViewModels\UniversalViewModel.cs" />
     <Compile Include="ViewModels\ViewModelBase.cs" />
     <Compile Include="ViewModels\VisitorsViewModel.cs" />
     <Compile Include="Views\AddDepartmentView.xaml.cs">

@@ -22,15 +22,28 @@ namespace SupRealClient.Models.OrganizationStructure
             }
         }
 
+        public int Id;
+
         public bool Save { get; set; }
 
         private string _description;
         public event PropertyChangedEventHandler PropertyChanged;
+        public event Action OnClose;
 
         [NotifyPropertyChangedInvocator]
         protected virtual void OnPropertyChanged([CallerMemberName] string propertyName = null)
         {
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
+        }
+
+        public void EditItem()
+        {
+            //throw new NotImplementedException();
+        }
+
+        public void Cancel()
+        {
+            //throw new NotImplementedException();
         }
     }
 }
