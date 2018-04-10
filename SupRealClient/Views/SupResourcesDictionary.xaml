@@ -3,6 +3,11 @@
                     xmlns:local="clr-namespace:SupRealClient.Views"
                     xmlns:converters="clr-namespace:SupRealClient.Views.Converters">
     <converters:SearchValueConverter x:Key="SearchValueConverter" />
+    <Style TargetType="{x:Type DataGrid}">
+        <Setter Property="IsReadOnly">
+            <Setter.Value>True</Setter.Value>
+        </Setter>
+    </Style>
     <Style TargetType="{x:Type DataGridCell}">
         <Setter Property="converters:DataGridTextSearch.IsTextMatch">
             <Setter.Value>
