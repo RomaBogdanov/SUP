@@ -245,3 +245,8 @@ ModelManifest.xml
 *.xsd
 *.svcmap
 *.xsd
+*.svcmap
+*.xsd
+*.disco
+*.svcinfo
+*.datasource
