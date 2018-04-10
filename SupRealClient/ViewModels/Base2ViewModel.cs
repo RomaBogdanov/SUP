@@ -14,6 +14,7 @@ namespace SupRealClient.ViewModels
         private IOrganizations1Model model;
         private IEnumerable<Organization> organizations;
         private Organization currentItem;
+        private object selectedValue;
 
         public IEnumerable<Organization> Organizations
         {
@@ -35,6 +36,16 @@ namespace SupRealClient.ViewModels
                     this.currentItem = value;
                     OnPropertyChanged("CurrentItem");
                 }
+            }
+        }
+
+        public object SelectedValue
+        {
+            get { return this.selectedValue; }
+            set
+            {
+                this.selectedValue = value;
+                OnPropertyChanged("SelectedValue");
             }
         }
 

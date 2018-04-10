@@ -94,7 +94,7 @@ namespace SupRealClient.Models
                                 Descript = cabs.Field<string>("f_cabinet_desc"),
                                 DoorNum = cabs.Field<string>("f_door_num")
                             };
-            this.viewModel.Set = cabinets;
+            this.viewModel.Set = new System.Collections.ObjectModel.ObservableCollection<object>(cabinets);
             if (viewModel.NumItem == -1)
             {
                 this.Begin();
@@ -116,6 +116,11 @@ namespace SupRealClient.Models
         public override IDictionary<string, string> GetFields()
         {
             return new Dictionary<string, string>() { { "f_cabinet_desc", "Описание" } };
+        }
+
+        public override long GetId(int index)
+        {
+            return Rows[index].Field<int>("f_cabinet_id");
         }
 
         public override void Watch()

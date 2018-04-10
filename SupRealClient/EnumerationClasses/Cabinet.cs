@@ -6,9 +6,8 @@ using System.Threading.Tasks;
 
 namespace SupRealClient.EnumerationClasses
 {
-    public class Cabinet
+    public class Cabinet : IdEntity
     {
-        public int Id { get; set; }
         public string CabNum { get; set; }
         public string Descript { get; set; } = "";
         public string DoorNum { get; set; }

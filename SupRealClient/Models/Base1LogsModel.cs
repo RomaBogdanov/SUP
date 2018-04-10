@@ -73,7 +73,8 @@ namespace SupRealClient.Models
         protected override void Query()
         {
             var logs = from l in table.AsEnumerable()
-                       where Authorizer.AppAuthorizer.Id.Equals(l.Field<object>("f_rec_operator"))
+                       where //l.Field<object>("f_rec_operator") != null &&
+                       Authorizer.AppAuthorizer.Id.Equals(l.Field<object>("f_rec_operator"))
                        select new LogItem
                             {
                                 Id = l.Field<long>("f_log_id"),
@@ -82,7 +83,8 @@ namespace SupRealClient.Models
                                 RecDate = l.Field<DateTime>("f_rec_date"),
                                 RecOperator = l.Field<object>("f_rec_operator") != null ? l.Field<int>("f_rec_operator") : -1,
                             };
-            this.viewModel.Set = logs;
+            this.viewModel.Set =
+                new System.Collections.ObjectModel.ObservableCollection<object>(logs);
             if (viewModel.NumItem == -1)
             {
                 this.Begin();
@@ -108,6 +110,11 @@ namespace SupRealClient.Models
                 { "f_log_severety", "Уровень" },
                 { "f_log_message", "Сообщение" },
             };
+        }
+
+        public override long GetId(int index)
+        {
+            return Rows[index].Field<long>("f_log_id");
         }
     }
 }

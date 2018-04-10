@@ -87,7 +87,7 @@ namespace SupRealClient.Models
                                 RecDate = nats.Field<DateTime>("f_rec_date"),
                                 RecOperator = nats.Field<int>("f_rec_operator")
                           };
-            this.viewModel.Set = nations;
+            this.viewModel.Set = new System.Collections.ObjectModel.ObservableCollection<object>(nations);
             if (viewModel.NumItem == -1)
             {
                 this.Begin();
@@ -112,6 +112,11 @@ namespace SupRealClient.Models
             {
                 { "f_cntr_name", "Название" }
             };
+        }
+
+        public override long GetId(int index)
+        {
+            return Rows[index].Field<int>("f_cntr_id");
         }
     }
 }

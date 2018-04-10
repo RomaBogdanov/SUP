@@ -12,5 +12,6 @@ namespace SupRealClient.Common.Interfaces
         IEnumerable<object> Set { get; set; }
         int SelectedIndex { get; set; }
         object CurrentItem { get; set; }
+        object SelectedValue { get; set; }
     }
 }

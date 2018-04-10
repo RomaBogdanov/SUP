@@ -122,7 +122,7 @@ namespace SupRealClient.Models
                          join zd in znsDoors
                          on z.Id equals zd.Key
                          select z.RelatedDoors = zd.Door;*/
-            this.viewModel.Set = zones;
+            this.viewModel.Set = new System.Collections.ObjectModel.ObservableCollection<object>(zones);
             if (viewModel.NumItem == -1)
             {
                 this.Begin();
@@ -141,9 +141,48 @@ namespace SupRealClient.Models
             }
         }
 
+        // TODO - переделать без повторов кода
+        public override DataRow[] Rows
+        {
+            get
+            {
+                var zoneDoors = from cabs in cabinets.Table.AsEnumerable()
+                                join cabszns in cabinetsZones.Table.AsEnumerable()
+                                on cabs.Field<int>("f_cabinet_id") equals cabszns.Field<int>("f_cabinet_id")
+                                select new
+                                {
+                                    Id = cabszns.Field<int>("f_zone_id"),
+                                    Door = cabs.Field<string>("f_door_num")
+                                };
+                var znsDoors = zoneDoors.GroupBy(x => x.Id)
+                    .Select(g => new {
+                        g.Key,
+                        Door = string
+                    .Join(", ", g.Select(x => x.Door))
+                    });
+                return (from typezns in zoneTypes.Table.AsEnumerable()
+                        join zns in table.AsEnumerable()
+                        on typezns.Field<int>("f_zone_type_id") equals zns.Field<int>("f_zone_type_id")
+                        join zd in znsDoors
+                        on zns.Field<int>("f_zone_id") equals zd.Key
+                        select zns).AsEnumerable().ToArray();
+            }
+        }
+
         public override IDictionary<string, string> GetFields()
         {
-            return new Dictionary<string, string>() { { "f_doc_name", "Название" } };
+            return new Dictionary<string, string>()
+            {
+                //{ "f_zone_type_name", "Тип зоны" },
+                { "f_zone_num", "Номер" },
+                { "f_zone_name", "Название" },
+                //{ "f_door_num", "Привязанные двери" },
+            };
+        }
+
+        public override long GetId(int index)
+        {
+            return Rows[index].Field<int>("f_zone_id");
         }
 
         public override void Watch()

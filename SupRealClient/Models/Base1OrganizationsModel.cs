@@ -82,7 +82,7 @@ namespace SupRealClient.Models
                                     Name = orgs.Field<string>("f_org_name"),
                                     Comment = orgs.Field<string>("f_comment")
                                 };
-            this.viewModel.Set = organizations;
+            this.viewModel.Set = new System.Collections.ObjectModel.ObservableCollection<object>(organizations);
             if (viewModel.NumItem == -1)
             {
                 this.Begin();
@@ -101,6 +101,7 @@ namespace SupRealClient.Models
             }
         }
 
+        // TODO - переделать без повторов кода
         public override DataRow[] Rows
         {
             get
@@ -118,6 +119,11 @@ namespace SupRealClient.Models
                 { "f_org_name", "Название организации" },
                 { "f_comment", "Примечание" },
             };
+        }
+
+        public override long GetId(int index)
+        {
+            return Rows[index].Field<int>("f_org_id");
         }
     }
 }

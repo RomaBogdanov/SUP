@@ -39,7 +39,8 @@
         <DataGrid Name="baseTab" Grid.Row="0" ItemsSource="{Binding Path=Set, Mode=TwoWay}" CurrentItem="{Binding Path=CurrentItem, Mode=TwoWay}"
                   converters:DataGridTextSearch.SearchValue="{Binding ElementName=aaa, Path=Text, UpdateSourceTrigger=PropertyChanged}"
                   AutoGenerateColumns="False" Grid.RowSpan="3" Grid.ColumnSpan="10" Focusable="True"
-                  SelectedItem="{Binding Path=CurrentItem, Mode=TwoWay}" SelectedIndex="{Binding Path=SelectedIndex, Mode=TwoWay}">
+                  SelectedItem="{Binding Path=CurrentItem, Mode=TwoWay}" SelectedIndex="{Binding Path=SelectedIndex, Mode=TwoWay}"
+                  SelectedValue="{Binding Path=SelectedValue, Mode=TwoWay}">
             <!--<DataGrid.Columns>
                 <DataGridTextColumn Header="Тип" Binding="{Binding Type}">
                 </DataGridTextColumn>

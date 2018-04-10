@@ -4,6 +4,7 @@ using System.Linq;
 using System.Data;
 using SupClientConnectionLib;
 using SupRealClient.Common.Interfaces;
+using SupRealClient.EnumerationClasses;
 
 namespace SupRealClient.Models
 {
@@ -51,13 +52,18 @@ namespace SupRealClient.Models
         }
         public abstract IDictionary<string, string> GetFields();
         public virtual DataRow[] Rows { get { return table.AsEnumerable().ToArray(); } }
-        public virtual void SetAt(int index)
+        public virtual void SetAt(long id)
         {
-            if (index >= 0 && index < this.viewModel.Set.Count())
+            for (int i = 0; i < this.viewModel.Set.Count(); i++)
             {
-                this.viewModel.SelectedIndex = index;
+                if ((this.viewModel.Set.ElementAt(i) as IdEntity).Id == id)
+                {
+                    this.viewModel.SelectedValue = this.viewModel.Set.ElementAt(i);
+                    break;
+                }
             }
         }
+        public abstract long GetId(int index);
         protected abstract void Query();
     }
 }

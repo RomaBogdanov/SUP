@@ -87,7 +87,8 @@ namespace SupRealClient.Models
                                 RecDate = docs.Field<DateTime>("f_rec_date"),
                                 RecOperator = docs.Field<int>("f_rec_operator")
                             };
-            this.viewModel.Set = documents;
+            this.viewModel.Set =
+                new System.Collections.ObjectModel.ObservableCollection<object>(documents);
             if (viewModel.NumItem == -1)
             {
                 this.Begin();
@@ -109,6 +110,11 @@ namespace SupRealClient.Models
         public override IDictionary<string, string> GetFields()
         {
             return new Dictionary<string, string>() { { "f_doc_name", "Название" } };
+        }
+
+        public override long GetId(int index)
+        {
+            return Rows[index].Field<int>("f_doc_id");
         }
     }
 }

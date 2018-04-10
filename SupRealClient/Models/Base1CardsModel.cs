@@ -112,7 +112,8 @@ namespace SupRealClient.Models
                                 p.IdCard == c.Field<int>("f_card_id"))?
                                 .PersonName.ToString())
                         };
-            this.viewModel.Set = cards;
+            this.viewModel.Set =
+                new System.Collections.ObjectModel.ObservableCollection<object>(cards);
             if (viewModel.NumItem == -1)
             {
                 this.Begin();
@@ -131,6 +132,7 @@ namespace SupRealClient.Models
             }
         }
 
+        // TODO - переделать без повторов кода
         public override DataRow[] Rows
         {
             get
@@ -150,6 +152,11 @@ namespace SupRealClient.Models
                 { "f_comment", "Примечание" },
                 //{ "f_state_text", "Состояние" },
             };
+        }
+
+        public override long GetId(int index)
+        {
+            return Rows[index].Field<int>("f_card_id");
         }
 
         class CardsPersons

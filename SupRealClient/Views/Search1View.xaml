@@ -6,7 +6,7 @@
         xmlns:local="clr-namespace:SupRealClient.Views"
 		xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
         mc:Ignorable="d"
-        Title="Поиск" Height="270" Width="300" Closing="Window_Closing" StateChanged="Window_StateChanged">
+        Title="Поиск" Height="310" Width="300" Closing="Window_Closing" StateChanged="Window_StateChanged">
     <Grid>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="2*"/>
@@ -15,9 +15,9 @@
             <ColumnDefinition Width="2*"/>
         </Grid.ColumnDefinitions>
         <Grid.RowDefinitions>
-            <RowDefinition Height="50"/>
-            <RowDefinition Height="85"/>
-            <RowDefinition Height="50"/>
+            <RowDefinition Height="65"/>
+            <RowDefinition Height="110"/>
+            <RowDefinition Height="65"/>
             <RowDefinition Height="*"/>
         </Grid.RowDefinitions>
         <GroupBox Header="Значение поля" Grid.Row="0" Grid.ColumnSpan="4">

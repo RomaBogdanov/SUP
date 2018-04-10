@@ -1,7 +1,6 @@
 ﻿using SupRealClient.Common.Interfaces;
 using SupRealClient.Models;
 using System.Collections.Generic;
-using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Windows.Controls;
 using System.Windows.Input;
@@ -15,6 +14,7 @@ namespace SupRealClient.ViewModels
         private IEnumerable<object> set;
         private object currentItem;
         private DataGridCellInfo currentCell;
+        private object selectedValue;
         private bool focused = false;
         private int selectedIndex;
         private string searchingText;
@@ -39,6 +39,16 @@ namespace SupRealClient.ViewModels
             {
                 this.set = value;
                 OnPropertyChanged("Set");
+            }
+        }
+
+        public object SelectedValue
+        {
+            get { return this.selectedValue; }
+            set
+            {
+                this.selectedValue = value;
+                OnPropertyChanged("SelectedValue");
             }
         }
 
