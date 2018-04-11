@@ -133,10 +133,20 @@ namespace SupRealClient.ViewModels
         {
             var visitorsViewModel = new VisitorsViewModel();
 
-            var window = new VisitorsView1 {DataContext = visitorsViewModel};
+            var window = new VisitorsView {DataContext = visitorsViewModel};
             window.ShowDialog();
             
-            var dc = window.DataContext;
+            var dc = (VisitorsViewModel)window.DataContext;
+            
+            // TODO тут лежит путь к файлику с изображением, которое выбрали во вкладке 'Фото'
+            if (dc != null)
+            {
+                if (dc.PhotoSource != null)
+                {
+                    dc.PhotoSource.ToString();
+                }
+            }
+
             dc.ToString();
         }
 

@@ -9,6 +9,7 @@ using System.Windows;
 namespace SupRealClient
 {
     // TODO - подумать, как реализовать более грамотно
+    // TODO - можно завести словать из связок: ViewModel -> Window, передавать интерфейс или сам ViewModel через generic и открывать нужное окно основываясь на словаре
 
     public class ViewManager : IViewManager
     {

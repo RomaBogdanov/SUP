@@ -578,6 +578,59 @@
                         </Grid>
                     </Grid>
                 </mah:MetroTabItem>
+                <mah:MetroTabItem Header="Фото">
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition/>
+                            <ColumnDefinition Width="2*"/>
+                            <ColumnDefinition/>
+                        </Grid.ColumnDefinitions>
+                       
+                        <Button
+                            Grid.Column="1"
+                            ToolTip="Добавить"
+                            Margin="0"
+                            Background="#00000000"
+                            
+                            Command="{Binding AddImageSourceCommand}">
+                            <Grid Height="270" Width="270">
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="0.2*"/>
+                                    <RowDefinition/>
+                                </Grid.RowDefinitions>
+                                
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition/>
+                                    <ColumnDefinition Width="0.2*"/>
+                                </Grid.ColumnDefinitions>
+
+                                <Border
+                                    Grid.Row="0"
+                                    Grid.RowSpan="2"
+                                    Grid.Column="0"
+                                    Grid.ColumnSpan="2"
+                                    BorderThickness="2"
+                                    BorderBrush="#FFCCCCCC">
+                                    <Image 
+                                        Source="{Binding PhotoSource}"/>
+                                </Border>
+                                <Button
+                                    Grid.Row="0"
+                                    Grid.Column="1"
+                                    Content="X"
+                                    ToolTip="Удалить"
+                                    Margin="0"
+                                    Background="#00000000"
+                                    BorderThickness="2"
+                                    BorderBrush="#FFCCCCCC"
+                                    Command="{Binding RemoveImageSourceCommand}"/>
+                            </Grid>
+                        </Button>
+                        
+                        
+                        
+                    </Grid>
+                </mah:MetroTabItem>
             </mah:MetroAnimatedTabControl>
         </Grid>
         
@@ -643,7 +696,7 @@
 
                         <Image
                             Grid.Row="0"
-                            Source="../Resources/Начало.ico"/>
+                            Source="../Resources/Начало (2).ico"/>
 
                         <TextBlock
                             Grid.Row="1"
@@ -667,7 +720,7 @@
 
                         <Image
                             Grid.Row="0"
-                            Source="../Resources/Предыдущий.ico"/>
+                            Source="../Resources/Предыдущий (2).ico"/>
 
                         <TextBlock
                             Grid.Row="1"
@@ -691,7 +744,7 @@
 
                         <Image
                             Grid.Row="0"
-                            Source="../Resources/Следующий.ico"/>
+                            Source="../Resources/Следующий (2).ico"/>
 
                         <TextBlock
                             Grid.Row="1"
@@ -714,7 +767,7 @@
 
                         <Image
                             Grid.Row="0"
-                            Source="../Resources/Конец.ico"/>
+                            Source="../Resources/Конец (2).ico"/>
 
                         <TextBlock
                             Grid.Row="1"
@@ -738,7 +791,7 @@
 
                         <Image
                             Grid.Row="0"
-                            Source="../Resources/Выдать.ico"/>
+                            Source="../Resources/Выдать (2).ico"/>
 
                         <TextBlock
                             Grid.Row="1"
@@ -786,7 +839,7 @@
 
                         <Image
                             Grid.Row="0"
-                            Source="../Resources/Добавить1.ico"/>
+                            Source="../Resources/Добавить1 (2).ico"/>
 
                         <TextBlock
                             Grid.Row="1"
@@ -810,7 +863,7 @@
 
                         <Image
                             Grid.Row="0"
-                            Source="../Resources/Редактировать.ico"/>
+                            Source="../Resources/Редактировать (2).ico"/>
 
                         <TextBlock
                             Grid.Row="1"
@@ -834,7 +887,7 @@
 
                         <Image
                             Grid.Row="0"
-                            Source="../Resources/Принять.ico"/>
+                            Source="../Resources/Принять (2).ico"/>
 
                         <TextBlock
                             Grid.Row="1"
@@ -858,7 +911,7 @@
 
                         <Image
                             Grid.Row="0"
-                            Source="../Resources/Отмена.ico"/>
+                            Source="../Resources/Отмена (2).ico"/>
 
                         <TextBlock
                             Grid.Row="1"
@@ -882,7 +935,7 @@
 
                         <Image
                             Grid.Row="0"
-                            Source="../Resources/Найти.ico"/>
+                            Source="../Resources/Найти (2).ico"/>
 
                         <TextBlock
                             Grid.Row="1"
@@ -906,7 +959,7 @@
 
                         <Image
                             Grid.Row="0"
-                            Source="../Resources/Обновить.ico"/>
+                            Source="../Resources/Обновить (2).ico"/>
 
                         <TextBlock
                             Grid.Row="1"
