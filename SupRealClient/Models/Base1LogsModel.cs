@@ -116,5 +116,17 @@ namespace SupRealClient.Models
         {
             return Rows[index].Field<long>("f_log_id");
         }
+
+        public override void SetAt(long id)
+        {
+            for (int i = 0; i < this.viewModel.Set.Count(); i++)
+            {
+                if ((this.viewModel.Set.ElementAt(i) as LogItem).Id == id)
+                {
+                    this.viewModel.SelectedValue = this.viewModel.Set.ElementAt(i);
+                    break;
+                }
+            }
+        }
     }
 }
