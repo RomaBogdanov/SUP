@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Windows.Controls;
 
 namespace SupRealClient.Common.Interfaces
 {
@@ -13,5 +14,6 @@ namespace SupRealClient.Common.Interfaces
         int SelectedIndex { get; set; }
         object CurrentItem { get; set; }
         object SelectedValue { get; set; }
+        DataGridColumn CurrentColumn { get; set; }
     }
 }

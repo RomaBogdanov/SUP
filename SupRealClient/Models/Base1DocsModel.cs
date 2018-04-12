@@ -60,22 +60,6 @@ namespace SupRealClient.Models
             this.viewModel.SelectedIndex = this.viewModel.Set.Count() - 1;
         }
 
-        public override void Farther()
-        {
-            //throw new NotImplementedException();
-        }
-
-        public override void Searching(string pattern)
-        {
-            var indSet = this.viewModel.Set
-                .Select((arg, index) =>
-                new { index, at = (arg as Document).DocName.StartsWith(pattern) });
-            this.viewModel.SelectedIndex = 
-                indSet.FirstOrDefault(arg1 => arg1.at == true) != null ? 
-                indSet.FirstOrDefault(arg1 => arg1.at == true).index : 
-                this.viewModel.SelectedIndex; 
-        }
-
         protected override void Query()
         {
             var documents = from docs in table.AsEnumerable()
@@ -115,6 +99,14 @@ namespace SupRealClient.Models
         public override long GetId(int index)
         {
             return Rows[index].Field<int>("f_doc_id");
+        }
+
+        protected override IDictionary<string, string> GetColumns()
+        {
+            return new Dictionary<string, string>()
+            {
+                { "DocName", "f_doc_name" },
+            };
         }
     }
 }

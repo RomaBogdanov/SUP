@@ -14,6 +14,7 @@ namespace SupRealClient.ViewModels
         private IEnumerable<object> set;
         private object currentItem;
         private DataGridCellInfo currentCell;
+        private DataGridColumn currentColumn;
         private object selectedValue;
         private bool focused = false;
         private int selectedIndex;
@@ -28,7 +29,7 @@ namespace SupRealClient.ViewModels
             {
                 this.searchingText = value;
                 OnPropertyChanged("SearchingText");
-                //this.model?.Searching(this.searchingText.ToUpper());
+                this.model?.Searching(this.searchingText.ToUpper());
             }
         }
 
@@ -62,6 +63,19 @@ namespace SupRealClient.ViewModels
                     this.currentItem = value;
                     model?.EnterCurrentItem(this.currentItem);
                     OnPropertyChanged("CurrentItem");
+                }
+            }
+        }
+
+        public DataGridColumn CurrentColumn
+        {
+            get { return this.currentColumn; }
+            set
+            {
+                if (value != null)
+                {
+                    this.currentColumn = value;
+                    OnPropertyChanged("CurrentColumn");
                 }
             }
         }

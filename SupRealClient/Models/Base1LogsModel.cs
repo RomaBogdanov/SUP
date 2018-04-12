@@ -60,16 +60,6 @@ namespace SupRealClient.Models
             this.viewModel.SelectedIndex = this.viewModel.Set.Count() - 1;
         }
 
-        public override void Farther()
-        {
-            //throw new NotImplementedException();
-        }
-
-        public override void Searching(string pattern)
-        {
-            // TODO
-        }
-
         protected override void Query()
         {
             var logs = from l in table.AsEnumerable()
@@ -127,6 +117,16 @@ namespace SupRealClient.Models
                     break;
                 }
             }
+        }
+
+        protected override IDictionary<string, string> GetColumns()
+        {
+            return new Dictionary<string, string>()
+            {
+                { "RecDate", "f_rec_date" },
+                { "Severity", "f_log_severety" },
+                { "Message", "f_log_message" },
+            };
         }
     }
 }

@@ -6,7 +6,7 @@ namespace SupRealClient.Search
 	/// <summary>
 	/// Результаты поиска
 	/// </summary>
-	class SearchResult
+	public class SearchResult
 	{
 		List<long> indexes = new List<long>();
 		int current = -1;

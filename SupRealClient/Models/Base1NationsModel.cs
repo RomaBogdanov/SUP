@@ -55,22 +55,6 @@ namespace SupRealClient.Models
             this.viewModel.NumItem = (item as Nation).Id;
         }
 
-        public override void Farther()
-        {
-            //throw new NotImplementedException();
-        }
-
-        public override void Searching(string pattern)
-        {
-            var indSet = this.viewModel.Set
-                .Select((arg, index) =>
-                new { index, at = (arg as Nation).CountryName.StartsWith(pattern) });
-            this.viewModel.SelectedIndex =
-                indSet.FirstOrDefault(arg1 => arg1.at == true) != null ?
-                indSet.FirstOrDefault(arg1 => arg1.at == true).index :
-                this.viewModel.SelectedIndex;
-        }
-
         public override void Update()
         {
             ViewManager.Instance.Update(new UpdateItemNationsModel((Nation)this.viewModel.CurrentItem), parent);
@@ -117,6 +101,14 @@ namespace SupRealClient.Models
         public override long GetId(int index)
         {
             return Rows[index].Field<int>("f_cntr_id");
+        }
+
+        protected override IDictionary<string, string> GetColumns()
+        {
+            return new Dictionary<string, string>()
+            {
+                { "CountryName", "f_cntr_name" },
+            };
         }
     }
 }

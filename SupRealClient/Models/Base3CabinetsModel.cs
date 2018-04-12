@@ -68,22 +68,6 @@ namespace SupRealClient.Models
             this.viewModel.SelectedIndex = this.viewModel.Set.Count() - 1;
         }
 
-        public override void Farther()
-        {
-            //throw new NotImplementedException();
-        }
-
-        public override void Searching(string pattern)
-        {
-            /*var indSet = this.viewModel.Set
-                .Select((arg, index) =>
-                new { index, at = (arg as Document).DocName.StartsWith(pattern) });
-            this.viewModel.SelectedIndex =
-                indSet.FirstOrDefault(arg1 => arg1.at == true) != null ?
-                indSet.FirstOrDefault(arg1 => arg1.at == true).index :
-                this.viewModel.SelectedIndex;*/
-        }
-
         protected override void Query()
         {
             var cabinets = from cabs in table.AsEnumerable()
@@ -126,6 +110,16 @@ namespace SupRealClient.Models
         public override void Watch()
         {
             throw new NotImplementedException();
+        }
+
+        protected override IDictionary<string, string> GetColumns()
+        {
+            return new Dictionary<string, string>()
+            {
+                { "CabNum", "f_cabinet_num" },
+                { "Descript", "f_cabinet_desc" },
+                { "DoorNum", "f_door_num" },
+            };
         }
     }
 }

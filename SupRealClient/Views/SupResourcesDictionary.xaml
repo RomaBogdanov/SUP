@@ -1,26 +1,8 @@
 ﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-                    xmlns:local="clr-namespace:SupRealClient.Views"
-                    xmlns:converters="clr-namespace:SupRealClient.Views.Converters">
-    <converters:SearchValueConverter x:Key="SearchValueConverter" />
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
     <Style TargetType="{x:Type DataGrid}">
         <Setter Property="IsReadOnly">
             <Setter.Value>True</Setter.Value>
         </Setter>
-    </Style>
-    <Style TargetType="{x:Type DataGridCell}">
-        <Setter Property="converters:DataGridTextSearch.IsTextMatch">
-            <Setter.Value>
-                <MultiBinding Converter="{StaticResource SearchValueConverter}">
-                    <Binding RelativeSource="{RelativeSource Self}" Path="Content.Text" />
-                    <Binding RelativeSource="{RelativeSource Self}" Path="(converters:DataGridTextSearch.SearchValue)" />
-                </MultiBinding>
-            </Setter.Value>
-        </Setter>
-        <Style.Triggers>
-            <Trigger Property="converters:DataGridTextSearch.IsTextMatch" Value="True">
-                <Setter Property="Background" Value="Gray" />
-            </Trigger>
-        </Style.Triggers>
     </Style>
 </ResourceDictionary>

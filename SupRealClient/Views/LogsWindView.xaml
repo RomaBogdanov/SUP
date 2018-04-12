@@ -3,9 +3,8 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        xmlns:converters="clr-namespace:SupRealClient.Views.Converters"
-        mc:Ignorable="d"
-        Title="Логи" Height="600" Width="600" Closing="Window_Closing" StateChanged="Window_StateChanged">
+        mc:Ignorable="d" Title="Логи" Height="600" Width="600"
+        Closing="Window_Closing" StateChanged="Window_StateChanged">
     <Window.Resources>
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
@@ -29,10 +28,9 @@
             <RowDefinition Height="50"/>
         </Grid.RowDefinitions>
         <DataGrid Name="baseTab" Focusable="True" AutoGenerateColumns="False" Grid.ColumnSpan="5" Grid.Row="0"
-                  converters:DataGridTextSearch.SearchValue="{Binding ElementName=aaa, Path=Text, UpdateSourceTrigger=PropertyChanged}"
                   ItemsSource="{Binding Path=Set, Mode=TwoWay}" CurrentItem="{Binding Path=CurrentItem, Mode=TwoWay}"
                   SelectedItem="{Binding Path=CurrentItem, Mode=TwoWay}" SelectedIndex="{Binding Path=SelectedIndex, Mode=TwoWay}"
-                  SelectedValue="{Binding Path=SelectedValue, Mode=TwoWay}">
+                  SelectedValue="{Binding Path=SelectedValue, Mode=TwoWay}" CurrentColumn="{Binding Path=CurrentColumn, Mode=TwoWay}">
         </DataGrid>
         <Label Grid.Row="1" Grid.ColumnSpan="5" Content="Поиск по полю:" Margin="1"></Label>
         <TextBox Name="aaa" Grid.Row="2" Grid.ColumnSpan="5" Margin="1" Text="{Binding Path=SearchingText, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}">

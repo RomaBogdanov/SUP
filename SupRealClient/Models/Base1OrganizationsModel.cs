@@ -55,16 +55,6 @@ namespace SupRealClient.Models
             this.viewModel.NumItem = (item as Organization).Id;
         }
 
-        public override void Farther()
-        {
-            throw new NotImplementedException();
-        }
-
-        public override void Searching(string pattern)
-        {
-            throw new NotImplementedException();
-        }
-
         public override void Update()
         {
             ViewManager.Instance.UpdateObject(new UpdateOrgsModel((Organization)this.viewModel.CurrentItem), parent);
@@ -124,6 +114,17 @@ namespace SupRealClient.Models
         public override long GetId(int index)
         {
             return Rows[index].Field<int>("f_org_id");
+        }
+
+        protected override IDictionary<string, string> GetColumns()
+        {
+            return new Dictionary<string, string>()
+            {
+                { "Type", "f_org_type" },
+                { "FullName", "f_full_org_name"},
+                { "Name", "f_org_name" },
+                { "Comment", "f_comment" },
+            };
         }
     }
 }
