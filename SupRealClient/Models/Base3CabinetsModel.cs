@@ -68,22 +68,6 @@ namespace SupRealClient.Models
             this.viewModel.SelectedIndex = this.viewModel.Set.Count() - 1;
         }
 
-        public override void Farther()
-        {
-            //throw new NotImplementedException();
-        }
-
-        public override void Searching(string pattern)
-        {
-            /*var indSet = this.viewModel.Set
-                .Select((arg, index) =>
-                new { index, at = (arg as Document).DocName.StartsWith(pattern) });
-            this.viewModel.SelectedIndex =
-                indSet.FirstOrDefault(arg1 => arg1.at == true) != null ?
-                indSet.FirstOrDefault(arg1 => arg1.at == true).index :
-                this.viewModel.SelectedIndex;*/
-        }
-
         protected override void Query()
         {
             var cabinets = from cabs in table.AsEnumerable()
@@ -94,7 +78,7 @@ namespace SupRealClient.Models
                                 Descript = cabs.Field<string>("f_cabinet_desc"),
                                 DoorNum = cabs.Field<string>("f_door_num")
                             };
-            this.viewModel.Set = cabinets;
+            this.viewModel.Set = new System.Collections.ObjectModel.ObservableCollection<object>(cabinets);
             if (viewModel.NumItem == -1)
             {
                 this.Begin();
@@ -118,9 +102,24 @@ namespace SupRealClient.Models
             return new Dictionary<string, string>() { { "f_cabinet_desc", "Описание" } };
         }
 
+        public override long GetId(int index)
+        {
+            return Rows[index].Field<int>("f_cabinet_id");
+        }
+
         public override void Watch()
         {
             throw new NotImplementedException();
+        }
+
+        protected override IDictionary<string, string> GetColumns()
+        {
+            return new Dictionary<string, string>()
+            {
+                { "CabNum", "f_cabinet_num" },
+                { "Descript", "f_cabinet_desc" },
+                { "DoorNum", "f_door_num" },
+            };
         }
     }
 }

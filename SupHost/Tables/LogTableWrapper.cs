@@ -7,36 +7,13 @@ namespace SupHost
     /// Это особенная таблица. Она не должна передаваться пользователям.
     /// Может использоваться только внутри сервера приложения.
     /// </summary>
-    class LogTableWrapper
+    class LogTableWrapper : AbstractTableWrapper
     {
-        static LogTableWrapper logTableWrapper;
-
-        private ITableBehavior getTableBehavior;
-        private DataTable table;
-        private Logger logger = Logger.CurrentLogger;
         private object lockDb = new object();
 
-        public static LogTableWrapper GetLogTableWrapper()
-        {
-            if (logTableWrapper == null)
-            {
-                logTableWrapper = new LogTableWrapper();
-            }
-            return logTableWrapper;
-        }
-
-        private LogTableWrapper()
+        public LogTableWrapper()
         {
             this.getTableBehavior = new LogTableBehavior();
-        }
-
-        public virtual DataTable GetTable()
-        {
-            if (table == null)
-            {
-                this.table = this.getTableBehavior.GetTable();
-            }
-            return this.table;
         }
 
         public void Write(LogData logData)
@@ -45,6 +22,7 @@ namespace SupHost
             {
                 try
                 {
+                    // TODO - клиент вызывает TableService1.GetTable() и это работает. А тут проблемы с id
                     this.GetTable();
                     DataRow row = this.table.NewRow();
                     row["f_log_severety"] = logData.Severity;
@@ -52,14 +30,18 @@ namespace SupHost
                     row["f_rec_date"] = logData.Date;
                     row["f_log_class"] = logData.Class;
                     row["f_rec_operator"] = logData.User >= 0 ? (object)logData.User : DBNull.Value;
-                    this.table.Rows.Add(row);
-                    this.getTableBehavior.InsertRow();
+                    InsertRow(row.ItemArray);
                 }
                 catch (Exception err)
                 {
                     this.logger.ErrorMessage(err.Message + err.StackTrace);
                 }
             }
+        }
+
+        protected override void LogMessage(string message, DataRow dr)
+        {
+            // В этом враппере не пишем лог, чтобы не было рекурсии
         }
     }
 }

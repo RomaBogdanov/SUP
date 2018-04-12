@@ -6,12 +6,12 @@ namespace SupRealClient.Search
 	/// <summary>
 	/// Результаты поиска
 	/// </summary>
-	class SearchResult
+	public class SearchResult
 	{
-		List<int> indexes = new List<int>();
+		List<long> indexes = new List<long>();
 		int current = -1;
 
-		public void Add(int index)
+		public void Add(long index)
 		{
 			current = 0;
 			indexes.Add(index);
@@ -20,7 +20,7 @@ namespace SupRealClient.Search
 		/// <summary>
 		/// Перейти к первому найденному элементу
 		/// </summary>
-		public int Begin()
+		public long Begin()
 		{
 			if (indexes.Any())
 			{
@@ -34,7 +34,7 @@ namespace SupRealClient.Search
 		/// <summary>
 		/// Перейти к следующему найденному элементу
 		/// </summary>
-		public int Next()
+		public long Next()
 		{
 			if (indexes.Any())
 			{

@@ -1,4 +1,5 @@
-﻿using System;
+﻿using SupContract;
+using System;
 using System.Configuration;
 using System.Threading;
 
@@ -26,10 +27,13 @@ namespace SupHost
                 if (logger == null)
                 {
                     logger = new Logger();
-                    bool.TryParse(ConfigurationManager.AppSettings["dBlog"], out logger.dbLog);
+                    bool.TryParse(ConfigurationManager.AppSettings["dBlog"],
+                        out logger.dbLog);
                     if (logger.dbLog)
                     {
-                        logger.logTableWrapper = LogTableWrapper.GetLogTableWrapper();
+                        logger.logTableWrapper =
+                            (LogTableWrapper)LogTableWrapper.GetTableWrapper(
+                                TableName.VisClientLogs);
                     }
                     return logger;
                 }
@@ -101,7 +105,8 @@ namespace SupHost
         private void Write(LogData logData, ConsoleColor color)
         {
             Console.ForegroundColor = color;
-            Console.WriteLine("{0}  {1}: {2}", DateTime.Now, logData.Severity, logData.Message);
+            Console.WriteLine("{0}  {1}: {2}", DateTime.Now, logData.Severity,
+                logData.Message);
             Console.ResetColor();
             if (dbLog)
             {

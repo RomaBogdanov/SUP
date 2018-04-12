@@ -9,5 +9,6 @@ namespace SupRealClient.Common.Interfaces
     interface IBase2ViewModel
     {
         IEnumerable<Organization> Organizations { set; }
+        object SelectedValue { get; set; }
     }
 }

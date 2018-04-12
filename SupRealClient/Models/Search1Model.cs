@@ -39,7 +39,7 @@ namespace SupRealClient.Models
                         searchData.Text))
 					{
 						findResult = true;
-						result.Add(i);
+						result.Add(searchHelper.GetId(i));
 					}
                 }
 

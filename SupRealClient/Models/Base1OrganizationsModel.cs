@@ -55,16 +55,6 @@ namespace SupRealClient.Models
             this.viewModel.NumItem = (item as Organization).Id;
         }
 
-        public override void Farther()
-        {
-            throw new NotImplementedException();
-        }
-
-        public override void Searching(string pattern)
-        {
-            throw new NotImplementedException();
-        }
-
         public override void Update()
         {
             ViewManager.Instance.UpdateObject(new UpdateOrgsModel((Organization)this.viewModel.CurrentItem), parent);
@@ -82,7 +72,7 @@ namespace SupRealClient.Models
                                     Name = orgs.Field<string>("f_org_name"),
                                     Comment = orgs.Field<string>("f_comment")
                                 };
-            this.viewModel.Set = organizations;
+            this.viewModel.Set = new System.Collections.ObjectModel.ObservableCollection<object>(organizations);
             if (viewModel.NumItem == -1)
             {
                 this.Begin();
@@ -101,6 +91,7 @@ namespace SupRealClient.Models
             }
         }
 
+        // TODO - переделать без повторов кода
         public override DataRow[] Rows
         {
             get
@@ -117,6 +108,22 @@ namespace SupRealClient.Models
                 { "f_full_org_name", "Основное название" },
                 { "f_org_name", "Название организации" },
                 { "f_comment", "Примечание" },
+            };
+        }
+
+        public override long GetId(int index)
+        {
+            return Rows[index].Field<int>("f_org_id");
+        }
+
+        protected override IDictionary<string, string> GetColumns()
+        {
+            return new Dictionary<string, string>()
+            {
+                { "Type", "f_org_type" },
+                { "FullName", "f_full_org_name"},
+                { "Name", "f_org_name" },
+                { "Comment", "f_comment" },
             };
         }
     }

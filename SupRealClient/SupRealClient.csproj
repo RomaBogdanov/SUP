@@ -78,6 +78,7 @@
     <Compile Include="Common\Interfaces\ISearchHelper.cs" />
     <Compile Include="Common\Interfaces\IViewManager.cs" />
     <Compile Include="Common\Interfaces\IWindow.cs" />
+    <Compile Include="EnumerationClasses\IdEntity.cs" />
     <Compile Include="EnumerationClasses\Zone.cs" />
     <Compile Include="EnumerationClasses\LogItem.cs" />
     <Compile Include="ErrorWindow.xaml.cs">
@@ -342,6 +343,10 @@
       <DependentUpon>MainWindow.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
+    <Page Include="Views\SupResourcesDictionary.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
     <Page Include="Views\VisitorsBidsTabView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -469,7 +474,9 @@
       <Generator>TextTemplatingFileGenerator</Generator>
       <LastGenOutput>Views.cs</LastGenOutput>
     </Content>
-    <Content Include="Views\Views.xml" />
+    <Content Include="Views\Views.xml">
+      <SubType>Designer</SubType>
+    </Content>
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\SupClientConnectionLib\SupClientConnectionLib.csproj">

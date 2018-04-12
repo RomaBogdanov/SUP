@@ -2,9 +2,8 @@
 
 namespace SupRealClient.EnumerationClasses
 {
-    public class Card
+    public class Card : IdEntity
     {
-        public int Id { get; set; }
         public int CurdNum { get; set; }
         public DateTime CreateDate { get; set; }
         public int NumMAFW { get; set; }

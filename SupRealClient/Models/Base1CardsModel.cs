@@ -63,16 +63,6 @@ namespace SupRealClient.Models
             this.viewModel.NumItem = (item as Card).Id;
         }
 
-        public override void Farther()
-        {
-            throw new NotImplementedException();
-        }
-
-        public override void Searching(string pattern)
-        {
-            throw new NotImplementedException();
-        }
-
         public override void Update()
         {
             ViewManager.Instance.UpdateObject(new UpdateCardModel((Card)this.viewModel.CurrentItem), parent);
@@ -112,7 +102,8 @@ namespace SupRealClient.Models
                                 p.IdCard == c.Field<int>("f_card_id"))?
                                 .PersonName.ToString())
                         };
-            this.viewModel.Set = cards;
+            this.viewModel.Set =
+                new System.Collections.ObjectModel.ObservableCollection<object>(cards);
             if (viewModel.NumItem == -1)
             {
                 this.Begin();
@@ -131,6 +122,7 @@ namespace SupRealClient.Models
             }
         }
 
+        // TODO - переделать без повторов кода
         public override DataRow[] Rows
         {
             get
@@ -149,6 +141,25 @@ namespace SupRealClient.Models
                 { "f_card_num", "Пропуск" },
                 { "f_comment", "Примечание" },
                 //{ "f_state_text", "Состояние" },
+            };
+        }
+
+        public override long GetId(int index)
+        {
+            return Rows[index].Field<int>("f_card_id");
+        }
+
+        protected override IDictionary<string, string> GetColumns()
+        {
+            return new Dictionary<string, string>()
+            {
+                { "CurdNum", "f_card_num" },
+                { "CreateDate", "f_create_date"},
+                { "NumMAFW", "f_card_text" },
+                { "Comment", "f_comment" },
+                { "State", "f_state_id" },
+                { "Lost", "f_lost_date" },
+                { "ChangeDate", "f_rec_date" },
             };
         }
 

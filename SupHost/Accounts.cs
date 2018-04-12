@@ -46,7 +46,8 @@ namespace SupHost
         {
             if (listAccs.ContainsKey(login))
             {
-                listAccs[login] = 0;
+                // TODO - почему так?
+                //listAccs[login] = 0;
                 return true;
             }
             return false;
@@ -80,6 +81,7 @@ namespace SupHost
                     }
                     else
                     {
+                        // TODO - Зачем так?
                         this.listAccs[item.Key] += elapsedTime;
                     }
                 }

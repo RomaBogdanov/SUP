@@ -30,6 +30,5 @@ namespace SupRealClient.Views
                 baseTab = value;
             }
         }
-        
     }
 }
