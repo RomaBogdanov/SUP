@@ -24,9 +24,12 @@
       <xs:enumeration value="VisVisits" />
       <xs:enumeration value="VisClientUsers" />
       <xs:enumeration value="VisCabinets" />
+      <xs:enumeration value="VisClientLogs" />
       <xs:enumeration value="VisZones" />
       <xs:enumeration value="VisCabinetsZones" />
       <xs:enumeration value="VisZoneTypes" />
+      <xs:enumeration value="VisDepartment" />
+      <xs:enumeration value="VisDepartmentSection" />
     </xs:restriction>
   </xs:simpleType>
   <xs:element name="TableName" nillable="true" type="tns:TableName" />

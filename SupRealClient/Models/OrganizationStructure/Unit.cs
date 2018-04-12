@@ -11,4 +11,8 @@ namespace SupRealClient.Models.OrganizationStructure
     {
 
     }
+
+    internal interface IUnit
+    {
+    }
 }

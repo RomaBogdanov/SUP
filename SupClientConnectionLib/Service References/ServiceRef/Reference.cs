@@ -132,23 +132,27 @@ namespace SupClientConnectionLib.ServiceRef {
         
         [System.Runtime.Serialization.EnumMemberAttribute()]
         VisClientUsers = 12,
-
-
-        [System.Runtime.Serialization.EnumMemberAttribute()]
-        VisClientLogs = 13,
-
         
         [System.Runtime.Serialization.EnumMemberAttribute()]
-        VisZones = 14,
+        VisCabinets = 13,
         
         [System.Runtime.Serialization.EnumMemberAttribute()]
-        VisCabinetsZones = 15,
+        VisClientLogs = 14,
         
         [System.Runtime.Serialization.EnumMemberAttribute()]
-        VisZoneTypes = 16,
-
+        VisZones = 15,
+        
         [System.Runtime.Serialization.EnumMemberAttribute()]
-        VisCabinets = 17,
+        VisCabinetsZones = 16,
+        
+        [System.Runtime.Serialization.EnumMemberAttribute()]
+        VisZoneTypes = 17,
+        
+        [System.Runtime.Serialization.EnumMemberAttribute()]
+        VisDepartment = 18,
+        
+        [System.Runtime.Serialization.EnumMemberAttribute()]
+        VisDepartmentSection = 19,
     }
     
     [System.CodeDom.Compiler.GeneratedCodeAttribute("System.ServiceModel", "4.0.0.0")]
