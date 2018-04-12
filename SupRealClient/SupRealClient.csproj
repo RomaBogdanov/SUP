@@ -124,6 +124,7 @@
     </Compile>
     <Compile Include="ViewModels\AddUpdateCardViewModel.cs" />
     <Compile Include="ViewModels\Base3ViewModel.cs" />
+    <Compile Include="ViewModels\BidsViewModel.cs" />
     <Compile Include="ViewModels\ErrorViewModel.cs" />
     <Compile Include="ViewModels\MainOrganizationViewModel.cs" />
     <Compile Include="ViewModels\Search1ViewModel.cs" />
@@ -156,6 +157,9 @@
     </Compile>
     <Compile Include="Views\Base3View.xaml.cs">
       <DependentUpon>Base3View.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\BidsView.xaml.cs">
+      <DependentUpon>BidsView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\CabinetsWindView.xaml.cs">
       <DependentUpon>CabinetsWindView.xaml</DependentUpon>
@@ -226,6 +230,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Views\Base3View.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\BidsView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

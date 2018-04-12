@@ -1,0 +1,547 @@
+﻿<mah:MetroWindow x:Class="SupRealClient.Views.BidsView"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:SupRealClient.Views"
+        xmlns:mah="http://metro.mahapps.com/winfx/xaml/controls"
+        mc:Ignorable="d"
+        Title="Заявки" 
+        ResizeMode="NoResize"
+        Height="750" Width="700">
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition/>
+            <RowDefinition Height="0.25*"/>
+        </Grid.RowDefinitions>
+        <mah:MetroAnimatedTabControl
+            Grid.Row="0">
+            <mah:MetroTabItem Header="Разовые заявки">
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition/>
+                        <RowDefinition/>
+                        <RowDefinition Height="3*"/>
+                        <RowDefinition/>
+                        <RowDefinition/>
+                        <RowDefinition/>
+                        <RowDefinition/>
+                    </Grid.RowDefinitions>
+                    
+                    <Grid
+                        Grid.Row="0">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="130"/>
+                            <ColumnDefinition Width="150"/>
+                            <ColumnDefinition/>
+                        </Grid.ColumnDefinitions>
+                        
+                        <TextBlock
+                            Grid.Column="0"
+                            Text="Номер заявки"
+                            HorizontalAlignment="Left"
+                            Style="{StaticResource TextBLockStyle}"/>
+                        
+                        <TextBox
+                            Grid.Column="1"
+                            Style="{StaticResource TextBoxStyle}"/>
+                    </Grid>
+
+                    <Grid
+                        Grid.Row="1">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="130"/>
+                            <ColumnDefinition Width="150"/>
+                            <ColumnDefinition Width="50"/>
+                            <ColumnDefinition/>
+                        </Grid.ColumnDefinitions>
+
+                        <TextBlock
+                            Grid.Column="0"
+                            Text="Дата действия"
+                            HorizontalAlignment="Left"
+                            Style="{StaticResource TextBLockStyle}"/>
+
+                        <TextBox
+                            Grid.Column="1"
+                            Style="{StaticResource TextBoxStyle}"/>
+                        
+                        <Button
+                            Grid.Column="2"
+                            Width="25"
+                            Height="25"
+                            Content="..."
+                            Style="{StaticResource VisitorsSquareButtonStyle}"/>
+                    </Grid>
+                    
+                    <DataGrid
+                        Grid.Row="2"
+                        AutoGenerateColumns="False">
+                        <DataGrid.Columns>
+                            <DataGridTextColumn Header="№"/>
+                            <DataGridTextColumn Header="Посетитель" Width="*"/>
+                            <DataGridTextColumn Header="Организация"/>
+                            <DataGridTextColumn Header="Принимающее лицо"/>
+                            <DataGridTextColumn Header="Время от"/>
+                            <DataGridTextColumn Header="Время до"/>
+                            <DataGridTextColumn Header="Не активен"/>
+                            <DataGridTextColumn Header="Проходы"/>
+                        </DataGrid.Columns>
+                    </DataGrid>
+                    
+                    <Grid
+                        Grid.Row="3">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="130"/>
+                            <ColumnDefinition Width="150"/>
+                            <ColumnDefinition Width="50"/>
+                            <ColumnDefinition/>
+                        </Grid.ColumnDefinitions>
+
+                        <TextBlock
+                            Grid.Column="0"
+                            Text="Подписано"
+                            HorizontalAlignment="Left"
+                            Style="{StaticResource TextBLockStyle}"/>
+
+                        <TextBox
+                            Grid.Column="1"
+                            Style="{StaticResource TextBoxStyle}"/>
+
+                        <Button
+                            Grid.Column="2"
+                            Width="25"
+                            Height="25"
+                            Content="..."
+                            Style="{StaticResource VisitorsSquareButtonStyle}"/>
+                    </Grid>
+
+                    <Grid
+                        Grid.Row="4">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="130"/>
+                            <ColumnDefinition Width="150"/>
+                            <ColumnDefinition Width="50"/>
+                            <ColumnDefinition/>
+                        </Grid.ColumnDefinitions>
+
+                        <TextBlock
+                            Grid.Column="0"
+                            Text="Примечание"
+                            HorizontalAlignment="Left"
+                            Style="{StaticResource TextBLockStyle}"/>
+
+                        <TextBox
+                            Grid.Column="1"
+                            Grid.ColumnSpan="3"
+                            Style="{StaticResource TextBoxStyle}"/>
+                    </Grid>
+                    
+                    <Grid
+                        Grid.Row="5">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="50"/>
+                            <ColumnDefinition/>
+                        </Grid.ColumnDefinitions>
+                        
+                        <CheckBox
+                            Grid.Column="0"
+                            HorizontalAlignment="Center"
+                            VerticalAlignment="Center"/>
+                        
+                        <TextBlock
+                            Grid.Column="1"
+                            Text="Заявка не активна"
+                            HorizontalAlignment="Left"
+                            Style="{StaticResource TextBLockStyle}"/>
+                    </Grid>
+                    
+                    <Grid
+                        Grid.Row="6">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition/>
+                            <ColumnDefinition/>
+                        </Grid.ColumnDefinitions>
+                        
+                        <TextBlock
+                            Grid.Column="0"
+                            Text="Оператор 1"
+                            HorizontalAlignment="Left"
+                            Style="{StaticResource TextBLockStyle}"/>
+                        
+                        <TextBlock
+                            Grid.Column="1"
+                            Text="Изменён ..."
+                            HorizontalAlignment="Right"
+                            Style="{StaticResource TextBLockStyle}"/>
+                    </Grid>
+                </Grid>
+            </mah:MetroTabItem>
+
+            <mah:MetroTabItem Header="Временные заявки">
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition/>
+                        <RowDefinition/>
+                        <RowDefinition Height="6*"/>
+                        <RowDefinition/>
+                        <RowDefinition/>
+                    </Grid.RowDefinitions>
+                    
+                    <Grid
+                        Grid.Row="0">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="130"/>
+                            <ColumnDefinition Width="180"/>
+                            <ColumnDefinition Width="50"/>
+                            <ColumnDefinition/>
+                        </Grid.ColumnDefinitions>
+                        
+                        <TextBlock
+                            Grid.Column="0"
+                            Text="Номер заявки"
+                            Style="{StaticResource TextBLockStyle}"/>
+                        
+                        <TextBox
+                            Grid.Column="1"
+                            Style="{StaticResource TextBoxStyle}"/>
+                        
+                        <CheckBox
+                            Grid.Column="2"
+                            HorizontalAlignment="Center"
+                            VerticalAlignment="Center"/>
+                        
+                        <TextBlock
+                            Grid.Column="3"
+                            Text="Бессрочная заявка"
+                            HorizontalAlignment="Left"
+                            Style="{StaticResource TextBLockStyle}"/>
+                    </Grid>
+
+                    <Grid
+                        Grid.Row="1">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="130"/>
+                            <ColumnDefinition Width="180"/>
+                            <ColumnDefinition Width="50"/>
+                            <ColumnDefinition Width="50"/>
+                            <ColumnDefinition Width="130"/>
+                            <ColumnDefinition/>
+                        </Grid.ColumnDefinitions>
+
+                        <TextBlock
+                            Grid.Column="0"
+                            Text="От"
+                            Style="{StaticResource TextBLockStyle}"/>
+
+                        <TextBox
+                            Grid.Column="1"
+                            Style="{StaticResource TextBoxStyle}"/>
+
+                        <Button
+                            Grid.Column="2"
+                            Width="25"
+                            Height="25"
+                            Content="..."
+                            Style="{StaticResource VisitorsSquareButtonStyle}"/>
+                        
+                        <TextBlock
+                            Grid.Column="3"
+                            Text="До"
+                            Style="{StaticResource TextBLockStyle}"/>
+                        
+                        <TextBox
+                            Grid.Column="4"
+                            Style="{StaticResource TextBoxStyle}"/>
+
+                        <Button
+                            Grid.Column="5"
+                            Width="25"
+                            Height="25"
+                            HorizontalAlignment="Left"
+                            Content="..."
+                            Style="{StaticResource VisitorsSquareButtonStyle}"/>
+                    </Grid>
+                    
+                    <DataGrid
+                        Grid.Row="2">
+                        <DataGrid.Columns>
+                            <DataGridTextColumn Header="№"/>
+                            <DataGridTextColumn Header="Фамилия И.О." Width="*"/>
+                            <DataGridTextColumn Header="Организация"/>
+                            <DataGridTextColumn Header="Не активен"/>
+                            <DataGridTextColumn Header="Проходы"/>
+                        </DataGrid.Columns>
+                    </DataGrid>
+                    
+                    <Grid
+                        Grid.Row="3">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="130"/>
+                            <ColumnDefinition/>
+                            <ColumnDefinition Width="50"/>
+                            <ColumnDefinition Width="130"/>
+                            <ColumnDefinition/>
+                            <ColumnDefinition Width="50"/>
+                        </Grid.ColumnDefinitions>
+                        
+                        <TextBlock
+                            Grid.Column="0"
+                            Text="Подписано"
+                            Style="{StaticResource TextBLockStyle}"/>
+                        
+                        <TextBox
+                            Grid.Column="1"
+                            Style="{StaticResource TextBoxStyle}"/>
+                        
+                        <Button
+                            Grid.Column="2"
+                            Width="25"
+                            Height="25"
+                            Content="..."
+                            Style="{StaticResource VisitorsSquareButtonStyle}"/>
+
+                        <TextBlock
+                            Grid.Column="3"
+                            Text="Согласовано"
+                            Style="{StaticResource TextBLockStyle}"/>
+
+                        <TextBox
+                            Grid.Column="4"
+                            Style="{StaticResource TextBoxStyle}"/>
+
+                        <Button
+                            Grid.Column="5"
+                            Width="25"
+                            Height="25"
+                            Content="..."
+                            Style="{StaticResource VisitorsSquareButtonStyle}"/>
+                    </Grid>
+                    
+                    <Grid
+                        Grid.Row="4">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="50"/>
+                            <ColumnDefinition Width="180"/>
+                            <ColumnDefinition Width="130"/>
+                            <ColumnDefinition/>
+                        </Grid.ColumnDefinitions>
+                        
+                        <CheckBox
+                            Grid.Column="0"
+                            HorizontalAlignment="Center"
+                            VerticalAlignment="Center"/>
+                        
+                        <TextBlock
+                            Grid.Column="1"
+                            Text="Заявка не активна"
+                            Style="{StaticResource TextBLockStyle}"/>
+                        
+                        <TextBlock
+                            Grid.Column="2"
+                            Text="Примечание:"
+                            Style="{StaticResource TextBLockStyle}"/>
+                        
+                        <TextBox
+                            Grid.Column="3"
+                            Style="{StaticResource TextBoxStyle}"/>
+                    </Grid>
+                </Grid>
+            </mah:MetroTabItem>
+
+            <mah:MetroTabItem Header="Заявки на основании">
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition/>
+                        <RowDefinition/>
+                        <RowDefinition Height="5*"/>
+                    </Grid.RowDefinitions>
+                    
+                    <Grid
+                        Grid.Row="0">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="120"/>
+                            <ColumnDefinition Width="180"/>
+                            <ColumnDefinition Width="30"/>
+                            <ColumnDefinition/>
+                        </Grid.ColumnDefinitions>
+                        
+                        <TextBlock
+                            Grid.Column="0"
+                            Text="Номер заявки"
+                            HorizontalAlignment="Left"
+                            Style="{StaticResource TextBLockStyle}"/>
+                        
+                        <TextBox
+                            Grid.Column="1"
+                            Style="{StaticResource TextBoxStyle}"/>
+                        
+                        <CheckBox
+                            Grid.Column="2"
+                            HorizontalAlignment="Center"
+                            VerticalAlignment="Center"/>
+                        
+                        <TextBlock
+                            Grid.Column="3"
+                            Text="Бессрочная заявка"
+                            HorizontalAlignment="Left"
+                            Style="{StaticResource TextBLockStyle}"/>
+                    </Grid>
+                    
+                    <Grid
+                        Grid.Row="1">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="40"/>
+                            <ColumnDefinition/>
+                            <ColumnDefinition Width="50"/>
+                            <ColumnDefinition Width="40"/>
+                            <ColumnDefinition/>
+                            <ColumnDefinition Width="50"/>
+                        </Grid.ColumnDefinitions>
+                        
+                        <TextBlock
+                            Grid.Column="0"
+                            Text="От"
+                            Style="{StaticResource TextBLockStyle}"/>
+                        
+                        <TextBox
+                            Grid.Column="1"
+                            Style="{StaticResource TextBoxStyle}"/>
+                        
+                        <Button
+                            Grid.Column="2"
+                            Content="..."
+                            Width="25"
+                            Height="25"
+                            Style="{StaticResource VisitorsSquareButtonStyle}"/>
+                        
+                        <TextBlock
+                            Grid.Column="3"
+                            Text="До"
+                            Style="{StaticResource TextBLockStyle}"/>
+                        
+                        <TextBox
+                            Grid.Column="4"
+                            Style="{StaticResource TextBoxStyle}"/>
+                        
+                        <Button
+                            Grid.Column="5"
+                            Content="..."
+                            Width="25"
+                            Height="25"
+                            Style="{StaticResource VisitorsSquareButtonStyle}"/>
+                    </Grid>
+                    
+                    <Grid
+                        Grid.Row="2">
+                        <Grid.RowDefinitions>
+                            <RowDefinition/>
+                            <RowDefinition/>
+                            <RowDefinition/>
+                            <RowDefinition/>
+                            <RowDefinition/>
+                        </Grid.RowDefinitions>
+                        
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="130"/>
+                            <ColumnDefinition/>
+                            <ColumnDefinition Width="50"/>
+                        </Grid.ColumnDefinitions>
+                        
+                        <TextBlock
+                            Grid.Row="0"
+                            Grid.Column="0"
+                            Text="Основание"
+                            Style="{StaticResource TextBLockStyle}"/>
+                        
+                        <TextBox
+                            Grid.Row="0"
+                            Grid.Column="1"
+                            Grid.ColumnSpan="2"
+                            Style="{StaticResource TextBoxStyle}"/>
+
+                        <TextBlock
+                            Grid.Row="1"
+                            Grid.Column="0"
+                            Text="Основание"
+                            Style="{StaticResource TextBLockStyle}"/>
+
+                        <TextBox
+                            Grid.Row="1"
+                            Grid.Column="1"
+                            Grid.ColumnSpan="2"
+                            Style="{StaticResource TextBoxStyle}"/>
+
+                        <TextBlock
+                            Grid.Row="2"
+                            Grid.Column="0"
+                            Text="Основание"
+                            Style="{StaticResource TextBLockStyle}"/>
+
+                        <TextBox
+                            Grid.Row="2"
+                            Grid.Column="1"
+                            Grid.ColumnSpan="2"
+                            Style="{StaticResource TextBoxStyle}"/>
+
+                        <TextBlock
+                            Grid.Row="3"
+                            Grid.Column="0"
+                            Text="Основание"
+                            Style="{StaticResource TextBLockStyle}"/>
+
+                        <TextBox
+                            Grid.Row="3"
+                            Grid.Column="1"
+                            Style="{StaticResource TextBoxStyle}"/>
+                        
+                        <Button
+                            Grid.Row="3"
+                            Grid.Column="2"
+                            Style="{StaticResource VisitorsSquareButtonStyle}"/>
+                        
+                        <Grid
+                            Grid.Row="4"
+                            Grid.Column="0"
+                            Grid.ColumnSpan="2">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="40"/>
+                                <ColumnDefinition/>
+                            </Grid.ColumnDefinitions>
+
+                            <CheckBox
+                                Grid.Column="0"
+                                HorizontalAlignment="Center"
+                                VerticalAlignment="Center"/>
+
+                            <TextBlock
+                                Grid.Column="1"
+                                Text="Заявка не активна"
+                                HorizontalAlignment="Left"
+                                Style="{StaticResource TextBLockStyle}"/>
+                        </Grid>
+                    </Grid>
+                </Grid>
+            </mah:MetroTabItem>
+
+            <mah:MetroTabItem Header="Список заявок">
+                <DataGrid>
+                    <DataGrid.Columns>
+                        <DataGridTextColumn Header="№ заявки"/>
+                        <DataGridTextColumn Header="Дата начала"/>
+                        <DataGridTextColumn Header="Дата окончания"/>
+                        <DataGridTextColumn>
+                            <DataGridTextColumn.Header>
+                                <TextBlock Text="Принимающее лицо посетителя"
+                                           TextWrapping="Wrap"></TextBlock>
+                            </DataGridTextColumn.Header>
+                        </DataGridTextColumn>
+                            <DataGridTextColumn Header="Подразделение организация"/>
+                        <DataGridTextColumn Header="Подписывающее лицо"/>
+                        <DataGridTextColumn Header="Примечание"/>
+                    </DataGrid.Columns>
+                </DataGrid>
+            </mah:MetroTabItem>
+        </mah:MetroAnimatedTabControl>
+    </Grid>
+</mah:MetroWindow>

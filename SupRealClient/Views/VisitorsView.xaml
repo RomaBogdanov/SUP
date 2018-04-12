@@ -6,20 +6,26 @@
         xmlns:local="clr-namespace:SupRealClient.Views"
         xmlns:mah="http://metro.mahapps.com/winfx/xaml/controls"
         mc:Ignorable="d"
-        Title="Посетители" Height="800" Width="700"
+        Title="Посетители" Height="900" Width="700"
         ResizeMode="NoResize"
         WindowStartupLocation="CenterScreen">
     <Grid>
         <Grid.RowDefinitions>
-            <RowDefinition Height="0.4*"/>
-            <RowDefinition Height="0.5*"/>
+            <RowDefinition Height="0.6*"/>
+            <RowDefinition Height="0.7*"/>
             <RowDefinition Height="0.25*"/>
             <RowDefinition Height="1.8*"/>
             <RowDefinition/>
         </Grid.RowDefinitions>
         
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition/>
+            <ColumnDefinition Width="0.4*"/>
+        </Grid.ColumnDefinitions>
+        
         <Grid
-            Grid.Row="0">
+            Grid.Row="0"
+            Grid.Column="0">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition/>
                 <ColumnDefinition/>
@@ -64,9 +70,52 @@
                 Grid.Column="2"
                 Style="{StaticResource TextBoxStyle}"/>
         </Grid>
-        
+
+        <Button
+            Grid.Row="0"
+            Grid.RowSpan="2"
+            Grid.Column="1"
+            ToolTip="Добавить фото"
+            Margin="0"
+            Background="#00000000"
+            Command="{Binding AddImageSourceCommand}">
+            <Grid Height="250" Width="180">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="40"/>
+                    <RowDefinition/>
+                </Grid.RowDefinitions>
+
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition/>
+                    <ColumnDefinition Width="40"/>
+                </Grid.ColumnDefinitions>
+
+                <Border
+                    Grid.Row="0"
+                    Grid.RowSpan="2"
+                    Grid.Column="0"
+                    Grid.ColumnSpan="2"
+                    BorderThickness="2"
+                    BorderBrush="#FFCCCCCC">
+                    <Image 
+                        Source="{Binding PhotoSource}"/>
+                </Border>
+                <Button
+                    Grid.Row="0"
+                    Grid.Column="1"
+                    Content="X"
+                    ToolTip="Удалить фото"
+                    Margin="0"
+                    Background="#00000000"
+                    BorderThickness="2"
+                    BorderBrush="#FFCCCCCC"
+                    Command="{Binding RemoveImageSourceCommand}"/>
+            </Grid>
+        </Button>
+
         <Grid
-            Grid.Row="1">
+            Grid.Row="1"
+            Grid.Column="0">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="120"/>
                 <ColumnDefinition/>
@@ -93,7 +142,8 @@
                 Grid.Row="0"
                 Grid.Column="2"
                 Content="..."
-                
+                Height="25"
+                Width="25"
                 Style="{StaticResource VisitorsSquareButtonStyle}"/>
             
             <TextBlock
@@ -111,11 +161,15 @@
                 Grid.Row="1"
                 Grid.Column="2"
                 Content="..."
+                Height="25"
+                Width="25"
                 Style="{StaticResource VisitorsSquareButtonStyle}"/>
         </Grid>
         
         <Grid
-            Grid.Row="2">
+            Grid.Row="2"
+            Grid.Column="0"
+            Grid.ColumnSpan="2">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition/>
                 <ColumnDefinition/>
@@ -178,7 +232,9 @@
         </Grid>
         
         <Grid
-            Grid.Row="3">
+            Grid.Row="3"
+            Grid.Column="0"
+            Grid.ColumnSpan="2">
             <mah:MetroAnimatedTabControl
                 Margin="5">
                 <mah:MetroTabItem Header="Основная">
@@ -578,64 +634,13 @@
                         </Grid>
                     </Grid>
                 </mah:MetroTabItem>
-                <mah:MetroTabItem Header="Фото">
-                    <Grid>
-                        <Grid.ColumnDefinitions>
-                            <ColumnDefinition/>
-                            <ColumnDefinition Width="2*"/>
-                            <ColumnDefinition/>
-                        </Grid.ColumnDefinitions>
-                       
-                        <Button
-                            Grid.Column="1"
-                            ToolTip="Добавить"
-                            Margin="0"
-                            Background="#00000000"
-                            
-                            Command="{Binding AddImageSourceCommand}">
-                            <Grid Height="270" Width="270">
-                                <Grid.RowDefinitions>
-                                    <RowDefinition Height="0.2*"/>
-                                    <RowDefinition/>
-                                </Grid.RowDefinitions>
-                                
-                                <Grid.ColumnDefinitions>
-                                    <ColumnDefinition/>
-                                    <ColumnDefinition Width="0.2*"/>
-                                </Grid.ColumnDefinitions>
-
-                                <Border
-                                    Grid.Row="0"
-                                    Grid.RowSpan="2"
-                                    Grid.Column="0"
-                                    Grid.ColumnSpan="2"
-                                    BorderThickness="2"
-                                    BorderBrush="#FFCCCCCC">
-                                    <Image 
-                                        Source="{Binding PhotoSource}"/>
-                                </Border>
-                                <Button
-                                    Grid.Row="0"
-                                    Grid.Column="1"
-                                    Content="X"
-                                    ToolTip="Удалить"
-                                    Margin="0"
-                                    Background="#00000000"
-                                    BorderThickness="2"
-                                    BorderBrush="#FFCCCCCC"
-                                    Command="{Binding RemoveImageSourceCommand}"/>
-                            </Grid>
-                        </Button>
-                        
-                        
-                        
-                    </Grid>
-                </mah:MetroTabItem>
             </mah:MetroAnimatedTabControl>
         </Grid>
         
         <Grid
-            Grid.Row="4">
+            Grid.Row="4"
+            Grid.Column="0"
+            Grid.ColumnSpan="2">
             <Grid.RowDefinitions>
                 <RowDefinition Height="0.2*"/>
                 <RowDefinition/>
