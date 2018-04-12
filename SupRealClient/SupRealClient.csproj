@@ -91,6 +91,8 @@
     <Compile Include="Models\Base1LogsModel.cs" />
     <Compile Include="Models\Base3ModelAbstr.cs" />
     <Compile Include="Models\Base3ZonesModel.cs" />
+    <Compile Include="Models\BaseOrgsModel.cs" />
+    <Compile Include="Models\ChildOrgsModel.cs" />
     <Compile Include="Models\IAddUpdateCardModel.cs" />
     <Compile Include="Models\ISearch1Model.cs" />
     <Compile Include="Models\OrganizationStructure\Department.cs" />
@@ -133,6 +135,9 @@
     <Compile Include="Views\AddDepartmentView.xaml.cs">
       <DependentUpon>AddDepartmentView.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Views\AddOrgsListView.xaml.cs">
+      <DependentUpon>AddOrgsListView.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Views\AddUnitView.xaml.cs">
       <DependentUpon>AddUnitView.xaml</DependentUpon>
     </Compile>
@@ -156,6 +161,9 @@
     <Compile Include="Views\Base3View.xaml.cs">
       <DependentUpon>Base3View.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Views\BaseOrgsView.xaml.cs">
+      <DependentUpon>BaseOrgsView.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Views\CabinetsWindView.xaml.cs">
       <DependentUpon>CabinetsWindView.xaml</DependentUpon>
     </Compile>
@@ -164,6 +172,9 @@
     </Compile>
     <Compile Include="EnumerationClasses\Card.cs" />
     <Compile Include="ViewManager.cs" />
+    <Compile Include="Views\ChildOrgsView.xaml.cs">
+      <DependentUpon>ChildOrgsView.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Views\LogsWindView.xaml.cs">
       <DependentUpon>LogsWindView.xaml</DependentUpon>
     </Compile>
@@ -204,6 +215,10 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="Views\AddOrgsListView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Views\AddUnitView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -228,11 +243,19 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="Views\BaseOrgsView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Views\CabinetsWindView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Views\CardsWindView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\ChildOrgsView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

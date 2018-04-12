@@ -104,6 +104,12 @@ namespace SupRealClient.ViewModels
         public ICommand ListBaseOrgsStructClick
         { get; set; }
 
+        public ICommand ListChildOrgs
+        { get; set; }
+
+        public ICommand ListBaseOrgs
+        { get; set; }
+
         public ICommand UserExit
         { get; set; }
 
@@ -124,6 +130,8 @@ namespace SupRealClient.ViewModels
             ListCabinetsClick = new RelayCommand(arg => ViewManager.Instance.OpenWindow("CabinetsWindView"));
             LogsClick = new RelayCommand(arg => ViewManager.Instance.OpenWindow("LogsWindView"));
             ListBaseOrgsStructClick = new RelayCommand(arg => ViewManager.Instance.OpenWindow("MainOrganisationStructureView"));
+            ListChildOrgs = new RelayCommand(arg => ViewManager.Instance.OpenWindow("ChildOrgsView"));
+            ListBaseOrgs = new RelayCommand(arg => ViewManager.Instance.OpenWindow("BaseOrgsView"));
             UserExit = new RelayCommand(arg => UserExitProc());
             setupStorage.ChangeUserExit += arg => IsUserEnter = !arg;
             Close = new RelayCommand(arg => ExitApp());

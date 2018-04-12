@@ -509,4 +509,88 @@ namespace SupRealClient.Views
         }
     }
 
+	/// <summary>
+	/// Логика взаимодействия для BaseOrgsView.xaml - базовая часть для всех View
+	/// </summary>
+	public partial class BaseOrgsView : IWindow
+	{
+        public bool IsRealClose { get; set; } = true;
+
+        public string WindowName { get; private set; } = "BaseOrgsView";
+
+        public IWindow ParentWindow { get; set; }
+
+		public void CloseWindow(CancelEventArgs e)
+        {
+            if (!IsRealClose)
+            {
+                IsRealClose = true;
+                e.Cancel = true;
+                this.Hide();
+            }
+        }
+
+		public void Unsuscribe()
+		{
+            this.Closing -= this.Window_Closing;
+		}
+
+		private void Window_Closing(object sender, CancelEventArgs e)
+        {
+            ViewManager.Instance.CloseWindow(this, true, e);
+        }
+		
+        private void Handling_OnClose()
+        {
+            this.Close();
+        }
+
+        private void Window_StateChanged(object sender, EventArgs e)
+        {
+            ViewManager.Instance.SetChildrenState(sender as Window, false);
+        }
+    }
+
+	/// <summary>
+	/// Логика взаимодействия для ChildOrgsView.xaml - базовая часть для всех View
+	/// </summary>
+	public partial class ChildOrgsView : IWindow
+	{
+        public bool IsRealClose { get; set; } = true;
+
+        public string WindowName { get; private set; } = "ChildOrgsView";
+
+        public IWindow ParentWindow { get; set; }
+
+		public void CloseWindow(CancelEventArgs e)
+        {
+            if (!IsRealClose)
+            {
+                IsRealClose = true;
+                e.Cancel = true;
+                this.Hide();
+            }
+        }
+
+		public void Unsuscribe()
+		{
+            this.Closing -= this.Window_Closing;
+		}
+
+		private void Window_Closing(object sender, CancelEventArgs e)
+        {
+            ViewManager.Instance.CloseWindow(this, true, e);
+        }
+		
+        private void Handling_OnClose()
+        {
+            this.Close();
+        }
+
+        private void Window_StateChanged(object sender, EventArgs e)
+        {
+            ViewManager.Instance.SetChildrenState(sender as Window, false);
+        }
+    }
+
 }

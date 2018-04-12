@@ -32,7 +32,7 @@
         <TextBox Name="aaa" Grid.Row="2" Grid.ColumnSpan="5" Margin="1" Text="{Binding Path=SearchingText, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}">
         </TextBox>
         <Button Grid.Row="3" Grid.Column="0" Content="Добавить" Margin="1" Command="{Binding Path=Add}"></Button>
-        <Button Grid.Row="3" Grid.Column="1" Content="Правка" Margin="1" Command="{Binding Path=Update}"></Button>
+        <Button Name="btnUpdate" Grid.Row="3" Grid.Column="1" Content="Правка" Margin="1" Command="{Binding Path=Update}"></Button>
         <Button Grid.Row="3" Grid.Column="2" Content="Найти..." Margin="1" Command="{Binding Path=Search}"></Button>
         <Button Grid.Row="3" Grid.Column="3" Content="Далее..." Margin="1" Command="{Binding Path=Farther}"></Button>
         <Button Grid.Row="4" Grid.Column="0" Content="Начало" Margin="1" Command="{Binding Path=Begin}"></Button>

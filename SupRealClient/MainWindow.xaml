@@ -72,8 +72,8 @@
             </MenuItem>
             <MenuItem Header="Списки" FontSize="{Binding ElementName=FontSizeLixtBox, Path=SelectedItem.Content}" >
                 <MenuItem Header="Организации" Command="{Binding Path = ListOrganizationsClick}"/>
-                <MenuItem Header="Дочерние акционерные общества" IsEnabled="False"/>
-                <MenuItem Header="Главные организации" IsEnabled="False"/>
+                <MenuItem Header="Дочерние акционерные общества" Command="{Binding Path=ListChildOrgs}"/>
+                <MenuItem Header="Главные организации" Command="{Binding Path=ListBaseOrgs}"/>
                 <MenuItem Header="Структура главных организаций" Command="{Binding Path=ListBaseOrgsStructClick}"/>
                 <MenuItem Header="Гражданства" Command="{Binding Path=ListNationsClick}"/>
                 <MenuItem Header="Документы" Command="{Binding Path=ListDocumentsClick}"/>

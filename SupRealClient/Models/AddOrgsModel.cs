@@ -11,6 +11,9 @@ namespace SupRealClient.Models
     /// </summary>
     class AddOrgsModel : IAddUpdateOrgsModel
     {
+        protected bool IsChild { get; set; } = false;
+        protected bool IsMaster { get; set; } = false;
+
         public Organization Data { get { return new Organization(); } }
 
         public event Action OnClose;
@@ -33,9 +36,22 @@ namespace SupRealClient.Models
                 row["f_full_org_name"] = data.FullName;
                 row["f_rec_date"] = DateTime.Now;
                 row["f_rec_operator"] = Authorizer.AppAuthorizer.Id;
+                row["f_has_free_access"] = IsChild ? "Y" : "N";
+                row["f_is_basic"] = IsMaster ? "Y" : "N";
                 organizations.Table.Rows.Add(row);
             }
             Cancel();
         }
+    }
+
+    class AddChildOrgsModel: AddOrgsModel
+    {
+        public AddChildOrgsModel() =>
+            IsChild = true;
+    }
+
+    class AddMasterOrgsModel: AddOrgsModel
+    {
+        public AddMasterOrgsModel() => IsMaster = true;
     }
 }
