@@ -25,6 +25,8 @@ namespace SupContract
         VisClientLogs,
         VisZones,
         VisCabinetsZones,
-        VisZoneTypes
+        VisZoneTypes,
+        VisDepartment,
+        VisDepartmentSection
     }
 }

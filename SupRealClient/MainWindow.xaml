@@ -57,7 +57,7 @@
             <ColumnDefinition Width="130"/>
             <ColumnDefinition/>
         </Grid.ColumnDefinitions>
-        <Menu Grid.RowSpan="1" Grid.Column="1" Background="White" VerticalAlignment="Center">
+        <Menu Grid.RowSpan="1" Grid.Column="1" Background="White" VerticalAlignment="Center" Visibility="{Binding Path=DataVisibility, Mode=OneWay}">
             <MenuItem Header="Действия" FontSize="{Binding ElementName=FontSizeLixtBox, Path=SelectedItem.Content}" >
                 <MenuItem Header="Отчёт" IsEnabled="False"/>
                 <MenuItem Header="Сохранить" IsEnabled="False"/>
@@ -74,17 +74,18 @@
                 <MenuItem Header="Организации" Command="{Binding Path = ListOrganizationsClick}"/>
                 <MenuItem Header="Дочерние акционерные общества" IsEnabled="False"/>
                 <MenuItem Header="Главные организации" IsEnabled="False"/>
-                <MenuItem Header="Структура главных организаций" IsEnabled="False"/>
+                <MenuItem Header="Структура главных организаций" Command="{Binding Path=ListBaseOrgsStructClick}"/>
                 <MenuItem Header="Гражданства" Command="{Binding Path=ListNationsClick}"/>
                 <MenuItem Header="Документы" Command="{Binding Path=ListDocumentsClick}"/>
                 <MenuItem Header="Посетители" IsEnabled="False"/>
                 <MenuItem Header="Пропуска" Command="{Binding Path=ListCardsClick}"/>
-                <MenuItem Header="Кабинеты" IsEnabled="False"/>
-                <MenuItem Header="Зоны доступа" IsEnabled="False"/>
+                <MenuItem Header="Кабинеты" Command="{Binding Path=ListCabinetsClick}"/>
+                <MenuItem Header="Зоны доступа" Command="{Binding Path=ListZonesClick}"/>
             </MenuItem>
             <MenuItem Header="Сервис" FontSize="{Binding ElementName=FontSizeLixtBox, Path=SelectedItem.Content}">
                 <MenuItem Header="Очистка базы данных..." IsEnabled="False"/>
                 <MenuItem Header="Настройки..." IsEnabled="False"/>
+                <MenuItem Header="Логи" IsEnabled="True" Command="{Binding Path=LogsClick}"/>
             </MenuItem>
             <MenuItem Header="Окно" FontSize="{Binding ElementName=FontSizeLixtBox, Path=SelectedItem.Content}">
                 <MenuItem Header="Посетители" IsEnabled="False"/>

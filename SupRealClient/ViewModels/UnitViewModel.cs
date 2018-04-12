@@ -14,6 +14,7 @@ namespace SupRealClient.ViewModels
         public UnitViewModel()
         {
             OkCommand = new RelayCommand(obj => Ok());
+            CancelCommand = new RelayCommand(obj => Cancel());
         }
 
         public string Description
@@ -22,6 +23,7 @@ namespace SupRealClient.ViewModels
             set
             {
                 _description = value;
+                if (Model != null) Model.Description = value;
                 OnPropertyChanged();
             }
         }
@@ -42,9 +44,15 @@ namespace SupRealClient.ViewModels
         public ICommand OkCommand { get; set; }
         public ICommand CancelCommand { get; set; }
 
-        public void Ok()
+        private void Ok()
         {
-            Model = new Unit {Description = Description};
+            //Model = new Unit {Description = Description};
+            Model.EditItem();
+        }
+
+        private void Cancel()
+        {
+            Model.Cancel();
         }
     }
 }

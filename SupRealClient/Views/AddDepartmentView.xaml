@@ -38,14 +38,15 @@
             HorizontalContentAlignment="Center"
             VerticalAlignment="Center"
             Margin="5"
-            PreviewKeyUp="UIElement_OnPreviewKeyUp"/>
+            PreviewKeyUp="UIElement_OnPreviewKeyUp"
+            Text="{Binding Description, Mode=TwoWay}"/>
         
         <Button
             Grid.Row="2"
             Grid.Column="1"
             Margin="5"
             Content="Ок"
-            Command="{Binding}"
+            Command="{Binding OkCommand}"
             Style="{DynamicResource SquareButtonStyle1}"/>
         
         <Button
@@ -53,7 +54,7 @@
             Grid.Column="2"
             Margin="5"
             Content="Отмена"
-            Command="{Binding}"
+            Command="{Binding CancelCommand}"
             Style="{DynamicResource SquareButtonStyle1}"/>
     </Grid>
 

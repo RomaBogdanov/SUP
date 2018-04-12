@@ -2,7 +2,6 @@
 using System.Data;
 using SupClientConnectionLib;
 using SupRealClient.EnumerationClasses;
-using SupRealClient.Common.Data;
 using SupRealClient.TabsSingleton;
 
 namespace SupRealClient.Models
@@ -14,11 +13,11 @@ namespace SupRealClient.Models
     {
         private Organization organization;
 
-        public OrganizationData Data
+        public Organization Data
         {
             get
             {
-                return new OrganizationData
+                return new Organization
                 {
                     Type = organization.Type,
                     Name = organization.Name,
@@ -38,7 +37,7 @@ namespace SupRealClient.Models
             OnClose?.Invoke();
         }
 
-        public void Ok(OrganizationData data)
+        public void Ok(Organization data)
         {
             OrganizationsWrapper organizations =
                 OrganizationsWrapper.CurrentTable();

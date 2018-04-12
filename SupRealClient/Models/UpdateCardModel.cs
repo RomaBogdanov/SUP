@@ -2,7 +2,6 @@
 using System.Data;
 using SupClientConnectionLib;
 using SupRealClient.EnumerationClasses;
-using SupRealClient.Common.Data;
 using SupRealClient.TabsSingleton;
 
 namespace SupRealClient.Models
@@ -14,11 +13,11 @@ namespace SupRealClient.Models
     {
         private Card card;
 
-        public CardData Data
+        public Card Data
         {
             get
             {
-                return new CardData
+                return new Card
                 {
                     CurdNum = card.CurdNum,
                     Comment = card.Comment,
@@ -45,7 +44,7 @@ namespace SupRealClient.Models
             throw new NotImplementedException();
         }
 
-        public void Ok(CardData data)
+        public void Ok(Card data)
         {
             CardsWrapper cards = CardsWrapper.CurrentTable();
             DataRow row = cards.Table.Rows.Find(card.Id);

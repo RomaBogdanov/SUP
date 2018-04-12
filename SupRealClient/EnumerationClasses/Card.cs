@@ -2,7 +2,7 @@
 
 namespace SupRealClient.EnumerationClasses
 {
-    class Card
+    public class Card
     {
         public int Id { get; set; }
         public int CurdNum { get; set; }

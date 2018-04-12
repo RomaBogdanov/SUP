@@ -1,4 +1,5 @@
-﻿using System.ComponentModel;
+﻿using System;
+using System.ComponentModel;
 
 namespace SupRealClient.Models.OrganizationStructure.Interfaces
 {
@@ -6,5 +7,8 @@ namespace SupRealClient.Models.OrganizationStructure.Interfaces
     {
         string Description { get; set; }
         bool Save { get; set; }
+        event Action OnClose;
+        void EditItem();
+        void Cancel();
     }
 }

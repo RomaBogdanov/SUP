@@ -9,7 +9,8 @@
         mc:Ignorable="d"
         Title="Структура главных организаций" Height="400" Width="500"
         ResizeMode="NoResize"
-        WindowStartupLocation="CenterScreen">
+        WindowStartupLocation="CenterScreen" Closing="Window_Closing" 
+                 >
     <mah:MetroWindow.DataContext>
         <viewModels:MainOrganizationViewModel/>
     </mah:MetroWindow.DataContext>
@@ -57,11 +58,11 @@
             Grid.Column="0"
             Grid.ColumnSpan="5"
             Margin="5"/>
-        
+
         <Button
             Grid.Row="3"
             Grid.Column="0"
-            Command="{Binding }"
+            Command="{Binding AddDepartmentCommand }"
             Style="{DynamicResource SquareButtonStyle1}" 
             Margin="5"
             IsEnabled="{Binding DepartmentEnabled}">
@@ -107,7 +108,7 @@
         <Button
             Grid.Row="3"
             Grid.Column="2"
-            Command="{Binding}"
+            Command="{Binding EditCommand}"
             Style="{DynamicResource SquareButtonStyle1}" 
             Margin="5">
             <Grid>
@@ -129,7 +130,7 @@
         <Button
             Grid.Row="3"
             Grid.Column="4"
-            Command="{Binding}"
+            Command="{Binding OkCommand}"
             Style="{DynamicResource SquareButtonStyle1}" 
             Margin="5">
             <Grid>
