@@ -120,7 +120,12 @@
                 <RowDefinition/>
                 <RowDefinition/>
             </Grid.RowDefinitions>
-            <Button Grid.Row="0" IsEnabled="False" Style="{DynamicResource SquareButtonStyle}" FontSize="{Binding ElementName=FontSizeLixtBox, Path=SelectedItem.Content}">
+            <Button 
+                Grid.Row="0" 
+                IsEnabled="True" 
+                Style="{DynamicResource SquareButtonStyle}" 
+                FontSize="{Binding ElementName=FontSizeLixtBox, Path=SelectedItem.Content}"
+                Command="{Binding OpenVisitorsCommand}">
                 <Grid>
                     <Grid.RowDefinitions>
                         <RowDefinition/>
@@ -130,7 +135,12 @@
                     <TextBlock Grid.Row="1" Text="Посетители"></TextBlock>
                 </Grid>
             </Button>
-            <Button Grid.Row="1" IsEnabled="False" Style="{DynamicResource SquareButtonStyle}" FontSize="{Binding ElementName=FontSizeLixtBox, Path=SelectedItem.Content}">
+            <Button 
+                Grid.Row="1" 
+                IsEnabled="True" 
+                Style="{DynamicResource SquareButtonStyle}" 
+                FontSize="{Binding ElementName=FontSizeLixtBox, Path=SelectedItem.Content}"
+                Command="{Binding OpenBidsCommand}">
                 <Grid>
                     <Grid.RowDefinitions>
                         <RowDefinition/>

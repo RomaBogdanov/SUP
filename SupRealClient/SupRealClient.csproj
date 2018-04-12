@@ -72,6 +72,8 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="Behaviour\DialogService.cs" />
+    <Compile Include="Behaviour\IDialogService.cs" />
     <Compile Include="EnumerationClasses\Cabinet.cs" />
     <Compile Include="Common\Interfaces\ISearchHelper.cs" />
     <Compile Include="Common\Interfaces\IViewManager.cs" />
@@ -93,11 +95,16 @@
     <Compile Include="Models\IAddUpdateCardModel.cs" />
     <Compile Include="Models\ISearch1Model.cs" />
     <Compile Include="Models\OrganizationStructure\Department.cs" />
-    <Compile Include="Models\OrganizationStructure\IModel.cs" />
+    <Compile Include="Models\OrganizationStructure\EditDepModel.cs" />
+    <Compile Include="Models\OrganizationStructure\EditUnitModel.cs" />
+    <Compile Include="Models\OrganizationStructure\Interfaces\IDepartment.cs" />
+    <Compile Include="Models\OrganizationStructure\Interfaces\IModel.cs" />
     <Compile Include="Models\OrganizationStructure\MainOrganization.cs" />
     <Compile Include="Models\OrganizationStructure\ModelBase.cs" />
     <Compile Include="Models\OrganizationStructure\Organization.cs" />
     <Compile Include="Models\OrganizationStructure\Unit.cs" />
+    <Compile Include="Models\OrganizationStructure\AddUnitModel.cs" />
+    <Compile Include="Models\OrganizationStructure\AddDepModel.cs" />
     <Compile Include="Models\Search1Model.cs" />
     <Compile Include="Models\UpdateCardModel.cs" />
     <Compile Include="Common\Data\FieldData.cs" />
@@ -118,12 +125,13 @@
     </Compile>
     <Compile Include="ViewModels\AddUpdateCardViewModel.cs" />
     <Compile Include="ViewModels\Base3ViewModel.cs" />
+    <Compile Include="ViewModels\BidsViewModel.cs" />
     <Compile Include="ViewModels\ErrorViewModel.cs" />
     <Compile Include="ViewModels\MainOrganizationViewModel.cs" />
     <Compile Include="ViewModels\Search1ViewModel.cs" />
     <Compile Include="ViewModels\UnitViewModel.cs" />
-    <Compile Include="ViewModels\UniversalViewModel.cs" />
     <Compile Include="ViewModels\ViewModelBase.cs" />
+    <Compile Include="ViewModels\VisitorsViewModel.cs" />
     <Compile Include="Views\AddDepartmentView.xaml.cs">
       <DependentUpon>AddDepartmentView.xaml</DependentUpon>
     </Compile>
@@ -150,6 +158,9 @@
     <Compile Include="Views\Base3View.xaml.cs">
       <DependentUpon>Base3View.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Views\BidsView.xaml.cs">
+      <DependentUpon>BidsView.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Views\CabinetsWindView.xaml.cs">
       <DependentUpon>CabinetsWindView.xaml</DependentUpon>
     </Compile>
@@ -163,6 +174,24 @@
     </Compile>
     <Compile Include="Views\MainOrganisationStructureView.xaml.cs">
       <DependentUpon>MainOrganisationStructureView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\VisitorsBidsTabView.xaml.cs">
+      <DependentUpon>VisitorsBidsTabView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\VisitorsEmployeeTabView.xaml.cs">
+      <DependentUpon>VisitorsEmployeeTabView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\VisitorsMainTabView.xaml.cs">
+      <DependentUpon>VisitorsMainTabView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\VisitorsPassTabView.xaml.cs">
+      <DependentUpon>VisitorsPassTabView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\VisitorsView1.xaml.cs">
+      <DependentUpon>VisitorsView1.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\VisitorsView.xaml.cs">
+      <DependentUpon>VisitorsView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\ZonesWindView.xaml.cs">
       <DependentUpon>ZonesWindView.xaml</DependentUpon>
@@ -201,6 +230,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Views\Base3View.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\BidsView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -311,6 +344,30 @@
       <SubType>Code</SubType>
     </Compile>
     <Page Include="Views\SupResourcesDictionary.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Views\VisitorsBidsTabView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\VisitorsEmployeeTabView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\VisitorsMainTabView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\VisitorsPassTabView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\VisitorsView1.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Views\VisitorsView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -371,7 +428,43 @@
     <Resource Include="Resources\Добавить.ico">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Resource>
-    <Resource Include="Resources\Редактировать.jpg" />
+    <Resource Include="Resources\Редактировать.jpg">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Resources\Возврат.ico">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Resources\Выдать %282%29.ico">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Resources\Добавить1 %282%29.ico" />
+    <Resource Include="Resources\Конец %282%29.ico">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Resources\Найти %282%29.ico">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Resources\Начало %282%29.ico">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Resources\Обновить %282%29.ico">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Resources\Отмена %282%29.ico">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Resources\Предыдущий %282%29.ico">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Resources\Принять %282%29.ico">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Resources\Редактировать %282%29.ico">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Resources\Следующий %282%29.ico">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Resource>
     <Content Include="TabsSingleton\Wrappers.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
       <LastGenOutput>Wrappers.cs</LastGenOutput>
@@ -392,5 +485,6 @@
   <ItemGroup>
     <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

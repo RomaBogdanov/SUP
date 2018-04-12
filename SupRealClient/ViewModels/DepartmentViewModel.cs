@@ -5,16 +5,14 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Input;
 using SupRealClient.Models.OrganizationStructure;
-using SupRealClient.Models.OrganizationStructure.Interfaces;
 
 namespace SupRealClient.ViewModels
 {
-    public class UnitViewModel : ViewModelBase
+    public class DepartmentViewModel : ViewModelBase
     {
-        public UnitViewModel()
+        public DepartmentViewModel()
         {
             OkCommand = new RelayCommand(obj => Ok());
-            CancelCommand = new RelayCommand(obj => Cancel());
         }
 
         public string Description
@@ -23,7 +21,6 @@ namespace SupRealClient.ViewModels
             set
             {
                 _description = value;
-                if (Model != null) Model.Description = value;
                 OnPropertyChanged();
             }
         }
@@ -44,15 +41,9 @@ namespace SupRealClient.ViewModels
         public ICommand OkCommand { get; set; }
         public ICommand CancelCommand { get; set; }
 
-        private void Ok()
+        public void Ok()
         {
-            //Model = new Unit {Description = Description};
-            Model.EditItem();
-        }
-
-        private void Cancel()
-        {
-            Model.Cancel();
+            Model = new Department { Description = Description };
         }
     }
 }

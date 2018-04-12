@@ -1,15 +1,14 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.ComponentModel;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
-namespace SupRealClient.Models.OrganizationStructure
+namespace SupRealClient.Models.OrganizationStructure.Interfaces
 {
     public interface IModel : INotifyPropertyChanged
     {
         string Description { get; set; }
         bool Save { get; set; }
+        event Action OnClose;
+        void EditItem();
+        void Cancel();
     }
 }

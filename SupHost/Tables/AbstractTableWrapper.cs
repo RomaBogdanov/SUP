@@ -4,7 +4,6 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Data;
-
 using SupContract;
 
 namespace SupHost
@@ -43,7 +42,9 @@ namespace SupHost
                 { TableName.VisZones.ToString(), new VisZonesTableWrapper() },
                 { TableName.VisCabinetsZones.ToString(), new VisCabinetsZonesTableWrapper() },
                 { TableName.VisZoneTypes.ToString(), new VisZoneTypesTableWrapper() },
-                { TableName.VisClientLogs.ToString(), new LogTableWrapper() }
+                { TableName.VisClientLogs.ToString(), new LogTableWrapper() },
+                { TableName.VisDepartment.ToString(), new VisDepartmentTableWrapper() },
+                {TableName.VisDepartmentSection.ToString(), new VisDepartmentSectionTableWrapper() }
             };
         }
 

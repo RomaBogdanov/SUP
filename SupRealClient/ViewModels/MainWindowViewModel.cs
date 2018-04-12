@@ -110,6 +110,11 @@ namespace SupRealClient.ViewModels
         public ICommand Close
         { get; set; }
 
+        public ICommand OpenVisitorsCommand
+        { get; set; }
+
+        public ICommand OpenBidsCommand { get; set; }
+
         public MainWindowViewModel()
         {
             Current = this;
@@ -124,10 +129,45 @@ namespace SupRealClient.ViewModels
             UserExit = new RelayCommand(arg => UserExitProc());
             setupStorage.ChangeUserExit += arg => IsUserEnter = !arg;
             Close = new RelayCommand(arg => ExitApp());
+
+            OpenVisitorsCommand = new RelayCommand(obj => OpenVisitors());
+            OpenBidsCommand = new RelayCommand(obj => OpenBids());
         }
 
         protected virtual void OnPropertyChanged(string propertyName) =>
             this.PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
+
+        private void OpenVisitors()
+        {
+            var visitorsViewModel = new VisitorsViewModel();
+
+            var window = new VisitorsView {DataContext = visitorsViewModel};
+            window.ShowDialog();
+            
+            var dc = (VisitorsViewModel)window.DataContext;
+            
+            // TODO тут лежит путь к файлику с изображением, которое выбрали во вкладке 'Фото'
+            if (dc != null)
+            {
+                if (dc.PhotoSource != null)
+                {
+                    dc.PhotoSource.ToString();
+                }
+            }
+
+            dc.ToString();
+        }
+
+        private void OpenBids()
+        {
+            var bidsViewModel = new BidsViewModel();
+
+            var window = new BidsView {DataContext = bidsViewModel};
+            window.ShowDialog();
+            
+            var dc = (BidsViewModel) window.DataContext;
+            dc.ToString();
+        }
 
         private void UserExitProc()
         {

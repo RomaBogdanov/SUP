@@ -13,4 +13,6 @@
   <Item Name="ZonesWrapper" Type="VisZones" Comment="??" />
   <Item Name="CabinetsZonesWrapper" Type="VisCabinetsZones" Comment="??" />
   <Item Name="ZoneTypesWrapper" Type="VisZoneTypes" Comment="??" />
+  <Item Name="DepartmentWrapper" Type="VisDepartment" Comment="??" />
+  <Item Name="DepartmentSectionWrapper" Type="VisDepartmentSection" Comment="??" />
 </Enum>
