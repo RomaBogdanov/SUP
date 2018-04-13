@@ -8,6 +8,8 @@ using System.Windows;
 using System.Collections.Generic;
 using System.Xml;
 using System;
+using System.Configuration;
+using System.ServiceModel.Configuration;
 
 namespace SupRealClient.ViewModels
 {
@@ -17,6 +19,7 @@ namespace SupRealClient.ViewModels
 
         private string login;
         private string password;
+        private int selectedHost;
         private List<string> hosts;
         bool IsAuthorization = false;
         Timer timer;
@@ -50,6 +53,16 @@ namespace SupRealClient.ViewModels
                     this.password = value;
                     OnPropertyChanged("Password");
                 }
+            }
+        }
+
+        public int SelectedHost
+        {
+            get { return this.selectedHost; }
+            set
+            {
+                this.selectedHost = value;
+                OnPropertyChanged("SelectedHost");
             }
         }
 
@@ -89,7 +102,7 @@ namespace SupRealClient.ViewModels
         public Authorize1ViewModel()
         {
             //this.mainWindowViewModel = MainWindowViewModel.Current;
-            this.connector = ClientConnector.CurrentConnector;
+            //this.connector = ClientConnector.CurrentConnector;
             Enter = new RelayCommand(arg => Entering(arg));
             timer = new Timer(timerInterval);
             timer.Elapsed += Timer_Elapsed;
@@ -112,6 +125,7 @@ namespace SupRealClient.ViewModels
             {
             }
             Hosts = hostList;
+            SelectedHost = 0;
         }
 
         protected virtual void OnPropertyChanged(string propertyName)
@@ -127,6 +141,7 @@ namespace SupRealClient.ViewModels
             if (IsAuthorization)
             {
                 this.connector.ExitAuthorize();
+                ClientConnector.ResetConnector(null);
                 IsAuthorization = false;
                 //System.Windows.Forms.MessageBox.Show("Войти");
                 this.mainWindowViewModel.AuthorizedUser = "Пользователь не назначен";
@@ -139,6 +154,7 @@ namespace SupRealClient.ViewModels
             }
             else
             {
+                this.connector = ClientConnector.ResetConnector(ParseUri());
                 int id = this.connector.Authorize(Login, Password);
                 if (id > 0)
                 {
@@ -197,6 +213,29 @@ namespace SupRealClient.ViewModels
         {
             System.Threading.Thread.Sleep(1000);
             this.mainWindowViewModel.LoginVisibility = Visibility.Hidden;
+        }
+
+        private Uri ParseUri()
+        {
+            if (SelectedHost <= 0)
+            {
+                return null;
+            }
+            try
+            {
+                Configuration config = ConfigurationManager.OpenExeConfiguration(
+                    ConfigurationUserLevel.None);
+                var serviceModel = config.SectionGroups["system.serviceModel"];
+                ClientSection client = (ClientSection)serviceModel.Sections["client"];
+                var endpoint = client.Endpoints[0];
+                var builder = new UriBuilder(endpoint.Address);
+                builder.Host = Hosts[SelectedHost];
+                return builder.Uri;
+            }
+            catch (Exception)
+            {
+            }
+            return null;
         }
     }
 }
