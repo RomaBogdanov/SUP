@@ -5,6 +5,9 @@ using System.Timers;
 using SupClientConnectionLib;
 using System.Windows.Controls;
 using System.Windows;
+using System.Collections.Generic;
+using System.Xml;
+using System;
 
 namespace SupRealClient.ViewModels
 {
@@ -14,6 +17,7 @@ namespace SupRealClient.ViewModels
 
         private string login;
         private string password;
+        private List<string> hosts;
         bool IsAuthorization = false;
         Timer timer;
         int timerInterval = 3000;
@@ -69,6 +73,16 @@ namespace SupRealClient.ViewModels
             }
         }
 
+        public List<string> Hosts
+        {
+            get { return this.hosts; }
+            set
+            {
+                this.hosts = value;
+                OnPropertyChanged("Hosts");
+            }
+        }
+
         public ICommand Enter
         { get; set; }
 
@@ -79,6 +93,25 @@ namespace SupRealClient.ViewModels
             Enter = new RelayCommand(arg => Entering(arg));
             timer = new Timer(timerInterval);
             timer.Elapsed += Timer_Elapsed;
+
+            var hostList = new List<string>
+            {
+                "<default>"
+            };
+            XmlDocument doc = new XmlDocument();
+            try
+            {
+                doc.Load("Hosts.xml");
+                XmlNode root = doc.FirstChild.NextSibling;
+                foreach (XmlNode host in root.ChildNodes)
+                {
+                    hostList.Add(host.Attributes["Name"].Value);
+                }
+            }
+            catch (Exception)
+            {
+            }
+            Hosts = hostList;
         }
 
         protected virtual void OnPropertyChanged(string propertyName)
