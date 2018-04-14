@@ -1,5 +1,6 @@
 ﻿using SupRealClient.Common.Interfaces;
 using SupRealClient.Models;
+using SupRealClient.TabsSingleton;
 using SupRealClient.Views;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -10,7 +11,6 @@ namespace SupRealClient
 {
     // TODO - подумать, как реализовать более грамотно
     // TODO - можно завести словать из связок: ViewModel -> Window, передавать интерфейс или сам ViewModel через generic и открывать нужное окно основываясь на словаре
-
     public class ViewManager : IViewManager
     {
         private static IViewManager viewManager;
@@ -168,11 +168,13 @@ namespace SupRealClient
         /// </summary>
         public void ExitApp()
         {
+            TableWrapper.Reset();
             // Закрываем все окна при выходе
             for (int i = windows.Values.Count - 1; i >= 0; i--)
             {
                 Close(windows.Values.ElementAt(i));
             }
+            windows.Clear();
         }
 
         private void ReopenWindow(string name, IWindow window, IWindow parent)

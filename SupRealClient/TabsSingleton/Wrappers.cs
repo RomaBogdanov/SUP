@@ -19,6 +19,12 @@ namespace SupRealClient.TabsSingleton
             return currentTable;
         }
 
+		public override void Dispose()
+        {
+            base.Dispose();
+            currentTable = null;
+        }
+
         private UsersWrapper() : base()
         {
             this.table = connector.GetTable(TableName.VisClientUsers);
@@ -41,6 +47,12 @@ namespace SupRealClient.TabsSingleton
                 wrappers.Add(currentTable);
             }
             return currentTable;
+        }
+
+		public override void Dispose()
+        {
+            base.Dispose();
+            currentTable = null;
         }
 
         private LogsWrapper() : base()
@@ -67,6 +79,12 @@ namespace SupRealClient.TabsSingleton
             return currentTable;
         }
 
+		public override void Dispose()
+        {
+            base.Dispose();
+            currentTable = null;
+        }
+
         private CardsWrapper() : base()
         {
             this.table = connector.GetTable(TableName.VisCards);
@@ -89,6 +107,12 @@ namespace SupRealClient.TabsSingleton
                 wrappers.Add(currentTable);
             }
             return currentTable;
+        }
+
+		public override void Dispose()
+        {
+            base.Dispose();
+            currentTable = null;
         }
 
         private CountriesWrapper() : base()
@@ -115,6 +139,12 @@ namespace SupRealClient.TabsSingleton
             return currentTable;
         }
 
+		public override void Dispose()
+        {
+            base.Dispose();
+            currentTable = null;
+        }
+
         private DocumentsWrapper() : base()
         {
             this.table = connector.GetTable(TableName.VisDocuments);
@@ -137,6 +167,12 @@ namespace SupRealClient.TabsSingleton
                 wrappers.Add(currentTable);
             }
             return currentTable;
+        }
+
+		public override void Dispose()
+        {
+            base.Dispose();
+            currentTable = null;
         }
 
         private OrganizationsWrapper() : base()
@@ -163,6 +199,12 @@ namespace SupRealClient.TabsSingleton
             return currentTable;
         }
 
+		public override void Dispose()
+        {
+            base.Dispose();
+            currentTable = null;
+        }
+
         private SprCardstatesWrapper() : base()
         {
             this.table = connector.GetTable(TableName.VisSprCardstates);
@@ -185,6 +227,12 @@ namespace SupRealClient.TabsSingleton
                 wrappers.Add(currentTable);
             }
             return currentTable;
+        }
+
+		public override void Dispose()
+        {
+            base.Dispose();
+            currentTable = null;
         }
 
         private VisitorsWrapper() : base()
@@ -211,6 +259,12 @@ namespace SupRealClient.TabsSingleton
             return currentTable;
         }
 
+		public override void Dispose()
+        {
+            base.Dispose();
+            currentTable = null;
+        }
+
         private VisitsWrapper() : base()
         {
             this.table = connector.GetTable(TableName.VisVisits);
@@ -233,6 +287,12 @@ namespace SupRealClient.TabsSingleton
                 wrappers.Add(currentTable);
             }
             return currentTable;
+        }
+
+		public override void Dispose()
+        {
+            base.Dispose();
+            currentTable = null;
         }
 
         private CabinetsWrapper() : base()
@@ -259,6 +319,12 @@ namespace SupRealClient.TabsSingleton
             return currentTable;
         }
 
+		public override void Dispose()
+        {
+            base.Dispose();
+            currentTable = null;
+        }
+
         private ZonesWrapper() : base()
         {
             this.table = connector.GetTable(TableName.VisZones);
@@ -281,6 +347,12 @@ namespace SupRealClient.TabsSingleton
                 wrappers.Add(currentTable);
             }
             return currentTable;
+        }
+
+		public override void Dispose()
+        {
+            base.Dispose();
+            currentTable = null;
         }
 
         private CabinetsZonesWrapper() : base()
@@ -307,6 +379,12 @@ namespace SupRealClient.TabsSingleton
             return currentTable;
         }
 
+		public override void Dispose()
+        {
+            base.Dispose();
+            currentTable = null;
+        }
+
         private ZoneTypesWrapper() : base()
         {
             this.table = connector.GetTable(TableName.VisZoneTypes);
@@ -331,6 +409,12 @@ namespace SupRealClient.TabsSingleton
             return currentTable;
         }
 
+		public override void Dispose()
+        {
+            base.Dispose();
+            currentTable = null;
+        }
+
         private DepartmentWrapper() : base()
         {
             this.table = connector.GetTable(TableName.VisDepartment);
@@ -353,6 +437,12 @@ namespace SupRealClient.TabsSingleton
                 wrappers.Add(currentTable);
             }
             return currentTable;
+        }
+
+		public override void Dispose()
+        {
+            base.Dispose();
+            currentTable = null;
         }
 
         private DepartmentSectionWrapper() : base()

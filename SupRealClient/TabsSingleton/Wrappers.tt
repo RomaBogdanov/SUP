@@ -48,6 +48,12 @@ namespace SupRealClient.TabsSingleton
             return currentTable;
         }
 
+		public override void Dispose()
+        {
+            base.Dispose();
+            currentTable = null;
+        }
+
         private <#=entity.Name#>() : base()
         {
             this.table = connector.GetTable(TableName.<#=entity.Type#>);

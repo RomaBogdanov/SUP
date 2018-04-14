@@ -158,6 +158,8 @@ namespace SupRealClient.ViewModels
                 int id = this.connector.Authorize(Login, Password);
                 if (id > 0)
                 {
+                    // TODO - при удачном входе оставлять все открытые окна и обновлять их
+
                     IsAuthorization = true;
                     //System.Windows.Forms.MessageBox.Show("Выйти");
                     this.mainWindowViewModel.AuthorizedUser = Login;
@@ -172,6 +174,9 @@ namespace SupRealClient.ViewModels
                 }
                 else
                 {
+                    // TODO - при неудачном входе закрывать все окна
+                    //ViewManager.Instance.ExitApp();
+
                     IsAuthorization = false;
                     //System.Windows.Forms.MessageBox.Show("Войти");
                     this.mainWindowViewModel.AuthorizedUser = "Пользователь не назначен";

@@ -24,7 +24,7 @@ namespace SupRealClient.TabsSingleton
             this.connector.OnDelete += Connector_OnDelete;
         }
 
-        public void Dispose()
+        public virtual void Dispose()
         {
             this.connector.OnInsert -= Connector_OnInsert;
             this.connector.OnUpdate -= Connector_OnUpdate;
@@ -36,12 +36,13 @@ namespace SupRealClient.TabsSingleton
             }
         }
 
-        public static void DisposeAll()
+        public static void Reset()
         {
             foreach (var wrapper in wrappers)
             {
                 wrapper.Dispose();
             }
+            wrappers.Clear();
         }
 
         private void Connector_OnInsert(string tableName, object[] objs)
