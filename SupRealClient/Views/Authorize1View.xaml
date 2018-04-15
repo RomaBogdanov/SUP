@@ -42,7 +42,9 @@
             <Label Grid.Row="3" Grid.ColumnSpan="2" FontSize="20" Margin="2">Пароль:</Label>
             <PasswordBox Grid.Row="4" Grid.ColumnSpan="2" FontSize="20" Margin="2" Name="txtPass"></PasswordBox>
             <Label Grid.Row="5" Grid.ColumnSpan="2" FontSize="20" Margin="2">Выбрать сервер:</Label>
-            <ComboBox Grid.Row="6" Grid.ColumnSpan="2" FontSize="20" Margin="2" IsEnabled="False"></ComboBox>
+            <ComboBox Grid.Row="6" Grid.ColumnSpan="2" FontSize="20" Margin="2" IsEnabled="True"
+                      ItemsSource="{Binding Path=Hosts, Mode=OneTime}" SelectedIndex="{Binding Path=SelectedHost, Mode=TwoWay}"
+                       />
             <Button Grid.ColumnSpan="2" Grid.Row="7" Grid.Column="0" Margin="2" Content="Ок" FontSize="20" Command="{Binding Path=Enter}" CommandParameter="{Binding ElementName=txtPass}"></Button>
             <Label FontSize="20" Grid.ColumnSpan="2" Grid.Row="8" Foreground="{Binding Path=InfoStyle, Mode=TwoWay}" Content="{Binding Path=Msg, Mode=TwoWay}"/>
             <!--<Button Grid.Row="7" Grid.Column="1" Margin="2" Content="Отмена" FontSize="20"></Button>-->

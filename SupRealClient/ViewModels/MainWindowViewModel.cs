@@ -196,6 +196,8 @@ namespace SupRealClient.ViewModels
             ClientConnector clientConnector = ClientConnector.CurrentConnector;
             clientConnector.ExitAuthorize();
             setupStorage.UserExit = true;
+            ViewManager.Instance.ExitApp();
+            ClientConnector.ResetConnector(null);
             // TODO - Отвязать ссылку на View из ViewModel
             Control = new Authorize1View();
             LoginVisibility = Visibility.Visible;

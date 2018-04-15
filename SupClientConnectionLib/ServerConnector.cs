@@ -21,6 +21,7 @@ namespace SupClientConnectionLib
     public class ClientConnector
     {
         private static ClientConnector connector;
+        private static Uri uri;
         ITableService tableService;
         CompositeType compositeType;
         Authorizer authorizer;
@@ -30,6 +31,7 @@ namespace SupClientConnectionLib
         public event Action<string, object[]> OnDelete;
 
         #region Public
+
         
         public static ClientConnector CurrentConnector
         {
@@ -42,6 +44,13 @@ namespace SupClientConnectionLib
                 }
                 return connector;
             }
+        }
+
+        public static ClientConnector ResetConnector(Uri uri)
+        {
+            ClientConnector.uri = uri;
+            connector = new ClientConnector();
+            return connector;
         }
 
         public int Authorize(string login, string pass)
@@ -174,7 +183,17 @@ namespace SupClientConnectionLib
             messageHandler.OnUpdate += MessageHandler_OnUpdate;
             messageHandler.OnDelete += MessageHandler_OnDelete;
             instanceContext = new InstanceContext(messageHandler);
-            this.tableService = new TableServiceClient(instanceContext);
+            if (ClientConnector.uri != null)
+            {
+                var myChannelFactory = new DuplexChannelFactory<ITableService>(
+                    instanceContext, new WSDualHttpBinding(),
+                    new EndpointAddress(ClientConnector.uri));
+                this.tableService = myChannelFactory.CreateChannel();
+            }
+            else
+            {
+                this.tableService = new TableServiceClient(instanceContext);
+            }
             this.compositeType = new CompositeType();
         }
 
