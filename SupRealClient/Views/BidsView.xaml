@@ -8,7 +8,7 @@
         mc:Ignorable="d"
         Title="Заявки" 
         ResizeMode="NoResize"
-        Height="750" Width="700">
+        Height="800" Width="1050">
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition/>
@@ -80,8 +80,8 @@
                         <DataGrid.Columns>
                             <DataGridTextColumn Header="№"/>
                             <DataGridTextColumn Header="Посетитель" Width="*"/>
-                            <DataGridTextColumn Header="Организация"/>
-                            <DataGridTextColumn Header="Принимающее лицо"/>
+                            <DataGridTextColumn Header="Организация" Width="*"/>
+                            <DataGridTextColumn Header="Принимающее лицо" Width="*"/>
                             <DataGridTextColumn Header="Время от"/>
                             <DataGridTextColumn Header="Время до"/>
                             <DataGridTextColumn Header="Не активен"/>
@@ -440,6 +440,7 @@
                             <RowDefinition/>
                             <RowDefinition/>
                             <RowDefinition/>
+                            <RowDefinition/>
                         </Grid.RowDefinitions>
                         
                         <Grid.ColumnDefinitions>
@@ -452,6 +453,7 @@
                             Grid.Row="0"
                             Grid.Column="0"
                             Text="Основание"
+                            HorizontalAlignment="Left"
                             Style="{StaticResource TextBLockStyle}"/>
                         
                         <TextBox
@@ -463,7 +465,8 @@
                         <TextBlock
                             Grid.Row="1"
                             Grid.Column="0"
-                            Text="Основание"
+                            Text="Посетитель"
+                            HorizontalAlignment="Left"
                             Style="{StaticResource TextBLockStyle}"/>
 
                         <TextBox
@@ -475,19 +478,22 @@
                         <TextBlock
                             Grid.Row="2"
                             Grid.Column="0"
-                            Text="Основание"
+                            Text="Организация"
+                            HorizontalAlignment="Left"
                             Style="{StaticResource TextBLockStyle}"/>
 
                         <TextBox
                             Grid.Row="2"
                             Grid.Column="1"
                             Grid.ColumnSpan="2"
+                            
                             Style="{StaticResource TextBoxStyle}"/>
 
                         <TextBlock
                             Grid.Row="3"
                             Grid.Column="0"
-                            Text="Основание"
+                            Text="Проходы"
+                            HorizontalAlignment="Left"
                             Style="{StaticResource TextBLockStyle}"/>
 
                         <TextBox
@@ -498,12 +504,15 @@
                         <Button
                             Grid.Row="3"
                             Grid.Column="2"
+                            Content="..."
+                            Width="25"
+                            Height="25"
                             Style="{StaticResource VisitorsSquareButtonStyle}"/>
                         
                         <Grid
                             Grid.Row="4"
                             Grid.Column="0"
-                            Grid.ColumnSpan="2">
+                            Grid.ColumnSpan="3">
                             <Grid.ColumnDefinitions>
                                 <ColumnDefinition Width="40"/>
                                 <ColumnDefinition/>
@@ -520,6 +529,22 @@
                                 HorizontalAlignment="Left"
                                 Style="{StaticResource TextBLockStyle}"/>
                         </Grid>
+                        
+                        <TextBlock
+                            Grid.Row="5"
+                            Grid.Column="0"
+                            Grid.ColumnSpan="3"
+                            HorizontalAlignment="Left"
+                            Text="Оператор 1"
+                            Style="{StaticResource TextBLockStyle}"/>
+
+                        <TextBlock
+                            Grid.Row="5"
+                            Grid.Column="0"
+                            Grid.ColumnSpan="3"
+                            HorizontalAlignment="Right"
+                            Text="Изменён ..."
+                            Style="{StaticResource TextBLockStyle}"/>
                     </Grid>
                 </Grid>
             </mah:MetroTabItem>
@@ -530,18 +555,322 @@
                         <DataGridTextColumn Header="№ заявки"/>
                         <DataGridTextColumn Header="Дата начала"/>
                         <DataGridTextColumn Header="Дата окончания"/>
-                        <DataGridTextColumn>
+                        <DataGridTextColumn Width="*">
                             <DataGridTextColumn.Header>
                                 <TextBlock Text="Принимающее лицо посетителя"
-                                           TextWrapping="Wrap"></TextBlock>
+                                           TextWrapping="Wrap"/>
                             </DataGridTextColumn.Header>
                         </DataGridTextColumn>
                             <DataGridTextColumn Header="Подразделение организация"/>
-                        <DataGridTextColumn Header="Подписывающее лицо"/>
+                        <DataGridTextColumn Header="Подписывающее лицо" Width="*"/>
                         <DataGridTextColumn Header="Примечание"/>
                     </DataGrid.Columns>
                 </DataGrid>
             </mah:MetroTabItem>
         </mah:MetroAnimatedTabControl>
+
+        <Grid
+                Grid.Row="1">
+            <Grid.RowDefinitions>
+                <RowDefinition/>
+                <RowDefinition/>
+            </Grid.RowDefinitions>
+
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition/>
+                <ColumnDefinition/>
+                <ColumnDefinition/>
+                <ColumnDefinition/>
+                <ColumnDefinition/>
+                <ColumnDefinition/>
+            </Grid.ColumnDefinitions>
+
+            <Button
+                    Grid.Row="0"
+                    Grid.Column="0"
+                    Margin="2"
+                    Style="{StaticResource VisitorsSquareButtonStyle}">
+                <Grid
+                        >
+                    <Grid.RowDefinitions>
+                        <RowDefinition/>
+                        <RowDefinition Height="0.3*"/>
+                    </Grid.RowDefinitions>
+
+                    <Image
+                            Grid.Row="0"
+                            Source="../Resources/Начало (2).ico"/>
+
+                    <TextBlock
+                            Grid.Row="1"
+                            Text="Начало"
+                            FontSize="12"
+                            Style="{StaticResource TextBLockStyle}"/>
+                </Grid>
+            </Button>
+
+            <Button
+                    Grid.Row="0"
+                    Grid.Column="1"
+                    Margin="2"
+                    Style="{StaticResource VisitorsSquareButtonStyle}">
+                <Grid
+                        >
+                    <Grid.RowDefinitions>
+                        <RowDefinition/>
+                        <RowDefinition Height="0.3*"/>
+                    </Grid.RowDefinitions>
+
+                    <Image
+                            Grid.Row="0"
+                            Source="../Resources/Предыдущий (2).ico"/>
+
+                    <TextBlock
+                            Grid.Row="1"
+                            Text="Пред."
+                            FontSize="12"
+                            Style="{StaticResource TextBLockStyle}"/>
+                </Grid>
+            </Button>
+
+            <Button
+                    Grid.Row="0"
+                    Grid.Column="2"
+                    Margin="2"
+                    Style="{StaticResource VisitorsSquareButtonStyle}">
+                <Grid
+                        >
+                    <Grid.RowDefinitions>
+                        <RowDefinition/>
+                        <RowDefinition Height="0.3*"/>
+                    </Grid.RowDefinitions>
+
+                    <Image
+                            Grid.Row="0"
+                            Source="../Resources/Следующий (2).ico"/>
+
+                    <TextBlock
+                            Grid.Row="1"
+                            Text="След."
+                            FontSize="12"
+                            Style="{StaticResource TextBLockStyle}"/>
+                </Grid>
+            </Button>
+
+            <Button
+                    Grid.Row="0"
+                    Grid.Column="3"
+                    Margin="2"
+                    Style="{StaticResource VisitorsSquareButtonStyle}">
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition/>
+                        <RowDefinition Height="0.3*"/>
+                    </Grid.RowDefinitions>
+
+                    <Image
+                            Grid.Row="0"
+                            Source="../Resources/Конец (2).ico"/>
+
+                    <TextBlock
+                            Grid.Row="1"
+                            Text="Конец"
+                            FontSize="12"
+                            Style="{StaticResource TextBLockStyle}"/>
+                </Grid>
+            </Button>
+
+            <Button
+                    Grid.Row="0"
+                    Grid.Column="4"
+                    Margin="2"
+                    Style="{StaticResource VisitorsSquareButtonStyle}">
+                <Grid
+                        >
+                    <Grid.RowDefinitions>
+                        <RowDefinition/>
+                        <RowDefinition Height="0.3*"/>
+                    </Grid.RowDefinitions>
+
+                    <Image
+                            Grid.Row="0"
+                            Source="../Resources/Найти (2).ico"/>
+
+                    <TextBlock
+                            Grid.Row="1"
+                            Text="Найти"
+                            FontSize="12"
+                            Style="{StaticResource TextBLockStyle}"/>
+                </Grid>
+            </Button>
+
+            <Button
+                    Grid.Row="0"
+                    Grid.Column="5"
+                    Margin="2"
+                    Style="{StaticResource VisitorsSquareButtonStyle}">
+                <Grid
+                        >
+                    <Grid.RowDefinitions>
+                        <RowDefinition/>
+                        <RowDefinition Height="0.3*"/>
+                    </Grid.RowDefinitions>
+
+                    <Image
+                            Grid.Row="0"
+                            Source="../Resources/Отложить.ico"/>
+
+                    <TextBlock
+                            Grid.Row="1"
+                            Text="Отложить"
+                            FontSize="12"
+                            Style="{StaticResource TextBLockStyle}"/>
+                </Grid>
+            </Button>
+
+            <Button
+                    Grid.Row="1"
+                    Grid.Column="0"
+                    Margin="2"
+                    Style="{StaticResource VisitorsSquareButtonStyle}">
+                <Grid
+                        >
+                    <Grid.RowDefinitions>
+                        <RowDefinition/>
+                        <RowDefinition Height="0.3*"/>
+                    </Grid.RowDefinitions>
+
+                    <Image
+                            Grid.Row="0"
+                            Source="../Resources/Добавить1 (2).ico"/>
+
+                    <TextBlock
+                            Grid.Row="1"
+                            Text="Новый"
+                            FontSize="12"
+                            Style="{StaticResource TextBLockStyle}"/>
+                </Grid>
+            </Button>
+
+            <Button
+                    Grid.Row="1"
+                    Grid.Column="1"
+                    Margin="2"
+                    Style="{StaticResource VisitorsSquareButtonStyle}">
+                <Grid
+                        >
+                    <Grid.RowDefinitions>
+                        <RowDefinition/>
+                        <RowDefinition Height="0.3*"/>
+                    </Grid.RowDefinitions>
+
+                    <Image
+                            Grid.Row="0"
+                            Source="../Resources/Редактировать (2).ico"/>
+
+                    <TextBlock
+                            Grid.Row="1"
+                            Text="Правка"
+                            FontSize="12"
+                            Style="{StaticResource TextBLockStyle}"/>
+                </Grid>
+            </Button>
+
+            <Button
+                    Grid.Row="1"
+                    Grid.Column="2"
+                    Margin="2"
+                    Style="{StaticResource VisitorsSquareButtonStyle}">
+                <Grid
+                        >
+                    <Grid.RowDefinitions>
+                        <RowDefinition/>
+                        <RowDefinition Height="0.3*"/>
+                    </Grid.RowDefinitions>
+
+                    <Image
+                            Grid.Row="0"
+                            Source="../Resources/Принять (2).ico"/>
+
+                    <TextBlock
+                            Grid.Row="1"
+                            Text="Принять"
+                            FontSize="12"
+                            Style="{StaticResource TextBLockStyle}"/>
+                </Grid>
+            </Button>
+
+            <Button
+                    Grid.Row="1"
+                    Grid.Column="3"
+                    Margin="2"
+                    Style="{StaticResource VisitorsSquareButtonStyle}">
+                <Grid
+                        >
+                    <Grid.RowDefinitions>
+                        <RowDefinition/>
+                        <RowDefinition Height="0.3*"/>
+                    </Grid.RowDefinitions>
+
+                    <Image
+                            Grid.Row="0"
+                            Source="../Resources/Отмена (2).ico"/>
+
+                    <TextBlock
+                            Grid.Row="1"
+                            Text="Отмена"
+                            FontSize="12"
+                            Style="{StaticResource TextBLockStyle}"/>
+                </Grid>
+            </Button>
+
+            <Button
+                    Grid.Row="1"
+                    Grid.Column="4"
+                    Margin="2"
+                    Style="{StaticResource VisitorsSquareButtonStyle}">
+                <Grid
+                        >
+                    <Grid.RowDefinitions>
+                        <RowDefinition/>
+                        <RowDefinition Height="0.3*"/>
+                    </Grid.RowDefinitions>
+
+                    <Image
+                            Grid.Row="0"
+                            Source="../Resources/Далее.ico"/>
+
+                    <TextBlock
+                            Grid.Row="1"
+                            Text="Далее"
+                            FontSize="12"
+                            Style="{StaticResource TextBLockStyle}"/>
+                </Grid>
+            </Button>
+
+            <Button
+                    Grid.Row="1"
+                    Grid.Column="5"
+                    Margin="2"
+                    Style="{StaticResource VisitorsSquareButtonStyle}">
+                <Grid
+                        >
+                    <Grid.RowDefinitions>
+                        <RowDefinition/>
+                        <RowDefinition Height="0.3*"/>
+                    </Grid.RowDefinitions>
+
+                    <Image
+                            Grid.Row="0"
+                            Source="../Resources/Обновить (2).ico"/>
+
+                    <TextBlock
+                            Grid.Row="1"
+                            Text="Обновить"
+                            FontSize="12"
+                            Style="{StaticResource TextBLockStyle}"/>
+                </Grid>
+            </Button>
+        </Grid>
     </Grid>
 </mah:MetroWindow>

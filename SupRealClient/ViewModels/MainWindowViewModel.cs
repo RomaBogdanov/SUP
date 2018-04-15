@@ -104,6 +104,12 @@ namespace SupRealClient.ViewModels
         public ICommand ListBaseOrgsStructClick
         { get; set; }
 
+        public ICommand ListChildOrgs
+        { get; set; }
+
+        public ICommand ListBaseOrgs
+        { get; set; }
+
         public ICommand UserExit
         { get; set; }
 
@@ -114,6 +120,8 @@ namespace SupRealClient.ViewModels
         { get; set; }
 
         public ICommand OpenBidsCommand { get; set; }
+
+        public ICommand OpenVisitsCommand { get; set; }
 
         public MainWindowViewModel()
         {
@@ -126,12 +134,15 @@ namespace SupRealClient.ViewModels
             ListCabinetsClick = new RelayCommand(arg => ViewManager.Instance.OpenWindow("CabinetsWindView"));
             LogsClick = new RelayCommand(arg => ViewManager.Instance.OpenWindow("LogsWindView"));
             ListBaseOrgsStructClick = new RelayCommand(arg => ViewManager.Instance.OpenWindow("MainOrganisationStructureView"));
+            ListChildOrgs = new RelayCommand(arg => ViewManager.Instance.OpenWindow("ChildOrgsView"));
+            ListBaseOrgs = new RelayCommand(arg => ViewManager.Instance.OpenWindow("BaseOrgsView"));
             UserExit = new RelayCommand(arg => UserExitProc());
             setupStorage.ChangeUserExit += arg => IsUserEnter = !arg;
             Close = new RelayCommand(arg => ExitApp());
 
             OpenVisitorsCommand = new RelayCommand(obj => OpenVisitors());
             OpenBidsCommand = new RelayCommand(obj => OpenBids());
+            OpenVisitsCommand = new RelayCommand(obj => OpenVisits());
         }
 
         protected virtual void OnPropertyChanged(string propertyName) =>
@@ -142,7 +153,7 @@ namespace SupRealClient.ViewModels
             var visitorsViewModel = new VisitorsViewModel();
 
             var window = new VisitorsView {DataContext = visitorsViewModel};
-            window.ShowDialog();
+            window.Show();
             
             var dc = (VisitorsViewModel)window.DataContext;
             
@@ -166,6 +177,17 @@ namespace SupRealClient.ViewModels
             window.ShowDialog();
             
             var dc = (BidsViewModel) window.DataContext;
+            dc.ToString();
+        }
+
+        public void OpenVisits()
+        {
+            var visitsViewModel = new VisitsViewModel();
+
+            var window = new VisitsView {DataContext = visitsViewModel};
+            window.ShowDialog();
+
+            var dc = (VisitsViewModel) window.DataContext;
             dc.ToString();
         }
 

@@ -227,6 +227,10 @@ namespace SupRealClient
                     return new LogsWindView();
                 case "MainOrganisationStructureView":
                     return new MainOrganisationStructureView();
+                case "ChildOrgsView":
+                    return new ChildOrgsView();
+                case "BaseOrgsView":
+                    return new BaseOrgsView();
             }
 
             return null;

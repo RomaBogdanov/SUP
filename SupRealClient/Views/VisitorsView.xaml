@@ -6,7 +6,7 @@
         xmlns:local="clr-namespace:SupRealClient.Views"
         xmlns:mah="http://metro.mahapps.com/winfx/xaml/controls"
         mc:Ignorable="d"
-        Title="Посетители" Height="900" Width="700"
+        Title="Посетители" Height="900" Width="900"
         ResizeMode="NoResize"
         WindowStartupLocation="CenterScreen">
     <Grid>
@@ -20,7 +20,7 @@
         
         <Grid.ColumnDefinitions>
             <ColumnDefinition/>
-            <ColumnDefinition Width="0.4*"/>
+            <ColumnDefinition Width="0.3*"/>
         </Grid.ColumnDefinitions>
         
         <Grid
@@ -79,7 +79,7 @@
             Margin="0"
             Background="#00000000"
             Command="{Binding AddImageSourceCommand}">
-            <Grid Height="250" Width="180">
+            <Grid Height="240" Width="180">
                 <Grid.RowDefinitions>
                     <RowDefinition Height="40"/>
                     <RowDefinition/>
@@ -113,6 +113,47 @@
             </Grid>
         </Button>
 
+        <Button
+            Grid.Row="2"
+            Grid.Column="1"
+            ToolTip="Добавить подпись"
+            Margin="0"
+            Background="#00000000"
+            Command="{Binding AddSignatureCommand}">
+            <Grid Height="40" Width="180">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="40"/>
+                    <RowDefinition/>
+                </Grid.RowDefinitions>
+
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition/>
+                    <ColumnDefinition Width="40"/>
+                </Grid.ColumnDefinitions>
+
+                <Border
+                    Grid.Row="0"
+                    Grid.RowSpan="2"
+                    Grid.Column="0"
+                    Grid.ColumnSpan="2"
+                    BorderThickness="2"
+                    BorderBrush="#FFCCCCCC">
+                    <Image 
+                        Source="{Binding Signature}"/>
+                </Border>
+                <Button
+                    Grid.Row="0"
+                    Grid.Column="1"
+                    Content="X"
+                    ToolTip="Удалить подпись"
+                    Margin="0"
+                    Background="#00000000"
+                    BorderThickness="2"
+                    BorderBrush="#FFCCCCCC"
+                    Command="{Binding RemoveSignatureCommand}"/>
+            </Grid>
+        </Button>
+        
         <Grid
             Grid.Row="1"
             Grid.Column="0">
@@ -168,8 +209,7 @@
         
         <Grid
             Grid.Row="2"
-            Grid.Column="0"
-            Grid.ColumnSpan="2">
+            Grid.Column="0">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition/>
                 <ColumnDefinition/>
@@ -312,6 +352,7 @@
                                 <RowDefinition/>
                                 <RowDefinition/>
                                 <RowDefinition/>
+                                <RowDefinition Height="0.5*"/>
                             </Grid.RowDefinitions>
                             
                             <Grid.ColumnDefinitions>
@@ -354,7 +395,7 @@
                                 
                                 <Button
                                     Grid.Column="0"
-                                    Margin="0,20,5,15"
+                                    Margin="0"
                                     Height="25"
                                     Width="25"
                                     Content="..."
@@ -362,7 +403,7 @@
 
                                 <Button
                                     Grid.Column="1"
-                                    Margin="0,20,5,15"
+                                    Margin="0"
                                     Height="25"
                                     Width="25"
                                     Content="X"
@@ -440,24 +481,67 @@
                                 Grid.Column="0"
                                 Text="Документ"
                                 Style="{StaticResource TextBLockStyle}"/>
+
+                            <Grid
+                                Grid.Row="4"
+                                Grid.Column="0"
+                                Grid.ColumnSpan="5">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="40"/>
+                                    <ColumnDefinition Width="*"/>
+                                    <ColumnDefinition Width="60"/>
+                                    <ColumnDefinition Width="100"/>
+                                </Grid.ColumnDefinitions>
+
+                                <CheckBox 
+                                    Grid.Column="0"
+                                    HorizontalAlignment="Center"
+                                    VerticalAlignment="Center"/>
+
+                                <TextBlock
+                                    Grid.Column="1"
+                                    Text="Согласие на обработку персональных данных"
+                                    HorizontalAlignment="Left"
+                                    Style="{StaticResource TextBLockStyle}"/>
+
+                                <TextBlock
+                                    Grid.Column="2"
+                                    Text="Дата"
+                                    Style="{StaticResource TextBLockStyle}"/>
+                                
+                                <DatePicker
+                                    Grid.Column="3"
+                                    Text="Дата"></DatePicker>
+                            </Grid>
                         </Grid>
                     </Grid>
                 </mah:MetroTabItem>
                 <mah:MetroTabItem Header="Пропуска">
-                    <DataGrid AutoGenerateColumns="False">
+                    <DataGrid 
+                        ItemsSource="{Binding PassList}"
+                        Style="{StaticResource AzureDataGrid1}">
                         <DataGrid.Columns>
-                            <DataGridTextColumn Header="Пропуск"/>
-                            <DataGridTextColumn Header="Когда выдан"/>
-                            <DataGridTextColumn Header="Срок по"/>
-                            <DataGridTextColumn Header="Изменён"/>
-                            <DataGridTextColumn Header="Оператор"/>
-                            <DataGridTextColumn Header="№ заявки"/>
-                            <DataGridTextColumn Header="Дополнительно"/>
+                            <DataGridTextColumn 
+                                Header="Пропуск" Binding="{Binding Path=Id}"/>
+                            <DataGridTextColumn 
+                                Header="Когда выдан" Binding="{Binding Path=StartTime}"/>
+                            <DataGridTextColumn 
+                                Header="Срок по" Binding="{Binding Path=EndTime}"/>
+                            <DataGridTextColumn 
+                                Header="Изменён" Binding="{Binding Path=TimePassChange}"/>
+                            <DataGridTextColumn 
+                                Header="Оператор" 
+                                Width="*" 
+                                Binding="{Binding Path=Operator.Initials}"/>
+                            <DataGridTextColumn 
+                                Header="№ заявки" Binding="{Binding Path=BidId}"/>
+                            <DataGridTextColumn 
+                                Header="Дополнительно" Binding="{Binding Path=Additionally}"/>
                         </DataGrid.Columns>
                     </DataGrid>
                 </mah:MetroTabItem>
                 <mah:MetroTabItem Header="Заявки">
-                    <DataGrid AutoGenerateColumns="False">
+                    <DataGrid Style="{StaticResource AzureDataGrid1}">
                         <DataGrid.Columns>
                             <DataGridTextColumn Header="№ заявки"/>
                             <DataGridTextColumn Header="Дата/время от"/>
@@ -529,14 +613,14 @@
                         <TextBox
                             Grid.Row="2"
                             Grid.Column="0"
-                            Grid.ColumnSpan="2"
+                            Grid.ColumnSpan="3"
                             Margin="2"
                             Style="{StaticResource TextBoxStyle}"/>
 
                         <TextBox
                             Grid.Row="3"
                             Grid.Column="0"
-                            Grid.ColumnSpan="2"
+                            Grid.ColumnSpan="3"
                             Margin="2"
                             Style="{StaticResource TextBoxStyle}"/>
                         

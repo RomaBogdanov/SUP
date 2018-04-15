@@ -49,6 +49,7 @@
     <Reference Include="System" />
     <Reference Include="System.Configuration" />
     <Reference Include="System.Data" />
+    <Reference Include="System.Design" />
     <Reference Include="System.Drawing" />
     <Reference Include="System.ServiceModel" />
     <Reference Include="System.Windows.Forms" />
@@ -74,6 +75,7 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="Behaviour\BoolToStringConverter.cs" />
     <Compile Include="Behaviour\DialogService.cs" />
     <Compile Include="Behaviour\IDialogService.cs" />
     <Compile Include="EnumerationClasses\Cabinet.cs" />
@@ -94,8 +96,11 @@
     <Compile Include="Models\Base1LogsModel.cs" />
     <Compile Include="Models\Base3ModelAbstr.cs" />
     <Compile Include="Models\Base3ZonesModel.cs" />
+    <Compile Include="Models\BaseOrgsModel.cs" />
+    <Compile Include="Models\ChildOrgsModel.cs" />
     <Compile Include="Models\IAddUpdateCardModel.cs" />
     <Compile Include="Models\ISearch1Model.cs" />
+    <Compile Include="Models\Human.cs" />
     <Compile Include="Models\OrganizationStructure\Department.cs" />
     <Compile Include="Models\OrganizationStructure\EditDepModel.cs" />
     <Compile Include="Models\OrganizationStructure\EditUnitModel.cs" />
@@ -104,12 +109,14 @@
     <Compile Include="Models\OrganizationStructure\MainOrganization.cs" />
     <Compile Include="Models\OrganizationStructure\ModelBase.cs" />
     <Compile Include="Models\OrganizationStructure\Organization.cs" />
+    <Compile Include="Models\OrganizationStructure\Pass.cs" />
     <Compile Include="Models\OrganizationStructure\Unit.cs" />
     <Compile Include="Models\OrganizationStructure\AddUnitModel.cs" />
     <Compile Include="Models\OrganizationStructure\AddDepModel.cs" />
     <Compile Include="Models\Search1Model.cs" />
     <Compile Include="Models\UpdateCardModel.cs" />
     <Compile Include="Common\Data\FieldData.cs" />
+    <Compile Include="Models\Visit.cs" />
     <Compile Include="Properties\Annotations.cs" />
     <Compile Include="Search\CompareStrategyFactory.cs" />
     <Compile Include="Search\ContainsStrategy.cs" />
@@ -128,14 +135,20 @@
     <Compile Include="ViewModels\AddUpdateCardViewModel.cs" />
     <Compile Include="ViewModels\Base3ViewModel.cs" />
     <Compile Include="ViewModels\BidsViewModel.cs" />
+    <Compile Include="ViewModels\DetailVisitsViewModel.Properties.cs" />
+    <Compile Include="ViewModels\DetailVisitsViewModel.Methods.cs" />
     <Compile Include="ViewModels\ErrorViewModel.cs" />
     <Compile Include="ViewModels\MainOrganizationViewModel.cs" />
     <Compile Include="ViewModels\Search1ViewModel.cs" />
     <Compile Include="ViewModels\UnitViewModel.cs" />
     <Compile Include="ViewModels\ViewModelBase.cs" />
     <Compile Include="ViewModels\VisitorsViewModel.cs" />
+    <Compile Include="ViewModels\VisitsViewModel.cs" />
     <Compile Include="Views\AddDepartmentView.xaml.cs">
       <DependentUpon>AddDepartmentView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\AddOrgsListView.xaml.cs">
+      <DependentUpon>AddOrgsListView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\AddUnitView.xaml.cs">
       <DependentUpon>AddUnitView.xaml</DependentUpon>
@@ -160,6 +173,9 @@
     <Compile Include="Views\Base3View.xaml.cs">
       <DependentUpon>Base3View.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Views\BaseOrgsView.xaml.cs">
+      <DependentUpon>BaseOrgsView.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Views\BidsView.xaml.cs">
       <DependentUpon>BidsView.xaml</DependentUpon>
     </Compile>
@@ -171,6 +187,12 @@
     </Compile>
     <Compile Include="EnumerationClasses\Card.cs" />
     <Compile Include="ViewManager.cs" />
+    <Compile Include="Views\DetailVisitsView.xaml.cs">
+      <DependentUpon>DetailVisitsView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\ChildOrgsView.xaml.cs">
+      <DependentUpon>ChildOrgsView.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Views\LogsWindView.xaml.cs">
       <DependentUpon>LogsWindView.xaml</DependentUpon>
     </Compile>
@@ -195,6 +217,9 @@
     <Compile Include="Views\VisitorsView.xaml.cs">
       <DependentUpon>VisitorsView.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Views\VisitsView.xaml.cs">
+      <DependentUpon>VisitsView.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Views\ZonesWindView.xaml.cs">
       <DependentUpon>ZonesWindView.xaml</DependentUpon>
     </Compile>
@@ -208,6 +233,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Views\AddDepartmentView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\AddOrgsListView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -235,6 +264,10 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="Views\BaseOrgsView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Views\BidsView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -244,6 +277,14 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Views\CardsWindView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\DetailVisitsView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\ChildOrgsView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -373,6 +414,10 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="Views\VisitsView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Views\ZonesWindView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -467,6 +512,18 @@
     <Resource Include="Resources\Следующий %282%29.ico">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Resource>
+    <Resource Include="Resources\Отложить.ico">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Resources\Далее.ico">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Resources\Подробно.ico">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Resources\Фильтр.ico">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Resource>
     <Content Include="Hosts.xml">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
@@ -479,7 +536,9 @@
       <Generator>TextTemplatingFileGenerator</Generator>
       <LastGenOutput>Views.cs</LastGenOutput>
     </Content>
-    <Content Include="Views\Views.xml" />
+    <Content Include="Views\Views.xml">
+      <SubType>Designer</SubType>
+    </Content>
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\SupClientConnectionLib\SupClientConnectionLib.csproj">

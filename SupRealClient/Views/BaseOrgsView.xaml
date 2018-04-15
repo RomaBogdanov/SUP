@@ -1,12 +1,13 @@
-﻿<Window x:Class="SupRealClient.Views.OrganizationsWindView"
+﻿<Window x:Class="SupRealClient.Views.BaseOrgsView"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:SupRealClient.Views"
         mc:Ignorable="d"
-        Title="Список организаций" Height="600" Width="1000" Closing="Window_Closing" StateChanged="Window_StateChanged">
+        Title="Главные организации"  Height="600" Width="600" Closing="Window_Closing">
     <Grid>
-        <local:Base2View x:Name="base2"></local:Base2View>
+        <local:Base1View x:Name="base1">
+        </local:Base1View>
     </Grid>
 </Window>
