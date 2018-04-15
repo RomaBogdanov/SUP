@@ -6,11 +6,23 @@ using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading.Tasks;
 using SupRealClient.Annotations;
+using SupRealClient.Models.OrganizationStructure.Interfaces;
 
 namespace SupRealClient.ViewModels
 {
     public class ViewModelBase : INotifyPropertyChanged
     {
+        public IModel Model
+        {
+            get { return _model; }
+            set
+            {
+                _model = value;
+                OnPropertyChanged();
+            }
+        }
+        private IModel _model;
+
         public event PropertyChangedEventHandler PropertyChanged;
 
         [NotifyPropertyChangedInvocator]

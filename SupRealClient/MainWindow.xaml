@@ -150,7 +150,12 @@
                     <TextBlock Grid.Row="1" Text="Заявки"></TextBlock>
                 </Grid>
             </Button>
-            <Button Grid.Row="2" IsEnabled="False" Style="{DynamicResource SquareButtonStyle}" FontSize="{Binding ElementName=FontSizeLixtBox, Path=SelectedItem.Content}">
+            <Button 
+                Grid.Row="2" 
+                IsEnabled="True" 
+                Style="{DynamicResource SquareButtonStyle}" 
+                FontSize="{Binding ElementName=FontSizeLixtBox, Path=SelectedItem.Content}"
+                Command="{Binding OpenVisitsCommand}">
                 <Grid>
                     <Grid.RowDefinitions>
                         <RowDefinition/>
