@@ -53,11 +53,30 @@
                 <Setter Property="HorizontalAlignment" Value="Center"/>
                 <Setter Property="VerticalAlignment" Value="Center"/>
             </Style>
-            
+
+            <Style x:Key="TextBLockDetailStyle" TargetType="TextBlock" BasedOn="{StaticResource MetroTextBlock}">
+                <Setter Property="Margin" Value="2"/>
+                <Setter Property="FontSize" Value="12"/>
+                <Setter Property="HorizontalAlignment" Value="Right"/>
+                <Setter Property="VerticalAlignment" Value="Center"/>
+            </Style>
+
             <Style x:Key="TextBoxStyle" TargetType="TextBox" BasedOn="{StaticResource MetroTextBox}">
                 <Setter Property="Margin" Value="10"/>
                 <Setter Property="FontSize" Value="18"/>
                 <Setter Property="VerticalAlignment" Value="Center"/>
+            </Style>
+
+            <Style x:Key="TextBoxDetailStyle" TargetType="TextBox" BasedOn="{StaticResource MetroTextBox}">
+                <Setter Property="Margin" Value="2"/>
+                <Setter Property="FontSize" Value="15"/>
+                <Setter Property="HorizontalAlignment" Value="Stretch"/>
+                <Setter Property="VerticalAlignment" Value="Center"/>
+            </Style>
+
+            <Style x:Key="AzureDataGrid1" TargetType="DataGrid" BasedOn="{StaticResource AzureDataGrid}">
+                <Setter Property="AutoGenerateColumns" Value="False"/>
+                <Setter Property="AlternatingRowBackground" Value="{StaticResource AccentBaseColorBrush}"/>
             </Style>
             
             <ResourceDictionary.MergedDictionaries>
@@ -70,6 +89,8 @@
                 <ResourceDictionary Source="pack://application:,,,/MahApps.Metro;component/Styles/controls.textbox.xaml" />
                 <ResourceDictionary Source="pack://application:,,,/MahApps.Metro;component/Styles/controls.treeview.xaml" />
                 <ResourceDictionary Source="pack://application:,,,/MahApps.Metro;component/Styles/controls.textblock.xaml" />
+                <ResourceDictionary Source="pack://application:,,,/MahApps.Metro;component/Styles/controls.datagrid.xaml" />
+                <ResourceDictionary Source="pack://application:,,,/MahApps.Metro;component/Styles/controls.datepicker.xaml" />
                 
                 <!-- Accent and AppTheme setting -->
                 <ResourceDictionary Source="pack://application:,,,/MahApps.Metro;component/Styles/Accents/Blue.xaml" />
