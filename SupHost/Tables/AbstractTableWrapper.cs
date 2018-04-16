@@ -78,7 +78,11 @@ namespace SupHost
             }
             this.table.Rows.Add(dr);
             this.getTableBehavior.InsertRow();
-            this.OnAddRow(this.table.TableName, values);
+            // TODO - для лога он нулевой
+            if (this.OnAddRow != null)
+            {
+                this.OnAddRow(this.table.TableName, values);
+            }
             LogMessage($"В таблице {this.table.TableName} добавлена строка", dr);
             return true;
         }

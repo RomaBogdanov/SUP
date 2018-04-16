@@ -25,6 +25,9 @@ namespace SupHost
                     // TODO - клиент вызывает TableService1.GetTable() и это работает. А тут проблемы с id
                     this.GetTable();
                     DataRow row = this.table.NewRow();
+                    // TODO - пока что генерим id сами
+                    row["f_log_id"] = this.table.Rows.Count > 0 ?
+                        (long)this.table.Rows[this.table.Rows.Count - 1][0] + 1 : 1;
                     row["f_log_severety"] = logData.Severity;
                     row["f_log_message"] = logData.Message;
                     row["f_rec_date"] = logData.Date;
