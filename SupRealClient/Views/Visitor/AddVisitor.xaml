@@ -1,0 +1,599 @@
+﻿<mah:MetroWindow x:Class="SupRealClient.Views.Visitor.AddVisitor"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:SupRealClient.Views.Visitor"
+        xmlns:mah="http://metro.mahapps.com/winfx/xaml/controls"
+        mc:Ignorable="d"
+        Title="{Binding WindowName}" Height="520" Width="500">
+    
+    <mah:MetroWindow.Resources>
+        <ResourceDictionary>
+            <BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter"/>
+        </ResourceDictionary>
+    </mah:MetroWindow.Resources>
+    
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="0.5*"/>
+            <RowDefinition Height="0.7*"/>
+            <RowDefinition Height="0.25*"/>
+            <RowDefinition Height="2.5*"/>
+            <RowDefinition Height="0.3*"/>
+        </Grid.RowDefinitions>
+        
+        <Grid
+            Grid.Row="0">
+            <Grid.RowDefinitions>
+                <RowDefinition/>
+                <RowDefinition/>
+            </Grid.RowDefinitions>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition/>
+                <ColumnDefinition/>
+                <ColumnDefinition/>
+            </Grid.ColumnDefinitions>
+            
+            <TextBlock
+                Grid.Row="0"
+                Grid.Column="0"
+                Text="Фамилия"
+                FontSize="12"
+                Style="{StaticResource TextBLockStyle}"/>
+            
+            <TextBox
+                Grid.Row="1"
+                Grid.Column="0"
+                Margin="2"
+                IsEnabled="{Binding Enable}"
+                Style="{StaticResource TextBoxStyle}"/>
+
+            <TextBlock
+                Grid.Row="0"
+                Grid.Column="1"
+                Text="Имя"
+                FontSize="12"
+                Style="{StaticResource TextBLockStyle}"/>
+
+            <TextBox
+                Grid.Row="1"
+                Grid.Column="1"
+                Margin="2"
+                IsEnabled="{Binding Enable}"
+                Style="{StaticResource TextBoxStyle}"/>
+
+            <TextBlock
+                Grid.Row="0"
+                Grid.Column="2"
+                Text="Отчество"
+                FontSize="12"
+                Style="{StaticResource TextBLockStyle}"/>
+
+            <TextBox
+                Grid.Row="1"
+                Grid.Column="2"
+                Margin="2"
+                IsEnabled="{Binding Enable}"
+                Style="{StaticResource TextBoxStyle}"/>
+        </Grid>
+        
+        <Grid
+            Grid.Row="1">
+            <Grid.RowDefinitions>
+                <RowDefinition/>
+                <RowDefinition/>
+            </Grid.RowDefinitions>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="100"/>
+                <ColumnDefinition/>
+                <ColumnDefinition Width="30"/>
+            </Grid.ColumnDefinitions>
+            
+            <TextBlock
+                Grid.Row="0"
+                Grid.Column="0"
+                Text="Организация"
+                FontSize="12"
+                Style="{StaticResource TextBLockStyle}"/>
+            
+            <TextBox
+                Grid.Row="0"
+                Grid.Column="1"
+                Margin="2"
+                IsEnabled="{Binding Enable}"
+                Style="{StaticResource TextBoxStyle}"/>
+            
+            <Button
+                Grid.Row="0"
+                Grid.Column="2"
+                Height="25"
+                Width="25"
+                Margin="2"
+                Content="..."
+                IsEnabled="{Binding Enable}"
+                Style="{StaticResource ButtonStyle}"/>
+
+            <TextBlock
+                Grid.Row="1"
+                Grid.Column="0"
+                Text="Примечания"
+                FontSize="12"
+                Style="{StaticResource TextBLockStyle}"/>
+
+            <TextBox
+                Grid.Row="1"
+                Grid.Column="1"
+                Grid.ColumnSpan="2"
+                Margin="2"
+                IsEnabled="{Binding Enable}"
+                Style="{StaticResource TextBoxStyle}"/>
+        </Grid>
+        
+        <Grid
+            Grid.Row="2">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="30"/>
+                <ColumnDefinition/>
+                <ColumnDefinition Width="30"/>
+                <ColumnDefinition/>
+                <ColumnDefinition Width="30"/>
+                <ColumnDefinition/>
+            </Grid.ColumnDefinitions>
+            
+            <CheckBox
+                Grid.Column="0"
+                HorizontalAlignment="Center"
+                VerticalAlignment="Center"/>
+            
+            <TextBlock
+                Grid.Column="1"
+                Text="Вход запрещён"
+                HorizontalAlignment="Left"
+                FontSize="12"
+                Style="{StaticResource TextBLockStyle}"/>
+
+            <CheckBox
+                Grid.Column="2"
+                HorizontalAlignment="Center"
+                VerticalAlignment="Center"/>
+
+            <TextBlock
+                Grid.Column="3"
+                Text="Принимающее лицо"
+                HorizontalAlignment="Left"
+                FontSize="12"
+                Style="{StaticResource TextBLockStyle}"/>
+
+            <CheckBox
+                Grid.Column="4"
+                HorizontalAlignment="Center"
+                VerticalAlignment="Center"/>
+
+            <TextBlock
+                Grid.Column="5"
+                Text="Нет формуляра"
+                HorizontalAlignment="Left"
+                FontSize="12"
+                Style="{StaticResource TextBLockStyle}"/>
+        </Grid>
+        
+        <mah:MetroAnimatedTabControl
+            Grid.Row="3">
+            <mah:MetroTabItem Header="Основная">
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition/>
+                        <RowDefinition/>
+                        <RowDefinition/>
+                        <RowDefinition/>
+                        <RowDefinition Height="2*"/>
+                    </Grid.RowDefinitions>
+
+                    <Grid
+                        Grid.Row="0">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="130"/>
+                            <ColumnDefinition/>
+                        </Grid.ColumnDefinitions>
+                        
+                       <TextBlock
+                           Grid.Column="0"
+                           Text="Контактные телефоны"
+                           FontSize="12"
+                           HorizontalAlignment="Left"
+                           Style="{StaticResource TextBLockStyle}"/> 
+                        
+                        <TextBox
+                            Grid.Column="1"
+                            Margin="2"
+                            IsEnabled="{Binding Enable}"
+                            Style="{StaticResource TextBoxStyle}"/>
+                    </Grid>
+                    
+                    <Grid
+                        Grid.Row="1">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="130"/>
+                            <ColumnDefinition/>
+                            <ColumnDefinition Width="35"/>
+                            <ColumnDefinition Width="32"/>
+                        </Grid.ColumnDefinitions>
+                        
+                        <TextBlock
+                            Grid.Column="0"
+                            Text="Гражданство"
+                            FontSize="12"
+                            HorizontalAlignment="Left"
+                            Style="{StaticResource TextBLockStyle}"/>
+                        
+                        <TextBox
+                            Grid.Column="1"
+                            Margin="2"
+                            IsEnabled="{Binding Enable}"
+                            Style="{StaticResource TextBoxStyle}"/>
+                        
+                        <Button
+                            Grid.Column="2"
+                            Content="..."
+                            Width="25"
+                            Height="25"
+                            Margin="3"
+                            IsEnabled="{Binding Enable}"
+                            Style="{StaticResource ButtonStyle}"/>
+
+                        <Button
+                            Grid.Column="3"
+                            Content="x"
+                            Width="25"
+                            Height="25"
+                            Margin="3"
+                            IsEnabled="{Binding Enable}"
+                            Style="{StaticResource ButtonStyle}"/>
+                    </Grid>
+                    
+                    <Grid
+                        Grid.Row="2">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="0.25*"/>
+                            <ColumnDefinition/>
+                        </Grid.ColumnDefinitions>
+                        <TextBlock
+                            Text="Документ"
+                            FontSize="12"
+                            Style="{StaticResource TextBLockStyle}"/>
+                    </Grid>
+                    
+                    <Grid
+                        Grid.Row="3">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="30"/>
+                            <ColumnDefinition/>
+                            <ColumnDefinition Width="30"/>
+                            <ColumnDefinition Width="30"/>
+                            <ColumnDefinition Width="50"/>
+                            <ColumnDefinition/>
+                            <ColumnDefinition Width="30"/>
+                            <ColumnDefinition/>
+                        </Grid.ColumnDefinitions>
+                        
+                        <TextBlock
+                            Grid.Column="0"
+                            Text="Тип"
+                            FontSize="12"
+                            Style="{StaticResource TextBLockStyle}"/>
+                        
+                        <TextBox
+                            Grid.Column="1"
+                            Margin="2"
+                            IsEnabled="{Binding Enable}"
+                            Style="{StaticResource TextBoxStyle}"/>
+                        
+                        <Button
+                            Grid.Column="2"
+                            Content="..."
+                            Width="25"
+                            Height="25"
+                            IsEnabled="{Binding Enable}"
+                            Style="{StaticResource ButtonStyle}"/>
+                        
+                        <Button
+                            Grid.Column="3"
+                            Content="X"
+                            Width="25"
+                            Height="25"
+                            IsEnabled="{Binding Enable}"
+                            Style="{StaticResource ButtonStyle}"/>
+                        
+                        <TextBlock
+                            Grid.Column="4"
+                            Text="Серия"
+                            FontSize="12"
+                            Style="{StaticResource TextBLockStyle}"/>
+                        
+                        <TextBox
+                            Grid.Column="5"
+                            Margin="2"
+                            IsEnabled="{Binding Enable}"
+                            Style="{StaticResource TextBoxStyle}"/>
+
+                        <TextBlock
+                            Grid.Column="6"
+                            Text="№"
+                            FontSize="12"
+                            Style="{StaticResource TextBLockStyle}"/>
+
+                        <TextBox
+                            Grid.Column="7"
+                            Margin="2"
+                            IsEnabled="{Binding Enable}"
+                            Style="{StaticResource TextBoxStyle}"/>
+                    </Grid>
+                    
+                    <Grid
+                        Grid.Row="4">
+                        <Grid.RowDefinitions>
+                            <RowDefinition/>
+                            <RowDefinition/>
+                        </Grid.RowDefinitions>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="0.25*"/>
+                            <ColumnDefinition/>
+                            <ColumnDefinition Width="30"/>
+                            <ColumnDefinition Width="30"/>
+                        </Grid.ColumnDefinitions>
+                        
+                        <TextBlock
+                            Grid.Row="0"
+                            Grid.Column="0"
+                            Text="Дата выдачи"
+                            FontSize="12"
+                            Style="{StaticResource TextBLockStyle}"/>
+                        
+                        <TextBox
+                            Grid.Row="0"
+                            Grid.Column="1"
+                            Margin="2"
+                            IsEnabled="{Binding Enable}"
+                            Style="{StaticResource TextBoxStyle}"/>
+                        
+                        <Button
+                            Grid.Row="0"
+                            Grid.Column="2"
+                            Content="..."
+                            Width="25"
+                            Height="25"
+                            IsEnabled="{Binding Enable}"
+                            Style="{StaticResource ButtonStyle}"/>
+                        
+                        <Button
+                            Grid.Row="0"
+                            Grid.Column="3"
+                            Content="X"
+                            Width="25"
+                            Height="25"
+                            IsEnabled="{Binding Enable}"
+                            Style="{StaticResource ButtonStyle}"/>
+                        
+                        <TextBlock
+                            Grid.Row="1"
+                            Grid.Column="0"
+                            Text="Кем выдан"
+                            FontSize="12"
+                            Style="{StaticResource TextBLockStyle}"/>
+                        
+                        <TextBox
+                            Grid.Row="1"
+                            Grid.Column="1"
+                            Grid.ColumnSpan="3"
+                            Margin="2"
+                            IsEnabled="{Binding Enable}"
+                            Style="{StaticResource TextBoxStyle}"/>
+                    </Grid>
+                </Grid>
+            </mah:MetroTabItem>
+            
+            <mah:MetroTabItem Header="Сотрудник"
+                              Visibility="{Binding EmployeeTabVisible, 
+                Converter={StaticResource BooleanToVisibilityConverter}}">
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition/>
+                        <RowDefinition/>
+                        <RowDefinition/>
+                        <RowDefinition/>
+                        <RowDefinition/>
+                        <RowDefinition/>
+                        <RowDefinition/>
+                        <RowDefinition/>
+                    </Grid.RowDefinitions>
+                    
+                    <TextBlock
+                        Grid.Row="0"
+                        Text="Подразделение"
+                        HorizontalAlignment="Left"
+                        FontSize="12"
+                        Style="{StaticResource TextBLockStyle}"/>
+
+                    <Grid
+                        Grid.Row="1">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition/>
+                            <ColumnDefinition Width="30"/>
+                            <ColumnDefinition Width="30"/>
+                        </Grid.ColumnDefinitions>
+
+                        <TextBox
+                            Grid.Column="0"
+                            Margin="2"
+                            IsEnabled="{Binding Enable}"
+                            Style="{StaticResource TextBoxStyle}"/>
+                        
+                        <Button
+                            Grid.Column="1"
+                            Content="..."
+                            Width="25"
+                            Height="25"
+                            IsEnabled="{Binding Enable}"
+                            Style="{StaticResource ButtonStyle}"/>
+
+                        <Button
+                            Grid.Column="2"
+                            Content="X"
+                            Width="25"
+                            Height="25"
+                            IsEnabled="{Binding Enable}"
+                            Style="{StaticResource ButtonStyle}"/>
+                    </Grid>
+                    
+                    <TextBox
+                        Grid.Row="2"
+                        Margin="2"
+                        IsEnabled="{Binding Enable}"
+                        Style="{StaticResource TextBoxStyle}"/>
+                    
+                    <TextBlock
+                        Grid.Row="3"
+                        Text="Должность"
+                        HorizontalAlignment="Left"
+                        FontSize="12"
+                        Style="{StaticResource TextBLockStyle}"/>
+                    
+                    <TextBox
+                        Grid.Row="4"
+                        Margin="2"
+                        IsEnabled="{Binding Enable}"
+                        Style="{StaticResource TextBoxStyle}"/>
+                    
+                    <Grid
+                        Grid.Row="5">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="30"/>
+                            <ColumnDefinition/>
+                            <ColumnDefinition Width="30"/>
+                            <ColumnDefinition/>
+                        </Grid.ColumnDefinitions>
+                        
+                        <CheckBox
+                            Grid.Column="0"
+                            HorizontalAlignment="Center"
+                            VerticalAlignment="Center"/>
+
+                        <TextBlock
+                            Grid.Column="1"
+                            Text="Право подписи заявок"
+                            FontSize="12"
+                            HorizontalAlignment="Left"
+                            Style="{StaticResource TextBLockStyle}"/>
+
+                        <CheckBox
+                            Grid.Column="2"
+                            HorizontalAlignment="Center"
+                            VerticalAlignment="Center"/>
+
+                        <TextBlock
+                            Grid.Column="3"
+                            Text="Право согласования заявок"
+                            FontSize="12"
+                            HorizontalAlignment="Left"
+                            Style="{StaticResource TextBLockStyle}"/>
+                    </Grid>
+                    
+                    <TextBlock
+                        Grid.Row="6"
+                        Text="Кабинет"
+                        HorizontalAlignment="Left"
+                        FontSize="12"
+                        IsEnabled="{Binding Enable}"
+                        Style="{StaticResource TextBLockStyle}"/>
+                    
+                    <Grid
+                        Grid.Row="7">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition/>
+                            <ColumnDefinition Width="30"/>
+                            <ColumnDefinition Width="30"/>
+                        </Grid.ColumnDefinitions>
+                        
+                        <TextBox
+                            Grid.Column="0"
+                            Margin="2"
+                            IsEnabled="{Binding Enable}"
+                            Style="{StaticResource TextBoxStyle}"/>
+                        
+                        <Button
+                            Grid.Column="1"
+                            Content="..."
+                            Width="25"
+                            Height="25"
+                            IsEnabled="{Binding Enable}"
+                            Style="{StaticResource ButtonStyle}"/>
+
+                        <Button
+                            Grid.Column="2"
+                            Content="X"
+                            Width="25"
+                            Height="25"
+                            IsEnabled="{Binding Enable}"
+                            Style="{StaticResource ButtonStyle}"/>
+                    </Grid>
+                </Grid>
+            </mah:MetroTabItem>
+        </mah:MetroAnimatedTabControl>
+        
+        <Grid
+            Grid.Row="4">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="2*"/>
+                <ColumnDefinition/>
+                <ColumnDefinition/>
+            </Grid.ColumnDefinitions>
+            
+            <Button
+                Grid.Column="1"
+                Margin="6"
+                Visibility="{Binding EmployeeTabVisible, 
+                Converter={StaticResource BooleanToVisibilityConverter}}"
+                Style="{StaticResource ButtonStyle}">
+                <Grid Width="66">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition/>
+                        <ColumnDefinition/>
+                    </Grid.ColumnDefinitions>
+                    
+                    <Image
+                        Grid.Column="0"
+                        Source="../../Resources/Принять (2).ico"/>
+                    
+                    <TextBlock
+                        Grid.Column="1"
+                        Text="Ок"
+                        FontSize="12"
+                        Style="{StaticResource TextBLockStyle}"/>
+                </Grid>
+            </Button>
+
+            <Button
+                Grid.Column="2"
+                Margin="6"
+                Style="{StaticResource ButtonStyle}">
+                <Grid Width="80">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition/>
+                        <ColumnDefinition Width="1.2*"/>
+                    </Grid.ColumnDefinitions>
+
+                    <Image
+                        Grid.Column="0"
+                        Source="../../Resources/Отмена (2).ico"/>
+
+                    <TextBlock
+                        Grid.Column="1"
+                        Text="{Binding CloseButtonName}"
+                        FontSize="12"
+                        Style="{StaticResource TextBLockStyle}"/>
+                </Grid>
+            </Button>
+        </Grid>
+    </Grid>
+</mah:MetroWindow>

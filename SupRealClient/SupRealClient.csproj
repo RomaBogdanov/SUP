@@ -112,6 +112,7 @@
     <Compile Include="Models\UpdateCardModel.cs" />
     <Compile Include="Common\Data\FieldData.cs" />
     <Compile Include="Models\Visit.cs" />
+    <Compile Include="Models\VisitorModeEnum.cs" />
     <Compile Include="Properties\Annotations.cs" />
     <Compile Include="Search\CompareStrategyFactory.cs" />
     <Compile Include="Search\ContainsStrategy.cs" />
@@ -138,6 +139,7 @@
     <Compile Include="ViewModels\UnitViewModel.cs" />
     <Compile Include="ViewModels\ViewModelBase.cs" />
     <Compile Include="ViewModels\VisitorsViewModel.cs" />
+    <Compile Include="ViewModels\VisitorViewModel.cs" />
     <Compile Include="ViewModels\VisitsViewModel.cs" />
     <Compile Include="Views\AddDepartmentView.xaml.cs">
       <DependentUpon>AddDepartmentView.xaml</DependentUpon>
@@ -202,6 +204,9 @@
     </Compile>
     <Compile Include="Views\VisitorsView.xaml.cs">
       <DependentUpon>VisitorsView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Visitor\AddVisitor.xaml.cs">
+      <DependentUpon>AddVisitor.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\VisitsView.xaml.cs">
       <DependentUpon>VisitsView.xaml</DependentUpon>
@@ -381,6 +386,10 @@
       <SubType>Designer</SubType>
     </Page>
     <Page Include="Views\VisitorsView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\Visitor\AddVisitor.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
