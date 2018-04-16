@@ -11,28 +11,17 @@ using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
-using SupRealClient.Models;
 
-namespace SupRealClient.Views
+namespace SupRealClient.Views.Visitor
 {
     /// <summary>
-    /// Interaction logic for VisitsView.xaml
+    /// Interaction logic for AddVisitor.xaml
     /// </summary>
-    public partial class VisitsView
+    public partial class AddVisitor 
     {
-        public VisitsView()
+        public AddVisitor()
         {
             InitializeComponent();
-        }
-
-        private void Control_OnMouseDoubleClick(object sender, MouseButtonEventArgs e)
-        {
-            if (sender is Visit)
-            {
-                var visit = (Visit) sender;
-
-                visit.ToString();
-            }
         }
     }
 }
