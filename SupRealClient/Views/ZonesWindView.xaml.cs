@@ -52,6 +52,7 @@ namespace SupRealClient.Views
                 Binding = new Binding("RelatedDoors")
             };
             base3.BaseTab.Columns.Add(dataGridTextColumn);
+            base3.SetDefaultColumn();
         }
     }
 }

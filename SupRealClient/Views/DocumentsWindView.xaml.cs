@@ -24,6 +24,7 @@ namespace SupRealClient.Views
                 Binding = new Binding("DocName")
             };
             base1.BaseTab.Columns.Add(dataGridTextColumn);
+            base1.SetDefaultColumn();
         }
     }
 }

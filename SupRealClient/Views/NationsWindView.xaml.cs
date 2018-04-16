@@ -24,6 +24,7 @@ namespace SupRealClient.Views
                 Binding = new Binding("CountryName")
             };
             base1.BaseTab.Columns.Add(dataGridTextColumn);
+            base1.SetDefaultColumn();
         }
     }
 }
