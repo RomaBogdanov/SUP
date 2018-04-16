@@ -77,6 +77,7 @@
     </ApplicationDefinition>
     <Compile Include="Behaviour\BoolToStringConverter.cs" />
     <Compile Include="Behaviour\DialogService.cs" />
+    <Compile Include="Behaviour\HeaderToCurrentColumnConverter.cs" />
     <Compile Include="Behaviour\IDialogService.cs" />
     <Compile Include="EnumerationClasses\Cabinet.cs" />
     <Compile Include="Common\Interfaces\ISearchHelper.cs" />
