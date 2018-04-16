@@ -46,6 +46,7 @@ namespace SupRealClient.Views
                 Binding = new Binding("DoorNum")
             };
             base3.BaseTab.Columns.Add(dataGridTextColumn);
+            base3.SetDefaultColumn();
         }
     }
 }

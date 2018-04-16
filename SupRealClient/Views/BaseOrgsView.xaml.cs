@@ -31,6 +31,7 @@ namespace SupRealClient.Views
             };
             base1.BaseTab.Columns.Add(dataGridTextColumn);
             base1.btnUpdate.Content = "Удалить";
+            base1.SetDefaultColumn();
         }
     }
 }

@@ -36,7 +36,8 @@
         <DataGrid Name="baseTab" Grid.Row="0" ItemsSource="{Binding Path=Set, Mode=TwoWay}" CurrentItem="{Binding Path=CurrentItem, Mode=TwoWay}"
                   AutoGenerateColumns="False" Grid.RowSpan="3" Grid.ColumnSpan="10" Focusable="True"
                   SelectedItem="{Binding Path=CurrentItem, Mode=TwoWay}" SelectedIndex="{Binding Path=SelectedIndex, Mode=TwoWay}"
-                  SelectedValue="{Binding Path=SelectedValue, Mode=TwoWay}" CurrentColumn="{Binding Path=CurrentColumn, Mode=TwoWay}">
+                  SelectedValue="{Binding Path=SelectedValue, Mode=TwoWay}" CurrentColumn="{Binding Path=CurrentColumn, Mode=TwoWay}"
+                  ColumnHeaderStyle="{StaticResource SelectionColumnHeader}">
             <!--<DataGrid.Columns>
                 <DataGridTextColumn Header="Тип" Binding="{Binding Type}">
                 </DataGridTextColumn>

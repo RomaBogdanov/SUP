@@ -66,6 +66,7 @@ namespace SupRealClient.Views
                 Binding = new Binding("ChangeDate")
             };
             base2.baseTab.Columns.Add(dataGridTextColumn);
+            base2.SetDefaultColumn();
         }
     }
 }

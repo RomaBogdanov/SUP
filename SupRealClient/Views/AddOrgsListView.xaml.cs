@@ -14,8 +14,6 @@ using System.Windows.Shapes;
 using System.Collections.ObjectModel;
 using SupRealClient.EnumerationClasses;
 using SupRealClient.ViewModels;
-using System.Windows.Input;
-//using SupRealClient.Models.OrganizationStructure;
 using SupRealClient.Views;
 using SupRealClient.TabsSingleton;
 using System.Data;
