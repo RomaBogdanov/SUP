@@ -6,9 +6,9 @@ using SupClientConnectionLib;
 using System.Windows.Controls;
 using System.Windows;
 using System.Collections.Generic;
-using System.Xml;
 using System;
 using System.Configuration;
+using System.Linq;
 using System.ServiceModel.Configuration;
 
 namespace SupRealClient.ViewModels
@@ -19,8 +19,8 @@ namespace SupRealClient.ViewModels
 
         private string login;
         private string password;
-        private int selectedHost;
-        private List<string> hosts;
+        private KeyValuePair<string, string> selectedHost;
+        private Dictionary<string, string> hosts;
         bool IsAuthorization = false;
         Timer timer;
         int timerInterval = 3000;
@@ -56,7 +56,7 @@ namespace SupRealClient.ViewModels
             }
         }
 
-        public int SelectedHost
+        public KeyValuePair<string, string> SelectedHost
         {
             get { return this.selectedHost; }
             set
@@ -86,7 +86,7 @@ namespace SupRealClient.ViewModels
             }
         }
 
-        public List<string> Hosts
+        public Dictionary<string, string> Hosts
         {
             get { return this.hosts; }
             set
@@ -107,25 +107,16 @@ namespace SupRealClient.ViewModels
             timer = new Timer(timerInterval);
             timer.Elapsed += Timer_Elapsed;
 
-            var hostList = new List<string>
+            var hostList = new Dictionary<string, string>();
+            foreach (var key in ConfigurationManager.AppSettings.AllKeys)
             {
-                "<default>"
-            };
-            XmlDocument doc = new XmlDocument();
-            try
-            {
-                doc.Load("Hosts.xml");
-                XmlNode root = doc.FirstChild.NextSibling;
-                foreach (XmlNode host in root.ChildNodes)
-                {
-                    hostList.Add(host.Attributes["Name"].Value);
-                }
-            }
-            catch (Exception)
-            {
+                hostList.Add(key.ToUpper(), ConfigurationManager.AppSettings[key]);
             }
             Hosts = hostList;
-            SelectedHost = 0;
+            if (Hosts.Count > 0)
+            {
+                SelectedHost = Hosts.ElementAt(0);
+            }
         }
 
         protected virtual void OnPropertyChanged(string propertyName)
@@ -141,7 +132,6 @@ namespace SupRealClient.ViewModels
             if (IsAuthorization)
             {
                 this.connector.ExitAuthorize();
-                ClientConnector.ResetConnector(null);
                 IsAuthorization = false;
                 //System.Windows.Forms.MessageBox.Show("Войти");
                 this.mainWindowViewModel.AuthorizedUser = "Пользователь не назначен";
@@ -154,40 +144,38 @@ namespace SupRealClient.ViewModels
             }
             else
             {
-                this.connector = ClientConnector.ResetConnector(ParseUri());
-                int id = this.connector.Authorize(Login, Password);
-                if (id > 0)
+                try
                 {
-                    // TODO - при удачном входе оставлять все открытые окна и обновлять их
-
-                    IsAuthorization = true;
-                    //System.Windows.Forms.MessageBox.Show("Выйти");
-                    this.mainWindowViewModel.AuthorizedUser = Login;
-                    this.InfoStyle = Brushes.Green;
-                    this.Msg = "Пользователь авторизован!";
-                    setupStorage.UserExit = false;
-                    this.ClearEnterData();
-                    this.mainWindowViewModel.DataVisibility = Visibility.Visible;
-                    new System.Threading.Thread(Invisible).Start();
-                    //this.EnterButtonContent = "Выйти";
-                    timer.Start();
+                    this.connector = ClientConnector.ResetConnector(ParseUri());
+                    int id = this.connector.Authorize(Login, Password);
+                    SetLoginInfo(id > 0, id > 0 ? "Пользователь авторизован!" :
+                        "Пользователь не назначен");
                 }
-                else
+                catch (Exception ex)
                 {
-                    // TODO - при неудачном входе закрывать все окна
-                    //ViewManager.Instance.ExitApp();
-
-                    IsAuthorization = false;
-                    //System.Windows.Forms.MessageBox.Show("Войти");
-                    this.mainWindowViewModel.AuthorizedUser = "Пользователь не назначен";
-                    this.InfoStyle = Brushes.Red;
-                    this.Msg = "Неуспешная попытка авторизации!";
-                    setupStorage.UserExit = true;
-                    this.ClearEnterData();
-                    //this.EnterButtonContent = "Войти";
-                    //this.Msgs = "Аутентификация не прошла";
-                    timer.Stop();
+                    SetLoginInfo(false, ex.Message);
                 }
+            }
+        }
+
+        private void SetLoginInfo(bool success, string message)
+        {
+            IsAuthorization = success;
+            this.mainWindowViewModel.AuthorizedUser = success ?
+                Login : "Пользователь не назначен";
+            this.InfoStyle = success ? Brushes.Green : Brushes.Red;
+            this.Msg = message;
+            setupStorage.UserExit = !success;
+            this.ClearEnterData();
+            if (success)
+            {
+                this.mainWindowViewModel.DataVisibility = Visibility.Visible;
+                new System.Threading.Thread(Invisible).Start();
+                timer.Start();
+            }
+            else
+            {
+                timer.Stop();
             }
         }
 
@@ -222,25 +210,24 @@ namespace SupRealClient.ViewModels
 
         private Uri ParseUri()
         {
-            if (SelectedHost <= 0)
-            {
-                return null;
-            }
             try
             {
                 Configuration config = ConfigurationManager.OpenExeConfiguration(
                     ConfigurationUserLevel.None);
                 var serviceModel = config.SectionGroups["system.serviceModel"];
                 ClientSection client = (ClientSection)serviceModel.Sections["client"];
-                var endpoint = client.Endpoints[0];
-                var builder = new UriBuilder(endpoint.Address);
-                builder.Host = Hosts[SelectedHost];
-                return builder.Uri;
+                foreach (ChannelEndpointElement endpoint in client.Endpoints)
+                {
+                    if (SelectedHost.Key == endpoint.Address.Host.ToUpper())
+                    {
+                        return endpoint.Address;
+                    }
+                }
             }
             catch (Exception)
             {
             }
-            return null;
+            throw new ArgumentException("Неправильная конфигурация!");
         }
     }
 }

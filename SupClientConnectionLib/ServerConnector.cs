@@ -1,12 +1,7 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Data;
 using System.ServiceModel;
 using SupClientConnectionLib.ServiceRef;
-
 
 namespace SupClientConnectionLib
 {
@@ -63,8 +58,7 @@ namespace SupClientConnectionLib
             }
             catch (ProtocolException)
             {
-                this.tableService = new TableServiceClient(instanceContext);
-                this.compositeType = new CompositeType();
+                ResetConnection();
                 try
                 {
                     authorizer.Id = this.tableService.Authorize(authorizer.Login, pass ?? "");
@@ -75,8 +69,7 @@ namespace SupClientConnectionLib
             }
             catch (CommunicationObjectFaultedException)
             {
-                this.tableService = new TableServiceClient(instanceContext);
-                this.compositeType = new CompositeType();
+                ResetConnection();
                 try
                 {
                     authorizer.Id = this.tableService.Authorize(authorizer.Login, pass ?? "");
@@ -87,8 +80,7 @@ namespace SupClientConnectionLib
             }
             catch (EndpointNotFoundException)
             {
-                this.tableService = new TableServiceClient(instanceContext);
-                this.compositeType = new CompositeType();
+                ResetConnection();
                 try
                 {
                     authorizer.Id = this.tableService.Authorize(authorizer.Login, pass ?? "");
@@ -183,18 +175,7 @@ namespace SupClientConnectionLib
             messageHandler.OnUpdate += MessageHandler_OnUpdate;
             messageHandler.OnDelete += MessageHandler_OnDelete;
             instanceContext = new InstanceContext(messageHandler);
-            if (ClientConnector.uri != null)
-            {
-                var myChannelFactory = new DuplexChannelFactory<ITableService>(
-                    instanceContext, new WSDualHttpBinding(),
-                    new EndpointAddress(ClientConnector.uri));
-                this.tableService = myChannelFactory.CreateChannel();
-            }
-            else
-            {
-                this.tableService = new TableServiceClient(instanceContext);
-            }
-            this.compositeType = new CompositeType();
+            ResetConnection();
         }
 
         private void MessageHandler_OnInsert(string tableName, object[] objs)
@@ -211,6 +192,15 @@ namespace SupClientConnectionLib
         private void MessageHandler_OnDelete(string tableName, object[] objs)
         {
             this.OnDelete?.Invoke(tableName, objs);
+        }
+
+        private void ResetConnection()
+        {
+            var myChannelFactory = new DuplexChannelFactory<ITableService>(
+                instanceContext, new WSDualHttpBinding(),
+                new EndpointAddress(ClientConnector.uri));
+            this.tableService = myChannelFactory.CreateChannel();
+            this.compositeType = new CompositeType();
         }
 
         #endregion

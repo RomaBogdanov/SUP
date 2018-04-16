@@ -525,9 +525,6 @@
     <Resource Include="Resources\Фильтр.ico">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Resource>
-    <Content Include="Hosts.xml">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
     <Content Include="TabsSingleton\Wrappers.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
       <LastGenOutput>Wrappers.cs</LastGenOutput>
