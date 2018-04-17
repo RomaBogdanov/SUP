@@ -9,6 +9,7 @@ namespace SupHost
 {
     class Accounts
     {
+        private readonly object syncObj = new object();
         static Accounts accounts;
         Dictionary<string, int> listAccs = new Dictionary<string, int>();
         int maxTime = 60000;
@@ -34,12 +35,18 @@ namespace SupHost
 
         public void AddAccount(string login, int id)
         {
-            this.listAccs.Add(login, id);
+            lock (syncObj)
+            {
+                this.listAccs.Add(login, id);
+            }
         }
 
         public void RemoveAccount(string login)
         {
-            this.listAccs.Remove(login);
+            lock (syncObj)
+            {
+                this.listAccs.Remove(login);
+            }
         }
 
         public bool CheckAccount(string login)
@@ -71,19 +78,32 @@ namespace SupHost
 
         private void Timer_Elapsed(object sender, ElapsedEventArgs e)
         {
-            lock (this.listAccs)
+            lock (syncObj)
             {
+                var keysToRemove = new List<string>();
+                var keysToChange = new List<string>();
                 foreach (var item in this.listAccs)
                 {
                     if (item.Value >= maxTime)
                     {
-                        this.listAccs.Remove(item.Key);
+                        //this.listAccs.Remove(item.Key);
+                        keysToRemove.Add(item.Key);
                     }
                     else
                     {
                         // TODO - Зачем так?
-                        this.listAccs[item.Key] += elapsedTime;
+                        //this.listAccs[item.Key] += elapsedTime;
+                        keysToRemove.Add(item.Key);
                     }
+                }
+                foreach (var key in keysToRemove)
+                {
+                    this.listAccs.Remove(key);
+                }
+                foreach (var key in keysToChange)
+                {
+                    // TODO - Зачем так?
+                    this.listAccs[key] += elapsedTime;
                 }
             }
         }
