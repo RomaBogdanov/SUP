@@ -23,9 +23,9 @@ namespace SupRealClient.Views
         public VisitorsListWindView()
         {
             InitializeComponent();
-            var viewModel = new Base4ViewModel<Visitor>
+            var viewModel = new Base4ViewModel<SupRealClient.EnumerationClasses.Visitor>
             {
-                Model = new VisitorsListModel<Visitor>()
+                Model = new VisitorsListModel<SupRealClient.EnumerationClasses.Visitor>()
             };
             base4.DataContext = viewModel;
             DataGridTextColumn dataGridTextColumn = new DataGridTextColumn

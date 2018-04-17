@@ -226,8 +226,8 @@
     <Compile Include="Views\VisitorsView.xaml.cs">
       <DependentUpon>VisitorsView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Views\Visitor\AddVisitor.xaml.cs">
-      <DependentUpon>AddVisitor.xaml</DependentUpon>
+    <Compile Include="Views\Visitor\AddVisitorView.xaml.cs">
+      <DependentUpon>AddVisitorView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\VisitsView.xaml.cs">
       <DependentUpon>VisitsView.xaml</DependentUpon>
@@ -434,7 +434,7 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Views\Visitor\AddVisitor.xaml">
+    <Page Include="Views\Visitor\AddVisitorView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

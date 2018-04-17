@@ -44,6 +44,7 @@
                 Style="{StaticResource TextBLockStyle}"/>
             
             <TextBox
+                Text="{Binding Path=Family, Mode=TwoWay}"
                 Grid.Row="1"
                 Grid.Column="0"
                 Style="{StaticResource TextBoxStyle}"/>
@@ -55,6 +56,7 @@
                 Style="{StaticResource TextBLockStyle}"/>
 
             <TextBox
+                Text="{Binding Path=Name, Mode=TwoWay}"
                 Grid.Row="1"
                 Grid.Column="1"
                 Style="{StaticResource TextBoxStyle}"/>
@@ -66,6 +68,7 @@
                 Style="{StaticResource TextBLockStyle}"/>
 
             <TextBox
+                Text="{Binding Path=Patronymic, Mode=TwoWay}"
                 Grid.Row="1"
                 Grid.Column="2"
                 Style="{StaticResource TextBoxStyle}"/>
@@ -175,6 +178,7 @@
                 Style="{StaticResource TextBLockStyle}"/>
 
             <TextBox
+                Text="{Binding Path=Organization, Mode=TwoWay}"
                 Grid.Row="0"
                 Grid.Column="1"
                 Style="{StaticResource TextBoxStyle}"/>
@@ -194,6 +198,7 @@
                 Style="{StaticResource TextBLockStyle}"/>
 
             <TextBox
+                Text="{Binding Path=Comment, Mode=TwoWay}"
                 Grid.Row="1"
                 Grid.Column="1"
                 Style="{StaticResource TextBoxStyle}"/>
@@ -224,6 +229,7 @@
                 </Grid.ColumnDefinitions>
                 
                 <CheckBox
+                    IsChecked="{Binding Path=IsAccessDenied, Mode=TwoWay}"
                     Grid.Column="0"
                     VerticalAlignment="Center"
                     HorizontalAlignment="Center"/>
@@ -242,6 +248,7 @@
                 </Grid.ColumnDefinitions>
 
                 <CheckBox
+                    IsChecked="{Binding Path=IsCanHaveVisitors, Mode=TwoWay}"
                     Grid.Column="0"
                     VerticalAlignment="Center"
                     HorizontalAlignment="Center"/>
@@ -260,6 +267,7 @@
                 </Grid.ColumnDefinitions>
 
                 <CheckBox
+                    IsChecked="{Binding Path=IsNotFormular, Mode=TwoWay}"
                     Grid.Column="0"
                     VerticalAlignment="Center"
                     HorizontalAlignment="Center"/>
@@ -300,6 +308,7 @@
                             Style="{StaticResource TextBLockStyle}"/>
                         
                         <TextBox
+                            Text="{Binding Path=Telephone, Mode=TwoWay}"
                             Grid.Row="0"
                             Grid.Column="1"
                             Grid.ColumnSpan="2"
@@ -314,6 +323,7 @@
                             Style="{StaticResource TextBLockStyle}"/>
 
                         <TextBox
+                            Text="{Binding Path=Nation, Mode=TwoWay}"
                             Grid.Row="1"
                             Grid.Column="1"
                             Style="{StaticResource TextBoxStyle}"/>
@@ -378,7 +388,7 @@
                             <TextBox
                                 Grid.Row="1"
                                 Grid.Column="1"
-                                Text="Удостоверение личности"
+                                Text="{Binding Path=DocType, Mode=TwoWay}"
                                 TextWrapping="Wrap"
                                 FontSize="15"
                                 IsEnabled="False"
@@ -425,6 +435,7 @@
                                     Style="{StaticResource TextBLockStyle}"/>
                                 
                                 <TextBox
+                                    Text="{Binding Path=DocSeria, Mode=TwoWay}"
                                     Grid.Column="1"
                                     Style="{StaticResource TextBoxStyle}"/>
                             </Grid>
@@ -444,6 +455,7 @@
                                     Style="{StaticResource TextBLockStyle}"/>
 
                                 <TextBox
+                                    Text="{Binding Path=DocNum, Mode=TwoWay}"
                                     Grid.Column="1"
                                     Style="{StaticResource TextBoxStyle}"/>
                             </Grid>
@@ -458,7 +470,7 @@
                                 Grid.Row="2"
                                 Grid.Column="1"
                                 Grid.ColumnSpan="4"
-                                Text=""
+                                Text="{Binding Path=DocDate, Mode=TwoWay}"
                                 FontSize="15"
                                 Style="{StaticResource TextBoxStyle}"/>
                             
@@ -472,7 +484,7 @@
                                 Grid.Row="3"
                                 Grid.Column="1"
                                 Grid.ColumnSpan="4"
-                                Text=""
+                                Text="{Binding Path=DocPlace, Mode=TwoWay}"
                                 FontSize="15"
                                 Style="{StaticResource TextBoxStyle}"/>
                             
@@ -494,6 +506,7 @@
                                 </Grid.ColumnDefinitions>
 
                                 <CheckBox 
+                                    IsChecked="{Binding Path=IsAgree, Mode=TwoWay}"
                                     Grid.Column="0"
                                     HorizontalAlignment="Center"
                                     VerticalAlignment="Center"/>
@@ -511,6 +524,7 @@
                                 
                                 <DatePicker
                                     Grid.Column="3"
+                                    SelectedDate="{Binding Path=AgreeToDate, Mode=TwoWay}"
                                     Text="Дата"></DatePicker>
                             </Grid>
                         </Grid>
@@ -579,6 +593,7 @@
                             Style="{StaticResource TextBLockStyle}"/>
                         
                         <TextBox
+                            Text="{Binding Path=Department, Mode=TwoWay}"
                             Grid.Row="1"
                             Grid.Column="0"
                             Grid.ColumnSpan="2"
@@ -611,6 +626,7 @@
                         </Grid>
                         
                         <TextBox
+                            Text="{Binding Path=DepartmentUnit, Mode=TwoWay}"
                             Grid.Row="2"
                             Grid.Column="0"
                             Grid.ColumnSpan="3"
@@ -618,6 +634,7 @@
                             Style="{StaticResource TextBoxStyle}"/>
 
                         <TextBox
+                            Text="{Binding Path=DepartmentUnitUnit, Mode=TwoWay}"
                             Grid.Row="3"
                             Grid.Column="0"
                             Grid.ColumnSpan="3"
@@ -631,6 +648,7 @@
                             Style="{StaticResource TextBLockStyle}"/>
 
                         <TextBox
+                            Text="{Binding Path=Position, Mode=TwoWay}"
                             Grid.Row="5"
                             Grid.Column="0"
                             Grid.ColumnSpan="2"
@@ -646,6 +664,7 @@
                             </Grid.ColumnDefinitions>
 
                             <CheckBox
+                                IsChecked="{Binding Path=IsRightSign, Mode=TwoWay}"
                                 Grid.Column="0"
                                 HorizontalAlignment="Center"
                                 VerticalAlignment="Center"/>
@@ -667,6 +686,7 @@
                             </Grid.ColumnDefinitions>
 
                             <CheckBox
+                                IsChecked="{Binding Path=IsAgreement, Mode=TwoWay}"
                                 Grid.Column="0"
                                 HorizontalAlignment="Center"
                                 VerticalAlignment="Center"/>
@@ -686,6 +706,7 @@
                             Style="{StaticResource TextBLockStyle}"/>
                         
                         <TextBox
+                            Text="{Binding Path=Cabinet, Mode=TwoWay}"
                             Grid.Row="8"
                             Grid.Column="0"
                             Grid.ColumnSpan="2"
@@ -738,7 +759,7 @@
             <TextBlock
                 Grid.Row="0"
                 Grid.Column="0"
-                Text="Оператор: 1"
+                Text="{Binding Path=Operator, Mode=TwoWay}"
                 FontSize="15"
                 Margin="5"
                 HorizontalAlignment="Left"

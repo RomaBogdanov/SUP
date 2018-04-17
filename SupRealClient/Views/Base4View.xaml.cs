@@ -134,7 +134,7 @@ namespace SupRealClient.Views
     }
 
     public class VisitorsListModel<T> : IBase4Model<T>
-        where T : Visitor, new()
+        where T : SupRealClient.EnumerationClasses.Visitor, new()
     {
         private ObservableCollection<T> set;
         private T currentItem;
@@ -160,7 +160,9 @@ namespace SupRealClient.Views
 
         public void Add()
         {
-            System.Windows.Forms.MessageBox.Show("Add");
+            //System.Windows.Forms.MessageBox.Show("Add");
+            Visitor.AddVisitorView wind = new Visitor.AddVisitorView();
+            wind.Show();
         }
 
         public void Begin()
