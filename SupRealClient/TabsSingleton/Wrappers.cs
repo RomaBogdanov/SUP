@@ -1,4 +1,4 @@
-﻿using SupClientConnectionLib.ServiceRef;
+﻿using SupContract;
 
 namespace SupRealClient.TabsSingleton
 {

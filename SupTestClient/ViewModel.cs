@@ -4,10 +4,10 @@ using System.ComponentModel;
 using System.Data;
 using System.Windows.Input;
 using SupClientConnectionLib;
-using SupClientConnectionLib.ServiceRef;
 using System.IO;
 using System.Windows.Media.Imaging;
 using System.Timers;
+using SupContract;
 
 namespace SupTestClient
 {

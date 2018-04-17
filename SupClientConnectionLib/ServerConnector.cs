@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Data;
 using System.ServiceModel;
-using SupClientConnectionLib.ServiceRef;
+using SupContract;
 
 namespace SupClientConnectionLib
 {
@@ -26,7 +26,6 @@ namespace SupClientConnectionLib
         public event Action<string, object[]> OnDelete;
 
         #region Public
-
         
         public static ClientConnector CurrentConnector
         {
@@ -206,7 +205,7 @@ namespace SupClientConnectionLib
         #endregion
     }
 
-    public class NewMessageHandler : ITableServiceCallback
+    public class NewMessageHandler : ITableCallback
     {
         public event Action<string, object[]> OnInsert;
         public event Action<string, int, object[]> OnUpdate;
@@ -226,7 +225,5 @@ namespace SupClientConnectionLib
         {
             this.OnDelete?.Invoke(tableName, objs);
         } 
-
     }
-
 }
