@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Data;
 using System.ServiceModel;
+using System.Xml;
 using SupContract;
 
 namespace SupClientConnectionLib
@@ -195,9 +196,18 @@ namespace SupClientConnectionLib
 
         private void ResetConnection()
         {
+            var binding = new WSDualHttpBinding()
+            {
+                MaxReceivedMessageSize = 2147483647,
+                MaxBufferPoolSize = 2147483647,
+                ReaderQuotas = new XmlDictionaryReaderQuotas
+                {
+                    MaxArrayLength = 2147483647,
+                    MaxStringContentLength = 2147483647
+                }
+            };
             var myChannelFactory = new DuplexChannelFactory<ITableService>(
-                instanceContext, new WSDualHttpBinding(),
-                new EndpointAddress(ClientConnector.uri));
+                instanceContext, binding, new EndpointAddress(ClientConnector.uri));
             this.tableService = myChannelFactory.CreateChannel();
             this.compositeType = new CompositeType();
         }
