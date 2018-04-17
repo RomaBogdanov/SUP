@@ -187,6 +187,12 @@
     <Compile Include="Views\MainOrganisationStructureView.xaml.cs">
       <DependentUpon>MainOrganisationStructureView.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Views\TodayVisitorsView.xaml.cs">
+      <DependentUpon>TodayVisitorsView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\VipOrders.xaml.cs">
+      <DependentUpon>VipOrders.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Views\VisitorsBidsTabView.xaml.cs">
       <DependentUpon>VisitorsBidsTabView.xaml</DependentUpon>
     </Compile>
@@ -365,6 +371,14 @@
       <DependentUpon>MainWindow.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
+    <Page Include="Views\TodayVisitorsView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\VipOrders.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Views\VisitorsBidsTabView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
