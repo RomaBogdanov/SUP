@@ -54,14 +54,16 @@ namespace SupClientConnectionLib
             authorizer.Id = -1;
             try
             {
-                authorizer.Id = this.tableService.Authorize(authorizer.Login, pass ?? "");
+                authorizer.Id = this.tableService.Authorize(
+                    authorizer.GetInfo(), pass ?? "");
             }
             catch (ProtocolException)
             {
                 ResetConnection();
                 try
                 {
-                    authorizer.Id = this.tableService.Authorize(authorizer.Login, pass ?? "");
+                    authorizer.Id = this.tableService.Authorize(
+                        authorizer.GetInfo(), pass ?? "");
                 }
                 catch
                 {
@@ -72,7 +74,8 @@ namespace SupClientConnectionLib
                 ResetConnection();
                 try
                 {
-                    authorizer.Id = this.tableService.Authorize(authorizer.Login, pass ?? "");
+                    authorizer.Id = this.tableService.Authorize(
+                        authorizer.GetInfo(), pass ?? "");
                 }
                 catch
                 {
@@ -83,7 +86,8 @@ namespace SupClientConnectionLib
                 ResetConnection();
                 try
                 {
-                    authorizer.Id = this.tableService.Authorize(authorizer.Login, pass ?? "");
+                    authorizer.Id = this.tableService.Authorize(
+                        authorizer.GetInfo(), pass ?? "");
                 }
                 catch
                 {
@@ -97,7 +101,7 @@ namespace SupClientConnectionLib
         {
             try
             {
-                return this.tableService.CheckAuthorize(authorizer.Login);
+                return this.tableService.CheckAuthorize(authorizer.GetInfo());
             }
             catch (Exception)
             {
@@ -107,14 +111,14 @@ namespace SupClientConnectionLib
 
         public bool ExitAuthorize()
         {
-            return this.tableService.ExitAuthorize(authorizer.Login);
+            return this.tableService.ExitAuthorize(authorizer.GetInfo());
         }
 
         public DataTable GetTable(TableName tableName)
         {
             this.compositeType.TableName = tableName;
-            return this.tableService.GetTable(this.compositeType, 
-                authorizer.Login);
+            return this.tableService.GetTable(this.compositeType,
+                authorizer.GetInfo());
         }
 
         public bool InsertRow(object[] rowValues)
@@ -129,8 +133,8 @@ namespace SupClientConnectionLib
             bool b;
             lock (this.tableService)
             {
-                b = this.tableService.InsertRow(compositeType, rowValues, 
-                    authorizer.Login);
+                b = this.tableService.InsertRow(compositeType, rowValues,
+                    authorizer.GetInfo());
             }
             return b;
         }
@@ -147,21 +151,22 @@ namespace SupClientConnectionLib
             bool b;
             lock (this.tableService)
             {
-                b = this.tableService.UpdateRow(compositeType, numRow,
-                    rowValues, authorizer.Login);
+                b = this.tableService.UpdateRow(compositeType, numRow, rowValues,
+                    authorizer.GetInfo());
             }
             return b;
         }
 
         public bool DeleteRow(object[] objs)
         {
-            return this.tableService.DeleteRow(compositeType, objs, 
-                authorizer.Login);
+            return this.tableService.DeleteRow(compositeType, objs,
+                authorizer.GetInfo());
         }
 
         public byte[] GetImage(int id)
         {
-            return this.tableService.GetImage(id, authorizer.Login);
+            return this.tableService.GetImage(id,
+                authorizer.GetInfo());
         }
 
         NewMessageHandler messageHandler;

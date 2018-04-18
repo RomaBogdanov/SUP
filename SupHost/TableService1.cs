@@ -50,12 +50,12 @@ namespace SupHost
         /// </summary>
         /// <param name="composite"></param>
         /// <returns></returns>
-        public DataTable GetTable(CompositeType composite, string login)
+        public DataTable GetTable(CompositeType composite, OperationInfo info)
         {
-            if (!this.users.IsExist(login))
+            if (!this.users.IsExist(info.User))
             {
                 this.logger.Warn($@"Попытка запроса к серверу 
-                    незарегистрированным аккаунтом {login}");
+                    незарегистрированным аккаунтом {info.User}");
                 return null;
             }
             AbstractTableWrapper tableWrapper =
@@ -106,17 +106,17 @@ namespace SupHost
         /// <param name="composite"></param>
         /// <param name="rows"></param>
         /// <returns></returns>
-        public bool InsertRow(CompositeType composite, object[] objs, string login)
+        public bool InsertRow(CompositeType composite, object[] objs, OperationInfo info)
         {
-            if (!this.users.IsExist(login))
+            if (!this.users.IsExist(info.User))
             {
                 this.logger.Warn($@"Попытка запроса к серверу 
-                    незарегистрированным аккаунтом {login}");
+                    незарегистрированным аккаунтом {info.User}");
                 return false;
             }
             AbstractTableWrapper tableWrapper =
                 AbstractTableWrapper.GetTableWrapper(composite.TableName);
-            return tableWrapper?.InsertRow(objs) ?? false;
+            return tableWrapper?.InsertRow(objs, info) ?? false;
         }
 
         /// <summary>
@@ -126,17 +126,17 @@ namespace SupHost
         /// <param name="rowNumber"></param>
         /// <param name="objs"></param>
         /// <returns></returns>
-        public bool UpdateRow(CompositeType composite, int rowNumber, object[] objs, string login)
+        public bool UpdateRow(CompositeType composite, int rowNumber, object[] objs, OperationInfo info)
         {
-            if (!this.users.IsExist(login))
+            if (!this.users.IsExist(info.User))
             {
                 this.logger.Warn($@"Попытка запроса к серверу 
-                    незарегистрированным аккаунтом {login}");
+                    незарегистрированным аккаунтом {info.User}");
                 return false;
             }
             AbstractTableWrapper tableWrapper =
                 AbstractTableWrapper.GetTableWrapper(composite.TableName);
-            return tableWrapper?.UpdateRow(objs, rowNumber) ?? false;
+            return tableWrapper?.UpdateRow(objs, rowNumber, info) ?? false;
         }
 
         /// <summary>
@@ -145,17 +145,17 @@ namespace SupHost
         /// <param name="composite"></param>
         /// <param name="objs"></param>
         /// <returns></returns>
-        public bool DeleteRow(CompositeType composite, object[] objs, string login)
+        public bool DeleteRow(CompositeType composite, object[] objs, OperationInfo info)
         {
-            if (!this.users.IsExist(login))
+            if (!this.users.IsExist(info.User))
             {
                 this.logger.Warn($@"Попытка запроса к серверу 
-                    незарегистрированным аккаунтом {login}");
+                    незарегистрированным аккаунтом {info.User}");
                 return false;
             }
             AbstractTableWrapper tableWrapper =
                 AbstractTableWrapper.GetTableWrapper(composite.TableName);
-            return tableWrapper?.DeleteRow(objs) ?? false;
+            return tableWrapper?.DeleteRow(objs, info) ?? false;
         }
 
         /// <summary>
@@ -163,7 +163,7 @@ namespace SupHost
         /// </summary>
         /// <param name="id"></param>
         /// <returns></returns>
-        public byte[] GetImage(int id, string login)
+        public byte[] GetImage(int id, OperationInfo info)
         {
             //TODO: обязательно переработать. Данный вариант выступает как заглушка. 
             string conSt = "Server = MISTEROWL; Database = dbTest; Trusted_Connection = True; ";
@@ -197,44 +197,45 @@ namespace SupHost
             return bytes;
         }
 
-        public int Authorize(string login, string pass)
+        public int Authorize(OperationInfo info, string pass)
         {
             //TODO: обязательно переработать. Данный вариант выступает как заглушка.
             // Проверка на существование уже зарегистрированного пользователя.
-            if (this.users.IsExist(login))
+            if (this.users.IsExist(info.User))
             {
                 logger.Warn($@"Попытка зарегистрироваться под уже 
-                    зарегистрированным аккаунтом {login}");
+                    зарегистрированным аккаунтом {info.User}");
                 return -1;
             }
             VisUsersTableWrapper visUsersTableWrapper =
                 VisUsersTableWrapper.GetVisUsersTableWrapper();
-            int id = visUsersTableWrapper.ExistingLogin(login, pass);
+            int id = visUsersTableWrapper.ExistingLogin(info.User, pass);
             if (id > 0)
             {
-                this.users.AddAccount(login, id);
-                logger.Info($"Зарегистрировался аккаунт {login}", id);
+                info.Id = id;
+                this.users.AddAccount(info.User, id);
+                logger.Info($"Зарегистрировался аккаунт {info.User}", info);
                 return id;
             }
             return -1;
         }
 
-        public bool CheckAuthorize(string login)
+        public bool CheckAuthorize(OperationInfo info)
         {
-            return users.CheckAccount(login);
+            return users.CheckAccount(info.User);
         }
 
-        public bool ExitAuthorize(string login)
+        public bool ExitAuthorize(OperationInfo info)
         {
-            if (this.users.IsExist(login))
+            if (this.users.IsExist(info.User))
             {
-                int id = this.users.GetUserId(login);
-                this.users.RemoveAccount(login);
-                this.logger.Info($"Аккаунт {login} вышел из системы", id);
+                info.Id = this.users.GetUserId(info.User);
+                this.users.RemoveAccount(info.User);
+                this.logger.Info($"Аккаунт {info.User} вышел из системы", info);
             }
             else
             {
-                this.logger.Error($@"Незарегистрированный аккаунт {login} вышел 
+                this.logger.Error($@"Незарегистрированный аккаунт {info.User} вышел 
                     из системы");
             }
             return true;

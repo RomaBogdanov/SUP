@@ -1,8 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Data;
 using SupContract;
 
@@ -62,7 +59,7 @@ namespace SupHost
             return this.table;
         }
 
-        public virtual bool InsertRow(object[] values)
+        public virtual bool InsertRow(object[] values, OperationInfo info)
         {
             DataRow dr = this.table.NewRow();
             for (int i = 0; i < this.table.Columns.Count; i++)
@@ -83,11 +80,12 @@ namespace SupHost
             {
                 this.OnAddRow(this.table.TableName, values);
             }
-            LogMessage($"В таблице {this.table.TableName} добавлена строка", dr);
+            LogMessage(
+                $"В таблице {this.table.TableName} добавлена строка", info);
             return true;
         }
 
-        public virtual bool UpdateRow(object[] values, int numRow)
+        public virtual bool UpdateRow(object[] values, int numRow, OperationInfo info)
         {
             DataRow dr = this.table.Rows[numRow];
             for (int i = 0; i < this.table.Columns.Count; i++)
@@ -103,11 +101,12 @@ namespace SupHost
             }
             this.getTableBehavior.UpdateRow();
             this.OnUpdateRow(this.table.TableName, numRow, values);
-            LogMessage($"В таблице {this.table.TableName} отредактирована строка", dr);
+            LogMessage(
+                $"В таблице {this.table.TableName} отредактирована строка", info);
             return true;
         }
 
-        public virtual bool DeleteRow(object[] objs)
+        public virtual bool DeleteRow(object[] objs, OperationInfo info)
         {
             if (table.Rows.Contains(objs[0]))
             {
@@ -116,19 +115,15 @@ namespace SupHost
                 this.getTableBehavior.DeleteRow();
                 this.OnDeleteRow(this.table.TableName, objs);
                 // TODO - добавить пользователя в логирование
-                this.logger.Debug($"В таблице {this.table.TableName} удалена строка");
+                this.logger.Debug(
+                    $"В таблице {this.table.TableName} удалена строка", info);
             }
             return true;
         }
 
-        protected virtual void LogMessage(string message, DataRow dr)
+        protected virtual void LogMessage(string message, OperationInfo info)
         {
-            this.logger.Debug(message, GetUserId(dr));
-        }
-
-        private int GetUserId(DataRow dr)
-        {
-            return this.table.Columns.Contains("f_rec_operator") ? (int)dr["f_rec_operator"] : -1;
+            this.logger.Debug(message, info);
         }
     }
 }
