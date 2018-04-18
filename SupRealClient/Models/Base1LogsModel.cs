@@ -72,6 +72,7 @@ namespace SupRealClient.Models
                                 Message = l.Field<string>("f_log_message"),
                                 RecDate = l.Field<DateTime>("f_rec_date"),
                                 RecOperator = l.Field<object>("f_rec_operator") != null ? l.Field<int>("f_rec_operator") : -1,
+                                Machine = l.Field<string>("f_machine"),
                             };
             this.viewModel.Set =
                 new System.Collections.ObjectModel.ObservableCollection<object>(logs);
@@ -99,6 +100,7 @@ namespace SupRealClient.Models
             {
                 { "f_log_severety", "Уровень" },
                 { "f_log_message", "Сообщение" },
+                { "f_machine", "Машина" },
             };
         }
 
@@ -126,6 +128,7 @@ namespace SupRealClient.Models
                 { "RecDate", "f_rec_date" },
                 { "Severity", "f_log_severety" },
                 { "Message", "f_log_message" },
+                { "Machine", "f_machine" },
             };
         }
     }

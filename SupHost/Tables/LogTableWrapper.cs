@@ -1,4 +1,5 @@
-﻿using System;
+﻿using SupContract;
+using System;
 using System.Data;
 
 namespace SupHost
@@ -33,7 +34,8 @@ namespace SupHost
                     row["f_rec_date"] = logData.Date;
                     row["f_log_class"] = logData.Class;
                     row["f_rec_operator"] = logData.User >= 0 ? (object)logData.User : DBNull.Value;
-                    InsertRow(row.ItemArray);
+                    row["f_machine"] = logData.Machine;
+                    InsertRow(row.ItemArray, null);
                 }
                 catch (Exception err)
                 {
@@ -42,7 +44,7 @@ namespace SupHost
             }
         }
 
-        protected override void LogMessage(string message, DataRow dr)
+        protected override void LogMessage(string message, OperationInfo info)
         {
             // В этом враппере не пишем лог, чтобы не было рекурсии
         }

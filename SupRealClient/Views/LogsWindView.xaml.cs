@@ -39,13 +39,19 @@ namespace SupRealClient.Views
                 Binding = new Binding("Message")
             };
             this.BaseTab.Columns.Add(dataGridTextColumn);
+            dataGridTextColumn = new DataGridTextColumn
+            {
+                Header = "Машина",
+                Binding = new Binding("Machine")
+            };
+            this.BaseTab.Columns.Add(dataGridTextColumn);
             //dataGridTextColumn = new DataGridTextColumn
             //{
             //    Header = "Пользователь",
             //    Binding = new Binding("RecOperator")
             //};
             //base1.BaseTab.Columns.Add(dataGridTextColumn);
-            this.BaseTab.CurrentColumn = this.BaseTab.Columns[0];
+            this.BaseTab.CurrentColumn = this.BaseTab.Columns[1];
         }
 
         public void SetViewModel(Base1ModelAbstr model)

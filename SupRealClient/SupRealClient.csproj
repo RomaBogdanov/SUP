@@ -525,9 +525,6 @@
     <Resource Include="Resources\Фильтр.ico">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Resource>
-    <Content Include="Hosts.xml">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
     <Content Include="TabsSingleton\Wrappers.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
       <LastGenOutput>Wrappers.cs</LastGenOutput>
@@ -545,6 +542,10 @@
     <ProjectReference Include="..\SupClientConnectionLib\SupClientConnectionLib.csproj">
       <Project>{82871529-5311-44ba-96a8-adbe27300d03}</Project>
       <Name>SupClientConnectionLib</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\SupContract\SupContract.csproj">
+      <Project>{ee82210e-6e55-48bb-a558-fa78c966cc9b}</Project>
+      <Name>SupContract</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
