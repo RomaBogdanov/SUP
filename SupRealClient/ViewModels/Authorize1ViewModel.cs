@@ -23,7 +23,7 @@ namespace SupRealClient.ViewModels
         private Dictionary<string, string> hosts;
         bool IsAuthorization = false;
         Timer timer;
-        int timerInterval = 3000;
+        int timerInterval;
         private ClientConnector connector;
         private MainWindowViewModel mainWindowViewModel;
         private string msg = "";
@@ -101,6 +101,9 @@ namespace SupRealClient.ViewModels
 
         public Authorize1ViewModel()
         {
+            int res;
+            timerInterval = int.TryParse(
+                ConfigurationManager.AppSettings["PingTimeout"], out res) ? res: 3000;
             //this.mainWindowViewModel = MainWindowViewModel.Current;
             //this.connector = ClientConnector.CurrentConnector;
             Enter = new RelayCommand(arg => Entering(arg));
@@ -113,10 +116,21 @@ namespace SupRealClient.ViewModels
                 hostList.Add(key.ToUpper(), ConfigurationManager.AppSettings[key]);
             }
             Hosts = hostList;
+            Reset();
+            
+        }
+
+        public void Reset()
+        {
+            IsAuthorization = false;
             if (Hosts.Count > 0)
             {
                 SelectedHost = Hosts.ElementAt(0);
             }
+            timer.Stop();
+            setupStorage.UserExit = true;
+            this.ClearEnterData();
+            this.Msg = "";
         }
 
         protected virtual void OnPropertyChanged(string propertyName)
@@ -132,15 +146,7 @@ namespace SupRealClient.ViewModels
             if (IsAuthorization)
             {
                 this.connector.ExitAuthorize();
-                IsAuthorization = false;
-                //System.Windows.Forms.MessageBox.Show("Войти");
-                this.mainWindowViewModel.AuthorizedUser = "Пользователь не назначен";
-                this.InfoStyle = Brushes.Red;
-                this.Msg = "Неуспешная попытка авторизации!";
-                setupStorage.UserExit = true;
-                this.ClearEnterData();
-                //this.EnterButtonContent = "Войти";
-                timer.Stop();
+                SetLoginInfo(false, "Неуспешная попытка авторизации!");
             }
             else
             {
@@ -175,13 +181,15 @@ namespace SupRealClient.ViewModels
             }
             else
             {
+                this.mainWindowViewModel.DataVisibility = Visibility.Hidden;
+                this.mainWindowViewModel.LoginVisibility = Visibility.Visible;
                 timer.Stop();
             }
         }
 
         private void Timer_Elapsed(object sender, ElapsedEventArgs e)
         {
-            bool a = this.connector.CheckAuthorize();
+            bool a = this.connector.Ping();
             if (a)
             {
                 IsAuthorization = true;
@@ -191,7 +199,8 @@ namespace SupRealClient.ViewModels
             {
                 IsAuthorization = false;
                 //this.EnterButtonContent = "Войти";
-                timer.Stop();
+                //this.connector.ExitAuthorize();
+                SetLoginInfo(false, "Потеряно соединение с сервером!");
             }
         }
 

@@ -1,4 +1,5 @@
-﻿using System.Windows.Controls;
+﻿using SupRealClient.ViewModels;
+using System.Windows.Controls;
 
 namespace SupRealClient.Views
 {
@@ -10,6 +11,11 @@ namespace SupRealClient.Views
         public Authorize1View()
         {
             InitializeComponent();
+        }
+
+        public void Reset()
+        {
+            (this.DataContext as Authorize1ViewModel).Reset();
         }
     }
 }

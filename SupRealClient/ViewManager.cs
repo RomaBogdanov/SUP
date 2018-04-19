@@ -18,9 +18,16 @@ namespace SupRealClient
         private IDictionary<string, IWindow> windows =
             new Dictionary<string, IWindow>();
 
+        private static Authorize1View authorizeView;
+
         public static IViewManager Instance
         {
             get { return viewManager = viewManager ?? new ViewManager(); }
+        }
+
+        public static Authorize1View AuthorizeView
+        {
+            get { return authorizeView ?? (authorizeView = new Authorize1View()); }
         }
 
         /// <summary>

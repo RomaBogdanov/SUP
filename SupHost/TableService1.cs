@@ -216,9 +216,11 @@ namespace SupHost
             return -1;
         }
 
-        public bool CheckAuthorize(OperationInfo info)
+        public string Ping(OperationInfo info)
+        //public bool CheckAuthorize(OperationInfo info)
         {
-            return users.CheckAccount(new UserTimeoutData { Id = info.Id });
+            return "OK";
+            //return users.CheckAccount(new UserTimeoutData { Id = info.Id });
         }
 
         public bool ExitAuthorize(OperationInfo info)

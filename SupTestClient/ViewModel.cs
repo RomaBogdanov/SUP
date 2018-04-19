@@ -345,7 +345,7 @@ namespace SupTestClient
 
         private void Timer_Elapsed(object sender, ElapsedEventArgs e)
         {
-            bool a = this.connector.CheckAuthorize();
+            bool a = this.connector.Ping();
             if (a)
             {
                 IsAuthorization = true;
