@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace SupHost
+namespace SupHost.Data
 {
     class LogData
     {

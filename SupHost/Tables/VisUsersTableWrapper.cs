@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Data;
+using SupHost.Data;
 
 namespace SupHost
 {
@@ -54,6 +55,24 @@ namespace SupHost
             this.logger.Warn($@"Попытка зарегистрироваться под 
                     аккаунтом {login}. Ввод неправильного пароля.");
             return -1;
+        }
+
+        public UserTimeoutData GetUserTimeoutData(int id)
+        {
+            this.GetTable();
+            var a = from i in this.table.AsEnumerable()
+                    where (int)i["f_user_id"] == id
+                    select i;
+
+            var user = a.FirstOrDefault();
+
+            return user == null ? null :
+                new UserTimeoutData
+                {
+                    Id = (int)user["f_user_id"],
+                    Name = (string)user["f_user"],
+                    Timeout = (int)user["f_timeout"]
+                };
         }
     }
 }

@@ -1,14 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Data;
-using System.Linq;
-using System.Text;
+﻿using System.Data;
 using System.Threading.Tasks;
 using SupContract;
-using System.Data.Sql;
 using System.Data.SqlClient;
 using System.ServiceModel;
 using System.Threading;
+using SupHost.Data;
 
 namespace SupHost
 {
@@ -213,7 +209,7 @@ namespace SupHost
             if (id > 0)
             {
                 info.Id = id;
-                this.users.AddAccount(info.User, id);
+                this.users.AddAccount(visUsersTableWrapper.GetUserTimeoutData(id));
                 logger.Info($"Зарегистрировался аккаунт {info.User}", info);
                 return id;
             }
@@ -222,15 +218,14 @@ namespace SupHost
 
         public bool CheckAuthorize(OperationInfo info)
         {
-            return users.CheckAccount(info.User);
+            return users.CheckAccount(new UserTimeoutData { Id = info.Id });
         }
 
         public bool ExitAuthorize(OperationInfo info)
         {
             if (this.users.IsExist(info.User))
             {
-                info.Id = this.users.GetUserId(info.User);
-                this.users.RemoveAccount(info.User);
+                this.users.RemoveAccount(new UserTimeoutData { Id = info.Id });
                 this.logger.Info($"Аккаунт {info.User} вышел из системы", info);
             }
             else
