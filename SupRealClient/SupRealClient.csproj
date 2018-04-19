@@ -108,6 +108,7 @@
     <Compile Include="Models\OrganizationStructure\Unit.cs" />
     <Compile Include="Models\OrganizationStructure\AddUnitModel.cs" />
     <Compile Include="Models\OrganizationStructure\AddDepModel.cs" />
+    <Compile Include="Models\Route.cs" />
     <Compile Include="Models\Search1Model.cs" />
     <Compile Include="Models\UpdateCardModel.cs" />
     <Compile Include="Common\Data\FieldData.cs" />
@@ -186,6 +187,18 @@
     </Compile>
     <Compile Include="Views\MainOrganisationStructureView.xaml.cs">
       <DependentUpon>MainOrganisationStructureView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Reports\IssuanceOfPassesPage.xaml.cs">
+      <DependentUpon>IssuanceOfPassesPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Reports\VisitorsListReportMasterView.xaml.cs">
+      <DependentUpon>VisitorsListReportMasterView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Reports\MainReportMasterView.xaml.cs">
+      <DependentUpon>MainReportMasterView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Reports\MainReportMasterPage.xaml.cs">
+      <DependentUpon>MainReportMasterPage.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\TodayVisitorsView.xaml.cs">
       <DependentUpon>TodayVisitorsView.xaml</DependentUpon>
@@ -286,6 +299,22 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Views\NationsWindView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\Reports\IssuanceOfPassesPage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\Reports\VisitorsListReportMasterView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\Reports\MainReportMasterView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\Reports\MainReportMasterPage.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -517,6 +546,11 @@
     <Resource Include="Resources\Фильтр.ico">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Resource>
+    <Resource Include="Resources\Назад.ico">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Resources\Вопрос.ico" />
+    <Resource Include="Resources\Печать.ico" />
     <Content Include="TabsSingleton\Wrappers.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
       <LastGenOutput>Wrappers.cs</LastGenOutput>

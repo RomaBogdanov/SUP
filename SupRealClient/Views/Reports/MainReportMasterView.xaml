@@ -1,0 +1,121 @@
+﻿<mah:MetroWindow x:Class="SupRealClient.Views.Reports.MainReportMasterView"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:SupRealClient.Views.Reports"
+        xmlns:mah="http://metro.mahapps.com/winfx/xaml/controls"
+        mc:Ignorable="d"
+        Title="Мастер отчётов" Height="500" Width="600">
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="6*"/>
+            <RowDefinition/>
+        </Grid.RowDefinitions>
+        <Frame x:Name="MainFrame"
+               Grid.Row="0"
+               Grid.Column="0"
+               NavigationUIVisibility="Hidden">
+            
+        </Frame>
+        
+        <Grid
+            Grid.Row="1"
+            Grid.Column="0"
+            Grid.ColumnSpan="2">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition/>
+                <ColumnDefinition/>
+                <ColumnDefinition/>
+                <ColumnDefinition/>
+            </Grid.ColumnDefinitions>
+            <Button
+                Grid.Column="0"
+                Click="ButtonBase_OnClick_Back"
+                Margin="5"
+                Style="{StaticResource ButtonStyle}">
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition/>
+                        <ColumnDefinition/>
+                    </Grid.ColumnDefinitions>
+                    <Image
+                        Grid.Column="0"
+                        Source="../../Resources/Назад.ico"/>
+                    
+                    <TextBlock
+                        Grid.Column="1"
+                        Text="Назад"
+                        FontSize="12"
+                        Style="{StaticResource TextBLockStyle}"/>
+                </Grid>
+            </Button>
+
+            <Button
+                Grid.Column="1"
+                Margin="5"
+                Click="ButtonBase_OnClick_Forward"
+                Style="{StaticResource ButtonStyle}">
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition/>
+                        <ColumnDefinition/>
+                    </Grid.ColumnDefinitions>
+                    <Image
+                        Grid.Column="0"
+                        Source="../../Resources/Далее.ico"/>
+
+                    <TextBlock
+                        Grid.Column="1"
+                        Text="Далее"
+                        FontSize="12"
+                        Style="{StaticResource TextBLockStyle}"/>
+                </Grid>
+            </Button>
+
+            <Button
+                Grid.Column="2"
+                Margin="5"
+                Click="ButtonBase_OnClick_Forward"
+                Style="{StaticResource ButtonStyle}">
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition/>
+                        <ColumnDefinition/>
+                    </Grid.ColumnDefinitions>
+                    <Image
+                        Grid.Column="0"
+                        Source="../../Resources/Отмена (2).ico"/>
+
+                    <TextBlock
+                        Grid.Column="1"
+                        Text="Отмена"
+                        FontSize="12"
+                        Style="{StaticResource TextBLockStyle}"/>
+                </Grid>
+            </Button>
+
+            <Button
+                Grid.Column="3"
+                Margin="5"
+                Click="ButtonBase_OnClick_Forward"
+                Style="{StaticResource ButtonStyle}">
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition/>
+                        <ColumnDefinition/>
+                    </Grid.ColumnDefinitions>
+                    <Image
+                        Grid.Column="0"
+                        Source="../../Resources/Вопрос.ico"/>
+
+                    <TextBlock
+                        Grid.Column="1"
+                        Text="Помощь"
+                        FontSize="12"
+                        Style="{StaticResource TextBLockStyle}"/>
+                </Grid>
+            </Button>
+        </Grid>
+    </Grid>
+</mah:MetroWindow>
