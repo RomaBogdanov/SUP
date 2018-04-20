@@ -109,6 +109,9 @@ namespace SupRealClient.ViewModels
         public ICommand ListBaseOrgs
         { get; set; }
 
+        public ICommand ListVisitorsClick
+        { get; set; }
+
         public ICommand UserExit
         { get; set; }
 
@@ -135,6 +138,7 @@ namespace SupRealClient.ViewModels
             ListBaseOrgsStructClick = new RelayCommand(arg => ViewManager.Instance.OpenWindow("MainOrganisationStructureView"));
             ListChildOrgs = new RelayCommand(arg => ViewManager.Instance.OpenWindow("ChildOrgsView"));
             ListBaseOrgs = new RelayCommand(arg => ViewManager.Instance.OpenWindow("BaseOrgsView"));
+            ListVisitorsClick = new RelayCommand(arg => ViewManager.Instance.OpenWindow("VisitorsListWindView"));
             UserExit = new RelayCommand(arg => UserExitProc());
             setupStorage.ChangeUserExit += arg => IsUserEnter = !arg;
             Close = new RelayCommand(arg => ExitApp());
@@ -149,13 +153,14 @@ namespace SupRealClient.ViewModels
 
         private void OpenVisitors()
         {
-            var visitorsViewModel = new VisitorsViewModel();
+            var window = new VisitorsView { DataContext = new Views.VisitsViewModel() };
+            window.Show();
+            /*var visitorsViewModel = new VisitorsViewModel();
 
             var window = new VisitorsView {DataContext = visitorsViewModel};
             window.Show();
             
             var dc = (VisitorsViewModel)window.DataContext;
-            
             // TODO тут лежит путь к файлику с изображением, которое выбрали во вкладке 'Фото'
             if (dc != null)
             {
@@ -165,7 +170,7 @@ namespace SupRealClient.ViewModels
                 }
             }
 
-            dc.ToString();
+            dc.ToString();*/
         }
 
         private void OpenBids()

@@ -84,6 +84,9 @@
     <Compile Include="Common\Interfaces\IViewManager.cs" />
     <Compile Include="Common\Interfaces\IWindow.cs" />
     <Compile Include="EnumerationClasses\IdEntity.cs" />
+    <Compile Include="EnumerationClasses\Order.cs" />
+    <Compile Include="EnumerationClasses\Card2.cs" />
+    <Compile Include="EnumerationClasses\Visitor.cs" />
     <Compile Include="EnumerationClasses\Zone.cs" />
     <Compile Include="EnumerationClasses\LogItem.cs" />
     <Compile Include="ErrorWindow.xaml.cs">
@@ -118,6 +121,7 @@
     <Compile Include="Models\UpdateCardModel.cs" />
     <Compile Include="Common\Data\FieldData.cs" />
     <Compile Include="Models\Visit.cs" />
+    <Compile Include="Models\VisitorModeEnum.cs" />
     <Compile Include="Properties\Annotations.cs" />
     <Compile Include="Search\CompareStrategyFactory.cs" />
     <Compile Include="Search\ContainsStrategy.cs" />
@@ -144,6 +148,7 @@
     <Compile Include="ViewModels\UnitViewModel.cs" />
     <Compile Include="ViewModels\ViewModelBase.cs" />
     <Compile Include="ViewModels\VisitorsViewModel.cs" />
+    <Compile Include="ViewModels\VisitorViewModel.cs" />
     <Compile Include="ViewModels\VisitsViewModel.cs" />
     <Compile Include="Views\AddDepartmentView.xaml.cs">
       <DependentUpon>AddDepartmentView.xaml</DependentUpon>
@@ -173,6 +178,9 @@
     </Compile>
     <Compile Include="Views\Base3View.xaml.cs">
       <DependentUpon>Base3View.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Base4View.xaml.cs">
+      <DependentUpon>Base4View.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\BaseOrgsView.xaml.cs">
       <DependentUpon>BaseOrgsView.xaml</DependentUpon>
@@ -206,6 +214,9 @@
     <Compile Include="Views\VisitorsEmployeeTabView.xaml.cs">
       <DependentUpon>VisitorsEmployeeTabView.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Views\VisitorsListWindView.xaml.cs">
+      <DependentUpon>VisitorsListWindView.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Views\VisitorsMainTabView.xaml.cs">
       <DependentUpon>VisitorsMainTabView.xaml</DependentUpon>
     </Compile>
@@ -217,6 +228,9 @@
     </Compile>
     <Compile Include="Views\VisitorsView.xaml.cs">
       <DependentUpon>VisitorsView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Visitor\AddVisitorView.xaml.cs">
+      <DependentUpon>AddVisitorView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\VisitsView.xaml.cs">
       <DependentUpon>VisitsView.xaml</DependentUpon>
@@ -262,6 +276,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Views\Base3View.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\Base4View.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -399,6 +417,10 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="Views\VisitorsListWindView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Views\VisitorsMainTabView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -412,6 +434,10 @@
       <SubType>Designer</SubType>
     </Page>
     <Page Include="Views\VisitorsView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\Visitor\AddVisitorView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
