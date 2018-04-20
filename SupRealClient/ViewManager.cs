@@ -203,7 +203,7 @@ namespace SupRealClient
 
         private void OpenWindow(IWindow window)
         {
-            if (window == null)
+            if (window == null) 
             {
                 return;
             }
@@ -239,6 +239,8 @@ namespace SupRealClient
                     return new ChildOrgsView();
                 case "BaseOrgsView":
                     return new BaseOrgsView();
+                case "VisitorsListWindView":
+                    return new VisitorsListWindView();
             }
 
             return null;

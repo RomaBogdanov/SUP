@@ -452,4 +452,64 @@ namespace SupRealClient.TabsSingleton
         }
     }
 
+	/// <summary>
+	/// ??
+	/// </summary>
+	partial class OrdersWrapper : TableWrapper
+	{
+		static OrdersWrapper currentTable;
+
+        public static OrdersWrapper CurrentTable()
+        {
+            if (currentTable == null)
+            {
+                currentTable = new OrdersWrapper();
+                wrappers.Add(currentTable);
+            }
+            return currentTable;
+        }
+
+		public override void Dispose()
+        {
+            base.Dispose();
+            currentTable = null;
+        }
+
+        private OrdersWrapper() : base()
+        {
+            this.table = connector.GetTable(TableName.VisOrders);
+            this.Subscribe();
+        }
+    }
+
+	/// <summary>
+	/// ??
+	/// </summary>
+	partial class OrderElementsWrapper : TableWrapper
+	{
+		static OrderElementsWrapper currentTable;
+
+        public static OrderElementsWrapper CurrentTable()
+        {
+            if (currentTable == null)
+            {
+                currentTable = new OrderElementsWrapper();
+                wrappers.Add(currentTable);
+            }
+            return currentTable;
+        }
+
+		public override void Dispose()
+        {
+            base.Dispose();
+            currentTable = null;
+        }
+
+        private OrderElementsWrapper() : base()
+        {
+            this.table = connector.GetTable(TableName.VisOrderElements);
+            this.Subscribe();
+        }
+    }
+
 }

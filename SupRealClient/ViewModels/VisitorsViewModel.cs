@@ -8,6 +8,7 @@ using System.Windows.Input;
 using SupRealClient.Behaviour;
 using SupRealClient.Models;
 using SupRealClient.Models.OrganizationStructure;
+using SupRealClient.Views.Visitor;
 
 namespace SupRealClient.ViewModels
 {
@@ -75,6 +76,10 @@ namespace SupRealClient.ViewModels
 
             AddSignatureCommand = new RelayCommand(obj => AddSignature());
             RemoveSignatureCommand = new RelayCommand(obj => RemoveSignature());
+
+            AddNewVisitorCommand = new RelayCommand(obj => AddNewVisitor());
+            InfoVisitorCommand = new RelayCommand(obj => InfoVisitor());
+            ShowVisitorCommand = new RelayCommand(obj => ShowVisitor());
         }
 
         public ObservableCollection<Pass> PassList
@@ -122,6 +127,20 @@ namespace SupRealClient.ViewModels
         public ICommand AddSignatureCommand { get; set; }
         public ICommand RemoveSignatureCommand { get; set; }
 
+        /// <summary>
+        /// Кнопка добавить в панели кнопок
+        /// </summary>
+        public ICommand AddNewVisitorCommand { get; set; }
+        /// <summary>
+        /// Кнопка правка в панели кнопок
+        /// </summary>
+        public ICommand InfoVisitorCommand { get; set; }
+
+        /// <summary>
+        /// Команда пока просто висит, потому что я не знаю на какую кнопку её навесить
+        /// </summary>
+        public ICommand ShowVisitorCommand { get; set; }
+
         private void AddImageSource()
         {
             var path = DialogService.OpenFileDialog();
@@ -150,6 +169,36 @@ namespace SupRealClient.ViewModels
         private void RemoveSignature()
         {
             Signature = "";
+        }
+
+        private void AddNewVisitor()
+        {
+            var visitorViewModel = new VisitorViewModel(VisitorModeEnum.Add);
+
+            var window = new AddVisitorView {DataContext = visitorViewModel};
+            window.ShowDialog();
+
+            visitorViewModel.ToString();
+        }
+
+        private void ShowVisitor()
+        {
+            var visitorViewModel = new VisitorViewModel(VisitorModeEnum.Show);
+
+            var window = new AddVisitorView { DataContext = visitorViewModel };
+            window.ShowDialog();
+
+            visitorViewModel.ToString();
+        }
+
+        private void InfoVisitor()
+        {
+            var visitorViewModel = new VisitorViewModel(VisitorModeEnum.Info);
+
+            var window = new AddVisitorView { DataContext = visitorViewModel };
+            window.ShowDialog();
+
+            visitorViewModel.ToString();
         }
     }
 }

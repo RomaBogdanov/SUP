@@ -32,7 +32,9 @@
             Grid.ColumnSpan="11"
             ItemsSource="{Binding VisitsList}"
             SelectedItem="{Binding SelectedVisit}"
-            Style="{StaticResource AzureDataGrid1}">
+            Style="{StaticResource AzureDataGrid1}"
+            IsReadOnly="True"
+            MouseDoubleClick="Control_OnMouseDoubleClick">
             <DataGrid.Columns>
                 <DataGridTextColumn Header="№" Binding="{Binding Path=Id}"/>
                 <DataGridTextColumn Header="Посетители" Binding="{Binding Path=Visitor.Initials}" Width="*"/>
