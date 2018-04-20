@@ -154,13 +154,14 @@ namespace SupRealClient.ViewModels
 
         private void OpenVisitors()
         {
-            var visitorsViewModel = new VisitorsViewModel();
+            var window = new VisitorsView { DataContext = new Views.VisitsViewModel() };
+            window.Show();
+            /*var visitorsViewModel = new VisitorsViewModel();
 
             var window = new VisitorsView {DataContext = visitorsViewModel};
             window.Show();
             
             var dc = (VisitorsViewModel)window.DataContext;
-            
             // TODO тут лежит путь к файлику с изображением, которое выбрали во вкладке 'Фото'
             if (dc != null)
             {
@@ -170,7 +171,7 @@ namespace SupRealClient.ViewModels
                 }
             }
 
-            dc.ToString();
+            dc.ToString();*/
         }
 
         private void OpenBids()

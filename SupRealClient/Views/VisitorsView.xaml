@@ -9,6 +9,7 @@
         Title="Посетители" Height="900" Width="900"
         ResizeMode="NoResize"
         WindowStartupLocation="CenterScreen">
+
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="0.6*"/>
@@ -42,9 +43,9 @@
                 Grid.Column="0"
                 Text="Фамилия"
                 Style="{StaticResource TextBLockStyle}"/>
-            
+
             <TextBox
-                Text="{Binding Path=Family, Mode=TwoWay}"
+                Text="{Binding Path=CurrentItem.Family, Mode=TwoWay}"
                 Grid.Row="1"
                 Grid.Column="0"
                 Style="{StaticResource TextBoxStyle}"/>
@@ -56,7 +57,7 @@
                 Style="{StaticResource TextBLockStyle}"/>
 
             <TextBox
-                Text="{Binding Path=Name, Mode=TwoWay}"
+                Text="{Binding Path=CurrentItem.Name, Mode=TwoWay}"
                 Grid.Row="1"
                 Grid.Column="1"
                 Style="{StaticResource TextBoxStyle}"/>
@@ -68,7 +69,7 @@
                 Style="{StaticResource TextBLockStyle}"/>
 
             <TextBox
-                Text="{Binding Path=Patronymic, Mode=TwoWay}"
+                Text="{Binding Path=CurrentItem.Patronymic, Mode=TwoWay}"
                 Grid.Row="1"
                 Grid.Column="2"
                 Style="{StaticResource TextBoxStyle}"/>
@@ -178,7 +179,7 @@
                 Style="{StaticResource TextBLockStyle}"/>
 
             <TextBox
-                Text="{Binding Path=Organization, Mode=TwoWay}"
+                Text="{Binding Path=CurrentItem.Organization, Mode=TwoWay}"
                 Grid.Row="0"
                 Grid.Column="1"
                 Style="{StaticResource TextBoxStyle}"/>
@@ -198,7 +199,7 @@
                 Style="{StaticResource TextBLockStyle}"/>
 
             <TextBox
-                Text="{Binding Path=Comment, Mode=TwoWay}"
+                Text="{Binding Path=CurrentItem.Comment, Mode=TwoWay}"
                 Grid.Row="1"
                 Grid.Column="1"
                 Style="{StaticResource TextBoxStyle}"/>
@@ -229,7 +230,7 @@
                 </Grid.ColumnDefinitions>
                 
                 <CheckBox
-                    IsChecked="{Binding Path=IsAccessDenied, Mode=TwoWay}"
+                    IsChecked="{Binding Path=CurrentItem.IsAccessDenied, Mode=TwoWay}"
                     Grid.Column="0"
                     VerticalAlignment="Center"
                     HorizontalAlignment="Center"/>
@@ -248,7 +249,7 @@
                 </Grid.ColumnDefinitions>
 
                 <CheckBox
-                    IsChecked="{Binding Path=IsCanHaveVisitors, Mode=TwoWay}"
+                    IsChecked="{Binding Path=CurrentItem.IsCanHaveVisitors, Mode=TwoWay}"
                     Grid.Column="0"
                     VerticalAlignment="Center"
                     HorizontalAlignment="Center"/>
@@ -267,7 +268,7 @@
                 </Grid.ColumnDefinitions>
 
                 <CheckBox
-                    IsChecked="{Binding Path=IsNotFormular, Mode=TwoWay}"
+                    IsChecked="{Binding Path=CurrentItem.IsNotFormular, Mode=TwoWay}"
                     Grid.Column="0"
                     VerticalAlignment="Center"
                     HorizontalAlignment="Center"/>
@@ -308,7 +309,7 @@
                             Style="{StaticResource TextBLockStyle}"/>
                         
                         <TextBox
-                            Text="{Binding Path=Telephone, Mode=TwoWay}"
+                            Text="{Binding Path=CurrentItem.Telephone, Mode=TwoWay}"
                             Grid.Row="0"
                             Grid.Column="1"
                             Grid.ColumnSpan="2"
@@ -323,7 +324,7 @@
                             Style="{StaticResource TextBLockStyle}"/>
 
                         <TextBox
-                            Text="{Binding Path=Nation, Mode=TwoWay}"
+                            Text="{Binding Path=CurrentItem.Nation, Mode=TwoWay}"
                             Grid.Row="1"
                             Grid.Column="1"
                             Style="{StaticResource TextBoxStyle}"/>
@@ -388,7 +389,7 @@
                             <TextBox
                                 Grid.Row="1"
                                 Grid.Column="1"
-                                Text="{Binding Path=DocType, Mode=TwoWay}"
+                                Text="{Binding Path=CurrentItem.DocType, Mode=TwoWay}"
                                 TextWrapping="Wrap"
                                 FontSize="15"
                                 IsEnabled="False"
@@ -435,7 +436,7 @@
                                     Style="{StaticResource TextBLockStyle}"/>
                                 
                                 <TextBox
-                                    Text="{Binding Path=DocSeria, Mode=TwoWay}"
+                                    Text="{Binding Path=CurrentItem.DocSeria, Mode=TwoWay}"
                                     Grid.Column="1"
                                     Style="{StaticResource TextBoxStyle}"/>
                             </Grid>
@@ -455,7 +456,7 @@
                                     Style="{StaticResource TextBLockStyle}"/>
 
                                 <TextBox
-                                    Text="{Binding Path=DocNum, Mode=TwoWay}"
+                                    Text="{Binding Path=CurrentItem.DocNum, Mode=TwoWay}"
                                     Grid.Column="1"
                                     Style="{StaticResource TextBoxStyle}"/>
                             </Grid>
@@ -470,7 +471,7 @@
                                 Grid.Row="2"
                                 Grid.Column="1"
                                 Grid.ColumnSpan="4"
-                                Text="{Binding Path=DocDate, Mode=TwoWay}"
+                                Text="{Binding Path=CurrentItem.DocDate, Mode=TwoWay}"
                                 FontSize="15"
                                 Style="{StaticResource TextBoxStyle}"/>
                             
@@ -484,7 +485,7 @@
                                 Grid.Row="3"
                                 Grid.Column="1"
                                 Grid.ColumnSpan="4"
-                                Text="{Binding Path=DocPlace, Mode=TwoWay}"
+                                Text="{Binding Path=CurrentItem.DocPlace, Mode=TwoWay}"
                                 FontSize="15"
                                 Style="{StaticResource TextBoxStyle}"/>
                             
@@ -506,7 +507,7 @@
                                 </Grid.ColumnDefinitions>
 
                                 <CheckBox 
-                                    IsChecked="{Binding Path=IsAgree, Mode=TwoWay}"
+                                    IsChecked="{Binding Path=CurrentItem.IsAgree, Mode=TwoWay}"
                                     Grid.Column="0"
                                     HorizontalAlignment="Center"
                                     VerticalAlignment="Center"/>
@@ -524,7 +525,7 @@
                                 
                                 <DatePicker
                                     Grid.Column="3"
-                                    SelectedDate="{Binding Path=AgreeToDate, Mode=TwoWay}"
+                                    SelectedDate="{Binding Path=CurrentItem.AgreeToDate, Mode=TwoWay}"
                                     Text="Дата"></DatePicker>
                             </Grid>
                         </Grid>
@@ -532,37 +533,37 @@
                 </mah:MetroTabItem>
                 <mah:MetroTabItem Header="Пропуска">
                     <DataGrid 
-                        ItemsSource="{Binding PassList}"
+                        ItemsSource="{Binding Path=CurrentItem.Cards}"
                         Style="{StaticResource AzureDataGrid1}">
                         <DataGrid.Columns>
                             <DataGridTextColumn 
-                                Header="Пропуск" Binding="{Binding Path=Id}"/>
+                                Header="Пропуск" Binding="{Binding Path=Card}"/>
                             <DataGridTextColumn 
-                                Header="Когда выдан" Binding="{Binding Path=StartTime}"/>
+                                Header="Когда выдан" Binding="{Binding Path=From}"/>
                             <DataGridTextColumn 
-                                Header="Срок по" Binding="{Binding Path=EndTime}"/>
+                                Header="Срок по" Binding="{Binding Path=To}"/>
                             <DataGridTextColumn 
-                                Header="Изменён" Binding="{Binding Path=TimePassChange}"/>
+                                Header="Изменён" Binding="{Binding Path=Change}"/>
                             <DataGridTextColumn 
                                 Header="Оператор" 
                                 Width="*" 
-                                Binding="{Binding Path=Operator.Initials}"/>
+                                Binding="{Binding Path=Operator}"/>
                             <DataGridTextColumn 
-                                Header="№ заявки" Binding="{Binding Path=BidId}"/>
+                                Header="№ заявки" Binding="{Binding Path=OrderNum}"/>
                             <DataGridTextColumn 
-                                Header="Дополнительно" Binding="{Binding Path=Additionally}"/>
+                                Header="Дополнительно" Binding="{Binding Path=Comment}"/>
                         </DataGrid.Columns>
                     </DataGrid>
                 </mah:MetroTabItem>
                 <mah:MetroTabItem Header="Заявки">
-                    <DataGrid Style="{StaticResource AzureDataGrid1}">
+                    <DataGrid Style="{StaticResource AzureDataGrid1}" ItemsSource="{Binding Path=CurrentItem.Orders}">
                         <DataGrid.Columns>
-                            <DataGridTextColumn Header="№ заявки"/>
-                            <DataGridTextColumn Header="Дата/время от"/>
-                            <DataGridTextColumn Header="Дата/время до"/>
-                            <DataGridTextColumn Header="Принимающее лицо"/>
-                            <DataGridTextColumn Header="Тип заявки"/>
-                            <DataGridTextColumn Header="Проходы"/>
+                            <DataGridTextColumn Header="№ заявки" Binding="{Binding Path=RegNumber}"/>
+                            <DataGridTextColumn Header="Дата/время от" Binding="{Binding Path=From}"/>
+                            <DataGridTextColumn Header="Дата/время до" Binding="{Binding Path=To}"/>
+                            <DataGridTextColumn Header="Принимающее лицо" Binding="{Binding Path=Catcher}"/>
+                            <DataGridTextColumn Header="Тип заявки" Binding="{Binding Path=OrderType}"/>
+                            <DataGridTextColumn Header="Проходы" Binding="{Binding Path=Passes}"/>
                         </DataGrid.Columns>
                     </DataGrid>
                 </mah:MetroTabItem>
@@ -593,7 +594,7 @@
                             Style="{StaticResource TextBLockStyle}"/>
                         
                         <TextBox
-                            Text="{Binding Path=Department, Mode=TwoWay}"
+                            Text="{Binding Path=CurrentItem.Department, Mode=TwoWay}"
                             Grid.Row="1"
                             Grid.Column="0"
                             Grid.ColumnSpan="2"
@@ -626,7 +627,7 @@
                         </Grid>
                         
                         <TextBox
-                            Text="{Binding Path=DepartmentUnit, Mode=TwoWay}"
+                            Text="{Binding Path=CurrentItem.DepartmentUnit, Mode=TwoWay}"
                             Grid.Row="2"
                             Grid.Column="0"
                             Grid.ColumnSpan="3"
@@ -634,7 +635,7 @@
                             Style="{StaticResource TextBoxStyle}"/>
 
                         <TextBox
-                            Text="{Binding Path=DepartmentUnitUnit, Mode=TwoWay}"
+                            Text="{Binding Path=CurrentItem.DepartmentUnitUnit, Mode=TwoWay}"
                             Grid.Row="3"
                             Grid.Column="0"
                             Grid.ColumnSpan="3"
@@ -648,7 +649,7 @@
                             Style="{StaticResource TextBLockStyle}"/>
 
                         <TextBox
-                            Text="{Binding Path=Position, Mode=TwoWay}"
+                            Text="{Binding Path=CurrentItem.Position, Mode=TwoWay}"
                             Grid.Row="5"
                             Grid.Column="0"
                             Grid.ColumnSpan="2"
@@ -664,7 +665,7 @@
                             </Grid.ColumnDefinitions>
 
                             <CheckBox
-                                IsChecked="{Binding Path=IsRightSign, Mode=TwoWay}"
+                                IsChecked="{Binding Path=CurrentItem.IsRightSign, Mode=TwoWay}"
                                 Grid.Column="0"
                                 HorizontalAlignment="Center"
                                 VerticalAlignment="Center"/>
@@ -686,7 +687,7 @@
                             </Grid.ColumnDefinitions>
 
                             <CheckBox
-                                IsChecked="{Binding Path=IsAgreement, Mode=TwoWay}"
+                                IsChecked="{Binding Path=CurrentItem.IsAgreement, Mode=TwoWay}"
                                 Grid.Column="0"
                                 HorizontalAlignment="Center"
                                 VerticalAlignment="Center"/>
@@ -706,7 +707,7 @@
                             Style="{StaticResource TextBLockStyle}"/>
                         
                         <TextBox
-                            Text="{Binding Path=Cabinet, Mode=TwoWay}"
+                            Text="{Binding Path=CurrentItem.Cabinet, Mode=TwoWay}"
                             Grid.Row="8"
                             Grid.Column="0"
                             Grid.ColumnSpan="2"
@@ -793,6 +794,7 @@
                 </Grid.ColumnDefinitions>
                 
                 <Button
+                    Command="{Binding Path=BeginCommand}"
                     Grid.Row="0"
                     Grid.Column="0"
                     Margin="2"
@@ -817,6 +819,7 @@
                 </Button>
 
                 <Button
+                    Command="{Binding Path=PrevCommand}"
                     Grid.Row="0"
                     Grid.Column="1"
                     Margin="2"
@@ -841,6 +844,7 @@
                 </Button>
 
                 <Button
+                    Command="{Binding Path=NextCommand}"
                     Grid.Row="0"
                     Grid.Column="2"
                     Margin="2"
@@ -865,6 +869,7 @@
                 </Button>
 
                 <Button
+                    Command="{Binding Path=EndCommand}"
                     Grid.Row="0"
                     Grid.Column="3"
                     Margin="2"
