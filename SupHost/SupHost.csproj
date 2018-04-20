@@ -63,6 +63,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Accounts.cs" />
+    <Compile Include="Data\UserTimeoutData.cs" />
     <Compile Include="GetTableBehavior\LogTableBehavior.cs" />
     <Compile Include="VisTablesCreating.cs">
       <AutoGen>True</AutoGen>
@@ -74,7 +75,7 @@
     <Compile Include="GetTableBehavior\VisitorsDBTableBehavior.cs" />
     <Compile Include="GetTableBehavior\VisUsersTableBehavior.cs" />
     <Compile Include="LogConnector.cs" />
-    <Compile Include="LogData.cs" />
+    <Compile Include="Data\LogData.cs" />
     <Compile Include="Tables\AbstractTableWrapper.cs" />
     <Compile Include="Connector.cs" />
     <Compile Include="GetTableBehavior\ITableBehavior.cs" />

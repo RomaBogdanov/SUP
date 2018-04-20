@@ -97,11 +97,11 @@ namespace SupClientConnectionLib
             return authorizer.Id;
         }
         
-        public bool CheckAuthorize()
+        public bool Ping()
         {
             try
             {
-                return this.tableService.CheckAuthorize(authorizer.GetInfo());
+                return this.tableService.Ping(authorizer.GetInfo()) == "OK";
             }
             catch (Exception)
             {

@@ -77,12 +77,12 @@ namespace SupContract
         int Authorize(OperationInfo info, string pass);
 
         /// <summary>
-        /// Процедура подтверждения авторизации.
+        /// Проверка соединения с сервером.
         /// </summary>
-        /// <param name="login"></param>
+        /// <param name="info"></param>
         /// <returns></returns>
         [OperationContract]
-        bool CheckAuthorize(OperationInfo info);
+        string Ping(OperationInfo info);
 
         /// <summary>
         /// Процедура выхода из профиля.

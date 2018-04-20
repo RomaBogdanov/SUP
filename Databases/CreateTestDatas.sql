@@ -310,11 +310,11 @@ insert into vis_new_roles_list values ( '106', '33', '22', '1')
 
 -- Заполнение таблицы vis_new_user
 delete vis_new_user
-insert into vis_new_user values ( '1', 'test', 'test')
-insert into vis_new_user values ( '2', 'VISITORS', 'visitorpsw')
-insert into vis_new_user values ( '11', '1', '1')
-insert into vis_new_user values ( '12', '2', '2')
-insert into vis_new_user values ( '22', '3', '3')
+insert into vis_new_user values ( '1', 'test', 'test', '180')
+insert into vis_new_user values ( '2', 'VISITORS', 'visitorpsw', '180')
+insert into vis_new_user values ( '11', '1', '1', '180')
+insert into vis_new_user values ( '12', '2', '2', '180')
+insert into vis_new_user values ( '22', '3', '3', '180')
 
 -- Заполнение таблицы vis_order_elements
 delete vis_order_elements where f_oe_id <> '0'

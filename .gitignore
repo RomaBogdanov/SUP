@@ -240,3 +240,13 @@ ModelManifest.xml
 
 # FAKE - F# Make
 .fake/
+
+*.wsdl
+*.xsd
+*.svcmap
+*.xsd
+*.svcmap
+*.xsd
+*.disco
+*.svcinfo
+*.datasource

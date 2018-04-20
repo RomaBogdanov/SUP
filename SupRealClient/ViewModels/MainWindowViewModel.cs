@@ -4,14 +4,13 @@ using System.Windows.Input;
 using System.Windows.Controls;
 using SupClientConnectionLib;
 using SupRealClient.Views;
-using SupRealClient.TabsSingleton;
 
 namespace SupRealClient.ViewModels
 {
     class MainWindowViewModel : INotifyPropertyChanged
     {
         public event PropertyChangedEventHandler PropertyChanged;
-        ContentControl control = new Authorize1View();
+        ContentControl control = ViewManager.AuthorizeView;
         string authorizedUser;
         bool userExitOpened = false;
         SetupStorage setupStorage = SetupStorage.Current;
@@ -198,7 +197,8 @@ namespace SupRealClient.ViewModels
             setupStorage.UserExit = true;
             ViewManager.Instance.ExitApp();
             // TODO - Отвязать ссылку на View из ViewModel
-            Control = new Authorize1View();
+            ViewManager.AuthorizeView.Reset();
+            Control = ViewManager.AuthorizeView;
             LoginVisibility = Visibility.Visible;
             DataVisibility = Visibility.Hidden;
         }
@@ -207,10 +207,13 @@ namespace SupRealClient.ViewModels
         {
             //TableWrapper.DisposeAll();
             ViewManager.Instance.ExitApp();
-            ClientConnector clientConnector = ClientConnector.CurrentConnector;
-            if (clientConnector.CheckAuthorize())
+            try
             {
+                ClientConnector clientConnector = ClientConnector.CurrentConnector;
                 clientConnector.ExitAuthorize();
+            }
+            catch
+            {
             }
         }
     }
