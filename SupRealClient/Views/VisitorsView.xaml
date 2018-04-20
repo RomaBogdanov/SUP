@@ -185,6 +185,7 @@
                 Style="{StaticResource TextBoxStyle}"/>
             
             <Button
+                Command="{Binding Path=OrganizationCommand}"
                 Grid.Row="0"
                 Grid.Column="2"
                 Content="..."
@@ -941,6 +942,7 @@
                 </Button>
 
                 <Button
+                    Command="{Binding NewCommand}"
                     Grid.Row="1"
                     Grid.Column="0"
                     Margin="2"

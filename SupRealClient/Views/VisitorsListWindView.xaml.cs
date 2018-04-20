@@ -23,11 +23,16 @@ namespace SupRealClient.Views
         public VisitorsListWindView()
         {
             InitializeComponent();
-            var viewModel = new Base4ViewModel<SupRealClient.EnumerationClasses.Visitor>
+            var viewModel = new Base4ViewModel<EnumerationClasses.Visitor>
             {
-                Model = new VisitorsListModel<SupRealClient.EnumerationClasses.Visitor>()
+                Model = new VisitorsListModel<EnumerationClasses.Visitor>()
             };
             base4.DataContext = viewModel;
+            CreateColumns();
+        }
+
+        private void CreateColumns()
+        {
             DataGridTextColumn dataGridTextColumn = new DataGridTextColumn
             {
                 Header = "ФИО",

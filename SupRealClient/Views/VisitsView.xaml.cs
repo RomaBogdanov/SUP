@@ -55,6 +55,8 @@ namespace SupRealClient.Views
             {
                 model = value;
                 OnPropertyChanged();
+                CurrentItem = model.CurrentItem;
+                Set = model.Set;
             }
         }
 
@@ -95,6 +97,8 @@ namespace SupRealClient.Views
         public ICommand PrevCommand { get; set; }
         public ICommand NextCommand { get; set; }
         public ICommand EndCommand { get; set; }
+        public ICommand NewCommand { get; set; }
+        public ICommand OrganizationCommand { get; set; }
 
         public VisitsViewModel()
         {
@@ -102,6 +106,14 @@ namespace SupRealClient.Views
             PrevCommand = new RelayCommand(arg => Prev());
             NextCommand = new RelayCommand(arg => Next());
             EndCommand = new RelayCommand(arg => End());
+            NewCommand = new RelayCommand(arg => New());
+            OrganizationCommand = new RelayCommand(arg => OrganizationsList());
+        }
+
+        private void OrganizationsList()
+        {
+            Window window = new OrganizationsWindView();
+            window.Show();
         }
 
         private void Begin()
@@ -122,6 +134,11 @@ namespace SupRealClient.Views
         private void End()
         {
             CurrentItem = Model.End();
+        }
+
+        private void New()
+        {
+            Model = new NewVisitsModel();
         }
 
         public event PropertyChangedEventHandler PropertyChanged;
@@ -326,6 +343,51 @@ namespace SupRealClient.Views
                         Comment = visit.Field<string>("f_visit_text")
                     });
             }
+        }
+
+    }
+
+    public class NewVisitsModel : IVisitsModel
+    {
+        private ObservableCollection<EnumerationClasses.Visitor> set;
+        private EnumerationClasses.Visitor currentItem;
+
+        public NewVisitsModel()
+        {
+            Set = new ObservableCollection<EnumerationClasses.Visitor>();
+            CurrentItem = new EnumerationClasses.Visitor();
+            Set.Add(CurrentItem);
+        }
+
+        public ObservableCollection<EnumerationClasses.Visitor> Set
+        {
+            get { return set; }
+            set { set = value; }
+        }
+
+        public EnumerationClasses.Visitor CurrentItem
+        {
+            get { return currentItem; }
+            set { currentItem = value; }
+        }
+        public EnumerationClasses.Visitor Begin()
+        {
+            throw new NotImplementedException();
+        }
+
+        public EnumerationClasses.Visitor End()
+        {
+            throw new NotImplementedException();
+        }
+
+        public EnumerationClasses.Visitor Next()
+        {
+            throw new NotImplementedException();
+        }
+
+        public EnumerationClasses.Visitor Prev()
+        {
+            throw new NotImplementedException();
         }
     }
 }

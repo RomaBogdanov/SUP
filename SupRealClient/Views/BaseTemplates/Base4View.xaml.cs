@@ -36,7 +36,6 @@ namespace SupRealClient.Views
     public class Base4ViewModel<T>
     {
         private IBase4Model<T> _model;
-        //private T currentItem;
 
         public ICommand Add { get; set; }
         public ICommand Update { get; set; }
@@ -56,7 +55,6 @@ namespace SupRealClient.Views
             }
             set
             {
-                //this.currentItem = value;
                 if (Model != null)
                 {
                     Model.CurrentItem = value;

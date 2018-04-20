@@ -21,6 +21,26 @@ namespace SupRealClient.Views
                 (Base1ViewModel)this.DataContext, this);
             b.OnClose += Handling_OnClose;
             this.SetViewModel(b);
+            CreateColumns();
+        }
+
+        public void SetViewModel(Base1ModelAbstr model)
+        {
+            ((Base1ViewModel)DataContext).SetModel(model);
+            InitializeComponent();
+        }
+
+        public DataGrid BaseTab
+        {
+            get { return baseTab; }
+            set
+            {
+                baseTab = value;
+            }
+        }
+
+        private void CreateColumns()
+        {
             DataGridTextColumn dataGridTextColumn = new DataGridTextColumn
             {
                 Header = "Дата",
@@ -45,28 +65,8 @@ namespace SupRealClient.Views
                 Binding = new Binding("Machine")
             };
             this.BaseTab.Columns.Add(dataGridTextColumn);
-            //dataGridTextColumn = new DataGridTextColumn
-            //{
-            //    Header = "Пользователь",
-            //    Binding = new Binding("RecOperator")
-            //};
-            //base1.BaseTab.Columns.Add(dataGridTextColumn);
             this.BaseTab.CurrentColumn = this.BaseTab.Columns[1];
         }
 
-        public void SetViewModel(Base1ModelAbstr model)
-        {
-            ((Base1ViewModel)DataContext).SetModel(model);
-            InitializeComponent();
-        }
-
-        public DataGrid BaseTab
-        {
-            get { return baseTab; }
-            set
-            {
-                baseTab = value;
-            }
-        }
     }
 }
