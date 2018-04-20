@@ -18,6 +18,6 @@ ADD
 	f_personal_data_last_date DATE
 go
 
-UPDATE vis_visitors SET f_personal_data_agreement='N', f_personal_data_last_date=''
+UPDATE vis_visitors SET f_personal_data_agreement='N', f_personal_data_last_date='' WHERE f_visitor_id>0
 go
 
