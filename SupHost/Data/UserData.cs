@@ -3,17 +3,15 @@
     /// <summary>
     /// Данные пользователя для отслеживания таймаута
     /// </summary>
-    class UserTimeoutData
+    class UserData
     {
         public int Id { get; set; }
 
         public string Name { get; set; }
 
-        public int Timeout { get; set; }
-
         public override bool Equals(object obj)
         {
-            var userData = obj as UserTimeoutData;
+            var userData = obj as UserData;
             return userData != null && userData.Id.Equals(Id);
         }
 

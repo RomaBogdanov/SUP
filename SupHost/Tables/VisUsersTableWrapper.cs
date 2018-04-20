@@ -57,7 +57,7 @@ namespace SupHost
             return -1;
         }
 
-        public UserTimeoutData GetUserTimeoutData(int id)
+        public UserData GetUserTimeoutData(int id)
         {
             this.GetTable();
             var a = from i in this.table.AsEnumerable()
@@ -67,11 +67,10 @@ namespace SupHost
             var user = a.FirstOrDefault();
 
             return user == null ? null :
-                new UserTimeoutData
+                new UserData
                 {
                     Id = (int)user["f_user_id"],
-                    Name = (string)user["f_user"],
-                    Timeout = (int)user["f_timeout"]
+                    Name = (string)user["f_user"]
                 };
         }
     }

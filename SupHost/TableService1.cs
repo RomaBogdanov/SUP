@@ -217,17 +217,16 @@ namespace SupHost
         }
 
         public string Ping(OperationInfo info)
-        //public bool CheckAuthorize(OperationInfo info)
         {
+            users.CheckAccount(new UserData { Id = info.Id });
             return "OK";
-            //return users.CheckAccount(new UserTimeoutData { Id = info.Id });
         }
 
         public bool ExitAuthorize(OperationInfo info)
         {
             if (this.users.IsExist(info.User))
             {
-                this.users.RemoveAccount(new UserTimeoutData { Id = info.Id });
+                this.users.RemoveAccount(new UserData { Id = info.Id });
                 this.logger.Info($"Аккаунт {info.User} вышел из системы", info);
             }
             else

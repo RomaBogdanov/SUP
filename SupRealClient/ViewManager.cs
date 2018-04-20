@@ -176,6 +176,7 @@ namespace SupRealClient
         public void ExitApp()
         {
             TableWrapper.Reset();
+            //InputProvider.GetInputProvider().Dispose();
             // Закрываем все окна при выходе
             for (int i = windows.Values.Count - 1; i >= 0; i--)
             {

@@ -94,6 +94,7 @@
     </Compile>
     <Compile Include="Common\Interfaces\IBase1ViewModel.cs" />
     <Compile Include="Common\Interfaces\IBase2ViewModel.cs" />
+    <Compile Include="InputProvider.cs" />
     <Compile Include="Models\AddCardModel.cs" />
     <Compile Include="Common\Data\SearchData.cs" />
     <Compile Include="Models\Base3CabinetsModel.cs" />

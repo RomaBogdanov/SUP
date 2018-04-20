@@ -211,6 +211,7 @@ namespace SupRealClient.ViewModels
         private void ExitApp()
         {
             //TableWrapper.DisposeAll();
+            InputProvider.GetInputProvider().Dispose();
             ViewManager.Instance.ExitApp();
             try
             {
