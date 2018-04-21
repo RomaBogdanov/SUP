@@ -1,16 +1,10 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
 using System.Configuration;
 using System.Data;
-using System.Data.Sql;
 using System.Data.SqlClient;
 using System.Data.Common;
 
-namespace SupHost
+namespace SupHost.Connectors
 {
     /// <summary>
     /// Реализует подключение к БД.
@@ -29,9 +23,9 @@ namespace SupHost
     ///     <li></li>
     /// </ul>
     /// </remarks>
-    class Connector
+    class VisConnector
     {
-        private static Connector connector;
+        private static VisConnector connector;
 
         private Logger logger;
 
@@ -39,13 +33,13 @@ namespace SupHost
 
         #region Public
 
-        public static Connector CurrentConnector
+        public static VisConnector CurrentConnector
         {
             get
             {
                 if (connector == null)
                 {
-                    connector = new Connector();
+                    connector = new VisConnector();
                     return connector;
                 }
                 return connector;
@@ -92,7 +86,7 @@ namespace SupHost
 
         #region Private
 
-        private Connector()
+        private VisConnector()
         {
             this.logger = Logger.CurrentLogger;
             string connectionString = this.GetConnectionString();

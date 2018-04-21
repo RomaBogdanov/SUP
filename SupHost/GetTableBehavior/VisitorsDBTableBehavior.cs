@@ -1,10 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Data;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Data;
 using System.Data.Common;
+using SupHost.Connectors;
 
 namespace SupHost
 {
@@ -13,7 +9,7 @@ namespace SupHost
     /// </summary>
     abstract class VisitorsDBTableBehavior : ITableBehavior
     {
-        protected Connector connector = Connector.CurrentConnector;
+        protected VisConnector connector = VisConnector.CurrentConnector;
         protected DataTable table = null;
         protected DbDataAdapter adapter = null;
 

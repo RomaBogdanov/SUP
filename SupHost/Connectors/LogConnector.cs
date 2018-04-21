@@ -3,24 +3,24 @@ using System.Data;
 using System.Data.SqlClient;
 using System.Data.Common;
 
-namespace SupHost
+namespace SupHost.Connectors
 {
     /// <summary>
-    /// Реализует подключение к БД images.
+    /// Реализует подключение к БД лога.
     /// </summary>
-    class ImagesConnector
+    class LogConnector
     {
-        private static ImagesConnector connector;
+        private static LogConnector connector;
 
         private SqlConnection connection;
 
-        public static ImagesConnector CurrentConnector
+        public static LogConnector CurrentConnector
         {
             get
             {
                 if (connector == null)
                 {
-                    connector = new ImagesConnector();
+                    connector = new LogConnector();
                     return connector;
                 }
                 return connector;
@@ -46,7 +46,7 @@ namespace SupHost
             this.connection.Close();
         }
 
-        private ImagesConnector()
+        private LogConnector()
         {
             string connectionString = this.GetConnectionString();
             this.connection = new SqlConnection(connectionString);
@@ -74,7 +74,7 @@ namespace SupHost
             if (ConfigurationManager.ConnectionStrings.Count != 0)
             {
                 connectionString = ConfigurationManager
-                    .ConnectionStrings["ImagesConnection"].ConnectionString;
+                    .ConnectionStrings["LogsConnection"].ConnectionString;
             }
             else
             {

@@ -1,23 +1,19 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Data;
+﻿using System.Data;
 using System.Data.SqlClient;
 using System.Data.Common;
+using SupHost.Connectors;
 
 namespace SupHost
 {
     class TestTable2AdoBehavior : ITableBehavior
     {
-        Connector connector;
+        VisConnector connector;
         DataTable table = null;
         DbDataAdapter adapter = null;
 
         public TestTable2AdoBehavior()
         {
-            this.connector = Connector.CurrentConnector;
+            this.connector = VisConnector.CurrentConnector;
         }
 
         public DataTable GetTable()
