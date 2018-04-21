@@ -33,8 +33,13 @@ namespace SupRealClient.Views
         }
     }
 
-    public class Base4ViewModel<T>
+    public class Base4ViewModel<T> : INotifyPropertyChanged
     {
+        // ==========
+        public T currentItem;
+        public int selectedIndex;
+
+        // ==========
         private IBase4Model<T> _model;
 
         public ICommand Add { get; set; }
@@ -73,6 +78,19 @@ namespace SupRealClient.Views
             }
         }
 
+        public int SelectedIndex
+        {
+            get { return Model != null ? Model.SelectedIndex : default(int); }
+            set
+            {
+                if (Model != null)
+                {
+                    Model.SelectedIndex = value;
+                    OnPropertyChanged();
+                }
+            }
+        }
+
         public IBase4Model<T> Model
         {
             get { return _model; }
@@ -82,7 +100,7 @@ namespace SupRealClient.Views
                 OnPropertyChanged();
             }
         }
-        
+
         public Base4ViewModel()
         {
             Add = new RelayCommand(obj => AddCom());
@@ -94,6 +112,7 @@ namespace SupRealClient.Views
             Next = new RelayCommand(obj => NextCom());
             End = new RelayCommand(obj => EndCom());
             Close = new RelayCommand(obj => CloseCom());
+
         }
 
         public event PropertyChangedEventHandler PropertyChanged;
@@ -108,17 +127,40 @@ namespace SupRealClient.Views
         private void UpdateCom() { this.Model.Update(); }
         private void SearchCom() { this.Model.Search(); }
         private void FartherCom() { this.Model.Farther(); }
-        private void BeginCom() { this.Model.Begin(); }
-        private void PrevCom() { this.Model.Prev(); }
-        private void NextCom() { this.Model.Next(); }
-        private void EndCom() { this.Model.End(); }
+        private void BeginCom()
+        {
+            this.Model.Begin();
+            Reset();
+        }
+        private void EndCom()
+        {
+            this.Model.End();
+            Reset();
+        }
+        private void PrevCom()
+        {
+            this.Model.Prev();
+            Reset();
+        }
+        private void NextCom()
+        {
+            this.Model.Next();
+            Reset();
+        }
         private void CloseCom() { this.Model.Close(); }
+
+        private void Reset()
+        {
+            SelectedIndex = Model.SelectedIndex;
+            CurrentItem = Model.CurrentItem;
+        }
     }
 
     public interface IBase4Model<T>
     {
         ObservableCollection<T> Set { get; set; }
         T CurrentItem { get; set; }
+        int SelectedIndex { get; set; }
 
         void Add();
         void Begin();
@@ -131,12 +173,154 @@ namespace SupRealClient.Views
         void Update();
     }
 
-    public class VisitorsListModel<T> : IBase4Model<T>
-        where T : SupRealClient.EnumerationClasses.Visitor, new()
+    public abstract class Base4ModelAbstr<T> : IBase4Model<T>
     {
-        private ObservableCollection<T> set;
-        private T currentItem;
+        protected ObservableCollection<T> set;
+        protected T currentItem;
+        protected int selectedIndex;
 
+        public virtual ObservableCollection<T> Set
+        {
+            get { return set; }
+            set { set = value; }
+        }
+
+        public virtual T CurrentItem
+        {
+            get { return currentItem; }
+            set { currentItem = value; }
+        }
+
+        public int SelectedIndex
+        {
+            get { return selectedIndex; }
+            set { selectedIndex = value; }
+        }
+
+        public virtual void Begin()
+        {
+            if (Set.Count > 0)
+            {
+                SelectedIndex = 0;
+                CurrentItem = Set[SelectedIndex];
+            }
+            else
+            {
+                SelectedIndex = -1;
+            }
+        }
+        public virtual void End()
+        {
+            if (Set.Count > 0)
+            {
+                SelectedIndex = Set.Count - 1;
+                CurrentItem = Set[SelectedIndex];
+            }
+            else
+            {
+                SelectedIndex = -1;
+            }
+        }
+        public virtual void Prev()
+        {
+            if (Set.Count > 0)
+            {
+                if (SelectedIndex > 0)
+                {
+                    SelectedIndex--;
+                    CurrentItem = Set[SelectedIndex];
+                }
+            }
+            else
+            {
+                SelectedIndex = -1;
+            }
+        }
+        public virtual void Next()
+        {
+            if (Set.Count > 0)
+            {
+                if (SelectedIndex < Set.Count - 1)
+                {
+                    SelectedIndex++;
+                    CurrentItem = Set[SelectedIndex];
+                }
+            }
+            else
+            {
+                SelectedIndex = -1;
+            }
+        }
+        public abstract void Add();
+        public abstract void Farther();
+        public abstract void Search();
+        public abstract void Update();
+        public abstract void Close();
+
+        protected abstract void Query();
+    }
+
+    public class OrganizationsListModel<T> : Base4ModelAbstr<T>
+        where T : Organization, new()
+    {
+        public OrganizationsListModel()
+        {
+            OrganizationsWrapper.CurrentTable().OnChanged += Query;
+            Query();
+        }
+
+        #region BtnHandlers
+
+        public override void Add()
+        {
+            throw new NotImplementedException();
+        }
+        
+        public override void Close()
+        {
+            throw new NotImplementedException();
+        }
+
+        public override void Farther()
+        {
+            throw new NotImplementedException();
+        }
+        
+        public override void Search()
+        {
+            throw new NotImplementedException();
+        }
+
+        public override void Update()
+        {
+            throw new NotImplementedException();
+        }
+
+        #endregion
+
+        protected override void Query()
+        {
+            Set = new ObservableCollection<T>(
+                from orgs in OrganizationsWrapper.CurrentTable().Table.AsEnumerable()
+                where orgs.Field<int>("f_org_id") != 0
+                select new T
+                {
+                    Id = orgs.Field<int>("f_org_id"),
+                    Type = orgs.Field<string>("f_org_type"),
+                    FullName = orgs.Field<string>("f_full_org_name"),
+                    Name = orgs.Field<string>("f_org_name"),
+                    Comment = orgs.Field<string>("f_comment")
+                });
+            if (Set.Count > 0)
+            {
+                CurrentItem = Set[0];
+            }
+        }
+    }
+
+    public class VisitorsListModel<T> : Base4ModelAbstr<T>
+        where T : EnumerationClasses.Visitor, new()
+    {
         public VisitorsListModel()
         {
             VisitorsWrapper.CurrentTable().OnChanged += Query;
@@ -144,66 +328,37 @@ namespace SupRealClient.Views
             Query();
         }
 
-        public ObservableCollection<T> Set
-        {
-            get { return set; }
-            set { set = value; }
-        }
+        #region BtnHandlers
 
-        public T CurrentItem
+        public override void Add()
         {
-            get { return currentItem; }
-            set { currentItem = value; }
-        }
-
-        public void Add()
-        {
-            //System.Windows.Forms.MessageBox.Show("Add");
             Visitor.AddVisitorView wind = new Visitor.AddVisitorView();
             wind.Show();
         }
-
-        public void Begin()
-        {
-            System.Windows.Forms.MessageBox.Show("Begin");
-        }
-
-        public void Close()
+        
+        public override void Close()
         {
             System.Windows.Forms.MessageBox.Show("Close");
         }
-
-        public void End()
-        {
-            System.Windows.Forms.MessageBox.Show("End");
-        }
-
-        public void Farther()
+        
+        public override void Farther()
         {
             System.Windows.Forms.MessageBox.Show("Farther");
         }
-
-        public void Next()
-        {
-            System.Windows.Forms.MessageBox.Show("Next");
-        }
-
-        public void Prev()
-        {
-            System.Windows.Forms.MessageBox.Show("Prev");
-        }
-
-        public void Search()
+        
+        public override void Search()
         {
             System.Windows.Forms.MessageBox.Show("Search");
         }
 
-        public void Update()
+        public override void Update()
         {
             System.Windows.Forms.MessageBox.Show("Update");
         }
 
-        private void Query()
+        #endregion
+
+        protected override void Query()
         {
             set = new ObservableCollection<T>(
                 from visitors in VisitorsWrapper.CurrentTable().Table.AsEnumerable()
@@ -219,6 +374,171 @@ namespace SupRealClient.Views
                     Comment = visitors.Field<string>("f_vr_text")
                 }
                 );
+            if (Set.Count > 0)
+            {
+                CurrentItem = Set[0];
+            }
+        }
+    }
+
+    public class NationsListModel<T> : Base4ModelAbstr<T>
+        where T : EnumerationClasses.Nation, new()
+    {
+        public NationsListModel()
+        {
+            CountriesWrapper.CurrentTable().OnChanged += Query;
+            Query();
+        }
+
+        public override void Add()
+        {
+            throw new NotImplementedException();
+        }
+
+        public override void Close()
+        {
+            throw new NotImplementedException();
+        }
+
+        public override void Farther()
+        {
+            throw new NotImplementedException();
+        }
+
+        public override void Search()
+        {
+            throw new NotImplementedException();
+        }
+
+        public override void Update()
+        {
+            throw new NotImplementedException();
+        }
+
+        protected override void Query()
+        {
+            Set = new ObservableCollection<T>(
+    from nats in CountriesWrapper.CurrentTable().Table.AsEnumerable()
+    select new T
+    {
+        Id = nats.Field<int>("f_cntr_id"),
+        CountryName = nats.Field<string>("f_cntr_name"),
+        Deleted = nats.Field<string>("f_deleted"),
+        RecDate = nats.Field<DateTime>("f_rec_date"),
+        RecOperator = nats.Field<int>("f_rec_operator")
+    }
+    );
+            if (Set.Count > 0)
+            {
+                CurrentItem = Set[0];
+            }
+        }
+    }
+
+    public class CabinetsListModel<T> : Base4ModelAbstr<T>
+        where T : Cabinet, new()
+    {
+        public CabinetsListModel()
+        {
+            CabinetsWrapper.CurrentTable().OnChanged += Query;
+            Query();
+        }
+
+        public override void Add()
+        {
+            throw new NotImplementedException();
+        }
+
+        public override void Close()
+        {
+            throw new NotImplementedException();
+        }
+
+        public override void Farther()
+        {
+            throw new NotImplementedException();
+        }
+
+        public override void Search()
+        {
+            throw new NotImplementedException();
+        }
+
+        public override void Update()
+        {
+            throw new NotImplementedException();
+        }
+
+        protected override void Query()
+        {
+            Set = new ObservableCollection<T>(
+    from cabs in CabinetsWrapper.CurrentTable().Table.AsEnumerable()
+    select new T
+    {
+        Id = cabs.Field<int>("f_cabinet_id"),
+        CabNum = cabs.Field<string>("f_cabinet_num"),
+        Descript = cabs.Field<string>("f_cabinet_desc"),
+        DoorNum = cabs.Field<string>("f_door_num")
+    }
+    );
+            if (Set.Count > 0)
+            {
+                CurrentItem = Set[0];
+            }
+        }
+    }
+
+    public class DocumentsListModel<T> : Base4ModelAbstr<T>
+        where T : Document, new()
+    {
+        public DocumentsListModel()
+        {
+            DocumentsWrapper.CurrentTable().OnChanged += Query;
+            Query();
+        }
+
+        public override void Add()
+        {
+            throw new NotImplementedException();
+        }
+
+        public override void Close()
+        {
+            throw new NotImplementedException();
+        }
+
+        public override void Farther()
+        {
+            throw new NotImplementedException();
+        }
+
+        public override void Search()
+        {
+            throw new NotImplementedException();
+        }
+
+        public override void Update()
+        {
+            throw new NotImplementedException();
+        }
+
+        protected override void Query()
+        {
+            Set = new ObservableCollection<T>(
+    from docs in DocumentsWrapper.CurrentTable().Table.AsEnumerable()
+    select new T
+    {
+        Id = docs.Field<int>("f_doc_id"),
+        DocName = docs.Field<string>("f_doc_name"),
+        Deleted = docs.Field<string>("f_deleted"),
+        RecDate = docs.Field<DateTime>("f_rec_date"),
+        RecOperator = docs.Field<int>("f_rec_operator")
+    }
+    );
+            if (Set.Count > 0)
+            {
+                CurrentItem = Set[0];
+            }
         }
     }
 }
