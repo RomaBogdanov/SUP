@@ -176,6 +176,18 @@
     <Compile Include="Views\AddUpdateZoneWindView.xaml.cs">
       <DependentUpon>AddUpdateZoneWindView.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Views\Base4Analogs\Base4OrganizationsWindView.xaml.cs">
+      <DependentUpon>Base4OrganizationsWindView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Base4Analogs\Base4NationsWindView.xaml.cs">
+      <DependentUpon>Base4NationsWindView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Base4Analogs\Base4CabinetsWindView.xaml.cs">
+      <DependentUpon>Base4CabinetsWindView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Base4Analogs\Base4DocumentsWindView.xaml.cs">
+      <DependentUpon>Base4DocumentsWindView.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Views\BaseTemplates\Base3View.xaml.cs">
       <DependentUpon>Base3View.xaml</DependentUpon>
     </Compile>
@@ -272,6 +284,22 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Views\AddUpdateZoneWindView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\Base4Analogs\Base4OrganizationsWindView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\Base4Analogs\Base4NationsWindView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\Base4Analogs\Base4CabinetsWindView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\Base4Analogs\Base4DocumentsWindView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

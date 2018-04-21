@@ -99,6 +99,9 @@ namespace SupRealClient.Views
         public ICommand EndCommand { get; set; }
         public ICommand NewCommand { get; set; }
         public ICommand OrganizationCommand { get; set; }
+        public ICommand CountryCommand { get; set; }
+        public ICommand CabinetsCommand { get; set; }
+        public ICommand DocumentsCommand { get; set; }
 
         public VisitsViewModel()
         {
@@ -108,11 +111,34 @@ namespace SupRealClient.Views
             EndCommand = new RelayCommand(arg => End());
             NewCommand = new RelayCommand(arg => New());
             OrganizationCommand = new RelayCommand(arg => OrganizationsList());
+            CountryCommand = new RelayCommand(arg => CountyList());
+            CabinetsCommand = new RelayCommand(arg => CabinetsList());
+            DocumentsCommand = new RelayCommand(arg => DocumentsListModel());
+        }
+
+        private void DocumentsListModel()
+        {
+            Window window = new Base4DocumentsWindView();
+            window.Show();
+        }
+
+        private void CabinetsList()
+        {
+            Window window = new Base4CabinetsWindView();
+            window.Show();
         }
 
         private void OrganizationsList()
         {
-            Window window = new OrganizationsWindView();
+            /*Window window = new OrganizationsWindView();
+            window.Show();*/
+            Window window = new Base4OrganizationsWindView();
+            window.Show();
+        }
+
+        private void CountyList()
+        {
+            Window window = new Base4NationsWindView();
             window.Show();
         }
 
@@ -245,7 +271,7 @@ namespace SupRealClient.Views
                 });
             if (Set.Count > 0)
             {
-                OrdersToVisitor(0);
+                OrdersCardsToVisitor(0);
                 CurrentItem = Set[0];
             }
         }
@@ -255,7 +281,7 @@ namespace SupRealClient.Views
             if (Set.Count > 0)
             {
                 selectedIndex = 0;
-                OrdersToVisitor(selectedIndex);
+                OrdersCardsToVisitor(selectedIndex);
                 CurrentItem = Set[0];
             }
             return CurrentItem;
@@ -266,7 +292,7 @@ namespace SupRealClient.Views
             if (Set.Count > 0)
             {
                 selectedIndex = Set.Count - 1;
-                OrdersToVisitor(selectedIndex);
+                OrdersCardsToVisitor(selectedIndex);
                 CurrentItem = Set[selectedIndex];
             }
             return CurrentItem;
@@ -277,7 +303,7 @@ namespace SupRealClient.Views
             if (Set.Count > 0 && selectedIndex > 0)
             {
                 selectedIndex--;
-                OrdersToVisitor(selectedIndex);
+                OrdersCardsToVisitor(selectedIndex);
                 CurrentItem = Set[selectedIndex];
             }
             return CurrentItem;
@@ -288,13 +314,13 @@ namespace SupRealClient.Views
             if (Set.Count > 0 && selectedIndex < Set.Count - 1)
             {
                 selectedIndex++;
-                OrdersToVisitor(selectedIndex);
+                OrdersCardsToVisitor(selectedIndex);
                 CurrentItem = Set[selectedIndex];
             }
             return CurrentItem;
         }
 
-        private void OrdersToVisitor(int index)
+        private void OrdersCardsToVisitor(int index)
         {
             if (Set[index].Orders == null)
             {
