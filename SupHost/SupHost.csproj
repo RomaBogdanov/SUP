@@ -63,7 +63,10 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Accounts.cs" />
+    <Compile Include="Connectors\ConnectionToDataBaseSetup.cs" />
+    <Compile Include="Connectors\Connector.cs" />
     <Compile Include="Data\UserData.cs" />
+    <Compile Include="GetTableBehavior\BaseTableBehavior.cs" />
     <Compile Include="GetTableBehavior\LogTableBehavior.cs" />
     <Compile Include="GetTableBehavior\VisImagesTableBehavior.cs" />
     <Compile Include="Connectors\ImagesConnector.cs" />

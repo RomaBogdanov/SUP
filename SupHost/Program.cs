@@ -51,7 +51,7 @@ namespace SupHost
                 return;
             }
 
-            VisConnector con = VisConnector.CurrentConnector;
+            Connector con = VisConnector.CurrentConnector;
             Logger logger = Logger.CurrentLogger;
             //Uri baseAddress = new Uri("http://localhost:7000/HostSUP/");
             //ServiceHost host = new ServiceHost(typeof(TableService1), baseAddress);

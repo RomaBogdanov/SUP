@@ -7,7 +7,7 @@ namespace SupHost
 {
     class TestTable2AdoBehavior : ITableBehavior
     {
-        VisConnector connector;
+        Connector connector;
         DataTable table = null;
         DbDataAdapter adapter = null;
 
