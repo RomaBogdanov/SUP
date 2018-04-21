@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace SupContract
+﻿namespace SupContract
 {
     public enum TableName
     {
@@ -27,6 +21,7 @@ namespace SupContract
         VisCabinetsZones,
         VisZoneTypes,
         VisDepartment,
-        VisDepartmentSection
+        VisDepartmentSection,
+        VisImages
     }
 }

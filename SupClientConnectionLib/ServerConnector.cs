@@ -208,7 +208,8 @@ namespace SupClientConnectionLib
                 ReaderQuotas = new XmlDictionaryReaderQuotas
                 {
                     MaxArrayLength = 2147483647,
-                    MaxStringContentLength = 2147483647
+                    MaxStringContentLength = 2147483647,
+                    MaxBytesPerRead = 2147483647
                 }
             };
             var myChannelFactory = new DuplexChannelFactory<ITableService>(
