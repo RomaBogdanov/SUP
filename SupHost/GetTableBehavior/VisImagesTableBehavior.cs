@@ -31,10 +31,6 @@ namespace SupHost
             for (int i = 0; i < dcs.Length; i++)
             {
                 dcs[i] = this.table.Columns[this.primaryKeyColumns[i]];
-                if (this.autoPrimaryKey)
-                {
-                    //this.table.Columns[this.primaryKeyColumns[i]].AutoIncrement = true;
-                }
             }
             this.table.PrimaryKey = dcs;
             this.adapter = setup.DataAdapter;

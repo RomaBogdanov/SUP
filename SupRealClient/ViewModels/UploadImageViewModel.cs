@@ -73,12 +73,28 @@ namespace SupRealClient.ViewModels
             var dlg = new OpenFileDialog();
             if (dlg.ShowDialog() == DialogResult.OK)
             {
-                DataRow row = imagesWrapper.Table.NewRow();
-                row["f_image_id"] = Guid.NewGuid();
-                row["f_visitor_id"] = int.Parse(VisitorId);
+                DataRow row = null;
+                foreach (DataRow r in imagesWrapper.Table.Rows)
+                {
+                    if (r.Field<int>("f_visitor_id") == int.Parse(VisitorId))
+                    {
+                        row = r;
+                        break;
+                    }
+                }
+                bool find = row != null;
+                row = row ?? imagesWrapper.Table.NewRow();
+                if (!find)
+                {
+                    row["f_image_id"] = Guid.NewGuid();
+                    row["f_visitor_id"] = int.Parse(VisitorId);
+                }
                 row["f_image_type"] = int.Parse(Type);
                 row["f_data"] = File.ReadAllBytes(dlg.FileName);
-                imagesWrapper.Table.Rows.Add(row);
+                if (!find)
+                {
+                    imagesWrapper.Table.Rows.Add(row);
+                }
 
                 ImageSource = "";
                 MessageBox.Show("Картинка загружена");
@@ -87,16 +103,13 @@ namespace SupRealClient.ViewModels
 
         public void OnDownload()
         {
+            ImageSource = "";
             var image = images.FirstOrDefault(i => i.Visitor.ToString() == VisitorId);
             if (image != null)
             {
-                string path = Path.GetTempPath() + "/" + image.Id.ToString() + ".jpg";
+                string path = Path.GetTempPath() + "/" + image.Id + Guid.NewGuid();
                 File.WriteAllBytes(path, image.Data);
                 ImageSource = path;
-            }
-            else
-            {
-                ImageSource = "";
             }
         }
 
@@ -108,18 +121,13 @@ namespace SupRealClient.ViewModels
         {
             var table = imagesWrapper.Table;
             images = (from i in table.AsEnumerable()
-                         select new Img
-                          {
-                              Id = i.Field<Guid>("f_image_id"),
-                              Visitor = i.Field<int>("f_visitor_id"),
-                              Type = i.Field<int>("f_image_type"),
-                              Data = i.Field<byte[]>("f_data"),
-                          }).ToList();
-            /*var image = images.FirstOrDefault();
-            if (image != null)
-            {
-                File.WriteAllBytes(Path.GetTempPath() + "/" + image.Id.ToString() + ".jpg", image.Data);
-            }*/
+                                select new Img
+                                {
+                                    Id = i.Field<Guid>("f_image_id"),
+                                    Visitor = i.Field<int>("f_visitor_id"),
+                                    Type = i.Field<int>("f_image_type"),
+                                    Data = i.Field<byte[]>("f_data"),
+                                }).ToList();
         }
 
         private class Img
