@@ -63,8 +63,11 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Accounts.cs" />
-    <Compile Include="Data\UserTimeoutData.cs" />
+    <Compile Include="Data\UserData.cs" />
     <Compile Include="GetTableBehavior\LogTableBehavior.cs" />
+    <Compile Include="GetTableBehavior\VisImagesTableBehavior.cs" />
+    <Compile Include="ImagesConnector.cs" />
+    <Compile Include="Tables\VisImagesTableWrapper.cs" />
     <Compile Include="VisTablesCreating.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>

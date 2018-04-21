@@ -15,4 +15,5 @@
   <Item Name="BaseOrgsView" />
   <Item Name="ChildOrgsView" />
   <Item Name="VisitorsListWindView" />
+  <Item Name="UploadImageView" />
 </Enum>

@@ -1,5 +1,6 @@
 ﻿using SupHost.Data;
 using System.Collections.Generic;
+using System.Configuration;
 using System.Linq;
 using System.Timers;
 
@@ -9,8 +10,9 @@ namespace SupHost
     {
         private readonly object syncObj = new object();
         static Accounts accounts;
-        Dictionary<UserTimeoutData, int> listAccs = new Dictionary<UserTimeoutData, int>();
+        Dictionary<UserData, int> listAccs = new Dictionary<UserData, int>();
         int elapsedTime = 30000;
+        int maxTime;
 
         public static Accounts GetAccounts()
         {
@@ -29,7 +31,7 @@ namespace SupHost
             }
         }
 
-        public void AddAccount(UserTimeoutData userData)
+        public void AddAccount(UserData userData)
         {
             lock (syncObj)
             {
@@ -37,7 +39,7 @@ namespace SupHost
             }
         }
 
-        public void RemoveAccount(UserTimeoutData userData)
+        public void RemoveAccount(UserData userData)
         {
             lock (syncObj)
             {
@@ -45,7 +47,7 @@ namespace SupHost
             }
         }
 
-        public bool CheckAccount(UserTimeoutData userData)
+        public bool CheckAccount(UserData userData)
         {
             lock (syncObj)
             {
@@ -60,6 +62,9 @@ namespace SupHost
 
         private Accounts()
         {
+            int res;
+            maxTime = int.TryParse(
+                ConfigurationManager.AppSettings["UserTimeout"], out res) ? res : 180000;
             var timer = new Timer(elapsedTime);
             timer.Elapsed += Timer_Elapsed;
             timer.Start();
@@ -69,11 +74,11 @@ namespace SupHost
         {
             lock (syncObj)
             {
-                var keysToRemove = new List<UserTimeoutData>();
-                var keysToChange = new List<UserTimeoutData>();
+                var keysToRemove = new List<UserData>();
+                var keysToChange = new List<UserData>();
                 foreach (var item in this.listAccs)
                 {
-                    if (item.Key.Timeout >= 0 && item.Value >= item.Key.Timeout)
+                    if (item.Value >= maxTime)
                     {
                         keysToRemove.Add(item.Key);
                     }
@@ -88,7 +93,7 @@ namespace SupHost
                 }
                 foreach (var key in keysToChange)
                 {
-                    this.listAccs[key] += elapsedTime / 1000;
+                    this.listAccs[key] += elapsedTime;
                 }
             }
         }

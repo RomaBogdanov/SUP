@@ -10,6 +10,8 @@ using System;
 using System.Configuration;
 using System.Linq;
 using System.ServiceModel.Configuration;
+using SupRealClient.TabsSingleton;
+using System.Data;
 
 namespace SupRealClient.ViewModels
 {
@@ -29,6 +31,8 @@ namespace SupRealClient.ViewModels
         private string msg = "";
         private Brush infoStyle = Brushes.Red;
         SetupStorage setupStorage = SetupStorage.Current;
+        Timer logoutTimer;
+        int logoutInterval = 180000;
 
         public string Login
         {
@@ -109,6 +113,8 @@ namespace SupRealClient.ViewModels
             Enter = new RelayCommand(arg => Entering(arg));
             timer = new Timer(timerInterval);
             timer.Elapsed += Timer_Elapsed;
+            logoutTimer = new Timer(logoutInterval);
+            logoutTimer.Elapsed += LogoutTimer_Elapsed;
 
             var hostList = new Dictionary<string, string>();
             foreach (var key in ConfigurationManager.AppSettings.AllKeys)
@@ -117,7 +123,6 @@ namespace SupRealClient.ViewModels
             }
             Hosts = hostList;
             Reset();
-            
         }
 
         public void Reset()
@@ -154,6 +159,16 @@ namespace SupRealClient.ViewModels
                 {
                     this.connector = ClientConnector.ResetConnector(ParseUri());
                     int id = this.connector.Authorize(Login, Password);
+
+                    logoutTimer.Stop();
+                    int timeout = GetUserTimeout(id);
+                    if (timeout > 0)
+                    {
+                        //InputProvider.GetInputProvider().Init(OnInput);
+                        logoutTimer.Interval = GetUserTimeout(id) * 1000;
+                        logoutTimer.Start();
+                    }
+
                     SetLoginInfo(id > 0, id > 0 ? "Пользователь авторизован!" :
                         "Пользователь не назначен");
                 }
@@ -181,9 +196,11 @@ namespace SupRealClient.ViewModels
             }
             else
             {
+                //InputProvider.GetInputProvider().Close(OnInput);
                 this.mainWindowViewModel.DataVisibility = Visibility.Hidden;
                 this.mainWindowViewModel.LoginVisibility = Visibility.Visible;
                 timer.Stop();
+                logoutTimer.Stop();
             }
         }
 
@@ -202,6 +219,30 @@ namespace SupRealClient.ViewModels
                 //this.connector.ExitAuthorize();
                 SetLoginInfo(false, "Потеряно соединение с сервером!");
             }
+        }
+
+        private void LogoutTimer_Elapsed(object sender, ElapsedEventArgs e)
+        {
+            /*logoutTimer.Stop();
+            this.connector.ExitAuthorize();
+            SetLoginInfo(false, "Пользователь вышел по таймауту!");*/
+        }
+
+        private int GetUserTimeout(int id)
+        {
+            UsersWrapper usersWrapper = UsersWrapper.CurrentTable();
+            DataTable table = usersWrapper.Table;
+            ClientConnector tabConnector = usersWrapper.Connector;
+            string tabName = usersWrapper.Table.TableName;
+            var users = from u in table.AsEnumerable()
+                       where u.Field<int>("f_user_id") == id
+                       select new
+                       {
+                           Timeout = u.Field<int>("f_timeout")
+                       };
+            var user = users.FirstOrDefault();
+
+            return user != null ? user.Timeout : -1;
         }
 
         private void ClearEnterData()
@@ -237,6 +278,12 @@ namespace SupRealClient.ViewModels
             {
             }
             throw new ArgumentException("Неправильная конфигурация!");
+        }
+
+        private void OnInput()
+        {
+            logoutTimer.Stop();
+            logoutTimer.Start();
         }
     }
 }
