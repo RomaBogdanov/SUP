@@ -35,6 +35,7 @@ namespace SupRealClient.ViewModels
             this.Download = new RelayCommand(arg => OnDownload());
             imagesWrapper = ImagesWrapper.CurrentTable();
             imagesWrapper.OnChanged += Query;
+            Query();
         }
 
         public string VisitorId
