@@ -1,0 +1,30 @@
+﻿<Window x:Class="SupRealClient.Views.UploadImageView"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        mc:Ignorable="d"
+        Title="UploadImageView" Height="450" Width="800">
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="Auto" />
+            <ColumnDefinition />
+            <ColumnDefinition Width="Auto"/>
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition />
+            <RowDefinition Height="Auto"/>
+        </Grid.RowDefinitions>
+        <TextBlock Grid.Row="0" Grid.Column="0" Margin="3" Text="Visitor ID:"/>
+        <TextBox Grid.Row="0" Grid.Column="1" Margin="3" Text="{Binding Path=VisitorId, Mode=TwoWay}" />
+        <TextBlock Grid.Row="1" Grid.Column="0" Margin="3" Text="Type:"/>
+        <TextBox Grid.Row="1" Grid.Column="1" Margin="3" Text="{Binding Path=Type, Mode=TwoWay}" />
+        <Button Grid.Row="2" Grid.Column="0" Margin="3" Content="Upload" Command="{Binding Path=Upload}" />
+        <Button Grid.Row="3" Grid.Column="0" Margin="3" Content="Download" Command="{Binding Path=Download}" />
+        <Image Grid.Row="4" Grid.Column="0" Grid.ColumnSpan="3" Margin="3" Source="{Binding Path=ImageSource, Mode=OneWay}" />
+    </Grid>
+</Window>
