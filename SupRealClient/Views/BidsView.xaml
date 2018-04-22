@@ -76,7 +76,8 @@
                     
                     <DataGrid
                         Grid.Row="2"
-                        AutoGenerateColumns="False">
+                        AutoGenerateColumns="False"
+                        CanUserAddRows="False">
                         <DataGrid.Columns>
                             <DataGridTextColumn Header="№"/>
                             <DataGridTextColumn Header="Посетитель" Width="*"/>
