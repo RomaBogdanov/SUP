@@ -18,6 +18,11 @@ namespace SupRealClient.Views
                 (Base1ViewModel)base2.DataContext, this);
             b.OnClose += Handling_OnClose;
             base2.SetViewModel(b);
+            CreateColumns();
+        }
+
+        private void CreateColumns()
+        {
             DataGridTextColumn dataGridTextColumn = new DataGridTextColumn
             {
                 Header = "Тип",

@@ -11,21 +11,21 @@ using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
-using SupRealClient.EnumerationClasses;
 
 namespace SupRealClient.Views
 {
     /// <summary>
-    /// Логика взаимодействия для VisitorsListWindView.xaml
+    /// Логика взаимодействия для Base4OrganizationsWindView.xaml
     /// </summary>
-    public partial class VisitorsListWindView : Window
+    public partial class Base4OrganizationsWindView : Window
     {
-        public VisitorsListWindView()
+        public Base4OrganizationsWindView()
         {
             InitializeComponent();
-            var viewModel = new Base4ViewModel<EnumerationClasses.Visitor>
+            Base4ViewModel<EnumerationClasses.Organization> viewModel = 
+                new Base4ViewModel<EnumerationClasses.Organization>//(new OrganizationsListModel<EnumerationClasses.Organization>());
             {
-                Model = new VisitorsListModel<EnumerationClasses.Visitor>()
+                Model = new OrganizationsListModel<EnumerationClasses.Organization>()
             };
             base4.DataContext = viewModel;
             CreateColumns();
@@ -35,14 +35,14 @@ namespace SupRealClient.Views
         {
             DataGridTextColumn dataGridTextColumn = new DataGridTextColumn
             {
-                Header = "ФИО",
-                Binding = new Binding("FullName")
+                Header = "Тип",
+                Binding = new Binding("Type")
             };
             base4.baseTab.Columns.Add(dataGridTextColumn);
             dataGridTextColumn = new DataGridTextColumn
             {
-                Header = "Организация",
-                Binding = new Binding("Organization")
+                Header = "Название организации",
+                Binding = new Binding("Name")
             };
             base4.baseTab.Columns.Add(dataGridTextColumn);
             dataGridTextColumn = new DataGridTextColumn
@@ -51,6 +51,14 @@ namespace SupRealClient.Views
                 Binding = new Binding("Comment")
             };
             base4.baseTab.Columns.Add(dataGridTextColumn);
+            dataGridTextColumn = new DataGridTextColumn
+            {
+                Header = "Основное название",
+                Binding = new Binding("FullName")
+            };
+            base4.baseTab.Columns.Add(dataGridTextColumn);
+            // TODO: Продумать как пришить к старым техникам.
+            //base4.SetDefaultColumn();
         }
     }
 }

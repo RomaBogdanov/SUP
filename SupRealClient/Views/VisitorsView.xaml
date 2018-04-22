@@ -185,6 +185,7 @@
                 Style="{StaticResource TextBoxStyle}"/>
             
             <Button
+                Command="{Binding Path=OrganizationCommand}"
                 Grid.Row="0"
                 Grid.Column="2"
                 Content="..."
@@ -338,6 +339,7 @@
                             </Grid.ColumnDefinitions>
                         
                             <Button
+                                Command="{Binding CountryCommand}"
                                 Grid.Column="0"
                                 Height="25"
                                 Width="25"
@@ -405,6 +407,7 @@
                                 </Grid.ColumnDefinitions>
                                 
                                 <Button
+                                    Command="{Binding DocumentsCommand}"
                                     Grid.Column="0"
                                     Margin="0"
                                     Height="25"
@@ -723,6 +726,7 @@
                             </Grid.ColumnDefinitions>
 
                             <Button 
+                                Command="{Binding CabinetsCommand}"
                                 Grid.Column="0"
                                 Content="..."
                                 Margin="2"
@@ -941,6 +945,7 @@
                 </Button>
 
                 <Button
+                    Command="{Binding NewCommand}"
                     Grid.Row="1"
                     Grid.Column="0"
                     Margin="2"
