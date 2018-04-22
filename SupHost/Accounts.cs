@@ -1,18 +1,18 @@
-﻿using System;
+﻿using SupHost.Data;
 using System.Collections.Generic;
+using System.Configuration;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Timers;
 
 namespace SupHost
 {
     class Accounts
     {
+        private readonly object syncObj = new object();
         static Accounts accounts;
-        Dictionary<string, int> listAccs = new Dictionary<string, int>();
-        int maxTime = 60000;
+        Dictionary<UserData, int> listAccs = new Dictionary<UserData, int>();
         int elapsedTime = 30000;
+        int maxTime;
 
         public static Accounts GetAccounts()
         {
@@ -25,63 +25,75 @@ namespace SupHost
 
         public bool IsExist(string login)
         {
-            if (listAccs.ContainsKey(login))
+            lock (syncObj)
             {
-                return true;
+                return listAccs.Keys.Any(u => u.Name == login);
             }
-            return false;
         }
 
-        public void AddAccount(string login, int id)
+        public void AddAccount(UserData userData)
         {
-            this.listAccs.Add(login, id);
-        }
-
-        public void RemoveAccount(string login)
-        {
-            this.listAccs.Remove(login);
-        }
-
-        public bool CheckAccount(string login)
-        {
-            if (listAccs.ContainsKey(login))
+            lock (syncObj)
             {
-                listAccs[login] = 0;
-                return true;
+                this.listAccs.Add(userData, 0);
             }
-            return false;
+        }
+
+        public void RemoveAccount(UserData userData)
+        {
+            lock (syncObj)
+            {
+                this.listAccs.Remove(userData);
+            }
+        }
+
+        public bool CheckAccount(UserData userData)
+        {
+            lock (syncObj)
+            {
+                if (listAccs.ContainsKey(userData))
+                {
+                    listAccs[userData] = 0;
+                    return true;
+                }
+                return false;
+            }
         }
 
         private Accounts()
         {
+            int res;
+            maxTime = int.TryParse(
+                ConfigurationManager.AppSettings["UserTimeout"], out res) ? res : 180000;
             var timer = new Timer(elapsedTime);
             timer.Elapsed += Timer_Elapsed;
             timer.Start();
         }
 
-        public int GetUserId(string login)
-        {
-            if (listAccs.ContainsKey(login))
-            {
-                return listAccs[login];
-            }
-            return -1;
-        }
-
         private void Timer_Elapsed(object sender, ElapsedEventArgs e)
         {
-            lock (this.listAccs)
+            lock (syncObj)
             {
+                var keysToRemove = new List<UserData>();
+                var keysToChange = new List<UserData>();
                 foreach (var item in this.listAccs)
                 {
                     if (item.Value >= maxTime)
                     {
-                        this.listAccs.Remove(item.Key);
+                        keysToRemove.Add(item.Key);
                     }
                     else
                     {
-                        this.listAccs[item.Key] += elapsedTime;
+                        keysToChange.Add(item.Key);
                     }
+                }
+                foreach (var key in keysToRemove)
+                {
+                    this.listAccs.Remove(key);
+                }
+                foreach (var key in keysToChange)
+                {
+                    this.listAccs[key] += elapsedTime;
                 }
             }
         }

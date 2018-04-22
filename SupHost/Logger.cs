@@ -1,4 +1,6 @@
-﻿using System;
+﻿using SupContract;
+using SupHost.Data;
+using System;
 using System.Configuration;
 using System.Threading;
 
@@ -26,10 +28,13 @@ namespace SupHost
                 if (logger == null)
                 {
                     logger = new Logger();
-                    bool.TryParse(ConfigurationManager.AppSettings["dBlog"], out logger.dbLog);
+                    bool.TryParse(ConfigurationManager.AppSettings["dBlog"],
+                        out logger.dbLog);
                     if (logger.dbLog)
                     {
-                        logger.logTableWrapper = LogTableWrapper.GetLogTableWrapper();
+                        logger.logTableWrapper =
+                            (LogTableWrapper)LogTableWrapper.GetTableWrapper(
+                                TableName.VisClientLogs);
                     }
                     return logger;
                 }
@@ -37,7 +42,7 @@ namespace SupHost
             }
         }
 
-        public void Debug(string message, int user = -1)
+        public void Debug(string message, OperationInfo info = null)
         {
             Write(new LogData
             {
@@ -45,11 +50,12 @@ namespace SupHost
                 Severity = "DEBUG",
                 Message = message,
                 Class = new System.Diagnostics.StackTrace().ToString(),
-                User = user,
+                User = info != null ? info.Id : -1,
+                Machine = info != null ? info.Machine : "",
             }, ConsoleColor.DarkMagenta);
         }
 
-        public void Info(string message, int user = -1)
+        public void Info(string message, OperationInfo info = null)
         {
             Write(new LogData
             {
@@ -57,11 +63,12 @@ namespace SupHost
                 Severity = "INFO",
                 Message = message,
                 Class = new System.Diagnostics.StackTrace().ToString(),
-                User = user,
+                User = info != null ? info.Id : -1,
+                Machine = info != null ? info.Machine : "",
             }, ConsoleColor.Green);
         }
 
-        public void Warn(string message, int user = -1)
+        public void Warn(string message, OperationInfo info = null)
         {
             Write(new LogData
             {
@@ -69,11 +76,12 @@ namespace SupHost
                 Severity = "WARN",
                 Message = message,
                 Class = new System.Diagnostics.StackTrace().ToString(),
-                User = user,
+                User = info != null ? info.Id : -1,
+                Machine = info != null ? info.Machine : "",
             }, ConsoleColor.Yellow);
         }
 
-        public void Error(string message, int user = -1)
+        public void Error(string message, OperationInfo info = null)
         {
             Write(new LogData
             {
@@ -81,7 +89,8 @@ namespace SupHost
                 Severity = "ERROR",
                 Message = message,
                 Class = new System.Diagnostics.StackTrace().ToString(),
-                User = user,
+                User = info != null ? info.Id : -1,
+                Machine = info != null ? info.Machine : "",
             }, ConsoleColor.Red);
         }
 
@@ -101,7 +110,8 @@ namespace SupHost
         private void Write(LogData logData, ConsoleColor color)
         {
             Console.ForegroundColor = color;
-            Console.WriteLine("{0}  {1}: {2}", DateTime.Now, logData.Severity, logData.Message);
+            Console.WriteLine("{0}  {1}: {2}", DateTime.Now, logData.Severity,
+                logData.Message);
             Console.ResetColor();
             if (dbLog)
             {

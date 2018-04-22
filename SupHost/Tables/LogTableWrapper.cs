@@ -1,4 +1,6 @@
-﻿using System;
+﻿using SupContract;
+using SupHost.Data;
+using System;
 using System.Data;
 
 namespace SupHost
@@ -7,36 +9,13 @@ namespace SupHost
     /// Это особенная таблица. Она не должна передаваться пользователям.
     /// Может использоваться только внутри сервера приложения.
     /// </summary>
-    class LogTableWrapper
+    class LogTableWrapper : AbstractTableWrapper
     {
-        static LogTableWrapper logTableWrapper;
-
-        private ITableBehavior getTableBehavior;
-        private DataTable table;
-        private Logger logger = Logger.CurrentLogger;
         private object lockDb = new object();
 
-        public static LogTableWrapper GetLogTableWrapper()
-        {
-            if (logTableWrapper == null)
-            {
-                logTableWrapper = new LogTableWrapper();
-            }
-            return logTableWrapper;
-        }
-
-        private LogTableWrapper()
+        public LogTableWrapper()
         {
             this.getTableBehavior = new LogTableBehavior();
-        }
-
-        public virtual DataTable GetTable()
-        {
-            if (table == null)
-            {
-                this.table = this.getTableBehavior.GetTable();
-            }
-            return this.table;
         }
 
         public void Write(LogData logData)
@@ -45,21 +24,30 @@ namespace SupHost
             {
                 try
                 {
+                    // TODO - клиент вызывает TableService1.GetTable() и это работает. А тут проблемы с id
                     this.GetTable();
                     DataRow row = this.table.NewRow();
+                    // TODO - пока что генерим id сами
+                    row["f_log_id"] = this.table.Rows.Count > 0 ?
+                        (long)this.table.Rows[this.table.Rows.Count - 1][0] + 1 : 1;
                     row["f_log_severety"] = logData.Severity;
                     row["f_log_message"] = logData.Message;
                     row["f_rec_date"] = logData.Date;
                     row["f_log_class"] = logData.Class;
                     row["f_rec_operator"] = logData.User >= 0 ? (object)logData.User : DBNull.Value;
-                    this.table.Rows.Add(row);
-                    this.getTableBehavior.InsertRow();
+                    row["f_machine"] = logData.Machine;
+                    InsertRow(row.ItemArray, null);
                 }
                 catch (Exception err)
                 {
                     this.logger.ErrorMessage(err.Message + err.StackTrace);
                 }
             }
+        }
+
+        protected override void LogMessage(string message, OperationInfo info)
+        {
+            // В этом враппере не пишем лог, чтобы не было рекурсии
         }
     }
 }

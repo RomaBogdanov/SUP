@@ -26,7 +26,7 @@ var entityQuery = from entity in entityTypeDoc.Root.Elements()
 		Element = entity
 	};
 #>
-using SupClientConnectionLib.ServiceRef;
+using SupContract;
 
 namespace SupRealClient.TabsSingleton
 {
@@ -46,6 +46,12 @@ namespace SupRealClient.TabsSingleton
                 wrappers.Add(currentTable);
             }
             return currentTable;
+        }
+
+		public override void Dispose()
+        {
+            base.Dispose();
+            currentTable = null;
         }
 
         private <#=entity.Name#>() : base()

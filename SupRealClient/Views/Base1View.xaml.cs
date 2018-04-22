@@ -30,6 +30,13 @@ namespace SupRealClient.Views
                 baseTab = value;
             }
         }
-        
+
+        public void SetDefaultColumn()
+        {
+            if (baseTab.Columns.Count > 0)
+            {
+                baseTab.CurrentColumn = baseTab.Columns[0];
+            }
+        }
     }
 }

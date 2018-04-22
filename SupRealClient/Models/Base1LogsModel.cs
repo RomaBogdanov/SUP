@@ -60,20 +60,11 @@ namespace SupRealClient.Models
             this.viewModel.SelectedIndex = this.viewModel.Set.Count() - 1;
         }
 
-        public override void Farther()
-        {
-            //throw new NotImplementedException();
-        }
-
-        public override void Searching(string pattern)
-        {
-            // TODO
-        }
-
         protected override void Query()
         {
             var logs = from l in table.AsEnumerable()
-                       where Authorizer.AppAuthorizer.Id.Equals(l.Field<object>("f_rec_operator"))
+                       where //l.Field<object>("f_rec_operator") != null &&
+                       Authorizer.AppAuthorizer.Id.Equals(l.Field<object>("f_rec_operator"))
                        select new LogItem
                             {
                                 Id = l.Field<long>("f_log_id"),
@@ -81,8 +72,10 @@ namespace SupRealClient.Models
                                 Message = l.Field<string>("f_log_message"),
                                 RecDate = l.Field<DateTime>("f_rec_date"),
                                 RecOperator = l.Field<object>("f_rec_operator") != null ? l.Field<int>("f_rec_operator") : -1,
+                                Machine = l.Field<string>("f_machine"),
                             };
-            this.viewModel.Set = logs;
+            this.viewModel.Set =
+                new System.Collections.ObjectModel.ObservableCollection<object>(logs);
             if (viewModel.NumItem == -1)
             {
                 this.Begin();
@@ -107,6 +100,35 @@ namespace SupRealClient.Models
             {
                 { "f_log_severety", "Уровень" },
                 { "f_log_message", "Сообщение" },
+                { "f_machine", "Машина" },
+            };
+        }
+
+        public override long GetId(int index)
+        {
+            return Rows[index].Field<long>("f_log_id");
+        }
+
+        public override void SetAt(long id)
+        {
+            for (int i = 0; i < this.viewModel.Set.Count(); i++)
+            {
+                if ((this.viewModel.Set.ElementAt(i) as LogItem).Id == id)
+                {
+                    this.viewModel.SelectedValue = this.viewModel.Set.ElementAt(i);
+                    break;
+                }
+            }
+        }
+
+        protected override IDictionary<string, string> GetColumns()
+        {
+            return new Dictionary<string, string>()
+            {
+                { "RecDate", "f_rec_date" },
+                { "Severity", "f_log_severety" },
+                { "Message", "f_log_message" },
+                { "Machine", "f_machine" },
             };
         }
     }

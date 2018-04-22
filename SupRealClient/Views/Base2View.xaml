@@ -3,12 +3,17 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
-             xmlns:local="clr-namespace:SupRealClient.Views"
-             mc:Ignorable="d" 
-             d:DesignHeight="300" d:DesignWidth="300">
+             mc:Ignorable="d" d:DesignHeight="300" d:DesignWidth="300">
     <!--<UserControl.DataContext>
         <local:Organizations1ViewModel />
     </UserControl.DataContext>-->
+    <UserControl.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="./SupResourcesDictionary.xaml" />
+            </ResourceDictionary.MergedDictionaries>
+        </ResourceDictionary>
+    </UserControl.Resources>
     <Grid>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="1*"/>
@@ -28,7 +33,11 @@
             <RowDefinition Height="30"/>
             <RowDefinition Height="50"/>
         </Grid.RowDefinitions>
-        <DataGrid Name="baseTab" Grid.Row="0" ItemsSource="{Binding Path=Set, Mode=TwoWay}" CurrentItem="{Binding Path=CurrentItem, Mode=TwoWay}" AutoGenerateColumns="False" Grid.RowSpan="3" Grid.ColumnSpan="10" Focusable="True" SelectedItem="{Binding Path=CurrentItem, Mode=TwoWay}" SelectedIndex="{Binding Path=SelectedIndex, Mode=TwoWay}">
+        <DataGrid Name="baseTab" Grid.Row="0" ItemsSource="{Binding Path=Set, Mode=TwoWay}" CurrentItem="{Binding Path=CurrentItem, Mode=TwoWay}"
+                  AutoGenerateColumns="False" Grid.RowSpan="3" Grid.ColumnSpan="10" Focusable="True"
+                  SelectedItem="{Binding Path=CurrentItem, Mode=TwoWay}" SelectedIndex="{Binding Path=SelectedIndex, Mode=TwoWay}"
+                  SelectedValue="{Binding Path=SelectedValue, Mode=TwoWay}" CurrentColumn="{Binding Path=CurrentColumn, Mode=TwoWay}"
+                  ColumnHeaderStyle="{StaticResource SelectionColumnHeader}">
             <!--<DataGrid.Columns>
                 <DataGridTextColumn Header="Тип" Binding="{Binding Type}">
                 </DataGridTextColumn>

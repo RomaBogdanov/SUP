@@ -175,7 +175,7 @@ namespace SupRealClient.ViewModels
         {
             var visitorViewModel = new VisitorViewModel(VisitorModeEnum.Add);
 
-            var window = new AddVisitor {DataContext = visitorViewModel};
+            var window = new AddVisitorView {DataContext = visitorViewModel};
             window.ShowDialog();
 
             visitorViewModel.ToString();
@@ -185,7 +185,7 @@ namespace SupRealClient.ViewModels
         {
             var visitorViewModel = new VisitorViewModel(VisitorModeEnum.Show);
 
-            var window = new AddVisitor { DataContext = visitorViewModel };
+            var window = new AddVisitorView { DataContext = visitorViewModel };
             window.ShowDialog();
 
             visitorViewModel.ToString();
@@ -195,7 +195,7 @@ namespace SupRealClient.ViewModels
         {
             var visitorViewModel = new VisitorViewModel(VisitorModeEnum.Info);
 
-            var window = new AddVisitor { DataContext = visitorViewModel };
+            var window = new AddVisitorView { DataContext = visitorViewModel };
             window.ShowDialog();
 
             visitorViewModel.ToString();

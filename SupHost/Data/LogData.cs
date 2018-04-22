@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace SupHost
+namespace SupHost.Data
 {
     class LogData
     {
@@ -13,5 +13,7 @@ namespace SupHost
         public string Class { get; set; }
 
         public int User { get; set; }
+
+        public string Machine { get; set; }
     }
 }

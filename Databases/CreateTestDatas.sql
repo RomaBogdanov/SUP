@@ -310,11 +310,11 @@ insert into vis_new_roles_list values ( '106', '33', '22', '1')
 
 -- Заполнение таблицы vis_new_user
 delete vis_new_user
-insert into vis_new_user values ( '1', 'test', 'test')
-insert into vis_new_user values ( '2', 'VISITORS', 'visitorpsw')
-insert into vis_new_user values ( '11', '1', '1')
-insert into vis_new_user values ( '12', '2', '2')
-insert into vis_new_user values ( '22', '3', '3')
+insert into vis_new_user values ( '1', 'test', 'test', '180')
+insert into vis_new_user values ( '2', 'VISITORS', 'visitorpsw', '180')
+insert into vis_new_user values ( '11', '1', '1', '180')
+insert into vis_new_user values ( '12', '2', '2', '180')
+insert into vis_new_user values ( '22', '3', '3', '180')
 
 -- Заполнение таблицы vis_order_elements
 delete vis_order_elements where f_oe_id <> '0'
@@ -377,10 +377,10 @@ insert into vis_spr_order_types values ( '4', 'На основании', 'N', '11-июл-2003 
 
 -- Заполнение таблицы vis_visitors
 delete vis_visitors where f_visitor_id <> '0'
-insert into vis_visitors values ( '2', '21', '41', 'Бендер', 'Остап', 'Ибранимович', '1234', '123456', '1-июл-2010', 'Кем-то', '666', '', 'Y', '1', '', 'Глав. бух.', 'Y', 'N', 'Y', 'F', 'N', '29-сен-2017 13:12:22', '22', '1', '25-сен-2017 17:50:53', '2', '2', 'Бендер О. И.')
-insert into vis_visitors values ( '21', '', '', 'Иванов', 'Иван', 'Иванович', '', '', '', '', '', '', 'Y', '', '', '', 'N', 'N', 'N', 'N', 'N', '29-сен-2017 10:53:13', '22', '41', '29-сен-2017 10:53:13', '22', '', 'Иванов И. И.')
-insert into vis_visitors values ( '22', '', '', 'Бонд', 'Джеймс', '', '', '', '', '', '', '', 'Y', '22', '', 'Начальник отдела', 'Y', 'Y', 'Y', 'N', 'N', '29-сен-2017 12:06:05', '22', '1', '29-сен-2017 12:03:59', '22', '47', 'Бонд Д.')
-insert into vis_visitors values ( '23', '1', '1', 'Дагаев', 'Юрий', 'Владимрович', '', '', '', '', '', '', 'Y', '', '', '', 'N', 'N', 'N', 'N', 'N', '29-сен-2017 12:29:46', '22', '42', '29-сен-2017 12:29:46', '22', '', 'Дагаев Ю. В.')
+insert into vis_visitors values ( '2', '21', '41', 'Бендер', 'Остап', 'Ибранимович', '1234', '123456', '1-июл-2010', 'Кем-то', '666', '', 'Y', '1', '', 'Глав. бух.', 'Y', 'N', 'Y', 'F', 'N', '29-сен-2017 13:12:22', '22', '1', '25-сен-2017 17:50:53', '2', '2', 'Бендер О. И.', 'N', '')
+insert into vis_visitors values ( '21', '', '', 'Иванов', 'Иван', 'Иванович', '', '', '', '', '', '', 'Y', '', '', '', 'N', 'N', 'N', 'N', 'N', '29-сен-2017 10:53:13', '22', '41', '29-сен-2017 10:53:13', '22', '', 'Иванов И. И.', 'N', '')
+insert into vis_visitors values ( '22', '', '', 'Бонд', 'Джеймс', '', '', '', '', '', '', '', 'Y', '22', '', 'Начальник отдела', 'Y', 'Y', 'Y', 'N', 'N', '29-сен-2017 12:06:05', '22', '1', '29-сен-2017 12:03:59', '22', '47', 'Бонд Д.', 'N', '')
+insert into vis_visitors values ( '23', '1', '1', 'Дагаев', 'Юрий', 'Владимрович', '', '', '', '', '', '', 'Y', '', '', '', 'N', 'N', 'N', 'N', 'N', '29-сен-2017 12:29:46', '22', '42', '29-сен-2017 12:29:46', '22', '', 'Дагаев Ю. В.', 'N', '')
 
 -- Заполнение таблицы vis_visits
 delete vis_visits

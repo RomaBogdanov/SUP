@@ -1,4 +1,4 @@
-﻿using SupClientConnectionLib.ServiceRef;
+﻿using SupContract;
 
 namespace SupRealClient.TabsSingleton
 {
@@ -17,6 +17,12 @@ namespace SupRealClient.TabsSingleton
                 wrappers.Add(currentTable);
             }
             return currentTable;
+        }
+
+		public override void Dispose()
+        {
+            base.Dispose();
+            currentTable = null;
         }
 
         private UsersWrapper() : base()
@@ -43,6 +49,12 @@ namespace SupRealClient.TabsSingleton
             return currentTable;
         }
 
+		public override void Dispose()
+        {
+            base.Dispose();
+            currentTable = null;
+        }
+
         private LogsWrapper() : base()
         {
             this.table = connector.GetTable(TableName.VisClientLogs);
@@ -65,6 +77,12 @@ namespace SupRealClient.TabsSingleton
                 wrappers.Add(currentTable);
             }
             return currentTable;
+        }
+
+		public override void Dispose()
+        {
+            base.Dispose();
+            currentTable = null;
         }
 
         private CardsWrapper() : base()
@@ -91,6 +109,12 @@ namespace SupRealClient.TabsSingleton
             return currentTable;
         }
 
+		public override void Dispose()
+        {
+            base.Dispose();
+            currentTable = null;
+        }
+
         private CountriesWrapper() : base()
         {
             this.table = connector.GetTable(TableName.VisCountries);
@@ -113,6 +137,12 @@ namespace SupRealClient.TabsSingleton
                 wrappers.Add(currentTable);
             }
             return currentTable;
+        }
+
+		public override void Dispose()
+        {
+            base.Dispose();
+            currentTable = null;
         }
 
         private DocumentsWrapper() : base()
@@ -139,6 +169,12 @@ namespace SupRealClient.TabsSingleton
             return currentTable;
         }
 
+		public override void Dispose()
+        {
+            base.Dispose();
+            currentTable = null;
+        }
+
         private OrganizationsWrapper() : base()
         {
             this.table = connector.GetTable(TableName.VisOrganizations);
@@ -161,6 +197,12 @@ namespace SupRealClient.TabsSingleton
                 wrappers.Add(currentTable);
             }
             return currentTable;
+        }
+
+		public override void Dispose()
+        {
+            base.Dispose();
+            currentTable = null;
         }
 
         private SprCardstatesWrapper() : base()
@@ -187,6 +229,12 @@ namespace SupRealClient.TabsSingleton
             return currentTable;
         }
 
+		public override void Dispose()
+        {
+            base.Dispose();
+            currentTable = null;
+        }
+
         private VisitorsWrapper() : base()
         {
             this.table = connector.GetTable(TableName.VisVisitors);
@@ -209,6 +257,12 @@ namespace SupRealClient.TabsSingleton
                 wrappers.Add(currentTable);
             }
             return currentTable;
+        }
+
+		public override void Dispose()
+        {
+            base.Dispose();
+            currentTable = null;
         }
 
         private VisitsWrapper() : base()
@@ -235,6 +289,12 @@ namespace SupRealClient.TabsSingleton
             return currentTable;
         }
 
+		public override void Dispose()
+        {
+            base.Dispose();
+            currentTable = null;
+        }
+
         private CabinetsWrapper() : base()
         {
             this.table = connector.GetTable(TableName.VisCabinets);
@@ -257,6 +317,12 @@ namespace SupRealClient.TabsSingleton
                 wrappers.Add(currentTable);
             }
             return currentTable;
+        }
+
+		public override void Dispose()
+        {
+            base.Dispose();
+            currentTable = null;
         }
 
         private ZonesWrapper() : base()
@@ -283,6 +349,12 @@ namespace SupRealClient.TabsSingleton
             return currentTable;
         }
 
+		public override void Dispose()
+        {
+            base.Dispose();
+            currentTable = null;
+        }
+
         private CabinetsZonesWrapper() : base()
         {
             this.table = connector.GetTable(TableName.VisCabinetsZones);
@@ -305,6 +377,12 @@ namespace SupRealClient.TabsSingleton
                 wrappers.Add(currentTable);
             }
             return currentTable;
+        }
+
+		public override void Dispose()
+        {
+            base.Dispose();
+            currentTable = null;
         }
 
         private ZoneTypesWrapper() : base()
@@ -331,6 +409,12 @@ namespace SupRealClient.TabsSingleton
             return currentTable;
         }
 
+		public override void Dispose()
+        {
+            base.Dispose();
+            currentTable = null;
+        }
+
         private DepartmentWrapper() : base()
         {
             this.table = connector.GetTable(TableName.VisDepartment);
@@ -355,9 +439,75 @@ namespace SupRealClient.TabsSingleton
             return currentTable;
         }
 
+		public override void Dispose()
+        {
+            base.Dispose();
+            currentTable = null;
+        }
+
         private DepartmentSectionWrapper() : base()
         {
             this.table = connector.GetTable(TableName.VisDepartmentSection);
+            this.Subscribe();
+        }
+    }
+
+	/// <summary>
+	/// ??
+	/// </summary>
+	partial class OrdersWrapper : TableWrapper
+	{
+		static OrdersWrapper currentTable;
+
+        public static OrdersWrapper CurrentTable()
+        {
+            if (currentTable == null)
+            {
+                currentTable = new OrdersWrapper();
+                wrappers.Add(currentTable);
+            }
+            return currentTable;
+        }
+
+		public override void Dispose()
+        {
+            base.Dispose();
+            currentTable = null;
+        }
+
+        private OrdersWrapper() : base()
+        {
+            this.table = connector.GetTable(TableName.VisOrders);
+            this.Subscribe();
+        }
+    }
+
+	/// <summary>
+	/// ??
+	/// </summary>
+	partial class OrderElementsWrapper : TableWrapper
+	{
+		static OrderElementsWrapper currentTable;
+
+        public static OrderElementsWrapper CurrentTable()
+        {
+            if (currentTable == null)
+            {
+                currentTable = new OrderElementsWrapper();
+                wrappers.Add(currentTable);
+            }
+            return currentTable;
+        }
+
+		public override void Dispose()
+        {
+            base.Dispose();
+            currentTable = null;
+        }
+
+        private OrderElementsWrapper() : base()
+        {
+            this.table = connector.GetTable(TableName.VisOrderElements);
             this.Subscribe();
         }
     }

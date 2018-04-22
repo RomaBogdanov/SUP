@@ -3,11 +3,46 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        xmlns:local="clr-namespace:SupRealClient.Views"
-        mc:Ignorable="d"
-        Title="Логи" Height="600" Width="600" Closing="Window_Closing" StateChanged="Window_StateChanged">
+        mc:Ignorable="d" Title="Логи" Height="600" Width="600"
+        Closing="Window_Closing" StateChanged="Window_StateChanged">
+    <Window.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="./SupResourcesDictionary.xaml" />
+            </ResourceDictionary.MergedDictionaries>
+        </ResourceDictionary>
+    </Window.Resources>
     <Grid>
-        <local:Base1View x:Name="base1">
-        </local:Base1View>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="1*"/>
+            <ColumnDefinition Width="1*"/>
+            <ColumnDefinition Width="1*"/>
+            <ColumnDefinition Width="1*"/>
+            <ColumnDefinition Width="1*"/>
+            <ColumnDefinition Width="1*"/>
+            <ColumnDefinition Width="1*"/>
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="1*"/>
+            <RowDefinition Height="30"/>
+            <RowDefinition Height="30"/>
+            <RowDefinition Height="50"/>
+        </Grid.RowDefinitions>
+        <DataGrid Name="baseTab" Focusable="True" AutoGenerateColumns="False" Grid.ColumnSpan="7" Grid.Row="0"
+                  ItemsSource="{Binding Path=Set, Mode=TwoWay}" CurrentItem="{Binding Path=CurrentItem, Mode=TwoWay}"
+                  SelectedItem="{Binding Path=CurrentItem, Mode=TwoWay}" SelectedIndex="{Binding Path=SelectedIndex, Mode=TwoWay}"
+                  SelectedValue="{Binding Path=SelectedValue, Mode=TwoWay}" CurrentColumn="{Binding Path=CurrentColumn, Mode=TwoWay}"
+                  ColumnHeaderStyle="{StaticResource SelectionColumnHeader}">
+        </DataGrid>
+        <Label Grid.Row="1" Grid.ColumnSpan="7" Content="Поиск по полю:" Margin="1"></Label>
+        <TextBox Name="aaa" Grid.Row="2" Grid.ColumnSpan="7" Margin="1" Text="{Binding Path=SearchingText, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}">
+        </TextBox>
+        <Button Grid.Row="3" Grid.Column="0" Content="Найти..." Margin="1" Command="{Binding Path=Search}"></Button>
+        <Button Grid.Row="3" Grid.Column="1" Content="Далее..." Margin="1" Command="{Binding Path=Farther}"></Button>
+        <Button Grid.Row="3" Grid.Column="2" Content="Начало" Margin="1" Command="{Binding Path=Begin}"></Button>
+        <Button Grid.Row="3" Grid.Column="3" Content="Пред." Margin="1" Command="{Binding Path=Prev}"></Button>
+        <Button Grid.Row="3" Grid.Column="4" Content="След." Margin="1" Command="{Binding Path=Next}"></Button>
+        <Button Grid.Row="3" Grid.Column="5" Content="Конец" Margin="1" Command="{Binding Path=End}"></Button>
+        <Button Grid.Row="3" Grid.Column="6" Content="Закрыть" Margin="1" Command="{Binding Path=Close}"></Button>
     </Grid>
 </Window>

@@ -1,12 +1,8 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Data;
 using System.ServiceModel;
-using SupClientConnectionLib.ServiceRef;
-
+using System.Xml;
+using SupContract;
 
 namespace SupClientConnectionLib
 {
@@ -21,6 +17,7 @@ namespace SupClientConnectionLib
     public class ClientConnector
     {
         private static ClientConnector connector;
+        private static Uri uri;
         ITableService tableService;
         CompositeType compositeType;
         Authorizer authorizer;
@@ -44,21 +41,29 @@ namespace SupClientConnectionLib
             }
         }
 
+        public static ClientConnector ResetConnector(Uri uri)
+        {
+            ClientConnector.uri = uri;
+            connector = new ClientConnector();
+            return connector;
+        }
+
         public int Authorize(string login, string pass)
         {
             authorizer.Login = login ?? "";
             authorizer.Id = -1;
             try
             {
-                authorizer.Id = this.tableService.Authorize(authorizer.Login, pass ?? "");
+                authorizer.Id = this.tableService.Authorize(
+                    authorizer.GetInfo(), pass ?? "");
             }
             catch (ProtocolException)
             {
-                this.tableService = new TableServiceClient(instanceContext);
-                this.compositeType = new CompositeType();
+                ResetConnection();
                 try
                 {
-                    authorizer.Id = this.tableService.Authorize(authorizer.Login, pass ?? "");
+                    authorizer.Id = this.tableService.Authorize(
+                        authorizer.GetInfo(), pass ?? "");
                 }
                 catch
                 {
@@ -66,11 +71,11 @@ namespace SupClientConnectionLib
             }
             catch (CommunicationObjectFaultedException)
             {
-                this.tableService = new TableServiceClient(instanceContext);
-                this.compositeType = new CompositeType();
+                ResetConnection();
                 try
                 {
-                    authorizer.Id = this.tableService.Authorize(authorizer.Login, pass ?? "");
+                    authorizer.Id = this.tableService.Authorize(
+                        authorizer.GetInfo(), pass ?? "");
                 }
                 catch
                 {
@@ -78,11 +83,11 @@ namespace SupClientConnectionLib
             }
             catch (EndpointNotFoundException)
             {
-                this.tableService = new TableServiceClient(instanceContext);
-                this.compositeType = new CompositeType();
+                ResetConnection();
                 try
                 {
-                    authorizer.Id = this.tableService.Authorize(authorizer.Login, pass ?? "");
+                    authorizer.Id = this.tableService.Authorize(
+                        authorizer.GetInfo(), pass ?? "");
                 }
                 catch
                 {
@@ -92,11 +97,11 @@ namespace SupClientConnectionLib
             return authorizer.Id;
         }
         
-        public bool CheckAuthorize()
+        public bool Ping()
         {
             try
             {
-                return this.tableService.CheckAuthorize(authorizer.Login);
+                return this.tableService.Ping(authorizer.GetInfo()) == "OK";
             }
             catch (Exception)
             {
@@ -106,14 +111,14 @@ namespace SupClientConnectionLib
 
         public bool ExitAuthorize()
         {
-            return this.tableService.ExitAuthorize(authorizer.Login);
+            return this.tableService.ExitAuthorize(authorizer.GetInfo());
         }
 
         public DataTable GetTable(TableName tableName)
         {
             this.compositeType.TableName = tableName;
-            return this.tableService.GetTable(this.compositeType, 
-                authorizer.Login);
+            return this.tableService.GetTable(this.compositeType,
+                authorizer.GetInfo());
         }
 
         public bool InsertRow(object[] rowValues)
@@ -128,8 +133,8 @@ namespace SupClientConnectionLib
             bool b;
             lock (this.tableService)
             {
-                b = this.tableService.InsertRow(compositeType, rowValues, 
-                    authorizer.Login);
+                b = this.tableService.InsertRow(compositeType, rowValues,
+                    authorizer.GetInfo());
             }
             return b;
         }
@@ -146,21 +151,22 @@ namespace SupClientConnectionLib
             bool b;
             lock (this.tableService)
             {
-                b = this.tableService.UpdateRow(compositeType, numRow,
-                    rowValues, authorizer.Login);
+                b = this.tableService.UpdateRow(compositeType, numRow, rowValues,
+                    authorizer.GetInfo());
             }
             return b;
         }
 
         public bool DeleteRow(object[] objs)
         {
-            return this.tableService.DeleteRow(compositeType, objs, 
-                authorizer.Login);
+            return this.tableService.DeleteRow(compositeType, objs,
+                authorizer.GetInfo());
         }
 
         public byte[] GetImage(int id)
         {
-            return this.tableService.GetImage(id, authorizer.Login);
+            return this.tableService.GetImage(id,
+                authorizer.GetInfo());
         }
 
         NewMessageHandler messageHandler;
@@ -174,8 +180,7 @@ namespace SupClientConnectionLib
             messageHandler.OnUpdate += MessageHandler_OnUpdate;
             messageHandler.OnDelete += MessageHandler_OnDelete;
             instanceContext = new InstanceContext(messageHandler);
-            this.tableService = new TableServiceClient(instanceContext);
-            this.compositeType = new CompositeType();
+            ResetConnection();
         }
 
         private void MessageHandler_OnInsert(string tableName, object[] objs)
@@ -194,10 +199,28 @@ namespace SupClientConnectionLib
             this.OnDelete?.Invoke(tableName, objs);
         }
 
+        private void ResetConnection()
+        {
+            var binding = new WSDualHttpBinding()
+            {
+                MaxReceivedMessageSize = 2147483647,
+                MaxBufferPoolSize = 2147483647,
+                ReaderQuotas = new XmlDictionaryReaderQuotas
+                {
+                    MaxArrayLength = 2147483647,
+                    MaxStringContentLength = 2147483647
+                }
+            };
+            var myChannelFactory = new DuplexChannelFactory<ITableService>(
+                instanceContext, binding, new EndpointAddress(ClientConnector.uri));
+            this.tableService = myChannelFactory.CreateChannel();
+            this.compositeType = new CompositeType();
+        }
+
         #endregion
     }
 
-    public class NewMessageHandler : ITableServiceCallback
+    public class NewMessageHandler : ITableCallback
     {
         public event Action<string, object[]> OnInsert;
         public event Action<string, int, object[]> OnUpdate;
@@ -217,7 +240,5 @@ namespace SupClientConnectionLib
         {
             this.OnDelete?.Invoke(tableName, objs);
         } 
-
     }
-
 }

@@ -9,7 +9,8 @@ namespace SupRealClient.Common.Interfaces
     public interface ISearchHelper
     {
         DataRow[] Rows { get; }
-        void SetAt(int index);
+        void SetAt(long id);
         IDictionary<string, string> GetFields();
+        long GetId(int index);
     }
 }

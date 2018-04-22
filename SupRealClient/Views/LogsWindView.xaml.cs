@@ -11,37 +11,62 @@ namespace SupRealClient.Views
     /// </summary>
     public partial class LogsWindView : Window
     {
+        Base1ViewModel viewModel = new Base1ViewModel();
+
         public LogsWindView()
         {
             InitializeComponent();
+            DataContext = viewModel;
             Base1ModelAbstr b = new Base1LogsModel(
-                (Base1ViewModel)base1.DataContext, this);
+                (Base1ViewModel)this.DataContext, this);
             b.OnClose += Handling_OnClose;
-            base1.SetViewModel(b);
+            this.SetViewModel(b);
             DataGridTextColumn dataGridTextColumn = new DataGridTextColumn
             {
                 Header = "Дата",
                 Binding = new Binding("RecDate")
             };
-            base1.BaseTab.Columns.Add(dataGridTextColumn);
+            this.BaseTab.Columns.Add(dataGridTextColumn);
             dataGridTextColumn = new DataGridTextColumn
             {
                 Header = "Уровень",
                 Binding = new Binding("Severity")
             };
-            base1.BaseTab.Columns.Add(dataGridTextColumn);
+            this.BaseTab.Columns.Add(dataGridTextColumn);
             dataGridTextColumn = new DataGridTextColumn
             {
                 Header = "Сообщение",
                 Binding = new Binding("Message")
             };
-            base1.BaseTab.Columns.Add(dataGridTextColumn);
+            this.BaseTab.Columns.Add(dataGridTextColumn);
+            dataGridTextColumn = new DataGridTextColumn
+            {
+                Header = "Машина",
+                Binding = new Binding("Machine")
+            };
+            this.BaseTab.Columns.Add(dataGridTextColumn);
             //dataGridTextColumn = new DataGridTextColumn
             //{
             //    Header = "Пользователь",
             //    Binding = new Binding("RecOperator")
             //};
             //base1.BaseTab.Columns.Add(dataGridTextColumn);
+            this.BaseTab.CurrentColumn = this.BaseTab.Columns[1];
+        }
+
+        public void SetViewModel(Base1ModelAbstr model)
+        {
+            ((Base1ViewModel)DataContext).SetModel(model);
+            InitializeComponent();
+        }
+
+        public DataGrid BaseTab
+        {
+            get { return baseTab; }
+            set
+            {
+                baseTab = value;
+            }
         }
     }
 }

@@ -63,19 +63,19 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Accounts.cs" />
+    <Compile Include="Data\UserData.cs" />
     <Compile Include="GetTableBehavior\LogTableBehavior.cs" />
     <Compile Include="VisTablesCreating.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
       <DependentUpon>VisTablesCreating.tt</DependentUpon>
     </Compile>
-    <Compile Include="GetTableBehavior\VisClientLogsTableBehavior.cs" />
     <Compile Include="GetTableBehavior\VisClientUsersTableBehavior.cs" />
     <Compile Include="GetTableBehavior\VisDocumentsTableBehavior.cs" />
     <Compile Include="GetTableBehavior\VisitorsDBTableBehavior.cs" />
     <Compile Include="GetTableBehavior\VisUsersTableBehavior.cs" />
     <Compile Include="LogConnector.cs" />
-    <Compile Include="LogData.cs" />
+    <Compile Include="Data\LogData.cs" />
     <Compile Include="Tables\AbstractTableWrapper.cs" />
     <Compile Include="Connector.cs" />
     <Compile Include="GetTableBehavior\ITableBehavior.cs" />
@@ -88,7 +88,6 @@
     <Compile Include="TableService1.cs" />
     <Compile Include="Tables\LogTableWrapper.cs" />
     <Compile Include="Tables\TestTable1Wrapper.cs" />
-    <Compile Include="Tables\VisClientLogsTableWrapper.cs" />
     <Compile Include="Tables\VisClientUsersTableWrapper.cs" />
     <Compile Include="Tables\VisDocumentsTableWrapper.cs" />
     <Compile Include="Tables\VisOrdersTableWrapper.cs" />
@@ -112,7 +111,9 @@
     <Compile Include="VisCabinetsTableWrapper.cs" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="App.config" />
+    <None Include="App.config">
+      <SubType>Designer</SubType>
+    </None>
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\SupContract\SupContract.csproj">

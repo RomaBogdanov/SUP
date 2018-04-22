@@ -1,8 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using SupContract;
+using System;
 
 namespace SupClientConnectionLib
 {
@@ -29,7 +26,20 @@ namespace SupClientConnectionLib
 
         public string Login { get; set; } = "NoName";
 
+        public string Machine { get { return Environment.MachineName; } }
+
+        public OperationInfo GetInfo()
+        {
+            return new OperationInfo
+            {
+                Id = Id,
+                User = Login,
+                Machine = Machine
+            };
+        }
+
         private Authorizer()
-        { }
+        {
+        }
     }
 }

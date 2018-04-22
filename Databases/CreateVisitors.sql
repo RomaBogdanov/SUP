@@ -295,7 +295,8 @@ CREATE TABLE vis_new_roles_list
 CREATE TABLE vis_new_user
     (f_user_id                     int,
     f_user                         VARCHAR(100),
-    f_pass                         VARCHAR(100))
+    f_pass                         VARCHAR(100),
+	f_timeout                      int)
 
 -- Создание vis_order_elements
 
@@ -469,7 +470,9 @@ CREATE TABLE vis_visitors
     f_rec_date_pass                DATE,
     f_rec_operator_pass            int,
     f_cabinet_id                   int,
-    f_full_name                    VARCHAR(100))
+    f_full_name                    VARCHAR(100),
+    f_personal_data_agreement      CHAR(1),
+    f_personal_data_last_date      DATE)
 
 ALTER TABLE vis_visitors
 ADD PRIMARY KEY (f_visitor_id)

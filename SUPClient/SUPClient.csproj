@@ -130,6 +130,10 @@
       <Project>{82871529-5311-44ba-96a8-adbe27300d03}</Project>
       <Name>SupClientConnectionLib</Name>
     </ProjectReference>
+    <ProjectReference Include="..\SupContract\SupContract.csproj">
+      <Project>{ee82210e-6e55-48bb-a558-fa78c966cc9b}</Project>
+      <Name>SupContract</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

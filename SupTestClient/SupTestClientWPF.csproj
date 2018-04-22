@@ -60,11 +60,6 @@
       <SubType>Designer</SubType>
     </ApplicationDefinition>
     <Compile Include="RelayCommand.cs" />
-    <Compile Include="Service References\ClientServiceReference\Reference.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>Reference.svcmap</DependentUpon>
-    </Compile>
     <Compile Include="ViewModel.cs" />
     <Page Include="MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
@@ -103,25 +98,6 @@
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
     </None>
     <AppDesigner Include="Properties\" />
-    <None Include="Service References\ClientServiceReference\HostSUP.xsd">
-      <SubType>Designer</SubType>
-    </None>
-    <None Include="Service References\ClientServiceReference\HostSUP1.xsd">
-      <SubType>Designer</SubType>
-    </None>
-    <None Include="Service References\ClientServiceReference\HostSUP2.xsd">
-      <SubType>Designer</SubType>
-    </None>
-    <None Include="Service References\ClientServiceReference\HostSUP3.xsd">
-      <SubType>Designer</SubType>
-    </None>
-    <None Include="Service References\ClientServiceReference\HostSUP4.xsd">
-      <SubType>Designer</SubType>
-    </None>
-    <None Include="Service References\ClientServiceReference\SupTestClient.ClientServiceReference.CompositeType.datasource">
-      <DependentUpon>Reference.svcmap</DependentUpon>
-    </None>
-    <None Include="Service References\ClientServiceReference\TableService11.wsdl" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config">
@@ -132,27 +108,13 @@
     <WCFMetadata Include="Service References\" />
   </ItemGroup>
   <ItemGroup>
-    <WCFMetadataStorage Include="Service References\ClientServiceReference\" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Service References\ClientServiceReference\configuration91.svcinfo" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Service References\ClientServiceReference\configuration.svcinfo" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Service References\ClientServiceReference\Reference.svcmap">
-      <Generator>WCF Proxy Generator</Generator>
-      <LastGenOutput>Reference.cs</LastGenOutput>
-    </None>
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Service References\ClientServiceReference\HostSUP.disco" />
-  </ItemGroup>
-  <ItemGroup>
     <ProjectReference Include="..\SupClientConnectionLib\SupClientConnectionLib.csproj">
       <Project>{82871529-5311-44ba-96a8-adbe27300d03}</Project>
       <Name>SupClientConnectionLib</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\SupContract\SupContract.csproj">
+      <Project>{ee82210e-6e55-48bb-a558-fa78c966cc9b}</Project>
+      <Name>SupContract</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

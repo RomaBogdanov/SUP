@@ -1,5 +1,6 @@
 ﻿using SupRealClient.Common.Interfaces;
 using SupRealClient.Models;
+using SupRealClient.TabsSingleton;
 using SupRealClient.Views;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -10,7 +11,6 @@ namespace SupRealClient
 {
     // TODO - подумать, как реализовать более грамотно
     // TODO - можно завести словать из связок: ViewModel -> Window, передавать интерфейс или сам ViewModel через generic и открывать нужное окно основываясь на словаре
-
     public class ViewManager : IViewManager
     {
         private static IViewManager viewManager;
@@ -18,9 +18,16 @@ namespace SupRealClient
         private IDictionary<string, IWindow> windows =
             new Dictionary<string, IWindow>();
 
+        private static Authorize1View authorizeView;
+
         public static IViewManager Instance
         {
             get { return viewManager = viewManager ?? new ViewManager(); }
+        }
+
+        public static Authorize1View AuthorizeView
+        {
+            get { return authorizeView ?? (authorizeView = new Authorize1View()); }
         }
 
         /// <summary>
@@ -168,11 +175,14 @@ namespace SupRealClient
         /// </summary>
         public void ExitApp()
         {
+            TableWrapper.Reset();
+            //InputProvider.GetInputProvider().Dispose();
             // Закрываем все окна при выходе
             for (int i = windows.Values.Count - 1; i >= 0; i--)
             {
                 Close(windows.Values.ElementAt(i));
             }
+            windows.Clear();
         }
 
         private void ReopenWindow(string name, IWindow window, IWindow parent)
@@ -193,7 +203,7 @@ namespace SupRealClient
 
         private void OpenWindow(IWindow window)
         {
-            if (window == null)
+            if (window == null) 
             {
                 return;
             }
@@ -225,6 +235,12 @@ namespace SupRealClient
                     return new LogsWindView();
                 case "MainOrganisationStructureView":
                     return new MainOrganisationStructureView();
+                case "ChildOrgsView":
+                    return new ChildOrgsView();
+                case "BaseOrgsView":
+                    return new BaseOrgsView();
+                case "VisitorsListWindView":
+                    return new VisitorsListWindView();
             }
 
             return null;

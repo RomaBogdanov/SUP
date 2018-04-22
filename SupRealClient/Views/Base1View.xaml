@@ -3,13 +3,17 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
-             xmlns:local="clr-namespace:SupRealClient.Views"
-             xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
-             mc:Ignorable="d" 
-             d:DesignHeight="300" d:DesignWidth="300">
+             mc:Ignorable="d" d:DesignHeight="300" d:DesignWidth="300">
     <!--<UserControl.DataContext>
         <local:Base1ViewModel/>
     </UserControl.DataContext>-->
+    <UserControl.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="./SupResourcesDictionary.xaml" />
+            </ResourceDictionary.MergedDictionaries>
+        </ResourceDictionary>
+    </UserControl.Resources>
     <Grid>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="1*"/>
@@ -25,14 +29,17 @@
             <RowDefinition Height="40"/>
             <RowDefinition Height="50"/>
         </Grid.RowDefinitions>
-        <DataGrid Name="baseTab" Focusable="True" AutoGenerateColumns="False" Grid.ColumnSpan="5" Grid.Row="0" ItemsSource="{Binding Path=Set, Mode=TwoWay}" CurrentItem="{Binding Path=CurrentItem, Mode=TwoWay}" SelectedItem="{Binding Path=CurrentItem, Mode=TwoWay}" SelectedIndex="{Binding Path=SelectedIndex, Mode=TwoWay}">
-
+        <DataGrid Name="baseTab" Focusable="True" AutoGenerateColumns="False" Grid.ColumnSpan="5" Grid.Row="0"
+                  ItemsSource="{Binding Path=Set, Mode=TwoWay}" CurrentItem="{Binding Path=CurrentItem, Mode=TwoWay}"
+                  SelectedItem="{Binding Path=CurrentItem, Mode=TwoWay}" SelectedIndex="{Binding Path=SelectedIndex, Mode=TwoWay}"
+                  SelectedValue="{Binding Path=SelectedValue, Mode=TwoWay}" CurrentColumn="{Binding Path=CurrentColumn, Mode=TwoWay}"
+                  ColumnHeaderStyle="{StaticResource SelectionColumnHeader}">
         </DataGrid>
         <Label Grid.Row="1" Grid.ColumnSpan="5" Content="Поиск по полю:" Margin="1"></Label>
         <TextBox Name="aaa" Grid.Row="2" Grid.ColumnSpan="5" Margin="1" Text="{Binding Path=SearchingText, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}">
         </TextBox>
         <Button Grid.Row="3" Grid.Column="0" Content="Добавить" Margin="1" Command="{Binding Path=Add}"></Button>
-        <Button Grid.Row="3" Grid.Column="1" Content="Правка" Margin="1" Command="{Binding Path=Update}"></Button>
+        <Button Name="btnUpdate" Grid.Row="3" Grid.Column="1" Content="Правка" Margin="1" Command="{Binding Path=Update}"></Button>
         <Button Grid.Row="3" Grid.Column="2" Content="Найти..." Margin="1" Command="{Binding Path=Search}"></Button>
         <Button Grid.Row="3" Grid.Column="3" Content="Далее..." Margin="1" Command="{Binding Path=Farther}"></Button>
         <Button Grid.Row="4" Grid.Column="0" Content="Начало" Margin="1" Command="{Binding Path=Begin}"></Button>

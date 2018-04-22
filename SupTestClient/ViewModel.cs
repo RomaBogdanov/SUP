@@ -4,10 +4,10 @@ using System.ComponentModel;
 using System.Data;
 using System.Windows.Input;
 using SupClientConnectionLib;
-using SupClientConnectionLib.ServiceRef;
 using System.IO;
 using System.Windows.Media.Imaging;
 using System.Timers;
+using SupContract;
 
 namespace SupTestClient
 {
@@ -345,7 +345,7 @@ namespace SupTestClient
 
         private void Timer_Elapsed(object sender, ElapsedEventArgs e)
         {
-            bool a = this.connector.CheckAuthorize();
+            bool a = this.connector.Ping();
             if (a)
             {
                 IsAuthorization = true;

@@ -47,9 +47,11 @@
       <HintPath>..\packages\System.Windows.Interactivity.WPF.2.0.20525\lib\net40\Microsoft.Expression.Interactions.dll</HintPath>
     </Reference>
     <Reference Include="System" />
+    <Reference Include="System.Configuration" />
     <Reference Include="System.Data" />
     <Reference Include="System.Design" />
     <Reference Include="System.Drawing" />
+    <Reference Include="System.ServiceModel" />
     <Reference Include="System.Windows.Forms" />
     <Reference Include="System.Windows.Interactivity, Version=4.5.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <HintPath>..\packages\ControlzEx.3.0.2.4\lib\net45\System.Windows.Interactivity.dll</HintPath>
@@ -75,11 +77,16 @@
     </ApplicationDefinition>
     <Compile Include="Behaviour\BoolToStringConverter.cs" />
     <Compile Include="Behaviour\DialogService.cs" />
+    <Compile Include="Behaviour\HeaderToCurrentColumnConverter.cs" />
     <Compile Include="Behaviour\IDialogService.cs" />
     <Compile Include="EnumerationClasses\Cabinet.cs" />
     <Compile Include="Common\Interfaces\ISearchHelper.cs" />
     <Compile Include="Common\Interfaces\IViewManager.cs" />
     <Compile Include="Common\Interfaces\IWindow.cs" />
+    <Compile Include="EnumerationClasses\IdEntity.cs" />
+    <Compile Include="EnumerationClasses\Order.cs" />
+    <Compile Include="EnumerationClasses\Card2.cs" />
+    <Compile Include="EnumerationClasses\Visitor.cs" />
     <Compile Include="EnumerationClasses\Zone.cs" />
     <Compile Include="EnumerationClasses\LogItem.cs" />
     <Compile Include="ErrorWindow.xaml.cs">
@@ -87,12 +94,15 @@
     </Compile>
     <Compile Include="Common\Interfaces\IBase1ViewModel.cs" />
     <Compile Include="Common\Interfaces\IBase2ViewModel.cs" />
+    <Compile Include="InputProvider.cs" />
     <Compile Include="Models\AddCardModel.cs" />
     <Compile Include="Common\Data\SearchData.cs" />
     <Compile Include="Models\Base3CabinetsModel.cs" />
     <Compile Include="Models\Base1LogsModel.cs" />
     <Compile Include="Models\Base3ModelAbstr.cs" />
     <Compile Include="Models\Base3ZonesModel.cs" />
+    <Compile Include="Models\BaseOrgsModel.cs" />
+    <Compile Include="Models\ChildOrgsModel.cs" />
     <Compile Include="Models\IAddUpdateCardModel.cs" />
     <Compile Include="Models\ISearch1Model.cs" />
     <Compile Include="Models\Human.cs" />
@@ -108,7 +118,6 @@
     <Compile Include="Models\OrganizationStructure\Unit.cs" />
     <Compile Include="Models\OrganizationStructure\AddUnitModel.cs" />
     <Compile Include="Models\OrganizationStructure\AddDepModel.cs" />
-    <Compile Include="Models\Route.cs" />
     <Compile Include="Models\Search1Model.cs" />
     <Compile Include="Models\UpdateCardModel.cs" />
     <Compile Include="Common\Data\FieldData.cs" />
@@ -145,6 +154,9 @@
     <Compile Include="Views\AddDepartmentView.xaml.cs">
       <DependentUpon>AddDepartmentView.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Views\AddOrgsListView.xaml.cs">
+      <DependentUpon>AddOrgsListView.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Views\AddUnitView.xaml.cs">
       <DependentUpon>AddUnitView.xaml</DependentUpon>
     </Compile>
@@ -168,6 +180,12 @@
     <Compile Include="Views\Base3View.xaml.cs">
       <DependentUpon>Base3View.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Views\Base4View.xaml.cs">
+      <DependentUpon>Base4View.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\BaseOrgsView.xaml.cs">
+      <DependentUpon>BaseOrgsView.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Views\BidsView.xaml.cs">
       <DependentUpon>BidsView.xaml</DependentUpon>
     </Compile>
@@ -182,35 +200,23 @@
     <Compile Include="Views\DetailVisitsView.xaml.cs">
       <DependentUpon>DetailVisitsView.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Views\ChildOrgsView.xaml.cs">
+      <DependentUpon>ChildOrgsView.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Views\LogsWindView.xaml.cs">
       <DependentUpon>LogsWindView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\MainOrganisationStructureView.xaml.cs">
       <DependentUpon>MainOrganisationStructureView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Views\Reports\IssuanceOfPassesPage.xaml.cs">
-      <DependentUpon>IssuanceOfPassesPage.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Views\Reports\VisitorsListReportMasterView.xaml.cs">
-      <DependentUpon>VisitorsListReportMasterView.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Views\Reports\MainReportMasterView.xaml.cs">
-      <DependentUpon>MainReportMasterView.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Views\Reports\MainReportMasterPage.xaml.cs">
-      <DependentUpon>MainReportMasterPage.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Views\TodayVisitorsView.xaml.cs">
-      <DependentUpon>TodayVisitorsView.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Views\VipOrders.xaml.cs">
-      <DependentUpon>VipOrders.xaml</DependentUpon>
-    </Compile>
     <Compile Include="Views\VisitorsBidsTabView.xaml.cs">
       <DependentUpon>VisitorsBidsTabView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\VisitorsEmployeeTabView.xaml.cs">
       <DependentUpon>VisitorsEmployeeTabView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\VisitorsListWindView.xaml.cs">
+      <DependentUpon>VisitorsListWindView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\VisitorsMainTabView.xaml.cs">
       <DependentUpon>VisitorsMainTabView.xaml</DependentUpon>
@@ -224,8 +230,8 @@
     <Compile Include="Views\VisitorsView.xaml.cs">
       <DependentUpon>VisitorsView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Views\Visitor\AddVisitor.xaml.cs">
-      <DependentUpon>AddVisitor.xaml</DependentUpon>
+    <Compile Include="Views\Visitor\AddVisitorView.xaml.cs">
+      <DependentUpon>AddVisitorView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\VisitsView.xaml.cs">
       <DependentUpon>VisitsView.xaml</DependentUpon>
@@ -243,6 +249,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Views\AddDepartmentView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\AddOrgsListView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -270,6 +280,14 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="Views\Base4View.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\BaseOrgsView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Views\BidsView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -286,6 +304,10 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="Views\ChildOrgsView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Views\LogsWindView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -299,22 +321,6 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Views\NationsWindView.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="Views\Reports\IssuanceOfPassesPage.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="Views\Reports\VisitorsListReportMasterView.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="Views\Reports\MainReportMasterView.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="Views\Reports\MainReportMasterPage.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -400,19 +406,19 @@
       <DependentUpon>MainWindow.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
-    <Page Include="Views\TodayVisitorsView.xaml">
-      <SubType>Designer</SubType>
+    <Page Include="Views\SupResourcesDictionary.xaml">
       <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="Views\VipOrders.xaml">
       <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Views\VisitorsBidsTabView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Views\VisitorsEmployeeTabView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\VisitorsListWindView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -432,7 +438,7 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Views\Visitor\AddVisitor.xaml">
+    <Page Include="Views\Visitor\AddVisitorView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -546,11 +552,6 @@
     <Resource Include="Resources\Фильтр.ico">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Resource>
-    <Resource Include="Resources\Назад.ico">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Resource>
-    <Resource Include="Resources\Вопрос.ico" />
-    <Resource Include="Resources\Печать.ico" />
     <Content Include="TabsSingleton\Wrappers.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
       <LastGenOutput>Wrappers.cs</LastGenOutput>
@@ -560,12 +561,18 @@
       <Generator>TextTemplatingFileGenerator</Generator>
       <LastGenOutput>Views.cs</LastGenOutput>
     </Content>
-    <Content Include="Views\Views.xml" />
+    <Content Include="Views\Views.xml">
+      <SubType>Designer</SubType>
+    </Content>
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\SupClientConnectionLib\SupClientConnectionLib.csproj">
       <Project>{82871529-5311-44ba-96a8-adbe27300d03}</Project>
       <Name>SupClientConnectionLib</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\SupContract\SupContract.csproj">
+      <Project>{ee82210e-6e55-48bb-a558-fa78c966cc9b}</Project>
+      <Name>SupContract</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>

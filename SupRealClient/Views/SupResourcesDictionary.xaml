@@ -1,0 +1,25 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:converters="clr-namespace:SupRealClient.Behaviour">
+    <converters:HeaderToCurrentColumnConverter x:Key="HeaderToCurrentColumnConverter" />
+    <Style TargetType="{x:Type DataGrid}">
+        <Setter Property="IsReadOnly">
+            <Setter.Value>True</Setter.Value>
+        </Setter>
+    </Style>
+    <Style x:Key="SelectionColumnHeader" TargetType="{x:Type DataGridColumnHeader}">
+        <Style.Triggers>
+            <Trigger Property="IsPressed" Value="True">
+                <!-- TODO - Кривая реализация. Потом поправить -->
+                <Setter Property="ToolTip">
+                    <Setter.Value>
+                        <MultiBinding Converter="{StaticResource HeaderToCurrentColumnConverter}">
+                            <Binding RelativeSource="{RelativeSource Self}" />
+                            <Binding RelativeSource="{RelativeSource FindAncestor, AncestorType={x:Type DataGrid}}" />
+                        </MultiBinding>
+                    </Setter.Value>
+                </Setter>
+            </Trigger>
+        </Style.Triggers>
+    </Style>
+</ResourceDictionary>

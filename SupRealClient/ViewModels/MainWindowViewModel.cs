@@ -4,14 +4,13 @@ using System.Windows.Input;
 using System.Windows.Controls;
 using SupClientConnectionLib;
 using SupRealClient.Views;
-using SupRealClient.TabsSingleton;
 
 namespace SupRealClient.ViewModels
 {
     class MainWindowViewModel : INotifyPropertyChanged
     {
         public event PropertyChangedEventHandler PropertyChanged;
-        ContentControl control = new Authorize1View();
+        ContentControl control = ViewManager.AuthorizeView;
         string authorizedUser;
         bool userExitOpened = false;
         SetupStorage setupStorage = SetupStorage.Current;
@@ -104,6 +103,15 @@ namespace SupRealClient.ViewModels
         public ICommand ListBaseOrgsStructClick
         { get; set; }
 
+        public ICommand ListChildOrgs
+        { get; set; }
+
+        public ICommand ListBaseOrgs
+        { get; set; }
+
+        public ICommand ListVisitorsClick
+        { get; set; }
+
         public ICommand UserExit
         { get; set; }
 
@@ -128,6 +136,9 @@ namespace SupRealClient.ViewModels
             ListCabinetsClick = new RelayCommand(arg => ViewManager.Instance.OpenWindow("CabinetsWindView"));
             LogsClick = new RelayCommand(arg => ViewManager.Instance.OpenWindow("LogsWindView"));
             ListBaseOrgsStructClick = new RelayCommand(arg => ViewManager.Instance.OpenWindow("MainOrganisationStructureView"));
+            ListChildOrgs = new RelayCommand(arg => ViewManager.Instance.OpenWindow("ChildOrgsView"));
+            ListBaseOrgs = new RelayCommand(arg => ViewManager.Instance.OpenWindow("BaseOrgsView"));
+            ListVisitorsClick = new RelayCommand(arg => ViewManager.Instance.OpenWindow("VisitorsListWindView"));
             UserExit = new RelayCommand(arg => UserExitProc());
             setupStorage.ChangeUserExit += arg => IsUserEnter = !arg;
             Close = new RelayCommand(arg => ExitApp());
@@ -142,13 +153,14 @@ namespace SupRealClient.ViewModels
 
         private void OpenVisitors()
         {
-            var visitorsViewModel = new VisitorsViewModel();
+            var window = new VisitorsView { DataContext = new Views.VisitsViewModel() };
+            window.Show();
+            /*var visitorsViewModel = new VisitorsViewModel();
 
             var window = new VisitorsView {DataContext = visitorsViewModel};
             window.Show();
             
             var dc = (VisitorsViewModel)window.DataContext;
-            
             // TODO тут лежит путь к файлику с изображением, которое выбрали во вкладке 'Фото'
             if (dc != null)
             {
@@ -158,7 +170,7 @@ namespace SupRealClient.ViewModels
                 }
             }
 
-            dc.ToString();
+            dc.ToString();*/
         }
 
         private void OpenBids()
@@ -188,8 +200,10 @@ namespace SupRealClient.ViewModels
             ClientConnector clientConnector = ClientConnector.CurrentConnector;
             clientConnector.ExitAuthorize();
             setupStorage.UserExit = true;
+            ViewManager.Instance.ExitApp();
             // TODO - Отвязать ссылку на View из ViewModel
-            Control = new Authorize1View();
+            ViewManager.AuthorizeView.Reset();
+            Control = ViewManager.AuthorizeView;
             LoginVisibility = Visibility.Visible;
             DataVisibility = Visibility.Hidden;
         }
@@ -197,11 +211,15 @@ namespace SupRealClient.ViewModels
         private void ExitApp()
         {
             //TableWrapper.DisposeAll();
+            InputProvider.GetInputProvider().Dispose();
             ViewManager.Instance.ExitApp();
-            ClientConnector clientConnector = ClientConnector.CurrentConnector;
-            if (clientConnector.CheckAuthorize())
+            try
             {
+                ClientConnector clientConnector = ClientConnector.CurrentConnector;
                 clientConnector.ExitAuthorize();
+            }
+            catch
+            {
             }
         }
     }
