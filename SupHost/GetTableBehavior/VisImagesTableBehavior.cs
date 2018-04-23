@@ -1,5 +1,4 @@
 ﻿using SupHost.Connectors;
-using System.Data;
 
 namespace SupHost
 {
@@ -9,22 +8,16 @@ namespace SupHost
 
         public VisImagesTableBehavior()
         {
-            this.StandartSetup("vis_image", "f_image_id");
+            this.query = $"select f_image_id, f_image_alias, f_visitor_id, f_image_type from vis_image";
+            this.primaryKeyColumns = new string[1];
+            this.primaryKeyColumns[0] = "f_image_id";
+            this.autoPrimaryKey = true;
+            this.tableName = "vis_image";
         }
 
         protected override Connector GetConnector()
         {
             return connector;
-        }
-
-        protected override void SetPrimaryKey()
-        {
-            DataColumn[] dcs = new DataColumn[primaryKeyColumns.Length];
-            for (int i = 0; i < dcs.Length; i++)
-            {
-                dcs[i] = this.table.Columns[this.primaryKeyColumns[i]];
-            }
-            this.table.PrimaryKey = dcs;
         }
     }
 }
