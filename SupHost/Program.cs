@@ -11,6 +11,7 @@ using System.Diagnostics;
 using System.Reflection;
 
 using SupContract;
+using SupHost.Connectors;
 
 /// <summary>
 /// Хост суп предназначен для:
@@ -50,7 +51,7 @@ namespace SupHost
                 return;
             }
 
-            Connector con = Connector.CurrentConnector;
+            Connector con = VisConnector.CurrentConnector;
             Logger logger = Logger.CurrentLogger;
             //Uri baseAddress = new Uri("http://localhost:7000/HostSUP/");
             //ServiceHost host = new ServiceHost(typeof(TableService1), baseAddress);

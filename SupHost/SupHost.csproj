@@ -63,10 +63,13 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Accounts.cs" />
+    <Compile Include="Connectors\ConnectionToDataBaseSetup.cs" />
+    <Compile Include="Connectors\Connector.cs" />
     <Compile Include="Data\UserData.cs" />
+    <Compile Include="GetTableBehavior\BaseTableBehavior.cs" />
     <Compile Include="GetTableBehavior\LogTableBehavior.cs" />
     <Compile Include="GetTableBehavior\VisImagesTableBehavior.cs" />
-    <Compile Include="ImagesConnector.cs" />
+    <Compile Include="Connectors\ImagesConnector.cs" />
     <Compile Include="Tables\VisImagesTableWrapper.cs" />
     <Compile Include="VisTablesCreating.cs">
       <AutoGen>True</AutoGen>
@@ -77,10 +80,10 @@
     <Compile Include="GetTableBehavior\VisDocumentsTableBehavior.cs" />
     <Compile Include="GetTableBehavior\VisitorsDBTableBehavior.cs" />
     <Compile Include="GetTableBehavior\VisUsersTableBehavior.cs" />
-    <Compile Include="LogConnector.cs" />
+    <Compile Include="Connectors\LogConnector.cs" />
     <Compile Include="Data\LogData.cs" />
     <Compile Include="Tables\AbstractTableWrapper.cs" />
-    <Compile Include="Connector.cs" />
+    <Compile Include="Connectors\VisConnector.cs" />
     <Compile Include="GetTableBehavior\ITableBehavior.cs" />
     <Compile Include="GetTableBehavior\TestTable1Behavior.cs" />
     <Compile Include="GetTableBehavior\VisOrdersTableBehavior.cs" />

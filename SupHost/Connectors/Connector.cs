@@ -1,16 +1,9 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-using System.Configuration;
 using System.Data;
-using System.Data.Sql;
 using System.Data.SqlClient;
 using System.Data.Common;
 
-namespace SupHost
+namespace SupHost.Connectors
 {
     /// <summary>
     /// Реализует подключение к БД.
@@ -29,28 +22,9 @@ namespace SupHost
     ///     <li></li>
     /// </ul>
     /// </remarks>
-    class Connector
+    abstract class Connector
     {
-        private static Connector connector;
-
-        private Logger logger;
-
         private SqlConnection connection;
-
-        #region Public
-
-        public static Connector CurrentConnector
-        {
-            get
-            {
-                if (connector == null)
-                {
-                    connector = new Connector();
-                    return connector;
-                }
-                return connector;
-            }
-        }
 
         public ConnectionToDataBaseSetup GetDataTable(string query)
         {
@@ -67,7 +41,7 @@ namespace SupHost
         public void UpdateTable(DataTable dataTable, DbDataAdapter adapter)
         {
             this.connection.Open();
-            
+
             adapter.Update(dataTable);
             this.connection.Close();
         }
@@ -83,64 +57,46 @@ namespace SupHost
             }
             catch (Exception err)
             {
-                this.logger.Error(err.Message);
+                LogError(err.Message);
                 return false;
             }
         }
 
-        #endregion
+        protected Logger Logger { get; private set; }
 
-        #region Private
+        /// <summary>
+        /// Получение строки подключения к БД.
+        /// </summary>
+        /// <returns></returns>
+        protected abstract string GetConnectionString();
 
-        private Connector()
+        protected Connector()
         {
-            this.logger = Logger.CurrentLogger;
+            this.Logger = Logger.CurrentLogger;
             string connectionString = this.GetConnectionString();
             this.connection = new SqlConnection(connectionString);
             this.connection.InfoMessage += Connection_InfoMessage;
             this.connection.StateChange += Connection_StateChange;
         }
 
+        protected virtual void LogInfo(string message)
+        {
+            this.Logger.Info(message);
+        }
+
+        protected virtual void LogError(string message)
+        {
+            this.Logger.Error(message);
+        }
+
         private void Connection_StateChange(object sender, StateChangeEventArgs e)
         {
-            this.logger.Info(e.CurrentState.ToString());
+            LogInfo(e.CurrentState.ToString());
         }
 
         private void Connection_InfoMessage(object sender, SqlInfoMessageEventArgs e)
         {
-            this.logger.Error(e.Message);
+            LogError(e.Message);
         }
-
-        /// <summary>
-        /// Получение строки подключения к БД.
-        /// </summary>
-        /// <returns></returns>
-        private string GetConnectionString()
-        {
-            string connectionString;
-            //ConfigurationManager.OpenExeConfiguration(ConfigurationUserLevel.PerUserRoamingAndLocal);
-            if (ConfigurationManager.ConnectionStrings.Count != 0)
-            {
-                connectionString = ConfigurationManager
-                    .ConnectionStrings["BaseConnection"].ConnectionString;
-            }
-            else
-            {
-                this.logger.Warn("Строка поключения отсутствует в файле конфигурации системы");
-                connectionString = "";
-            }
-            return connectionString;
-        }
-        #endregion
-
-    }
-
-    /// <summary>
-    /// Класс, содержащий настройки для 
-    /// </summary>
-    public class ConnectionToDataBaseSetup
-    {
-        public DataTable Table { get; set; }
-        public DbDataAdapter DataAdapter { get; set; }
     }
 }

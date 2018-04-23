@@ -1,11 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Data;
+﻿using System.Data;
 using System.Data.SqlClient;
 using System.Data.Common;
+using SupHost.Connectors;
 
 namespace SupHost
 {
@@ -17,7 +13,7 @@ namespace SupHost
 
         public TestTable2AdoBehavior()
         {
-            this.connector = Connector.CurrentConnector;
+            this.connector = VisConnector.CurrentConnector;
         }
 
         public DataTable GetTable()
