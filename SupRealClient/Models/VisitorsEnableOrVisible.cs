@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace SupRealClient.Models
 {
-    public class VisitorsEnable
+    public class VisitorsEnableOrVisible
     {
         public bool ButtonEnable { get; set; }
         public bool TextEnable { get; set; }

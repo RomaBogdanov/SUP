@@ -10,6 +10,10 @@
         ResizeMode="NoResize"
         WindowStartupLocation="CenterScreen">
 
+    <mah:MetroWindow.Resources>
+        <BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter"/>
+    </mah:MetroWindow.Resources>
+    
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="0.6*"/>
@@ -521,7 +525,7 @@
                                     Grid.Column="3"
                                     SelectedDate="{Binding Path=CurrentItem.AgreeToDate, Mode=TwoWay}"
                                     IsEnabled="{Binding Path=TextEnable, Mode=TwoWay}"
-                                    Text="Дата"></DatePicker>
+                                    Text="Дата"/>
                             </Grid>
                         </Grid>
                     </Grid>
@@ -864,23 +868,20 @@
                             <RowDefinition Height="40"/>
                             <RowDefinition/>
                         </Grid.RowDefinitions>
-                        <Grid.ColumnDefinitions>
+                        <!--<Grid.ColumnDefinitions>
                             <ColumnDefinition/>
                             <ColumnDefinition/>
-                        </Grid.ColumnDefinitions>
-                        <TextBlock
-                            Grid.Column="0"
-                            Grid.Row="0"
-                            Text="Активные заявки"
-                            FontSize="15"
-                            Style="{StaticResource TextBLockStyle}"/>
+                        </Grid.ColumnDefinitions>-->
 
                         <TextBlock
-                            Grid.Column="1"
                             Grid.Row="0"
                             Text="Удостоверения личности"
                             FontSize="15"
                             Style="{StaticResource TextBLockStyle}"/>
+                        
+                        <ListBox
+                            Grid.Row="1"
+                            ItemsSource="{Binding}"/>
                     </Grid>
                 </mah:MetroTabItem>
             </mah:MetroAnimatedTabControl>
@@ -941,7 +942,9 @@
                     Grid.Row="0"
                     Grid.Column="0"
                     Margin="2"
-                    IsEnabled="{Binding Path=StartButtonEnable, Mode=TwoWay}"
+                    IsEnabled="{Binding Path=VisitorsEnable.StartButtonEnable, Mode=TwoWay}"
+                    Visibility="{Binding Path=VisitorsVisible.StartButtonEnable, 
+                    Converter={StaticResource BooleanToVisibilityConverter}}"
                     Style="{StaticResource VisitorsSquareButtonStyle}">
                     <Grid>
                         <Grid.RowDefinitions>
@@ -966,7 +969,9 @@
                     Grid.Row="0"
                     Grid.Column="1"
                     Margin="2"
-                    IsEnabled="{Binding Path=PreviousButtonEnable, Mode=TwoWay}"
+                    IsEnabled="{Binding Path=VisitorsEnable.PreviousButtonEnable, Mode=TwoWay}"
+                    Visibility="{Binding Path=VisitorsVisible.PreviousButtonEnable, 
+                    Converter={StaticResource BooleanToVisibilityConverter}}"
                     Style="{StaticResource VisitorsSquareButtonStyle}">
                     <Grid>
                         <Grid.RowDefinitions>
@@ -991,7 +996,9 @@
                     Grid.Row="0"
                     Grid.Column="2"
                     Margin="2"
-                    IsEnabled="{Binding Path=NextButtonEnable, Mode=TwoWay}"
+                    IsEnabled="{Binding Path=VisitorsEnable.NextButtonEnable, Mode=TwoWay}"
+                    Visibility="{Binding Path=VisitorsVisible.NextButtonEnable, 
+                    Converter={StaticResource BooleanToVisibilityConverter}}"
                     Style="{StaticResource VisitorsSquareButtonStyle}">
                     <Grid>
                         <Grid.RowDefinitions>
@@ -1016,7 +1023,9 @@
                     Grid.Row="0"
                     Grid.Column="3"
                     Margin="2"
-                    IsEnabled="{Binding Path=EndButtonEnable, Mode=TwoWay}"
+                    IsEnabled="{Binding Path=VisitorsEnable.EndButtonEnable, Mode=TwoWay}"
+                    Visibility="{Binding Path=VisitorsVisible.EndButtonEnable, 
+                    Converter={StaticResource BooleanToVisibilityConverter}}"
                     Style="{StaticResource VisitorsSquareButtonStyle}">
                     <Grid>
                         <Grid.RowDefinitions>
@@ -1040,8 +1049,11 @@
                     Grid.Row="0"
                     Grid.Column="4"
                     Margin="2"
-                    IsEnabled="{Binding Path=ExtraditeButtonEnable, Mode=TwoWay}"
-                    Style="{StaticResource VisitorsSquareButtonStyle}">
+                    IsEnabled="{Binding Path=VisitorsEnable.ExtraditeButtonEnable, Mode=TwoWay}"
+                    Visibility="{Binding Path=VisitorsVisible.ExtraditeButtonEnable, 
+                    Converter={StaticResource BooleanToVisibilityConverter}}"
+                    Style="{StaticResource VisitorsSquareButtonStyle}"
+                    Command="{Binding }">
                     <Grid>
                         <Grid.RowDefinitions>
                             <RowDefinition/>
@@ -1064,8 +1076,11 @@
                     Grid.Row="0"
                     Grid.Column="5"
                     Margin="2"
-                    IsEnabled="{Binding Path=ReturnButtonEnable, Mode=TwoWay}"
-                    Style="{StaticResource VisitorsSquareButtonStyle}">
+                    IsEnabled="{Binding Path=VisitorsEnable.ReturnButtonEnable, Mode=TwoWay}"
+                    Visibility="{Binding Path=VisitorsVisible.ReturnButtonEnable, 
+                    Converter={StaticResource BooleanToVisibilityConverter}}"
+                    Style="{StaticResource VisitorsSquareButtonStyle}"
+                    Command="{Binding}">
                     <Grid>
                         <Grid.RowDefinitions>
                             <RowDefinition/>
@@ -1088,7 +1103,9 @@
                     Grid.Row="1"
                     Grid.Column="0"
                     Margin="2"
-                    IsEnabled="{Binding Path=NewButtonEnable, Mode=TwoWay}"
+                    IsEnabled="{Binding Path=VisitorsEnable.NewButtonEnable, Mode=TwoWay}"
+                    Visibility="{Binding Path=VisitorsVisible.NewButtonEnable, 
+                    Converter={StaticResource BooleanToVisibilityConverter}}"
                     Style="{StaticResource VisitorsSquareButtonStyle}">
                     <Grid>
                         <Grid.RowDefinitions>
@@ -1112,7 +1129,9 @@
                     Grid.Row="1"
                     Grid.Column="1"
                     Margin="2"
-                    IsEnabled="{Binding Path=EditButtonEnable, Mode=TwoWay}"
+                    IsEnabled="{Binding Path=VisitorsEnable.EditButtonEnable, Mode=TwoWay}"
+                    Visibility="{Binding Path=VisitorsVisible.EditButtonEnable, 
+                    Converter={StaticResource BooleanToVisibilityConverter}}"
                     Style="{StaticResource VisitorsSquareButtonStyle}">
                     <Grid>
                         <Grid.RowDefinitions>
@@ -1136,7 +1155,9 @@
                     Grid.Row="1"
                     Grid.Column="2"
                     Margin="2"
-                    IsEnabled="{Binding Path=AcceptButtonEnable, Mode=TwoWay}"
+                    IsEnabled="{Binding Path=VisitorsEnable.AcceptButtonEnable, Mode=TwoWay}"
+                    Visibility="{Binding Path=VisitorsVisible.AcceptButtonEnable, 
+                    Converter={StaticResource BooleanToVisibilityConverter}}"
                     Style="{StaticResource VisitorsSquareButtonStyle}">
                     <Grid>
                         <Grid.RowDefinitions>
@@ -1160,7 +1181,9 @@
                     Grid.Row="1"
                     Grid.Column="3"
                     Margin="2"
-                    IsEnabled="{Binding Path=CancelButtonEnable, Mode=TwoWay}"
+                    IsEnabled="{Binding Path=VisitorsEnable.CancelButtonEnable, Mode=TwoWay}"
+                    Visibility="{Binding Path=VisitorsVisible.CancelButtonEnable, 
+                    Converter={StaticResource BooleanToVisibilityConverter}}"
                     Style="{StaticResource VisitorsSquareButtonStyle}">
                     <Grid>
                         <Grid.RowDefinitions>
@@ -1184,7 +1207,9 @@
                     Grid.Row="1"
                     Grid.Column="4"
                     Margin="2"
-                    IsEnabled="{Binding Path=SearchButtonEnable, Mode=TwoWay}"
+                    IsEnabled="{Binding Path=VisitorsEnable.SearchButtonEnable, Mode=TwoWay}"
+                    Visibility="{Binding Path=VisitorsVisible.SearchButtonEnable, 
+                    Converter={StaticResource BooleanToVisibilityConverter}}"
                     Style="{StaticResource VisitorsSquareButtonStyle}">
                     <Grid>
                         <Grid.RowDefinitions>
@@ -1208,7 +1233,9 @@
                     Grid.Row="1"
                     Grid.Column="5"
                     Margin="2"
-                    IsEnabled="{Binding Path=RefreshButtonEnable, Mode=TwoWay}"
+                    IsEnabled="{Binding Path=VisitorsEnable.RefreshButtonEnable, Mode=TwoWay}"
+                    Visibility="{Binding Path=VisitorsVisible.RefreshButtonEnable, 
+                    Converter={StaticResource BooleanToVisibilityConverter}}"
                     Style="{StaticResource VisitorsSquareButtonStyle}">
                     <Grid>
                         <Grid.RowDefinitions>
