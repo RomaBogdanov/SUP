@@ -107,8 +107,20 @@ namespace SupRealClient.ViewModels
             var image = images.FirstOrDefault(i => i.Visitor.ToString() == VisitorId);
             if (image != null)
             {
-                string path = Path.GetTempPath() + "/" + image.Id + Guid.NewGuid();
-                File.WriteAllBytes(path, image.Data);
+                string path = Directory.GetCurrentDirectory() + "\\Images\\" + image.Alias;
+                if (!File.Exists(path))
+                {
+                    byte[] data =
+                        ImagesWrapper.CurrentTable().Connector.GetImage(image.Alias);
+                    if (data != null)
+                    {
+                        File.WriteAllBytes(path, data);
+                    }
+                    else
+                    {
+                        path = "";
+                    }
+                }
                 ImageSource = path;
             }
         }
@@ -123,16 +135,17 @@ namespace SupRealClient.ViewModels
             images = (from i in table.AsEnumerable()
                                 select new Img
                                 {
-                                    Id = i.Field<Guid>("f_image_id"),
+                                    Id = i.Field<int>("f_image_id"),
+                                    Alias = i.Field<Guid>("f_image_alias"),
                                     Visitor = i.Field<int>("f_visitor_id"),
-                                    Type = i.Field<int>("f_image_type"),
-                                    Data = i.Field<byte[]>("f_data"),
+                                    Type = i.Field<int>("f_image_type")
                                 }).ToList();
         }
 
         private class Img
         {
-            public Guid Id { get; set; }
+            public int Id { get; set; }
+            public Guid Alias { get; set; }
             public int Visitor { get; set; }
             public int Type { get; set; }
             public byte[] Data { get; set; }

@@ -50,7 +50,7 @@ namespace SUPClient
         public void GetImage(FullOrder fullOrder)
         {
             ClientConnector connector = new ClientConnector();
-            byte[] b = connector.GetImage((int)fullOrder.Visitor["f_visitor_id"]);
+            byte[] b = new byte[0];// connector.GetImage((int)fullOrder.Visitor["f_visitor_id"]);
             MemoryStream memoryStream = new MemoryStream(b);
             BitmapImage im = new BitmapImage();
             im.BeginInit();

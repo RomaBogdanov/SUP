@@ -65,7 +65,14 @@ namespace SupContract
         /// </summary>
         /// <returns></returns>
         [OperationContract]
-        byte[] GetImage(int id, OperationInfo info);
+        byte[] GetImage(Guid alias, OperationInfo info);
+
+        /// <summary>
+        /// Процедура загрузки изображения в базу.
+        /// </summary>
+        /// <returns></returns>
+        [OperationContract]
+        bool SetImage(Guid alias, byte[] data, OperationInfo info);
 
         /// <summary>
         /// Процедура авторизации.

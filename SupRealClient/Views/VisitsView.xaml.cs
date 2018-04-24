@@ -1,16 +1,7 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
 using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Shapes;
 using SupRealClient.Models;
 using System.ComponentModel;
 using System.Collections.ObjectModel;
@@ -19,6 +10,9 @@ using SupRealClient.Annotations;
 using SupRealClient.TabsSingleton;
 using System.Data;
 using SupRealClient.EnumerationClasses;
+using System.Windows.Forms;
+using SupContract;
+using System.IO;
 
 namespace SupRealClient.Views
 {
@@ -45,15 +39,19 @@ namespace SupRealClient.Views
 
     public class VisitsViewModel : INotifyPropertyChanged
     {
-        
-        private IVisitsModel model = new VisitsModel();
+        private IVisitsModel model;
 
         public IVisitsModel Model
         {
             get { return model; }
             set
             {
+                if (model != null)
+                {
+                    model.OnPropertyChanged -= OnPropertyChanged;
+                }
                 model = value;
+                model.OnPropertyChanged += OnPropertyChanged;
                 OnPropertyChanged();
                 CurrentItem = model.CurrentItem;
                 Set = model.Set;
@@ -81,13 +79,22 @@ namespace SupRealClient.Views
             }
             set
             {
-                //this.currentItem = value;
                 if (Model != null)
                 {
                     Model.CurrentItem = value;
                     OnPropertyChanged();
                 }
             }
+        }
+
+        public string PhotoSource
+        {
+            get { return Model?.PhotoSource; }
+        }
+
+        public string Signature
+        {
+            get { return Model?.Signature; }
         }
 
         public bool Enable
@@ -102,9 +109,18 @@ namespace SupRealClient.Views
         public ICommand CountryCommand { get; set; }
         public ICommand CabinetsCommand { get; set; }
         public ICommand DocumentsCommand { get; set; }
+        public ICommand AddImageSourceCommand { get; set; }
+        public ICommand RemoveImageSourceCommand { get; set; }
+        public ICommand AddSignatureCommand { get; set; }
+        public ICommand RemoveSignatureCommand { get; set; }
 
         public VisitsViewModel()
         {
+            Model = new VisitsModel();
+
+            OnPropertyChanged("PhotoSource");
+            OnPropertyChanged("Signature");
+
             BeginCommand = new RelayCommand(arg => Begin());
             PrevCommand = new RelayCommand(arg => Prev());
             NextCommand = new RelayCommand(arg => Next());
@@ -114,6 +130,10 @@ namespace SupRealClient.Views
             CountryCommand = new RelayCommand(arg => CountyList());
             CabinetsCommand = new RelayCommand(arg => CabinetsList());
             DocumentsCommand = new RelayCommand(arg => DocumentsListModel());
+            AddImageSourceCommand = new RelayCommand(arg => AddImageSource(ImageType.Photo));
+            RemoveImageSourceCommand= new RelayCommand(arg => RemoveImageSource(ImageType.Photo));
+            AddSignatureCommand = new RelayCommand(arg => AddImageSource(ImageType.Signature));
+            RemoveSignatureCommand = new RelayCommand(arg => RemoveImageSource(ImageType.Signature));
         }
 
         private void DocumentsListModel()
@@ -167,6 +187,23 @@ namespace SupRealClient.Views
             Model = new NewVisitsModel();
         }
 
+        private void AddImageSource(ImageType imageType)
+        {
+            var dlg = new OpenFileDialog();
+            if (dlg.ShowDialog() == DialogResult.OK)
+            {
+                Model.AddImageSource(dlg.FileName, imageType);
+
+                //PhotoSource = image;
+                //System.Windows.MessageBox.Show("Картинка загружена");
+            }
+        }
+
+        private void RemoveImageSource(ImageType imageType)
+        {
+            Model.RemoveImageSource(imageType);
+        }
+
         public event PropertyChangedEventHandler PropertyChanged;
 
         [NotifyPropertyChangedInvocator]
@@ -174,11 +211,17 @@ namespace SupRealClient.Views
         {
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
-
     }
+
+    public delegate void PropertyChanged(string property);
 
     public interface IVisitsModel
     {
+        event PropertyChanged OnPropertyChanged;
+
+        string PhotoSource { get; }
+        string Signature { get; }
+
         ObservableCollection<EnumerationClasses.Visitor> Set { get; set; }
         EnumerationClasses.Visitor CurrentItem { get; set; }
 
@@ -186,13 +229,23 @@ namespace SupRealClient.Views
         EnumerationClasses.Visitor End();
         EnumerationClasses.Visitor Next();
         EnumerationClasses.Visitor Prev();
+
+        void AddImageSource(string path, ImageType imageType);
+        void RemoveImageSource(ImageType imageType);
     }
 
     public class VisitsModel : IVisitsModel
     {
+        private const string Images = "Images";
+
+        public event PropertyChanged OnPropertyChanged;
+
         private ObservableCollection<EnumerationClasses.Visitor> set;
         private EnumerationClasses.Visitor currentItem;
         private int selectedIndex;
+
+        public string PhotoSource { get; private set; }
+        public string Signature { get; private set; }
 
         public ObservableCollection<EnumerationClasses.Visitor> Set
         {
@@ -203,13 +256,23 @@ namespace SupRealClient.Views
         public EnumerationClasses.Visitor CurrentItem
         {
             get { return currentItem; }
-            set { currentItem = value; }
+            set
+            {
+                currentItem = value;
+                GetPhoto();
+                GetSign();
+            }
         }
 
         public VisitsModel()
         {
+            if (!Directory.Exists(Images))
+            {
+                Directory.CreateDirectory(Images);
+            }
             VisitorsWrapper.CurrentTable().OnChanged += Query;
             OrganizationsWrapper.CurrentTable().OnChanged += Query;
+            ImagesWrapper.CurrentTable().OnChanged += OnImageChanged;
             Query();
         }
 
@@ -274,6 +337,11 @@ namespace SupRealClient.Views
                 OrdersCardsToVisitor(0);
                 CurrentItem = Set[0];
             }
+        }
+
+        private void OnImageChanged()
+        {
+            // TODO - пустой вызов, чтобы не падало
         }
 
         public EnumerationClasses.Visitor Begin()
@@ -371,10 +439,133 @@ namespace SupRealClient.Views
             }
         }
 
+        public void AddImageSource(string path, ImageType imageType)
+        {
+            DataRow row = null;
+            foreach (DataRow r in ImagesWrapper.CurrentTable().Table.Rows)
+            {
+                if (r.Field<int>("f_visitor_id") == CurrentItem.Id &&
+                    r.Field<int>("f_image_type") == (int)imageType)
+                {
+                    row = r;
+                    break;
+                }
+            }
+            bool find = row != null;
+            row = row ?? ImagesWrapper.CurrentTable().Table.NewRow();
+            var alias = Guid.NewGuid();
+            row["f_image_alias"] = alias;
+            row["f_visitor_id"] = CurrentItem.Id;
+            row["f_image_type"] = imageType;
+            if (!find)
+            {
+                ImagesWrapper.CurrentTable().Table.Rows.Add(row);
+            }
+            byte[] data = File.ReadAllBytes(path);
+
+            string image = "";
+            if (ImagesWrapper.CurrentTable().Connector.SetImage(alias, data))
+            {
+                image = Images + "\\" + alias;
+                File.WriteAllBytes(image, data);
+            }
+
+            SetImageSource(image, imageType);
+        }
+
+        public void RemoveImageSource(ImageType imageType)
+        {
+            DataRow row = null;
+            foreach (DataRow r in ImagesWrapper.CurrentTable().Table.Rows)
+            {
+                if (r.Field<int>("f_visitor_id") == CurrentItem.Id &&
+                    r.Field<int>("f_image_type") == (int)imageType)
+                {
+                    row = r;
+                    break;
+                }
+            }
+            if (row != null)
+            {
+                row.Delete();
+            }
+            SetImageSource("", imageType);
+        }
+
+        private void SetImageSource(string source, ImageType imageType)
+        {
+            if (imageType == ImageType.Photo)
+            {
+                PhotoSource = source;
+                if (OnPropertyChanged != null)
+                {
+                    OnPropertyChanged("PhotoSource");
+                }
+            }
+            else if (imageType == ImageType.Signature)
+            {
+                Signature = source;
+                if (OnPropertyChanged != null)
+                {
+                    OnPropertyChanged("Signature");
+                }
+            }
+        }
+
+        private void GetPhoto()
+        {
+            GetImage(ImageType.Photo);
+        }
+
+        private void GetSign()
+        {
+            GetImage(ImageType.Signature);
+        }
+
+        private void GetImage(ImageType imageType)
+        {
+            DataRow row = null;
+            foreach (DataRow r in ImagesWrapper.CurrentTable().Table.Rows)
+            {
+                if (r.Field<int>("f_visitor_id") == CurrentItem.Id &&
+                    r.Field<int>("f_image_type") == (int)imageType)
+                {
+                    row = r;
+                    break;
+                }
+            }
+
+            string source = "";
+            if (row != null)
+            {
+                string path = Directory.GetCurrentDirectory() + "\\" + Images + "\\" + row["f_image_alias"];
+                if (!File.Exists(path))
+                {
+                    byte[] data =
+                        ImagesWrapper.CurrentTable().Connector.GetImage((Guid)row["f_image_alias"]);
+                    if (data != null)
+                    {
+                        File.WriteAllBytes(path, data);
+                    }
+                    else
+                    {
+                        path = "";
+                    }
+                }
+                source = path;
+            }
+
+            SetImageSource(source, imageType);
+        }
     }
 
     public class NewVisitsModel : IVisitsModel
     {
+        public event PropertyChanged OnPropertyChanged;
+
+        public string PhotoSource { get; private set; }
+        public string Signature { get; private set; }
+
         private ObservableCollection<EnumerationClasses.Visitor> set;
         private EnumerationClasses.Visitor currentItem;
 
@@ -412,6 +603,16 @@ namespace SupRealClient.Views
         }
 
         public EnumerationClasses.Visitor Prev()
+        {
+            throw new NotImplementedException();
+        }
+
+        public void AddImageSource(string path, ImageType imageType)
+        {
+            throw new NotImplementedException();
+        }
+
+        public void RemoveImageSource(ImageType imageType)
         {
             throw new NotImplementedException();
         }
