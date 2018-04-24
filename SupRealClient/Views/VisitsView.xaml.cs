@@ -57,6 +57,34 @@ namespace SupRealClient.Views
             }
         }
 
+        private VisitorsEnableOrVisible _visitorsEnable;
+        /// <summary>
+        /// Объект со списком свойств Enable для кнопок
+        /// </summary>
+        public VisitorsEnableOrVisible VisitorsEnable
+        {
+            get { return _visitorsEnable; }
+            set
+            {
+                _visitorsEnable = value;
+                OnPropertyChanged();
+            }
+        }
+
+        private VisitorsEnableOrVisible _visitorsVisible;
+        /// <summary>
+        /// Объект со списком свойтсв Visible для кнопок
+        /// </summary>
+        public VisitorsEnableOrVisible VisitorsVisible
+        {
+            get { return _visitorsVisible; }
+            set
+            {
+                _visitorsVisible = value;
+                OnPropertyChanged();
+            }
+        }
+
         ObservableCollection<EnumerationClasses.Visitor> Set
         {
             get { return Model?.Set; }
