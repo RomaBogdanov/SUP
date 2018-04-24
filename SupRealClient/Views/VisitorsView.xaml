@@ -125,51 +125,6 @@
             </Grid>
         </Button>
 
-<<<<<<< HEAD
-        <Button
-            Grid.Row="2"
-            Grid.Column="1"
-            ToolTip="Добавить подпись"
-            Margin="0"
-            Background="#00000000"
-            Command="{Binding AddSignatureCommand}">
-            <Grid Height="40" Width="180">
-                <Grid.RowDefinitions>
-                    <RowDefinition Height="40"/>
-                    <RowDefinition/>
-                </Grid.RowDefinitions>
-
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition/>
-                    <ColumnDefinition Width="40"/>
-                </Grid.ColumnDefinitions>
-
-                <Border
-                    Grid.Row="0"
-                    Grid.RowSpan="2"
-                    Grid.Column="0"
-                    Grid.ColumnSpan="2"
-                    BorderThickness="2"
-                    BorderBrush="#FFCCCCCC">
-                    <Image 
-                        Source="{Binding Path=Signature, Mode=OneWay}"/>
-                </Border>
-                <Button
-                    Grid.Row="0"
-                    Grid.Column="1"
-                    Content="X"
-                    ToolTip="Удалить подпись"
-                    Margin="0"
-                    Background="#00000000"
-                    BorderThickness="2"
-                    BorderBrush="#FFCCCCCC"
-                    Command="{Binding RemoveSignatureCommand}"/>
-            </Grid>
-        </Button>
-=======
-       
->>>>>>> develop
-        
         <Grid
             Grid.Row="1"
             Grid.Column="0">
