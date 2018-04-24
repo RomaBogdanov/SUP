@@ -100,9 +100,6 @@ namespace SupRealClient.ViewModels
         public ICommand LogsClick
         { get; set; }
 
-        public ICommand UploadImage
-        { get; set; }
-
         public ICommand ListBaseOrgsStructClick
         { get; set; }
 
@@ -138,7 +135,6 @@ namespace SupRealClient.ViewModels
             ListZonesClick = new RelayCommand(arg => ViewManager.Instance.OpenWindow("ZonesWindView"));
             ListCabinetsClick = new RelayCommand(arg => ViewManager.Instance.OpenWindow("CabinetsWindView"));
             LogsClick = new RelayCommand(arg => ViewManager.Instance.OpenWindow("LogsWindView"));
-            UploadImage = new RelayCommand(arg => ViewManager.Instance.OpenWindow("UploadImageView"));
             ListBaseOrgsStructClick = new RelayCommand(arg => ViewManager.Instance.OpenWindow("MainOrganisationStructureView"));
             ListChildOrgs = new RelayCommand(arg => ViewManager.Instance.OpenWindow("ChildOrgsView"));
             ListBaseOrgs = new RelayCommand(arg => ViewManager.Instance.OpenWindow("BaseOrgsView"));

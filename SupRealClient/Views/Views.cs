@@ -635,46 +635,4 @@ namespace SupRealClient.Views
         }
     }
 
-	/// <summary>
-	/// Логика взаимодействия для UploadImageView.xaml - базовая часть для всех View
-	/// </summary>
-	public partial class UploadImageView : IWindow
-	{
-        public bool IsRealClose { get; set; } = true;
-
-        public string WindowName { get; private set; } = "UploadImageView";
-
-        public IWindow ParentWindow { get; set; }
-
-		public void CloseWindow(CancelEventArgs e)
-        {
-            if (!IsRealClose)
-            {
-                IsRealClose = true;
-                e.Cancel = true;
-                this.Hide();
-            }
-        }
-
-		public void Unsuscribe()
-		{
-            this.Closing -= this.Window_Closing;
-		}
-
-		private void Window_Closing(object sender, CancelEventArgs e)
-        {
-            ViewManager.Instance.CloseWindow(this, true, e);
-        }
-		
-        private void Handling_OnClose()
-        {
-            this.Close();
-        }
-
-        private void Window_StateChanged(object sender, EventArgs e)
-        {
-            ViewManager.Instance.SetChildrenState(sender as Window, false);
-        }
-    }
-
 }

@@ -147,7 +147,6 @@
     <Compile Include="ViewModels\MainOrganizationViewModel.cs" />
     <Compile Include="ViewModels\Search1ViewModel.cs" />
     <Compile Include="ViewModels\UnitViewModel.cs" />
-    <Compile Include="ViewModels\UploadImageViewModel.cs" />
     <Compile Include="ViewModels\ViewModelBase.cs" />
     <Compile Include="ViewModels\VisitorsViewModel.cs" />
     <Compile Include="ViewModels\VisitorViewModel.cs" />
@@ -221,9 +220,6 @@
     </Compile>
     <Compile Include="Views\MainOrganisationStructureView.xaml.cs">
       <DependentUpon>MainOrganisationStructureView.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Views\UploadImageView.xaml.cs">
-      <DependentUpon>UploadImageView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\VisitorsBidsTabView.xaml.cs">
       <DependentUpon>VisitorsBidsTabView.xaml</DependentUpon>
@@ -441,10 +437,6 @@
     <Page Include="Views\SupResourcesDictionary.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
-    </Page>
-    <Page Include="Views\UploadImageView.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Views\VisitorsBidsTabView.xaml">
       <SubType>Designer</SubType>

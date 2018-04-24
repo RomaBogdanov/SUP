@@ -241,8 +241,6 @@ namespace SupRealClient
                     return new BaseOrgsView();
                 case "VisitorsListWindView":
                     return new VisitorsListWindView();
-                case "UploadImageView":
-                    return new UploadImageView();
             }
 
             return null;
