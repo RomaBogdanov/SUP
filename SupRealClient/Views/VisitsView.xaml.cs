@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Linq;
-using System.Windows;
 using System.Windows.Input;
 using SupRealClient.Models;
 using System.ComponentModel;
@@ -48,10 +47,10 @@ namespace SupRealClient.Views
             {
                 if (model != null)
                 {
-                    model.OnPropertyChanged -= OnPropertyChanged;
+                    model.OnModelPropertyChanged -= OnPropertyChanged;
                 }
                 model = value;
-                model.OnPropertyChanged += OnPropertyChanged;
+                model.OnModelPropertyChanged += OnPropertyChanged;
                 OnPropertyChanged();
                 CurrentItem = model.CurrentItem;
                 Set = model.Set;
@@ -138,28 +137,22 @@ namespace SupRealClient.Views
 
         private void DocumentsListModel()
         {
-            Window window = new Base4DocumentsWindView();
-            window.Show();
+            ViewManager.Instance.OpenWindow("Base4DocumentsWindView");
         }
 
         private void CabinetsList()
         {
-            Window window = new Base4CabinetsWindView();
-            window.Show();
+            ViewManager.Instance.OpenWindow("Base4CabinetsWindView");
         }
 
         private void OrganizationsList()
         {
-            /*Window window = new OrganizationsWindView();
-            window.Show();*/
-            Window window = new Base4OrganizationsWindView();
-            window.Show();
+            ViewManager.Instance.OpenWindow("Base4OrganizationsWindView");
         }
 
         private void CountyList()
         {
-            Window window = new Base4NationsWindView();
-            window.Show();
+            ViewManager.Instance.OpenWindow("Base4NationsWindView");
         }
 
         private void Begin()
@@ -213,11 +206,9 @@ namespace SupRealClient.Views
         }
     }
 
-    public delegate void PropertyChanged(string property);
-
     public interface IVisitsModel
     {
-        event PropertyChanged OnPropertyChanged;
+        event ModelPropertyChanged OnModelPropertyChanged;
 
         string PhotoSource { get; }
         string Signature { get; }
@@ -238,7 +229,7 @@ namespace SupRealClient.Views
     {
         private const string Images = "Images";
 
-        public event PropertyChanged OnPropertyChanged;
+        public event ModelPropertyChanged OnModelPropertyChanged;
 
         private ObservableCollection<EnumerationClasses.Visitor> set;
         private EnumerationClasses.Visitor currentItem;
@@ -497,17 +488,17 @@ namespace SupRealClient.Views
             if (imageType == ImageType.Photo)
             {
                 PhotoSource = source;
-                if (OnPropertyChanged != null)
+                if (OnModelPropertyChanged != null)
                 {
-                    OnPropertyChanged("PhotoSource");
+                    OnModelPropertyChanged("PhotoSource");
                 }
             }
             else if (imageType == ImageType.Signature)
             {
                 Signature = source;
-                if (OnPropertyChanged != null)
+                if (OnModelPropertyChanged != null)
                 {
-                    OnPropertyChanged("Signature");
+                    OnModelPropertyChanged("Signature");
                 }
             }
         }
@@ -561,7 +552,7 @@ namespace SupRealClient.Views
 
     public class NewVisitsModel : IVisitsModel
     {
-        public event PropertyChanged OnPropertyChanged;
+        public event ModelPropertyChanged OnModelPropertyChanged;
 
         public string PhotoSource { get; private set; }
         public string Signature { get; private set; }

@@ -1,0 +1,102 @@
+﻿<#@ template language="C#" debug="false" hostspecific="true"#>
+<#@ assembly name="System.Xml" #>
+<#@ assembly name="System.Xml.Linq" #>
+<#@ assembly name="System.Core" #>
+<#@ import namespace="System.Linq" #>
+<#@ import namespace="System.Xml" #>
+<#@ import namespace="System.Xml.Linq" #>
+<#@ import namespace="System.IO" #>
+<#@ output extension=".cs" #><#
+
+var entityTypeRelativePath = @"Base4Analogs.xml";
+
+var entityTypePath = Host.ResolvePath(entityTypeRelativePath);
+
+var entityTypeDoc = XDocument.Load(entityTypePath);
+var entityQuery = from entity in entityTypeDoc.Root.Elements()
+	let name = entity.Attribute("Name")
+	let type = entity.Attribute("Type")
+	where name != null && !string.IsNullOrEmpty(name.Value) &&
+	type != null && !string.IsNullOrEmpty(type.Value)
+	select new
+	{
+		Name = name.Value,
+		Type = type.Value,
+		Element = entity
+	};
+#>
+using SupRealClient.Common.Interfaces;
+using System;
+using System.ComponentModel;
+using System.Windows;
+
+namespace SupRealClient.Views
+{
+<#foreach(var entity in entityQuery) { #>
+	/// <summary>
+	/// Логика взаимодействия для Base4<#=entity.Name#>WindView.xaml - базовая часть для всех View
+	/// </summary>
+	public partial class Base4<#=entity.Name#>WindView : IWindow
+	{
+        public bool IsRealClose { get; set; } = true;
+
+        public string WindowName { get; private set; } = "Base4<#=entity.Name#>WindView";
+
+        public IWindow ParentWindow { get; set; }
+
+		public void AfterInitialize()
+		{
+            this.Closing += Window_Closing;
+            this.StateChanged += Window_StateChanged;
+            this.Loaded += Window_Loaded;
+
+		    Base4ViewModel<EnumerationClasses.<#=entity.Type#>> viewModel =
+			new Base4ViewModel<EnumerationClasses.<#=entity.Type#>>
+			{
+			    Parent = this,
+			    Model = new <#=entity.Type#>sListModel<EnumerationClasses.<#=entity.Type#>>(),
+			};
+			viewModel.Model.OnClose += Handling_OnClose;
+            base4.DataContext = viewModel;
+
+            CreateColumns();
+		}
+
+		public void CloseWindow(CancelEventArgs e)
+        {
+            if (!IsRealClose)
+            {
+                IsRealClose = true;
+                e.Cancel = true;
+                this.Hide();
+            }
+        }
+
+		public void Unsuscribe()
+		{
+            this.Closing -= this.Window_Closing;
+		}
+
+		private void Window_Closing(object sender, CancelEventArgs e)
+        {
+            ViewManager.Instance.CloseWindow(this, true, e);
+        }
+		
+        private void Handling_OnClose()
+        {
+            this.Close();
+        }
+
+        private void Window_StateChanged(object sender, EventArgs e)
+        {
+            ViewManager.Instance.SetChildrenState(sender as Window, false);
+        }
+
+		private void Window_Loaded(object sender, RoutedEventArgs e)
+        {
+            SetDefaultColumn();
+        }
+    }
+
+<#}#>
+}

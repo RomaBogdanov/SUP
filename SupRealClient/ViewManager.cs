@@ -241,6 +241,14 @@ namespace SupRealClient
                     return new BaseOrgsView();
                 case "VisitorsListWindView":
                     return new VisitorsListWindView();
+                case "Base4CabinetsWindView":
+                    return new Base4CabinetsWindView();
+                case "Base4DocumentsWindView":
+                    return new Base4DocumentsWindView();
+                case "Base4NationsWindView":
+                    return new Base4NationsWindView();
+                case "Base4OrganizationsWindView":
+                    return new Base4OrganizationsWindView();
             }
 
             return null;

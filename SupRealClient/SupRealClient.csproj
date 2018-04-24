@@ -177,6 +177,11 @@
     <Compile Include="Views\AddUpdateZoneWindView.xaml.cs">
       <DependentUpon>AddUpdateZoneWindView.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Views\Base4Analogs\Base4Analogs.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Base4Analogs.tt</DependentUpon>
+    </Compile>
     <Compile Include="Views\Base4Analogs\Base4OrganizationsWindView.xaml.cs">
       <DependentUpon>Base4OrganizationsWindView.xaml</DependentUpon>
     </Compile>
@@ -585,6 +590,11 @@
       <LastGenOutput>Wrappers.cs</LastGenOutput>
     </Content>
     <Content Include="TabsSingleton\Wrappers.xml" />
+    <Content Include="Views\Base4Analogs\Base4Analogs.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <LastGenOutput>Base4Analogs.cs</LastGenOutput>
+    </Content>
+    <Resource Include="Views\Base4Analogs\Base4Analogs.xml" />
     <Content Include="Views\Views.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
       <LastGenOutput>Views.cs</LastGenOutput>

@@ -1,17 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
 using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
 using System.ComponentModel;
 using System.Collections.ObjectModel;
 using System.Runtime.CompilerServices;
@@ -19,6 +10,8 @@ using SupRealClient.Annotations;
 using SupRealClient.TabsSingleton;
 using SupRealClient.EnumerationClasses;
 using System.Data;
+using SupRealClient.Search;
+using SupRealClient.Common.Interfaces;
 
 namespace SupRealClient.Views
 {
@@ -39,6 +32,8 @@ namespace SupRealClient.Views
         public T currentItem;
         public int selectedIndex;
 
+        private string searchingText;
+
         // ==========
         private IBase4Model<T> _model;
 
@@ -52,6 +47,19 @@ namespace SupRealClient.Views
         public ICommand End { get; set; }
         public ICommand Close { get; set; }
 
+        public IWindow Parent { get; set; }
+
+        public string SearchingText
+        {
+            get { return this.searchingText; }
+            set
+            {
+                this.searchingText = value;
+                OnPropertyChanged();
+                _model?.Searching(this.searchingText.ToUpper());
+            }
+        }
+
         public T CurrentItem
         {
             get
@@ -63,6 +71,19 @@ namespace SupRealClient.Views
                 if (Model != null)
                 {
                     Model.CurrentItem = value;
+                    OnPropertyChanged();
+                }
+            }
+        }
+
+        public DataGridColumn CurrentColumn
+        {
+            get { return Model != null ? Model.CurrentColumn : null; }
+            set
+            {
+                if (value != null && Model != null)
+                {
+                    Model.CurrentColumn = value;
                     OnPropertyChanged();
                 }
             }
@@ -91,12 +112,31 @@ namespace SupRealClient.Views
             }
         }
 
+        public object SelectedValue
+        {
+            get { return Model != null ? Model.SelectedValue : null; }
+            set
+            {
+                if (Model != null)
+                {
+                    Model.SelectedValue = value;
+                    OnPropertyChanged();
+                }
+            }
+        }
+
         public IBase4Model<T> Model
         {
             get { return _model; }
             set
             {
+                if (_model != null)
+                {
+                    _model.OnModelPropertyChanged -= OnPropertyChanged;
+                }
                 _model = value;
+                _model.Parent = Parent;
+                _model.OnModelPropertyChanged += OnPropertyChanged;
                 OnPropertyChanged();
             }
         }
@@ -112,7 +152,6 @@ namespace SupRealClient.Views
             Next = new RelayCommand(obj => NextCom());
             End = new RelayCommand(obj => EndCom());
             Close = new RelayCommand(obj => CloseCom());
-
         }
 
         public event PropertyChangedEventHandler PropertyChanged;
@@ -156,11 +195,19 @@ namespace SupRealClient.Views
         }
     }
 
+    public delegate void ModelPropertyChanged(string property);
+
     public interface IBase4Model<T>
     {
+        event ModelPropertyChanged OnModelPropertyChanged;
+        event Action OnClose;
+
         ObservableCollection<T> Set { get; set; }
         T CurrentItem { get; set; }
         int SelectedIndex { get; set; }
+        DataGridColumn CurrentColumn { get; set; }
+        object SelectedValue { get; set; }
+        IWindow Parent { get; set; }
 
         void Add();
         void Begin();
@@ -171,13 +218,24 @@ namespace SupRealClient.Views
         void Prev();
         void Search();
         void Update();
+
+        void Searching(string pattern);
     }
 
-    public abstract class Base4ModelAbstr<T> : IBase4Model<T>
+    public abstract class Base4ModelAbstr<T> : IBase4Model<T>, ISearchHelper
     {
+        public event ModelPropertyChanged OnModelPropertyChanged;
+        public event Action OnClose;
+
+        public IWindow Parent { get; set; }
+
         protected ObservableCollection<T> set;
         protected T currentItem;
         protected int selectedIndex;
+
+        protected SearchResult searchResult = new SearchResult();
+        public DataGridColumn CurrentColumn {get;set;}
+        public object SelectedValue { get; set; }
 
         public virtual ObservableCollection<T> Set
         {
@@ -252,12 +310,73 @@ namespace SupRealClient.Views
             }
         }
         public abstract void Add();
-        public abstract void Farther();
-        public abstract void Search();
+        public virtual void Farther()
+        {
+            SetAt(searchResult.Next());
+        }
+        public virtual void Search()
+        {
+            ViewManager.Instance.Search(this, Parent);
+        }
         public abstract void Update();
-        public abstract void Close();
+        public virtual void Close()
+        {
+            OnClose?.Invoke();
+        }
 
         protected abstract void Query();
+       
+        public virtual DataRow[] Rows { get { return Table.AsEnumerable().ToArray(); } }
+
+        public virtual IDictionary<string, string> GetFields()
+        {
+            return new Dictionary<string, string>();
+        }
+
+        public virtual long GetId(int index)
+        {
+            return -1;
+        }
+
+        public virtual void SetAt(long id)
+        {
+            for (int i = 0; i < Set.Count(); i++)
+            {
+                if ((Set.ElementAt(i) as IdEntity).Id == id)
+                {
+                    SelectedValue = Set.ElementAt(i);
+                    OnModelPropertyChanged?.Invoke("SelectedValue");
+                    break;
+                }
+            }
+        }
+
+        public virtual void Searching(string pattern)
+        {
+            searchResult = new SearchResult();
+            if (CurrentColumn == null ||
+                !GetColumns().ContainsKey(CurrentColumn.SortMemberPath))
+            {
+                return;
+            }
+            string path = GetColumns()[CurrentColumn.SortMemberPath];
+            for (int i = 0; i < Rows.Length; i++)
+            {
+                object obj = Rows[i].Field<object>(path);
+                if (obj != null && obj.ToString().ToUpper().Contains(pattern))
+                {
+                    searchResult.Add(GetId(i));
+                }
+            }
+            SetAt(searchResult.Begin());
+        }
+
+        protected abstract DataTable Table { get; }
+
+        protected virtual IDictionary<string, string> GetColumns()
+        {
+            return new Dictionary<string, string>();
+        }
     }
 
     public class OrganizationsListModel<T> : Base4ModelAbstr<T>
@@ -276,21 +395,6 @@ namespace SupRealClient.Views
             throw new NotImplementedException();
         }
         
-        public override void Close()
-        {
-            throw new NotImplementedException();
-        }
-
-        public override void Farther()
-        {
-            throw new NotImplementedException();
-        }
-        
-        public override void Search()
-        {
-            throw new NotImplementedException();
-        }
-
         public override void Update()
         {
             throw new NotImplementedException();
@@ -316,6 +420,51 @@ namespace SupRealClient.Views
                 CurrentItem = Set[0];
             }
         }
+
+        public override long GetId(int index)
+        {
+            return Rows[index].Field<int>("f_org_id");
+        }
+
+        public override DataRow[] Rows
+        {
+            get
+            {
+                return (from orgs in Table.AsEnumerable()
+                        where orgs.Field<int>("f_org_id") != 0 select orgs).
+                        AsEnumerable().ToArray();
+            }
+        }
+
+        public override IDictionary<string, string> GetFields()
+        {
+            return new Dictionary<string, string>()
+            {
+                { "f_org_type", "Тип" },
+                { "f_full_org_name", "Основное название" },
+                { "f_org_name", "Название организации" },
+                { "f_comment", "Примечание" },
+            };
+        }
+
+        protected override DataTable Table
+        {
+            get
+            {
+                return OrganizationsWrapper.CurrentTable().Table;
+            }
+        }
+
+        protected override IDictionary<string, string> GetColumns()
+        {
+            return new Dictionary<string, string>()
+            {
+                { "Type", "f_org_type" },
+                { "FullName", "f_full_org_name"},
+                { "Name", "f_org_name" },
+                { "Comment", "f_comment" },
+            };
+        }
     }
 
     public class VisitorsListModel<T> : Base4ModelAbstr<T>
@@ -340,12 +489,12 @@ namespace SupRealClient.Views
         {
             System.Windows.Forms.MessageBox.Show("Close");
         }
-        
+
         public override void Farther()
         {
             System.Windows.Forms.MessageBox.Show("Farther");
         }
-        
+
         public override void Search()
         {
             System.Windows.Forms.MessageBox.Show("Search");
@@ -379,6 +528,19 @@ namespace SupRealClient.Views
                 CurrentItem = Set[0];
             }
         }
+
+        public override long GetId(int index)
+        {
+            return Rows[index].Field<int>("f_visitor_id");
+        }
+
+        protected override DataTable Table
+        {
+            get
+            {
+                return VisitorsWrapper.CurrentTable().Table;
+            }
+        }
     }
 
     public class NationsListModel<T> : Base4ModelAbstr<T>
@@ -391,21 +553,6 @@ namespace SupRealClient.Views
         }
 
         public override void Add()
-        {
-            throw new NotImplementedException();
-        }
-
-        public override void Close()
-        {
-            throw new NotImplementedException();
-        }
-
-        public override void Farther()
-        {
-            throw new NotImplementedException();
-        }
-
-        public override void Search()
         {
             throw new NotImplementedException();
         }
@@ -433,6 +580,35 @@ namespace SupRealClient.Views
                 CurrentItem = Set[0];
             }
         }
+
+        public override IDictionary<string, string> GetFields()
+        {
+            return new Dictionary<string, string>()
+            {
+                { "f_cntr_name", "Название" }
+            };
+        }
+
+        public override long GetId(int index)
+        {
+            return Rows[index].Field<int>("f_cntr_id");
+        }
+
+        protected override DataTable Table
+        {
+            get
+            {
+                return CountriesWrapper.CurrentTable().Table;
+            }
+        }
+
+        protected override IDictionary<string, string> GetColumns()
+        {
+            return new Dictionary<string, string>()
+            {
+                { "CountryName", "f_cntr_name" },
+            };
+        }
     }
 
     public class CabinetsListModel<T> : Base4ModelAbstr<T>
@@ -445,21 +621,6 @@ namespace SupRealClient.Views
         }
 
         public override void Add()
-        {
-            throw new NotImplementedException();
-        }
-
-        public override void Close()
-        {
-            throw new NotImplementedException();
-        }
-
-        public override void Farther()
-        {
-            throw new NotImplementedException();
-        }
-
-        public override void Search()
         {
             throw new NotImplementedException();
         }
@@ -486,6 +647,37 @@ namespace SupRealClient.Views
                 CurrentItem = Set[0];
             }
         }
+
+        public override IDictionary<string, string> GetFields()
+        {
+            return new Dictionary<string, string>()
+            {
+                { "f_cabinet_desc", "Описание" }
+            };
+        }
+
+        public override long GetId(int index)
+        {
+            return Rows[index].Field<int>("f_cabinet_id");
+        }
+
+        protected override DataTable Table
+        {
+            get
+            {
+                return CabinetsWrapper.CurrentTable().Table;
+            }
+        }
+
+        protected override IDictionary<string, string> GetColumns()
+        {
+            return new Dictionary<string, string>()
+            {
+                { "CabNum", "f_cabinet_num" },
+                { "Descript", "f_cabinet_desc" },
+                { "DoorNum", "f_door_num" },
+            };
+        }
     }
 
     public class DocumentsListModel<T> : Base4ModelAbstr<T>
@@ -498,21 +690,6 @@ namespace SupRealClient.Views
         }
 
         public override void Add()
-        {
-            throw new NotImplementedException();
-        }
-
-        public override void Close()
-        {
-            throw new NotImplementedException();
-        }
-
-        public override void Farther()
-        {
-            throw new NotImplementedException();
-        }
-
-        public override void Search()
         {
             throw new NotImplementedException();
         }
@@ -539,6 +716,35 @@ namespace SupRealClient.Views
             {
                 CurrentItem = Set[0];
             }
+        }
+
+        public override IDictionary<string, string> GetFields()
+        {
+            return new Dictionary<string, string>()
+            {
+                { "f_doc_name", "Название" }
+            };
+        }
+
+        public override long GetId(int index)
+        {
+            return Rows[index].Field<int>("f_doc_id");
+        }
+
+        protected override DataTable Table
+        {
+            get
+            {
+                return DocumentsWrapper.CurrentTable().Table;
+            }
+        }
+
+        protected override IDictionary<string, string> GetColumns()
+        {
+            return new Dictionary<string, string>()
+            {
+                { "DocName", "f_doc_name" },
+            };
         }
     }
 }
