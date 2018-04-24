@@ -46,12 +46,17 @@ namespace SupRealClient.Models
 
     class AddChildOrgsModel: AddOrgsModel
     {
-        public AddChildOrgsModel() =>
+        public AddChildOrgsModel()
+        {
             IsChild = true;
+        }
     }
 
     class AddMasterOrgsModel: AddOrgsModel
     {
-        public AddMasterOrgsModel() => IsMaster = true;
+        public AddMasterOrgsModel()
+        {
+            IsMaster = true;
+        }
     }
 }

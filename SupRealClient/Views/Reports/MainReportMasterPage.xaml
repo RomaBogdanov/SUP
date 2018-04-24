@@ -1,0 +1,88 @@
+﻿<Page x:Class="SupRealClient.Views.Reports.MainReportMasterPage"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+      xmlns:local="clr-namespace:SupRealClient.Views.Reports"
+      mc:Ignorable="d" 
+      d:DesignHeight="400" d:DesignWidth="400"
+      Title="VisitorsListReportMasterView">
+
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="9*"/>
+            <RowDefinition/>
+        </Grid.RowDefinitions>
+        
+        <Grid
+            Grid.Row="0">
+            <Grid.RowDefinitions>
+                <RowDefinition/>
+                <RowDefinition/>
+                <RowDefinition/>
+                <RowDefinition/>
+                <RowDefinition/>
+                <RowDefinition/>
+                <RowDefinition/>
+                <RowDefinition/>
+                <RowDefinition/>
+                <RowDefinition/>
+            </Grid.RowDefinitions>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="0.1*"/>
+                <ColumnDefinition/>
+            </Grid.ColumnDefinitions>
+            <TextBlock
+                Grid.Row="0"
+                Grid.Column="1"
+                Text="Выберите тип формируемого отчёта"
+                FontSize="12"
+                Style="{StaticResource TextBLockStyle}"/>
+            <RadioButton 
+                x:Name="VisitorsListRadioButton"
+                Grid.Row="1"
+                Grid.Column="1"
+                Content="Отчёт список посетителей"/>
+            <RadioButton 
+                x:Name="IssuanceOfPassesRadioButton"
+                Grid.Row="2"
+                Grid.Column="1"
+                Content="Отчёт о выдаче пропусков"/>
+            <RadioButton 
+                Grid.Row="3"
+                Grid.Column="1"
+                IsEnabled="False"
+                Content="Отчёт по несданным пропускам"/>
+            <RadioButton 
+                Grid.Row="4"
+                Grid.Column="1"
+                IsEnabled="False"
+                Content="Отчёт о состоянии пропусков"/>
+            <RadioButton 
+                Grid.Row="5"
+                Grid.Column="1"
+                IsEnabled="False"
+                Content="Отчёт по заявкам"/>
+            <RadioButton 
+                Grid.Row="6"
+                Grid.Column="1"
+                IsEnabled="False"
+                Content="Отчёт по № заявки"/>
+            <RadioButton 
+                Grid.Row="7"
+                Grid.Column="1"
+                IsEnabled="False"
+                Content="Отчёт о владельце пропуска"/>
+            <RadioButton 
+                Grid.Row="8"
+                Grid.Column="1"
+                IsEnabled="False"
+                Content="Отчёт по системе контроля доступа"/>
+            <RadioButton 
+                Grid.Row="9"
+                Grid.Column="1"
+                IsEnabled="False"
+                Content="Отчёт по № VIP - заявки"/>
+        </Grid>
+    </Grid>
+</Page>

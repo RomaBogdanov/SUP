@@ -123,6 +123,7 @@
     <Compile Include="Common\Data\FieldData.cs" />
     <Compile Include="Models\Visit.cs" />
     <Compile Include="Models\VisitorModeEnum.cs" />
+    <Compile Include="Models\VisitorsEnableOrVisible.cs" />
     <Compile Include="Properties\Annotations.cs" />
     <Compile Include="Search\CompareStrategyFactory.cs" />
     <Compile Include="Search\ContainsStrategy.cs" />
@@ -248,6 +249,12 @@
     </Compile>
     <Compile Include="Views\Visitor\AddVisitorView.xaml.cs">
       <DependentUpon>AddVisitorView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Visitor\VisitorExiting.xaml.cs">
+      <DependentUpon>VisitorExiting.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Visitor\VisitorsComing.xaml.cs">
+      <DependentUpon>VisitorsComing.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\VisitsView.xaml.cs">
       <DependentUpon>VisitsView.xaml</DependentUpon>
@@ -475,6 +482,14 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Views\Visitor\AddVisitorView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\Visitor\VisitorExiting.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\Visitor\VisitorsComing.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
