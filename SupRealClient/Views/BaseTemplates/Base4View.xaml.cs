@@ -58,12 +58,28 @@ namespace SupRealClient.Views
             }
         }
 
+        public T CurrentItem
+        {
+            get
+            {
+                return Model != null ? Model.CurrentItem : default(T);
+            }
+            set
+            {
+                if (Model != null && value != null)
+                {
+                    Model.CurrentItem = value;
+                    OnPropertyChanged();
+                }
+            }
+        }
+
         public DataGridColumn CurrentColumn
         {
             get { return Model != null ? Model.CurrentColumn : null; }
             set
             {
-                if (value != null && Model != null)
+                if (Model != null && value != null)
                 {
                     Model.CurrentColumn = value;
                     OnPropertyChanged();
@@ -81,14 +97,14 @@ namespace SupRealClient.Views
             }
         }
 
-        public T SelectedValue
+        public int SelectedIndex
         {
-            get { return Model != null ? Model.SelectedValue : default(T); }
+            get { return Model != null ? Model.SelectedIndex : default(int); }
             set
             {
                 if (Model != null)
                 {
-                    Model.SelectedValue = value;
+                    Model.SelectedIndex = value;
                     OnPropertyChanged();
                 }
             }
@@ -159,7 +175,8 @@ namespace SupRealClient.Views
 
         private void Reset()
         {
-            SelectedValue = Model.SelectedValue;
+            SelectedIndex = Model.SelectedIndex;
+            CurrentItem = Model.CurrentItem;
         }
     }
 
@@ -171,8 +188,9 @@ namespace SupRealClient.Views
         event Action OnClose;
 
         ObservableCollection<T> Set { get; set; }
+        T CurrentItem { get; set; }
+        int SelectedIndex { get; set; }
         DataGridColumn CurrentColumn { get; set; }
-        T SelectedValue { get; set; }
         IWindow Parent { get; set; }
 
         void Add();
@@ -196,22 +214,11 @@ namespace SupRealClient.Views
         public IWindow Parent { get; set; }
 
         protected ObservableCollection<T> set;
-        private T selectedValue;
-        protected int selectedIndex = -1;
+        protected T currentItem;
+        protected int selectedIndex;
 
         protected SearchResult searchResult = new SearchResult();
         public DataGridColumn CurrentColumn {get;set;}
-
-        public T SelectedValue
-        {
-            get { return selectedValue; }
-            set
-            {
-                selectedValue = value;
-                selectedIndex = selectedValue != null ?
-                    Set.IndexOf(selectedValue) : -1;
-            }
-        }
 
         public virtual ObservableCollection<T> Set
         {
@@ -223,58 +230,70 @@ namespace SupRealClient.Views
             }
         }
 
+        public virtual T CurrentItem
+        {
+            get { return currentItem; }
+            set { currentItem = value; }
+        }
+
+        public int SelectedIndex
+        {
+            get { return selectedIndex; }
+            set { selectedIndex = value; }
+        }
+
         public virtual void Begin()
         {
             if (Set.Count > 0)
             {
-                selectedIndex = 0;
-                SelectedValue = Set[selectedIndex];
+                SelectedIndex = 0;
+                CurrentItem = Set[SelectedIndex];
             }
             else
             {
-                selectedIndex = -1;
+                SelectedIndex = -1;
             }
         }
         public virtual void End()
         {
             if (Set.Count > 0)
             {
-                selectedIndex = Set.Count - 1;
-                SelectedValue = Set[selectedIndex];
+                SelectedIndex = Set.Count - 1;
+                CurrentItem = Set[SelectedIndex];
             }
             else
             {
-                selectedIndex = -1;
+                SelectedIndex = -1;
             }
         }
         public virtual void Prev()
         {
             if (Set.Count > 0)
             {
-                if (selectedIndex > 0)
+                if (SelectedIndex > 0)
                 {
-                    selectedIndex--;
-                    SelectedValue = Set[selectedIndex];
+                    SelectedIndex--;
+                    CurrentItem = Set[SelectedIndex];
                 }
             }
             else
             {
-                selectedIndex = -1;
+                SelectedIndex = -1;
             }
         }
         public virtual void Next()
         {
             if (Set.Count > 0)
             {
-                if (selectedIndex < Set.Count - 1)
+                if (SelectedIndex < Set.Count - 1)
                 {
-                    selectedIndex++;
-                    SelectedValue = Set[selectedIndex];
+                    SelectedIndex++;
+                    CurrentItem = Set[SelectedIndex];
                 }
             }
             else
             {
-                selectedIndex = -1;
+                SelectedIndex = -1;
             }
         }
         public abstract void Add();
@@ -294,19 +313,20 @@ namespace SupRealClient.Views
 
         protected void Query()
         {
-            int oldIndex = selectedIndex;
+            int oldIndex = SelectedIndex;
 
             DoQuery();
 
             if (oldIndex >= 0 && oldIndex < Set.Count - 1)
             {
-                SelectedValue = Set[oldIndex];
+                SelectedIndex = oldIndex;
+                CurrentItem = Set[SelectedIndex];
             }
             else if (Set.Count > 0)
             {
-                SelectedValue = Set[0];
+                CurrentItem = Set[0];
             }
-            OnModelPropertyChanged?.Invoke("SelectedValue");
+            OnModelPropertyChanged?.Invoke("CurrentItem");
         }
 
         protected abstract void DoQuery();
@@ -329,8 +349,8 @@ namespace SupRealClient.Views
             {
                 if ((Set.ElementAt(i) as IdEntity).Id == id)
                 {
-                    SelectedValue = Set.ElementAt(i);
-                    OnModelPropertyChanged?.Invoke("SelectedValue");
+                    CurrentItem = Set.ElementAt(i);
+                    OnModelPropertyChanged?.Invoke("CurrentItem");
                     break;
                 }
             }
@@ -383,7 +403,7 @@ namespace SupRealClient.Views
 
         public override void Update()
         {
-            ViewManager.Instance.UpdateObject(new UpdateOrgsModel(SelectedValue), Parent);
+            ViewManager.Instance.UpdateObject(new UpdateOrgsModel(CurrentItem), Parent);
         }
 
         #endregion
@@ -539,7 +559,7 @@ namespace SupRealClient.Views
 
         public override void Update()
         {
-            ViewManager.Instance.Update(new UpdateItemNationsModel(SelectedValue), Parent);
+            ViewManager.Instance.Update(new UpdateItemNationsModel(CurrentItem), Parent);
         }
 
         protected override void DoQuery()
@@ -606,7 +626,7 @@ namespace SupRealClient.Views
 
         public override void Update()
         {
-            AddUpdateCabinetView addUpdateCabinetView = new AddUpdateCabinetView(SelectedValue);
+            AddUpdateCabinetView addUpdateCabinetView = new AddUpdateCabinetView(CurrentItem);
             addUpdateCabinetView.Show();
         }
 
@@ -673,7 +693,7 @@ namespace SupRealClient.Views
 
         public override void Update()
         {
-            ViewManager.Instance.Update(new UpdateItemDocumentsModel(SelectedValue), Parent);
+            ViewManager.Instance.Update(new UpdateItemDocumentsModel(CurrentItem), Parent);
         }
 
         protected override void DoQuery()
