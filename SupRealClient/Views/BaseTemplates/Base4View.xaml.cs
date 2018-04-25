@@ -13,6 +13,7 @@ using System.Data;
 using SupRealClient.Search;
 using SupRealClient.Common.Interfaces;
 using SupRealClient.Models;
+using System.Windows;
 
 namespace SupRealClient.Views
 {
@@ -31,6 +32,8 @@ namespace SupRealClient.Views
     {
         // ==========
         private string searchingText;
+        private string updateCaption;
+        private Visibility zonesVisibility;
 
         // ==========
         private IBase4Model<T> _model;
@@ -44,8 +47,29 @@ namespace SupRealClient.Views
         public ICommand Next { get; set; }
         public ICommand End { get; set; }
         public ICommand Close { get; set; }
+        public ICommand Zones { get; set; }
 
         public IWindow Parent { get; set; }
+
+        public string UpdateCaption
+        {
+            get { return updateCaption; }
+            set
+            {
+                updateCaption = value;
+                OnPropertyChanged();
+            }
+        }
+
+        public Visibility ZonesVisibility
+        {
+            get { return zonesVisibility; }
+            set
+            {
+                zonesVisibility = value;
+                OnPropertyChanged();
+            }
+        }
 
         public string SearchingText
         {
@@ -137,6 +161,7 @@ namespace SupRealClient.Views
             Next = new RelayCommand(obj => NextCom());
             End = new RelayCommand(obj => EndCom());
             Close = new RelayCommand(obj => CloseCom());
+            Zones = new RelayCommand(obj => MessageBox.Show("Zones"));
         }
 
         public event PropertyChangedEventHandler PropertyChanged;

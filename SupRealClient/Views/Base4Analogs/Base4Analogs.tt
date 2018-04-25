@@ -16,12 +16,16 @@ var entityTypeDoc = XDocument.Load(entityTypePath);
 var entityQuery = from entity in entityTypeDoc.Root.Elements()
 	let name = entity.Attribute("Name")
 	let type = entity.Attribute("Type")
+	let updateCaption = entity.Attribute("UpdateCaption")
+	let zonesVisibility = entity.Attribute("ZonesVisibility")
 	where name != null && !string.IsNullOrEmpty(name.Value) &&
 	type != null && !string.IsNullOrEmpty(type.Value)
 	select new
 	{
 		Name = name.Value,
 		Type = type.Value,
+		UpdateCaption = updateCaption != null ? updateCaption.Value : "Просмотр",
+		ZonesVisibility = zonesVisibility != null ? zonesVisibility.Value : "Hidden",
 		Element = entity
 	};
 #>
@@ -55,6 +59,8 @@ namespace SupRealClient.Views
 		    Base4ViewModel<EnumerationClasses.<#=entity.Type#>> viewModel =
 			new Base4ViewModel<EnumerationClasses.<#=entity.Type#>>
 			{
+				UpdateCaption="<#=entity.UpdateCaption#>",
+				ZonesVisibility = Visibility.<#=entity.ZonesVisibility#>,
 			    Parent = this,
 			    Model = new <#=entity.Type#>sListModel<EnumerationClasses.<#=entity.Type#>>(),
 			};

@@ -1,7 +1,7 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <Enum Name="View">
-  <Item Name="Cabinets" Type="Cabinet"  />
-  <Item Name="Documents" Type="Document"  />
+  <Item Name="Cabinets" Type="Cabinet" UpdateCaption="Просмотр" ZonesVisibility="Visible" />
+  <Item Name="Documents" Type="Document" UpdateCaption="Просмотр" />
   <Item Name="Nations" Type="Nation" />
-  <Item Name="Organizations" Type="Organization"  />
+  <Item Name="Organizations" Type="Organization" UpdateCaption="OK" />
 </Enum>

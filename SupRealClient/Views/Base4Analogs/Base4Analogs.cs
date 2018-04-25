@@ -27,6 +27,8 @@ namespace SupRealClient.Views
 		    Base4ViewModel<EnumerationClasses.Cabinet> viewModel =
 			new Base4ViewModel<EnumerationClasses.Cabinet>
 			{
+				UpdateCaption="Просмотр",
+				ZonesVisibility = Visibility.Visible,
 			    Parent = this,
 			    Model = new CabinetsListModel<EnumerationClasses.Cabinet>(),
 			};
@@ -94,6 +96,8 @@ namespace SupRealClient.Views
 		    Base4ViewModel<EnumerationClasses.Document> viewModel =
 			new Base4ViewModel<EnumerationClasses.Document>
 			{
+				UpdateCaption="Просмотр",
+				ZonesVisibility = Visibility.Hidden,
 			    Parent = this,
 			    Model = new DocumentsListModel<EnumerationClasses.Document>(),
 			};
@@ -161,6 +165,8 @@ namespace SupRealClient.Views
 		    Base4ViewModel<EnumerationClasses.Nation> viewModel =
 			new Base4ViewModel<EnumerationClasses.Nation>
 			{
+				UpdateCaption="Просмотр",
+				ZonesVisibility = Visibility.Hidden,
 			    Parent = this,
 			    Model = new NationsListModel<EnumerationClasses.Nation>(),
 			};
@@ -228,6 +234,8 @@ namespace SupRealClient.Views
 		    Base4ViewModel<EnumerationClasses.Organization> viewModel =
 			new Base4ViewModel<EnumerationClasses.Organization>
 			{
+				UpdateCaption="OK",
+				ZonesVisibility = Visibility.Hidden,
 			    Parent = this,
 			    Model = new OrganizationsListModel<EnumerationClasses.Organization>(),
 			};

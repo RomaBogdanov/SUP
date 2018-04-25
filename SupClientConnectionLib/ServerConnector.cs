@@ -171,8 +171,15 @@ namespace SupClientConnectionLib
 
         public bool SetImage(Guid alias, byte[] data)
         {
-            return this.tableService.SetImage(alias, data,
-                authorizer.GetInfo());
+            try
+            {
+                return this.tableService.SetImage(alias, data,
+                    authorizer.GetInfo());
+            }
+            catch (Exception ex)
+            {
+                return false;
+            }
         }
 
         NewMessageHandler messageHandler;
@@ -215,7 +222,11 @@ namespace SupClientConnectionLib
                 {
                     MaxArrayLength = 2147483647,
                     MaxStringContentLength = 2147483647
-                }
+                },
+                /*SendTimeout = TimeSpan.FromMinutes(5),
+                ReceiveTimeout = TimeSpan.FromMinutes(5),
+                OpenTimeout = TimeSpan.FromMinutes(5),
+                CloseTimeout = TimeSpan.FromMinutes(5)*/
             };
             var myChannelFactory = new DuplexChannelFactory<ITableService>(
                 instanceContext, binding, new EndpointAddress(ClientConnector.uri));
