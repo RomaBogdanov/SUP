@@ -119,6 +119,14 @@ namespace SupRealClient
         }
 
         /// <summary>
+        /// Открыть окно
+        /// </summary>
+        public void OpenWindow(IWindow window, IWindow parent)
+        {
+            ReopenWindow(window.WindowName, window, parent);
+        }
+
+        /// <summary>
         /// Закрыть окно
         /// </summary>
         /// <param name="window"></param>

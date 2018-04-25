@@ -51,6 +51,11 @@ namespace SupRealClient.Common.Interfaces
         void OpenWindow(string name, IWindow parent = null);
 
         /// <summary>
+        /// Открыть окно
+        /// </summary>
+        void OpenWindow(IWindow window, IWindow parent);
+
+        /// <summary>
         /// Закрыть окно
         /// </summary>
         /// <param name="window"></param>

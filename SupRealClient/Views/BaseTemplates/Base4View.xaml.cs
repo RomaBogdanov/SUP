@@ -619,15 +619,12 @@ namespace SupRealClient.Views
 
         public override void Add()
         {
-            // TODO - делегировать во ViewManager
-            AddUpdateCabinetView addUpdateCabinetView = new AddUpdateCabinetView();
-            addUpdateCabinetView.Show();
+            ViewManager.Instance.OpenWindow(new AddUpdateCabinetView(), Parent);
         }
 
         public override void Update()
         {
-            AddUpdateCabinetView addUpdateCabinetView = new AddUpdateCabinetView(CurrentItem);
-            addUpdateCabinetView.Show();
+            ViewManager.Instance.OpenWindow(new AddUpdateCabinetView(CurrentItem), Parent);
         }
 
         protected override void DoQuery()
