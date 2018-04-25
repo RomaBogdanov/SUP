@@ -71,8 +71,8 @@ namespace SupContract
         /// Процедура загрузки изображения в базу.
         /// </summary>
         /// <returns></returns>
-        [OperationContract]
-        bool SetImage(Guid alias, byte[] data, OperationInfo info);
+        [OperationContract(IsOneWay = true)]
+        void SetImage(Guid alias, byte[] data, OperationInfo info);
 
         /// <summary>
         /// Процедура авторизации.

@@ -190,33 +190,28 @@ namespace SupHost
         /// Процедура загрузки изображения в базу.
         /// </summary>
         /// <returns></returns>
-        public bool SetImage(Guid alias, byte[] data, OperationInfo info)
+        public void SetImage(Guid alias, byte[] data, OperationInfo info)
         {
-            int rows = 1;
+            int rows = 0;
             var connector = new VisServerImagesTableWrapper().GetConnector();
-            //using (SqlConnection cn = new SqlConnection(connector.ToString()))
-            SqlConnection cn = new SqlConnection(connector.ToString());
+            using (SqlConnection cn = new SqlConnection(connector.ToString()))
             {
                 cn.Open();
-                //using (SqlCommand sqlCommand = cn.CreateCommand())
-                SqlCommand sqlCommand = cn.CreateCommand();
+                using (SqlCommand sqlCommand = cn.CreateCommand())
                 {
                     sqlCommand.CommandText =
                         "update vis_image set f_data=@data WHERE f_image_alias=@alias";
-                    sqlCommand.Parameters.AddWithValue("@data", data);
+                    sqlCommand.Parameters.AddWithValue("@data", data.Clone());
                     sqlCommand.Parameters.AddWithValue("@alias", alias);
-                    //rows = sqlCommand.BeginExecuteNonQuery();
-                    AsyncCallback callback = new AsyncCallback(SetImageCallback);
-                    IAsyncResult result = sqlCommand.BeginExecuteNonQuery(callback, sqlCommand);
+                    rows = sqlCommand.ExecuteNonQuery();
                 }
-                //cn.Close();
+                cn.Close();
             }
 
-            if (rows > 0)
+            if (rows == 1)
             {
                 logger.Debug($"Добавлено изображение", info);
             }
-            return rows > 0;
         }
 
         public int Authorize(OperationInfo info, string pass)
@@ -261,32 +256,6 @@ namespace SupHost
                     из системы");
             }
             return true;
-        }
-
-        private void SetImageCallback(IAsyncResult result)
-        {
-            SqlCommand sqlCommand = (SqlCommand)result.AsyncState;
-            try
-            {
-                int rowCount = sqlCommand.EndExecuteNonQuery(result);
-                if (rowCount == 1)
-                {
-                    // TODO
-                }
-            }
-            catch (Exception ex)
-            {
-                // TODO
-            }
-            finally
-            {
-                if (sqlCommand.Connection != null)
-                {
-                    sqlCommand.Connection.Close();
-                    sqlCommand.Connection.Dispose();
-                    sqlCommand.Dispose();
-                }
-            }
         }
     }
 }
