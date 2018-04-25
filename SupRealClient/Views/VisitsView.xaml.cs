@@ -12,6 +12,7 @@ using SupRealClient.EnumerationClasses;
 using System.Windows.Forms;
 using SupContract;
 using System.IO;
+using SupRealClient.Common.Interfaces;
 
 namespace SupRealClient.Views
 {
@@ -39,6 +40,7 @@ namespace SupRealClient.Views
     public class VisitsViewModel : INotifyPropertyChanged
     {
         private IVisitsModel model;
+        private IWindow parentWindow;
 
         public IVisitsModel Model
         {
@@ -141,8 +143,9 @@ namespace SupRealClient.Views
         public ICommand AddSignatureCommand { get; set; }
         public ICommand RemoveSignatureCommand { get; set; }
 
-        public VisitsViewModel()
+        public VisitsViewModel(IWindow parentWindow)
         {
+            this.parentWindow = parentWindow;
             Model = new VisitsModel();
 
             OnPropertyChanged("PhotoSource");
@@ -165,22 +168,22 @@ namespace SupRealClient.Views
 
         private void DocumentsListModel()
         {
-            ViewManager.Instance.OpenWindow("Base4DocumentsWindView");
+            ViewManager.Instance.OpenWindow("Base4DocumentsWindView", parentWindow);
         }
 
         private void CabinetsList()
         {
-            ViewManager.Instance.OpenWindow("Base4CabinetsWindView");
+            ViewManager.Instance.OpenWindow("Base4CabinetsWindView", parentWindow);
         }
 
         private void OrganizationsList()
         {
-            ViewManager.Instance.OpenWindow("Base4OrganizationsWindView");
+            ViewManager.Instance.OpenWindow("Base4OrganizationsWindView", parentWindow);
         }
 
         private void CountyList()
         {
-            ViewManager.Instance.OpenWindow("Base4NationsWindView");
+            ViewManager.Instance.OpenWindow("Base4NationsWindView", parentWindow);
         }
 
         private void Begin()
@@ -474,10 +477,10 @@ namespace SupRealClient.Views
             row = row ?? ImagesWrapper.CurrentTable().Table.NewRow();
             var alias = Guid.NewGuid();
             row["f_image_alias"] = alias;
-            row["f_visitor_id"] = CurrentItem.Id;
-            row["f_image_type"] = imageType;
             if (!find)
             {
+                row["f_visitor_id"] = CurrentItem.Id;
+                row["f_image_type"] = imageType;
                 ImagesWrapper.CurrentTable().Table.Rows.Add(row);
             }
             byte[] data = File.ReadAllBytes(path);
@@ -485,7 +488,7 @@ namespace SupRealClient.Views
             string image = "";
             if (ImagesWrapper.CurrentTable().Connector.SetImage(alias, data))
             {
-                image = Images + "\\" + alias;
+                image = Directory.GetCurrentDirectory() + "\\" + Images + "\\" + alias;
                 File.WriteAllBytes(image, data);
             }
 

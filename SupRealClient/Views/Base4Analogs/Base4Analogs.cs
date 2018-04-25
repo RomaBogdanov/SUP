@@ -10,6 +10,8 @@ namespace SupRealClient.Views
 	/// </summary>
 	public partial class Base4CabinetsWindView : IWindow
 	{
+		public bool CanMinimize { get; private set; } = true;
+
         public bool IsRealClose { get; set; } = true;
 
         public string WindowName { get; private set; } = "Base4CabinetsWindView";
@@ -75,6 +77,8 @@ namespace SupRealClient.Views
 	/// </summary>
 	public partial class Base4DocumentsWindView : IWindow
 	{
+		public bool CanMinimize { get; private set; } = true;
+
         public bool IsRealClose { get; set; } = true;
 
         public string WindowName { get; private set; } = "Base4DocumentsWindView";
@@ -140,6 +144,8 @@ namespace SupRealClient.Views
 	/// </summary>
 	public partial class Base4NationsWindView : IWindow
 	{
+		public bool CanMinimize { get; private set; } = true;
+
         public bool IsRealClose { get; set; } = true;
 
         public string WindowName { get; private set; } = "Base4NationsWindView";
@@ -205,6 +211,8 @@ namespace SupRealClient.Views
 	/// </summary>
 	public partial class Base4OrganizationsWindView : IWindow
 	{
+		public bool CanMinimize { get; private set; } = true;
+
         public bool IsRealClose { get; set; } = true;
 
         public string WindowName { get; private set; } = "Base4OrganizationsWindView";

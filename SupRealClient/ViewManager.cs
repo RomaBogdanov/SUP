@@ -102,7 +102,7 @@ namespace SupRealClient
         /// Открыть окно
         /// </summary>
         /// <param name="name"></param>
-        public void OpenWindow(string name)
+        public void OpenWindow(string name, IWindow parent = null)
         {
             IWindow window = windows.ContainsKey(name) ?
                 windows[name] : CreateWindow(name);
@@ -114,6 +114,7 @@ namespace SupRealClient
             {
                 windows[name] = window;
             }
+            window.ParentWindow = parent;
             OpenWindow(window);
         }
 
@@ -156,7 +157,10 @@ namespace SupRealClient
             {
                 foreach (var wnd in windows.Values)
                 {
-                    (wnd as Window).WindowState = window.WindowState;
+                    if (wnd.CanMinimize)
+                    {
+                        (wnd as Window).WindowState = window.WindowState;
+                    }
                 }
             }
             else
@@ -165,7 +169,10 @@ namespace SupRealClient
                     Where(w => w.ParentWindow == window))
                 {
                     SetChildrenState(wnd as Window, isMain);
-                    (wnd as Window).WindowState = window.WindowState;
+                    if (wnd.CanMinimize)
+                    {
+                        (wnd as Window).WindowState = window.WindowState;
+                    }
                 }
             }
         }
@@ -239,6 +246,8 @@ namespace SupRealClient
                     return new ChildOrgsView();
                 case "BaseOrgsView":
                     return new BaseOrgsView();
+                case "VisitorsView":
+                    return new VisitorsView();
                 case "VisitorsListWindView":
                     return new VisitorsListWindView();
                 case "Base4CabinetsWindView":

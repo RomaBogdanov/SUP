@@ -15,10 +15,12 @@ var entityTypePath = Host.ResolvePath(entityTypeRelativePath);
 var entityTypeDoc = XDocument.Load(entityTypePath);
 var entityQuery = from entity in entityTypeDoc.Root.Elements()
 	let name = entity.Attribute("Name")
+	let canMinimize = entity.Attribute("CanMinimize")
 	where name != null && !string.IsNullOrEmpty(name.Value)
 	select new
 	{
 		Name = name.Value,
+		CanMinimize = canMinimize != null ? canMinimize.Value : "true",
 		Element = entity
 	};
 #>
@@ -35,6 +37,8 @@ namespace SupRealClient.Views
 	/// </summary>
 	public partial class <#=entity.Name#> : IWindow
 	{
+		public bool CanMinimize { get; private set; } = <#=entity.CanMinimize#>;
+
         public bool IsRealClose { get; set; } = true;
 
         public string WindowName { get; private set; } = "<#=entity.Name#>";
