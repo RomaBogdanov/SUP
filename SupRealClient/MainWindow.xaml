@@ -109,7 +109,8 @@
         <Grid
             Grid.Row="1" 
             Grid.RowSpan="2"
-            Grid.Column="0">
+            Grid.Column="0"
+            Visibility="{Binding Path=DataVisibility, Mode=OneWay}">
             <Grid.RowDefinitions>
                 <RowDefinition/>
                 <RowDefinition/>
