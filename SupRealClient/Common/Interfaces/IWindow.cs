@@ -7,6 +7,8 @@ namespace SupRealClient.Common.Interfaces
     /// </summary>
     public interface IWindow
     {
+        bool CanMinimize { get; }
+
         bool IsRealClose { get; set; }
 
         /// <summary>

@@ -8,19 +8,24 @@
 <#@ import namespace="System.IO" #>
 <#@ output extension=".cs" #><#
 
-var entityTypeRelativePath = @"Views.xml";
+var entityTypeRelativePath = @"Base4Analogs.xml";
 
 var entityTypePath = Host.ResolvePath(entityTypeRelativePath);
 
 var entityTypeDoc = XDocument.Load(entityTypePath);
 var entityQuery = from entity in entityTypeDoc.Root.Elements()
 	let name = entity.Attribute("Name")
-	let canMinimize = entity.Attribute("CanMinimize")
-	where name != null && !string.IsNullOrEmpty(name.Value)
+	let type = entity.Attribute("Type")
+	let updateCaption = entity.Attribute("UpdateCaption")
+	let zonesVisibility = entity.Attribute("ZonesVisibility")
+	where name != null && !string.IsNullOrEmpty(name.Value) &&
+	type != null && !string.IsNullOrEmpty(type.Value)
 	select new
 	{
 		Name = name.Value,
-		CanMinimize = canMinimize != null ? canMinimize.Value : "true",
+		Type = type.Value,
+		UpdateCaption = updateCaption != null ? updateCaption.Value : "Просмотр",
+		ZonesVisibility = zonesVisibility != null ? zonesVisibility.Value : "Hidden",
 		Element = entity
 	};
 #>
@@ -33,17 +38,37 @@ namespace SupRealClient.Views
 {
 <#foreach(var entity in entityQuery) { #>
 	/// <summary>
-	/// Логика взаимодействия для <#=entity.Name#>.xaml - базовая часть для всех View
+	/// Логика взаимодействия для Base4<#=entity.Name#>WindView.xaml - базовая часть для всех View
 	/// </summary>
-	public partial class <#=entity.Name#> : IWindow
+	public partial class Base4<#=entity.Name#>WindView : IWindow
 	{
-		public bool CanMinimize { get; private set; } = <#=entity.CanMinimize#>;
+		public bool CanMinimize { get; private set; } = true;
 
         public bool IsRealClose { get; set; } = true;
 
-        public string WindowName { get; private set; } = "<#=entity.Name#>";
+        public string WindowName { get; private set; } = "Base4<#=entity.Name#>WindView";
 
         public IWindow ParentWindow { get; set; }
+
+		public void AfterInitialize()
+		{
+            this.Closing += Window_Closing;
+            this.StateChanged += Window_StateChanged;
+            this.Loaded += Window_Loaded;
+
+		    Base4ViewModel<EnumerationClasses.<#=entity.Type#>> viewModel =
+			new Base4ViewModel<EnumerationClasses.<#=entity.Type#>>
+			{
+				UpdateCaption="<#=entity.UpdateCaption#>",
+				ZonesVisibility = Visibility.<#=entity.ZonesVisibility#>,
+			    Parent = this,
+			    Model = new <#=entity.Type#>sListModel<EnumerationClasses.<#=entity.Type#>>(),
+			};
+			viewModel.Model.OnClose += Handling_OnClose;
+            base4.DataContext = viewModel;
+
+            CreateColumns();
+		}
 
 		public void CloseWindow(CancelEventArgs e)
         {
@@ -73,6 +98,11 @@ namespace SupRealClient.Views
         private void Window_StateChanged(object sender, EventArgs e)
         {
             ViewManager.Instance.SetChildrenState(sender as Window, false);
+        }
+
+		private void Window_Loaded(object sender, RoutedEventArgs e)
+        {
+            SetDefaultColumn();
         }
     }
 

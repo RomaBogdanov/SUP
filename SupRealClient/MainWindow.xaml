@@ -86,7 +86,6 @@
                 <MenuItem Header="Очистка базы данных..." IsEnabled="False"/>
                 <MenuItem Header="Настройки..." IsEnabled="False"/>
                 <MenuItem Header="Логи" IsEnabled="True" Command="{Binding Path=LogsClick}"/>
-                <MenuItem Header="Загрузить картинку..." IsEnabled="True" Command="{Binding Path=UploadImage}"/>
             </MenuItem>
             <MenuItem Header="Окно" FontSize="{Binding ElementName=FontSizeLixtBox, Path=SelectedItem.Content}">
                 <MenuItem Header="Посетители" IsEnabled="False"/>
@@ -110,7 +109,8 @@
         <Grid
             Grid.Row="1" 
             Grid.RowSpan="2"
-            Grid.Column="0">
+            Grid.Column="0"
+            Visibility="{Binding Path=DataVisibility, Mode=OneWay}">
             <Grid.RowDefinitions>
                 <RowDefinition/>
                 <RowDefinition/>

@@ -1,16 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows;
+﻿using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Shapes;
 
 namespace SupRealClient.Views
 {
@@ -22,13 +12,8 @@ namespace SupRealClient.Views
         public Base4CabinetsWindView()
         {
             InitializeComponent();
-            Base4ViewModel<EnumerationClasses.Cabinet> viewModel =
-    new Base4ViewModel<EnumerationClasses.Cabinet>
-    {
-        Model = new CabinetsListModel<EnumerationClasses.Cabinet>()
-    };
-            base4.DataContext = viewModel;
-            CreateColumns();
+
+            AfterInitialize();
         }
 
         private void CreateColumns()
@@ -51,7 +36,11 @@ namespace SupRealClient.Views
                 Binding = new Binding("DoorNum")
             };
             base4.baseTab.Columns.Add(dataGridTextColumn);
-            //base3.SetDefaultColumn();
+        }
+
+        private void SetDefaultColumn()
+        {
+            base4.baseTab.CurrentColumn = base4.baseTab.Columns[0];
         }
     }
 }

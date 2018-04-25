@@ -70,7 +70,9 @@
     <Compile Include="GetTableBehavior\LogTableBehavior.cs" />
     <Compile Include="GetTableBehavior\VisImagesTableBehavior.cs" />
     <Compile Include="Connectors\ImagesConnector.cs" />
+    <Compile Include="GetTableBehavior\VisServerImagesTableBehavior.cs" />
     <Compile Include="Tables\VisImagesTableWrapper.cs" />
+    <Compile Include="Tables\VisServerImagesTableWrapper.cs" />
     <Compile Include="VisTablesCreating.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>

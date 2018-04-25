@@ -5,6 +5,7 @@ using System.Data.SqlClient;
 using System.ServiceModel;
 using System.Threading;
 using SupHost.Data;
+using System;
 
 namespace SupHost
 {
@@ -155,42 +156,67 @@ namespace SupHost
         }
 
         /// <summary>
-        /// Процедура получения изображения.
+        /// Процедура получения изображения в виде набора байтов.
         /// </summary>
-        /// <param name="id"></param>
         /// <returns></returns>
-        public byte[] GetImage(int id, OperationInfo info)
+        public byte[] GetImage(Guid alias, OperationInfo info)
         {
-            //TODO: обязательно переработать. Данный вариант выступает как заглушка. 
-            string conSt = "Server = MISTEROWL; Database = dbTest; Trusted_Connection = True; ";
             byte[] bytes = null;
-            using (SqlConnection cn = new SqlConnection(conSt))
+            var connector = new VisServerImagesTableWrapper().GetConnector();
+            using (SqlConnection cn = new SqlConnection(connector.ToString()))
             {
                 cn.Open();
-                SqlCommand sqlCommand = new SqlCommand();
-                sqlCommand.Connection = cn;
-                sqlCommand.CommandText = $"select id, screen from Images where id = {id}";
-                SqlDataReader sqlReader = sqlCommand.ExecuteReader();
-                while (sqlReader.Read())
+                using (SqlCommand sqlCommand = new SqlCommand())
                 {
-                    bytes = (byte[])sqlReader["screen"];
-                }
-                if (bytes == null)
-                {
-                    cn.Close();
-                    cn.Open();
-                    sqlCommand = new SqlCommand();
                     sqlCommand.Connection = cn;
-                    sqlCommand.CommandText = $"select id, screen from Images where id = 0";
-                    sqlReader = sqlCommand.ExecuteReader();
-                    while (sqlReader.Read())
+                    sqlCommand.CommandText =
+                        "select f_data from vis_image WHERE f_image_alias=@alias";
+                    sqlCommand.Parameters.AddWithValue("@alias", alias);
+                    using (SqlDataReader sqlReader = sqlCommand.ExecuteReader())
                     {
-                        bytes = (byte[])sqlReader["screen"];
+                        while (sqlReader.Read())
+                        {
+                            bytes = (byte[])sqlReader["f_data"];
+                        }
                     }
                 }
                 cn.Close();
             }
+
             return bytes;
+        }
+
+        /// <summary>
+        /// Процедура загрузки изображения в базу.
+        /// </summary>
+        /// <returns></returns>
+        public bool SetImage(Guid alias, byte[] data, OperationInfo info)
+        {
+            int rows = 1;
+            var connector = new VisServerImagesTableWrapper().GetConnector();
+            //using (SqlConnection cn = new SqlConnection(connector.ToString()))
+            SqlConnection cn = new SqlConnection(connector.ToString());
+            {
+                cn.Open();
+                //using (SqlCommand sqlCommand = cn.CreateCommand())
+                SqlCommand sqlCommand = cn.CreateCommand();
+                {
+                    sqlCommand.CommandText =
+                        "update vis_image set f_data=@data WHERE f_image_alias=@alias";
+                    sqlCommand.Parameters.AddWithValue("@data", data);
+                    sqlCommand.Parameters.AddWithValue("@alias", alias);
+                    //rows = sqlCommand.BeginExecuteNonQuery();
+                    AsyncCallback callback = new AsyncCallback(SetImageCallback);
+                    IAsyncResult result = sqlCommand.BeginExecuteNonQuery(callback, sqlCommand);
+                }
+                //cn.Close();
+            }
+
+            if (rows > 0)
+            {
+                logger.Debug($"Добавлено изображение", info);
+            }
+            return rows > 0;
         }
 
         public int Authorize(OperationInfo info, string pass)
@@ -235,6 +261,32 @@ namespace SupHost
                     из системы");
             }
             return true;
+        }
+
+        private void SetImageCallback(IAsyncResult result)
+        {
+            SqlCommand sqlCommand = (SqlCommand)result.AsyncState;
+            try
+            {
+                int rowCount = sqlCommand.EndExecuteNonQuery(result);
+                if (rowCount == 1)
+                {
+                    // TODO
+                }
+            }
+            catch (Exception ex)
+            {
+                // TODO
+            }
+            finally
+            {
+                if (sqlCommand.Connection != null)
+                {
+                    sqlCommand.Connection.Close();
+                    sqlCommand.Connection.Dispose();
+                    sqlCommand.Dispose();
+                }
+            }
         }
     }
 }
