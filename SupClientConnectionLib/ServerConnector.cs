@@ -173,17 +173,17 @@ namespace SupClientConnectionLib
         {
             try
             {
-                return this.tableService.SetImage(alias, data,
+                this.tableService.SetImage(alias, data,
                     authorizer.GetInfo());
             }
             catch (TimeoutException)
             {
-                return true;
             }
             catch (Exception)
             {
                 return false;
             }
+            return true;
         }
 
         NewMessageHandler messageHandler;
@@ -226,7 +226,7 @@ namespace SupClientConnectionLib
                 {
                     MaxArrayLength = 2147483647,
                     MaxStringContentLength = 2147483647
-                },
+                }
             };
             var myChannelFactory = new DuplexChannelFactory<ITableService>(
                 instanceContext, binding, new EndpointAddress(ClientConnector.uri));
