@@ -11,23 +11,23 @@ using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
-using SupRealClient.Models;
-using SupRealClient.ViewModels;
 
 namespace SupRealClient.Views
 {
     /// <summary>
-    /// Логика взаимодействия для CabinetsWindView.xaml
+    /// Логика взаимодействия для Base4CabinetsWindView.xaml
     /// </summary>
-    public partial class CabinetsWindView : Window
+    public partial class Base4CabinetsWindView : Window
     {
-        public CabinetsWindView()
+        public Base4CabinetsWindView()
         {
             InitializeComponent();
-            Base3ModelAbstr b = new Base3CabinetsModel(
-                (Base3ViewModel)base3.DataContext, this);
-            b.OnClose += Handling_OnClose;
-            base3.SetViewModel(b);
+            Base4ViewModel<EnumerationClasses.Cabinet> viewModel =
+    new Base4ViewModel<EnumerationClasses.Cabinet>
+    {
+        Model = new CabinetsListModel<EnumerationClasses.Cabinet>()
+    };
+            base4.DataContext = viewModel;
             CreateColumns();
         }
 
@@ -38,20 +38,20 @@ namespace SupRealClient.Views
                 Header = "Номер кабинета",
                 Binding = new Binding("CabNum")
             };
-            base3.BaseTab.Columns.Add(dataGridTextColumn);
+            base4.baseTab.Columns.Add(dataGridTextColumn);
             dataGridTextColumn = new DataGridTextColumn
             {
                 Header = "Описание",
                 Binding = new Binding("Descript")
             };
-            base3.BaseTab.Columns.Add(dataGridTextColumn);
+            base4.baseTab.Columns.Add(dataGridTextColumn);
             dataGridTextColumn = new DataGridTextColumn
             {
                 Header = "Номер двери",
                 Binding = new Binding("DoorNum")
             };
-            base3.BaseTab.Columns.Add(dataGridTextColumn);
-            base3.SetDefaultColumn();
+            base4.baseTab.Columns.Add(dataGridTextColumn);
+            //base3.SetDefaultColumn();
         }
     }
 }

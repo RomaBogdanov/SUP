@@ -28,6 +28,12 @@ namespace SupRealClient.Views
                 (Base3ViewModel)base3.DataContext, this);
             b.OnClose += Handling_OnClose;
             base3.SetViewModel(b);
+
+            CreateColumns();
+        }
+
+        private void CreateColumns()
+        {
             DataGridTextColumn dataGridTextColumn = new DataGridTextColumn
             {
                 Header = "Тип зоны",

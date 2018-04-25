@@ -17,4 +17,5 @@
   <Item Name="DepartmentSectionWrapper" Type="VisDepartmentSection" Comment="??" />
   <Item Name="OrdersWrapper" Type="VisOrders" Comment="??" />
   <Item Name="OrderElementsWrapper" Type="VisOrderElements" Comment="??" />
+  <Item Name="ImagesWrapper" Type="VisImages" Comment="??" />
 </Enum>

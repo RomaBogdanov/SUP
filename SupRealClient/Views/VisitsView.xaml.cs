@@ -55,6 +55,8 @@ namespace SupRealClient.Views
             {
                 model = value;
                 OnPropertyChanged();
+                CurrentItem = model.CurrentItem;
+                Set = model.Set;
             }
         }
 
@@ -123,6 +125,11 @@ namespace SupRealClient.Views
         public ICommand PrevCommand { get; set; }
         public ICommand NextCommand { get; set; }
         public ICommand EndCommand { get; set; }
+        public ICommand NewCommand { get; set; }
+        public ICommand OrganizationCommand { get; set; }
+        public ICommand CountryCommand { get; set; }
+        public ICommand CabinetsCommand { get; set; }
+        public ICommand DocumentsCommand { get; set; }
 
         public VisitsViewModel()
         {
@@ -130,6 +137,37 @@ namespace SupRealClient.Views
             PrevCommand = new RelayCommand(arg => Prev());
             NextCommand = new RelayCommand(arg => Next());
             EndCommand = new RelayCommand(arg => End());
+            NewCommand = new RelayCommand(arg => New());
+            OrganizationCommand = new RelayCommand(arg => OrganizationsList());
+            CountryCommand = new RelayCommand(arg => CountyList());
+            CabinetsCommand = new RelayCommand(arg => CabinetsList());
+            DocumentsCommand = new RelayCommand(arg => DocumentsListModel());
+        }
+
+        private void DocumentsListModel()
+        {
+            Window window = new Base4DocumentsWindView();
+            window.Show();
+        }
+
+        private void CabinetsList()
+        {
+            Window window = new Base4CabinetsWindView();
+            window.Show();
+        }
+
+        private void OrganizationsList()
+        {
+            /*Window window = new OrganizationsWindView();
+            window.Show();*/
+            Window window = new Base4OrganizationsWindView();
+            window.Show();
+        }
+
+        private void CountyList()
+        {
+            Window window = new Base4NationsWindView();
+            window.Show();
         }
 
         private void Begin()
@@ -150,6 +188,11 @@ namespace SupRealClient.Views
         private void End()
         {
             CurrentItem = Model.End();
+        }
+
+        private void New()
+        {
+            Model = new NewVisitsModel();
         }
 
         public event PropertyChangedEventHandler PropertyChanged;
@@ -256,7 +299,7 @@ namespace SupRealClient.Views
                 });
             if (Set.Count > 0)
             {
-                OrdersToVisitor(0);
+                OrdersCardsToVisitor(0);
                 CurrentItem = Set[0];
             }
         }
@@ -266,7 +309,7 @@ namespace SupRealClient.Views
             if (Set.Count > 0)
             {
                 selectedIndex = 0;
-                OrdersToVisitor(selectedIndex);
+                OrdersCardsToVisitor(selectedIndex);
                 CurrentItem = Set[0];
             }
             return CurrentItem;
@@ -277,7 +320,7 @@ namespace SupRealClient.Views
             if (Set.Count > 0)
             {
                 selectedIndex = Set.Count - 1;
-                OrdersToVisitor(selectedIndex);
+                OrdersCardsToVisitor(selectedIndex);
                 CurrentItem = Set[selectedIndex];
             }
             return CurrentItem;
@@ -288,7 +331,7 @@ namespace SupRealClient.Views
             if (Set.Count > 0 && selectedIndex > 0)
             {
                 selectedIndex--;
-                OrdersToVisitor(selectedIndex);
+                OrdersCardsToVisitor(selectedIndex);
                 CurrentItem = Set[selectedIndex];
             }
             return CurrentItem;
@@ -299,13 +342,13 @@ namespace SupRealClient.Views
             if (Set.Count > 0 && selectedIndex < Set.Count - 1)
             {
                 selectedIndex++;
-                OrdersToVisitor(selectedIndex);
+                OrdersCardsToVisitor(selectedIndex);
                 CurrentItem = Set[selectedIndex];
             }
             return CurrentItem;
         }
 
-        private void OrdersToVisitor(int index)
+        private void OrdersCardsToVisitor(int index)
         {
             if (Set[index].Orders == null)
             {
@@ -354,6 +397,51 @@ namespace SupRealClient.Views
                         Comment = visit.Field<string>("f_visit_text")
                     });
             }
+        }
+
+    }
+
+    public class NewVisitsModel : IVisitsModel
+    {
+        private ObservableCollection<EnumerationClasses.Visitor> set;
+        private EnumerationClasses.Visitor currentItem;
+
+        public NewVisitsModel()
+        {
+            Set = new ObservableCollection<EnumerationClasses.Visitor>();
+            CurrentItem = new EnumerationClasses.Visitor();
+            Set.Add(CurrentItem);
+        }
+
+        public ObservableCollection<EnumerationClasses.Visitor> Set
+        {
+            get { return set; }
+            set { set = value; }
+        }
+
+        public EnumerationClasses.Visitor CurrentItem
+        {
+            get { return currentItem; }
+            set { currentItem = value; }
+        }
+        public EnumerationClasses.Visitor Begin()
+        {
+            throw new NotImplementedException();
+        }
+
+        public EnumerationClasses.Visitor End()
+        {
+            throw new NotImplementedException();
+        }
+
+        public EnumerationClasses.Visitor Next()
+        {
+            throw new NotImplementedException();
+        }
+
+        public EnumerationClasses.Visitor Prev()
+        {
+            throw new NotImplementedException();
         }
     }
 }

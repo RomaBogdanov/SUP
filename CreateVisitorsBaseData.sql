@@ -19,3 +19,6 @@ go
 
 select * from vis_orders;
 go
+
+insert into vis_visitors values ( '0', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '')
+go

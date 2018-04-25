@@ -9,7 +9,7 @@
     <UserControl.Resources>
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
-                <ResourceDictionary Source="./SupResourcesDictionary.xaml" />
+                <ResourceDictionary Source="../SupResourcesDictionary.xaml" />
             </ResourceDictionary.MergedDictionaries>
         </ResourceDictionary>
     </UserControl.Resources>
@@ -31,8 +31,9 @@
         </Grid.RowDefinitions>
         <DataGrid Name="baseTab" Focusable="True" AutoGenerateColumns="False" Grid.ColumnSpan="6" Grid.Row="0"
                   ItemsSource="{Binding Path=Set, Mode=TwoWay}" CurrentItem="{Binding Path=CurrentItem, Mode=TwoWay}"
-                  SelectedItem="{Binding Path=CurrentItem, Mode=TwoWay}" SelectedIndex="{Binding Path=SelectedIndex, Mode=TwoWay}"
-                  SelectedValue="{Binding Path=SelectedValue, Mode=TwoWay}"  CurrentColumn="{Binding Path=CurrentColumn, Mode=TwoWay}">
+                  SelectedItem="{Binding Path=CurrentItem, Mode=TwoWay}" SelectedIndex="{Binding Path=SelectedIndex, Mode=TwoWay}" 
+                  SelectedValue="{Binding Path=SelectedValue, Mode=TwoWay}"  CurrentColumn="{Binding Path=CurrentColumn, Mode=TwoWay}"
+                  ColumnHeaderStyle="{StaticResource SelectionColumnHeader}">
         </DataGrid>
         <Label Grid.Row="1" Grid.ColumnSpan="6" Content="Поиск по полю:" Margin="1"/>
         <TextBox Name="aaa" Grid.Row="2" Grid.ColumnSpan="6" Margin="1" Text="{Binding Path=SearchingText, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
