@@ -176,7 +176,11 @@ namespace SupClientConnectionLib
                 return this.tableService.SetImage(alias, data,
                     authorizer.GetInfo());
             }
-            catch (Exception ex)
+            catch (TimeoutException)
+            {
+                return true;
+            }
+            catch (Exception)
             {
                 return false;
             }
@@ -223,10 +227,6 @@ namespace SupClientConnectionLib
                     MaxArrayLength = 2147483647,
                     MaxStringContentLength = 2147483647
                 },
-                /*SendTimeout = TimeSpan.FromMinutes(5),
-                ReceiveTimeout = TimeSpan.FromMinutes(5),
-                OpenTimeout = TimeSpan.FromMinutes(5),
-                CloseTimeout = TimeSpan.FromMinutes(5)*/
             };
             var myChannelFactory = new DuplexChannelFactory<ITableService>(
                 instanceContext, binding, new EndpointAddress(ClientConnector.uri));
