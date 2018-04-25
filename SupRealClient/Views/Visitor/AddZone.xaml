@@ -1,0 +1,89 @@
+﻿<mah:MetroWindow x:Class="SupRealClient.Views.Visitor.AddZone"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:SupRealClient.Views.Visitor"
+        xmlns:mah="http://metro.mahapps.com/winfx/xaml/controls"
+        mc:Ignorable="d"
+        Title="Добавление зон к пропуску" 
+        Height="300" Width="500"
+        ResizeMode="NoResize">
+    
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="40"/>
+            <RowDefinition/>
+            <RowDefinition Height="40"/>
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="2*"/>
+            <ColumnDefinition/>
+            <ColumnDefinition/>
+        </Grid.ColumnDefinitions>
+
+        <TextBlock
+            Grid.Row="0"
+            Grid.Column="0"
+            Grid.ColumnSpan="3"
+            Text="Выберите заявку, по которой выдаётся пропуск:"
+            FontSize="15"
+            Style="{StaticResource TextBLockStyle}"/>
+
+        <DataGrid
+            Grid.Row="1"
+            Grid.Column="0"
+            Grid.ColumnSpan="3">
+            <DataGrid.Columns>
+                <DataGridCheckBoxColumn Header="Выдача" Binding="{Binding }"/>
+                <DataGridTextColumn Header="Номер" Binding="{Binding }"/>
+                <DataGridTextColumn Header="Действует" Binding="{Binding }"/>
+                <DataGridTextColumn Header="Принимающее лицо" Binding="{Binding }" Width="*"/>
+            </DataGrid.Columns>
+        </DataGrid>
+
+        <Button
+            Grid.Row="2"
+            Grid.Column="1"
+            Margin="5"
+            Style="{StaticResource ButtonStyle}">
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="40"/>
+                    <ColumnDefinition/>
+                </Grid.ColumnDefinitions>
+
+                <Image
+                    Grid.Column="0"
+                    Source="../../Resources/Далее.ico"/>
+
+                <TextBlock
+                    Grid.Column="1"
+                    Text="Далее"
+                    Style="{StaticResource TextBLockStyle}"/>
+            </Grid>
+        </Button>
+
+        <Button
+            Grid.Row="2"
+            Grid.Column="2"
+            Margin="5"
+            Style="{StaticResource ButtonStyle}">
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="40"/>
+                    <ColumnDefinition/>
+                </Grid.ColumnDefinitions>
+
+                <Image
+                    Grid.Column="0"
+                    Source="../../Resources/Отмена (2).ico"/>
+
+                <TextBlock
+                    Grid.Column="1"
+                    Text="Отмена"
+                    Style="{StaticResource TextBLockStyle}"/>
+            </Grid>
+        </Button>
+    </Grid>
+</mah:MetroWindow>

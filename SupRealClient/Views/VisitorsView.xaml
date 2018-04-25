@@ -1057,7 +1057,7 @@
                     Visibility="{Binding Path=VisitorsVisible.ExtraditeButtonEnable, 
                     Converter={StaticResource BooleanToVisibilityConverter}}"
                     Style="{StaticResource VisitorsSquareButtonStyle}"
-                    Command="{Binding }">
+                    Command="{Binding ExtraditeCommand}">
                     <Grid>
                         <Grid.RowDefinitions>
                             <RowDefinition/>
@@ -1084,7 +1084,7 @@
                     Visibility="{Binding Path=VisitorsVisible.ReturnButtonEnable, 
                     Converter={StaticResource BooleanToVisibilityConverter}}"
                     Style="{StaticResource VisitorsSquareButtonStyle}"
-                    Command="{Binding}">
+                    Command="{Binding ReturnCommand}">
                     <Grid>
                         <Grid.RowDefinitions>
                             <RowDefinition/>

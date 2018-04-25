@@ -19,6 +19,7 @@ using SupRealClient.Annotations;
 using SupRealClient.TabsSingleton;
 using System.Data;
 using SupRealClient.EnumerationClasses;
+using SupRealClient.Views.Visitor;
 
 namespace SupRealClient.Views
 {
@@ -130,6 +131,8 @@ namespace SupRealClient.Views
         public ICommand CountryCommand { get; set; }
         public ICommand CabinetsCommand { get; set; }
         public ICommand DocumentsCommand { get; set; }
+        public ICommand ExtraditeCommand { get; set; }
+        public ICommand ReturnCommand { get; set; }
 
         public VisitsViewModel()
         {
@@ -142,6 +145,9 @@ namespace SupRealClient.Views
             CountryCommand = new RelayCommand(arg => CountyList());
             CabinetsCommand = new RelayCommand(arg => CabinetsList());
             DocumentsCommand = new RelayCommand(arg => DocumentsListModel());
+
+            ExtraditeCommand = new RelayCommand(obj => Extradite());
+            ReturnCommand = new RelayCommand(obj => Return());
         }
 
         private void DocumentsListModel()
@@ -193,6 +199,20 @@ namespace SupRealClient.Views
         private void New()
         {
             Model = new NewVisitsModel();
+        }
+
+        private void Extradite()
+        {
+            var window = new VisitorsComing();
+
+            window.ShowDialog();
+        }
+
+        private void Return()
+        {
+            var window = new ReturnBid();
+
+            window.ShowDialog();
         }
 
         public event PropertyChangedEventHandler PropertyChanged;
