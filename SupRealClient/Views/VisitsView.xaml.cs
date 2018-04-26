@@ -192,24 +192,57 @@ namespace SupRealClient.Views
             RemoveSignatureCommand = new RelayCommand(arg => RemoveImageSource(ImageType.Signature));
         }
 
+        // TODO - перенести в Model открытие окон и переустановку свойств
         private void DocumentsListModel()
         {
-            ViewManager.Instance.OpenWindow("Base4DocumentsWindView", view);
+            var result = ViewManager.Instance.OpenWindowModal(
+                "Base4DocumentsWindView", view) as BaseModelResult;
+            if (result == null)
+            {
+                return;
+            }
+            CurrentItem.DocumentId = result.Id;
+            CurrentItem.DocType = result.Name;
+            OnPropertyChanged("CurrentItem");
         }
 
         private void CabinetsList()
         {
-            ViewManager.Instance.OpenWindow("Base4CabinetsWindView", view);
+            var result = ViewManager.Instance.OpenWindowModal(
+                "Base4CabinetsWindView", view) as BaseModelResult;
+            if (result == null)
+            {
+                return;
+            }
+            CurrentItem.CabinetId = result.Id;
+            CurrentItem.Cabinet = result.Name;
+            OnPropertyChanged("CurrentItem");
         }
 
         private void OrganizationsList()
         {
-            ViewManager.Instance.OpenWindow("Base4OrganizationsWindView", view);
+            var result = ViewManager.Instance.OpenWindowModal(
+                "Base4OrganizationsWindView", view) as BaseModelResult;
+            if (result == null)
+            {
+                return;
+            }
+            CurrentItem.OrganizationId = result.Id;
+            CurrentItem.Organization = result.Name;
+            OnPropertyChanged("CurrentItem");
         }
 
         private void CountyList()
         {
-            ViewManager.Instance.OpenWindow("Base4NationsWindView", view);
+            var result = ViewManager.Instance.OpenWindowModal(
+                "Base4NationsWindView", view) as BaseModelResult;
+            if (result == null)
+            {
+                return;
+            }
+            CurrentItem.NationId = result.Id;
+            CurrentItem.Nation = result.Name;
+            OnPropertyChanged("CurrentItem");
         }
 
         private void Begin()
@@ -565,6 +598,7 @@ namespace SupRealClient.Views
             }
         }
 
+        // TODO - перенести в Model
         public void AddImageSource(string path, ImageType imageType)
         {
             DataRow row = null;

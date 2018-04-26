@@ -16,7 +16,7 @@ var entityTypeDoc = XDocument.Load(entityTypePath);
 var entityQuery = from entity in entityTypeDoc.Root.Elements()
 	let name = entity.Attribute("Name")
 	let type = entity.Attribute("Type")
-	let updateCaption = entity.Attribute("UpdateCaption")
+	let okCaption = entity.Attribute("OkCaption")
 	let zonesVisibility = entity.Attribute("ZonesVisibility")
 	where name != null && !string.IsNullOrEmpty(name.Value) &&
 	type != null && !string.IsNullOrEmpty(type.Value)
@@ -24,7 +24,7 @@ var entityQuery = from entity in entityTypeDoc.Root.Elements()
 	{
 		Name = name.Value,
 		Type = type.Value,
-		UpdateCaption = updateCaption != null ? updateCaption.Value : "OK",
+		OkCaption = okCaption != null ? okCaption.Value : "OK",
 		ZonesVisibility = zonesVisibility != null ? zonesVisibility.Value : "Hidden",
 		Element = entity
 	};
@@ -50,6 +50,8 @@ namespace SupRealClient.Views
 
         public IWindow ParentWindow { get; set; }
 
+		public object WindowResult { get; set; }
+
 		public void AfterInitialize()
 		{
             this.Closing += Window_Closing;
@@ -59,7 +61,7 @@ namespace SupRealClient.Views
 		    Base4ViewModel<EnumerationClasses.<#=entity.Type#>> viewModel =
 			new Base4ViewModel<EnumerationClasses.<#=entity.Type#>>
 			{
-				UpdateCaption="<#=entity.UpdateCaption#>",
+				OkCaption = "<#=entity.OkCaption#>",
 				ZonesVisibility = Visibility.<#=entity.ZonesVisibility#>,
 			    Parent = this,
 			    Model = new <#=entity.Type#>sListModel<EnumerationClasses.<#=entity.Type#>>(),
@@ -90,8 +92,9 @@ namespace SupRealClient.Views
             ViewManager.Instance.CloseWindow(this, true, e);
         }
 		
-        private void Handling_OnClose()
+        private void Handling_OnClose(object result)
         {
+			WindowResult = result;
             this.Close();
         }
 

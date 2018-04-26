@@ -18,6 +18,8 @@ namespace SupRealClient.Views
 
         public IWindow ParentWindow { get; set; }
 
+		public object WindowResult { get; set; }
+
 		public void AfterInitialize()
 		{
             this.Closing += Window_Closing;
@@ -27,7 +29,7 @@ namespace SupRealClient.Views
 		    Base4ViewModel<EnumerationClasses.Cabinet> viewModel =
 			new Base4ViewModel<EnumerationClasses.Cabinet>
 			{
-				UpdateCaption="OK",
+				OkCaption = "OK",
 				ZonesVisibility = Visibility.Visible,
 			    Parent = this,
 			    Model = new CabinetsListModel<EnumerationClasses.Cabinet>(),
@@ -58,8 +60,9 @@ namespace SupRealClient.Views
             ViewManager.Instance.CloseWindow(this, true, e);
         }
 		
-        private void Handling_OnClose()
+        private void Handling_OnClose(object result)
         {
+			WindowResult = result;
             this.Close();
         }
 
@@ -87,6 +90,8 @@ namespace SupRealClient.Views
 
         public IWindow ParentWindow { get; set; }
 
+		public object WindowResult { get; set; }
+
 		public void AfterInitialize()
 		{
             this.Closing += Window_Closing;
@@ -96,7 +101,7 @@ namespace SupRealClient.Views
 		    Base4ViewModel<EnumerationClasses.Document> viewModel =
 			new Base4ViewModel<EnumerationClasses.Document>
 			{
-				UpdateCaption="OK",
+				OkCaption = "OK",
 				ZonesVisibility = Visibility.Hidden,
 			    Parent = this,
 			    Model = new DocumentsListModel<EnumerationClasses.Document>(),
@@ -127,8 +132,9 @@ namespace SupRealClient.Views
             ViewManager.Instance.CloseWindow(this, true, e);
         }
 		
-        private void Handling_OnClose()
+        private void Handling_OnClose(object result)
         {
+			WindowResult = result;
             this.Close();
         }
 
@@ -156,6 +162,8 @@ namespace SupRealClient.Views
 
         public IWindow ParentWindow { get; set; }
 
+		public object WindowResult { get; set; }
+
 		public void AfterInitialize()
 		{
             this.Closing += Window_Closing;
@@ -165,7 +173,7 @@ namespace SupRealClient.Views
 		    Base4ViewModel<EnumerationClasses.Nation> viewModel =
 			new Base4ViewModel<EnumerationClasses.Nation>
 			{
-				UpdateCaption="OK",
+				OkCaption = "OK",
 				ZonesVisibility = Visibility.Hidden,
 			    Parent = this,
 			    Model = new NationsListModel<EnumerationClasses.Nation>(),
@@ -196,8 +204,9 @@ namespace SupRealClient.Views
             ViewManager.Instance.CloseWindow(this, true, e);
         }
 		
-        private void Handling_OnClose()
+        private void Handling_OnClose(object result)
         {
+			WindowResult = result;
             this.Close();
         }
 
@@ -225,6 +234,8 @@ namespace SupRealClient.Views
 
         public IWindow ParentWindow { get; set; }
 
+		public object WindowResult { get; set; }
+
 		public void AfterInitialize()
 		{
             this.Closing += Window_Closing;
@@ -234,7 +245,7 @@ namespace SupRealClient.Views
 		    Base4ViewModel<EnumerationClasses.Organization> viewModel =
 			new Base4ViewModel<EnumerationClasses.Organization>
 			{
-				UpdateCaption="OK",
+				OkCaption = "OK",
 				ZonesVisibility = Visibility.Hidden,
 			    Parent = this,
 			    Model = new OrganizationsListModel<EnumerationClasses.Organization>(),
@@ -265,8 +276,9 @@ namespace SupRealClient.Views
             ViewManager.Instance.CloseWindow(this, true, e);
         }
 		
-        private void Handling_OnClose()
+        private void Handling_OnClose(object result)
         {
+			WindowResult = result;
             this.Close();
         }
 

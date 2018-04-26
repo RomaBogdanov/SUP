@@ -18,6 +18,8 @@ namespace SupRealClient.Views
 
         public IWindow ParentWindow { get; set; }
 
+		public object WindowResult { get; set; }
+
 		public void CloseWindow(CancelEventArgs e)
         {
             if (!IsRealClose)
@@ -61,6 +63,8 @@ namespace SupRealClient.Views
         public string WindowName { get; private set; } = "AddUpdateCardView";
 
         public IWindow ParentWindow { get; set; }
+
+		public object WindowResult { get; set; }
 
 		public void CloseWindow(CancelEventArgs e)
         {
@@ -106,6 +110,8 @@ namespace SupRealClient.Views
 
         public IWindow ParentWindow { get; set; }
 
+		public object WindowResult { get; set; }
+
 		public void CloseWindow(CancelEventArgs e)
         {
             if (!IsRealClose)
@@ -149,6 +155,8 @@ namespace SupRealClient.Views
         public string WindowName { get; private set; } = "CardsWindView";
 
         public IWindow ParentWindow { get; set; }
+
+		public object WindowResult { get; set; }
 
 		public void CloseWindow(CancelEventArgs e)
         {
@@ -194,6 +202,8 @@ namespace SupRealClient.Views
 
         public IWindow ParentWindow { get; set; }
 
+		public object WindowResult { get; set; }
+
 		public void CloseWindow(CancelEventArgs e)
         {
             if (!IsRealClose)
@@ -237,6 +247,8 @@ namespace SupRealClient.Views
         public string WindowName { get; private set; } = "NationsWindView";
 
         public IWindow ParentWindow { get; set; }
+
+		public object WindowResult { get; set; }
 
 		public void CloseWindow(CancelEventArgs e)
         {
@@ -282,6 +294,8 @@ namespace SupRealClient.Views
 
         public IWindow ParentWindow { get; set; }
 
+		public object WindowResult { get; set; }
+
 		public void CloseWindow(CancelEventArgs e)
         {
             if (!IsRealClose)
@@ -325,6 +339,8 @@ namespace SupRealClient.Views
         public string WindowName { get; private set; } = "Search1View";
 
         public IWindow ParentWindow { get; set; }
+
+		public object WindowResult { get; set; }
 
 		public void CloseWindow(CancelEventArgs e)
         {
@@ -370,6 +386,8 @@ namespace SupRealClient.Views
 
         public IWindow ParentWindow { get; set; }
 
+		public object WindowResult { get; set; }
+
 		public void CloseWindow(CancelEventArgs e)
         {
             if (!IsRealClose)
@@ -413,6 +431,8 @@ namespace SupRealClient.Views
         public string WindowName { get; private set; } = "CabinetsWindView";
 
         public IWindow ParentWindow { get; set; }
+
+		public object WindowResult { get; set; }
 
 		public void CloseWindow(CancelEventArgs e)
         {
@@ -458,6 +478,8 @@ namespace SupRealClient.Views
 
         public IWindow ParentWindow { get; set; }
 
+		public object WindowResult { get; set; }
+
 		public void CloseWindow(CancelEventArgs e)
         {
             if (!IsRealClose)
@@ -501,6 +523,8 @@ namespace SupRealClient.Views
         public string WindowName { get; private set; } = "MainOrganisationStructureView";
 
         public IWindow ParentWindow { get; set; }
+
+		public object WindowResult { get; set; }
 
 		public void CloseWindow(CancelEventArgs e)
         {
@@ -546,6 +570,8 @@ namespace SupRealClient.Views
 
         public IWindow ParentWindow { get; set; }
 
+		public object WindowResult { get; set; }
+
 		public void CloseWindow(CancelEventArgs e)
         {
             if (!IsRealClose)
@@ -589,6 +615,8 @@ namespace SupRealClient.Views
         public string WindowName { get; private set; } = "ChildOrgsView";
 
         public IWindow ParentWindow { get; set; }
+
+		public object WindowResult { get; set; }
 
 		public void CloseWindow(CancelEventArgs e)
         {
@@ -634,6 +662,8 @@ namespace SupRealClient.Views
 
         public IWindow ParentWindow { get; set; }
 
+		public object WindowResult { get; set; }
+
 		public void CloseWindow(CancelEventArgs e)
         {
             if (!IsRealClose)
@@ -678,6 +708,8 @@ namespace SupRealClient.Views
 
         public IWindow ParentWindow { get; set; }
 
+		public object WindowResult { get; set; }
+
 		public void CloseWindow(CancelEventArgs e)
         {
             if (!IsRealClose)
@@ -721,6 +753,8 @@ namespace SupRealClient.Views
         public string WindowName { get; private set; } = "AddUpdateCabinetView";
 
         public IWindow ParentWindow { get; set; }
+
+		public object WindowResult { get; set; }
 
 		public void CloseWindow(CancelEventArgs e)
         {
