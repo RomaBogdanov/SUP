@@ -27,7 +27,7 @@ namespace SupClientConnectionLib
         public event Action<string, object[]> OnDelete;
 
         #region Public
-        
+
         public static ClientConnector CurrentConnector
         {
             get
@@ -96,7 +96,7 @@ namespace SupClientConnectionLib
 
             return authorizer.Id;
         }
-        
+
         public bool Ping()
         {
             try
@@ -163,10 +163,27 @@ namespace SupClientConnectionLib
                 authorizer.GetInfo());
         }
 
-        public byte[] GetImage(int id)
+        public byte[] GetImage(Guid alias)
         {
-            return this.tableService.GetImage(id,
+            return this.tableService.GetImage(alias,
                 authorizer.GetInfo());
+        }
+
+        public bool SetImage(Guid alias, byte[] data)
+        {
+            try
+            {
+                this.tableService.SetImage(alias, data,
+                    authorizer.GetInfo());
+            }
+            catch (TimeoutException)
+            {
+            }
+            catch (Exception)
+            {
+                return false;
+            }
+            return true;
         }
 
         NewMessageHandler messageHandler;

@@ -62,6 +62,11 @@ namespace SupHost.Connectors
             }
         }
 
+        public override string ToString()
+        {
+            return GetConnectionString();
+        }
+
         protected Logger Logger { get; private set; }
 
         /// <summary>

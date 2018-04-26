@@ -5,7 +5,8 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:SupRealClient.Views"
         mc:Ignorable="d"
-        Title="Добавление кабинета" Height="170.497" Width="300">
+        Title="Добавление кабинета" Height="170.497" Width="300"
+        Closing="Window_Closing" StateChanged="Window_StateChanged">
     <Grid>
         <Label Content="Номер кабинета" HorizontalAlignment="Left" Margin="10,10,0,0" VerticalAlignment="Top"/>
         <Label Content="Описание" HorizontalAlignment="Left" Margin="10,37,0,0" VerticalAlignment="Top"/>
