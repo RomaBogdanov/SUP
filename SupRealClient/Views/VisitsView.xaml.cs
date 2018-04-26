@@ -1,18 +1,18 @@
 ﻿using System;
+using System.Collections.ObjectModel;
+using System.ComponentModel;
+using System.Data;
 using System.IO;
 using System.Linq;
+using System.Runtime.CompilerServices;
 using System.Windows.Forms;
 using System.Windows.Input;
 using SupContract;
-using SupRealClient.Models;
-using System.ComponentModel;
-using System.Collections.ObjectModel;
-using System.Runtime.CompilerServices;
 using SupRealClient.Annotations;
-using SupRealClient.TabsSingleton;
-using System.Data;
-using SupRealClient.EnumerationClasses;
 using SupRealClient.Common.Interfaces;
+using SupRealClient.EnumerationClasses;
+using SupRealClient.Models;
+using SupRealClient.TabsSingleton;
 using SupRealClient.Views.Visitor;
 
 namespace SupRealClient.Views
