@@ -32,7 +32,7 @@ namespace SupRealClient.Views
     {
         // ==========
         private string searchingText;
-        private string updateCaption;
+        private string okCaption;
         private Visibility zonesVisibility;
 
         // ==========
@@ -46,17 +46,18 @@ namespace SupRealClient.Views
         public ICommand Prev { get; set; }
         public ICommand Next { get; set; }
         public ICommand End { get; set; }
+        public ICommand Ok { get; set; }
         public ICommand Close { get; set; }
         public ICommand Zones { get; set; }
 
         public IWindow Parent { get; set; }
 
-        public string UpdateCaption
+        public string OkCaption
         {
-            get { return updateCaption; }
+            get { return okCaption; }
             set
             {
-                updateCaption = value;
+                okCaption = value;
                 OnPropertyChanged();
             }
         }
@@ -161,6 +162,7 @@ namespace SupRealClient.Views
             Next = new RelayCommand(obj => NextCom());
             End = new RelayCommand(obj => EndCom());
             Close = new RelayCommand(obj => CloseCom());
+            Ok = new RelayCommand(obj => OkCom());
             Zones = new RelayCommand(obj => MessageBox.Show("Zones"));
         }
 
@@ -196,7 +198,14 @@ namespace SupRealClient.Views
             this.Model.Next();
             Reset();
         }
-        private void CloseCom() { this.Model.Close(); }
+        private void OkCom()
+        {
+            this.Model.Ok();
+        }
+        private void CloseCom()
+        {
+            this.Model.Close();
+        }
 
         private void Reset()
         {
@@ -210,7 +219,7 @@ namespace SupRealClient.Views
     public interface IBase4Model<T>
     {
         event ModelPropertyChanged OnModelPropertyChanged;
-        event Action OnClose;
+        event Action<object> OnClose;
 
         ObservableCollection<T> Set { get; set; }
         T CurrentItem { get; set; }
@@ -220,6 +229,7 @@ namespace SupRealClient.Views
 
         void Add();
         void Begin();
+        void Ok();
         void Close();
         void End();
         void Farther();
@@ -234,7 +244,7 @@ namespace SupRealClient.Views
     public abstract class Base4ModelAbstr<T> : IBase4Model<T>, ISearchHelper
     {
         public event ModelPropertyChanged OnModelPropertyChanged;
-        public event Action OnClose;
+        public event Action<object> OnClose;
 
         public IWindow Parent { get; set; }
 
@@ -331,10 +341,15 @@ namespace SupRealClient.Views
             ViewManager.Instance.Search(this, Parent);
         }
         public abstract void Update();
+        public void Ok()
+        {
+            OnClose?.Invoke(GetResult());
+        }
         public virtual void Close()
         {
-            OnClose?.Invoke();
+            OnClose?.Invoke(null);
         }
+        protected abstract BaseModelResult GetResult();
 
         protected void Query()
         {
@@ -432,6 +447,11 @@ namespace SupRealClient.Views
         }
 
         #endregion
+
+        protected override BaseModelResult GetResult()
+        {
+            return new BaseModelResult { Id = CurrentItem.Id, Name = CurrentItem.FullName };
+        }
 
         protected override void DoQuery()
         {
@@ -535,6 +555,11 @@ namespace SupRealClient.Views
 
         #endregion
 
+        protected override BaseModelResult GetResult()
+        {
+            return new BaseModelResult { Id = CurrentItem.Id, Name = CurrentItem.Name };
+        }
+
         protected override void DoQuery()
         {
             Set = new ObservableCollection<T>(
@@ -585,6 +610,11 @@ namespace SupRealClient.Views
         public override void Update()
         {
             ViewManager.Instance.Update(new UpdateItemNationsModel(CurrentItem), Parent);
+        }
+
+        protected override BaseModelResult GetResult()
+        {
+            return new BaseModelResult { Id = CurrentItem.Id, Name = CurrentItem.CountryName };
         }
 
         protected override void DoQuery()
@@ -650,6 +680,11 @@ namespace SupRealClient.Views
         public override void Update()
         {
             ViewManager.Instance.OpenWindow(new AddUpdateCabinetView(CurrentItem), Parent);
+        }
+
+        protected override BaseModelResult GetResult()
+        {
+            return new BaseModelResult { Id = CurrentItem.Id, Name = CurrentItem.Descript};
         }
 
         protected override void DoQuery()
@@ -718,6 +753,11 @@ namespace SupRealClient.Views
             ViewManager.Instance.Update(new UpdateItemDocumentsModel(CurrentItem), Parent);
         }
 
+        protected override BaseModelResult GetResult()
+        {
+            return new BaseModelResult { Id = CurrentItem.Id, Name = CurrentItem.DocName };
+        }
+
         protected override void DoQuery()
         {
             Set = new ObservableCollection<T>(
@@ -761,5 +801,11 @@ namespace SupRealClient.Views
                 { "DocName", "f_doc_name" },
             };
         }
+    }
+
+    public class BaseModelResult
+    {
+        public int Id { get; set; }
+        public string Name { get; set; }
     }
 }

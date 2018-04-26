@@ -41,7 +41,7 @@ namespace SupRealClient.Views
     public class VisitsViewModel : INotifyPropertyChanged
     {
         private IVisitsModel model;
-        private IWindow parentWindow;
+        private IWindow view;
 
         public IVisitsModel Model
         {
@@ -162,9 +162,9 @@ namespace SupRealClient.Views
         public ICommand AddSignatureCommand { get; set; }
         public ICommand RemoveSignatureCommand { get; set; }
 
-        public VisitsViewModel(IWindow parentWindow)
+        public VisitsViewModel(IWindow view)
         {
-            this.parentWindow = parentWindow;
+            this.view = view;
             Model = new VisitsModel();
 
             OnPropertyChanged("PhotoSource");
@@ -192,24 +192,57 @@ namespace SupRealClient.Views
             RemoveSignatureCommand = new RelayCommand(arg => RemoveImageSource(ImageType.Signature));
         }
 
+        // TODO - перенести в Model открытие окон и переустановку свойств
         private void DocumentsListModel()
         {
-            ViewManager.Instance.OpenWindow("Base4DocumentsWindView", parentWindow);
+            var result = ViewManager.Instance.OpenWindowModal(
+                "Base4DocumentsWindView", view) as BaseModelResult;
+            if (result == null)
+            {
+                return;
+            }
+            CurrentItem.DocumentId = result.Id;
+            CurrentItem.DocType = result.Name;
+            OnPropertyChanged("CurrentItem");
         }
 
         private void CabinetsList()
         {
-            ViewManager.Instance.OpenWindow("Base4CabinetsWindView", parentWindow);
+            var result = ViewManager.Instance.OpenWindowModal(
+                "Base4CabinetsWindView", view) as BaseModelResult;
+            if (result == null)
+            {
+                return;
+            }
+            CurrentItem.CabinetId = result.Id;
+            CurrentItem.Cabinet = result.Name;
+            OnPropertyChanged("CurrentItem");
         }
 
         private void OrganizationsList()
         {
-            ViewManager.Instance.OpenWindow("Base4OrganizationsWindView", parentWindow);
+            var result = ViewManager.Instance.OpenWindowModal(
+                "Base4OrganizationsWindView", view) as BaseModelResult;
+            if (result == null)
+            {
+                return;
+            }
+            CurrentItem.OrganizationId = result.Id;
+            CurrentItem.Organization = result.Name;
+            OnPropertyChanged("CurrentItem");
         }
 
         private void CountyList()
         {
-            ViewManager.Instance.OpenWindow("Base4NationsWindView", parentWindow);
+            var result = ViewManager.Instance.OpenWindowModal(
+                "Base4NationsWindView", view) as BaseModelResult;
+            if (result == null)
+            {
+                return;
+            }
+            CurrentItem.NationId = result.Id;
+            CurrentItem.Nation = result.Name;
+            OnPropertyChanged("CurrentItem");
         }
 
         private void Begin()
@@ -267,6 +300,7 @@ namespace SupRealClient.Views
                 Model = new VisitsModel(Set, ((EditVisitsModel)Model).OldVisitor);
             }
         }
+
         private void AddImageSource(ImageType imageType)
         {
             var dlg = new OpenFileDialog();
@@ -564,6 +598,7 @@ namespace SupRealClient.Views
             }
         }
 
+        // TODO - перенести в Model
         public void AddImageSource(string path, ImageType imageType)
         {
             DataRow row = null;

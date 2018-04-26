@@ -121,6 +121,26 @@ namespace SupRealClient
         /// <summary>
         /// Открыть окно
         /// </summary>
+        /// <param name="name"></param>
+        public object OpenWindowModal(string name, IWindow parent = null)
+        {
+            IWindow window = windows.ContainsKey(name) ?
+                windows[name] : CreateWindow(name);
+            if (window == null)
+            {
+                return null;
+            }
+            if (!windows.ContainsKey(name))
+            {
+                windows[name] = window;
+            }
+            window.ParentWindow = parent;
+            return OpenWindowModal(window);
+        }
+
+        /// <summary>
+        /// Открыть окно
+        /// </summary>
         public void OpenWindow(IWindow window, IWindow parent)
         {
             ReopenWindow(window.WindowName, window, parent);
@@ -228,6 +248,17 @@ namespace SupRealClient
                 (window as Window).Show();
             }
             (window as Window).Activate();
+        }
+
+        private object OpenWindowModal(IWindow window)
+        {
+            if (window != null && window.IsRealClose)
+            {
+                window.IsRealClose = false;
+                (window as Window).ShowDialog();
+                return window.WindowResult;
+            }
+            return null;
         }
 
         private IWindow CreateWindow(string name)

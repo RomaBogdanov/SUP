@@ -11,6 +11,8 @@ namespace SupRealClient.Common.Interfaces
 
         bool IsRealClose { get; set; }
 
+        object WindowResult { get; set; }
+
         /// <summary>
         /// Название окна
         /// </summary>

@@ -45,6 +45,8 @@ namespace SupRealClient.Views
 
         public IWindow ParentWindow { get; set; }
 
+		public object WindowResult { get; set; }
+
 		public void CloseWindow(CancelEventArgs e)
         {
             if (!IsRealClose)

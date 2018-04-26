@@ -45,7 +45,7 @@
         <Button Grid.Row="4" Grid.Column="1" Content="Пред." Margin="1" Command="{Binding Path=Prev}" FontSize="9" Style="{StaticResource ButtonStyle}"/>
         <Button Grid.Row="4" Grid.Column="2" Content="След." Margin="1" Command="{Binding Path=Next}" FontSize="9" Style="{StaticResource ButtonStyle}"/>
         <Button Grid.Row="4" Grid.Column="3" Content="Конец" Margin="1" Command="{Binding Path=End}" FontSize="9" Style="{StaticResource ButtonStyle}"/>
-        <Button Grid.Row="4" Grid.Column="4" Content="{Binding Path=UpdateCaption, Mode=OneTime}" Margin="1" Command="{Binding Path=Update}" FontSize="9" Style="{StaticResource ButtonStyle}"/>
+        <Button Grid.Row="4" Grid.Column="4" Content="{Binding Path=OkCaption, Mode=OneTime}" Margin="1" Command="{Binding Path=Ok}" FontSize="9" Style="{StaticResource ButtonStyle}"/>
         <Button Grid.Row="4" Grid.Column="5" Content="Закрыть" Margin="1" Command="{Binding Path=Close}" Grid.ColumnSpan="2" FontSize="9" Style="{StaticResource ButtonStyle}"/>
 
     </Grid>
