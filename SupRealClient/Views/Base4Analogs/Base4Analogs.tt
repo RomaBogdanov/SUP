@@ -24,7 +24,7 @@ var entityQuery = from entity in entityTypeDoc.Root.Elements()
 	{
 		Name = name.Value,
 		Type = type.Value,
-		UpdateCaption = updateCaption != null ? updateCaption.Value : "Просмотр",
+		UpdateCaption = updateCaption != null ? updateCaption.Value : "OK",
 		ZonesVisibility = zonesVisibility != null ? zonesVisibility.Value : "Hidden",
 		Element = entity
 	};
