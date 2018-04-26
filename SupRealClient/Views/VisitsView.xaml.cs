@@ -1,6 +1,9 @@
 ﻿using System;
+using System.IO;
 using System.Linq;
+using System.Windows.Forms;
 using System.Windows.Input;
+using SupContract;
 using SupRealClient.Models;
 using System.ComponentModel;
 using System.Collections.ObjectModel;
@@ -9,10 +12,8 @@ using SupRealClient.Annotations;
 using SupRealClient.TabsSingleton;
 using System.Data;
 using SupRealClient.EnumerationClasses;
-using System.Windows.Forms;
-using SupContract;
-using System.IO;
 using SupRealClient.Common.Interfaces;
+using SupRealClient.Views.Visitor;
 
 namespace SupRealClient.Views
 {
@@ -149,6 +150,10 @@ namespace SupRealClient.Views
         public ICommand CountryCommand { get; set; }
         public ICommand CabinetsCommand { get; set; }
         public ICommand DocumentsCommand { get; set; }
+
+        public ICommand ExtraditeCommand { get; set; }
+        public ICommand ReturnCommand { get; set; }
+
         public ICommand CancelCommand { get; set; }
         public ICommand EditCommand { get; set; }
 
@@ -174,8 +179,13 @@ namespace SupRealClient.Views
             CountryCommand = new RelayCommand(arg => CountyList());
             CabinetsCommand = new RelayCommand(arg => CabinetsList());
             DocumentsCommand = new RelayCommand(arg => DocumentsListModel());
+
+            ExtraditeCommand = new RelayCommand(obj => Extradite());
+            ReturnCommand = new RelayCommand(obj => Return());
+
             CancelCommand = new RelayCommand(arg => Cancel());
             EditCommand = new RelayCommand(arg => Edit());
+
             AddImageSourceCommand = new RelayCommand(arg => AddImageSource(ImageType.Photo));
             RemoveImageSourceCommand= new RelayCommand(arg => RemoveImageSource(ImageType.Photo));
             AddSignatureCommand = new RelayCommand(arg => AddImageSource(ImageType.Signature));
@@ -227,6 +237,20 @@ namespace SupRealClient.Views
             Model = new NewVisitsModel();
         }
 
+        private void Extradite()
+        {
+            var window = new VisitorsComing();
+
+            window.ShowDialog();
+        }
+
+        private void Return()
+        {
+            var window = new ReturnBid();
+
+            window.ShowDialog();
+        }
+
         private void Edit()
         {
             Model = new EditVisitsModel(Set, CurrentItem);
@@ -250,9 +274,6 @@ namespace SupRealClient.Views
             if (dlg.ShowDialog() == DialogResult.OK)
             {
                 Model.AddImageSource(dlg.FileName, imageType);
-
-                //PhotoSource = image;
-                //System.Windows.MessageBox.Show("Картинка загружена");
             }
         }
 

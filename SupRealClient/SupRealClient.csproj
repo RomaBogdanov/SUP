@@ -251,6 +251,15 @@
     <Compile Include="Views\Visitor\AddVisitorView.xaml.cs">
       <DependentUpon>AddVisitorView.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Views\Visitor\AddZone.xaml.cs">
+      <DependentUpon>AddZone.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Visitor\IssueBase.xaml.cs">
+      <DependentUpon>IssueBase.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Visitor\ReturnBid.xaml.cs">
+      <DependentUpon>ReturnBid.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Views\Visitor\VisitorExiting.xaml.cs">
       <DependentUpon>VisitorExiting.xaml</DependentUpon>
     </Compile>
@@ -479,6 +488,18 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Views\Visitor\AddVisitorView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\Visitor\AddZone.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\Visitor\IssueBase.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\Visitor\ReturnBid.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
