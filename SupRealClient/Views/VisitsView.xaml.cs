@@ -41,7 +41,7 @@ namespace SupRealClient.Views
     public class VisitsViewModel : INotifyPropertyChanged
     {
         private IVisitsModel model;
-        private IWindow parentWindow;
+        private IWindow view;
 
         public IVisitsModel Model
         {
@@ -162,9 +162,9 @@ namespace SupRealClient.Views
         public ICommand AddSignatureCommand { get; set; }
         public ICommand RemoveSignatureCommand { get; set; }
 
-        public VisitsViewModel(IWindow parentWindow)
+        public VisitsViewModel(IWindow view)
         {
-            this.parentWindow = parentWindow;
+            this.view = view;
             Model = new VisitsModel();
 
             OnPropertyChanged("PhotoSource");
@@ -194,22 +194,22 @@ namespace SupRealClient.Views
 
         private void DocumentsListModel()
         {
-            ViewManager.Instance.OpenWindow("Base4DocumentsWindView", parentWindow);
+            ViewManager.Instance.OpenWindow("Base4DocumentsWindView", view);
         }
 
         private void CabinetsList()
         {
-            ViewManager.Instance.OpenWindow("Base4CabinetsWindView", parentWindow);
+            ViewManager.Instance.OpenWindow("Base4CabinetsWindView", view);
         }
 
         private void OrganizationsList()
         {
-            ViewManager.Instance.OpenWindow("Base4OrganizationsWindView", parentWindow);
+            ViewManager.Instance.OpenWindow("Base4OrganizationsWindView", view);
         }
 
         private void CountyList()
         {
-            ViewManager.Instance.OpenWindow("Base4NationsWindView", parentWindow);
+            ViewManager.Instance.OpenWindow("Base4NationsWindView", view);
         }
 
         private void Begin()
