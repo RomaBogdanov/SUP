@@ -1131,6 +1131,7 @@
                 </Button>
 
                 <Button
+                    Command="{Binding EditCommand}"
                     Grid.Row="1"
                     Grid.Column="1"
                     Margin="2"
@@ -1183,6 +1184,7 @@
                 </Button>
 
                 <Button
+                    Command="{Binding CancelCommand}"
                     Grid.Row="1"
                     Grid.Column="3"
                     Margin="2"

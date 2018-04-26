@@ -57,33 +57,44 @@ namespace SupRealClient.Views
                 OnPropertyChanged();
                 CurrentItem = model.CurrentItem;
                 Set = model.Set;
+                VisitorsEnable = model.VisitorsEnable;
+                VisitorsVisible = model.VisitorsVisible;
+                TextEnable = model.TextEnable;
             }
         }
 
-        private VisitorsEnableOrVisible _visitorsEnable;
         /// <summary>
         /// Объект со списком свойств Enable для кнопок
         /// </summary>
         public VisitorsEnableOrVisible VisitorsEnable
         {
-            get { return _visitorsEnable; }
+            get { return Model.VisitorsEnable; }
             set
             {
-                _visitorsEnable = value;
+                Model.VisitorsEnable = value;
                 OnPropertyChanged();
             }
         }
-
-        private VisitorsEnableOrVisible _visitorsVisible;
+        
         /// <summary>
         /// Объект со списком свойтсв Visible для кнопок
         /// </summary>
         public VisitorsEnableOrVisible VisitorsVisible
         {
-            get { return _visitorsVisible; }
+            get { return Model.VisitorsVisible; }
             set
             {
-                _visitorsVisible = value;
+                Model.VisitorsVisible = value;
+                OnPropertyChanged();
+            }
+        }
+
+        public bool TextEnable
+        {
+            get { return Model.TextEnable; }
+            set
+            {
+                Model.TextEnable = value;
                 OnPropertyChanged();
             }
         }
@@ -130,6 +141,8 @@ namespace SupRealClient.Views
         public ICommand CountryCommand { get; set; }
         public ICommand CabinetsCommand { get; set; }
         public ICommand DocumentsCommand { get; set; }
+        public ICommand CancelCommand { get; set; }
+        public ICommand EditCommand { get; set; }
 
         public VisitsViewModel()
         {
@@ -142,6 +155,8 @@ namespace SupRealClient.Views
             CountryCommand = new RelayCommand(arg => CountyList());
             CabinetsCommand = new RelayCommand(arg => CabinetsList());
             DocumentsCommand = new RelayCommand(arg => DocumentsListModel());
+            CancelCommand = new RelayCommand(arg => Cancel());
+            EditCommand = new RelayCommand(arg => Edit());
         }
 
         private void DocumentsListModel()
@@ -195,6 +210,23 @@ namespace SupRealClient.Views
             Model = new NewVisitsModel();
         }
 
+        private void Edit()
+        {
+            Model = new EditVisitsModel(Set, CurrentItem);
+        }
+
+        private void Cancel()
+        {
+            if (Model is NewVisitsModel)
+            {
+                Model = new VisitsModel();
+            }
+            else if (Model is EditVisitsModel)
+            {
+                Model = new VisitsModel(Set, ((EditVisitsModel)Model).OldVisitor);
+            }
+        }
+
         public event PropertyChangedEventHandler PropertyChanged;
 
         [NotifyPropertyChangedInvocator]
@@ -209,6 +241,9 @@ namespace SupRealClient.Views
     {
         ObservableCollection<EnumerationClasses.Visitor> Set { get; set; }
         EnumerationClasses.Visitor CurrentItem { get; set; }
+        bool TextEnable { get; set; }
+        VisitorsEnableOrVisible VisitorsEnable { get; set; }
+        VisitorsEnableOrVisible VisitorsVisible { get; set; }
 
         EnumerationClasses.Visitor Begin();
         EnumerationClasses.Visitor End();
@@ -221,6 +256,14 @@ namespace SupRealClient.Views
         private ObservableCollection<EnumerationClasses.Visitor> set;
         private EnumerationClasses.Visitor currentItem;
         private int selectedIndex;
+        private VisitorsEnableOrVisible visitorsEnable =
+            new VisitorsEnableOrVisible
+            {
+                AcceptButtonEnable = false,
+                CancelButtonEnable = false
+            };
+        private VisitorsEnableOrVisible visitorsVisible =
+            new VisitorsEnableOrVisible();
 
         public ObservableCollection<EnumerationClasses.Visitor> Set
         {
@@ -234,11 +277,46 @@ namespace SupRealClient.Views
             set { currentItem = value; }
         }
 
+        public bool TextEnable
+        {
+            get { return false; }
+            set { }
+        }
+        
+        public VisitorsEnableOrVisible VisitorsEnable
+        {
+            get { return visitorsEnable; }
+            set
+            {
+                visitorsEnable = value;
+            }
+        }
+
+        public VisitorsEnableOrVisible VisitorsVisible
+        {
+            get
+            { return visitorsVisible; }
+            set
+            {
+                visitorsVisible = value;
+            }
+        }
+        
         public VisitsModel()
         {
             VisitorsWrapper.CurrentTable().OnChanged += Query;
             OrganizationsWrapper.CurrentTable().OnChanged += Query;
             Query();
+        }
+
+        public VisitsModel(
+            ObservableCollection<EnumerationClasses.Visitor> set, 
+            EnumerationClasses.Visitor visitor)
+        {
+            VisitorsWrapper.CurrentTable().OnChanged += Query;
+            OrganizationsWrapper.CurrentTable().OnChanged += Query;
+            Set = set;
+            CurrentItem = visitor;
         }
 
         private void Query()
@@ -405,12 +483,40 @@ namespace SupRealClient.Views
     {
         private ObservableCollection<EnumerationClasses.Visitor> set;
         private EnumerationClasses.Visitor currentItem;
+        private VisitorsEnableOrVisible visitorsEnable =
+            new VisitorsEnableOrVisible
+            {
+                StartButtonEnable = false,
+                PreviousButtonEnable = false,
+                NextButtonEnable = false,
+                EndButtonEnable = false,
+                ExtraditeButtonEnable = false,
+                ReturnButtonEnable = false,
+                NewButtonEnable = false,
+                EditButtonEnable = false,
+                SearchButtonEnable = false,
+                RefreshButtonEnable = false
+            };
+        private VisitorsEnableOrVisible visitorsVisible =
+            new VisitorsEnableOrVisible();
 
-        public NewVisitsModel()
+        public VisitorsEnableOrVisible VisitorsEnable
         {
-            Set = new ObservableCollection<EnumerationClasses.Visitor>();
-            CurrentItem = new EnumerationClasses.Visitor();
-            Set.Add(CurrentItem);
+            get { return visitorsEnable; }
+            set
+            {
+                visitorsEnable = value;
+            }
+        }
+
+        public VisitorsEnableOrVisible VisitorsVisible
+        {
+            get
+            { return visitorsVisible; }
+            set
+            {
+                visitorsVisible = value;
+            }
         }
 
         public ObservableCollection<EnumerationClasses.Visitor> Set
@@ -424,6 +530,110 @@ namespace SupRealClient.Views
             get { return currentItem; }
             set { currentItem = value; }
         }
+
+        public bool TextEnable
+        {
+            get { return true; }
+            set { }
+        }
+
+        public NewVisitsModel()
+        {
+            Set = new ObservableCollection<EnumerationClasses.Visitor>();
+            CurrentItem = new EnumerationClasses.Visitor();
+            Set.Add(CurrentItem);
+        }
+
+        public EnumerationClasses.Visitor Begin()
+        {
+            throw new NotImplementedException();
+        }
+
+        public EnumerationClasses.Visitor End()
+        {
+            throw new NotImplementedException();
+        }
+
+        public EnumerationClasses.Visitor Next()
+        {
+            throw new NotImplementedException();
+        }
+
+        public EnumerationClasses.Visitor Prev()
+        {
+            throw new NotImplementedException();
+        }
+    }
+
+    public class EditVisitsModel : IVisitsModel
+    {
+        private ObservableCollection<EnumerationClasses.Visitor> set;
+        private EnumerationClasses.Visitor currentItem;
+        private VisitorsEnableOrVisible visitorsEnable =
+            new VisitorsEnableOrVisible
+            {
+                StartButtonEnable = false,
+                PreviousButtonEnable = false,
+                NextButtonEnable = false,
+                EndButtonEnable = false,
+                ExtraditeButtonEnable = false,
+                ReturnButtonEnable = false,
+                NewButtonEnable = false,
+                EditButtonEnable = false,
+                SearchButtonEnable = false,
+                RefreshButtonEnable = false
+            };
+        private VisitorsEnableOrVisible visitorsVisible =
+            new VisitorsEnableOrVisible();
+
+        public EnumerationClasses.Visitor OldVisitor
+        { get; set; }
+
+        public VisitorsEnableOrVisible VisitorsEnable
+        {
+            get { return visitorsEnable; }
+            set
+            {
+                visitorsEnable = value;
+            }
+        }
+
+        public VisitorsEnableOrVisible VisitorsVisible
+        {
+            get
+            { return visitorsVisible; }
+            set
+            {
+                visitorsVisible = value;
+            }
+        }
+
+        public ObservableCollection<EnumerationClasses.Visitor> Set
+        {
+            get { return set; }
+            set { set = value; }
+        }
+
+        public EnumerationClasses.Visitor CurrentItem
+        {
+            get { return currentItem; }
+            set { currentItem = value; }
+        }
+
+        public bool TextEnable
+        {
+            get { return true; }
+            set { }
+        }
+
+        public EditVisitsModel(ObservableCollection<EnumerationClasses.Visitor> set, 
+            EnumerationClasses.Visitor visitor)
+        {
+            Set = set;
+            CurrentItem = (EnumerationClasses.Visitor)visitor.Clone();
+            OldVisitor = visitor;
+        }
+
         public EnumerationClasses.Visitor Begin()
         {
             throw new NotImplementedException();
