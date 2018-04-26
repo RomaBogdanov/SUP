@@ -7,7 +7,7 @@ using System.Collections.ObjectModel;
 
 namespace SupRealClient.EnumerationClasses
 {
-    public class Visitor : IdEntity
+    public class Visitor : IdEntity, ICloneable
     {
         public string FullName { get; set; }
         public string Family { get; set; }
@@ -37,5 +37,10 @@ namespace SupRealClient.EnumerationClasses
         public string Cabinet { get; set; }
         public ObservableCollection<Order> Orders { get; set; }
         public ObservableCollection<Card2> Cards { get; set; }
+
+        public object Clone()
+        {
+            return this.MemberwiseClone();
+        }
     }
 }
