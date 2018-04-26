@@ -65,7 +65,7 @@ namespace SupRealClient.ViewModels
             }
             else if (mode == VisitorModeEnum.Info)
             {
-                WindowName = "Информация о постетите";
+                WindowName = "Информация о посетителе";
                 CloseButtonName = "Отмена";
 
                 EmployeeTabVisible = true;

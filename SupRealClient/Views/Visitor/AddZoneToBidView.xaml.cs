@@ -12,24 +12,16 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
 
-namespace SupRealClient.Views
+namespace SupRealClient.Views.Visitor
 {
     /// <summary>
-    /// Interaction logic for VisitorsView.xaml
+    /// Interaction logic for AddZoneToBidView.xaml
     /// </summary>
-    public partial class VisitorsView
+    public partial class AddZoneToBidView
     {
-        public VisitorsView()
+        public AddZoneToBidView()
         {
             InitializeComponent();
-
-            Loaded += (s, e) =>
-            {
-                if (DataContext == null)
-                {
-                    DataContext = new VisitsViewModel();
-                }
-            };
         }
     }
 }

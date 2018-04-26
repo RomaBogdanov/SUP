@@ -253,6 +253,12 @@
     <Compile Include="Views\Visitor\AddZone.xaml.cs">
       <DependentUpon>AddZone.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Views\Visitor\AddZoneToBidView.xaml.cs">
+      <DependentUpon>AddZoneToBidView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Visitor\AssigningZonesView.xaml.cs">
+      <DependentUpon>AssigningZonesView.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Views\Visitor\IssueBase.xaml.cs">
       <DependentUpon>IssueBase.xaml</DependentUpon>
     </Compile>
@@ -498,6 +504,14 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="Views\Visitor\AddZoneToBidView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\Visitor\AssigningZonesView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Views\Visitor\IssueBase.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -622,6 +636,12 @@
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Resource>
     <Resource Include="Resources\Фильтр.ico">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Resources\Вернуть.ico">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Resources\Перенести.ico">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Resource>
     <Content Include="TabsSingleton\Wrappers.tt">

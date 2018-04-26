@@ -528,12 +528,30 @@
                                     Grid.Column="3"
                                     SelectedDate="{Binding Path=CurrentItem.AgreeToDate, Mode=TwoWay}"
                                     IsEnabled="{Binding Path=TextEnable, Mode=TwoWay}"
-                                    Text="Дата"/>
+                                    Text="Дата">
+                                    <DatePicker.Resources>
+                                        <Style TargetType="{x:Type DatePickerTextBox}">
+                                            <Setter Property="Control.Template">
+                                                <Setter.Value>
+                                                    <ControlTemplate>
+                                                        <TextBox 
+                                                            x:Name="PART_TextBox"
+                                                            Text="{Binding Path=SelectedDate, StringFormat='dd MMM yyyy', 
+                                                            RelativeSource={RelativeSource AncestorType={x:Type DatePicker}}}" />
+                                                    </ControlTemplate>
+                                                </Setter.Value>
+                                            </Setter>
+                                        </Style>
+                                    </DatePicker.Resources>
+                                </DatePicker>
                             </Grid>
                         </Grid>
                     </Grid>
                 </mah:MetroTabItem>
-                <mah:MetroTabItem Header="Пропуска">
+                <mah:MetroTabItem 
+                    Header="Пропуска"
+                    Visibility="{Binding AccessVisibility,
+                    Converter={StaticResource BooleanToVisibilityConverter}}">
                     <DataGrid 
                         ItemsSource="{Binding Path=CurrentItem.Cards}"
                         CanUserAddRows="False"
@@ -558,7 +576,10 @@
                         </DataGrid.Columns>
                     </DataGrid>
                 </mah:MetroTabItem>
-                <mah:MetroTabItem Header="Заявки">
+                <mah:MetroTabItem 
+                    Header="Заявки" 
+                    Visibility="{Binding BidsVisibility, 
+                    Converter={StaticResource BooleanToVisibilityConverter}}">
                     <DataGrid Style="{StaticResource AzureDataGrid1}" 
                               ItemsSource="{Binding Path=CurrentItem.Orders}"
                               CanUserAddRows="False">
@@ -885,6 +906,8 @@
                         
                         <ListBox
                             Grid.Row="1"
+                            BorderBrush="Black"
+                            BorderThickness="1"
                             ItemsSource="{Binding}"/>
                     </Grid>
                 </mah:MetroTabItem>

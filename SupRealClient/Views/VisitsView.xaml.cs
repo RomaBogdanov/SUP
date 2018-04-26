@@ -203,7 +203,7 @@ namespace SupRealClient.Views
 
         private void Extradite()
         {
-            var window = new VisitorsComing();
+            var window = new AddZone();
 
             window.ShowDialog();
         }
@@ -256,6 +256,7 @@ namespace SupRealClient.Views
 
         public VisitsModel()
         {
+            //TODO Рубануть тут, что бы не падало при запуске
             VisitorsWrapper.CurrentTable().OnChanged += Query;
             OrganizationsWrapper.CurrentTable().OnChanged += Query;
             Query();
