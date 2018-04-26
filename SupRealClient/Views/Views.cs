@@ -5,12 +5,12 @@ using System.Windows;
 
 namespace SupRealClient.Views
 {
-	/// <summary>
-	/// Логика взаимодействия для AddItem1View.xaml - базовая часть для всех View
-	/// </summary>
-	public partial class AddItem1View : IWindow
-	{
-		public bool CanMinimize { get; private set; } = true;
+    /// <summary>
+    /// Логика взаимодействия для AddItem1View.xaml - базовая часть для всех View
+    /// </summary>
+    public partial class AddItem1View : IWindow
+    {
+        public bool CanMinimize { get; private set; } = true;
 
         public bool IsRealClose { get; set; } = true;
 
@@ -18,9 +18,9 @@ namespace SupRealClient.Views
 
         public IWindow ParentWindow { get; set; }
 
-		public object WindowResult { get; set; }
+        public object WindowResult { get; set; }
 
-		public void CloseWindow(CancelEventArgs e)
+        public void CloseWindow(CancelEventArgs e)
         {
             if (!IsRealClose)
             {
@@ -30,16 +30,16 @@ namespace SupRealClient.Views
             }
         }
 
-		public void Unsuscribe()
-		{
+        public void Unsuscribe()
+        {
             this.Closing -= this.Window_Closing;
-		}
+        }
 
-		private void Window_Closing(object sender, CancelEventArgs e)
+        private void Window_Closing(object sender, CancelEventArgs e)
         {
             ViewManager.Instance.CloseWindow(this, true, e);
         }
-		
+
         private void Handling_OnClose()
         {
             this.Close();
@@ -51,12 +51,12 @@ namespace SupRealClient.Views
         }
     }
 
-	/// <summary>
-	/// Логика взаимодействия для AddUpdateCardView.xaml - базовая часть для всех View
-	/// </summary>
-	public partial class AddUpdateCardView : IWindow
-	{
-		public bool CanMinimize { get; private set; } = true;
+    /// <summary>
+    /// Логика взаимодействия для AddUpdateCardView.xaml - базовая часть для всех View
+    /// </summary>
+    public partial class AddUpdateCardView : IWindow
+    {
+        public bool CanMinimize { get; private set; } = true;
 
         public bool IsRealClose { get; set; } = true;
 
@@ -64,9 +64,9 @@ namespace SupRealClient.Views
 
         public IWindow ParentWindow { get; set; }
 
-		public object WindowResult { get; set; }
+        public object WindowResult { get; set; }
 
-		public void CloseWindow(CancelEventArgs e)
+        public void CloseWindow(CancelEventArgs e)
         {
             if (!IsRealClose)
             {
@@ -76,16 +76,16 @@ namespace SupRealClient.Views
             }
         }
 
-		public void Unsuscribe()
-		{
+        public void Unsuscribe()
+        {
             this.Closing -= this.Window_Closing;
-		}
+        }
 
-		private void Window_Closing(object sender, CancelEventArgs e)
+        private void Window_Closing(object sender, CancelEventArgs e)
         {
             ViewManager.Instance.CloseWindow(this, true, e);
         }
-		
+
         private void Handling_OnClose()
         {
             this.Close();
@@ -97,12 +97,12 @@ namespace SupRealClient.Views
         }
     }
 
-	/// <summary>
-	/// Логика взаимодействия для AddUpdateOrgsView.xaml - базовая часть для всех View
-	/// </summary>
-	public partial class AddUpdateOrgsView : IWindow
-	{
-		public bool CanMinimize { get; private set; } = true;
+    /// <summary>
+    /// Логика взаимодействия для AddUpdateOrgsView.xaml - базовая часть для всех View
+    /// </summary>
+    public partial class AddUpdateOrgsView : IWindow
+    {
+        public bool CanMinimize { get; private set; } = true;
 
         public bool IsRealClose { get; set; } = true;
 
@@ -110,9 +110,9 @@ namespace SupRealClient.Views
 
         public IWindow ParentWindow { get; set; }
 
-		public object WindowResult { get; set; }
+        public object WindowResult { get; set; }
 
-		public void CloseWindow(CancelEventArgs e)
+        public void CloseWindow(CancelEventArgs e)
         {
             if (!IsRealClose)
             {
@@ -122,16 +122,16 @@ namespace SupRealClient.Views
             }
         }
 
-		public void Unsuscribe()
-		{
+        public void Unsuscribe()
+        {
             this.Closing -= this.Window_Closing;
-		}
+        }
 
-		private void Window_Closing(object sender, CancelEventArgs e)
+        private void Window_Closing(object sender, CancelEventArgs e)
         {
             ViewManager.Instance.CloseWindow(this, true, e);
         }
-		
+
         private void Handling_OnClose()
         {
             this.Close();
@@ -143,12 +143,12 @@ namespace SupRealClient.Views
         }
     }
 
-	/// <summary>
-	/// Логика взаимодействия для CardsWindView.xaml - базовая часть для всех View
-	/// </summary>
-	public partial class CardsWindView : IWindow
-	{
-		public bool CanMinimize { get; private set; } = true;
+    /// <summary>
+    /// Логика взаимодействия для CardsWindView.xaml - базовая часть для всех View
+    /// </summary>
+    public partial class CardsWindView : IWindow
+    {
+        public bool CanMinimize { get; private set; } = true;
 
         public bool IsRealClose { get; set; } = true;
 
@@ -156,9 +156,9 @@ namespace SupRealClient.Views
 
         public IWindow ParentWindow { get; set; }
 
-		public object WindowResult { get; set; }
+        public object WindowResult { get; set; }
 
-		public void CloseWindow(CancelEventArgs e)
+        public void CloseWindow(CancelEventArgs e)
         {
             if (!IsRealClose)
             {
@@ -168,16 +168,16 @@ namespace SupRealClient.Views
             }
         }
 
-		public void Unsuscribe()
-		{
+        public void Unsuscribe()
+        {
             this.Closing -= this.Window_Closing;
-		}
+        }
 
-		private void Window_Closing(object sender, CancelEventArgs e)
+        private void Window_Closing(object sender, CancelEventArgs e)
         {
             ViewManager.Instance.CloseWindow(this, true, e);
         }
-		
+
         private void Handling_OnClose()
         {
             this.Close();
@@ -189,12 +189,12 @@ namespace SupRealClient.Views
         }
     }
 
-	/// <summary>
-	/// Логика взаимодействия для DocumentsWindView.xaml - базовая часть для всех View
-	/// </summary>
-	public partial class DocumentsWindView : IWindow
-	{
-		public bool CanMinimize { get; private set; } = true;
+    /// <summary>
+    /// Логика взаимодействия для DocumentsWindView.xaml - базовая часть для всех View
+    /// </summary>
+    public partial class DocumentsWindView : IWindow
+    {
+        public bool CanMinimize { get; private set; } = true;
 
         public bool IsRealClose { get; set; } = true;
 
@@ -202,9 +202,9 @@ namespace SupRealClient.Views
 
         public IWindow ParentWindow { get; set; }
 
-		public object WindowResult { get; set; }
+        public object WindowResult { get; set; }
 
-		public void CloseWindow(CancelEventArgs e)
+        public void CloseWindow(CancelEventArgs e)
         {
             if (!IsRealClose)
             {
@@ -214,16 +214,16 @@ namespace SupRealClient.Views
             }
         }
 
-		public void Unsuscribe()
-		{
+        public void Unsuscribe()
+        {
             this.Closing -= this.Window_Closing;
-		}
+        }
 
-		private void Window_Closing(object sender, CancelEventArgs e)
+        private void Window_Closing(object sender, CancelEventArgs e)
         {
             ViewManager.Instance.CloseWindow(this, true, e);
         }
-		
+
         private void Handling_OnClose()
         {
             this.Close();
@@ -235,12 +235,12 @@ namespace SupRealClient.Views
         }
     }
 
-	/// <summary>
-	/// Логика взаимодействия для NationsWindView.xaml - базовая часть для всех View
-	/// </summary>
-	public partial class NationsWindView : IWindow
-	{
-		public bool CanMinimize { get; private set; } = true;
+    /// <summary>
+    /// Логика взаимодействия для NationsWindView.xaml - базовая часть для всех View
+    /// </summary>
+    public partial class NationsWindView : IWindow
+    {
+        public bool CanMinimize { get; private set; } = true;
 
         public bool IsRealClose { get; set; } = true;
 
@@ -248,9 +248,9 @@ namespace SupRealClient.Views
 
         public IWindow ParentWindow { get; set; }
 
-		public object WindowResult { get; set; }
+        public object WindowResult { get; set; }
 
-		public void CloseWindow(CancelEventArgs e)
+        public void CloseWindow(CancelEventArgs e)
         {
             if (!IsRealClose)
             {
@@ -260,16 +260,16 @@ namespace SupRealClient.Views
             }
         }
 
-		public void Unsuscribe()
-		{
+        public void Unsuscribe()
+        {
             this.Closing -= this.Window_Closing;
-		}
+        }
 
-		private void Window_Closing(object sender, CancelEventArgs e)
+        private void Window_Closing(object sender, CancelEventArgs e)
         {
             ViewManager.Instance.CloseWindow(this, true, e);
         }
-		
+
         private void Handling_OnClose()
         {
             this.Close();
@@ -281,12 +281,12 @@ namespace SupRealClient.Views
         }
     }
 
-	/// <summary>
-	/// Логика взаимодействия для OrganizationsWindView.xaml - базовая часть для всех View
-	/// </summary>
-	public partial class OrganizationsWindView : IWindow
-	{
-		public bool CanMinimize { get; private set; } = true;
+    /// <summary>
+    /// Логика взаимодействия для OrganizationsWindView.xaml - базовая часть для всех View
+    /// </summary>
+    public partial class OrganizationsWindView : IWindow
+    {
+        public bool CanMinimize { get; private set; } = true;
 
         public bool IsRealClose { get; set; } = true;
 
@@ -294,9 +294,9 @@ namespace SupRealClient.Views
 
         public IWindow ParentWindow { get; set; }
 
-		public object WindowResult { get; set; }
+        public object WindowResult { get; set; }
 
-		public void CloseWindow(CancelEventArgs e)
+        public void CloseWindow(CancelEventArgs e)
         {
             if (!IsRealClose)
             {
@@ -306,16 +306,16 @@ namespace SupRealClient.Views
             }
         }
 
-		public void Unsuscribe()
-		{
+        public void Unsuscribe()
+        {
             this.Closing -= this.Window_Closing;
-		}
+        }
 
-		private void Window_Closing(object sender, CancelEventArgs e)
+        private void Window_Closing(object sender, CancelEventArgs e)
         {
             ViewManager.Instance.CloseWindow(this, true, e);
         }
-		
+
         private void Handling_OnClose()
         {
             this.Close();
@@ -327,12 +327,12 @@ namespace SupRealClient.Views
         }
     }
 
-	/// <summary>
-	/// Логика взаимодействия для Search1View.xaml - базовая часть для всех View
-	/// </summary>
-	public partial class Search1View : IWindow
-	{
-		public bool CanMinimize { get; private set; } = true;
+    /// <summary>
+    /// Логика взаимодействия для Search1View.xaml - базовая часть для всех View
+    /// </summary>
+    public partial class Search1View : IWindow
+    {
+        public bool CanMinimize { get; private set; } = true;
 
         public bool IsRealClose { get; set; } = true;
 
@@ -340,9 +340,9 @@ namespace SupRealClient.Views
 
         public IWindow ParentWindow { get; set; }
 
-		public object WindowResult { get; set; }
+        public object WindowResult { get; set; }
 
-		public void CloseWindow(CancelEventArgs e)
+        public void CloseWindow(CancelEventArgs e)
         {
             if (!IsRealClose)
             {
@@ -352,16 +352,16 @@ namespace SupRealClient.Views
             }
         }
 
-		public void Unsuscribe()
-		{
+        public void Unsuscribe()
+        {
             this.Closing -= this.Window_Closing;
-		}
+        }
 
-		private void Window_Closing(object sender, CancelEventArgs e)
+        private void Window_Closing(object sender, CancelEventArgs e)
         {
             ViewManager.Instance.CloseWindow(this, true, e);
         }
-		
+
         private void Handling_OnClose()
         {
             this.Close();
@@ -373,12 +373,12 @@ namespace SupRealClient.Views
         }
     }
 
-	/// <summary>
-	/// Логика взаимодействия для ZonesWindView.xaml - базовая часть для всех View
-	/// </summary>
-	public partial class ZonesWindView : IWindow
-	{
-		public bool CanMinimize { get; private set; } = true;
+    /// <summary>
+    /// Логика взаимодействия для ZonesWindView.xaml - базовая часть для всех View
+    /// </summary>
+    public partial class ZonesWindView : IWindow
+    {
+        public bool CanMinimize { get; private set; } = true;
 
         public bool IsRealClose { get; set; } = true;
 
@@ -386,9 +386,9 @@ namespace SupRealClient.Views
 
         public IWindow ParentWindow { get; set; }
 
-		public object WindowResult { get; set; }
+        public object WindowResult { get; set; }
 
-		public void CloseWindow(CancelEventArgs e)
+        public void CloseWindow(CancelEventArgs e)
         {
             if (!IsRealClose)
             {
@@ -398,16 +398,16 @@ namespace SupRealClient.Views
             }
         }
 
-		public void Unsuscribe()
-		{
+        public void Unsuscribe()
+        {
             this.Closing -= this.Window_Closing;
-		}
+        }
 
-		private void Window_Closing(object sender, CancelEventArgs e)
+        private void Window_Closing(object sender, CancelEventArgs e)
         {
             ViewManager.Instance.CloseWindow(this, true, e);
         }
-		
+
         private void Handling_OnClose()
         {
             this.Close();
@@ -419,12 +419,12 @@ namespace SupRealClient.Views
         }
     }
 
-	/// <summary>
-	/// Логика взаимодействия для CabinetsWindView.xaml - базовая часть для всех View
-	/// </summary>
-	public partial class CabinetsWindView : IWindow
-	{
-		public bool CanMinimize { get; private set; } = true;
+    /// <summary>
+    /// Логика взаимодействия для CabinetsWindView.xaml - базовая часть для всех View
+    /// </summary>
+    public partial class CabinetsWindView : IWindow
+    {
+        public bool CanMinimize { get; private set; } = true;
 
         public bool IsRealClose { get; set; } = true;
 
@@ -432,9 +432,9 @@ namespace SupRealClient.Views
 
         public IWindow ParentWindow { get; set; }
 
-		public object WindowResult { get; set; }
+        public object WindowResult { get; set; }
 
-		public void CloseWindow(CancelEventArgs e)
+        public void CloseWindow(CancelEventArgs e)
         {
             if (!IsRealClose)
             {
@@ -444,16 +444,16 @@ namespace SupRealClient.Views
             }
         }
 
-		public void Unsuscribe()
-		{
+        public void Unsuscribe()
+        {
             this.Closing -= this.Window_Closing;
-		}
+        }
 
-		private void Window_Closing(object sender, CancelEventArgs e)
+        private void Window_Closing(object sender, CancelEventArgs e)
         {
             ViewManager.Instance.CloseWindow(this, true, e);
         }
-		
+
         private void Handling_OnClose()
         {
             this.Close();
@@ -465,12 +465,12 @@ namespace SupRealClient.Views
         }
     }
 
-	/// <summary>
-	/// Логика взаимодействия для LogsWindView.xaml - базовая часть для всех View
-	/// </summary>
-	public partial class LogsWindView : IWindow
-	{
-		public bool CanMinimize { get; private set; } = true;
+    /// <summary>
+    /// Логика взаимодействия для LogsWindView.xaml - базовая часть для всех View
+    /// </summary>
+    public partial class LogsWindView : IWindow
+    {
+        public bool CanMinimize { get; private set; } = true;
 
         public bool IsRealClose { get; set; } = true;
 
@@ -478,9 +478,9 @@ namespace SupRealClient.Views
 
         public IWindow ParentWindow { get; set; }
 
-		public object WindowResult { get; set; }
+        public object WindowResult { get; set; }
 
-		public void CloseWindow(CancelEventArgs e)
+        public void CloseWindow(CancelEventArgs e)
         {
             if (!IsRealClose)
             {
@@ -490,16 +490,16 @@ namespace SupRealClient.Views
             }
         }
 
-		public void Unsuscribe()
-		{
+        public void Unsuscribe()
+        {
             this.Closing -= this.Window_Closing;
-		}
+        }
 
-		private void Window_Closing(object sender, CancelEventArgs e)
+        private void Window_Closing(object sender, CancelEventArgs e)
         {
             ViewManager.Instance.CloseWindow(this, true, e);
         }
-		
+
         private void Handling_OnClose()
         {
             this.Close();
@@ -511,12 +511,12 @@ namespace SupRealClient.Views
         }
     }
 
-	/// <summary>
-	/// Логика взаимодействия для MainOrganisationStructureView.xaml - базовая часть для всех View
-	/// </summary>
-	public partial class MainOrganisationStructureView : IWindow
-	{
-		public bool CanMinimize { get; private set; } = true;
+    /// <summary>
+    /// Логика взаимодействия для MainOrganisationStructureView.xaml - базовая часть для всех View
+    /// </summary>
+    public partial class MainOrganisationStructureView : IWindow
+    {
+        public bool CanMinimize { get; private set; } = true;
 
         public bool IsRealClose { get; set; } = true;
 
@@ -524,9 +524,9 @@ namespace SupRealClient.Views
 
         public IWindow ParentWindow { get; set; }
 
-		public object WindowResult { get; set; }
+        public object WindowResult { get; set; }
 
-		public void CloseWindow(CancelEventArgs e)
+        public void CloseWindow(CancelEventArgs e)
         {
             if (!IsRealClose)
             {
@@ -536,16 +536,16 @@ namespace SupRealClient.Views
             }
         }
 
-		public void Unsuscribe()
-		{
+        public void Unsuscribe()
+        {
             this.Closing -= this.Window_Closing;
-		}
+        }
 
-		private void Window_Closing(object sender, CancelEventArgs e)
+        private void Window_Closing(object sender, CancelEventArgs e)
         {
             ViewManager.Instance.CloseWindow(this, true, e);
         }
-		
+
         private void Handling_OnClose()
         {
             this.Close();
@@ -557,12 +557,12 @@ namespace SupRealClient.Views
         }
     }
 
-	/// <summary>
-	/// Логика взаимодействия для BaseOrgsView.xaml - базовая часть для всех View
-	/// </summary>
-	public partial class BaseOrgsView : IWindow
-	{
-		public bool CanMinimize { get; private set; } = true;
+    /// <summary>
+    /// Логика взаимодействия для BaseOrgsView.xaml - базовая часть для всех View
+    /// </summary>
+    public partial class BaseOrgsView : IWindow
+    {
+        public bool CanMinimize { get; private set; } = true;
 
         public bool IsRealClose { get; set; } = true;
 
@@ -570,9 +570,9 @@ namespace SupRealClient.Views
 
         public IWindow ParentWindow { get; set; }
 
-		public object WindowResult { get; set; }
+        public object WindowResult { get; set; }
 
-		public void CloseWindow(CancelEventArgs e)
+        public void CloseWindow(CancelEventArgs e)
         {
             if (!IsRealClose)
             {
@@ -582,16 +582,16 @@ namespace SupRealClient.Views
             }
         }
 
-		public void Unsuscribe()
-		{
+        public void Unsuscribe()
+        {
             this.Closing -= this.Window_Closing;
-		}
+        }
 
-		private void Window_Closing(object sender, CancelEventArgs e)
+        private void Window_Closing(object sender, CancelEventArgs e)
         {
             ViewManager.Instance.CloseWindow(this, true, e);
         }
-		
+
         private void Handling_OnClose()
         {
             this.Close();
@@ -603,12 +603,12 @@ namespace SupRealClient.Views
         }
     }
 
-	/// <summary>
-	/// Логика взаимодействия для ChildOrgsView.xaml - базовая часть для всех View
-	/// </summary>
-	public partial class ChildOrgsView : IWindow
-	{
-		public bool CanMinimize { get; private set; } = true;
+    /// <summary>
+    /// Логика взаимодействия для ChildOrgsView.xaml - базовая часть для всех View
+    /// </summary>
+    public partial class ChildOrgsView : IWindow
+    {
+        public bool CanMinimize { get; private set; } = true;
 
         public bool IsRealClose { get; set; } = true;
 
@@ -616,9 +616,9 @@ namespace SupRealClient.Views
 
         public IWindow ParentWindow { get; set; }
 
-		public object WindowResult { get; set; }
+        public object WindowResult { get; set; }
 
-		public void CloseWindow(CancelEventArgs e)
+        public void CloseWindow(CancelEventArgs e)
         {
             if (!IsRealClose)
             {
@@ -628,16 +628,16 @@ namespace SupRealClient.Views
             }
         }
 
-		public void Unsuscribe()
-		{
+        public void Unsuscribe()
+        {
             this.Closing -= this.Window_Closing;
-		}
+        }
 
-		private void Window_Closing(object sender, CancelEventArgs e)
+        private void Window_Closing(object sender, CancelEventArgs e)
         {
             ViewManager.Instance.CloseWindow(this, true, e);
         }
-		
+
         private void Handling_OnClose()
         {
             this.Close();
@@ -649,12 +649,12 @@ namespace SupRealClient.Views
         }
     }
 
-	/// <summary>
-	/// Логика взаимодействия для VisitorsListWindView.xaml - базовая часть для всех View
-	/// </summary>
-	public partial class VisitorsListWindView : IWindow
-	{
-		public bool CanMinimize { get; private set; } = true;
+    /// <summary>
+    /// Логика взаимодействия для VisitorsListWindView.xaml - базовая часть для всех View
+    /// </summary>
+    public partial class VisitorsListWindView : IWindow
+    {
+        public bool CanMinimize { get; private set; } = true;
 
         public bool IsRealClose { get; set; } = true;
 
@@ -662,9 +662,9 @@ namespace SupRealClient.Views
 
         public IWindow ParentWindow { get; set; }
 
-		public object WindowResult { get; set; }
+        public object WindowResult { get; set; }
 
-		public void CloseWindow(CancelEventArgs e)
+        public void CloseWindow(CancelEventArgs e)
         {
             if (!IsRealClose)
             {
@@ -674,16 +674,16 @@ namespace SupRealClient.Views
             }
         }
 
-		public void Unsuscribe()
-		{
+        public void Unsuscribe()
+        {
             this.Closing -= this.Window_Closing;
-		}
+        }
 
-		private void Window_Closing(object sender, CancelEventArgs e)
+        private void Window_Closing(object sender, CancelEventArgs e)
         {
             ViewManager.Instance.CloseWindow(this, true, e);
         }
-		
+
         private void Handling_OnClose()
         {
             this.Close();
@@ -695,12 +695,12 @@ namespace SupRealClient.Views
         }
     }
 
-	/// <summary>
-	/// Логика взаимодействия для VisitorsView.xaml - базовая часть для всех View
-	/// </summary>
-	public partial class VisitorsView : IWindow
-	{
-		public bool CanMinimize { get; private set; } = false;
+    /// <summary>
+    /// Логика взаимодействия для VisitorsView.xaml - базовая часть для всех View
+    /// </summary>
+    public partial class VisitorsView : IWindow
+    {
+        public bool CanMinimize { get; private set; } = false;
 
         public bool IsRealClose { get; set; } = true;
 
@@ -708,9 +708,9 @@ namespace SupRealClient.Views
 
         public IWindow ParentWindow { get; set; }
 
-		public object WindowResult { get; set; }
+        public object WindowResult { get; set; }
 
-		public void CloseWindow(CancelEventArgs e)
+        public void CloseWindow(CancelEventArgs e)
         {
             if (!IsRealClose)
             {
@@ -720,16 +720,16 @@ namespace SupRealClient.Views
             }
         }
 
-		public void Unsuscribe()
-		{
+        public void Unsuscribe()
+        {
             this.Closing -= this.Window_Closing;
-		}
+        }
 
-		private void Window_Closing(object sender, CancelEventArgs e)
+        private void Window_Closing(object sender, CancelEventArgs e)
         {
             ViewManager.Instance.CloseWindow(this, true, e);
         }
-		
+
         private void Handling_OnClose()
         {
             this.Close();
@@ -741,12 +741,12 @@ namespace SupRealClient.Views
         }
     }
 
-	/// <summary>
-	/// Логика взаимодействия для AddUpdateCabinetView.xaml - базовая часть для всех View
-	/// </summary>
-	public partial class AddUpdateCabinetView : IWindow
-	{
-		public bool CanMinimize { get; private set; } = true;
+    /// <summary>
+    /// Логика взаимодействия для AddUpdateCabinetView.xaml - базовая часть для всех View
+    /// </summary>
+    public partial class AddUpdateCabinetView : IWindow
+    {
+        public bool CanMinimize { get; private set; } = true;
 
         public bool IsRealClose { get; set; } = true;
 
@@ -754,9 +754,9 @@ namespace SupRealClient.Views
 
         public IWindow ParentWindow { get; set; }
 
-		public object WindowResult { get; set; }
+        public object WindowResult { get; set; }
 
-		public void CloseWindow(CancelEventArgs e)
+        public void CloseWindow(CancelEventArgs e)
         {
             if (!IsRealClose)
             {
@@ -766,16 +766,16 @@ namespace SupRealClient.Views
             }
         }
 
-		public void Unsuscribe()
-		{
+        public void Unsuscribe()
+        {
             this.Closing -= this.Window_Closing;
-		}
+        }
 
-		private void Window_Closing(object sender, CancelEventArgs e)
+        private void Window_Closing(object sender, CancelEventArgs e)
         {
             ViewManager.Instance.CloseWindow(this, true, e);
         }
-		
+
         private void Handling_OnClose()
         {
             this.Close();
