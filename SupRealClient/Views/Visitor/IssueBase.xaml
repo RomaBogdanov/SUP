@@ -100,8 +100,23 @@
             
             <DatePicker
                 Grid.Column="1"
-                Text="Выберите дату"/>
-            
+                Text="Выберите дату">
+                <DatePicker.Resources>
+                    <Style TargetType="{x:Type DatePickerTextBox}">
+                        <Setter Property="Control.Template">
+                            <Setter.Value>
+                                <ControlTemplate>
+                                    <TextBox 
+                                                            x:Name="PART_TextBox"
+                                                            Text="{Binding Path=SelectedDate, StringFormat='dd MMM yyyy', 
+                                                            RelativeSource={RelativeSource AncestorType={x:Type DatePicker}}}" />
+                                </ControlTemplate>
+                            </Setter.Value>
+                        </Setter>
+                    </Style>
+                </DatePicker.Resources>
+            </DatePicker>
+
             <Button
                 Grid.Column="2"
                 Content="..."
@@ -128,7 +143,22 @@
 
             <DatePicker
                 Grid.Column="1"
-                Text="Выберите дату"/>
+                Text="Выберите дату">
+                <DatePicker.Resources>
+                    <Style TargetType="{x:Type DatePickerTextBox}">
+                        <Setter Property="Control.Template">
+                            <Setter.Value>
+                                <ControlTemplate>
+                                    <TextBox 
+                                                            x:Name="PART_TextBox"
+                                                            Text="{Binding Path=SelectedDate, StringFormat='dd MMM yyyy', 
+                                                            RelativeSource={RelativeSource AncestorType={x:Type DatePicker}}}" />
+                                </ControlTemplate>
+                            </Setter.Value>
+                        </Setter>
+                    </Style>
+                </DatePicker.Resources>
+            </DatePicker>
 
             <Button
                 Grid.Column="2"
