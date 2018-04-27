@@ -142,6 +142,25 @@ namespace SupRealClient.TabsSingleton
                     break;
                 case DataRowAction.Add:
                     dt = (DataTable)sender;
+                    /*if (e.Row != null)
+                    {
+                        int l = e.Row.ItemArray.Length;
+                        for (int p = 0; p < l; p++)
+                        {
+                            if (e.Row.Table.Columns[p].DataType == typeof(int))
+                            {
+                                //e.Row[p] = 0;
+                            }
+                            if (e.Row.Table.Columns[p].DataType == typeof(string))
+                            {
+                                //e.Row[p] = "";
+                            }
+                            if (e.Row.Table.Columns[p].DataType == typeof(DateTime))
+                            {
+                                //e.Row[p] = DateTime.MinValue;
+                            }
+                        }
+                    }*/
                     this.OnChanged();
                     this.Connector.InsertRow(e.Row.ItemArray);
                     break;
