@@ -15,6 +15,8 @@ namespace SupRealClient.Views
             DataContext = new AddUpdateCardViewModel();
             ((AddUpdateCardViewModel)DataContext).SetModel(model);
             InitializeComponent();
+
+            AfterInitialize();
         }
     }
 }

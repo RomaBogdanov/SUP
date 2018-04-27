@@ -15,6 +15,8 @@ namespace SupRealClient.Views
             DataContext = new AddUpdateOrgsViewModel();
             ((AddUpdateOrgsViewModel)DataContext).SetModel(model);
             InitializeComponent();
+
+            AfterInitialize();
         }
     }
 }

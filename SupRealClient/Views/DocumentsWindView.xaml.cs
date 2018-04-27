@@ -1,6 +1,4 @@
-﻿using SupRealClient.Models;
-using SupRealClient.ViewModels;
-using System.Windows;
+﻿using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Data;
 
@@ -14,14 +12,26 @@ namespace SupRealClient.Views
         public DocumentsWindView()
         {
             InitializeComponent();
-            Base1ModelAbstr b = new Base1DocsModel(
-                (Base1ViewModel)base1.DataContext, this);
-            b.OnClose += Handling_OnClose;
-            base1.SetViewModel(b);
-            CreateColumns();
+
+            // TODO - потом убрать, когда все View на новой модели будут
+            base1.SetViewModel(null);
+
+            // TODO - потом перенести в генерируемый код
+            Base4ViewModel<EnumerationClasses.Document> viewModel =
+            new Base4ViewModel<EnumerationClasses.Document>
+            {
+                OkCaption = "OK",
+                ZonesVisibility = Visibility.Hidden,
+                Parent = this,
+                Model = new DocumentsListModel<EnumerationClasses.Document>(),
+            };
+            viewModel.Model.OnClose += Handling_OnClose;
+            base1.DataContext = viewModel;
+
+            AfterInitialize();
         }
 
-        private void CreateColumns()
+        partial void CreateColumns()
         {
             DataGridTextColumn dataGridTextColumn = new DataGridTextColumn
             {

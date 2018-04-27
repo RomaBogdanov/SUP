@@ -20,6 +20,15 @@ namespace SupRealClient.Views
 
         public object WindowResult { get; set; }
 
+        public void AfterInitialize()
+        {
+            this.Closing += Window_Closing;
+            this.StateChanged += Window_StateChanged;
+            this.Loaded += Window_Loaded;
+
+            CreateColumns();
+        }
+
         public void CloseWindow(CancelEventArgs e)
         {
             if (!IsRealClose)
@@ -45,10 +54,25 @@ namespace SupRealClient.Views
             this.Close();
         }
 
+        private void Handling_OnClose(object result = null)
+        {
+            WindowResult = result;
+            this.Close();
+        }
+
         private void Window_StateChanged(object sender, EventArgs e)
         {
             ViewManager.Instance.SetChildrenState(sender as Window, false);
         }
+
+        private void Window_Loaded(object sender, RoutedEventArgs e)
+        {
+            SetDefaultColumn();
+        }
+
+        partial void CreateColumns();
+
+        partial void SetDefaultColumn();
     }
 
     /// <summary>
@@ -66,6 +90,15 @@ namespace SupRealClient.Views
 
         public object WindowResult { get; set; }
 
+        public void AfterInitialize()
+        {
+            this.Closing += Window_Closing;
+            this.StateChanged += Window_StateChanged;
+            this.Loaded += Window_Loaded;
+
+            CreateColumns();
+        }
+
         public void CloseWindow(CancelEventArgs e)
         {
             if (!IsRealClose)
@@ -91,10 +124,25 @@ namespace SupRealClient.Views
             this.Close();
         }
 
+        private void Handling_OnClose(object result = null)
+        {
+            WindowResult = result;
+            this.Close();
+        }
+
         private void Window_StateChanged(object sender, EventArgs e)
         {
             ViewManager.Instance.SetChildrenState(sender as Window, false);
         }
+
+        private void Window_Loaded(object sender, RoutedEventArgs e)
+        {
+            SetDefaultColumn();
+        }
+
+        partial void CreateColumns();
+
+        partial void SetDefaultColumn();
     }
 
     /// <summary>
@@ -112,6 +160,15 @@ namespace SupRealClient.Views
 
         public object WindowResult { get; set; }
 
+        public void AfterInitialize()
+        {
+            this.Closing += Window_Closing;
+            this.StateChanged += Window_StateChanged;
+            this.Loaded += Window_Loaded;
+
+            CreateColumns();
+        }
+
         public void CloseWindow(CancelEventArgs e)
         {
             if (!IsRealClose)
@@ -137,10 +194,25 @@ namespace SupRealClient.Views
             this.Close();
         }
 
+        private void Handling_OnClose(object result = null)
+        {
+            WindowResult = result;
+            this.Close();
+        }
+
         private void Window_StateChanged(object sender, EventArgs e)
         {
             ViewManager.Instance.SetChildrenState(sender as Window, false);
         }
+
+        private void Window_Loaded(object sender, RoutedEventArgs e)
+        {
+            SetDefaultColumn();
+        }
+
+        partial void CreateColumns();
+
+        partial void SetDefaultColumn();
     }
 
     /// <summary>
@@ -158,6 +230,15 @@ namespace SupRealClient.Views
 
         public object WindowResult { get; set; }
 
+        public void AfterInitialize()
+        {
+            this.Closing += Window_Closing;
+            this.StateChanged += Window_StateChanged;
+            this.Loaded += Window_Loaded;
+
+            CreateColumns();
+        }
+
         public void CloseWindow(CancelEventArgs e)
         {
             if (!IsRealClose)
@@ -183,10 +264,25 @@ namespace SupRealClient.Views
             this.Close();
         }
 
+        private void Handling_OnClose(object result = null)
+        {
+            WindowResult = result;
+            this.Close();
+        }
+
         private void Window_StateChanged(object sender, EventArgs e)
         {
             ViewManager.Instance.SetChildrenState(sender as Window, false);
         }
+
+        private void Window_Loaded(object sender, RoutedEventArgs e)
+        {
+            SetDefaultColumn();
+        }
+
+        partial void CreateColumns();
+
+        partial void SetDefaultColumn();
     }
 
     /// <summary>
@@ -204,6 +300,15 @@ namespace SupRealClient.Views
 
         public object WindowResult { get; set; }
 
+        public void AfterInitialize()
+        {
+            this.Closing += Window_Closing;
+            this.StateChanged += Window_StateChanged;
+            this.Loaded += Window_Loaded;
+
+            CreateColumns();
+        }
+
         public void CloseWindow(CancelEventArgs e)
         {
             if (!IsRealClose)
@@ -229,10 +334,25 @@ namespace SupRealClient.Views
             this.Close();
         }
 
+        private void Handling_OnClose(object result = null)
+        {
+            WindowResult = result;
+            this.Close();
+        }
+
         private void Window_StateChanged(object sender, EventArgs e)
         {
             ViewManager.Instance.SetChildrenState(sender as Window, false);
         }
+
+        private void Window_Loaded(object sender, RoutedEventArgs e)
+        {
+            SetDefaultColumn();
+        }
+
+        partial void CreateColumns();
+
+        partial void SetDefaultColumn();
     }
 
     /// <summary>
@@ -250,6 +370,15 @@ namespace SupRealClient.Views
 
         public object WindowResult { get; set; }
 
+        public void AfterInitialize()
+        {
+            this.Closing += Window_Closing;
+            this.StateChanged += Window_StateChanged;
+            this.Loaded += Window_Loaded;
+
+            CreateColumns();
+        }
+
         public void CloseWindow(CancelEventArgs e)
         {
             if (!IsRealClose)
@@ -275,10 +404,25 @@ namespace SupRealClient.Views
             this.Close();
         }
 
+        private void Handling_OnClose(object result = null)
+        {
+            WindowResult = result;
+            this.Close();
+        }
+
         private void Window_StateChanged(object sender, EventArgs e)
         {
             ViewManager.Instance.SetChildrenState(sender as Window, false);
         }
+
+        private void Window_Loaded(object sender, RoutedEventArgs e)
+        {
+            SetDefaultColumn();
+        }
+
+        partial void CreateColumns();
+
+        partial void SetDefaultColumn();
     }
 
     /// <summary>
@@ -296,6 +440,15 @@ namespace SupRealClient.Views
 
         public object WindowResult { get; set; }
 
+        public void AfterInitialize()
+        {
+            this.Closing += Window_Closing;
+            this.StateChanged += Window_StateChanged;
+            this.Loaded += Window_Loaded;
+
+            CreateColumns();
+        }
+
         public void CloseWindow(CancelEventArgs e)
         {
             if (!IsRealClose)
@@ -321,10 +474,25 @@ namespace SupRealClient.Views
             this.Close();
         }
 
+        private void Handling_OnClose(object result = null)
+        {
+            WindowResult = result;
+            this.Close();
+        }
+
         private void Window_StateChanged(object sender, EventArgs e)
         {
             ViewManager.Instance.SetChildrenState(sender as Window, false);
         }
+
+        private void Window_Loaded(object sender, RoutedEventArgs e)
+        {
+            SetDefaultColumn();
+        }
+
+        partial void CreateColumns();
+
+        partial void SetDefaultColumn();
     }
 
     /// <summary>
@@ -342,6 +510,15 @@ namespace SupRealClient.Views
 
         public object WindowResult { get; set; }
 
+        public void AfterInitialize()
+        {
+            this.Closing += Window_Closing;
+            this.StateChanged += Window_StateChanged;
+            this.Loaded += Window_Loaded;
+
+            CreateColumns();
+        }
+
         public void CloseWindow(CancelEventArgs e)
         {
             if (!IsRealClose)
@@ -367,10 +544,25 @@ namespace SupRealClient.Views
             this.Close();
         }
 
+        private void Handling_OnClose(object result = null)
+        {
+            WindowResult = result;
+            this.Close();
+        }
+
         private void Window_StateChanged(object sender, EventArgs e)
         {
             ViewManager.Instance.SetChildrenState(sender as Window, false);
         }
+
+        private void Window_Loaded(object sender, RoutedEventArgs e)
+        {
+            SetDefaultColumn();
+        }
+
+        partial void CreateColumns();
+
+        partial void SetDefaultColumn();
     }
 
     /// <summary>
@@ -388,6 +580,15 @@ namespace SupRealClient.Views
 
         public object WindowResult { get; set; }
 
+        public void AfterInitialize()
+        {
+            this.Closing += Window_Closing;
+            this.StateChanged += Window_StateChanged;
+            this.Loaded += Window_Loaded;
+
+            CreateColumns();
+        }
+
         public void CloseWindow(CancelEventArgs e)
         {
             if (!IsRealClose)
@@ -413,10 +614,25 @@ namespace SupRealClient.Views
             this.Close();
         }
 
+        private void Handling_OnClose(object result = null)
+        {
+            WindowResult = result;
+            this.Close();
+        }
+
         private void Window_StateChanged(object sender, EventArgs e)
         {
             ViewManager.Instance.SetChildrenState(sender as Window, false);
         }
+
+        private void Window_Loaded(object sender, RoutedEventArgs e)
+        {
+            SetDefaultColumn();
+        }
+
+        partial void CreateColumns();
+
+        partial void SetDefaultColumn();
     }
 
     /// <summary>
@@ -434,6 +650,15 @@ namespace SupRealClient.Views
 
         public object WindowResult { get; set; }
 
+        public void AfterInitialize()
+        {
+            this.Closing += Window_Closing;
+            this.StateChanged += Window_StateChanged;
+            this.Loaded += Window_Loaded;
+
+            CreateColumns();
+        }
+
         public void CloseWindow(CancelEventArgs e)
         {
             if (!IsRealClose)
@@ -459,10 +684,25 @@ namespace SupRealClient.Views
             this.Close();
         }
 
+        private void Handling_OnClose(object result = null)
+        {
+            WindowResult = result;
+            this.Close();
+        }
+
         private void Window_StateChanged(object sender, EventArgs e)
         {
             ViewManager.Instance.SetChildrenState(sender as Window, false);
         }
+
+        private void Window_Loaded(object sender, RoutedEventArgs e)
+        {
+            SetDefaultColumn();
+        }
+
+        partial void CreateColumns();
+
+        partial void SetDefaultColumn();
     }
 
     /// <summary>
@@ -480,6 +720,15 @@ namespace SupRealClient.Views
 
         public object WindowResult { get; set; }
 
+        public void AfterInitialize()
+        {
+            this.Closing += Window_Closing;
+            this.StateChanged += Window_StateChanged;
+            this.Loaded += Window_Loaded;
+
+            CreateColumns();
+        }
+
         public void CloseWindow(CancelEventArgs e)
         {
             if (!IsRealClose)
@@ -505,10 +754,25 @@ namespace SupRealClient.Views
             this.Close();
         }
 
+        private void Handling_OnClose(object result = null)
+        {
+            WindowResult = result;
+            this.Close();
+        }
+
         private void Window_StateChanged(object sender, EventArgs e)
         {
             ViewManager.Instance.SetChildrenState(sender as Window, false);
         }
+
+        private void Window_Loaded(object sender, RoutedEventArgs e)
+        {
+            SetDefaultColumn();
+        }
+
+        partial void CreateColumns();
+
+        partial void SetDefaultColumn();
     }
 
     /// <summary>
@@ -526,6 +790,15 @@ namespace SupRealClient.Views
 
         public object WindowResult { get; set; }
 
+        public void AfterInitialize()
+        {
+            this.Closing += Window_Closing;
+            this.StateChanged += Window_StateChanged;
+            this.Loaded += Window_Loaded;
+
+            CreateColumns();
+        }
+
         public void CloseWindow(CancelEventArgs e)
         {
             if (!IsRealClose)
@@ -551,10 +824,25 @@ namespace SupRealClient.Views
             this.Close();
         }
 
+        private void Handling_OnClose(object result = null)
+        {
+            WindowResult = result;
+            this.Close();
+        }
+
         private void Window_StateChanged(object sender, EventArgs e)
         {
             ViewManager.Instance.SetChildrenState(sender as Window, false);
         }
+
+        private void Window_Loaded(object sender, RoutedEventArgs e)
+        {
+            SetDefaultColumn();
+        }
+
+        partial void CreateColumns();
+
+        partial void SetDefaultColumn();
     }
 
     /// <summary>
@@ -572,6 +860,15 @@ namespace SupRealClient.Views
 
         public object WindowResult { get; set; }
 
+        public void AfterInitialize()
+        {
+            this.Closing += Window_Closing;
+            this.StateChanged += Window_StateChanged;
+            this.Loaded += Window_Loaded;
+
+            CreateColumns();
+        }
+
         public void CloseWindow(CancelEventArgs e)
         {
             if (!IsRealClose)
@@ -597,10 +894,25 @@ namespace SupRealClient.Views
             this.Close();
         }
 
+        private void Handling_OnClose(object result = null)
+        {
+            WindowResult = result;
+            this.Close();
+        }
+
         private void Window_StateChanged(object sender, EventArgs e)
         {
             ViewManager.Instance.SetChildrenState(sender as Window, false);
         }
+
+        private void Window_Loaded(object sender, RoutedEventArgs e)
+        {
+            SetDefaultColumn();
+        }
+
+        partial void CreateColumns();
+
+        partial void SetDefaultColumn();
     }
 
     /// <summary>
@@ -618,6 +930,15 @@ namespace SupRealClient.Views
 
         public object WindowResult { get; set; }
 
+        public void AfterInitialize()
+        {
+            this.Closing += Window_Closing;
+            this.StateChanged += Window_StateChanged;
+            this.Loaded += Window_Loaded;
+
+            CreateColumns();
+        }
+
         public void CloseWindow(CancelEventArgs e)
         {
             if (!IsRealClose)
@@ -643,10 +964,25 @@ namespace SupRealClient.Views
             this.Close();
         }
 
+        private void Handling_OnClose(object result = null)
+        {
+            WindowResult = result;
+            this.Close();
+        }
+
         private void Window_StateChanged(object sender, EventArgs e)
         {
             ViewManager.Instance.SetChildrenState(sender as Window, false);
         }
+
+        private void Window_Loaded(object sender, RoutedEventArgs e)
+        {
+            SetDefaultColumn();
+        }
+
+        partial void CreateColumns();
+
+        partial void SetDefaultColumn();
     }
 
     /// <summary>
@@ -664,6 +1000,15 @@ namespace SupRealClient.Views
 
         public object WindowResult { get; set; }
 
+        public void AfterInitialize()
+        {
+            this.Closing += Window_Closing;
+            this.StateChanged += Window_StateChanged;
+            this.Loaded += Window_Loaded;
+
+            CreateColumns();
+        }
+
         public void CloseWindow(CancelEventArgs e)
         {
             if (!IsRealClose)
@@ -689,10 +1034,25 @@ namespace SupRealClient.Views
             this.Close();
         }
 
+        private void Handling_OnClose(object result = null)
+        {
+            WindowResult = result;
+            this.Close();
+        }
+
         private void Window_StateChanged(object sender, EventArgs e)
         {
             ViewManager.Instance.SetChildrenState(sender as Window, false);
         }
+
+        private void Window_Loaded(object sender, RoutedEventArgs e)
+        {
+            SetDefaultColumn();
+        }
+
+        partial void CreateColumns();
+
+        partial void SetDefaultColumn();
     }
 
     /// <summary>
@@ -710,6 +1070,15 @@ namespace SupRealClient.Views
 
         public object WindowResult { get; set; }
 
+        public void AfterInitialize()
+        {
+            this.Closing += Window_Closing;
+            this.StateChanged += Window_StateChanged;
+            this.Loaded += Window_Loaded;
+
+            CreateColumns();
+        }
+
         public void CloseWindow(CancelEventArgs e)
         {
             if (!IsRealClose)
@@ -735,10 +1104,25 @@ namespace SupRealClient.Views
             this.Close();
         }
 
+        private void Handling_OnClose(object result = null)
+        {
+            WindowResult = result;
+            this.Close();
+        }
+
         private void Window_StateChanged(object sender, EventArgs e)
         {
             ViewManager.Instance.SetChildrenState(sender as Window, false);
         }
+
+        private void Window_Loaded(object sender, RoutedEventArgs e)
+        {
+            SetDefaultColumn();
+        }
+
+        partial void CreateColumns();
+
+        partial void SetDefaultColumn();
     }
 
     /// <summary>
@@ -756,6 +1140,15 @@ namespace SupRealClient.Views
 
         public object WindowResult { get; set; }
 
+        public void AfterInitialize()
+        {
+            this.Closing += Window_Closing;
+            this.StateChanged += Window_StateChanged;
+            this.Loaded += Window_Loaded;
+
+            CreateColumns();
+        }
+
         public void CloseWindow(CancelEventArgs e)
         {
             if (!IsRealClose)
@@ -781,10 +1174,25 @@ namespace SupRealClient.Views
             this.Close();
         }
 
+        private void Handling_OnClose(object result = null)
+        {
+            WindowResult = result;
+            this.Close();
+        }
+
         private void Window_StateChanged(object sender, EventArgs e)
         {
             ViewManager.Instance.SetChildrenState(sender as Window, false);
         }
+
+        private void Window_Loaded(object sender, RoutedEventArgs e)
+        {
+            SetDefaultColumn();
+        }
+
+        partial void CreateColumns();
+
+        partial void SetDefaultColumn();
     }
 
 }

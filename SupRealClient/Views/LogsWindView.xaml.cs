@@ -15,19 +15,12 @@ namespace SupRealClient.Views
 
         public LogsWindView()
         {
-            InitializeComponent();
             DataContext = viewModel;
             Base1ModelAbstr b = new Base1LogsModel(
                 (Base1ViewModel)this.DataContext, this);
             b.OnClose += Handling_OnClose;
             this.SetViewModel(b);
-            CreateColumns();
-        }
-
-        public void SetViewModel(Base1ModelAbstr model)
-        {
-            ((Base1ViewModel)DataContext).SetModel(model);
-            InitializeComponent();
+            AfterInitialize();
         }
 
         public DataGrid BaseTab
@@ -39,7 +32,13 @@ namespace SupRealClient.Views
             }
         }
 
-        private void CreateColumns()
+        private void SetViewModel(Base1ModelAbstr model)
+        {
+            ((Base1ViewModel)DataContext).SetModel(model);
+            InitializeComponent();
+        }
+
+        partial void CreateColumns()
         {
             DataGridTextColumn dataGridTextColumn = new DataGridTextColumn
             {
@@ -65,8 +64,11 @@ namespace SupRealClient.Views
                 Binding = new Binding("Machine")
             };
             this.BaseTab.Columns.Add(dataGridTextColumn);
-            this.BaseTab.CurrentColumn = this.BaseTab.Columns[1];
         }
 
+        partial void SetDefaultColumn()
+        {
+            this.BaseTab.CurrentColumn = this.BaseTab.Columns[1];
+        }
     }
 }
