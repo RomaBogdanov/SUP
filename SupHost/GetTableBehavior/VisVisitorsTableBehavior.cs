@@ -11,7 +11,7 @@ namespace SupHost
     {
         public VisVisitorsTableBehavior()
         {
-            this.query = "select * from vis_visitors where f_visitor_id<>0";
+            this.query = "select * from vis_visitors";
             this.primaryKeyColumns = new string[1];
             this.primaryKeyColumns[0] = "f_visitor_id";
             this.autoPrimaryKey = true;

@@ -10,7 +10,7 @@ namespace SupHost
     {
         public VisOrdersTableBehavior()
         {
-            this.query = "select * from vis_orders where f_ord_id<>0";
+            this.query = "select * from vis_orders";
             this.primaryKeyColumns = new string[1];
             this.primaryKeyColumns[0] = "f_ord_id";
             this.autoPrimaryKey = true;
