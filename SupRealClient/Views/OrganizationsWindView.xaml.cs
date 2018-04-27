@@ -1,6 +1,4 @@
-﻿using SupRealClient.Models;
-using SupRealClient.ViewModels;
-using System.Windows;
+﻿using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Data;
 
@@ -14,10 +12,20 @@ namespace SupRealClient.Views
         public OrganizationsWindView()
         {
             InitializeComponent();
-            Base1ModelAbstr b = new Base1OrganizationsModel(
-                (Base1ViewModel)base2.DataContext, this);
-            b.OnClose += Handling_OnClose;
-            base2.SetViewModel(b);
+
+            // TODO - потом убрать, когда все View на новой модели будут
+            base2.SetViewModel(null);
+
+            Base4ViewModel<EnumerationClasses.Organization> viewModel =
+            new Base4ViewModel<EnumerationClasses.Organization>
+            {
+                OkCaption = "OK",
+                ZonesVisibility = Visibility.Hidden,
+                Parent = this,
+                Model = new OrganizationsListModel<EnumerationClasses.Organization>(),
+            };
+            viewModel.Model.OnClose += Handling_OnClose;
+            base2.DataContext = viewModel;
             CreateColumns();
         }
 
@@ -48,6 +56,12 @@ namespace SupRealClient.Views
             };
             base2.baseTab.Columns.Add(dataGridTextColumn);
             base2.SetDefaultColumn();
+        }
+
+        private void Handling_OnClose(object result)
+        {
+            WindowResult = result;
+            this.Close();
         }
     }
 }
