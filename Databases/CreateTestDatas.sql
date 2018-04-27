@@ -34,7 +34,6 @@ insert into vis_cabinets values ( '49', '207', 'ГИ', '15', 'N', '29-сен-2017 11:
 
 -- Заполнение таблицы vis_cabinets_zones
 delete vis_cabinets_zones;
-go
 insert into vis_cabinets_zones values ( '42', '1', '80')
 insert into vis_cabinets_zones values ( '21', '22', '124')
 insert into vis_cabinets_zones values ( '23', '21', '116')
