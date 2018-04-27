@@ -15,5 +15,6 @@
   <Item Name="BaseOrgsView" />
   <Item Name="ChildOrgsView" />
   <Item Name="VisitorsListWindView" />
-  <Item Name="UploadImageView" />
+  <Item Name="VisitorsView" CanMinimize="false" />
+  <Item Name="AddUpdateCabinetView" />
 </Enum>

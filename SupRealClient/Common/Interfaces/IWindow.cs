@@ -7,7 +7,11 @@ namespace SupRealClient.Common.Interfaces
     /// </summary>
     public interface IWindow
     {
+        bool CanMinimize { get; }
+
         bool IsRealClose { get; set; }
+
+        object WindowResult { get; set; }
 
         /// <summary>
         /// Название окна

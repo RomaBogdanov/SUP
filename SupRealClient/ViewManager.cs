@@ -102,7 +102,7 @@ namespace SupRealClient
         /// Открыть окно
         /// </summary>
         /// <param name="name"></param>
-        public void OpenWindow(string name)
+        public void OpenWindow(string name, IWindow parent = null)
         {
             IWindow window = windows.ContainsKey(name) ?
                 windows[name] : CreateWindow(name);
@@ -114,7 +114,36 @@ namespace SupRealClient
             {
                 windows[name] = window;
             }
+            window.ParentWindow = parent;
             OpenWindow(window);
+        }
+
+        /// <summary>
+        /// Открыть окно
+        /// </summary>
+        /// <param name="name"></param>
+        public object OpenWindowModal(string name, IWindow parent = null)
+        {
+            IWindow window = windows.ContainsKey(name) ?
+                windows[name] : CreateWindow(name);
+            if (window == null)
+            {
+                return null;
+            }
+            if (!windows.ContainsKey(name))
+            {
+                windows[name] = window;
+            }
+            window.ParentWindow = parent;
+            return OpenWindowModal(window);
+        }
+
+        /// <summary>
+        /// Открыть окно
+        /// </summary>
+        public void OpenWindow(IWindow window, IWindow parent)
+        {
+            ReopenWindow(window.WindowName, window, parent);
         }
 
         /// <summary>
@@ -156,7 +185,10 @@ namespace SupRealClient
             {
                 foreach (var wnd in windows.Values)
                 {
-                    (wnd as Window).WindowState = window.WindowState;
+                    if (wnd.CanMinimize)
+                    {
+                        (wnd as Window).WindowState = window.WindowState;
+                    }
                 }
             }
             else
@@ -165,7 +197,10 @@ namespace SupRealClient
                     Where(w => w.ParentWindow == window))
                 {
                     SetChildrenState(wnd as Window, isMain);
-                    (wnd as Window).WindowState = window.WindowState;
+                    if (wnd.CanMinimize)
+                    {
+                        (wnd as Window).WindowState = window.WindowState;
+                    }
                 }
             }
         }
@@ -215,6 +250,17 @@ namespace SupRealClient
             (window as Window).Activate();
         }
 
+        private object OpenWindowModal(IWindow window)
+        {
+            if (window != null && window.IsRealClose)
+            {
+                window.IsRealClose = false;
+                (window as Window).ShowDialog();
+                return window.WindowResult;
+            }
+            return null;
+        }
+
         private IWindow CreateWindow(string name)
         {
             switch (name)
@@ -239,10 +285,18 @@ namespace SupRealClient
                     return new ChildOrgsView();
                 case "BaseOrgsView":
                     return new BaseOrgsView();
+                case "VisitorsView":
+                    return new VisitorsView();
                 case "VisitorsListWindView":
                     return new VisitorsListWindView();
-                case "UploadImageView":
-                    return new UploadImageView();
+                case "Base4CabinetsWindView":
+                    return new Base4CabinetsWindView();
+                case "Base4DocumentsWindView":
+                    return new Base4DocumentsWindView();
+                case "Base4NationsWindView":
+                    return new Base4NationsWindView();
+                case "Base4OrganizationsWindView":
+                    return new Base4OrganizationsWindView();
             }
 
             return null;

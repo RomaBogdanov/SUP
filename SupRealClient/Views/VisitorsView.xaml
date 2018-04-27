@@ -8,7 +8,8 @@
         mc:Ignorable="d"
         Title="Посетители" Height="900" Width="900"
         ResizeMode="NoResize"
-        WindowStartupLocation="CenterScreen">
+        WindowStartupLocation="CenterScreen"
+        Closing="Window_Closing">
 
     <mah:MetroWindow.Resources>
         <BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter"/>
@@ -110,7 +111,7 @@
                     BorderThickness="2"
                     BorderBrush="#FFCCCCCC">
                     <Image 
-                        Source="{Binding PhotoSource}"/>
+                        Source="{Binding Path=PhotoSource, Mode=OneWay}" />
                 </Border>
                 <Button
                     Grid.Row="0"
@@ -125,8 +126,6 @@
             </Grid>
         </Button>
 
-       
-        
         <Grid
             Grid.Row="1"
             Grid.Column="0">
@@ -1154,6 +1153,7 @@
                 </Button>
 
                 <Button
+                    Command="{Binding EditCommand}"
                     Grid.Row="1"
                     Grid.Column="1"
                     Margin="2"
@@ -1206,6 +1206,7 @@
                 </Button>
 
                 <Button
+                    Command="{Binding CancelCommand}"
                     Grid.Row="1"
                     Grid.Column="3"
                     Margin="2"

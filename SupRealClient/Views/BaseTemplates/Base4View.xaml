@@ -31,9 +31,8 @@
         </Grid.RowDefinitions>
         <DataGrid Name="baseTab" Focusable="True" AutoGenerateColumns="False" Grid.ColumnSpan="6" Grid.Row="0"
                   ItemsSource="{Binding Path=Set, Mode=TwoWay}" CurrentItem="{Binding Path=CurrentItem, Mode=TwoWay}"
-                  SelectedItem="{Binding Path=CurrentItem, Mode=TwoWay}" SelectedIndex="{Binding Path=SelectedIndex, Mode=TwoWay}" 
-                  SelectedValue="{Binding Path=SelectedValue, Mode=TwoWay}"  CurrentColumn="{Binding Path=CurrentColumn, Mode=TwoWay}"
-                  ColumnHeaderStyle="{StaticResource SelectionColumnHeader}">
+                  SelectedItem="{Binding Path=CurrentItem, Mode=TwoWay}" SelectedIndex="{Binding Path=SelectedIndex, Mode=TwoWay}"
+                  CurrentColumn="{Binding Path=CurrentColumn, Mode=TwoWay}" ColumnHeaderStyle="{StaticResource SelectionColumnHeader}">
         </DataGrid>
         <Label Grid.Row="1" Grid.ColumnSpan="6" Content="Поиск по полю:" Margin="1"/>
         <TextBox Name="aaa" Grid.Row="2" Grid.ColumnSpan="6" Margin="1" Text="{Binding Path=SearchingText, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
@@ -41,11 +40,12 @@
         <Button Grid.Row="3" Grid.Column="1" Content="Правка" Margin="1" Command="{Binding Path=Update}" FontSize="9" Style="{StaticResource ButtonStyle}"/>
         <Button Grid.Row="3" Grid.Column="2" Content="Найти..." Margin="1" Command="{Binding Path=Search}" FontSize="9" Style="{StaticResource ButtonStyle}"/>
         <Button Grid.Row="3" Grid.Column="3" Content="Далее..." Margin="1" Command="{Binding Path=Farther}" FontSize="9" Style="{StaticResource ButtonStyle}"/>
+        <Button Grid.Row="3" Grid.Column="5" Content="Зоны..." Margin="1" Command="{Binding Path=Zones}" Visibility="{Binding Path=ZonesVisibility, Mode=OneTime}" FontSize="9" Style="{StaticResource ButtonStyle}"/>
         <Button Grid.Row="4" Grid.Column="0" Content="Начало" Margin="1" Command="{Binding Path=Begin}" FontSize="9" Style="{StaticResource ButtonStyle}"/>
         <Button Grid.Row="4" Grid.Column="1" Content="Пред." Margin="1" Command="{Binding Path=Prev}" FontSize="9" Style="{StaticResource ButtonStyle}"/>
         <Button Grid.Row="4" Grid.Column="2" Content="След." Margin="1" Command="{Binding Path=Next}" FontSize="9" Style="{StaticResource ButtonStyle}"/>
         <Button Grid.Row="4" Grid.Column="3" Content="Конец" Margin="1" Command="{Binding Path=End}" FontSize="9" Style="{StaticResource ButtonStyle}"/>
-        <Button Grid.Row="4" Grid.Column="4" Content="Просмотр" Margin="1" Command="{Binding Path=Update}" FontSize="9" Style="{StaticResource ButtonStyle}"/>
+        <Button Grid.Row="4" Grid.Column="4" Content="{Binding Path=OkCaption, Mode=OneTime}" Margin="1" Command="{Binding Path=Ok}" FontSize="9" Style="{StaticResource ButtonStyle}"/>
         <Button Grid.Row="4" Grid.Column="5" Content="Закрыть" Margin="1" Command="{Binding Path=Close}" Grid.ColumnSpan="2" FontSize="9" Style="{StaticResource ButtonStyle}"/>
 
     </Grid>

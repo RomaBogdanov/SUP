@@ -8,20 +8,20 @@ namespace SupRealClient.Models
 {
     public class VisitorsEnableOrVisible
     {
-        public bool ButtonEnable { get; set; }
-        public bool TextEnable { get; set; }
+        public bool ButtonEnable { get; set; } = true;
+        public bool TextEnable { get; set; } = true;
 
-        public bool StartButtonEnable { get; set; }
-        public bool PreviousButtonEnable { get; set; }
-        public bool NextButtonEnable { get; set; }
-        public bool EndButtonEnable { get; set; }
-        public bool ExtraditeButtonEnable { get; set; }
-        public bool ReturnButtonEnable { get; set; }
-        public bool NewButtonEnable { get; set; }
-        public bool EditButtonEnable { get; set; }
-        public bool AcceptButtonEnable { get; set; }
-        public bool CancelButtonEnable { get; set; }
-        public bool SearchButtonEnable { get; set; }
-        public bool RefreshButtonEnable { get; set; }
+        public bool StartButtonEnable { get; set; } = true;
+        public bool PreviousButtonEnable { get; set; } = true;
+        public bool NextButtonEnable { get; set; } = true;
+        public bool EndButtonEnable { get; set; } = true;
+        public bool ExtraditeButtonEnable { get; set; } = true;
+        public bool ReturnButtonEnable { get; set; } = true;
+        public bool NewButtonEnable { get; set; } = true;
+        public bool EditButtonEnable { get; set; } = true;
+        public bool AcceptButtonEnable { get; set; } = true;
+        public bool CancelButtonEnable { get; set; } = true;
+        public bool SearchButtonEnable { get; set; } = true;
+        public bool RefreshButtonEnable { get; set; } = true;
     }
 }

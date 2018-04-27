@@ -46,6 +46,7 @@
     <Reference Include="System.Xml.Linq" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="ImageType.cs" />
     <Compile Include="ITableCallback.cs" />
     <Compile Include="ITableService.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

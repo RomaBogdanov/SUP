@@ -305,7 +305,7 @@ namespace SupTestClient
 
         private void GImage()
         {
-            byte[] b = this.connector.GetImage(3);
+            byte[] b = new byte[0];//this.connector.GetImage(3);
             MemoryStream memoryStream = new MemoryStream(b);
             //Picture = memoryStream;
             BitmapImage im = new BitmapImage();
