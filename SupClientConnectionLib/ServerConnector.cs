@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Data;
 using System.ServiceModel;
 using System.Xml;
@@ -169,12 +170,11 @@ namespace SupClientConnectionLib
                 authorizer.GetInfo());
         }
 
-        public bool SetImage(Guid alias, byte[] data)
+        public bool SetImages(Dictionary<Guid, byte[]> images)
         {
             try
             {
-                this.tableService.SetImage(alias, data,
-                    authorizer.GetInfo());
+                this.tableService.SetImages(images, authorizer.GetInfo());
             }
             catch (TimeoutException)
             {

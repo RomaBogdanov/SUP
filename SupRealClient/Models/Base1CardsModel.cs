@@ -74,7 +74,8 @@ namespace SupRealClient.Models
             var cardsPersons = from c in cardsWrapper.Table.AsEnumerable()
                                from v in visitsWrapper.Table.AsEnumerable()
                                from p in visitorsWrapper.Table.AsEnumerable()
-                               where c.Field<int>("f_card_id") == v.Field<int>("f_card_id") &
+                               where c.Field<int>("f_card_id") != 0 &
+                               c.Field<int>("f_card_id") == v.Field<int>("f_card_id") &
                                v.Field<int>("f_visitor_id") == p.Field<int>("f_visitor_id") &
                                c.Field<int>("f_state_id") == 3 &
                                v.Field<int>("f_rec_operator_back") == 0

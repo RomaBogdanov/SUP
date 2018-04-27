@@ -621,6 +621,7 @@ namespace SupRealClient.Views
         {
             Set = new ObservableCollection<T>(
     from nats in CountriesWrapper.CurrentTable().Table.AsEnumerable()
+    where nats.Field<int>("f_cntr_id") != 0
     select new T
     {
         Id = nats.Field<int>("f_cntr_id"),
@@ -691,6 +692,7 @@ namespace SupRealClient.Views
         {
             Set = new ObservableCollection<T>(
     from cabs in CabinetsWrapper.CurrentTable().Table.AsEnumerable()
+    where cabs.Field<int>("f_cabinet_id") != 0
     select new T
     {
         Id = cabs.Field<int>("f_cabinet_id"),
@@ -762,6 +764,7 @@ namespace SupRealClient.Views
         {
             Set = new ObservableCollection<T>(
     from docs in DocumentsWrapper.CurrentTable().Table.AsEnumerable()
+    where docs.Field<int>("f_doc_id") != 0
     select new T
     {
         Id = docs.Field<int>("f_doc_id"),

@@ -37,12 +37,12 @@ using System.Windows;
 namespace SupRealClient.Views
 {
 <#foreach(var entity in entityQuery) { #>
-	/// <summary>
-	/// Логика взаимодействия для Base4<#=entity.Name#>WindView.xaml - базовая часть для всех View
-	/// </summary>
-	public partial class Base4<#=entity.Name#>WindView : IWindow
-	{
-		public bool CanMinimize { get; private set; } = true;
+    /// <summary>
+    /// Логика взаимодействия для Base4<#=entity.Name#>WindView.xaml - базовая часть для всех View
+    /// </summary>
+    public partial class Base4<#=entity.Name#>WindView : IWindow
+    {
+        public bool CanMinimize { get; private set; } = true;
 
         public bool IsRealClose { get; set; } = true;
 
@@ -50,29 +50,29 @@ namespace SupRealClient.Views
 
         public IWindow ParentWindow { get; set; }
 
-		public object WindowResult { get; set; }
+        public object WindowResult { get; set; }
 
-		public void AfterInitialize()
-		{
+        public void AfterInitialize()
+        {
             this.Closing += Window_Closing;
             this.StateChanged += Window_StateChanged;
             this.Loaded += Window_Loaded;
 
-		    Base4ViewModel<EnumerationClasses.<#=entity.Type#>> viewModel =
-			new Base4ViewModel<EnumerationClasses.<#=entity.Type#>>
-			{
-				OkCaption = "<#=entity.OkCaption#>",
-				ZonesVisibility = Visibility.<#=entity.ZonesVisibility#>,
-			    Parent = this,
-			    Model = new <#=entity.Type#>sListModel<EnumerationClasses.<#=entity.Type#>>(),
-			};
-			viewModel.Model.OnClose += Handling_OnClose;
+            Base4ViewModel<EnumerationClasses.<#=entity.Type#>> viewModel =
+            new Base4ViewModel<EnumerationClasses.<#=entity.Type#>>
+            {
+                OkCaption = "<#=entity.OkCaption#>",
+                ZonesVisibility = Visibility.<#=entity.ZonesVisibility#>,
+                Parent = this,
+                Model = new <#=entity.Type#>sListModel<EnumerationClasses.<#=entity.Type#>>(),
+            };
+            viewModel.Model.OnClose += Handling_OnClose;
             base4.DataContext = viewModel;
 
             CreateColumns();
-		}
+        }
 
-		public void CloseWindow(CancelEventArgs e)
+        public void CloseWindow(CancelEventArgs e)
         {
             if (!IsRealClose)
             {
@@ -82,19 +82,19 @@ namespace SupRealClient.Views
             }
         }
 
-		public void Unsuscribe()
-		{
+        public void Unsuscribe()
+        {
             this.Closing -= this.Window_Closing;
-		}
+        }
 
-		private void Window_Closing(object sender, CancelEventArgs e)
+        private void Window_Closing(object sender, CancelEventArgs e)
         {
             ViewManager.Instance.CloseWindow(this, true, e);
         }
-		
+
         private void Handling_OnClose(object result)
         {
-			WindowResult = result;
+            WindowResult = result;
             this.Close();
         }
 
@@ -103,7 +103,7 @@ namespace SupRealClient.Views
             ViewManager.Instance.SetChildrenState(sender as Window, false);
         }
 
-		private void Window_Loaded(object sender, RoutedEventArgs e)
+        private void Window_Loaded(object sender, RoutedEventArgs e)
         {
             SetDefaultColumn();
         }

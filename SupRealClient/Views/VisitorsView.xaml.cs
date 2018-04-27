@@ -9,7 +9,13 @@
         {
             InitializeComponent();
 
-            DataContext = new VisitsViewModel(this);
+            Loaded += (s, e) =>
+            {
+                if (DataContext == null)
+                {
+                    DataContext = new VisitsViewModel(this);
+                }
+            };
         }
     }
 }

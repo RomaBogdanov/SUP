@@ -94,6 +94,34 @@ namespace SupRealClient.ViewModels
         private ObservableCollection<Pass> _passList = new ObservableCollection<Pass>();
 
         /// <summary>
+        /// Свойство видимости для вкладки 'Пропуска'
+        /// </summary>
+        public bool AccessVisibility
+        {
+            get { return _accessVisibility; }
+            set
+            {
+                _accessVisibility = value;
+                OnPropertyChanged();
+            }
+        }
+        private bool _accessVisibility;
+
+        /// <summary>
+        /// Свойство видимости для вкладки 'Заявки'
+        /// </summary>
+        public bool BidsVisibility
+        {
+            get { return _bidsVisibility; }
+            set
+            {
+                _bidsVisibility = value;
+                OnPropertyChanged();
+            }
+        }
+        private bool _bidsVisibility;
+        
+        /// <summary>
         /// Свойтство содержит в себе путь к фотографии
         /// </summary>
         public string PhotoSource
