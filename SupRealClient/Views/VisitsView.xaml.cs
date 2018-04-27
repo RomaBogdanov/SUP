@@ -379,30 +379,23 @@ namespace SupRealClient.Views
         bool Ok();
     }
 
-    public class VisitsModel : IVisitsModel
+    public abstract class BaseVisitsModel : IVisitsModel
     {
         public event ModelPropertyChanged OnModelPropertyChanged;
 
-        private ObservableCollection<EnumerationClasses.Visitor> set;
         private EnumerationClasses.Visitor currentItem;
-        private int selectedIndex;
-        private VisitorsEnableOrVisible visitorsEnable =
-            new VisitorsEnableOrVisible
-            {
-                AcceptButtonEnable = false,
-                CancelButtonEnable = false
-            };
-        private VisitorsEnableOrVisible visitorsVisible =
-            new VisitorsEnableOrVisible();
+        protected VisitorsEnableOrVisible visitorsEnable;
+
+        protected BaseVisitsModel()
+        {
+            ImagesHelper.Init();
+            ImagesWrapper.CurrentTable().OnChanged += OnImageChanged;
+        }
 
         public string PhotoSource { get; private set; }
         public string Signature { get; private set; }
 
-        public ObservableCollection<EnumerationClasses.Visitor> Set
-        {
-            get { return set; }
-            set { set = value; }
-        }
+        public ObservableCollection<EnumerationClasses.Visitor> Set { get; set; }
 
         public EnumerationClasses.Visitor CurrentItem
         {
@@ -415,38 +408,107 @@ namespace SupRealClient.Views
             }
         }
 
-        public bool TextEnable
-        {
-            get { return false; }
-            set { }
-        }
-
-        public bool ButtonEnable
-        {
-            get { return false; }
-            set { }
-        }
+        public abstract bool TextEnable { get; set; }
 
         public VisitorsEnableOrVisible VisitorsEnable
         {
             get { return visitorsEnable; }
-            set
-            {
-                visitorsEnable = value;
-            }
+            set { visitorsEnable = value; }
         }
 
-        public VisitorsEnableOrVisible VisitorsVisible
+        public VisitorsEnableOrVisible VisitorsVisible { get; set; } =
+            new VisitorsEnableOrVisible();
+
+        public abstract bool ButtonEnable { get; set; }
+
+        public abstract bool AccessVisibility { get; set; }
+
+        public virtual EnumerationClasses.Visitor Begin()
         {
-            get
-            { return visitorsVisible; }
-            set
+            throw new NotImplementedException();
+        }
+
+        public virtual EnumerationClasses.Visitor End()
+        {
+            throw new NotImplementedException();
+        }
+
+        public virtual EnumerationClasses.Visitor Next()
+        {
+            throw new NotImplementedException();
+        }
+
+        public virtual EnumerationClasses.Visitor Prev()
+        {
+            throw new NotImplementedException();
+        }
+
+        public void AddImageSource(string path, ImageType imageType)
+        {
+            SetImageSource(ImagesHelper.AddImageSource(
+                CurrentItem.Id, path, imageType), imageType);
+        }
+
+        public void RemoveImageSource(ImageType imageType)
+        {
+            ImagesHelper.RemoveImageSource(CurrentItem.Id, imageType);
+            SetImageSource("", imageType);
+        }
+
+        public virtual bool Ok()
+        {
+            return false;
+        }
+
+        private void OnImageChanged()
+        {
+            // TODO - пустой вызов, чтобы не падало
+        }
+
+        private void SetImageSource(string source, ImageType imageType)
+        {
+            if (imageType == ImageType.Photo)
             {
-                visitorsVisible = value;
+                PhotoSource = source;
+                OnModelPropertyChanged?.Invoke("PhotoSource");
+            }
+            else if (imageType == ImageType.Signature)
+            {
+                Signature = source;
+                OnModelPropertyChanged?.Invoke("Signature");
             }
         }
 
-        public bool AccessVisibility
+        private void GetPhoto()
+        {
+            SetImageSource(ImagesHelper.GetImage(
+                CurrentItem.Id, ImageType.Photo), ImageType.Photo);
+        }
+
+        private void GetSign()
+        {
+            SetImageSource(ImagesHelper.GetImage(
+                CurrentItem.Id, ImageType.Signature), ImageType.Signature);
+        }
+    }
+
+    public class VisitsModel : BaseVisitsModel
+    {
+        private int selectedIndex;
+
+        public override bool TextEnable
+        {
+            get { return false; }
+            set { }
+        }
+
+        public override bool ButtonEnable
+        {
+            get { return false; }
+            set { }
+        }
+
+        public override bool AccessVisibility
         {
             get { return true; }
             set { }
@@ -454,10 +516,14 @@ namespace SupRealClient.Views
 
         public VisitsModel()
         {
-            ImagesHelper.Init();
+            visitorsEnable =
+            new VisitorsEnableOrVisible
+            {
+                AcceptButtonEnable = false,
+                CancelButtonEnable = false
+            };
             VisitorsWrapper.CurrentTable().OnChanged += Query;
             OrganizationsWrapper.CurrentTable().OnChanged += Query;
-            ImagesWrapper.CurrentTable().OnChanged += OnImageChanged;
             Query();
         }
 
@@ -465,7 +531,12 @@ namespace SupRealClient.Views
             ObservableCollection<EnumerationClasses.Visitor> set, 
             EnumerationClasses.Visitor visitor)
         {
-            ImagesHelper.Init();
+            visitorsEnable =
+            new VisitorsEnableOrVisible
+            {
+                AcceptButtonEnable = false,
+                CancelButtonEnable = false
+            };
             VisitorsWrapper.CurrentTable().OnChanged += Query;
             OrganizationsWrapper.CurrentTable().OnChanged += Query;
             Set = set;
@@ -535,12 +606,7 @@ namespace SupRealClient.Views
             }
         }
 
-        private void OnImageChanged()
-        {
-            // TODO - пустой вызов, чтобы не падало
-        }
-
-        public EnumerationClasses.Visitor Begin()
+        public override EnumerationClasses.Visitor Begin()
         {
             if (Set.Count > 0)
             {
@@ -551,7 +617,7 @@ namespace SupRealClient.Views
             return CurrentItem;
         }
 
-        public EnumerationClasses.Visitor End()
+        public override EnumerationClasses.Visitor End()
         {
             if (Set.Count > 0)
             {
@@ -562,7 +628,7 @@ namespace SupRealClient.Views
             return CurrentItem;
         }
 
-        public EnumerationClasses.Visitor Prev()
+        public override EnumerationClasses.Visitor Prev()
         {
             if (Set.Count > 0 && selectedIndex > 0)
             {
@@ -573,7 +639,7 @@ namespace SupRealClient.Views
             return CurrentItem;
         }
 
-        public EnumerationClasses.Visitor Next()
+        public override EnumerationClasses.Visitor Next()
         {
             if (Set.Count > 0 && selectedIndex < Set.Count - 1)
             {
@@ -592,8 +658,8 @@ namespace SupRealClient.Views
                         from OrdElem in OrderElementsWrapper.CurrentTable()
                         .Table.AsEnumerable()
                         join
-    Ord in OrdersWrapper.CurrentTable().Table.AsEnumerable()
-    on OrdElem.Field<int>("f_ord_id") equals Ord.Field<int>("f_ord_id")
+                        Ord in OrdersWrapper.CurrentTable().Table.AsEnumerable()
+                        on OrdElem.Field<int>("f_ord_id") equals Ord.Field<int>("f_ord_id")
                         where OrdElem.Field<int>("f_visitor_id") == Set[index].Id
                         select new Order
                         {
@@ -634,67 +700,31 @@ namespace SupRealClient.Views
                     });
             }
         }
-
-        public void AddImageSource(string path, ImageType imageType)
-        {
-            SetImageSource(ImagesHelper.AddImageSource(
-                CurrentItem.Id, path, imageType), imageType);
-        }
-
-        public void RemoveImageSource(ImageType imageType)
-        {
-            ImagesHelper.RemoveImageSource(CurrentItem.Id, imageType);
-            SetImageSource("", imageType);
-        }
-
-        public bool Ok()
-        {
-            return false;
-        }
-
-        private void SetImageSource(string source, ImageType imageType)
-        {
-            if (imageType == ImageType.Photo)
-            {
-                PhotoSource = source;
-                if (OnModelPropertyChanged != null)
-                {
-                    OnModelPropertyChanged("PhotoSource");
-                }
-            }
-            else if (imageType == ImageType.Signature)
-            {
-                Signature = source;
-                if (OnModelPropertyChanged != null)
-                {
-                    OnModelPropertyChanged("Signature");
-                }
-            }
-        }
-
-        private void GetPhoto()
-        {
-            SetImageSource(ImagesHelper.GetImage(
-                CurrentItem.Id, ImageType.Photo), ImageType.Photo);
-        }
-
-        private void GetSign()
-        {
-            SetImageSource(ImagesHelper.GetImage(
-                CurrentItem.Id, ImageType.Signature), ImageType.Signature);
-        }
     }
 
-    public class NewVisitsModel : IVisitsModel
+    public class NewVisitsModel : BaseVisitsModel
     {
-        public event ModelPropertyChanged OnModelPropertyChanged;
+        public override bool TextEnable
+        {
+            get { return true; }
+            set { }
+        }
 
-        public string PhotoSource { get; private set; }
-        public string Signature { get; private set; }
+        public override bool ButtonEnable
+        {
+            get { return true; }
+            set { }
+        }
 
-        private ObservableCollection<EnumerationClasses.Visitor> set;
-        private EnumerationClasses.Visitor currentItem;
-        private VisitorsEnableOrVisible visitorsEnable =
+        public override bool AccessVisibility
+        {
+            get { return false; }
+            set { }
+        }
+
+        public NewVisitsModel()
+        {
+            visitorsEnable =
             new VisitorsEnableOrVisible
             {
                 StartButtonEnable = false,
@@ -708,71 +738,12 @@ namespace SupRealClient.Views
                 SearchButtonEnable = false,
                 RefreshButtonEnable = false
             };
-        private VisitorsEnableOrVisible visitorsVisible =
-            new VisitorsEnableOrVisible();
-
-        public VisitorsEnableOrVisible VisitorsEnable
-        {
-            get { return visitorsEnable; }
-            set
-            {
-                visitorsEnable = value;
-            }
-        }
-
-        public VisitorsEnableOrVisible VisitorsVisible
-        {
-            get
-            { return visitorsVisible; }
-            set
-            {
-                visitorsVisible = value;
-            }
-        }
-
-        public ObservableCollection<EnumerationClasses.Visitor> Set
-        {
-            get { return set; }
-            set { set = value; }
-        }
-
-        public EnumerationClasses.Visitor CurrentItem
-        {
-            get { return currentItem; }
-            set
-            {
-                currentItem = value;
-                GetPhoto();
-                GetSign();
-            }
-        }
-
-        public bool TextEnable
-        {
-            get { return true; }
-            set { }
-        }
-
-        public bool ButtonEnable
-        {
-            get { return true; }
-            set { }
-        }
-
-        public bool AccessVisibility
-        {
-            get { return false; }
-            set { }
-        }
-
-        public NewVisitsModel()
-        {
             Set = new ObservableCollection<EnumerationClasses.Visitor>();
             CurrentItem = new EnumerationClasses.Visitor();
             Set.Add(CurrentItem);
         }
         
-        public bool Ok()
+        public override bool Ok()
         {
             DataRow row = VisitorsWrapper.CurrentTable().Table.NewRow();
             if (CurrentItem.Family == "" || CurrentItem.Family == null ||
@@ -847,82 +818,34 @@ namespace SupRealClient.Views
             VisitorsWrapper.CurrentTable().Table.Rows.Add(row);
             return true;
         }
-
-        public EnumerationClasses.Visitor Begin()
-        {
-            throw new NotImplementedException();
-        }
-
-        public EnumerationClasses.Visitor End()
-        {
-            throw new NotImplementedException();
-        }
-
-        public EnumerationClasses.Visitor Next()
-        {
-            throw new NotImplementedException();
-        }
-
-        public EnumerationClasses.Visitor Prev()
-        {
-            throw new NotImplementedException();
-        }
-
-        public void AddImageSource(string path, ImageType imageType)
-        {
-            SetImageSource(ImagesHelper.AddImageSource(
-                CurrentItem.Id, path, imageType), imageType);
-        }
-
-        public void RemoveImageSource(ImageType imageType)
-        {
-            ImagesHelper.RemoveImageSource(CurrentItem.Id, imageType);
-            SetImageSource("", imageType);
-        }
-
-        private void SetImageSource(string source, ImageType imageType)
-        {
-            if (imageType == ImageType.Photo)
-            {
-                PhotoSource = source;
-                if (OnModelPropertyChanged != null)
-                {
-                    OnModelPropertyChanged("PhotoSource");
-                }
-            }
-            else if (imageType == ImageType.Signature)
-            {
-                Signature = source;
-                if (OnModelPropertyChanged != null)
-                {
-                    OnModelPropertyChanged("Signature");
-                }
-            }
-        }
-
-        private void GetPhoto()
-        {
-            SetImageSource(ImagesHelper.GetImage(
-                CurrentItem.Id, ImageType.Photo), ImageType.Photo);
-        }
-
-        private void GetSign()
-        {
-            SetImageSource(ImagesHelper.GetImage(
-                CurrentItem.Id, ImageType.Signature), ImageType.Signature);
-        }
     }
 
-    public class EditVisitsModel : IVisitsModel
+    public class EditVisitsModel : BaseVisitsModel
     {
-        public event ModelPropertyChanged OnModelPropertyChanged;
+        public EnumerationClasses.Visitor OldVisitor { get; set; }
 
-        public string PhotoSource { get; private set; }
-        public string Signature { get; private set; }
+        public override bool TextEnable
+        {
+            get { return true; }
+            set { }
+        }
 
-        private ObservableCollection<EnumerationClasses.Visitor> set;
-        private EnumerationClasses.Visitor currentItem;
-        private VisitorsEnableOrVisible visitorsEnable =
+        public override bool ButtonEnable
+        {
+            get { return true; }
+            set { }
+        }
+
+        public override bool AccessVisibility
+        {
+            get { return false; }
+            set { }
+        }
+
+        public EditVisitsModel(ObservableCollection<EnumerationClasses.Visitor> set, 
+            EnumerationClasses.Visitor visitor)
+        {
+            visitorsEnable =
             new VisitorsEnableOrVisible
             {
                 StartButtonEnable = false,
@@ -936,75 +859,12 @@ namespace SupRealClient.Views
                 SearchButtonEnable = false,
                 RefreshButtonEnable = false
             };
-        private VisitorsEnableOrVisible visitorsVisible =
-            new VisitorsEnableOrVisible();
-
-        public EnumerationClasses.Visitor OldVisitor
-        { get; set; }
-
-        public VisitorsEnableOrVisible VisitorsEnable
-        {
-            get { return visitorsEnable; }
-            set
-            {
-                visitorsEnable = value;
-            }
-        }
-
-        public VisitorsEnableOrVisible VisitorsVisible
-        {
-            get
-            { return visitorsVisible; }
-            set
-            {
-                visitorsVisible = value;
-            }
-        }
-
-        public ObservableCollection<EnumerationClasses.Visitor> Set
-        {
-            get { return set; }
-            set { set = value; }
-        }
-
-        public EnumerationClasses.Visitor CurrentItem
-        {
-            get { return currentItem; }
-            set
-            {
-                currentItem = value;
-                GetPhoto();
-                GetSign();
-            }
-        }
-
-        public bool TextEnable
-        {
-            get { return true; }
-            set { }
-        }
-
-        public bool ButtonEnable
-        {
-            get { return true; }
-            set { }
-        }
-
-        public bool AccessVisibility
-        {
-            get { return false; }
-            set { }
-        }
-
-        public EditVisitsModel(ObservableCollection<EnumerationClasses.Visitor> set, 
-            EnumerationClasses.Visitor visitor)
-        {
             Set = set;
             CurrentItem = (EnumerationClasses.Visitor)visitor.Clone();
             OldVisitor = visitor;
         }
 
-        public bool Ok()
+        public override bool Ok()
         {
             DataRow row = VisitorsWrapper.CurrentTable().Table.Rows.Find(
                 CurrentItem.Id);
@@ -1083,70 +943,6 @@ namespace SupRealClient.Views
                 row["f_cabinet_id"] = CurrentItem.CabinetId;
             }
             return true;
-        }
-
-        public EnumerationClasses.Visitor Begin()
-        {
-            throw new NotImplementedException();
-        }
-
-        public EnumerationClasses.Visitor End()
-        {
-            throw new NotImplementedException();
-        }
-
-        public EnumerationClasses.Visitor Next()
-        {
-            throw new NotImplementedException();
-        }
-
-        public EnumerationClasses.Visitor Prev()
-        {
-            throw new NotImplementedException();
-        }
-
-        public void AddImageSource(string path, ImageType imageType)
-        {
-            SetImageSource(ImagesHelper.AddImageSource(
-                CurrentItem.Id, path, imageType), imageType);
-        }
-
-        public void RemoveImageSource(ImageType imageType)
-        {
-            ImagesHelper.RemoveImageSource(CurrentItem.Id, imageType);
-            SetImageSource("", imageType);
-        }
-
-        private void SetImageSource(string source, ImageType imageType)
-        {
-            if (imageType == ImageType.Photo)
-            {
-                PhotoSource = source;
-                if (OnModelPropertyChanged != null)
-                {
-                    OnModelPropertyChanged("PhotoSource");
-                }
-            }
-            else if (imageType == ImageType.Signature)
-            {
-                Signature = source;
-                if (OnModelPropertyChanged != null)
-                {
-                    OnModelPropertyChanged("Signature");
-                }
-            }
-        }
-
-        private void GetPhoto()
-        {
-            SetImageSource(ImagesHelper.GetImage(
-                CurrentItem.Id, ImageType.Photo), ImageType.Photo);
-        }
-
-        private void GetSign()
-        {
-            SetImageSource(ImagesHelper.GetImage(
-                CurrentItem.Id, ImageType.Signature), ImageType.Signature);
         }
     }
 }
