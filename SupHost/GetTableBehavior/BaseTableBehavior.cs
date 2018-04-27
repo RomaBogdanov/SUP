@@ -66,7 +66,7 @@ namespace SupHost
         /// <param name="idColumn"></param>
         protected void StandartSetup(string tableName, string idColumn)
         {
-            this.query = $"select * from {tableName}";
+            this.query = $"select * from {tableName} where {idColumn}<>0";
             this.primaryKeyColumns = new string[1];
             this.primaryKeyColumns[0] = idColumn;
             this.autoPrimaryKey = true;

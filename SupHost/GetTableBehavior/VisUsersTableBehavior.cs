@@ -10,7 +10,7 @@ namespace SupHost
     {
         public VisUsersTableBehavior()
         {
-            this.query = "select * from vis_new_user";
+            this.query = "select * from vis_new_user where f_user_id<>0";
             this.primaryKeyColumns = new string[1];
             this.primaryKeyColumns[0] = "f_user_id";
             this.autoPrimaryKey = true;
