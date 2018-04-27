@@ -104,6 +104,7 @@
     <Compile Include="Models\BaseOrgsModel.cs" />
     <Compile Include="Models\ChildOrgsModel.cs" />
     <Compile Include="Models\IAddUpdateCardModel.cs" />
+    <Compile Include="Models\ImagesHelper.cs" />
     <Compile Include="Models\ISearch1Model.cs" />
     <Compile Include="Models\Human.cs" />
     <Compile Include="Models\OrganizationStructure\Department.cs" />

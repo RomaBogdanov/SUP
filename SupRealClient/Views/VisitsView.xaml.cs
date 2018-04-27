@@ -381,8 +381,6 @@ namespace SupRealClient.Views
 
     public class VisitsModel : IVisitsModel
     {
-        private const string Images = "Images";
-
         public event ModelPropertyChanged OnModelPropertyChanged;
 
         private ObservableCollection<EnumerationClasses.Visitor> set;
@@ -456,10 +454,7 @@ namespace SupRealClient.Views
 
         public VisitsModel()
         {
-            if (!Directory.Exists(Images))
-            {
-                Directory.CreateDirectory(Images);
-            }
+            ImagesHelper.Init();
             VisitorsWrapper.CurrentTable().OnChanged += Query;
             OrganizationsWrapper.CurrentTable().OnChanged += Query;
             ImagesWrapper.CurrentTable().OnChanged += OnImageChanged;
@@ -470,10 +465,7 @@ namespace SupRealClient.Views
             ObservableCollection<EnumerationClasses.Visitor> set, 
             EnumerationClasses.Visitor visitor)
         {
-            if (!Directory.Exists(Images))
-            {
-                Directory.CreateDirectory(Images);
-            }
+            ImagesHelper.Init();
             VisitorsWrapper.CurrentTable().OnChanged += Query;
             OrganizationsWrapper.CurrentTable().OnChanged += Query;
             Set = set;
@@ -643,57 +635,15 @@ namespace SupRealClient.Views
             }
         }
 
-        // TODO - перенести в Model
         public void AddImageSource(string path, ImageType imageType)
         {
-            DataRow row = null;
-            foreach (DataRow r in ImagesWrapper.CurrentTable().Table.Rows)
-            {
-                if (r.Field<int>("f_visitor_id") == CurrentItem.Id &&
-                    r.Field<int>("f_image_type") == (int)imageType)
-                {
-                    row = r;
-                    break;
-                }
-            }
-            bool find = row != null;
-            row = row ?? ImagesWrapper.CurrentTable().Table.NewRow();
-            var alias = Guid.NewGuid();
-            row["f_image_alias"] = alias;
-            if (!find)
-            {
-                row["f_visitor_id"] = CurrentItem.Id;
-                row["f_image_type"] = imageType;
-                ImagesWrapper.CurrentTable().Table.Rows.Add(row);
-            }
-            byte[] data = File.ReadAllBytes(path);
-
-            string image = "";
-            if (ImagesWrapper.CurrentTable().Connector.SetImage(alias, data))
-            {
-                image = Directory.GetCurrentDirectory() + "\\" + Images + "\\" + alias;
-                File.WriteAllBytes(image, data);
-            }
-
-            SetImageSource(image, imageType);
+            SetImageSource(ImagesHelper.AddImageSource(
+                CurrentItem.Id, path, imageType), imageType);
         }
 
         public void RemoveImageSource(ImageType imageType)
         {
-            DataRow row = null;
-            foreach (DataRow r in ImagesWrapper.CurrentTable().Table.Rows)
-            {
-                if (r.Field<int>("f_visitor_id") == CurrentItem.Id &&
-                    r.Field<int>("f_image_type") == (int)imageType)
-                {
-                    row = r;
-                    break;
-                }
-            }
-            if (row != null)
-            {
-                row.Delete();
-            }
+            ImagesHelper.RemoveImageSource(CurrentItem.Id, imageType);
             SetImageSource("", imageType);
         }
 
@@ -724,48 +674,14 @@ namespace SupRealClient.Views
 
         private void GetPhoto()
         {
-            GetImage(ImageType.Photo);
+            SetImageSource(ImagesHelper.GetImage(
+                CurrentItem.Id, ImageType.Photo), ImageType.Photo);
         }
 
         private void GetSign()
         {
-            GetImage(ImageType.Signature);
-        }
-
-        private void GetImage(ImageType imageType)
-        {
-            DataRow row = null;
-            foreach (DataRow r in ImagesWrapper.CurrentTable().Table.Rows)
-            {
-                if (r.Field<int>("f_visitor_id") == CurrentItem.Id &&
-                    r.Field<int>("f_image_type") == (int)imageType)
-                {
-                    row = r;
-                    break;
-                }
-            }
-
-            string source = "";
-            if (row != null)
-            {
-                string path = Directory.GetCurrentDirectory() + "\\" + Images + "\\" + row["f_image_alias"];
-                if (!File.Exists(path))
-                {
-                    byte[] data =
-                        ImagesWrapper.CurrentTable().Connector.GetImage((Guid)row["f_image_alias"]);
-                    if (data != null)
-                    {
-                        File.WriteAllBytes(path, data);
-                    }
-                    else
-                    {
-                        path = "";
-                    }
-                }
-                source = path;
-            }
-
-            SetImageSource(source, imageType);
+            SetImageSource(ImagesHelper.GetImage(
+                CurrentItem.Id, ImageType.Signature), ImageType.Signature);
         }
     }
 
@@ -823,7 +739,12 @@ namespace SupRealClient.Views
         public EnumerationClasses.Visitor CurrentItem
         {
             get { return currentItem; }
-            set { currentItem = value; }
+            set
+            {
+                currentItem = value;
+                GetPhoto();
+                GetSign();
+            }
         }
 
         public bool TextEnable
@@ -947,58 +868,15 @@ namespace SupRealClient.Views
             throw new NotImplementedException();
         }
 
-        private const string Images = "Images";
-
         public void AddImageSource(string path, ImageType imageType)
         {
-            DataRow row = null;
-            foreach (DataRow r in ImagesWrapper.CurrentTable().Table.Rows)
-            {
-                if (r.Field<int>("f_visitor_id") == CurrentItem.Id &&
-                    r.Field<int>("f_image_type") == (int)imageType)
-                {
-                    row = r;
-                    break;
-                }
-            }
-            bool find = row != null;
-            row = row ?? ImagesWrapper.CurrentTable().Table.NewRow();
-            var alias = Guid.NewGuid();
-            row["f_image_alias"] = alias;
-            if (!find)
-            {
-                row["f_visitor_id"] = CurrentItem.Id;
-                row["f_image_type"] = imageType;
-                ImagesWrapper.CurrentTable().Table.Rows.Add(row);
-            }
-            byte[] data = File.ReadAllBytes(path);
-
-            string image = "";
-            if (ImagesWrapper.CurrentTable().Connector.SetImage(alias, data))
-            {
-                image = Directory.GetCurrentDirectory() + "\\" + Images + "\\" + alias;
-                File.WriteAllBytes(image, data);
-            }
-
-            SetImageSource(image, imageType);
+            SetImageSource(ImagesHelper.AddImageSource(
+                CurrentItem.Id, path, imageType), imageType);
         }
 
         public void RemoveImageSource(ImageType imageType)
         {
-            DataRow row = null;
-            foreach (DataRow r in ImagesWrapper.CurrentTable().Table.Rows)
-            {
-                if (r.Field<int>("f_visitor_id") == CurrentItem.Id &&
-                    r.Field<int>("f_image_type") == (int)imageType)
-                {
-                    row = r;
-                    break;
-                }
-            }
-            if (row != null)
-            {
-                row.Delete();
-            }
+            ImagesHelper.RemoveImageSource(CurrentItem.Id, imageType);
             SetImageSource("", imageType);
         }
 
@@ -1024,48 +902,14 @@ namespace SupRealClient.Views
 
         private void GetPhoto()
         {
-            GetImage(ImageType.Photo);
+            SetImageSource(ImagesHelper.GetImage(
+                CurrentItem.Id, ImageType.Photo), ImageType.Photo);
         }
 
         private void GetSign()
         {
-            GetImage(ImageType.Signature);
-        }
-
-        private void GetImage(ImageType imageType)
-        {
-            DataRow row = null;
-            foreach (DataRow r in ImagesWrapper.CurrentTable().Table.Rows)
-            {
-                if (r.Field<int>("f_visitor_id") == CurrentItem.Id &&
-                    r.Field<int>("f_image_type") == (int)imageType)
-                {
-                    row = r;
-                    break;
-                }
-            }
-
-            string source = "";
-            if (row != null)
-            {
-                string path = Directory.GetCurrentDirectory() + "\\" + Images + "\\" + row["f_image_alias"];
-                if (!File.Exists(path))
-                {
-                    byte[] data =
-                        ImagesWrapper.CurrentTable().Connector.GetImage((Guid)row["f_image_alias"]);
-                    if (data != null)
-                    {
-                        File.WriteAllBytes(path, data);
-                    }
-                    else
-                    {
-                        path = "";
-                    }
-                }
-                source = path;
-            }
-
-            SetImageSource(source, imageType);
+            SetImageSource(ImagesHelper.GetImage(
+                CurrentItem.Id, ImageType.Signature), ImageType.Signature);
         }
     }
 
@@ -1126,7 +970,12 @@ namespace SupRealClient.Views
         public EnumerationClasses.Visitor CurrentItem
         {
             get { return currentItem; }
-            set { currentItem = value; }
+            set
+            {
+                currentItem = value;
+                GetPhoto();
+                GetSign();
+            }
         }
 
         public bool TextEnable
@@ -1255,58 +1104,16 @@ namespace SupRealClient.Views
         {
             throw new NotImplementedException();
         }
-        private const string Images = "Images";
 
         public void AddImageSource(string path, ImageType imageType)
         {
-            DataRow row = null;
-            foreach (DataRow r in ImagesWrapper.CurrentTable().Table.Rows)
-            {
-                if (r.Field<int>("f_visitor_id") == CurrentItem.Id &&
-                    r.Field<int>("f_image_type") == (int)imageType)
-                {
-                    row = r;
-                    break;
-                }
-            }
-            bool find = row != null;
-            row = row ?? ImagesWrapper.CurrentTable().Table.NewRow();
-            var alias = Guid.NewGuid();
-            row["f_image_alias"] = alias;
-            if (!find)
-            {
-                row["f_visitor_id"] = CurrentItem.Id;
-                row["f_image_type"] = imageType;
-                ImagesWrapper.CurrentTable().Table.Rows.Add(row);
-            }
-            byte[] data = File.ReadAllBytes(path);
-
-            string image = "";
-            if (ImagesWrapper.CurrentTable().Connector.SetImage(alias, data))
-            {
-                image = Directory.GetCurrentDirectory() + "\\" + Images + "\\" + alias;
-                File.WriteAllBytes(image, data);
-            }
-
-            SetImageSource(image, imageType);
+            SetImageSource(ImagesHelper.AddImageSource(
+                CurrentItem.Id, path, imageType), imageType);
         }
 
         public void RemoveImageSource(ImageType imageType)
         {
-            DataRow row = null;
-            foreach (DataRow r in ImagesWrapper.CurrentTable().Table.Rows)
-            {
-                if (r.Field<int>("f_visitor_id") == CurrentItem.Id &&
-                    r.Field<int>("f_image_type") == (int)imageType)
-                {
-                    row = r;
-                    break;
-                }
-            }
-            if (row != null)
-            {
-                row.Delete();
-            }
+            ImagesHelper.RemoveImageSource(CurrentItem.Id, imageType);
             SetImageSource("", imageType);
         }
 
@@ -1332,48 +1139,14 @@ namespace SupRealClient.Views
 
         private void GetPhoto()
         {
-            GetImage(ImageType.Photo);
+            SetImageSource(ImagesHelper.GetImage(
+                CurrentItem.Id, ImageType.Photo), ImageType.Photo);
         }
 
         private void GetSign()
         {
-            GetImage(ImageType.Signature);
-        }
-
-        private void GetImage(ImageType imageType)
-        {
-            DataRow row = null;
-            foreach (DataRow r in ImagesWrapper.CurrentTable().Table.Rows)
-            {
-                if (r.Field<int>("f_visitor_id") == CurrentItem.Id &&
-                    r.Field<int>("f_image_type") == (int)imageType)
-                {
-                    row = r;
-                    break;
-                }
-            }
-
-            string source = "";
-            if (row != null)
-            {
-                string path = Directory.GetCurrentDirectory() + "\\" + Images + "\\" + row["f_image_alias"];
-                if (!File.Exists(path))
-                {
-                    byte[] data =
-                        ImagesWrapper.CurrentTable().Connector.GetImage((Guid)row["f_image_alias"]);
-                    if (data != null)
-                    {
-                        File.WriteAllBytes(path, data);
-                    }
-                    else
-                    {
-                        path = "";
-                    }
-                }
-                source = path;
-            }
-
-            SetImageSource(source, imageType);
+            SetImageSource(ImagesHelper.GetImage(
+                CurrentItem.Id, ImageType.Signature), ImageType.Signature);
         }
     }
 }
