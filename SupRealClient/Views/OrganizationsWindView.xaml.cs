@@ -26,10 +26,10 @@ namespace SupRealClient.Views
             };
             viewModel.Model.OnClose += Handling_OnClose;
             base2.DataContext = viewModel;
-            CreateColumns();
+            AfterInitialize();
         }
 
-        private void CreateColumns()
+        partial void CreateColumns()
         {
             DataGridTextColumn dataGridTextColumn = new DataGridTextColumn
             {
@@ -56,12 +56,6 @@ namespace SupRealClient.Views
             };
             base2.baseTab.Columns.Add(dataGridTextColumn);
             base2.SetDefaultColumn();
-        }
-
-        private void Handling_OnClose(object result)
-        {
-            WindowResult = result;
-            this.Close();
         }
     }
 }

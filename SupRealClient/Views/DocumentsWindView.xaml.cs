@@ -14,14 +14,16 @@ namespace SupRealClient.Views
         public DocumentsWindView()
         {
             InitializeComponent();
+
             Base1ModelAbstr b = new Base1DocsModel(
                 (Base1ViewModel)base1.DataContext, this);
             b.OnClose += Handling_OnClose;
             base1.SetViewModel(b);
-            CreateColumns();
+
+            AfterInitialize();
         }
 
-        private void CreateColumns()
+        partial void CreateColumns()
         {
             DataGridTextColumn dataGridTextColumn = new DataGridTextColumn
             {

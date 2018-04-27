@@ -3,14 +3,12 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        xmlns:local="clr-namespace:SupRealClient.Views"
         xmlns:mah="http://metro.mahapps.com/winfx/xaml/controls"
         xmlns:viewModels="clr-namespace:SupRealClient.ViewModels"
         mc:Ignorable="d"
         Title="Структура главных организаций" Height="400" Width="500"
         ResizeMode="NoResize"
-        WindowStartupLocation="CenterScreen" Closing="Window_Closing" 
-                 >
+        WindowStartupLocation="CenterScreen">
     <mah:MetroWindow.DataContext>
         <viewModels:MainOrganizationViewModel/>
     </mah:MetroWindow.DataContext>
