@@ -8,14 +8,6 @@
         public VisitorsView()
         {
             InitializeComponent();
-
-            Loaded += (s, e) =>
-            {
-                if (DataContext == null)
-                {
-                    DataContext = new VisitsViewModel(this);
-                }
-            };
         }
     }
 }

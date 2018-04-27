@@ -502,7 +502,7 @@
                                     <ColumnDefinition Width="40"/>
                                     <ColumnDefinition Width="*"/>
                                     <ColumnDefinition Width="60"/>
-                                    <ColumnDefinition Width="100"/>
+                                    <ColumnDefinition Width="150"/>
                                 </Grid.ColumnDefinitions>
 
                                 <CheckBox 
@@ -535,7 +535,8 @@
                                                     <ControlTemplate>
                                                         <TextBox 
                                                             x:Name="PART_TextBox"
-                                                            Text="{Binding Path=SelectedDate, StringFormat='dd MMM yyyy', 
+                                                            ToolTip="Выберите дату"
+                                                            Text="{Binding Path=SelectedDate, StringFormat='dd.MM.yyyy', 
                                                             RelativeSource={RelativeSource AncestorType={x:Type DatePicker}}}" />
                                                     </ControlTemplate>
                                                 </Setter.Value>
