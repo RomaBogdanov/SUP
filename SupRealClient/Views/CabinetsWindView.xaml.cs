@@ -1,8 +1,6 @@
 ﻿using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Data;
-using SupRealClient.Models;
-using SupRealClient.ViewModels;
 
 namespace SupRealClient.Views
 {
@@ -14,10 +12,20 @@ namespace SupRealClient.Views
         public CabinetsWindView()
         {
             InitializeComponent();
-            Base3ModelAbstr b = new Base3CabinetsModel(
-                (Base3ViewModel)base3.DataContext, this);
-            b.OnClose += Handling_OnClose;
-            base3.SetViewModel(b);
+
+            base3.Init();
+
+            // TODO - потом перенести в генерируемый код
+            Base4ViewModel<EnumerationClasses.Cabinet> viewModel =
+            new Base4ViewModel<EnumerationClasses.Cabinet>
+            {
+                OkCaption = "OK",
+                ZonesVisibility = Visibility.Visible,
+                Parent = this,
+                Model = new CabinetsListModel<EnumerationClasses.Cabinet>(),
+            };
+            viewModel.Model.OnClose += Handling_OnClose;
+            base3.DataContext = viewModel;
 
             AfterInitialize();
         }

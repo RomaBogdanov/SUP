@@ -1,6 +1,4 @@
-﻿using SupRealClient.Models;
-using SupRealClient.ViewModels;
-using System.Windows;
+﻿using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Data;
 
@@ -14,10 +12,22 @@ namespace SupRealClient.Views
         public NationsWindView()
         {
             InitializeComponent();
-            Base1ModelAbstr b = new Base1NationsModel(
-                (Base1ViewModel)base1.DataContext, this);
-            b.OnClose += Handling_OnClose;
-            base1.SetViewModel(b);
+
+            // TODO - потом убрать, когда все View на новой модели будут
+            base1.SetViewModel(null);
+
+            // TODO - потом перенести в генерируемый код
+            Base4ViewModel<EnumerationClasses.Nation> viewModel =
+            new Base4ViewModel<EnumerationClasses.Nation>
+            {
+                OkCaption = "OK",
+                ZonesVisibility = Visibility.Hidden,
+                Parent = this,
+                Model = new NationsListModel<EnumerationClasses.Nation>(),
+            };
+            viewModel.Model.OnClose += Handling_OnClose;
+            base1.DataContext = viewModel;
+
             AfterInitialize();
         }
 
