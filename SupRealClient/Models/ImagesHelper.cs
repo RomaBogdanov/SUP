@@ -1,15 +1,22 @@
 ﻿using SupContract;
 using SupRealClient.TabsSingleton;
 using System;
+using System.Collections.Generic;
 using System.Data;
 using System.IO;
 
 namespace SupRealClient.Models
 {
+    /// <summary>
+    /// Класс для работы с изображениями
+    /// </summary>
     public static class ImagesHelper
     {
         private const string Images = "Images";
 
+        /// <summary>
+        /// Инициализация - создание папки Images в проекте
+        /// </summary>
         public static void Init()
         {
             if (!Directory.Exists(Images))
@@ -18,7 +25,32 @@ namespace SupRealClient.Models
             }
         }
 
-        public static string AddImageSource(int id, string path, ImageType imageType)
+        /// <summary>
+        /// Загружаем картинку и сохраняем в папке Images
+        /// по Guid
+        /// </summary>
+        /// <param name="path"></param>
+        /// <param name="imageType"></param>
+        /// <returns></returns>
+        public static Guid LoadImage(string path, ImageType imageType)
+        {
+            var alias = Guid.NewGuid();
+            byte[] data = File.ReadAllBytes(path);
+
+            string image = GetImagePath(alias);
+            File.WriteAllBytes(image, data);
+
+            return alias;
+        }
+
+        /// <summary>
+        /// Получаем Guid картинки из базы по id посетителя
+        /// и кэшируем ее в Images если необходимо
+        /// </summary>
+        /// <param name="id"></param>
+        /// <param name="imageType"></param>
+        /// <returns></returns>
+        public static Guid GetImage(int id, ImageType imageType)
         {
             DataRow row = null;
             foreach (DataRow r in ImagesWrapper.CurrentTable().Table.Rows)
@@ -30,29 +62,85 @@ namespace SupRealClient.Models
                     break;
                 }
             }
-            bool find = row != null;
-            row = row ?? ImagesWrapper.CurrentTable().Table.NewRow();
-            var alias = Guid.NewGuid();
-            row["f_image_alias"] = alias;
-            if (!find)
-            {
-                row["f_visitor_id"] = id;
-                row["f_image_type"] = imageType;
-                ImagesWrapper.CurrentTable().Table.Rows.Add(row);
-            }
-            byte[] data = File.ReadAllBytes(path);
 
-            string image = "";
-            if (ImagesWrapper.CurrentTable().Connector.SetImage(alias, data))
+            Guid alias = Guid.Empty;
+            if (row != null)
             {
-                image = Directory.GetCurrentDirectory() + "\\" + Images + "\\" + alias;
-                File.WriteAllBytes(image, data);
+                alias = (Guid)row["f_image_alias"];
+                string path = GetImagePath(alias);
+                if (!File.Exists(path))
+                {
+                    byte[] data =
+                        ImagesWrapper.CurrentTable().Connector.GetImage(alias);
+                    if (data != null)
+                    {
+                        File.WriteAllBytes(path, data);
+                    }
+                    else
+                    {
+                        alias = Guid.Empty;
+                    }
+                }
             }
-
-            return image;
+            return alias;
         }
 
-        public static void RemoveImageSource(int id, ImageType imageType)
+        /// <summary>
+        /// Путь к картинке по Guid
+        /// </summary>
+        /// <param name="alias"></param>
+        /// <returns></returns>
+        public static string GetImagePath(Guid alias)
+        {
+            return alias.Equals(Guid.Empty) ? "" :
+                Directory.GetCurrentDirectory() +
+                "\\" + Images + "\\" + alias;
+        }
+
+        /// <summary>
+        /// Добавляем картинку в БД
+        /// </summary>
+        /// <param name="id"></param>
+        /// <param name="alias"></param>
+        /// <param name="imageType"></param>
+        public static void AddImages(int id, List<KeyValuePair<Guid, ImageType>> images)
+        {
+            Dictionary<Guid, byte[]> imagesToSave = new Dictionary<Guid, byte[]>();
+            foreach (var image in images)
+            {
+                if (image.Key.Equals(Guid.Empty))
+                {
+                    RemoveImage(id, image.Value);
+                    continue;
+                }
+
+                DataRow row = null;
+                foreach (DataRow r in ImagesWrapper.CurrentTable().Table.Rows)
+                {
+                    if (r.Field<int>("f_visitor_id") == id &&
+                        r.Field<int>("f_image_type") == (int)image.Value)
+                    {
+                        row = r;
+                        break;
+                    }
+                }
+
+                bool find = row != null;
+                row = row ?? ImagesWrapper.CurrentTable().Table.NewRow();
+                row["f_image_alias"] = image.Key;
+                if (!find)
+                {
+                    row["f_visitor_id"] = id;
+                    row["f_image_type"] = image.Value;
+                    ImagesWrapper.CurrentTable().Table.Rows.Add(row);
+                }
+                imagesToSave.Add(image.Key,
+                    File.ReadAllBytes(GetImagePath(image.Key)));
+            }
+            ImagesWrapper.CurrentTable().Connector.SetImages(imagesToSave);
+        }
+
+        private static void RemoveImage(int id, ImageType imageType)
         {
             DataRow row = null;
             foreach (DataRow r in ImagesWrapper.CurrentTable().Table.Rows)
@@ -68,41 +156,6 @@ namespace SupRealClient.Models
             {
                 row.Delete();
             }
-        }
-
-        public static string GetImage(int id, ImageType imageType)
-        {
-            DataRow row = null;
-            foreach (DataRow r in ImagesWrapper.CurrentTable().Table.Rows)
-            {
-                if (r.Field<int>("f_visitor_id") == id &&
-                    r.Field<int>("f_image_type") == (int)imageType)
-                {
-                    row = r;
-                    break;
-                }
-            }
-
-            string source = "";
-            if (row != null)
-            {
-                string path = Directory.GetCurrentDirectory() + "\\" + Images + "\\" + row["f_image_alias"];
-                if (!File.Exists(path))
-                {
-                    byte[] data =
-                        ImagesWrapper.CurrentTable().Connector.GetImage((Guid)row["f_image_alias"]);
-                    if (data != null)
-                    {
-                        File.WriteAllBytes(path, data);
-                    }
-                    else
-                    {
-                        path = "";
-                    }
-                }
-                source = path;
-            }
-            return source;
         }
     }
 }

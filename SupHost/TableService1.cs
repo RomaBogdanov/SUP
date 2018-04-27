@@ -6,6 +6,7 @@ using System.ServiceModel;
 using System.Threading;
 using SupHost.Data;
 using System;
+using System.Collections.Generic;
 
 namespace SupHost
 {
@@ -190,27 +191,29 @@ namespace SupHost
         /// Процедура загрузки изображения в базу.
         /// </summary>
         /// <returns></returns>
-        public void SetImage(Guid alias, byte[] data, OperationInfo info)
+        public void SetImages(Dictionary<Guid, byte[]> images, OperationInfo info)
         {
-            int rows = 0;
             var connector = new VisServerImagesTableWrapper().GetConnector();
             using (SqlConnection cn = new SqlConnection(connector.ToString()))
             {
                 cn.Open();
-                using (SqlCommand sqlCommand = cn.CreateCommand())
+                foreach (var image in images)
                 {
-                    sqlCommand.CommandText =
-                        "update vis_image set f_data=@data WHERE f_image_alias=@alias";
-                    sqlCommand.Parameters.AddWithValue("@data", data.Clone());
-                    sqlCommand.Parameters.AddWithValue("@alias", alias);
-                    rows = sqlCommand.ExecuteNonQuery();
+                    using (SqlCommand sqlCommand = cn.CreateCommand())
+                    {
+                        sqlCommand.CommandText =
+                            "update vis_image set f_data=@data WHERE f_image_alias=@alias";
+                        sqlCommand.Parameters.AddWithValue("@data", image.Value.Clone());
+                        sqlCommand.Parameters.AddWithValue("@alias", image.Key);
+                        int rows = sqlCommand.ExecuteNonQuery();
+
+                        if (rows == 1)
+                        {
+                            logger.Debug($"Добавлено изображение", info);
+                        }
+                    }
                 }
                 cn.Close();
-            }
-
-            if (rows == 1)
-            {
-                logger.Debug($"Добавлено изображение", info);
             }
         }
 

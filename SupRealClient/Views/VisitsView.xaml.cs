@@ -1,8 +1,8 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Data;
-using System.IO;
 using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Windows.Forms;
@@ -386,6 +386,9 @@ namespace SupRealClient.Views
         private EnumerationClasses.Visitor currentItem;
         protected VisitorsEnableOrVisible visitorsEnable;
 
+        protected Guid photoAlias;
+        protected Guid signAlias;
+
         protected BaseVisitsModel()
         {
             ImagesHelper.Init();
@@ -443,16 +446,14 @@ namespace SupRealClient.Views
             throw new NotImplementedException();
         }
 
-        public void AddImageSource(string path, ImageType imageType)
+        public virtual void AddImageSource(string path, ImageType imageType)
         {
-            SetImageSource(ImagesHelper.AddImageSource(
-                CurrentItem.Id, path, imageType), imageType);
+            SetImageSource(ImagesHelper.LoadImage(path, imageType), imageType);
         }
 
-        public void RemoveImageSource(ImageType imageType)
+        public virtual void RemoveImageSource(ImageType imageType)
         {
-            ImagesHelper.RemoveImageSource(CurrentItem.Id, imageType);
-            SetImageSource("", imageType);
+            SetImageSource(Guid.Empty, imageType);
         }
 
         public virtual bool Ok()
@@ -465,16 +466,18 @@ namespace SupRealClient.Views
             // TODO - пустой вызов, чтобы не падало
         }
 
-        private void SetImageSource(string source, ImageType imageType)
+        private void SetImageSource(Guid alias, ImageType imageType)
         {
             if (imageType == ImageType.Photo)
             {
-                PhotoSource = source;
+                photoAlias = alias;
+                PhotoSource = ImagesHelper.GetImagePath(photoAlias);
                 OnModelPropertyChanged?.Invoke("PhotoSource");
             }
             else if (imageType == ImageType.Signature)
             {
-                Signature = source;
+                signAlias = alias;
+                Signature = ImagesHelper.GetImagePath(signAlias);
                 OnModelPropertyChanged?.Invoke("Signature");
             }
         }
@@ -650,6 +653,16 @@ namespace SupRealClient.Views
             return CurrentItem;
         }
 
+        public override void AddImageSource(string path, ImageType imageType)
+        {
+            throw new NotImplementedException();
+        }
+
+        public override void RemoveImageSource(ImageType imageType)
+        {
+            throw new NotImplementedException();
+        }
+
         private void OrdersCardsToVisitor(int index)
         {
             if (Set[index].Orders == null)
@@ -816,6 +829,15 @@ namespace SupRealClient.Views
 
             row["f_cabinet_id"] = CurrentItem.CabinetId;
             VisitorsWrapper.CurrentTable().Table.Rows.Add(row);
+
+            List<KeyValuePair<Guid, ImageType>> images =
+                new List<KeyValuePair<Guid, ImageType>>
+            {
+                new KeyValuePair<Guid, ImageType>(photoAlias, ImageType.Photo),
+                new KeyValuePair<Guid, ImageType>(signAlias, ImageType.Signature),
+            };
+            ImagesHelper.AddImages(CurrentItem.Id, images);
+
             return true;
         }
     }
@@ -942,6 +964,15 @@ namespace SupRealClient.Views
             {
                 row["f_cabinet_id"] = CurrentItem.CabinetId;
             }
+
+            List<KeyValuePair<Guid, ImageType>> images =
+                new List<KeyValuePair<Guid, ImageType>>
+            {
+                new KeyValuePair<Guid, ImageType>(photoAlias, ImageType.Photo),
+                new KeyValuePair<Guid, ImageType>(signAlias, ImageType.Signature),
+            };
+            ImagesHelper.AddImages(CurrentItem.Id, images);
+
             return true;
         }
     }

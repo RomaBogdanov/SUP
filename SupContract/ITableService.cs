@@ -72,7 +72,7 @@ namespace SupContract
         /// </summary>
         /// <returns></returns>
         [OperationContract(IsOneWay = true)]
-        void SetImage(Guid alias, byte[] data, OperationInfo info);
+        void SetImages(Dictionary<Guid, byte[]> images, OperationInfo info);
 
         /// <summary>
         /// Процедура авторизации.
