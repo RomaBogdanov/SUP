@@ -95,7 +95,7 @@ go
 
 if not exists(select * from vis_organizations where f_org_id = '0')
 begin
-	insert into vis_organizations values ( '0', '', '', '', '', '', '', 'N', '', '', '', '', '')
+	insert into vis_organizations values ( '0', '', '', '', '', '', '', 'N', '', '', '', '', '', '', '')
 end
 go
 
@@ -161,3 +161,12 @@ go
 UPDATE vis_visitors SET f_personal_data_agreement='N', f_personal_data_last_date='' WHERE f_visitor_id>0
 go
 
+-- добавление страны и региона в организации
+ALTER TABLE vis_organizations
+ADD
+	f_country_id int,
+	f_region_id int
+go
+
+UPDATE vis_organizations SET f_country_id='', f_region_id=''
+go
