@@ -22,6 +22,7 @@
         VisZoneTypes,
         VisDepartment,
         VisDepartmentSection,
-        VisImages
+        VisImages,
+        VisRegions,
     }
 }

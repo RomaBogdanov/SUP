@@ -93,7 +93,7 @@ namespace SupRealClient.TabsSingleton
     }
 
 	/// <summary>
-	/// ??
+	/// Страны
 	/// </summary>
 	partial class CountriesWrapper : TableWrapper
 	{
@@ -123,7 +123,7 @@ namespace SupRealClient.TabsSingleton
     }
 
 	/// <summary>
-	/// ??
+	/// Документы
 	/// </summary>
 	partial class DocumentsWrapper : TableWrapper
 	{
@@ -153,7 +153,7 @@ namespace SupRealClient.TabsSingleton
     }
 
 	/// <summary>
-	/// ??
+	/// Организации
 	/// </summary>
 	partial class OrganizationsWrapper : TableWrapper
 	{
@@ -213,7 +213,7 @@ namespace SupRealClient.TabsSingleton
     }
 
 	/// <summary>
-	/// ??
+	/// Посетители
 	/// </summary>
 	partial class VisitorsWrapper : TableWrapper
 	{
@@ -273,7 +273,7 @@ namespace SupRealClient.TabsSingleton
     }
 
 	/// <summary>
-	/// ??
+	/// Кабинеты
 	/// </summary>
 	partial class CabinetsWrapper : TableWrapper
 	{
@@ -303,7 +303,7 @@ namespace SupRealClient.TabsSingleton
     }
 
 	/// <summary>
-	/// ??
+	/// Зоны
 	/// </summary>
 	partial class ZonesWrapper : TableWrapper
 	{
@@ -393,7 +393,7 @@ namespace SupRealClient.TabsSingleton
     }
 
 	/// <summary>
-	/// ??
+	/// Подразделения
 	/// </summary>
 	partial class DepartmentWrapper : TableWrapper
 	{
@@ -513,7 +513,7 @@ namespace SupRealClient.TabsSingleton
     }
 
 	/// <summary>
-	/// ??
+	/// Изображения
 	/// </summary>
 	partial class ImagesWrapper : TableWrapper
 	{
@@ -538,6 +538,36 @@ namespace SupRealClient.TabsSingleton
         private ImagesWrapper() : base()
         {
             this.table = connector.GetTable(TableName.VisImages);
+            this.Subscribe();
+        }
+    }
+
+	/// <summary>
+	/// Регионы
+	/// </summary>
+	partial class RegionsWrapper : TableWrapper
+	{
+		static RegionsWrapper currentTable;
+
+        public static RegionsWrapper CurrentTable()
+        {
+            if (currentTable == null)
+            {
+                currentTable = new RegionsWrapper();
+                wrappers.Add(currentTable);
+            }
+            return currentTable;
+        }
+
+		public override void Dispose()
+        {
+            base.Dispose();
+            currentTable = null;
+        }
+
+        private RegionsWrapper() : base()
+        {
+            this.table = connector.GetTable(TableName.VisRegions);
             this.Subscribe();
         }
     }

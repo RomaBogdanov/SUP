@@ -806,6 +806,76 @@ namespace SupRealClient.Views
         }
     }
 
+    public class RegionsListModel<T> : Base4ModelAbstr<T>
+        where T : EnumerationClasses.Region, new()
+    {
+        public RegionsListModel()
+        {
+            RegionsWrapper.CurrentTable().OnChanged += Query;
+            Query();
+            Begin();
+        }
+
+        public override void Add()
+        {
+            ViewManager.Instance.Add(new AddItemRegionsModel(), Parent);
+        }
+
+        public override void Update()
+        {
+            ViewManager.Instance.Update(new UpdateItemRegionsModel(CurrentItem), Parent);
+        }
+
+        protected override BaseModelResult GetResult()
+        {
+            return new BaseModelResult { Id = CurrentItem.Id, Name = CurrentItem.RegionName };
+        }
+
+        protected override void DoQuery()
+        {
+            Set = new ObservableCollection<T>(
+                from regs in RegionsWrapper.CurrentTable().Table.AsEnumerable()
+                where regs.Field<int>("f_region_id") != 0
+                select new T
+                {
+                    Id = regs.Field<int>("f_region_id"),
+                    RegionName = regs.Field<string>("f_region_name"),
+                    Deleted = regs.Field<string>("f_deleted"),
+                    RecDate = regs.Field<DateTime>("f_rec_date"),
+                    RecOperator = regs.Field<int>("f_rec_operator")
+                });
+        }
+
+        public override IDictionary<string, string> GetFields()
+        {
+            return new Dictionary<string, string>()
+            {
+                { "f_region_name", "Название" }
+            };
+        }
+
+        public override long GetId(int index)
+        {
+            return Rows[index].Field<int>("f_region_id");
+        }
+
+        protected override DataTable Table
+        {
+            get
+            {
+                return RegionsWrapper.CurrentTable().Table;
+            }
+        }
+
+        protected override IDictionary<string, string> GetColumns()
+        {
+            return new Dictionary<string, string>()
+            {
+                { "RegionName", "f_region_name" },
+            };
+        }
+    }
+
     public class BaseModelResult
     {
         public int Id { get; set; }
