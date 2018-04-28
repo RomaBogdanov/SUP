@@ -15,7 +15,7 @@ insert into vis_acc values ( 'N')
 insert into vis_acc values ( 'N')
 
 -- Заполнение таблицы vis_cabinets
-delete vis_cabinets
+delete vis_cabinets where f_cabinet_id <> '0'
 insert into vis_cabinets values ( '1', '105', 'Фин. отдел', '1', 'N', '29-сен-2017 11:18:21', '22', '1')
 insert into vis_cabinets values ( '2', '106', 'Глав. бухгалтер', '2', 'N', '29-сен-2017 11:18:55', '22', '2')
 insert into vis_cabinets values ( '3', '107', 'Бухгалтерия', '3', 'N', '29-сен-2017 11:19:18', '22', '3')
@@ -33,7 +33,7 @@ insert into vis_cabinets values ( '48', '206', 'ГД', '14', 'N', '29-сен-2017 11:
 insert into vis_cabinets values ( '49', '207', 'ГИ', '15', 'N', '29-сен-2017 11:29:39', '22', '15')
 
 -- Заполнение таблицы vis_cabinets_zones
-delete vis_cabinets_zones;
+delete vis_cabinets_zones where f_cabinet_zone_id <> '0'
 insert into vis_cabinets_zones values ( '42', '1', '80')
 insert into vis_cabinets_zones values ( '21', '22', '124')
 insert into vis_cabinets_zones values ( '23', '21', '116')
@@ -47,7 +47,7 @@ insert into vis_cabinets_zones values ( '23', '42', '94')
 insert into vis_cabinets_zones values ( '42', '42', '95')
 
 -- Заполнение таблицы vis_cabinets_zones_2
-delete vis_cabinets_zones_2
+delete vis_cabinets_zones_2 where f_cabinet_zone_id <> '0'
 insert into vis_cabinets_zones_2 values ( '3', '42', '99')
 insert into vis_cabinets_zones_2 values ( '43', '1', '82')
 insert into vis_cabinets_zones_2 values ( '21', '21', '120')
@@ -69,31 +69,31 @@ insert into vis_cabinets_zones_2 values ( '2', '22', '127')
 insert into vis_cabinets_zones_2 values ( '1', '42', '98')
 
 -- Заполнение таблицы vis_cards
-delete vis_cards
+delete vis_cards where f_card_id <> '0'
 insert into vis_cards values ( '1', '3', '1', '', 'N', '29-сен-2017 12:54:01', '22', '20-июл-2017 11:12:13', '', '1', '1')
 insert into vis_cards values ( '2', '1', '2', '', 'N', '20-июл-2017 11:12:31', '2', '20-июл-2017 11:12:26', '', '2', '2')
 insert into vis_cards values ( '3', '1', '3', '', 'N', '29-сен-2017 12:51:50', '22', '20-июл-2017 11:12:33', '', '3', '3')
 
 -- Заполнение таблицы vis_countries
-delete vis_countries
+delete vis_countries where f_cntr_id <> '0'
 insert into vis_countries values ( '1', 'Россия', 'N', '19-июл-2017 16:04:22', '2')
 insert into vis_countries values ( '21', 'Уругвай', 'N', '20-июл-2017 10:58:45', '2')
 insert into vis_countries values ( '22', 'Гондурас', 'N', '20-июл-2017 10:59:08', '2')
 insert into vis_countries values ( '41', 'Папуа Новая Гвинея', 'N', '25-сен-2017 17:50:30', '2')
 
 -- Заполнение таблицы vis_departament_sections
-delete vis_departament_sections
+delete vis_departament_sections where f_section_id <> '0'
 insert into vis_departament_sections values ( '1', 'Отдел взаиморасчетов', '', '1', 'N', '22-авг-2017 12:54:10', '2')
 
 -- Заполнение таблицы vis_departaments
-delete vis_departaments
+delete vis_departaments where f_dep_id <> '0'
 insert into vis_departaments values ( '1', '1', 'Бухгалтерия', '', 'N', '22-авг-2017 12:53:32', '2')
 insert into vis_departaments values ( '21', '1', 'Руководство', '', 'N', '29-сен-2017 11:53:09', '22')
 insert into vis_departaments values ( '22', '1', 'Отдел охраны', '', 'N', '29-сен-2017 11:53:21', '22')
 insert into vis_departaments values ( '23', '1', 'Юридическое управление', '', 'N', '29-сен-2017 11:53:40', '22')
 
 -- Заполнение таблицы vis_documents
-delete vis_documents
+delete vis_documents where f_doc_id <> '0'
 insert into vis_documents values ( '1', 'Паспорт', 'N', '19-июл-2017 16:04:39', '2')
 insert into vis_documents values ( '21', 'Удостоверение личнос', 'N', '25-сен-2017 17:49:30', '2')
 
@@ -104,7 +104,7 @@ insert into vis_flag values ( '2', 'Y')
 insert into vis_flag values ( '22', 'Y')
 
 -- Заполнение таблицы vis_new_roles
-delete vis_new_roles
+delete vis_new_roles where f_role_id <> '0'
 insert into vis_new_roles values ( '1', 'Администрирование', '1')
 insert into vis_new_roles values ( '2', 'Посетители', '2')
 insert into vis_new_roles values ( '3', 'Посещения', '3')
@@ -140,7 +140,7 @@ insert into vis_new_roles values ( '32', 'Посещение посетителей без пропусков - 
 insert into vis_new_roles values ( '33', 'Отчет по номеру вип заявки', '9')
 
 -- Заполнение таблицы vis_new_roles_list
-delete vis_new_roles_list
+delete vis_new_roles_list where f_id <> '0'
 insert into vis_new_roles_list values ( '1', '1', '1', '2')
 insert into vis_new_roles_list values ( '2', '2', '1', '0')
 insert into vis_new_roles_list values ( '3', '3', '1', '0')
@@ -308,7 +308,7 @@ insert into vis_new_roles_list values ( '105', '32', '22', '0')
 insert into vis_new_roles_list values ( '106', '33', '22', '1')
 
 -- Заполнение таблицы vis_new_user
-delete vis_new_user
+delete vis_new_user where f_user_id <> '0'
 insert into vis_new_user values ( '1', 'test', 'test', '180')
 insert into vis_new_user values ( '2', 'VISITORS', 'visitorpsw', '180')
 insert into vis_new_user values ( '11', '1', '1', '180')
@@ -327,7 +327,7 @@ insert into vis_order_elements values ( '66', '67', '23', '0', '30-дек-1899', '3
 insert into vis_order_elements values ( '65', '66', '21', '2', '30-дек-1899 9:00:00', '30-дек-1899 18:00:00', '1, 3', 'N', 'N', '29-сен-2017 13:16:32', '22', 'N', 'N', '')
 
 -- Заполнение таблицы vis_orderlist
-delete vis_orderlist
+delete vis_orderlist where f_orderlist_id <> '0'
 insert into vis_orderlist values ( '2', '1', 'Y', '1')
 insert into vis_orderlist values ( '2', '21', 'Y', '21')
 insert into vis_orderlist values ( '41', '21', 'Y', '22')
@@ -356,15 +356,19 @@ insert into vis_organizations values ( '42', '', 'ПАО', '"Гражданские самолёты С
 insert into vis_organizations values ( '43', '', 'ПАО', '"ГСС"', 'N', 'N', 'N', 'N', '29-сен-2017 11:40:00', '22', '42', '', 'ПАО "ГСС"', '', '')
 insert into vis_organizations values ( '44', '', 'ПАО', '"Сухой"', 'N', 'N', 'N', 'N', '29-сен-2017 11:43:48', '22', '42', '', 'ПАО "Сухой"', '', '')
 
+-- Заполнение таблицы vis_regions
+delete vis_regions where f_region_id <> '0'
+insert into vis_regions values ( '1', 'Московская область', 'N', '19-июл-2017 16:04:22', '1')
+
 -- Заполнение таблицы vis_spr_cardstates
-delete vis_spr_cardstates
+delete vis_spr_cardstates where f_state_id <> '0'
 insert into vis_spr_cardstates values ( '1', 'Активен', 'N', '11-июл-2003 14:41:24', '-1')
 insert into vis_spr_cardstates values ( '3', 'Выдан', 'N', '11-июл-2003 14:41:25', '-1')
 insert into vis_spr_cardstates values ( '4', 'Утерян', 'N', '11-июл-2003 14:41:28', '-1')
 insert into vis_spr_cardstates values ( '2', 'Неактивен', 'N', '11-июл-2003 14:41:58', '-1')
 
 -- Заполнение таблицы vis_spr_order_types
-delete vis_spr_order_types
+delete vis_spr_order_types where f_order_type_id <> '0'
 insert into vis_spr_order_types values ( '1', 'Разовая', 'N', '11-июл-2003 14:39:56', '-1')
 insert into vis_spr_order_types values ( '2', 'Временная', 'N', '11-июл-2003 14:39:56', '-1')
 insert into vis_spr_order_types values ( '3', 'Бессрочная', 'N', '11-июл-2003 14:39:56', '-1')
@@ -382,13 +386,13 @@ insert into vis_visitors values ( '22', '', '', 'Бонд', 'Джеймс', '', '', '', ''
 insert into vis_visitors values ( '23', '1', '1', 'Дагаев', 'Юрий', 'Владимрович', '', '', '', '', '', '', 'Y', '', '', '', 'N', 'N', 'N', 'N', 'N', '29-сен-2017 12:29:46', '22', '42', '29-сен-2017 12:29:46', '22', '', 'Дагаев Ю. В.', 'N', '')
 
 -- Заполнение таблицы vis_visits
-delete vis_visits
+delete vis_visits where f_visit_id <> '0'
 insert into vis_visits values ( '1', '3', '2', '20-июл-2017 11:12:51', '13-сен-2017 0:22:20', '', '20-июл-2017', '28-июл-2017', '', 'Y', '20-июл-2017 11:12:51', '2', '', '2', '13-сен-2017 0:22:20', '3', '')
 insert into vis_visits values ( '21', '3', '2', '13-сен-2017 0:22:20', '29-сен-2017 12:51:50', '', '20-июл-2017', '31-дек-2025', '0', 'Y', '13-сен-2017 0:22:20', '2', '', '22', '29-сен-2017 12:51:50', '3', '')
 insert into vis_visits values ( '41', '1', '21', '29-сен-2017 12:52:23','','', '29-сен-2017', '29-сен-2017', '', 'N', '29-сен-2017 12:52:23', '22','','','','3', '')
 
 -- Заполнение таблицы vis_zone_types
-delete vis_zone_types
+delete vis_zone_types where f_zone_type_id <> '0'
 insert into vis_zone_types values ( '1', 'Входные зоны', 'N', '22-авг-2003 13:23:07', '-1', '')
 insert into vis_zone_types values ( '2', 'Коридоры для посетителей', 'N', '22-авг-2003 13:25:41', '-1', '')
 insert into vis_zone_types values ( '3', 'Договорники', 'N', '22-авг-2003 13:25:42', '-1', '')
@@ -399,7 +403,7 @@ insert into vis_zone_types values ( '8', 'Прочие', 'N', '22-авг-2003 13:25:43', 
 insert into vis_zone_types values ( '7', 'Коридоры для сотрудников', 'N', '22-авг-2003 13:25:44', '-1', '')
 
 -- Заполнение таблицы vis_zones
-delete vis_zones
+delete vis_zones where f_zone_id <> '0'
 insert into vis_zones (F_ZONE_ID, F_ZONE_TYPE_ID, F_ZONE_NAME, F_DELETED, F_REC_DATE, F_REC_OPERATOR, F_ZONE_NUM, F_MONDAY_TIME_BEG_1, F_MONDAY_TIME_BEG_2, F_MONDAY_TIME_END_1, F_MONDAY_TIME_END_2, F_TUESDAY_TIME_BEG_1, F_TUESDAY_TIME_BEG_2, F_TUESDAY_TIME_END_1, F_TUESDAY_TIME_END_2, F_WHENSDAY_TIME_BEG_1, F_WHENSDAY_TIME_BEG_2, F_WHENSDAY_TIME_END_1, F_WHENSDAY_TIME_END_2, F_THURSDAY_TIME_BEG_1, F_THURSDAY_TIME_BEG_2, F_THURSDAY_TIME_END_1, F_THURSDAY_TIME_END_2, F_FRIDAY_TIME_BEG_1, F_FRIDAY_TIME_BEG_2, F_FRIDAY_TIME_END_1, F_FRIDAY_TIME_END_2, F_SATURDAY_TIME_BEG_1, F_SATURDAY_TIME_END_1, F_SUNDAY_TIME_BEG_1, F_SUNDAY_TIME_END_1, F_HOLIDAY_TIME_BEG_1, F_HOLIDAY_TIME_END_1, F_FIRST_CHECK, F_FECOND_CHECK, F_THIRD_CHECK, F_LAST_CHECK) values ( '1', '1', 'Вестибюль', 'N', '29-сен-2017 13:13:44', '22', '1',  '30-дек-1899', '30-дек-1899', '30-дек-1899 23:59:00', '30-дек-1899', '30-дек-1899', '30-дек-1899', '30-дек-1899 23:59:00', '30-дек-1899', '30-дек-1899', '30-дек-1899', '30-дек-1899 23:59:00', '30-дек-1899', '30-дек-1899', '30-дек-1899', '30-дек-1899 23:59:00', '30-дек-1899', '30-дек-1899', '30-дек-1899', '30-дек-1899 23:59:00', '30-дек-1899', '30-дек-1899', '30-дек-1899 23:59:00', '30-дек-1899', '30-дек-1899 23:59:00', '30-дек-1899', '30-дек-1899 23:59:00', 'N', 'Y', 'Y', 'Y')
 insert into vis_zones (F_ZONE_ID, F_ZONE_TYPE_ID, F_ZONE_NAME, F_DELETED, F_REC_DATE, F_REC_OPERATOR, F_ZONE_NUM, F_MONDAY_TIME_BEG_1, F_MONDAY_TIME_BEG_2, F_MONDAY_TIME_END_1, F_MONDAY_TIME_END_2, F_TUESDAY_TIME_BEG_1, F_TUESDAY_TIME_BEG_2, F_TUESDAY_TIME_END_1, F_TUESDAY_TIME_END_2, F_WHENSDAY_TIME_BEG_1, F_WHENSDAY_TIME_BEG_2, F_WHENSDAY_TIME_END_1, F_WHENSDAY_TIME_END_2, F_THURSDAY_TIME_BEG_1, F_THURSDAY_TIME_BEG_2, F_THURSDAY_TIME_END_1, F_THURSDAY_TIME_END_2, F_FRIDAY_TIME_BEG_1, F_FRIDAY_TIME_BEG_2, F_FRIDAY_TIME_END_1, F_FRIDAY_TIME_END_2, F_SATURDAY_TIME_BEG_3, F_SATURDAY_TIME_BEG_4, F_SATURDAY_TIME_END_3, F_SATURDAY_TIME_END_4, F_SUNDAY_TIME_BEG_3, F_SUNDAY_TIME_BEG_4, F_SUNDAY_TIME_END_3, F_SUNDAY_TIME_END_4, F_HOLIDAY_TIME_BEG_3, F_HOLIDAY_TIME_BEG_4, F_HOLIDAY_TIME_END_3,  F_HOLIDAY_TIME_END_4, F_FIRST_CHECK, F_FECOND_CHECK, F_THIRD_CHECK, F_LAST_CHECK ) values ( '21', '2', 'Коридор 1-го этажа', 'N', '29-сен-2017 13:17:03', '22', '2',  '30-дек-1899 8:30:00', '30-дек-1899', '30-дек-1899 20:00:00', '30-дек-1899', '30-дек-1899 8:30:00', '30-дек-1899', '30-дек-1899 20:00:00', '30-дек-1899', '30-дек-1899 8:30:00', '30-дек-1899', '30-дек-1899 20:00:00', '30-дек-1899', '30-дек-1899 8:30:00', '30-дек-1899', '30-дек-1899 20:00:00', '30-дек-1899', '30-дек-1899 8:30:00', '30-дек-1899', '30-дек-1899 20:00:00', '30-дек-1899', '30-дек-1899', '30-дек-1899', '30-дек-1899', '30-дек-1899', '30-дек-1899', '30-дек-1899', '30-дек-1899', '30-дек-1899', '30-дек-1899', '30-дек-1899', '30-дек-1899', '30-дек-1899', 'N', 'Y', 'Y', 'Y')
 insert into vis_zones (F_ZONE_ID, F_ZONE_TYPE_ID, F_ZONE_NAME, F_DELETED, F_REC_DATE, F_REC_OPERATOR, F_ZONE_NUM, F_MONDAY_TIME_BEG_1, F_MONDAY_TIME_BEG_2, F_MONDAY_TIME_END_1, F_MONDAY_TIME_END_2, F_TUESDAY_TIME_BEG_1, F_TUESDAY_TIME_BEG_2, F_TUESDAY_TIME_END_1, F_TUESDAY_TIME_END_2, F_WHENSDAY_TIME_BEG_1, F_WHENSDAY_TIME_BEG_2, F_WHENSDAY_TIME_END_1, F_WHENSDAY_TIME_END_2, F_THURSDAY_TIME_BEG_1, F_THURSDAY_TIME_BEG_2, F_THURSDAY_TIME_END_1, F_THURSDAY_TIME_END_2, F_FRIDAY_TIME_BEG_1, F_FRIDAY_TIME_BEG_2, F_FRIDAY_TIME_END_1, F_FRIDAY_TIME_END_2, F_FIRST_CHECK, F_FECOND_CHECK, F_THIRD_CHECK, F_LAST_CHECK) values ( '22', '4', 'Бухгалтерия', 'N', '29-сен-2017 13:17:19', '22', '3',  '30-дек-1899 7:00:00', '30-дек-1899', '30-дек-1899 23:00:00', '30-дек-1899', '30-дек-1899 7:00:00', '30-дек-1899', '30-дек-1899 23:00:00', '30-дек-1899', '30-дек-1899 7:00:00', '30-дек-1899', '30-дек-1899 23:00:00', '30-дек-1899', '30-дек-1899 7:00:00', '30-дек-1899', '30-дек-1899 23:00:00', '30-дек-1899', '30-дек-1899 7:00:00', '30-дек-1899', '30-дек-1899 23:00:00', '30-дек-1899', 'N', 'Y', 'Y', 'Y')
@@ -407,7 +411,7 @@ insert into vis_zones (F_ZONE_ID, F_ZONE_TYPE_ID, F_ZONE_NAME, F_DELETED, F_REC_
 insert into vis_zones (F_ZONE_ID, F_ZONE_TYPE_ID, F_ZONE_NAME, F_DELETED, F_REC_DATE, F_REC_OPERATOR, F_ZONE_NUM, F_MONDAY_TIME_BEG_1, F_MONDAY_TIME_END_1, F_TUESDAY_TIME_BEG_1, F_TUESDAY_TIME_END_1, F_WHENSDAY_TIME_BEG_1, F_WHENSDAY_TIME_END_1, F_THURSDAY_TIME_BEG_1, F_THURSDAY_TIME_END_1, F_FRIDAY_TIME_BEG_1, F_FRIDAY_TIME_END_1, F_SATURDAY_TIME_BEG_1, F_SATURDAY_TIME_END_1, F_SUNDAY_TIME_BEG_1, F_SUNDAY_TIME_END_1, F_HOLIDAY_TIME_BEG_1, F_HOLIDAY_TIME_END_1, F_FIRST_CHECK, F_FECOND_CHECK, F_THIRD_CHECK, F_LAST_CHECK) values ( '42', '7', 'Сотрудники', 'N', '29-сен-2017 13:14:47', '22', '5',  '30-дек-1899', '30-дек-1899 23:59:00', '30-дек-1899', '30-дек-1899 23:59:00', '30-дек-1899', '30-дек-1899 23:59:00', '30-дек-1899', '30-дек-1899 23:59:00', '30-дек-1899', '30-дек-1899 23:59:00', '30-дек-1899', '30-дек-1899 23:59:00', '30-дек-1899', '30-дек-1899 23:59:00', '30-дек-1899', '30-дек-1899 23:59:00', 'N', 'Y', 'Y', 'Y')
 
 -- Заполнение таблицы vis_zones_order_elements
-delete vis_zones_order_elements
+delete vis_zones_order_elements where f_zone_order_element_id <> '0'
 insert into vis_zones_order_elements values ( '64', '62', '42')
 insert into vis_zones_order_elements values ( '3', '3', '1')
 insert into vis_zones_order_elements values ( '41', '41', '22')

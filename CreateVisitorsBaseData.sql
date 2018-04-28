@@ -68,6 +68,9 @@ go
 insert into vis_organizations values ( '0', '', '', '', '', '', '', 'N', '', '', '', '', '', '', '')
 go
 
+insert into vis_regions values ( '0', '', 'N', '', '')
+go
+
 insert into vis_spr_cardstates values ( '0', '', 'N', '', '')
 go
 

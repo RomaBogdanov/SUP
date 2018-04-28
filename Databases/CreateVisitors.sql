@@ -390,6 +390,18 @@ ADD PRIMARY KEY (f_org_id)
 
 insert into vis_organizations (f_org_id) values (0)
 
+-- Создание vis_regions
+
+CREATE TABLE vis_regions
+    (f_region_id                   int NOT NULL,
+    f_region_name                  VARCHAR(50),
+    f_deleted                      CHAR(1),
+    f_rec_date                     DATE,
+    f_rec_operator                 int)
+
+ALTER TABLE vis_regions
+ADD PRIMARY KEY (f_region_id)
+
 -- Создание vis_role_lists
 
 CREATE TABLE vis_role_lists

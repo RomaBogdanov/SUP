@@ -170,3 +170,19 @@ go
 
 UPDATE vis_organizations SET f_country_id='', f_region_id=''
 go
+
+-- Создание vis_regions
+
+CREATE TABLE vis_regions
+    (f_region_id                   int NOT NULL,
+    f_region_name                  VARCHAR(50),
+    f_deleted                      CHAR(1),
+    f_rec_date                     DATE,
+    f_rec_operator                 int)
+
+ALTER TABLE vis_regions
+ADD PRIMARY KEY (f_region_id)
+
+insert into vis_regions values ( '0', '', 'N', '', '')
+go
+
