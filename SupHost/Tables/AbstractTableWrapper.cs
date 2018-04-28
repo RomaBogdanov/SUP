@@ -41,7 +41,6 @@ namespace SupHost
                 { TableName.VisZoneTypes.ToString(), new VisZoneTypesTableWrapper() },
                 { TableName.VisClientLogs.ToString(), new LogTableWrapper() },
                 { TableName.VisDepartment.ToString(), new VisDepartmentTableWrapper() },
-                { TableName.VisDepartmentSection.ToString(), new VisDepartmentSectionTableWrapper() },
                 { TableName.VisImages.ToString(), new VisImagesTableWrapper() },
                 { TableName.VisRegions.ToString(), new VisRegionsTableWrapper() },
             };

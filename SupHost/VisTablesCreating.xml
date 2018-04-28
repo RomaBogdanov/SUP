@@ -4,5 +4,4 @@
   <Item Name="VisCabinetsZones" TabName="vis_cabinets_zones" ColId="f_cabinet_zone_id" Comment="??" />
   <Item Name="VisZoneTypes" TabName="vis_zone_types" ColId="f_zone_type_id" Comment="??" />
   <Item Name="VisDepartment" TabName="vis_departaments" ColId="f_dep_id" Comment="??" />
-  <Item Name="VisDepartmentSection" TabName="vis_departament_sections" ColId="f_section_id" Comment="??" />
 </Enum>

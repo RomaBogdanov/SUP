@@ -21,7 +21,6 @@
         VisCabinetsZones,
         VisZoneTypes,
         VisDepartment,
-        VisDepartmentSection,
         VisImages,
         VisRegions,
     }

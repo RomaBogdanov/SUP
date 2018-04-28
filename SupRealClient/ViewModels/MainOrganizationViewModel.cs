@@ -43,10 +43,10 @@ namespace SupRealClient.ViewModels
                         DepartmentEnabled = false;
                         currentUnit = ((Unit)value).Id;
                         description = ((Unit)value).Description;
-                        currentDep = (int)DepartmentSectionWrapper.CurrentTable().Table
-                            .Rows.Find(currentUnit)["f_dep_id"];
-                        currentOrg = (int)DepartmentWrapper.CurrentTable().Table
-                            .Rows.Find(currentDep)["f_org_id"];
+                        currentDep = (int)DepartmentWrapper.CurrentTable().Table
+                            .Rows.Find(currentUnit)["f_org_id"];
+                        //currentOrg = (int)DepartmentWrapper.CurrentTable().Table
+                        //    .Rows.Find(currentDep)["f_org_id"];
                         currentLevel = CurrentLevel.Unit;
                     }
                     else if (value.GetType().GetInterface("IDepartment") != null)
@@ -120,7 +120,7 @@ namespace SupRealClient.ViewModels
         {
             OrganizationsWrapper.CurrentTable().OnChanged += Query;
             DepartmentWrapper.CurrentTable().OnChanged += Query;
-            DepartmentSectionWrapper.CurrentTable().OnChanged += Query;
+            //DepartmentSectionWrapper.CurrentTable().OnChanged += Query;
             Query();
             AddUnitCommand = new RelayCommand(AddUnit());
             AddDepartmentCommand = new RelayCommand(AddDepartment());
@@ -146,7 +146,7 @@ namespace SupRealClient.ViewModels
 
         private Action<object> AddUnit()
         {
-            var action = new Action<object>(obj =>
+            /*var action = new Action<object>(obj =>
             {
                 var viewModel = new UnitViewModel
                 {
@@ -156,7 +156,8 @@ namespace SupRealClient.ViewModels
                 viewModel.Model.OnClose += window.Close;
                 window.ShowDialog();
             });
-            return action;
+            return action;*/
+            return null;
         }
 
         private Action<object> Edit()
@@ -188,14 +189,14 @@ namespace SupRealClient.ViewModels
                     window1.ShowDialog();
                     break;
                 case CurrentLevel.Unit:
-                    var viewModel2 = new UnitViewModel
+                    /*var viewModel2 = new UnitViewModel
                     {
                         Model = new EditUnitModel(this.currentUnit)
                     };
                     viewModel2.Description = description;
                     var window2 = new AddUnitView { DataContext = viewModel2 };
                     viewModel2.Model.OnClose += window2.Close;
-                    window2.ShowDialog();
+                    window2.ShowDialog();*/
                     break;
                 default:
                     break;
@@ -237,7 +238,7 @@ namespace SupRealClient.ViewModels
                         {
                             Description = department.Field<string>("f_dep_name"),
                             Id = department.Field<int>("f_dep_id"),
-                            Items = new ObservableCollection<Unit>(
+                            /*Items = new ObservableCollection<Unit>(
                                 from unit in DepartmentSectionWrapper
                                     .CurrentTable().Table.AsEnumerable()
                                 where unit.Field<int>("f_dep_id") ==
@@ -246,7 +247,7 @@ namespace SupRealClient.ViewModels
                                 {
                                     Description = unit.Field<string>("f_section_name"),
                                     Id = unit.Field<int>("f_section_id")
-                                })
+                                })*/
                         })
                 })
             };

@@ -35,10 +35,7 @@ go
 insert into vis_countries values ( '0', '', 'N', '', '')
 go
 
-insert into vis_departament_sections values ( '0', '', '', '0', 'N', '', '')
-go
-
-insert into vis_departaments values ( '0', '', '', '', 'N', '', '')
+insert into vis_departaments values ( '0', '', '', '', 'N', '', '', '-1')
 go
 
 insert into vis_documents values ( '0', '', 'N', '', '')
@@ -77,7 +74,7 @@ go
 insert into vis_spr_order_types values ( '0', '', 'N', '', '')
 go
 
-insert into vis_visitors values ( '0', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', 'N', '', '', '', '', '', '', '', '', '')
+insert into vis_visitors values ( '0', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', 'N', '', '', '', '', '', '', '', '', '')
 go
 
 insert into vis_visits values ( '0', '', '', '', '', '', '', '', '', 'N', '', '', '', '', '', '', '')

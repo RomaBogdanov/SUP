@@ -425,36 +425,6 @@ namespace SupRealClient.TabsSingleton
 	/// <summary>
 	/// ??
 	/// </summary>
-	partial class DepartmentSectionWrapper : TableWrapper
-	{
-		static DepartmentSectionWrapper currentTable;
-
-        public static DepartmentSectionWrapper CurrentTable()
-        {
-            if (currentTable == null)
-            {
-                currentTable = new DepartmentSectionWrapper();
-                wrappers.Add(currentTable);
-            }
-            return currentTable;
-        }
-
-		public override void Dispose()
-        {
-            base.Dispose();
-            currentTable = null;
-        }
-
-        private DepartmentSectionWrapper() : base()
-        {
-            this.table = connector.GetTable(TableName.VisDepartmentSection);
-            this.Subscribe();
-        }
-    }
-
-	/// <summary>
-	/// ??
-	/// </summary>
 	partial class OrdersWrapper : TableWrapper
 	{
 		static OrdersWrapper currentTable;

@@ -229,20 +229,6 @@ CREATE TABLE vis_countries
 ALTER TABLE vis_countries
 ADD PRIMARY KEY (f_cntr_id)
 
--- Создание vis_departament_sections
-
-CREATE TABLE vis_departament_sections
-    (f_section_id                  int NOT NULL,
-    f_section_name                 VARCHAR(100),
-    f_short_section_name           VARCHAR(15),
-    f_dep_id                       int,
-    f_deleted                      CHAR(1),
-    f_rec_date                     DATE,
-    f_rec_operator                 int)
-
-ALTER TABLE vis_departament_sections
-ADD PRIMARY KEY (f_section_id)
-
 -- Создание vis_departaments
 
 CREATE TABLE vis_departaments
@@ -252,7 +238,8 @@ CREATE TABLE vis_departaments
     f_short_dep_name               VARCHAR(15),
     f_deleted                      CHAR(1),
     f_rec_date                     DATE,
-    f_rec_operator                 int)
+    f_rec_operator                 int,
+    f_parent_id                    int)
 
 ALTER TABLE vis_departaments
 ADD PRIMARY KEY (f_dep_id)
@@ -471,7 +458,6 @@ CREATE TABLE vis_visitors
     f_vr_text                      VARCHAR(100),
     f_is_short_data                VARCHAR(1),
     f_dep_id                       int,
-    f_section_id                   int,
     f_job                          VARCHAR(50),
     f_can_sign_orders              VARCHAR(1),
     f_can_adjust_orders            VARCHAR(1),

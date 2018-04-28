@@ -64,20 +64,4 @@
 			this.getTableBehavior = new VisDepartmentTableBehavior(); 
 		}
     }
-
-    partial class VisDepartmentSectionTableBehavior : VisitorsDBTableBehavior
-    {
-        public VisDepartmentSectionTableBehavior()
-        {
-            this.StandartSetup("vis_departament_sections", "f_section_id");
-        }
-    }
-
-	partial class VisDepartmentSectionTableWrapper : AbstractTableWrapper
-    {
-        public VisDepartmentSectionTableWrapper()
-        { 
-			this.getTableBehavior = new VisDepartmentSectionTableBehavior(); 
-		}
-    }
 }

@@ -8,7 +8,7 @@ using SupRealClient.Models.OrganizationStructure.Interfaces;
 using System.Data;
 using SupRealClient.TabsSingleton;
 using SupClientConnectionLib;
-
+/*
 namespace SupRealClient.Models.OrganizationStructure
 {
     class AddUnitModel : IModel
@@ -50,3 +50,4 @@ namespace SupRealClient.Models.OrganizationStructure
         }
     }
 }
+*/

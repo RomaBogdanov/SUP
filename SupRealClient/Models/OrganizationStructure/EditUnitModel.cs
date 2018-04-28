@@ -8,7 +8,7 @@ using System.Data;
 using SupRealClient.TabsSingleton;
 using SupClientConnectionLib;
 using System.ComponentModel;
-
+/*
 namespace SupRealClient.Models.OrganizationStructure
 {
     class EditUnitModel : IModel
@@ -49,3 +49,4 @@ namespace SupRealClient.Models.OrganizationStructure
         }
     }
 }
+*/

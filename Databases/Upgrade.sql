@@ -33,15 +33,9 @@ begin
 end
 go
 
-if not exists(select * from vis_departament_sections where f_section_id = '0')
-begin
-	insert into vis_departament_sections values ( '0', '', '', '0', 'N', '', '')
-end
-go
-
 if not exists(select * from vis_departaments where f_dep_id = '0')
 begin
-	insert into vis_departaments values ( '0', '', '', '', 'N', '', '')
+	insert into vis_departaments values ( '0', '', '', '', 'N', '', '', '-1')
 end
 go
 
@@ -113,7 +107,7 @@ go
 
 if not exists(select * from vis_visitors where f_visitor_id = '0')
 begin
-	insert into vis_visitors values ( '0', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', 'N', '', '', '', '', '', '', '', '', '')
+	insert into vis_visitors values ( '0', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', 'N', '', '', '', '', '', '', '', '', '')
 end
 go
 
@@ -186,3 +180,20 @@ ADD PRIMARY KEY (f_region_id)
 insert into vis_regions values ( '0', '', 'N', '', '')
 go
 
+-- Удаление секций, модификация департаментов
+
+ALTER TABLE vis_visitors
+DROP COLUMN
+    f_section_id
+go
+
+DROP TABLE vis_departament_sections
+go
+
+ALTER TABLE vis_departaments
+ADD
+	f_parent_id int
+go
+
+UPDATE vis_departaments SET f_parent_id='-1'
+go
