@@ -81,6 +81,7 @@
                 <MenuItem Header="Пропуска" Command="{Binding Path=ListCardsClick}"/>
                 <MenuItem Header="Кабинеты" Command="{Binding Path=ListCabinetsClick}"/>
                 <MenuItem Header="Зоны доступа" Command="{Binding Path=ListZonesClick}"/>
+                <MenuItem Header="Регионы" Command="{Binding Path=ListRegionsClick}"/>
             </MenuItem>
             <MenuItem Header="Сервис" FontSize="{Binding ElementName=FontSizeLixtBox, Path=SelectedItem.Content}">
                 <MenuItem Header="Очистка базы данных..." IsEnabled="False"/>

@@ -1,16 +1,12 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Collections.ObjectModel;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using SupRealClient.Models.OrganizationStructure.Interfaces;
+﻿using System.Collections.ObjectModel;
 
 namespace SupRealClient.Models.OrganizationStructure
 {
     public class Department : ModelBase, IDepartment
     {
-        public ObservableCollection<Unit> Items
+        public int ParentId;
+
+        public ObservableCollection<Department> Items
         {
             get { return _items; }
             set
@@ -19,6 +15,7 @@ namespace SupRealClient.Models.OrganizationStructure
                 OnPropertyChanged();
             }
         }
-        private ObservableCollection<Unit> _items = new ObservableCollection<Unit>();
+        private ObservableCollection<Department> _items =
+            new ObservableCollection<Department>();
     }
 }

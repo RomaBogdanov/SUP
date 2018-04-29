@@ -4,4 +4,5 @@
   <Item Name="Documents" Type="Document" />
   <Item Name="Nations" Type="Nation" />
   <Item Name="Organizations" Type="Organization" OkCaption="OK" />
+  <Item Name="Regions" Type="Region" />
 </Enum>

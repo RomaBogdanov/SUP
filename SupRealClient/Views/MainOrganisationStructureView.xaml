@@ -83,29 +83,6 @@
         <Button
             Grid.Row="3"
             Grid.Column="1"
-            Command="{Binding AddUnitCommand}"
-            Style="{DynamicResource SquareButtonStyle1}" 
-            Margin="5"
-            IsEnabled="{Binding UnitEnabled}">
-            <Grid>
-                <Grid.RowDefinitions>
-                    <RowDefinition/>
-                    <RowDefinition/>
-                </Grid.RowDefinitions>
-
-                <Image
-                    Grid.Row="0"
-                    Source="../Resources/Добавить.ico"/>
-
-                <TextBlock
-                    Grid.Row="1"
-                    Text="Отдел"/>
-            </Grid>
-        </Button>
-        
-        <Button
-            Grid.Row="3"
-            Grid.Column="2"
             Command="{Binding EditCommand}"
             Style="{DynamicResource SquareButtonStyle1}" 
             Margin="5">
