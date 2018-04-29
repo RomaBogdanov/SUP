@@ -38,6 +38,7 @@ namespace SupRealClient.Models.OrganizationStructure
                 row["f_parent_id"] = departmentId;
                 row["f_rec_date"] = DateTime.Now;
                 row["f_rec_operator"] = Authorizer.AppAuthorizer.Id;
+                row["f_deleted"] = "N";
                 DepartmentWrapper.CurrentTable().Table.Rows.Add(row);
             }
             OnClose?.Invoke();
