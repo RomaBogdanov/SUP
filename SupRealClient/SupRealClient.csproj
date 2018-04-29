@@ -111,15 +111,12 @@
     <Compile Include="Models\Human.cs" />
     <Compile Include="Models\OrganizationStructure\Department.cs" />
     <Compile Include="Models\OrganizationStructure\EditDepModel.cs" />
-    <Compile Include="Models\OrganizationStructure\EditUnitModel.cs" />
     <Compile Include="Models\OrganizationStructure\Interfaces\IDepartment.cs" />
     <Compile Include="Models\OrganizationStructure\Interfaces\IModel.cs" />
     <Compile Include="Models\OrganizationStructure\MainOrganization.cs" />
     <Compile Include="Models\OrganizationStructure\ModelBase.cs" />
     <Compile Include="Models\OrganizationStructure\Organization.cs" />
     <Compile Include="Models\OrganizationStructure\Pass.cs" />
-    <Compile Include="Models\OrganizationStructure\Unit.cs" />
-    <Compile Include="Models\OrganizationStructure\AddUnitModel.cs" />
     <Compile Include="Models\OrganizationStructure\AddDepModel.cs" />
     <Compile Include="Models\Search1Model.cs" />
     <Compile Include="Models\UpdateCardModel.cs" />

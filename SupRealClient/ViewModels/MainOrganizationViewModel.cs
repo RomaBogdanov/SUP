@@ -1,9 +1,6 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Input;
 using SupRealClient.Models.OrganizationStructure;
 using SupRealClient.Views;
@@ -17,7 +14,7 @@ namespace SupRealClient.ViewModels
         public event Action OnClose;
         int currentOrg;
         int currentDep;
-        int currentUnit;
+        int parentDep;
         CurrentLevel currentLevel = CurrentLevel.None;
         string description = "";
 
@@ -25,8 +22,7 @@ namespace SupRealClient.ViewModels
         {
             None,
             Organization,
-            Department,
-            Unit
+            Department
         }
 
         public object SelectedObject
@@ -37,23 +33,12 @@ namespace SupRealClient.ViewModels
                 if (value != null)
                 {
                     _selectedObject = value;
-                    if (value.GetType().GetInterface("IUnit") != null)
+                    if (value.GetType().GetInterface("IDepartment") != null)
                     {
-                        UnitEnabled = true;
-                        DepartmentEnabled = false;
-                        currentUnit = ((Unit)value).Id;
-                        description = ((Unit)value).Description;
-                        currentDep = (int)DepartmentWrapper.CurrentTable().Table
-                            .Rows.Find(currentUnit)["f_org_id"];
-                        //currentOrg = (int)DepartmentWrapper.CurrentTable().Table
-                        //    .Rows.Find(currentDep)["f_org_id"];
-                        currentLevel = CurrentLevel.Unit;
-                    }
-                    else if (value.GetType().GetInterface("IDepartment") != null)
-                    {
-                        UnitEnabled = true;
                         DepartmentEnabled = true;
                         currentDep = ((Department)value).Id;
+                        parentDep = (int)DepartmentWrapper.CurrentTable().Table
+                            .Rows.Find(currentDep)["f_parent_id"];
                         description = ((Department)value).Description;
                         currentOrg = (int)DepartmentWrapper.CurrentTable().Table
                             .Rows.Find(currentDep)["f_org_id"];
@@ -61,9 +46,9 @@ namespace SupRealClient.ViewModels
                     }
                     else if (value.GetType().GetInterface("IOrganization") != null)
                     {
-                        UnitEnabled = false;
                         DepartmentEnabled = true;
                         currentOrg = ((Organization)value).Id;
+                        currentDep = -1;
                         description = ((Organization)value).Description;
                         currentLevel = CurrentLevel.Organization;
                     }
@@ -89,17 +74,6 @@ namespace SupRealClient.ViewModels
         private ObservableCollection<MainOrganization> _organizations = 
             new ObservableCollection<MainOrganization>();
 
-        public bool UnitEnabled
-        {
-            get { return _unitEnabled; }
-            set
-            {
-                _unitEnabled = value; 
-                OnPropertyChanged();
-            }
-        }
-        private bool _unitEnabled;
-
         public bool DepartmentEnabled
         {
             get { return _departmentEnabled; }
@@ -112,7 +86,6 @@ namespace SupRealClient.ViewModels
         private bool _departmentEnabled;
 
         public ICommand AddDepartmentCommand { get; set; }
-        public ICommand AddUnitCommand { get; set; }
         public ICommand OkCommand { get; set; }
         public ICommand EditCommand { get; set; }
 
@@ -120,9 +93,7 @@ namespace SupRealClient.ViewModels
         {
             OrganizationsWrapper.CurrentTable().OnChanged += Query;
             DepartmentWrapper.CurrentTable().OnChanged += Query;
-            //DepartmentSectionWrapper.CurrentTable().OnChanged += Query;
             Query();
-            AddUnitCommand = new RelayCommand(AddUnit());
             AddDepartmentCommand = new RelayCommand(AddDepartment());
             EditCommand = new RelayCommand(Edit());
             OkCommand = new RelayCommand(Ok());
@@ -135,29 +106,13 @@ namespace SupRealClient.ViewModels
             {
                 var viewModel = new UnitViewModel
                 {
-                    Model = new AddDepModel(this.currentOrg)
+                    Model = new AddDepModel(this.currentOrg, this.currentDep)
                 };
                 var window = new AddDepartmentView { DataContext = viewModel };
                 viewModel.Model.OnClose += window.Close;
                 window.ShowDialog();
             });
             return action;
-        }
-
-        private Action<object> AddUnit()
-        {
-            /*var action = new Action<object>(obj =>
-            {
-                var viewModel = new UnitViewModel
-                {
-                    Model = new AddUnitModel(this.currentDep)
-                };
-                var window = new AddUnitView { DataContext = viewModel };
-                viewModel.Model.OnClose += window.Close;
-                window.ShowDialog();
-            });
-            return action;*/
-            return null;
         }
 
         private Action<object> Edit()
@@ -187,16 +142,6 @@ namespace SupRealClient.ViewModels
                     var window1 = new AddDepartmentView { DataContext = viewModel1 };
                     viewModel1.Model.OnClose += window1.Close;
                     window1.ShowDialog();
-                    break;
-                case CurrentLevel.Unit:
-                    /*var viewModel2 = new UnitViewModel
-                    {
-                        Model = new EditUnitModel(this.currentUnit)
-                    };
-                    viewModel2.Description = description;
-                    var window2 = new AddUnitView { DataContext = viewModel2 };
-                    viewModel2.Model.OnClose += window2.Close;
-                    window2.ShowDialog();*/
                     break;
                 default:
                     break;
@@ -233,25 +178,33 @@ namespace SupRealClient.ViewModels
                     Items = new ObservableCollection<Department>(
                         from department in DepartmentWrapper
                             .CurrentTable().Table.AsEnumerable()
-                        where department.Field<int>("f_org_id") == org.Field<int>("f_org_id")
+                        where department.Field<int>("f_org_id") == org.Field<int>("f_org_id") &&
+                        department.Field<int>("f_parent_id") == -1
                         select new Department
                         {
-                            Description = department.Field<string>("f_dep_name"),
                             Id = department.Field<int>("f_dep_id"),
-                            /*Items = new ObservableCollection<Unit>(
-                                from unit in DepartmentSectionWrapper
-                                    .CurrentTable().Table.AsEnumerable()
-                                where unit.Field<int>("f_dep_id") ==
-                                    department.Field<int>("f_dep_id")
-                                select new Unit
-                                {
-                                    Description = unit.Field<string>("f_section_name"),
-                                    Id = unit.Field<int>("f_section_id")
-                                })*/
+                            ParentId = department.Field<int>("f_parent_id"),
+                            Description = department.Field<string>("f_dep_name"),
+                            Items = GetItems(department.Field<int>("f_dep_id"))
                         })
                 })
             };
             Organizations.Add(mainOrganization);
+        }
+
+        private ObservableCollection<Department> GetItems(int parentId)
+        {
+            return new ObservableCollection<Department>(
+                from department in DepartmentWrapper.CurrentTable().
+                Table.AsEnumerable()
+                where department.Field<int>("f_parent_id") == parentId
+                select new Department
+                {
+                    Id = department.Field<int>("f_dep_id"),
+                    ParentId = department.Field<int>("f_parent_id"),
+                    Description = department.Field<string>("f_dep_name"),
+                    Items = GetItems(department.Field<int>("f_dep_id"))
+                });
         }
     }
 }

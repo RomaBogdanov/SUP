@@ -46,7 +46,6 @@ namespace SupRealClient.ViewModels
 
         private void Ok()
         {
-            //Model = new Unit {Description = Description};
             Model.EditItem();
         }
 
