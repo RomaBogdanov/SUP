@@ -546,11 +546,6 @@ namespace SupRealClient.Views
             Visitor.AddVisitorView wind = new Visitor.AddVisitorView();
             wind.Show();
         }
-        
-        public override void Close()
-        {
-            System.Windows.Forms.MessageBox.Show("Close");
-        }
 
         public override void Farther()
         {

@@ -1259,6 +1259,7 @@
                 </Button>
 
                 <Button
+                    Command="{Binding FindCommand}"
                     Grid.Row="1"
                     Grid.Column="4"
                     Margin="2"

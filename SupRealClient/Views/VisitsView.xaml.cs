@@ -182,6 +182,7 @@ namespace SupRealClient.Views
         public ICommand OkCommand { get; set; }
         public ICommand CancelCommand { get; set; }
         public ICommand EditCommand { get; set; }
+        public ICommand FindCommand { get; set; }
 
         public ICommand AddImageSourceCommand { get; set; }
         public ICommand RemoveImageSourceCommand { get; set; }
@@ -213,6 +214,7 @@ namespace SupRealClient.Views
             OkCommand = new RelayCommand(arg => Ok());
             CancelCommand = new RelayCommand(arg => Cancel());
             EditCommand = new RelayCommand(arg => Edit());
+            FindCommand = new RelayCommand(arg => Find());
 
             AddImageSourceCommand = new RelayCommand(arg => AddImageSource(ImageType.Photo));
             RemoveImageSourceCommand= new RelayCommand(arg => RemoveImageSource(ImageType.Photo));
@@ -329,7 +331,18 @@ namespace SupRealClient.Views
         {
             Model = new EditVisitsModel(Set, CurrentItem);
         }
-        
+
+        private void Find()
+        {
+            var result = ViewManager.Instance.OpenWindowModal(
+                "VisitorsListWindView", view) as BaseModelResult;
+            if (result == null)
+            {
+                return;
+            }
+            CurrentItem = Model.Find(result.Id);
+        }
+
         private void Ok()
         {
             if (Model.Ok())
@@ -390,6 +403,7 @@ namespace SupRealClient.Views
         EnumerationClasses.Visitor End();
         EnumerationClasses.Visitor Next();
         EnumerationClasses.Visitor Prev();
+        EnumerationClasses.Visitor Find(int id);
 
         void AddImageSource(string path, ImageType imageType);
         void RemoveImageSource(ImageType imageType);
@@ -459,6 +473,11 @@ namespace SupRealClient.Views
         }
 
         public virtual EnumerationClasses.Visitor Prev()
+        {
+            throw new NotImplementedException();
+        }
+
+        public virtual EnumerationClasses.Visitor Find(int id)
         {
             throw new NotImplementedException();
         }
@@ -652,6 +671,21 @@ namespace SupRealClient.Views
                 selectedIndex--;
                 OrdersCardsToVisitor(selectedIndex);
                 CurrentItem = Set[selectedIndex];
+            }
+            return CurrentItem;
+        }
+
+        public override EnumerationClasses.Visitor Find(int id)
+        {
+            for (int i = 0; i < Set.Count; i++)
+            {
+                if (Set[i].Id == id)
+                {
+                    selectedIndex = i;
+                    OrdersCardsToVisitor(selectedIndex);
+                    CurrentItem = Set[selectedIndex];
+                    break;
+                }
             }
             return CurrentItem;
         }
