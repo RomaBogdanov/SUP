@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Data;
+using System.Windows;
 using System.Windows.Input;
 using SupClientConnectionLib;
 using SupRealClient.EnumerationClasses;
@@ -17,22 +18,21 @@ namespace SupRealClient.Models
 
         public Organization Data { get { return new Organization(); } }
 
-        public ICommand OkCommand { get; set; }
-
         public event Action OnClose;
 
         public void Cancel()
         {
             OnClose?.Invoke();
         }
-
-        public AddOrgsModel()
-        {
-            //OkCommand = new RelayCommand(obj => Ok());
-        }
-
+        
         public void Ok(Organization data)
         {
+            if (string.IsNullOrEmpty(data.Name))
+            {
+                MessageBox.Show("Заполните поле Название");
+                return; 
+            }
+
             OrganizationsWrapper organizations =
                 OrganizationsWrapper.CurrentTable();
             if (!(data.Type == "" | data.Name == "" | data.FullName == ""))
