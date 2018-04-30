@@ -56,6 +56,18 @@ namespace SupRealClient.Views
                 Binding = new Binding("FullName")
             };
             base2.baseTab.Columns.Add(dataGridTextColumn);
+            dataGridTextColumn = new DataGridTextColumn
+            {
+                Header = "Страна",
+                Binding = new Binding("Country")
+            };
+            base2.baseTab.Columns.Add(dataGridTextColumn);
+            dataGridTextColumn = new DataGridTextColumn
+            {
+                Header = "Регион",
+                Binding = new Binding("Region")
+            };
+            base2.baseTab.Columns.Add(dataGridTextColumn);
             base2.SetDefaultColumn();
         }
     }
