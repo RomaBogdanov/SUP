@@ -462,7 +462,10 @@ namespace SupRealClient.Views
                 {
                     Id = orgs.Field<int>("f_org_id"),
                     Type = orgs.Field<string>("f_org_type"),
-                    FullName = orgs.Field<string>("f_full_org_name"),
+                    FullName = orgs.Field<int>("f_syn_id") == 0 ? "" :
+                        OrganizationsWrapper.CurrentTable().Table.AsEnumerable().
+                        FirstOrDefault(arg => arg.Field<int>("f_org_id") == 
+                        orgs.Field<int>("f_syn_id"))["f_full_org_name"].ToString(),
                     Name = orgs.Field<string>("f_org_name"),
                     Comment = orgs.Field<string>("f_comment"),
                     CountryId = orgs.Field<int>("f_cntr_id"),
