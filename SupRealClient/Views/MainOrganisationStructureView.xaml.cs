@@ -12,14 +12,9 @@ namespace SupRealClient.Views
         {
             InitializeComponent();
             ((MainOrganizationViewModel)DataContext).OnClose += 
-                MainOrganisationStructureView_OnClose;
+                Handling_OnClose;
 
             AfterInitialize();
-        }
-
-        private void MainOrganisationStructureView_OnClose()
-        {
-            this.Close();
         }
 
         private void TreeView_OnSelectedItemChanged(object sender, RoutedPropertyChangedEventArgs<object> e)

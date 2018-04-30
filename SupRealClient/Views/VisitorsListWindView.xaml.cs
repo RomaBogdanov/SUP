@@ -14,8 +14,11 @@ namespace SupRealClient.Views
             InitializeComponent();
             var viewModel = new Base4ViewModel<EnumerationClasses.Visitor>
             {
+                OkCaption = "OK",
+                Parent = this,
                 Model = new VisitorsListModel<EnumerationClasses.Visitor>()
             };
+            viewModel.Model.OnClose += Handling_OnClose;
             base4.DataContext = viewModel;
             AfterInitialize();
         }

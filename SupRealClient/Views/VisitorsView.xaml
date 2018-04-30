@@ -659,14 +659,15 @@
                                 <ColumnDefinition/>
                             </Grid.ColumnDefinitions>
                             
-                            <Button 
+                            <Button
+                                Command="{Binding DepartmentsCommand}"
                                 Grid.Column="0"
                                 Content="..."
                                 Margin="2"
                                 Height="25"
                                 Width="25"
                                 IsEnabled="{Binding Path=ButtonEnable, Mode=TwoWay}"
-                                Style="{StaticResource VisitorsSquareButtonStyle}"/>
+                                Style="{StaticResource VisitorsSquareButtonStyle}" />
 
                             <Button 
                                 Grid.Column="1"
@@ -1258,6 +1259,7 @@
                 </Button>
 
                 <Button
+                    Command="{Binding FindCommand}"
                     Grid.Row="1"
                     Grid.Column="4"
                     Margin="2"

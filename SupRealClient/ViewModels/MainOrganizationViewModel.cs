@@ -11,7 +11,7 @@ namespace SupRealClient.ViewModels
 {
     public class MainOrganizationViewModel : ViewModelBase
     {
-        public event Action OnClose;
+        public event Action<object> OnClose;
         int currentOrg;
         int currentDep;
         int parentDep;
@@ -150,7 +150,8 @@ namespace SupRealClient.ViewModels
 
         private void Finish()
         {
-            OnClose?.Invoke();
+            OnClose?.Invoke(currentLevel != CurrentLevel.Department ? null :
+                new BaseModelResult { Id = currentDep, Name = description });
         }
 
         /*private Action<object> Cancel()
