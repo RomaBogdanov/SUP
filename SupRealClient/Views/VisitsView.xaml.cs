@@ -7,8 +7,10 @@ using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Windows.Forms;
 using System.Windows.Input;
+using SupClientConnectionLib;
 using SupContract;
 using SupRealClient.Annotations;
+using SupRealClient.Common;
 using SupRealClient.Common.Interfaces;
 using SupRealClient.EnumerationClasses;
 using SupRealClient.Models;
@@ -171,6 +173,7 @@ namespace SupRealClient.Views
         public ICommand OrganizationCommand { get; set; }
         public ICommand CountryCommand { get; set; }
         public ICommand CabinetsCommand { get; set; }
+        public ICommand DepartmentsCommand { get; set; }
         public ICommand DocumentsCommand { get; set; }
 
         public ICommand ExtraditeCommand { get; set; }
@@ -201,6 +204,7 @@ namespace SupRealClient.Views
             OrganizationCommand = new RelayCommand(arg => OrganizationsList());
             CountryCommand = new RelayCommand(arg => CountyList());
             CabinetsCommand = new RelayCommand(arg => CabinetsList());
+            DepartmentsCommand = new RelayCommand(arg => DepartmentsList());
             DocumentsCommand = new RelayCommand(arg => DocumentsListModel());
 
             ExtraditeCommand = new RelayCommand(obj => Extradite());
@@ -240,6 +244,19 @@ namespace SupRealClient.Views
             }
             CurrentItem.CabinetId = result.Id;
             CurrentItem.Cabinet = result.Name;
+            OnPropertyChanged("CurrentItem");
+        }
+
+        private void DepartmentsList()
+        {
+            var result = ViewManager.Instance.OpenWindowModal(
+                "MainOrganisationStructureView", view) as BaseModelResult;
+            if (result == null)
+            {
+                return;
+            }
+            CurrentItem.DepartmentId = result.Id;
+            CurrentItem.Department = result.Name;
             OnPropertyChanged("CurrentItem");
         }
 
@@ -563,10 +580,10 @@ namespace SupRealClient.Views
                         arg.Field<int>("f_org_id") ==
                         visitors.Field<int>("f_org_id"))?["f_full_org_name"],
                     Comment = visitors.Field<string>("f_vr_text"),
-                    IsAccessDenied = visitors.Field<string>(
-                        "f_persona_non_grata").ToUpper() == "Y" ? true : false,
-                    IsCanHaveVisitors = visitors.Field<string>(
-                        "f_can_sign_orders").ToUpper() == "Y" ? true : false,
+                    IsAccessDenied = CommonHelper.StringToBool(visitors.Field<string>(
+                        "f_persona_non_grata")),
+                    IsCanHaveVisitors = CommonHelper.StringToBool(visitors.Field<string>(
+                        "f_can_have_visitors")),
                     IsNotFormular = true,
                     Telephone = visitors.Field<string>("f_phones"),
                     Nation = (string)CountriesWrapper.CurrentTable()
@@ -581,27 +598,24 @@ namespace SupRealClient.Views
                     DocNum = visitors.Field<string>("f_doc_num"),
                     DocDate = visitors.Field<DateTime>("f_doc_date"),
                     DocPlace = visitors.Field<string>("f_doc_org"),
-                    IsAgree = true, //TODO: Пока не реализовано
-                    AgreeToDate = DateTime.Now, //TODO: Пока не реализовано
+                    IsAgree = CommonHelper.StringToBool(visitors.Field<string>(
+                        "f_personal_data_agreement")),
+                    AgreeToDate = visitors.Field<DateTime>("f_personal_data_last_date"),
                     Operator = visitors.Field<int>("f_rec_operator").ToString(),
                     Department = (string)DepartmentWrapper.CurrentTable()
                         .Table.AsEnumerable().FirstOrDefault(arg =>
                         arg.Field<int>("f_dep_id") ==
                         visitors.Field<int>("f_dep_id"))?["f_dep_name"],
-                    /*DepartmentUnit = (string)DepartmentSectionWrapper.CurrentTable()
-                        .Table.AsEnumerable().FirstOrDefault(arg =>
-                        arg.Field<int>("f_section_id") ==
-                        visitors.Field<int>("f_section_id"))?["f_section_name"],*/
                     Position = visitors.Field<string>("f_job"),
-                    IsRightSign = visitors.Field<string>("f_can_sign_orders")
-                        .ToUpper() == "Y" ? true :false,
-                    IsAgreement = visitors.Field<string>("f_can_adjust_orders")
-                        .ToUpper() == "Y" ? true : false,
+                    IsRightSign = CommonHelper.StringToBool(visitors.Field<string>(
+                        "f_can_sign_orders")),
+                    IsAgreement = CommonHelper.StringToBool(visitors.Field<string>(
+                        "f_can_adjust_orders")),
                     Cabinet = (string)CabinetsWrapper.CurrentTable()
                         .Table.AsEnumerable().FirstOrDefault(arg =>
                         arg.Field<int>("f_cabinet_id") ==
                         visitors.Field<int>("f_cabinet_id"))?["f_cabinet_desc"],
-                });
+            });
             if (Set.Count > 0)
             {
                 OrdersCardsToVisitor(0);
@@ -777,29 +791,29 @@ namespace SupRealClient.Views
                 MessageBox.Show("Не все поля вкладки Основная заполнены!");
                 return false;
             }
+            row["f_rec_date_pass"] = DateTime.MinValue;
+            row["f_is_short_data"] = CommonHelper.BoolToString(false);
+            row["f_rec_operator_pass"] = -1;
+            row["f_full_name"] = CommonHelper.CreateFullName(CurrentItem.Family,
+                CurrentItem.Name, CurrentItem.Patronymic);
+
+            row["f_deleted"] = CommonHelper.BoolToString(false);
+            row["f_rec_date"] = DateTime.Now;
+            row["f_rec_operator"] = Authorizer.AppAuthorizer.Id;
+
             row["f_family"] = CurrentItem.Family;
             row["f_fst_name"] = CurrentItem.Name;
             row["f_sec_name"] = CurrentItem.Patronymic;
             row["f_org_id"] = CurrentItem.OrganizationId;
             row["f_vr_text"] = CurrentItem.Comment ?? "";
 
-            if (CurrentItem.IsAccessDenied)
-            {
-                row["f_persona_non_grata"] = "Y";
-            }
-            else
-            {
-                row["f_persona_non_grata"] = "N";
-            }
-
-            if (CurrentItem.IsCanHaveVisitors)
-            {
-                row["f_can_sign_orders"] = "Y";
-            }
-            else
-            {
-                row["f_can_sign_orders"] = "N";
-            }
+            row["f_persona_non_grata"] =
+                CommonHelper.BoolToString(CurrentItem.IsAccessDenied);
+            row["f_can_have_visitors"] =
+                CommonHelper.BoolToString(CurrentItem.IsCanHaveVisitors);
+            row["f_personal_data_agreement"] =
+                CommonHelper.BoolToString(CurrentItem.IsAgree);
+            row["f_personal_data_last_date"] = CurrentItem.AgreeToDate;
 
             row["f_phones"] = CurrentItem.Telephone ?? "";
             row["f_cntr_id"] = CurrentItem.NationId;
@@ -809,24 +823,12 @@ namespace SupRealClient.Views
             row["f_doc_date"] = CurrentItem.DocDate;
             row["f_doc_org"] = CurrentItem.DocPlace ?? "";
             row["f_job"] = CurrentItem.Position ?? "";
-            if (CurrentItem.IsRightSign)
-            {
-                row["f_can_sign_orders"] = "Y";
-            }
-            else
-            {
-                row["f_can_sign_orders"] = "N";
-            }
+            row["f_can_sign_orders"] =
+                CommonHelper.BoolToString(CurrentItem.IsRightSign);
+            row["f_can_adjust_orders"] =
+                CommonHelper.BoolToString(CurrentItem.IsAgreement);
 
-            if (CurrentItem.IsAgreement)
-            {
-                row["f_can_adjust_orders"] = "Y";
-            }
-            else
-            {
-                row["f_can_adjust_orders"] = "N";
-            }
-
+            row["f_dep_id"] = CurrentItem.DepartmentId;
             row["f_cabinet_id"] = CurrentItem.CabinetId;
             VisitorsWrapper.CurrentTable().Table.Rows.Add(row);
 
@@ -890,37 +892,56 @@ namespace SupRealClient.Views
         {
             DataRow row = VisitorsWrapper.CurrentTable().Table.Rows.Find(
                 CurrentItem.Id);
+
+            row["f_rec_date"] = DateTime.Now;
+            if (OldVisitor.Operator != CurrentItem.Operator)
+            {
+                row["f_rec_operator"] = Authorizer.AppAuthorizer.Id;
+            }
+
+            bool fullNameChanged = false;
             if (OldVisitor.Family != CurrentItem.Family)
-            { row["f_family"] = CurrentItem.Family; }
+            {
+                row["f_family"] = CurrentItem.Family;
+                fullNameChanged = true;
+            }
             if (OldVisitor.Name != CurrentItem.Name)
+            {
                 row["f_fst_name"] = CurrentItem.Name;
+                fullNameChanged = true;
+            }
             if (OldVisitor.Patronymic != CurrentItem.Patronymic)
+            {
                 row["f_sec_name"] = CurrentItem.Patronymic;
+                fullNameChanged = true;
+            }
+            if (fullNameChanged)
+            {
+                row["f_full_name"] = CommonHelper.CreateFullName(
+                    CurrentItem.Family, CurrentItem.Name, CurrentItem.Patronymic);
+            }
             if (OldVisitor.OrganizationId != CurrentItem.OrganizationId)
                 row["f_org_id"] = CurrentItem.OrganizationId;
             if (OldVisitor.Comment != CurrentItem.Comment)
                 row["f_vr_text"] = CurrentItem.Comment;
             if (OldVisitor.IsAccessDenied != CurrentItem.IsAccessDenied)
             {
-                if (CurrentItem.IsAccessDenied)
-                {
-                    row["f_persona_non_grata"] = "Y";
-                }
-                else
-                {
-                    row["f_persona_non_grata"] = "N";
-                }
+                row["f_persona_non_grata"] =
+                    CommonHelper.BoolToString(CurrentItem.IsAccessDenied);
             }
             if (OldVisitor.IsCanHaveVisitors != CurrentItem.IsCanHaveVisitors)
             {
-                if (CurrentItem.IsCanHaveVisitors)
-                {
-                    row["f_can_sign_orders"] = "Y";
-                }
-                else
-                {
-                    row["f_can_sign_orders"] = "N";
-                }
+                row["f_can_have_visitors"] =
+                    CommonHelper.BoolToString(CurrentItem.IsCanHaveVisitors);
+            }
+            if (OldVisitor.IsAgree != CurrentItem.IsAgree)
+            {
+                row["f_personal_data_agreement"] =
+                    CommonHelper.BoolToString(CurrentItem.IsAgree);
+            }
+            if (OldVisitor.AgreeToDate != CurrentItem.AgreeToDate)
+            {
+                row["f_personal_data_last_date"] = CurrentItem.AgreeToDate;
             }
             if (OldVisitor.Telephone != CurrentItem.Telephone)
                 row["f_phones"] = CurrentItem.Telephone;
@@ -940,29 +961,21 @@ namespace SupRealClient.Views
                 row["f_job"] = CurrentItem.Position;
             if (OldVisitor.IsRightSign != CurrentItem.IsRightSign)
             {
-                if (CurrentItem.IsRightSign)
-                {
-                    row["f_can_sign_orders"] = "Y";
-                }
-                else
-                {
-                    row["f_can_sign_orders"] = "N";
-                }
+                row["f_can_sign_orders"] =
+                    CommonHelper.BoolToString(CurrentItem.IsRightSign);
             }
             if (OldVisitor.IsAgreement != CurrentItem.IsAgreement)
             {
-                if (CurrentItem.IsAgreement)
-                {
-                    row["f_can_adjust_orders"] = "Y";
-                }
-                else
-                {
-                    row["f_can_adjust_orders"] = "N";
-                }
+                row["f_can_adjust_orders"] =
+                    CommonHelper.BoolToString(CurrentItem.IsAgreement);
             }
             if (OldVisitor.Cabinet != CurrentItem.Cabinet)
             {
                 row["f_cabinet_id"] = CurrentItem.CabinetId;
+            }
+            if (OldVisitor.Department != CurrentItem.Department)
+            {
+                row["f_dep_id"] = CurrentItem.DepartmentId;
             }
 
             List<KeyValuePair<Guid, ImageType>> images =
