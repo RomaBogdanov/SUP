@@ -13,6 +13,7 @@ namespace SupRealClient.Views
         {
             InitializeComponent();
 
+            //TODO временно убрал запуск подключения к серверу
             AfterInitialize();
         }
 

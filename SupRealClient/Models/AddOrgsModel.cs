@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Data;
+using System.Windows.Input;
 using SupClientConnectionLib;
 using SupRealClient.EnumerationClasses;
 using SupRealClient.TabsSingleton;
@@ -16,11 +17,18 @@ namespace SupRealClient.Models
 
         public Organization Data { get { return new Organization(); } }
 
+        public ICommand OkCommand { get; set; }
+
         public event Action OnClose;
 
         public void Cancel()
         {
             OnClose?.Invoke();
+        }
+
+        public AddOrgsModel()
+        {
+            OkCommand = new RelayCommand(obj => Ok());
         }
 
         public void Ok(Organization data)
