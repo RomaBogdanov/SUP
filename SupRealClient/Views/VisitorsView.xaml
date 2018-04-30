@@ -50,6 +50,7 @@
                 Style="{StaticResource TextBLockStyle}"/>
 
             <TextBox
+                TabIndex="0"
                 Text="{Binding Path=CurrentItem.Family, Mode=TwoWay}"
                 Grid.Row="1"
                 Grid.Column="0"
@@ -63,6 +64,7 @@
                 Style="{StaticResource TextBLockStyle}"/>
 
             <TextBox
+                TabIndex="1"
                 Text="{Binding Path=CurrentItem.Name, Mode=TwoWay}"
                 Grid.Row="1"
                 Grid.Column="1"
@@ -76,6 +78,7 @@
                 Style="{StaticResource TextBLockStyle}"/>
 
             <TextBox
+                TabIndex="2"
                 Text="{Binding Path=CurrentItem.Patronymic, Mode=TwoWay}"
                 Grid.Row="1"
                 Grid.Column="2"
@@ -147,6 +150,7 @@
                 Style="{StaticResource TextBLockStyle}"/>
 
             <TextBox
+                TabIndex="3"
                 Text="{Binding Path=CurrentItem.Organization, Mode=TwoWay}"
                 Grid.Row="0"
                 Grid.Column="1"
@@ -154,6 +158,7 @@
                 Style="{StaticResource TextBoxStyle}"/>
             
             <Button
+                TabIndex="4"
                 Command="{Binding Path=OrganizationCommand}"
                 Grid.Row="0"
                 Grid.Column="2"
@@ -170,6 +175,7 @@
                 Style="{StaticResource TextBLockStyle}"/>
 
             <TextBox
+                TabIndex="5"
                 Text="{Binding Path=CurrentItem.Comment, Mode=TwoWay}"
                 Grid.Row="1"
                 Grid.Column="1"
@@ -177,6 +183,7 @@
                 Style="{StaticResource TextBoxStyle}"/>
 
             <Button
+                TabIndex="6"
                 Grid.Row="1"
                 Grid.Column="2"
                 Content="..."
@@ -203,6 +210,7 @@
                 </Grid.ColumnDefinitions>
                 
                 <CheckBox
+                    TabIndex="7"
                     IsChecked="{Binding Path=CurrentItem.IsAccessDenied, Mode=TwoWay}"
                     Grid.Column="0"
                     VerticalAlignment="Center"
@@ -224,6 +232,7 @@
                 </Grid.ColumnDefinitions>
 
                 <CheckBox
+                    TabIndex="8"
                     IsChecked="{Binding Path=CurrentItem.IsCanHaveVisitors, Mode=TwoWay}"
                     Grid.Column="0"
                     VerticalAlignment="Center"
@@ -245,6 +254,7 @@
                 </Grid.ColumnDefinitions>
 
                 <CheckBox
+                    TabIndex="9"
                     IsChecked="{Binding Path=CurrentItem.IsNotFormular, Mode=TwoWay}"
                     Grid.Column="0"
                     VerticalAlignment="Center"
@@ -289,6 +299,7 @@
                             Style="{StaticResource TextBLockStyle}"/>
                         
                         <TextBox
+                            TabIndex="10"
                             Text="{Binding Path=CurrentItem.Telephone, Mode=TwoWay}"
                             Grid.Row="0"
                             Grid.Column="1"
@@ -307,6 +318,7 @@
                             Style="{StaticResource TextBLockStyle}"/>
 
                         <TextBox
+                            TabIndex="11"
                             Text="{Binding Path=CurrentItem.Nation, Mode=TwoWay}"
                             Grid.Row="1"
                             Grid.Column="1"
@@ -323,6 +335,7 @@
                             </Grid.ColumnDefinitions>
                         
                             <Button
+                                TabIndex="12"
                                 Command="{Binding CountryCommand}"
                                 Grid.Column="0"
                                 Height="25"
@@ -333,6 +346,7 @@
                                 Style="{StaticResource VisitorsSquareButtonStyle}"/>
                             
                             <Button
+                                TabIndex="13"
                                 Grid.Column="1"
                                 Height="25"
                                 Width="25"
@@ -379,6 +393,7 @@
                                 Style="{StaticResource TextBLockStyle}"/>
 
                             <TextBox
+                                TabIndex="14"
                                 Grid.Row="1"
                                 Grid.Column="1"
                                 Text="{Binding Path=CurrentItem.DocType, Mode=TwoWay}"
@@ -397,6 +412,7 @@
                                 </Grid.ColumnDefinitions>
                                 
                                 <Button
+                                    TabIndex="15"
                                     Command="{Binding DocumentsCommand}"
                                     Grid.Column="0"
                                     Margin="0"
@@ -407,6 +423,7 @@
                                     Style="{StaticResource VisitorsSquareButtonStyle}"/>
 
                                 <Button
+                                    TabIndex="16"
                                     Grid.Column="1"
                                     Margin="0"
                                     Height="25"
@@ -431,6 +448,7 @@
                                     Style="{StaticResource TextBLockStyle}"/>
                                 
                                 <TextBox
+                                    TabIndex="17"
                                     Text="{Binding Path=CurrentItem.DocSeria, Mode=TwoWay}"
                                     Grid.Column="1"
                                     IsEnabled="{Binding Path=TextEnable, Mode=TwoWay}"
@@ -452,6 +470,7 @@
                                     Style="{StaticResource TextBLockStyle}"/>
 
                                 <TextBox
+                                    TabIndex="18"
                                     Text="{Binding Path=CurrentItem.DocNum, Mode=TwoWay}"
                                     Grid.Column="1"
                                     IsEnabled="{Binding Path=TextEnable, Mode=TwoWay}"
@@ -467,6 +486,7 @@
                                 Style="{StaticResource TextBLockStyle}"/>
 
                             <TextBox
+                                TabIndex="19"
                                 Grid.Row="2"
                                 Grid.Column="1"
                                 Grid.ColumnSpan="4"
@@ -484,6 +504,7 @@
                                 Style="{StaticResource TextBLockStyle}"/>
 
                             <TextBox
+                                TabIndex="20"
                                 Grid.Row="3"
                                 Grid.Column="1"
                                 Grid.ColumnSpan="4"
@@ -506,6 +527,7 @@
                                 </Grid.ColumnDefinitions>
 
                                 <CheckBox 
+                                    TabIndex="21"
                                     IsChecked="{Binding Path=CurrentItem.IsAgree, Mode=TwoWay}"
                                     Grid.Column="0"
                                     HorizontalAlignment="Center"
@@ -524,6 +546,7 @@
                                     Style="{StaticResource TextBLockStyle}"/>
                                 
                                 <DatePicker
+                                    TabIndex="22"
                                     Grid.Column="3"
                                     SelectedDate="{Binding Path=CurrentItem.AgreeToDate, Mode=TwoWay}"
                                     IsEnabled="{Binding Path=TextEnable, Mode=TwoWay}"
@@ -619,6 +642,7 @@
                             Style="{StaticResource TextBLockStyle}"/>
                         
                         <TextBox
+                             TabIndex="23"
                             Text="{Binding Path=CurrentItem.Department, Mode=TwoWay}"
                             Grid.Row="1"
                             Grid.Column="0"

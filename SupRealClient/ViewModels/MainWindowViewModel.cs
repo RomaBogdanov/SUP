@@ -162,7 +162,10 @@ namespace SupRealClient.ViewModels
 
         private void OpenBids()
         {
-            var bidsViewModel = new BidsViewModel();
+            var bidsViewModel = new BidsViewModel
+            {
+                BidsModel = new BidsModel()
+            };
 
             var window = new BidsView {DataContext = bidsViewModel};
             window.ShowDialog();

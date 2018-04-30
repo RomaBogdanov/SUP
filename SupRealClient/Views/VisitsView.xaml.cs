@@ -121,7 +121,7 @@ namespace SupRealClient.Views
             }
         }
 
-        ObservableCollection<EnumerationClasses.Visitor> Set
+        public ObservableCollection<EnumerationClasses.Visitor> Set
         {
             get { return Model?.Set; }
             set

@@ -369,7 +369,7 @@ CREATE TABLE vis_organizations
     f_syn_id                       int,
     f_comment                      VARCHAR(200),
     f_full_org_name                VARCHAR(70),
-    f_country_id                   int,
+    f_cntr_id                      int,
     f_region_id                    int)
 
 ALTER TABLE vis_organizations

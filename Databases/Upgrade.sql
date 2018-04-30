@@ -158,11 +158,11 @@ go
 -- добавление страны и региона в организации
 ALTER TABLE vis_organizations
 ADD
-	f_country_id int,
+	f_cntr_id int,
 	f_region_id int
 go
 
-UPDATE vis_organizations SET f_country_id='', f_region_id=''
+UPDATE vis_organizations SET f_cntr_id='', f_region_id=''
 go
 
 -- Создание vis_regions

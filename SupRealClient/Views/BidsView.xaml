@@ -551,11 +551,11 @@
             </mah:MetroTabItem>
 
             <mah:MetroTabItem Header="Список заявок">
-                <DataGrid>
+                <DataGrid ItemsSource="{Binding Path=OrdersSet}" AutoGenerateColumns="False">
                     <DataGrid.Columns>
-                        <DataGridTextColumn Header="№ заявки"/>
-                        <DataGridTextColumn Header="Дата начала"/>
-                        <DataGridTextColumn Header="Дата окончания"/>
+                        <DataGridTextColumn Header="№ заявки" Binding="{Binding RegNumber}"/>
+                        <DataGridTextColumn Header="Дата начала" Binding="{Binding From}"/>
+                        <DataGridTextColumn Header="Дата окончания" Binding="{Binding To}"/>
                         <DataGridTextColumn Width="*">
                             <DataGridTextColumn.Header>
                                 <TextBlock Text="Принимающее лицо посетителя"
@@ -587,6 +587,7 @@
             </Grid.ColumnDefinitions>
 
             <Button
+                Command="{Binding BeginCommand}"
                     Grid.Row="0"
                     Grid.Column="0"
                     Margin="2"
@@ -611,6 +612,7 @@
             </Button>
 
             <Button
+                Command="{Binding PrevCommand}"
                     Grid.Row="0"
                     Grid.Column="1"
                     Margin="2"
@@ -635,6 +637,7 @@
             </Button>
 
             <Button
+                Command="{Binding NextCommand}"
                     Grid.Row="0"
                     Grid.Column="2"
                     Margin="2"
@@ -659,6 +662,7 @@
             </Button>
 
             <Button
+                Command="{Binding EndCommand}"
                     Grid.Row="0"
                     Grid.Column="3"
                     Margin="2"
@@ -682,6 +686,7 @@
             </Button>
 
             <Button
+                Command="{Binding SearchCommand}"
                     Grid.Row="0"
                     Grid.Column="4"
                     Margin="2"
@@ -706,6 +711,7 @@
             </Button>
 
             <Button
+                Command="{Binding DelayCommand}"
                     Grid.Row="0"
                     Grid.Column="5"
                     Margin="2"
@@ -730,6 +736,7 @@
             </Button>
 
             <Button
+                Command="{Binding NewCommand}"
                     Grid.Row="1"
                     Grid.Column="0"
                     Margin="2"
@@ -754,6 +761,7 @@
             </Button>
 
             <Button
+                Command="{Binding EditCommand}"
                     Grid.Row="1"
                     Grid.Column="1"
                     Margin="2"
@@ -778,6 +786,7 @@
             </Button>
 
             <Button
+                Command="{Binding OkCommand}"
                     Grid.Row="1"
                     Grid.Column="2"
                     Margin="2"
@@ -802,6 +811,7 @@
             </Button>
 
             <Button
+                Command="{Binding CancelCommand}"
                     Grid.Row="1"
                     Grid.Column="3"
                     Margin="2"
@@ -826,6 +836,7 @@
             </Button>
 
             <Button
+                Command="{Binding FurtherCommand}"
                     Grid.Row="1"
                     Grid.Column="4"
                     Margin="2"
@@ -850,6 +861,7 @@
             </Button>
 
             <Button
+                Command="{Binding ReloadCommand}"
                     Grid.Row="1"
                     Grid.Column="5"
                     Margin="2"
