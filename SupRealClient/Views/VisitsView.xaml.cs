@@ -588,10 +588,10 @@ namespace SupRealClient.Views
                         .Table.AsEnumerable().FirstOrDefault(arg =>
                         arg.Field<int>("f_dep_id") ==
                         visitors.Field<int>("f_dep_id"))?["f_dep_name"],
-                    DepartmentUnit = (string)DepartmentSectionWrapper.CurrentTable()
+                    /*DepartmentUnit = (string)DepartmentSectionWrapper.CurrentTable()
                         .Table.AsEnumerable().FirstOrDefault(arg =>
                         arg.Field<int>("f_section_id") ==
-                        visitors.Field<int>("f_section_id"))?["f_section_name"],
+                        visitors.Field<int>("f_section_id"))?["f_section_name"],*/
                     Position = visitors.Field<string>("f_job"),
                     IsRightSign = visitors.Field<string>("f_can_sign_orders")
                         .ToUpper() == "Y" ? true :false,

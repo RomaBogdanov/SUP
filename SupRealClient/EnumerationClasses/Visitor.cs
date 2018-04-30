@@ -32,8 +32,8 @@ namespace SupRealClient.EnumerationClasses
         public DateTime AgreeToDate { get; set; }
         public string Operator { get; set; }
         public string Department { get; set; }
-        public string DepartmentUnit { get; set; }
-        public string DepartmentUnitUnit { get; set; }
+        //public string DepartmentUnit { get; set; }
+        //public string DepartmentUnitUnit { get; set; }
         public string Position { get; set; }
         public bool IsRightSign { get; set; }
         public bool IsAgreement { get; set; }

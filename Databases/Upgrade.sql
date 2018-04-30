@@ -33,15 +33,9 @@ begin
 end
 go
 
-if not exists(select * from vis_departament_sections where f_section_id = '0')
-begin
-	insert into vis_departament_sections values ( '0', '', '', '0', 'N', '', '')
-end
-go
-
 if not exists(select * from vis_departaments where f_dep_id = '0')
 begin
-	insert into vis_departaments values ( '0', '', '', '', 'N', '', '')
+	insert into vis_departaments values ( '0', '', '', '', 'N', '', '', '-1')
 end
 go
 
@@ -95,7 +89,7 @@ go
 
 if not exists(select * from vis_organizations where f_org_id = '0')
 begin
-	insert into vis_organizations values ( '0', '', '', '', '', '', '', 'N', '', '', '', '', '')
+	insert into vis_organizations values ( '0', '', '', '', '', '', '', 'N', '', '', '', '', '', '', '')
 end
 go
 
@@ -113,7 +107,7 @@ go
 
 if not exists(select * from vis_visitors where f_visitor_id = '0')
 begin
-	insert into vis_visitors values ( '0', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', 'N', '', '', '', '', '', '', '', '', '')
+	insert into vis_visitors values ( '0', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', 'N', '', '', '', '', '', '', '', '', '')
 end
 go
 
@@ -161,3 +155,45 @@ go
 UPDATE vis_visitors SET f_personal_data_agreement='N', f_personal_data_last_date='' WHERE f_visitor_id>0
 go
 
+-- добавление страны и региона в организации
+ALTER TABLE vis_organizations
+ADD
+	f_country_id int,
+	f_region_id int
+go
+
+UPDATE vis_organizations SET f_country_id='', f_region_id=''
+go
+
+-- Создание vis_regions
+
+CREATE TABLE vis_regions
+    (f_region_id                   int NOT NULL,
+    f_region_name                  VARCHAR(50),
+    f_deleted                      CHAR(1),
+    f_rec_date                     DATE,
+    f_rec_operator                 int)
+
+ALTER TABLE vis_regions
+ADD PRIMARY KEY (f_region_id)
+
+insert into vis_regions values ( '0', '', 'N', '', '')
+go
+
+-- Удаление секций, модификация департаментов
+
+ALTER TABLE vis_visitors
+DROP COLUMN
+    f_section_id
+go
+
+DROP TABLE vis_departament_sections
+go
+
+ALTER TABLE vis_departaments
+ADD
+	f_parent_id int
+go
+
+UPDATE vis_departaments SET f_parent_id='-1'
+go

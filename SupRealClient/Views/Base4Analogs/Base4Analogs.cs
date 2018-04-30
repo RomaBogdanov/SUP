@@ -293,4 +293,76 @@ namespace SupRealClient.Views
         }
     }
 
+    /// <summary>
+    /// Логика взаимодействия для Base4RegionsWindView.xaml - базовая часть для всех View
+    /// </summary>
+    public partial class Base4RegionsWindView : IWindow
+    {
+        public bool CanMinimize { get; private set; } = true;
+
+        public bool IsRealClose { get; set; } = true;
+
+        public string WindowName { get; private set; } = "Base4RegionsWindView";
+
+        public IWindow ParentWindow { get; set; }
+
+        public object WindowResult { get; set; }
+
+        public void AfterInitialize()
+        {
+            this.Closing += Window_Closing;
+            this.StateChanged += Window_StateChanged;
+            this.Loaded += Window_Loaded;
+
+            Base4ViewModel<EnumerationClasses.Region> viewModel =
+            new Base4ViewModel<EnumerationClasses.Region>
+            {
+                OkCaption = "OK",
+                ZonesVisibility = Visibility.Hidden,
+                Parent = this,
+                Model = new RegionsListModel<EnumerationClasses.Region>(),
+            };
+            viewModel.Model.OnClose += Handling_OnClose;
+            base4.DataContext = viewModel;
+
+            CreateColumns();
+        }
+
+        public void CloseWindow(CancelEventArgs e)
+        {
+            if (!IsRealClose)
+            {
+                IsRealClose = true;
+                e.Cancel = true;
+                this.Hide();
+            }
+        }
+
+        public void Unsuscribe()
+        {
+            this.Closing -= this.Window_Closing;
+        }
+
+        private void Window_Closing(object sender, CancelEventArgs e)
+        {
+            ViewManager.Instance.CloseWindow(this, true, e);
+        }
+
+        private void Handling_OnClose(object result)
+        {
+            WindowResult = result;
+            this.Close();
+        }
+
+        private void Window_StateChanged(object sender, EventArgs e)
+        {
+            ViewManager.Instance.SetChildrenState(sender as Window, false);
+        }
+
+        private void Window_Loaded(object sender, RoutedEventArgs e)
+        {
+            SetDefaultColumn();
+        }
+    }
+
 }

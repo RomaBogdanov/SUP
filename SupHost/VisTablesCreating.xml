@@ -1,8 +1,18 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <Enum Name="WrapperType">
-  <Item Name="VisZones" TabName="vis_zones" ColId="f_zone_id" Comment="??" />
+  <Item Name="VisCabinets" TabName="vis_cabinets" ColId="f_cabinet_id" Comment="Кабинеты" />
+  <Item Name="VisCards" TabName="vis_cards" ColId="f_card_id" Comment="Пропуска" />
+  <Item Name="VisCountries" TabName="vis_countries" ColId="f_cntr_id" Comment="Страны" />
+  <Item Name="VisDocuments" TabName="vis_documents" ColId="f_doc_id" Comment="Документы" />
+  <Item Name="VisOrderElements" TabName="vis_order_elements" ColId="f_oe_id" Comment="??" />
+  <Item Name="VisOrders" TabName="vis_orders" ColId="f_ord_id" Comment="??" />
+  <Item Name="VisOrganizations" TabName="vis_organizations" ColId="f_org_id" Comment="Организации" />
+  <Item Name="VisRegions" TabName="vis_regions" ColId="f_region_id" Comment="Регионы" />
+  <Item Name="VisSprCardstates" TabName="vis_spr_cardstates" ColId="f_state_id" Comment="??" />
+  <Item Name="VisVisitors" TabName="vis_visitors" ColId="f_visitor_id" Comment="Посетители" />
+  <Item Name="VisVisits" TabName="vis_visits" ColId="f_visit_id" Comment="??" />
+  <Item Name="VisZones" TabName="vis_zones" ColId="f_zone_id" Comment="Зоны" />
   <Item Name="VisCabinetsZones" TabName="vis_cabinets_zones" ColId="f_cabinet_zone_id" Comment="??" />
-  <Item Name="VisZoneTypes" TabName="vis_zone_types" ColId="f_zone_type_id" Comment="??" />
-  <Item Name="VisDepartment" TabName="vis_departaments" ColId="f_dep_id" Comment="??" />
-  <Item Name="VisDepartmentSection" TabName="vis_departament_sections" ColId="f_section_id" Comment="??" />
+  <Item Name="VisZoneTypes" TabName="vis_zone_types" ColId="f_zone_type_id" Comment="Типы зон" />
+  <Item Name="VisDepartment" TabName="vis_departaments" ColId="f_dep_id" Comment="Департаменты" />
 </Enum>
