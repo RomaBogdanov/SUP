@@ -329,13 +329,22 @@ namespace SupRealClient.ViewModels
         {
             OrdersSet = new ObservableCollection<Order>(
                 from orders in OrdersWrapper.CurrentTable().Table.AsEnumerable()
-                where orders.Field<int>("f_ord_id") != 0
+                where orders.Field<int>("f_ord_id") != 0 & orders.Field<int>("f_order_type_id") != 0
                 select new Order
                 {
                     Id = orders.Field<int>("f_ord_id"),
+                    Number = orders.Field<int>("f_reg_number"),
+                    TypeId = orders.Field<int>("f_order_type_id"),
+                    Type = SprOrderTypesWrapper.CurrentTable().Table.AsEnumerable()
+                        .FirstOrDefault(arg => arg.Field<int>("f_order_type_id") ==
+                        orders.Field<int>("f_order_type_id"))["f_order_text"].ToString(),
                     From = orders.Field<DateTime>("f_date_from"),
                     To = orders.Field<DateTime>("f_date_to"),
-                    RegNumber = orders.Field<int>("f_reg_number").ToString()
+                    RegNumber = orders.Field<int>("f_reg_number").ToString() + "-" +
+                        SprOrderTypesWrapper.CurrentTable().Table.AsEnumerable()
+                        .FirstOrDefault(arg => arg.Field<int>("f_order_type_id") ==
+                        orders.Field<int>("f_order_type_id"))["f_order_text"]
+                        .ToString().Substring(0, 1)
                 });
         }
     }

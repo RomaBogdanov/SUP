@@ -542,4 +542,34 @@ namespace SupRealClient.TabsSingleton
         }
     }
 
+	/// <summary>
+	/// Типы заявок
+	/// </summary>
+	partial class SprOrderTypesWrapper : TableWrapper
+	{
+		static SprOrderTypesWrapper currentTable;
+
+        public static SprOrderTypesWrapper CurrentTable()
+        {
+            if (currentTable == null)
+            {
+                currentTable = new SprOrderTypesWrapper();
+                wrappers.Add(currentTable);
+            }
+            return currentTable;
+        }
+
+		public override void Dispose()
+        {
+            base.Dispose();
+            currentTable = null;
+        }
+
+        private SprOrderTypesWrapper() : base()
+        {
+            this.table = connector.GetTable(TableName.VisSprOrderTypes);
+            this.Subscribe();
+        }
+    }
+
 }

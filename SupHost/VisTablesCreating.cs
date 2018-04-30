@@ -315,4 +315,25 @@
 			this.getTableBehavior = new VisDepartmentTableBehavior(); 
 		}
     }
+    /// <summary>
+    /// TableBehavior для Тип заявки
+    /// </summary>
+    partial class VisSprOrderTypesTableBehavior : VisitorsDBTableBehavior
+    {
+        public VisSprOrderTypesTableBehavior()
+        {
+            this.StandartSetup("vis_spr_order_types", "f_order_type_id");
+        }
+    }
+
+    /// <summary>
+    /// TableWrapper для Тип заявки
+    /// </summary>
+	partial class VisSprOrderTypesTableWrapper : AbstractTableWrapper
+    {
+        public VisSprOrderTypesTableWrapper()
+        { 
+			this.getTableBehavior = new VisSprOrderTypesTableBehavior(); 
+		}
+    }
 }

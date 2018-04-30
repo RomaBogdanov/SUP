@@ -43,6 +43,7 @@ namespace SupHost
                 { TableName.VisDepartment.ToString(), new VisDepartmentTableWrapper() },
                 { TableName.VisImages.ToString(), new VisImagesTableWrapper() },
                 { TableName.VisRegions.ToString(), new VisRegionsTableWrapper() },
+                { TableName.VisSprOrderTypes.ToString(), new VisSprOrderTypesTableWrapper() }
             };
         }
 

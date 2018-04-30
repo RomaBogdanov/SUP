@@ -23,5 +23,6 @@
         VisDepartment,
         VisImages,
         VisRegions,
+        VisSprOrderTypes
     }
 }
