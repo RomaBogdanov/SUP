@@ -28,7 +28,7 @@ namespace SupRealClient.Models
 
         public AddOrgsModel()
         {
-            OkCommand = new RelayCommand(obj => Ok());
+            //OkCommand = new RelayCommand(obj => Ok());
         }
 
         public void Ok(Organization data)
