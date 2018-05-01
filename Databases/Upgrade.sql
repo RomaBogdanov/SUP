@@ -197,3 +197,33 @@ go
 
 UPDATE vis_departaments SET f_parent_id='-1'
 go
+
+alter table vis_orders
+drop column
+	f_order_type_id
+go
+
+alter table vis_orders
+add
+	f_order_type_id int not null default 0
+go
+
+drop table vis_spr_order_types
+
+CREATE TABLE vis_spr_order_types
+    (f_order_type_id               int NOT NULL,
+    f_order_text                   VARCHAR(50),
+    f_deleted                      CHAR(1),
+    f_rec_date                     DATE,
+    f_rec_operator                 int)
+
+ALTER TABLE vis_spr_order_types
+ADD PRIMARY KEY (f_order_type_id)
+
+insert into vis_spr_order_types values ( '0', ' ', 'N', '', '')
+insert into vis_spr_order_types values ( '1', 'Разовая', 'N', '11-июл-2003 14:39:56', '-1')
+insert into vis_spr_order_types values ( '2', 'Временная', 'N', '11-июл-2003 14:39:56', '-1')
+insert into vis_spr_order_types values ( '3', 'Бессрочная', 'N', '11-июл-2003 14:39:56', '-1')
+insert into vis_spr_order_types values ( '4', 'На основании', 'N', '11-июл-2003 14:39:57', '-1')
+
+go

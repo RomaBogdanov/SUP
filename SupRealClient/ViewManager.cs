@@ -245,6 +245,13 @@ namespace SupRealClient
             if (window.IsRealClose)
             {
                 window.IsRealClose = false;
+
+                //Открытие окна в модальном режиме
+                if (window.GetType().ToString() == "AddUpdateOrgsView")
+                {
+                    (window as Window).ShowDialog();
+                }
+
                 (window as Window).Show();
             }
             (window as Window).Activate();

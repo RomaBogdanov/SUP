@@ -634,7 +634,7 @@ namespace SupRealClient.Views
                         .Table.AsEnumerable().FirstOrDefault(arg =>
                         arg.Field<int>("f_cabinet_id") ==
                         visitors.Field<int>("f_cabinet_id"))?["f_cabinet_desc"],
-            });
+                });
             if (Set.Count > 0)
             {
                 OrdersCardsToVisitor(0);

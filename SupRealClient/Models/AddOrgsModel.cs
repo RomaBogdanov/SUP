@@ -1,5 +1,7 @@
 ﻿using System;
 using System.Data;
+using System.Windows;
+using System.Windows.Input;
 using SupClientConnectionLib;
 using SupRealClient.EnumerationClasses;
 using SupRealClient.TabsSingleton;
@@ -22,9 +24,15 @@ namespace SupRealClient.Models
         {
             OnClose?.Invoke();
         }
-
+        
         public void Ok(Organization data)
         {
+            if (string.IsNullOrEmpty(data.Name))
+            {
+                MessageBox.Show("Заполните поле Название");
+                return; 
+            }
+
             OrganizationsWrapper organizations =
                 OrganizationsWrapper.CurrentTable();
             if (!(data.Type == "" | data.Name == "" | data.FullName == ""))
