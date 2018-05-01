@@ -472,7 +472,8 @@ CREATE TABLE vis_visitors
     f_cabinet_id                   int,
     f_full_name                    VARCHAR(100),
     f_personal_data_agreement      CHAR(1),
-    f_personal_data_last_date      DATE)
+    f_personal_data_last_date      DATE,
+    f_doc_code                     VARCHAR(20))
 
 ALTER TABLE vis_visitors
 ADD PRIMARY KEY (f_visitor_id)

@@ -616,6 +616,7 @@ namespace SupRealClient.Views
                     DocSeria = visitors.Field<string>("f_doc_seria"),
                     DocNum = visitors.Field<string>("f_doc_num"),
                     DocDate = visitors.Field<DateTime>("f_doc_date"),
+                    DocCode = visitors.Field<string>("f_doc_code"),
                     DocPlace = visitors.Field<string>("f_doc_org"),
                     IsAgree = CommonHelper.StringToBool(visitors.Field<string>(
                         "f_personal_data_agreement")),
@@ -855,6 +856,7 @@ namespace SupRealClient.Views
             row["f_doc_seria"] = CurrentItem.DocSeria ?? "";
             row["f_doc_num"] = CurrentItem.DocNum ?? "";
             row["f_doc_date"] = CurrentItem.DocDate;
+            row["f_doc_code"] = CurrentItem.DocCode;
             row["f_doc_org"] = CurrentItem.DocPlace ?? "";
             row["f_job"] = CurrentItem.Position ?? "";
             row["f_can_sign_orders"] =
@@ -989,6 +991,8 @@ namespace SupRealClient.Views
                 row["f_doc_num"] = CurrentItem.DocNum;
             if (OldVisitor.DocDate != CurrentItem.DocDate)
                 row["f_doc_date"] = CurrentItem.DocDate;
+            if (OldVisitor.DocCode != CurrentItem.DocCode)
+                row["f_doc_code"] = CurrentItem.DocCode;
             if (OldVisitor.DocPlace != CurrentItem.DocPlace)
                 row["f_doc_org"] = CurrentItem.DocPlace;
             if (OldVisitor.Position != CurrentItem.Position)

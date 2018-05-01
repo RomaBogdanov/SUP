@@ -489,13 +489,31 @@
                                 TabIndex="19"
                                 Grid.Row="2"
                                 Grid.Column="1"
-                                Grid.ColumnSpan="4"
+                                Grid.ColumnSpan="2"
                                 Text="{Binding Path=CurrentItem.DocDate, Mode=TwoWay}"
                                 FontSize="15"
                                 HorizontalAlignment="Stretch"
                                 IsEnabled="{Binding Path=TextEnable, Mode=TwoWay}"
                                 Style="{StaticResource TextBoxStyle}"/>
-                            
+
+                            <TextBlock 
+                                Grid.Row="2"
+                                Grid.Column="3"
+                                Text="Код документа"
+                                FontSize="15"
+                                HorizontalAlignment="Left"
+                                Style="{StaticResource TextBLockStyle}"/>
+
+                            <TextBox
+                                TabIndex="20"
+                                Grid.Row="2"
+                                Grid.Column="4"
+                                Text="{Binding Path=CurrentItem.DocCode, Mode=TwoWay}"
+                                FontSize="15"
+                                HorizontalAlignment="Stretch"
+                                IsEnabled="{Binding Path=TextEnable, Mode=TwoWay}"
+                                Style="{StaticResource TextBoxStyle}"/>
+
                             <TextBlock 
                                 Grid.Row="3"
                                 Grid.Column="0"
@@ -504,7 +522,7 @@
                                 Style="{StaticResource TextBLockStyle}"/>
 
                             <TextBox
-                                TabIndex="20"
+                                TabIndex="21"
                                 Grid.Row="3"
                                 Grid.Column="1"
                                 Grid.ColumnSpan="4"
@@ -527,7 +545,7 @@
                                 </Grid.ColumnDefinitions>
 
                                 <CheckBox 
-                                    TabIndex="21"
+                                    TabIndex="22"
                                     IsChecked="{Binding Path=CurrentItem.IsAgree, Mode=TwoWay}"
                                     Grid.Column="0"
                                     HorizontalAlignment="Center"
@@ -546,7 +564,7 @@
                                     Style="{StaticResource TextBLockStyle}"/>
                                 
                                 <DatePicker
-                                    TabIndex="22"
+                                    TabIndex="23"
                                     Grid.Column="3"
                                     SelectedDate="{Binding Path=CurrentItem.AgreeToDate, Mode=TwoWay}"
                                     IsEnabled="{Binding Path=TextEnable, Mode=TwoWay}"
@@ -643,7 +661,7 @@
                             Style="{StaticResource TextBLockStyle}"/>
                         
                         <TextBox
-                             TabIndex="23"
+                             TabIndex="24"
                             Text="{Binding Path=CurrentItem.Department, Mode=TwoWay}"
                             Grid.Row="1"
                             Grid.Column="0"

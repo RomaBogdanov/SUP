@@ -23,6 +23,7 @@ namespace SupRealClient.EnumerationClasses
         public string DocSeria { get; set; }
         public string DocNum { get; set; }
         public DateTime DocDate { get; set; }
+        public string DocCode { get; set; }
         public string DocPlace { get; set; }
         public bool IsAgree { get; set; }
         public DateTime AgreeToDate { get; set; }
