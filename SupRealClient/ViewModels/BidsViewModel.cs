@@ -38,7 +38,7 @@ namespace SupRealClient.ViewModels
             }
         }
 
-        public ObservableCollection<Order> CurrentSingleOrder
+        public Order CurrentSingleOrder
         {
             get { return BidsModel?.CurrentSingleOrder; }
             set
@@ -64,7 +64,7 @@ namespace SupRealClient.ViewModels
             }
         }
 
-        public ObservableCollection<Order> CurrentTemporaryOrder
+        public Order CurrentTemporaryOrder
         {
             get { return BidsModel?.CurrentTemporaryOrder; }
             set
@@ -90,7 +90,7 @@ namespace SupRealClient.ViewModels
             }
         }
 
-        public ObservableCollection<Order> CurrentVirtueOrder
+        public Order CurrentVirtueOrder
         {
             get { return BidsModel?.CurrentVirtueOrder; }
             set
@@ -116,7 +116,7 @@ namespace SupRealClient.ViewModels
             }
         }
 
-        public ObservableCollection<Order> CurrentOrder
+        public Order CurrentOrder
         {
             get { return BidsModel?.CurrentOrder; }
             set
@@ -226,10 +226,10 @@ namespace SupRealClient.ViewModels
         ObservableCollection<Order> TemporaryOrdersSet { get; set; }
         ObservableCollection<Order> VirtueOrdersSet { get; set; }
         ObservableCollection<Order> OrdersSet { get; set; }
-        ObservableCollection<Order> CurrentSingleOrder { get; set; }
-        ObservableCollection<Order> CurrentTemporaryOrder { get; set; }
-        ObservableCollection<Order> CurrentVirtueOrder { get; set; }
-        ObservableCollection<Order> CurrentOrder { get; set; }
+        Order CurrentSingleOrder { get; set; }
+        Order CurrentTemporaryOrder { get; set; }
+        Order CurrentVirtueOrder { get; set; }
+        Order CurrentOrder { get; set; }
 
         void Begin();
         void Cancel();
@@ -247,18 +247,22 @@ namespace SupRealClient.ViewModels
 
     public class BidsModel : IBidsModel
     {
-        public ObservableCollection<Order> SingleOrdersSet { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
-        public ObservableCollection<Order> TemporaryOrdersSet { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
-        public ObservableCollection<Order> VirtueOrdersSet { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
+        public ObservableCollection<Order> SingleOrdersSet { get; set; }
+        public ObservableCollection<Order> TemporaryOrdersSet { get; set; }
+        public ObservableCollection<Order> VirtueOrdersSet { get; set; }
         public ObservableCollection<Order> OrdersSet { get; set; }
-        public ObservableCollection<Order> CurrentSingleOrder { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
-        public ObservableCollection<Order> CurrentTemporaryOrder { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
-        public ObservableCollection<Order> CurrentVirtueOrder
+        public Order CurrentSingleOrder { get; set; }
+        public Order CurrentTemporaryOrder { get; set; }
+        public Order CurrentVirtueOrder
         {
-            get => throw new NotImplementedException();
-            set => throw new NotImplementedException();
+            get;
+            set;
         }
-        public ObservableCollection<Order> CurrentOrder { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
+        public Order CurrentOrder
+        {
+            get;
+            set;
+        }
 
         public BidsModel()
         {
@@ -329,6 +333,8 @@ namespace SupRealClient.ViewModels
         {
             OrdersSet = new ObservableCollection<Order>(
                 from orders in OrdersWrapper.CurrentTable().Table.AsEnumerable()
+                join elems in OrderElementsWrapper.CurrentTable().Table.AsEnumerable()
+                on orders.Field<int>("f_ord_id") equals elems.Field<int>("f_ord_id")
                 where orders.Field<int>("f_ord_id") != 0 & orders.Field<int>("f_order_type_id") != 0
                 select new Order
                 {
@@ -340,12 +346,46 @@ namespace SupRealClient.ViewModels
                         orders.Field<int>("f_order_type_id"))["f_order_text"].ToString(),
                     From = orders.Field<DateTime>("f_date_from"),
                     To = orders.Field<DateTime>("f_date_to"),
+                    CatcherId = elems.Field<int>("f_catcher_id"),
+                    Catcher = VisitorsWrapper.CurrentTable().Table.AsEnumerable()
+                        .FirstOrDefault(arg => arg.Field<int>("f_visitor_id") ==
+                        elems.Field<int>("f_catcher_id"))["f_full_name"].ToString(),
                     RegNumber = orders.Field<int>("f_reg_number").ToString() + "-" +
                         SprOrderTypesWrapper.CurrentTable().Table.AsEnumerable()
                         .FirstOrDefault(arg => arg.Field<int>("f_order_type_id") ==
                         orders.Field<int>("f_order_type_id"))["f_order_text"]
-                        .ToString().Substring(0, 1)
+                        .ToString().Substring(0, 1),
+                    SignedId = orders.Field<int>("f_signed_by"),
+                    Signed = VisitorsWrapper.CurrentTable().Table.AsEnumerable()
+                        .FirstOrDefault(arg => arg.Field<int>("f_visitor_id") == 
+                        orders.Field<int>("f_signed_by"))["f_full_name"].ToString(),
+                    AgreeId = orders.Field<int>("f_adjusted_with"),
+                    Note = orders.Field<string>("f_notes"),
+                    OrganizationId = (int)VisitorsWrapper.CurrentTable().Table
+                        .AsEnumerable().FirstOrDefault(arg => arg.Field<int>
+                        ("f_visitor_id") == elems.Field<int>("f_visitor_id"))
+                        ["f_org_id"],
+                    Passes = elems.Field<string>("f_passes")
                 });
+            SingleOrdersSet = new ObservableCollection<Order>(OrdersSet.Where(
+                arg => arg.Type == "Разовая"));
+            if (SingleOrdersSet.Count > 0)
+            {
+                CurrentSingleOrder = SingleOrdersSet[0];
+            }
+            TemporaryOrdersSet = new ObservableCollection<Order>(OrdersSet.Where(
+                arg => arg.Type == "Временная"));
+            if (TemporaryOrdersSet.Count > 0)
+            {
+                CurrentTemporaryOrder = TemporaryOrdersSet[0];
+            }
+            VirtueOrdersSet = new ObservableCollection<Order>(OrdersSet.Where(
+                arg => arg.Type == "На основании"));
+            if (VirtueOrdersSet.Count > 0)
+            {
+                CurrentVirtueOrder = VirtueOrdersSet[0];
+            }
+
         }
     }
 }
