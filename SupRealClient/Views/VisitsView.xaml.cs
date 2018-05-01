@@ -5,6 +5,7 @@ using System.ComponentModel;
 using System.Data;
 using System.Linq;
 using System.Runtime.CompilerServices;
+using System.Text;
 using System.Windows.Forms;
 using System.Windows.Input;
 using SupClientConnectionLib;
@@ -262,7 +263,8 @@ namespace SupRealClient.Views
                 return;
             }
             CurrentItem.DepartmentId = result.Id;
-            CurrentItem.Department = result.Name;
+            CurrentItem.Department =
+                Model.GetDepartmenstList(CurrentItem.DepartmentId);
             OnPropertyChanged("CurrentItem");
         }
 
@@ -449,6 +451,8 @@ namespace SupRealClient.Views
         void AddImageSource(string path, ImageType imageType);
         void RemoveImageSource(ImageType imageType);
         bool Ok();
+
+        string GetDepartmenstList(int? id);
     }
 
     public abstract class BaseVisitsModel : IVisitsModel
@@ -536,6 +540,24 @@ namespace SupRealClient.Views
         public virtual bool Ok()
         {
             return false;
+        }
+
+        public string GetDepartmenstList(int? id)
+        {
+            var sb = new StringBuilder();
+            while (id.HasValue && id.Value > 0)
+            {
+                DataRow row = DepartmentWrapper.CurrentTable().
+                    Table.AsEnumerable().FirstOrDefault(arg =>
+                    arg.Field<int>("f_dep_id") == id);
+                if (row == null)
+                {
+                    break;
+                }
+                sb.AppendLine(row["f_dep_name"] as string);
+                id = row["f_parent_id"] as int?;
+            }
+            return sb.ToString();
         }
 
         protected bool Validate()
@@ -686,10 +708,7 @@ namespace SupRealClient.Views
                         "f_personal_data_agreement")),
                     AgreeToDate = visitors.Field<DateTime>("f_personal_data_last_date"),
                     Operator = visitors.Field<int>("f_rec_operator").ToString(),
-                    Department = (string)DepartmentWrapper.CurrentTable()
-                        .Table.AsEnumerable().FirstOrDefault(arg =>
-                        arg.Field<int>("f_dep_id") ==
-                        visitors.Field<int>("f_dep_id"))?["f_dep_name"],
+                    Department = GetDepartmenstList(visitors.Field<int>("f_dep_id")),
                     Position = visitors.Field<string>("f_job"),
                     IsRightSign = CommonHelper.StringToBool(visitors.Field<string>(
                         "f_can_sign_orders")),
