@@ -6,8 +6,7 @@
         xmlns:mah="http://metro.mahapps.com/winfx/xaml/controls"
         mc:Ignorable="d"
         Title="Посетители" Height="900" Width="900"
-        ResizeMode="NoResize"
-        WindowStartupLocation="CenterScreen"
+        ResizeMode="NoResize" WindowStartupLocation="CenterScreen"
         Closing="Window_Closing">
 
     <mah:MetroWindow.Resources>

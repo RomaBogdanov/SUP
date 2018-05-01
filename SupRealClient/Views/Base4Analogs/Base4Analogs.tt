@@ -57,6 +57,7 @@ namespace SupRealClient.Views
             this.Closing += Window_Closing;
             this.StateChanged += Window_StateChanged;
             this.Loaded += Window_Loaded;
+            this.WindowStartupLocation = WindowStartupLocation.CenterScreen;
 
             Base4ViewModel<EnumerationClasses.<#=entity.Type#>> viewModel =
             new Base4ViewModel<EnumerationClasses.<#=entity.Type#>>

@@ -25,6 +25,7 @@ namespace SupRealClient.Views
             this.Closing += Window_Closing;
             this.StateChanged += Window_StateChanged;
             this.Loaded += Window_Loaded;
+            this.WindowStartupLocation = WindowStartupLocation.CenterScreen;
 
             Base4ViewModel<EnumerationClasses.Cabinet> viewModel =
             new Base4ViewModel<EnumerationClasses.Cabinet>
@@ -97,6 +98,7 @@ namespace SupRealClient.Views
             this.Closing += Window_Closing;
             this.StateChanged += Window_StateChanged;
             this.Loaded += Window_Loaded;
+            this.WindowStartupLocation = WindowStartupLocation.CenterScreen;
 
             Base4ViewModel<EnumerationClasses.Document> viewModel =
             new Base4ViewModel<EnumerationClasses.Document>
@@ -169,6 +171,7 @@ namespace SupRealClient.Views
             this.Closing += Window_Closing;
             this.StateChanged += Window_StateChanged;
             this.Loaded += Window_Loaded;
+            this.WindowStartupLocation = WindowStartupLocation.CenterScreen;
 
             Base4ViewModel<EnumerationClasses.Nation> viewModel =
             new Base4ViewModel<EnumerationClasses.Nation>
@@ -241,6 +244,7 @@ namespace SupRealClient.Views
             this.Closing += Window_Closing;
             this.StateChanged += Window_StateChanged;
             this.Loaded += Window_Loaded;
+            this.WindowStartupLocation = WindowStartupLocation.CenterScreen;
 
             Base4ViewModel<EnumerationClasses.Organization> viewModel =
             new Base4ViewModel<EnumerationClasses.Organization>
@@ -313,6 +317,7 @@ namespace SupRealClient.Views
             this.Closing += Window_Closing;
             this.StateChanged += Window_StateChanged;
             this.Loaded += Window_Loaded;
+            this.WindowStartupLocation = WindowStartupLocation.CenterScreen;
 
             Base4ViewModel<EnumerationClasses.Region> viewModel =
             new Base4ViewModel<EnumerationClasses.Region>
