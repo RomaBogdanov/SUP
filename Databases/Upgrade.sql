@@ -107,7 +107,7 @@ go
 
 if not exists(select * from vis_visitors where f_visitor_id = '0')
 begin
-	insert into vis_visitors values ( '0', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', 'N', '', '', '', '', '', '', '', '', '')
+	insert into vis_visitors values ( '0', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', 'N', '', '', '', '', '', '', '', '', '', '')
 end
 go
 
@@ -226,4 +226,12 @@ insert into vis_spr_order_types values ( '2', 'Временная', 'N', '11-июл-2003 14:
 insert into vis_spr_order_types values ( '3', 'Бессрочная', 'N', '11-июл-2003 14:39:56', '-1')
 insert into vis_spr_order_types values ( '4', 'На основании', 'N', '11-июл-2003 14:39:57', '-1')
 
+go
+
+alter table vis_visitors
+add
+	f_doc_code VARCHAR(20)
+go
+
+UPDATE vis_visitors SET f_doc_code=''
 go
