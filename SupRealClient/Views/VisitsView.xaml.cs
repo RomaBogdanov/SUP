@@ -176,6 +176,8 @@ namespace SupRealClient.Views
         public ICommand DepartmentsCommand { get; set; }
         public ICommand DocumentsCommand { get; set; }
 
+        public ICommand ClearCommand { get; set; }
+
         public ICommand ExtraditeCommand { get; set; }
         public ICommand ReturnCommand { get; set; }
 
@@ -207,6 +209,8 @@ namespace SupRealClient.Views
             CabinetsCommand = new RelayCommand(arg => CabinetsList());
             DepartmentsCommand = new RelayCommand(arg => DepartmentsList());
             DocumentsCommand = new RelayCommand(arg => DocumentsListModel());
+
+            ClearCommand = new RelayCommand(arg => Clear(arg as string));
 
             ExtraditeCommand = new RelayCommand(obj => Extradite());
             ReturnCommand = new RelayCommand(obj => Return());
@@ -285,6 +289,43 @@ namespace SupRealClient.Views
             }
             CurrentItem.NationId = result.Id;
             CurrentItem.Nation = result.Name;
+            OnPropertyChanged("CurrentItem");
+        }
+
+        private void Clear(string field)
+        {
+            switch (field)
+            {
+                case "Nation":
+                    CurrentItem.NationId = -1;
+                    CurrentItem.Nation = "";
+                    break;
+                case "Organization":
+                    CurrentItem.OrganizationId = -1;
+                    CurrentItem.Organization = "";
+                    break;
+                case "DocType":
+                    CurrentItem.DocumentId = -1;
+                    CurrentItem.DocType = "";
+                    break;
+                case "Department":
+                    CurrentItem.DepartmentId = -1;
+                    CurrentItem.Department = "";
+                    break;
+                case "Cabinet":
+                    CurrentItem.CabinetId = -1;
+                    CurrentItem.Cabinet = "";
+                    break;
+                case "Position":
+                    CurrentItem.Position = "";
+                    break;
+                case "Comment":
+                    CurrentItem.Comment = "";
+                    break;
+                default:
+                    return;
+            }
+
             OnPropertyChanged("CurrentItem");
         }
 
@@ -495,6 +536,29 @@ namespace SupRealClient.Views
         public virtual bool Ok()
         {
             return false;
+        }
+
+        protected bool Validate()
+        {
+            if (CurrentItem.Family == "" || CurrentItem.Family == null ||
+                CurrentItem.Name == "" || CurrentItem.Name == null)
+            {
+                MessageBox.Show("Не все поля заполнены корректно!");
+                return false;
+            }
+            if (!CurrentItem.IsNotFormular &
+                (CurrentItem.Telephone == null || CurrentItem.Telephone == "" ||
+                CurrentItem.Nation == null || CurrentItem.Nation == "" ||
+                CurrentItem.DocType == null || CurrentItem.DocType == "" ||
+                CurrentItem.DocSeria == null || CurrentItem.DocSeria == "" ||
+                CurrentItem.DocNum == null || CurrentItem.DocNum == "" ||
+                CurrentItem.DocDate == null || CurrentItem.DocDate == DateTime.MinValue ||
+                CurrentItem.DocPlace == null || CurrentItem.DocPlace == ""))
+            {
+                MessageBox.Show("Не все поля вкладки Основная заполнены!");
+                return false;
+            }
+            return true;
         }
 
         private void OnImageChanged()
@@ -808,24 +872,12 @@ namespace SupRealClient.Views
         public override bool Ok()
         {
             DataRow row = VisitorsWrapper.CurrentTable().Table.NewRow();
-            if (CurrentItem.Family == "" || CurrentItem.Family == null ||
-                CurrentItem.Name == "" || CurrentItem.Name == null)
+
+            if (!Validate())
             {
-                MessageBox.Show("Не все поля заполнены корректно!");
                 return false;
             }
-            if (!CurrentItem.IsNotFormular & 
-                (CurrentItem.Telephone == null || CurrentItem.Telephone == "" ||
-                CurrentItem.Nation == null || CurrentItem.Nation == "" ||
-                CurrentItem.DocType == null || CurrentItem.DocType == "" ||
-                CurrentItem.DocSeria == null || CurrentItem.DocSeria == "" ||
-                CurrentItem.DocNum == null || CurrentItem.DocNum == "" ||
-                CurrentItem.DocDate == null || CurrentItem.DocDate == DateTime.MinValue ||
-                CurrentItem.DocPlace == null || CurrentItem.DocPlace == ""))
-            {
-                MessageBox.Show("Не все поля вкладки Основная заполнены!");
-                return false;
-            }
+
             row["f_rec_date_pass"] = DateTime.MinValue;
             row["f_is_short_data"] = CommonHelper.BoolToString(false);
             row["f_rec_operator_pass"] = -1;
@@ -839,7 +891,8 @@ namespace SupRealClient.Views
             row["f_family"] = CurrentItem.Family;
             row["f_fst_name"] = CurrentItem.Name;
             row["f_sec_name"] = CurrentItem.Patronymic;
-            row["f_org_id"] = CurrentItem.OrganizationId;
+            row["f_org_id"] = CurrentItem.OrganizationId >= 0 ?
+                CurrentItem.OrganizationId : 0;
             row["f_vr_text"] = CurrentItem.Comment ?? "";
 
             row["f_persona_non_grata"] =
@@ -849,10 +902,12 @@ namespace SupRealClient.Views
             row["f_personal_data_agreement"] =
                 CommonHelper.BoolToString(CurrentItem.IsAgree);
             row["f_personal_data_last_date"] = CurrentItem.AgreeToDate;
-
+ 
             row["f_phones"] = CurrentItem.Telephone ?? "";
-            row["f_cntr_id"] = CurrentItem.NationId;
-            row["f_doc_id"] = CurrentItem.DocumentId;
+            row["f_cntr_id"] = CurrentItem.NationId >= 0 ?
+                CurrentItem.NationId : 0;
+            row["f_doc_id"] = CurrentItem.DocumentId >= 0 ?
+                CurrentItem.DocumentId : 0;
             row["f_doc_seria"] = CurrentItem.DocSeria ?? "";
             row["f_doc_num"] = CurrentItem.DocNum ?? "";
             row["f_doc_date"] = CurrentItem.DocDate;
@@ -864,8 +919,10 @@ namespace SupRealClient.Views
             row["f_can_adjust_orders"] =
                 CommonHelper.BoolToString(CurrentItem.IsAgreement);
 
-            row["f_dep_id"] = CurrentItem.DepartmentId;
-            row["f_cabinet_id"] = CurrentItem.CabinetId;
+            row["f_dep_id"] = CurrentItem.DepartmentId >= 0 ?
+                CurrentItem.DepartmentId : 0;
+            row["f_cabinet_id"] = CurrentItem.CabinetId >= 0 ?
+                CurrentItem.CabinetId : 0;
             VisitorsWrapper.CurrentTable().Table.Rows.Add(row);
 
             List<KeyValuePair<Guid, ImageType>> images =
@@ -929,6 +986,11 @@ namespace SupRealClient.Views
             DataRow row = VisitorsWrapper.CurrentTable().Table.Rows.Find(
                 CurrentItem.Id);
 
+            if (!Validate())
+            {
+                return false;
+            }
+
             row["f_rec_date"] = DateTime.Now;
             if (OldVisitor.Operator != CurrentItem.Operator)
             {
@@ -957,7 +1019,8 @@ namespace SupRealClient.Views
                     CurrentItem.Family, CurrentItem.Name, CurrentItem.Patronymic);
             }
             if (OldVisitor.OrganizationId != CurrentItem.OrganizationId)
-                row["f_org_id"] = CurrentItem.OrganizationId;
+                row["f_org_id"] = CurrentItem.OrganizationId >= 0 ?
+                    CurrentItem.OrganizationId : 0;
             if (OldVisitor.Comment != CurrentItem.Comment)
                 row["f_vr_text"] = CurrentItem.Comment;
             if (OldVisitor.IsAccessDenied != CurrentItem.IsAccessDenied)
@@ -982,9 +1045,11 @@ namespace SupRealClient.Views
             if (OldVisitor.Telephone != CurrentItem.Telephone)
                 row["f_phones"] = CurrentItem.Telephone;
             if (OldVisitor.Nation != CurrentItem.Nation)
-                row["f_cntr_id"] = CurrentItem.NationId;
+                row["f_cntr_id"] = CurrentItem.NationId >= 0 ?
+                    CurrentItem.NationId : 0;
             if (OldVisitor.DocType != CurrentItem.DocType)
-                row["f_doc_id"] = CurrentItem.DocumentId;
+                row["f_doc_id"] = CurrentItem.DocumentId >= 0 ?
+                    CurrentItem.DocumentId : 0;
             if (OldVisitor.DocSeria != CurrentItem.DocSeria)
                 row["f_doc_seria"] = CurrentItem.DocSeria;
             if (OldVisitor.DocNum != CurrentItem.DocNum)
@@ -1009,11 +1074,13 @@ namespace SupRealClient.Views
             }
             if (OldVisitor.Cabinet != CurrentItem.Cabinet)
             {
-                row["f_cabinet_id"] = CurrentItem.CabinetId;
+                row["f_cabinet_id"] = CurrentItem.CabinetId >= 0 ?
+                    CurrentItem.CabinetId : 0;
             }
             if (OldVisitor.Department != CurrentItem.Department)
             {
-                row["f_dep_id"] = CurrentItem.DepartmentId;
+                row["f_dep_id"] = CurrentItem.DepartmentId >= 0 ?
+                    CurrentItem.DepartmentId : 0;
             }
 
             List<KeyValuePair<Guid, ImageType>> images =
