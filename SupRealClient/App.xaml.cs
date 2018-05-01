@@ -1,6 +1,7 @@
 ﻿using SupRealClient.ViewModels;
 using System.Windows;
 using System.Windows.Threading;
+using SupRealClient.Models;
 
 namespace SupRealClient
 {
@@ -11,6 +12,7 @@ namespace SupRealClient
     {
         public App()
         {
+            GlobalSettings.SetSettings(12);
             this.DispatcherUnhandledException += App_DispatcherUnhandledException;
         }
 

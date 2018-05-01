@@ -1,7 +1,12 @@
-﻿using SupRealClient.Models;
+﻿using System.Collections.Generic;
+using SupRealClient.Models;
 using System.ComponentModel;
+using System.Data;
+using System.Linq;
+using System.Windows;
 using System.Windows.Input;
 using SupRealClient.EnumerationClasses;
+using SupRealClient.TabsSingleton;
 
 namespace SupRealClient.ViewModels
 {
@@ -13,6 +18,45 @@ namespace SupRealClient.ViewModels
         private string name = "";
         private string comment = "";
         private string fullName = "";
+        public int FontSize => GlobalSettings.GetSettings();
+
+        public string TypeToolType
+        {
+            get
+            {
+                var list = new List<string>();
+                var organizations = OrganizationsWrapper.CurrentTable();
+
+                foreach (DataRow row in organizations.Table.Rows)
+                {
+                    if (!list.Contains(row.ItemArray[2].ToString()) && row.ItemArray[2].ToString() != "нет данных")
+                    {
+                        list.Add(row.ItemArray[2].ToString());
+                    }
+                }
+
+                return list.Aggregate("", (current, row) => current + (row + "\n"));
+            }
+        }
+
+        public string NameToolType
+        {
+            get
+            {
+                var list = new List<string>();
+                var organizations = OrganizationsWrapper.CurrentTable();
+
+                foreach (DataRow row in organizations.Table.Rows)
+                {
+                    if (!list.Contains(row.ItemArray[3].ToString()))
+                    {
+                        list.Add(row.ItemArray[3].ToString());
+                    }
+                }
+
+                return list.Aggregate("", (current, row) => current + (row + "\n"));
+            }
+        }
 
         public string Type
         {
@@ -70,7 +114,10 @@ namespace SupRealClient.ViewModels
 
         public ICommand Cancel { get; set; }
 
-        public AddUpdateOrgsViewModel() { }
+        public AddUpdateOrgsViewModel()
+        {
+            
+        }
 
         public void SetModel(IAddUpdateOrgsModel addItem1Model)
         {
@@ -79,7 +126,7 @@ namespace SupRealClient.ViewModels
             this.Name = model.Data.Name;
             this.Comment = model.Data.Comment;
             this.FullName = model.Data.FullName;
-
+            
             this.Ok = new RelayCommand(arg => this.model.Ok(new Organization
             {
                 Type = Type,

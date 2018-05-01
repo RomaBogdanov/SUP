@@ -1,5 +1,7 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Data;
+using System.Linq;
 using System.Windows;
 using System.Windows.Input;
 using SupClientConnectionLib;
@@ -15,8 +17,8 @@ namespace SupRealClient.Models
     {
         protected bool IsChild { get; set; } = false;
         protected bool IsMaster { get; set; } = false;
-
-        public Organization Data { get { return new Organization(); } }
+        
+        public Organization Data => new Organization();
 
         public event Action OnClose;
 
@@ -32,6 +34,8 @@ namespace SupRealClient.Models
                 MessageBox.Show("Заполните поле Название");
                 return; 
             }
+
+            data.Name = CheckName(data.Name);
 
             OrganizationsWrapper organizations =
                 OrganizationsWrapper.CurrentTable();
@@ -49,6 +53,26 @@ namespace SupRealClient.Models
                 organizations.Table.Rows.Add(row);
             }
             Cancel();
+        }
+
+        public string CheckName(string name)
+        {
+            if (name.First() == '\"' && name.Last() == '\"')
+            {
+                return name;
+            }
+
+            if (name.First() == '\'')
+            {
+                name = name.Remove(0, 1);
+            }
+
+            if (name.Last() == '\'')
+            {
+                name = name.Remove(name.Length - 1, 1);
+            }
+
+            return $"\"{name}\"";
         }
     }
 
