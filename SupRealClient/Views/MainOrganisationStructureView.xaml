@@ -7,8 +7,7 @@
         xmlns:viewModels="clr-namespace:SupRealClient.ViewModels"
         mc:Ignorable="d"
         Title="Структура главных организаций" Height="400" Width="500"
-        ResizeMode="NoResize"
-        WindowStartupLocation="CenterScreen">
+        ResizeMode="NoResize">
     <mah:MetroWindow.DataContext>
         <viewModels:MainOrganizationViewModel/>
     </mah:MetroWindow.DataContext>
