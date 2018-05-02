@@ -1213,15 +1213,15 @@ namespace SupRealClient.Views
     }
 
     /// <summary>
-    /// Логика взаимодействия для AddUpdateVisitorsDocumentView.xaml - базовая часть для всех View
+    /// Логика взаимодействия для VisitorsDocumentView.xaml - базовая часть для всех View
     /// </summary>
-    public partial class AddUpdateVisitorsDocumentView : IWindow
+    public partial class VisitorsDocumentView : IWindow
     {
         public bool CanMinimize { get; private set; } = true;
 
         public bool IsRealClose { get; set; } = true;
 
-        public string WindowName { get; private set; } = "AddUpdateVisitorsDocumentView";
+        public string WindowName { get; private set; } = "VisitorsDocumentView";
 
         public IWindow ParentWindow { get; set; }
 

@@ -17,5 +17,5 @@
   <Item Name="VisitorsListWindView" />
   <Item Name="VisitorsView" CanMinimize="false" />
   <Item Name="AddUpdateCabinetView" />
-  <Item Name="AddUpdateVisitorsDocumentView" />
+  <Item Name="VisitorsDocumentView" />
 </Enum>

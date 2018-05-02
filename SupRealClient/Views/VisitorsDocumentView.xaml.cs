@@ -6,20 +6,20 @@ using System.Windows.Input;
 namespace SupRealClient.Views
 {
     /// <summary>
-    /// Логика взаимодействия для AddUpdateVisitorsDocumentView.xaml
+    /// Логика взаимодействия для VisitorsDocumentView.xaml
     /// </summary>
-    public partial class AddUpdateVisitorsDocumentView
+    public partial class VisitorsDocumentView
     {
         /// <summary>
         /// Двигатель фокуса
         /// </summary>
         private TraversalRequest _focusMover = new TraversalRequest(FocusNavigationDirection.Next);
 
-        public AddUpdateVisitorsDocumentView(VisitorsDocumentModel model)
+        public VisitorsDocumentView(VisitorsDocumentModel model)
         {
             model.OnClose += Handling_OnClose;
-            DataContext = new AddUpdateVisitorsDocumentViewModel();
-            ((AddUpdateVisitorsDocumentViewModel)DataContext).SetModel(model);
+            DataContext = new VisitorsDocumentViewModel();
+            ((VisitorsDocumentViewModel)DataContext).SetModel(model);
             InitializeComponent();
 
             AfterInitialize();
@@ -29,11 +29,11 @@ namespace SupRealClient.Views
         /// <summary>
         /// Конструктор - заглушка
         /// </summary>
-        public AddUpdateVisitorsDocumentView()
+        public VisitorsDocumentView()
         {
             InitializeComponent();
             NameTextBox.Focus();
-            DataContext = new AddUpdateVisitorsDocumentViewModel();
+            DataContext = new VisitorsDocumentViewModel();
         }
 
         private void TextBox_OnKeyUp(object sender, KeyEventArgs e)

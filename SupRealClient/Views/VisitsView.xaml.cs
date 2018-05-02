@@ -439,7 +439,7 @@ namespace SupRealClient.Views
 
         private void AddDocument()
         {
-            var window = new AddUpdateVisitorsDocumentView(
+            var window = new VisitorsDocumentView(
                 new VisitorsDocumentModel(null));
             window.ShowDialog();
             var document = window.WindowResult as VisitorsDocument;
@@ -458,7 +458,7 @@ namespace SupRealClient.Views
             {
                 return;
             }
-            var window = new AddUpdateVisitorsDocumentView(
+            var window = new VisitorsDocumentView(
                 new VisitorsDocumentModel(
                     CurrentItem.Documents[SelectedDocument]));
             window.ShowDialog();

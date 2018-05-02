@@ -5,7 +5,7 @@ using SupRealClient.EnumerationClasses;
 
 namespace SupRealClient.ViewModels
 {
-    public class AddUpdateVisitorsDocumentViewModel : INotifyPropertyChanged
+    public class VisitorsDocumentViewModel : INotifyPropertyChanged
     {
         public event PropertyChangedEventHandler PropertyChanged;
         private VisitorsDocumentModel model;
@@ -28,7 +28,7 @@ namespace SupRealClient.ViewModels
 
         public ICommand Cancel { get; set; }
 
-        public AddUpdateVisitorsDocumentViewModel() { }
+        public VisitorsDocumentViewModel() { }
 
         public void SetModel(VisitorsDocumentModel model)
         {

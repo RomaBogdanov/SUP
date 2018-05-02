@@ -1,4 +1,4 @@
-﻿<mah:MetroWindow x:Class="SupRealClient.Views.AddUpdateVisitorsDocumentView"
+﻿<mah:MetroWindow x:Class="SupRealClient.Views.VisitorsDocumentView"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
@@ -18,9 +18,8 @@
             <RowDefinition Height="30"/>
             <RowDefinition Height="30"/>
             <RowDefinition Height="30"/>
-            <RowDefinition Height="30"/>
-            <RowDefinition Height="30"/>
-            <RowDefinition />
+            <RowDefinition/>
+            <RowDefinition Height="Auto"/>
             <RowDefinition Height="Auto"/>
         </Grid.RowDefinitions>
         <TextBlock 
@@ -41,8 +40,59 @@
             Style="{StaticResource TextBoxStyle}"
             KeyUp="TextBox_OnKeyUp"/>
 
+        <TextBlock 
+            Grid.Row="2" 
+            Grid.ColumnSpan="2"
+            Text="Изображения:" 
+            FontSize="15"
+            HorizontalAlignment="Left"
+            Style="{StaticResource TextBLockStyle}"/>
+
+        <ListBox
+            Grid.Row="3"
+            Grid.ColumnSpan="2" />
+
+        <Grid Grid.Row="4" Grid.ColumnSpan="2">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition />
+                <ColumnDefinition Width="Auto"/>
+                <ColumnDefinition Width="Auto"/>
+                <ColumnDefinition Width="Auto"/>
+            </Grid.ColumnDefinitions>
+            <Button
+                Command="{Binding AddImageCommand}"
+                TabIndex="2"
+                Grid.Column="1"
+                Margin="2"
+                Height="25"
+                Width="25"
+                Content="+"
+                IsEnabled="{Binding Path=ButtonEnable, Mode=TwoWay}"
+                Style="{StaticResource VisitorsSquareButtonStyle}"/>
+            <Button
+                Command="{Binding OpenImageCommand}"
+                TabIndex="3"
+                Grid.Column="2"
+                Margin="2"
+                Height="25"
+                Width="25"
+                Content="o"
+                IsEnabled="{Binding Path=ButtonEnable, Mode=TwoWay}"
+                Style="{StaticResource VisitorsSquareButtonStyle}"/>
+            <Button
+                Command="{Binding RemoveImageCommand}"
+                TabIndex="4"
+                Grid.Column="3"
+                Margin="2"
+                Height="25"
+                Width="25"
+                Content="X"
+                IsEnabled="{Binding Path=ButtonEnable, Mode=TwoWay}"
+                Style="{StaticResource VisitorsSquareButtonStyle}"/>
+        </Grid>
+
         <Button 
-            Grid.Row="6" 
+            Grid.Row="5" 
             Grid.Column="0"
             Command="{Binding Path=Ok}"
             Margin="2"
@@ -66,7 +116,7 @@
         </Button>
 
         <Button 
-            Grid.Row="6" 
+            Grid.Row="5" 
             Grid.Column="1" 
             Margin="2"
             TabIndex="7"
