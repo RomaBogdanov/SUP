@@ -750,41 +750,10 @@
                             Text="{Binding Path=CurrentItem.Position, Mode=TwoWay}"
                             Grid.Row="5"
                             Grid.Column="0"
-                            Grid.ColumnSpan="2"
+                            Grid.ColumnSpan="4"
                             Margin="2"
                             IsEnabled="{Binding Path=TextEnable, Mode=TwoWay}"
                             Style="{StaticResource TextBoxStyle}"/>
-
-                        <Grid
-                            Grid.Row="5"
-                            Grid.Column="2">
-                            <Grid.ColumnDefinitions>
-                                <ColumnDefinition/>
-                                <ColumnDefinition/>
-                            </Grid.ColumnDefinitions>
-
-                            <Button 
-                                TabIndex="30"
-                                Grid.Column="0"
-                                Content="..."
-                                Margin="2"
-                                Height="25"
-                                Width="25"
-                                IsEnabled="{Binding Path=ButtonEnable, Mode=TwoWay}"
-                                Style="{StaticResource VisitorsSquareButtonStyle}"/>
-
-                            <Button 
-                                Command="{Binding ClearCommand}"
-                                CommandParameter="Position"
-                                TabIndex="31"
-                                Grid.Column="1"
-                                Content="X"
-                                Margin="2"
-                                Height="25"
-                                Width="25"
-                                IsEnabled="{Binding Path=ButtonEnable, Mode=TwoWay}"
-                                Style="{StaticResource VisitorsSquareButtonStyle}"/>
-                        </Grid>
 
                         <Grid
                             Grid.Row="6"
