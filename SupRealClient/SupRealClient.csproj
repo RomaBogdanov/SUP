@@ -91,6 +91,7 @@
     <Compile Include="EnumerationClasses\Card2.cs" />
     <Compile Include="EnumerationClasses\Region.cs" />
     <Compile Include="EnumerationClasses\Visitor.cs" />
+    <Compile Include="EnumerationClasses\VisitorsDocument.cs" />
     <Compile Include="EnumerationClasses\Zone.cs" />
     <Compile Include="EnumerationClasses\LogItem.cs" />
     <Compile Include="ErrorWindow.xaml.cs">
@@ -102,6 +103,7 @@
     <Compile Include="Models\AddCardModel.cs" />
     <Compile Include="Common\Data\SearchData.cs" />
     <Compile Include="Models\AddItemRegionsModel.cs" />
+    <Compile Include="Models\VisitorsDocumentModel.cs" />
     <Compile Include="Models\Base3CabinetsModel.cs" />
     <Compile Include="Models\Base1LogsModel.cs" />
     <Compile Include="Models\Base3ModelAbstr.cs" />
@@ -144,6 +146,7 @@
       <DependentUpon>Wrappers.tt</DependentUpon>
     </Compile>
     <Compile Include="ViewModels\AddUpdateCardViewModel.cs" />
+    <Compile Include="ViewModels\AddUpdateVisitorsDocumentViewModel.cs" />
     <Compile Include="ViewModels\Base3ViewModel.cs" />
     <Compile Include="ViewModels\BidsViewModel.cs" />
     <Compile Include="ViewModels\DetailVisitsViewModel.Properties.cs" />
@@ -179,6 +182,9 @@
       <DependentUpon>AddUpdateOrgsView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Models\Base1CardsModel.cs" />
+    <Compile Include="Views\AddUpdateVisitorsDocumentView.xaml.cs">
+      <DependentUpon>AddUpdateVisitorsDocumentView.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Views\AddUpdateZoneWindView.xaml.cs">
       <DependentUpon>AddUpdateZoneWindView.xaml</DependentUpon>
     </Compile>
@@ -315,6 +321,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Views\AddUpdateOrgsView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\AddUpdateVisitorsDocumentView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

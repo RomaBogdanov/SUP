@@ -1,0 +1,92 @@
+﻿<mah:MetroWindow x:Class="SupRealClient.Views.AddUpdateVisitorsDocumentView"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:mah="http://metro.mahapps.com/winfx/xaml/controls"
+        mc:Ignorable="d"
+        Title="Добавление документа" 
+        Height="470" Width="300" 
+        ResizeMode="NoResize">
+
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="1*"/>
+            <ColumnDefinition Width="1*"/>
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="30"/>
+            <RowDefinition Height="30"/>
+            <RowDefinition Height="30"/>
+            <RowDefinition Height="30"/>
+            <RowDefinition Height="30"/>
+            <RowDefinition />
+            <RowDefinition Height="Auto"/>
+        </Grid.RowDefinitions>
+        <TextBlock 
+            Grid.ColumnSpan="2"
+            Text="Название:" 
+            FontSize="15"
+            HorizontalAlignment="Left"
+            Style="{StaticResource TextBLockStyle}"/>
+
+        <TextBox 
+            x:Name="NameTextBox"
+            Grid.Row="1" 
+            Grid.Column="0"
+            Grid.ColumnSpan="2" 
+            TabIndex="0"
+            Text="{Binding Path=Name, Mode=TwoWay}"
+            Margin="2"
+            Style="{StaticResource TextBoxStyle}"
+            KeyUp="TextBox_OnKeyUp"/>
+
+        <Button 
+            Grid.Row="6" 
+            Grid.Column="0"
+            Command="{Binding Path=Ok}"
+            Margin="2"
+            TabIndex="6"
+            Style="{StaticResource ButtonStyle}">
+            <Grid Width="140">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition/>
+                    <ColumnDefinition/>
+                </Grid.ColumnDefinitions>
+
+                <Image 
+                    Grid.Column="0"
+                    Source="../Resources/Принять (2).ico"/>
+
+                <TextBlock
+                    Grid.Column="1"
+                    Text="Ок"
+                    Style="{StaticResource TextBLockStyle}"/>
+            </Grid>
+        </Button>
+
+        <Button 
+            Grid.Row="6" 
+            Grid.Column="1" 
+            Margin="2"
+            TabIndex="7"
+            Command="{Binding Path=Cancel}"
+            Style="{StaticResource ButtonStyle}">
+            <Grid Width="140">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition/>
+                    <ColumnDefinition/>
+                </Grid.ColumnDefinitions>
+
+                <Image
+                    Grid.Column="0"
+                    Source="../Resources/Отмена (2).ico"/>
+
+                <TextBlock
+                    Grid.Column="1"
+                    Text="Отмена"
+                    Style="{StaticResource TextBLockStyle}"/>
+            </Grid>
+        </Button>
+    </Grid>
+</mah:MetroWindow>

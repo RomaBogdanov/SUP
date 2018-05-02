@@ -572,4 +572,34 @@ namespace SupRealClient.TabsSingleton
         }
     }
 
+	/// <summary>
+	/// Документы посетителей
+	/// </summary>
+	partial class VisitorsDocumentsWrapper : TableWrapper
+	{
+		static VisitorsDocumentsWrapper currentTable;
+
+        public static VisitorsDocumentsWrapper CurrentTable()
+        {
+            if (currentTable == null)
+            {
+                currentTable = new VisitorsDocumentsWrapper();
+                wrappers.Add(currentTable);
+            }
+            return currentTable;
+        }
+
+		public override void Dispose()
+        {
+            base.Dispose();
+            currentTable = null;
+        }
+
+        private VisitorsDocumentsWrapper() : base()
+        {
+            this.table = connector.GetTable(TableName.VisVisitorsDocuments);
+            this.Subscribe();
+        }
+    }
+
 }

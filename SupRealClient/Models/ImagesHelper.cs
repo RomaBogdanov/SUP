@@ -31,9 +31,8 @@ namespace SupRealClient.Models
         /// по Guid
         /// </summary>
         /// <param name="path"></param>
-        /// <param name="imageType"></param>
         /// <returns></returns>
-        public static Guid LoadImage(string path, ImageType imageType)
+        public static Guid LoadImage(string path)
         {
             var alias = Guid.NewGuid();
             byte[] data = File.ReadAllBytes(path);
@@ -163,7 +162,7 @@ namespace SupRealClient.Models
             if (row != null)
             {
                 row["f_deleted"] = "Y";
-                //row.Delete();
+                //row.Delete(); // TODO
             }
         }
 
