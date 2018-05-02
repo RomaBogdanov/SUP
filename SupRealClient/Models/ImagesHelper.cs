@@ -4,6 +4,7 @@ using System;
 using System.Collections.Generic;
 using System.Data;
 using System.IO;
+using System.Linq;
 
 namespace SupRealClient.Models
 {
@@ -125,19 +126,27 @@ namespace SupRealClient.Models
                     }
                 }
 
-                bool find = row != null;
-                row = row ?? ImagesWrapper.CurrentTable().Table.NewRow();
-                row["f_image_alias"] = image.Key;
-                if (!find)
+                if (row == null)
                 {
+                    row = ImagesWrapper.CurrentTable().Table.NewRow();
+                    row["f_image_alias"] = image.Key;
                     row["f_visitor_id"] = id;
                     row["f_image_type"] = image.Value;
                     ImagesWrapper.CurrentTable().Table.Rows.Add(row);
+                    imagesToSave.Add(image.Key,
+                        File.ReadAllBytes(GetImagePath(image.Key)));
                 }
-                imagesToSave.Add(image.Key,
-                    File.ReadAllBytes(GetImagePath(image.Key)));
+                else if (!image.Key.Equals(row["f_image_alias"]))
+                {
+                    row["f_image_alias"] = image.Key;
+                    imagesToSave.Add(image.Key,
+                        File.ReadAllBytes(GetImagePath(image.Key)));
+                }
             }
-            ImagesWrapper.CurrentTable().Connector.SetImages(imagesToSave);
+            if (imagesToSave.Any())
+            {
+                ImagesWrapper.CurrentTable().Connector.SetImages(imagesToSave);
+            }
         }
 
         private static void RemoveImage(int id, ImageType imageType)

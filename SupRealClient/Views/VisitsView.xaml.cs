@@ -950,7 +950,7 @@ namespace SupRealClient.Views
                 new KeyValuePair<Guid, ImageType>(photoAlias, ImageType.Photo),
                 new KeyValuePair<Guid, ImageType>(signAlias, ImageType.Signature),
             };
-            ImagesHelper.AddImages(CurrentItem.Id, images);
+            ImagesHelper.AddImages((int)row["f_visitor_id"], images);
 
             return true;
         }
