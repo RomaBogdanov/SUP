@@ -583,6 +583,17 @@ namespace SupRealClient.Views
             return true;
         }
 
+        protected void SaveAdditionalData(int id)
+        {
+            List<KeyValuePair<Guid, ImageType>> images =
+                new List<KeyValuePair<Guid, ImageType>>
+            {
+                new KeyValuePair<Guid, ImageType>(photoAlias, ImageType.Photo),
+                new KeyValuePair<Guid, ImageType>(signAlias, ImageType.Signature),
+            };
+            ImagesHelper.AddImages(id, images);
+        }
+
         private void OnImageChanged()
         {
             // TODO - пустой вызов, чтобы не падало
@@ -944,13 +955,7 @@ namespace SupRealClient.Views
                 CurrentItem.CabinetId : 0;
             VisitorsWrapper.CurrentTable().Table.Rows.Add(row);
 
-            List<KeyValuePair<Guid, ImageType>> images =
-                new List<KeyValuePair<Guid, ImageType>>
-            {
-                new KeyValuePair<Guid, ImageType>(photoAlias, ImageType.Photo),
-                new KeyValuePair<Guid, ImageType>(signAlias, ImageType.Signature),
-            };
-            ImagesHelper.AddImages((int)row["f_visitor_id"], images);
+            SaveAdditionalData((int)row["f_visitor_id"]);
 
             return true;
         }
@@ -1102,13 +1107,7 @@ namespace SupRealClient.Views
                     CurrentItem.DepartmentId : 0;
             }
 
-            List<KeyValuePair<Guid, ImageType>> images =
-                new List<KeyValuePair<Guid, ImageType>>
-            {
-                new KeyValuePair<Guid, ImageType>(photoAlias, ImageType.Photo),
-                new KeyValuePair<Guid, ImageType>(signAlias, ImageType.Signature),
-            };
-            ImagesHelper.AddImages(CurrentItem.Id, images);
+            SaveAdditionalData(CurrentItem.Id);
 
             return true;
         }

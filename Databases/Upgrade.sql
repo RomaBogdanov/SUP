@@ -235,3 +235,17 @@ go
 
 UPDATE vis_visitors SET f_doc_code=''
 go
+
+use VisitorsImages;
+go
+
+alter table vis_image
+add
+	f_deleted CHAR(1)
+go
+
+UPDATE vis_image SET f_deleted='N'
+go
+
+use Visitors;
+go
