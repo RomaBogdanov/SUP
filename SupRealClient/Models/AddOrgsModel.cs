@@ -39,20 +39,32 @@ namespace SupRealClient.Models
 
             OrganizationsWrapper organizations =
                 OrganizationsWrapper.CurrentTable();
-            if (!(data.Type == "" | data.Name == "" | data.FullName == ""))
+
+            var rows = (from object row in organizations.Table.Rows select row as DataRow).ToList();
+
+            var newOrganization = rows.SingleOrDefault(r => r.ItemArray[3].ToString() == data.Name) == null;
+
+            if (newOrganization)
             {
-                DataRow row = organizations.Table.NewRow();
-                row["f_org_type"] = data.Type;
-                row["f_org_name"] = data.Name;
-                row["f_comment"] = data.Comment;
-                row["f_full_org_name"] = data.FullName;
-                row["f_rec_date"] = DateTime.Now;
-                row["f_rec_operator"] = Authorizer.AppAuthorizer.Id;
-                row["f_has_free_access"] = IsChild ? "Y" : "N";
-                row["f_is_basic"] = IsMaster ? "Y" : "N";
-                organizations.Table.Rows.Add(row);
+                if (!(data.Type == "" | data.Name == "" | data.FullName == ""))
+                {
+                    DataRow row = organizations.Table.NewRow();
+                    row["f_org_type"] = data.Type;
+                    row["f_org_name"] = data.Name;
+                    row["f_comment"] = data.Comment;
+                    row["f_full_org_name"] = data.FullName;
+                    row["f_rec_date"] = DateTime.Now;
+                    row["f_rec_operator"] = Authorizer.AppAuthorizer.Id;
+                    row["f_has_free_access"] = IsChild ? "Y" : "N";
+                    row["f_is_basic"] = IsMaster ? "Y" : "N";
+                    organizations.Table.Rows.Add(row);
+                }
+                Cancel();
             }
-            Cancel();
+            else
+            {
+                MessageBox.Show("Такая организация уже записана!");
+            }
         }
 
         public string CheckName(string name)
