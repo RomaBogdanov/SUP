@@ -42,7 +42,11 @@ namespace SupRealClient.Models
 
             var rows = (from object row in organizations.Table.Rows select row as DataRow).ToList();
 
-            var newOrganization = rows.SingleOrDefault(r => r.ItemArray[3].ToString() == data.Name) == null;
+            var newOrganization =
+                rows.SingleOrDefault(
+                    r =>
+                        r.ItemArray[3].ToString() == data.Name && r.ItemArray[13].ToString() == data.Country &&
+                        r.ItemArray[14].ToString() == data.Region) == null;
 
             if (newOrganization)
             {
