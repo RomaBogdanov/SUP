@@ -3,13 +3,14 @@ using SupRealClient.ViewModels;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Data;
+using System.Windows.Input;
 
 namespace SupRealClient.Views
 {
     /// <summary>
     /// Логика взаимодействия для OrganizationsWindView.xaml
     /// </summary>
-    public partial class OrganizationsWindView : Window
+    public partial class OrganizationsWindView
     {
         public OrganizationsWindView()
         {
@@ -47,7 +48,27 @@ namespace SupRealClient.Views
                 Binding = new Binding("FullName")
             };
             base2.baseTab.Columns.Add(dataGridTextColumn);
+            dataGridTextColumn = new DataGridTextColumn
+            {
+                Header = "Страна",
+                Binding = new Binding("Country")
+            };
+            base2.baseTab.Columns.Add(dataGridTextColumn);
+            dataGridTextColumn = new DataGridTextColumn
+            {
+                Header = "Регион",
+                Binding = new Binding("Region")
+            };
+            base2.baseTab.Columns.Add(dataGridTextColumn);
             base2.SetDefaultColumn();
+        }
+
+        private void Base2_OnKeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.Key == Key.Down)
+            {
+                e.ToString();
+            }
         }
     }
 }

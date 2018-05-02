@@ -1,6 +1,8 @@
-﻿using SupRealClient.Models;
+﻿using System.Linq;
+using SupRealClient.Models;
 using SupRealClient.ViewModels;
 using System.Windows.Controls;
+using System.Windows.Input;
 
 namespace SupRealClient.Views
 {
@@ -28,6 +30,7 @@ namespace SupRealClient.Views
             set
             {
                 baseTab = value;
+                baseTab.Focus();
             }
         }
 
@@ -37,6 +40,19 @@ namespace SupRealClient.Views
             {
                 baseTab.CurrentColumn = baseTab.Columns[0];
             }
+        }
+
+        private void BaseTab_OnKeyDown(object sender, KeyEventArgs e)
+        {
+            //if (e.Key == Key.Down)
+            {
+                SelectSearchBox();
+            }
+        }
+
+        public void SelectSearchBox()
+        {
+            aaa.Focus();
         }
     }
 }
