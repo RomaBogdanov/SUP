@@ -34,7 +34,7 @@ namespace SupRealClient.Models
                 this.viewModel.CurrentItem = this.viewModel.Set.First();
                 this.viewModel.NumItem =
                     (this.viewModel.CurrentItem as Organization).Id;
-                this.viewModel.SelectedIndex = 0;
+                this.viewModel.SelectedIndex = 1;
             }
             else
             {

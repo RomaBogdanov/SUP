@@ -238,7 +238,7 @@ namespace SupRealClient
 
         private void OpenWindow(IWindow window)
         {
-            if (window == null) 
+            if (window == null)
             {
                 return;
             }
@@ -247,12 +247,11 @@ namespace SupRealClient
                 window.IsRealClose = false;
 
                 //Открытие окна в модальном режиме
-                if (window.GetType().ToString() == "AddUpdateOrgsView")
-                {
+                if (window.GetType().ToString().Contains("AddUpdateOrgsView") ||
+                    window.GetType().ToString().Contains("OrganizationsWindView"))
                     (window as Window).ShowDialog();
-                }
-
-                (window as Window).Show();
+                else
+                    (window as Window).Show();
             }
             (window as Window).Activate();
         }
