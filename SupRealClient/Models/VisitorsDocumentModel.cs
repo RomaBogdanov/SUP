@@ -13,7 +13,9 @@ namespace SupRealClient.Models
             {
                 return new VisitorsDocument
                 {
+                    Id = visitorsDocument.Id,
                     Name = visitorsDocument.Name,
+                    Images = visitorsDocument.Images,
                 };
             }
         }

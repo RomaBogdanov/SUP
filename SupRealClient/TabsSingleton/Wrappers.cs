@@ -602,4 +602,34 @@ namespace SupRealClient.TabsSingleton
         }
     }
 
+	/// <summary>
+	/// ??
+	/// </summary>
+	partial class ImageDocumentWrapper : TableWrapper
+	{
+		static ImageDocumentWrapper currentTable;
+
+        public static ImageDocumentWrapper CurrentTable()
+        {
+            if (currentTable == null)
+            {
+                currentTable = new ImageDocumentWrapper();
+                wrappers.Add(currentTable);
+            }
+            return currentTable;
+        }
+
+		public override void Dispose()
+        {
+            base.Dispose();
+            currentTable = null;
+        }
+
+        private ImageDocumentWrapper() : base()
+        {
+            this.table = connector.GetTable(TableName.VisImageDocument);
+            this.Subscribe();
+        }
+    }
+
 }

@@ -24,6 +24,7 @@
         VisImages,
         VisRegions,
         VisSprOrderTypes,
-        VisVisitorsDocuments
+        VisVisitorsDocuments,
+        VisImageDocument,
     }
 }

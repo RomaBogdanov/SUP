@@ -17,3 +17,14 @@ CREATE TABLE vis_image
 ALTER TABLE vis_image
 ADD PRIMARY KEY (f_image_id)
 
+-- Создание vis_image
+CREATE TABLE vis_image_document
+    (f_img_doc_id                  int NOT NULL,
+    f_image_id                     int,
+    f_doc_id                       int,
+    f_deleted                      CHAR(1))
+
+ALTER TABLE vis_image_document
+ADD PRIMARY KEY (f_img_doc_id)
+
+

@@ -50,7 +50,17 @@
 
         <ListBox
             Grid.Row="3"
-            Grid.ColumnSpan="2" />
+            Grid.ColumnSpan="2"
+            ItemsSource="{Binding Path=Images}"
+            SelectedIndex="{Binding Path=SelectedImage}">
+            <ListBox.ItemTemplate>
+                <DataTemplate>
+                    <StackPanel>
+                        <Image Height="10" Source="{Binding}" />
+                    </StackPanel>
+                </DataTemplate>
+            </ListBox.ItemTemplate>
+        </ListBox>
 
         <Grid Grid.Row="4" Grid.ColumnSpan="2">
             <Grid.ColumnDefinitions>
