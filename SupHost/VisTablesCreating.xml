@@ -16,4 +16,5 @@
   <Item Name="VisZoneTypes" TabName="vis_zone_types" ColId="f_zone_type_id" Comment="Типы зон" />
   <Item Name="VisDepartment" TabName="vis_departaments" ColId="f_dep_id" Comment="Департаменты" />
   <Item Name="VisSprOrderTypes" TabName="vis_spr_order_types" ColId="f_order_type_id" Comment="Тип заявки" />
+  <Item Name="VisVisitorsDocuments" TabName="vis_visitors_documents" ColId="f_vd_id" Comment="Документы посетителей" />
 </Enum>

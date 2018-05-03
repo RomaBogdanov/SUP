@@ -45,6 +45,7 @@ namespace SupRealClient.Views
     {
         private IVisitsModel model;
         private IWindow view;
+        private int selectedDocument = -1;
 
         public IVisitsModel Model
         {
@@ -141,7 +142,7 @@ namespace SupRealClient.Views
         {
             get
             {
-                 return Model?.CurrentItem;
+                return Model?.CurrentItem;
             }
             set
             {
@@ -150,6 +151,16 @@ namespace SupRealClient.Views
                     Model.CurrentItem = value;
                     OnPropertyChanged();
                 }
+            }
+        }
+
+        public int SelectedDocument
+        {
+            get { return selectedDocument; }
+            set
+            {
+                selectedDocument = value;
+                OnPropertyChanged();
             }
         }
 
@@ -192,6 +203,11 @@ namespace SupRealClient.Views
         public ICommand AddSignatureCommand { get; set; }
         public ICommand RemoveSignatureCommand { get; set; }
 
+        public ICommand OpenDocumentCommand { get; set; }
+        public ICommand AddDocumentCommand { get; set; }
+        public ICommand EditDocumentCommand { get; set; }
+        public ICommand RemoveDocumentCommand { get; set; }
+
         public VisitsViewModel(IWindow view)
         {
             this.view = view;
@@ -225,6 +241,11 @@ namespace SupRealClient.Views
             RemoveImageSourceCommand= new RelayCommand(arg => RemoveImageSource(ImageType.Photo));
             AddSignatureCommand = new RelayCommand(arg => AddImageSource(ImageType.Signature));
             RemoveSignatureCommand = new RelayCommand(arg => RemoveImageSource(ImageType.Signature));
+
+            OpenDocumentCommand = new RelayCommand(arg => OpenDocument());
+            AddDocumentCommand = new RelayCommand(arg => AddDocument());
+            EditDocumentCommand = new RelayCommand(arg => EditDocument());
+            RemoveDocumentCommand = new RelayCommand(arg => RemoveDocument());
         }
 
         // TODO - перенести в Model открытие окон и переустановку свойств
@@ -418,6 +439,62 @@ namespace SupRealClient.Views
             Model.RemoveImageSource(imageType);
         }
 
+        private void OpenDocument()
+        {
+            if (SelectedDocument < 0)
+            {
+                return;
+            }
+
+            var window = new DocumentImagesView(
+                CurrentItem.Documents[SelectedDocument]);
+            window.ShowDialog();
+        }
+
+        private void AddDocument()
+        {
+            var window = new VisitorsDocumentView(
+                new VisitorsDocumentModel(null));
+            window.ShowDialog();
+            var document = window.WindowResult as VisitorsDocument;
+           
+            if (document == null)
+            {
+                return;
+            }
+
+            Model.AddDocument(document);
+        }
+
+        private void EditDocument()
+        {
+            if (SelectedDocument < 0)
+            {
+                return;
+            }
+            var window = new VisitorsDocumentView(
+                new VisitorsDocumentModel(
+                    CurrentItem.Documents[SelectedDocument]));
+            window.ShowDialog();
+            var document = window.WindowResult as VisitorsDocument;
+
+            if (document == null)
+            {
+                return;
+            }
+
+            Model.EditDocument(SelectedDocument, document);
+        }
+
+        private void RemoveDocument()
+        {
+            if (SelectedDocument < 0)
+            {
+                return;
+            }
+            Model.RemoveDocument(SelectedDocument);
+        }
+
         public event PropertyChangedEventHandler PropertyChanged;
 
         [NotifyPropertyChangedInvocator]
@@ -453,6 +530,9 @@ namespace SupRealClient.Views
         bool Ok();
 
         string GetDepartmenstList(int? id);
+        void AddDocument(VisitorsDocument document);
+        void EditDocument(int index, VisitorsDocument document);
+        void RemoveDocument(int index);
     }
 
     public abstract class BaseVisitsModel : IVisitsModel
@@ -465,10 +545,14 @@ namespace SupRealClient.Views
         protected Guid photoAlias;
         protected Guid signAlias;
 
+        protected bool isDocumentsChanged = false;
+
         protected BaseVisitsModel()
         {
             ImagesHelper.Init();
-            ImagesWrapper.CurrentTable().OnChanged += OnImageChanged;
+            ImagesWrapper.CurrentTable().OnChanged += EmptyQuery;
+            VisitorsDocumentsWrapper.CurrentTable().OnChanged += EmptyQuery;
+            ImageDocumentWrapper.CurrentTable().OnChanged += EmptyQuery;
         }
 
         public string PhotoSource { get; private set; }
@@ -529,7 +613,7 @@ namespace SupRealClient.Views
 
         public virtual void AddImageSource(string path, ImageType imageType)
         {
-            SetImageSource(ImagesHelper.LoadImage(path, imageType), imageType);
+            SetImageSource(ImagesHelper.LoadImage(path), imageType);
         }
 
         public virtual void RemoveImageSource(ImageType imageType)
@@ -560,6 +644,27 @@ namespace SupRealClient.Views
             return sb.ToString();
         }
 
+        public void AddDocument(VisitorsDocument document)
+        {
+            CurrentItem.Documents.Add(document);
+            isDocumentsChanged = true;
+            document.IsChanged = true;
+        }
+
+        public void EditDocument(int index, VisitorsDocument document)
+        {
+            CurrentItem.Documents.RemoveAt(index);
+            CurrentItem.Documents.Insert(index, document);
+            isDocumentsChanged = true;
+            document.IsChanged = true;
+        }
+
+        public void RemoveDocument(int index)
+        {
+            CurrentItem.Documents.RemoveAt(index);
+            isDocumentsChanged = true;
+        }
+
         protected bool Validate()
         {
             if (CurrentItem.Family == "" || CurrentItem.Family == null ||
@@ -583,7 +688,110 @@ namespace SupRealClient.Views
             return true;
         }
 
-        private void OnImageChanged()
+        protected void SaveAdditionalData(int id)
+        {
+            List<KeyValuePair<Guid, ImageType>> images =
+                new List<KeyValuePair<Guid, ImageType>>();
+
+            if (isDocumentsChanged)
+            {
+                foreach (var document in CurrentItem.Documents)
+                {
+                    if (!document.Images.Any())
+                    {
+                        document.Images =
+                            DocumentsHelper.CacheImages(document.Id);
+                    }
+                }
+
+                RemoveOldDocuments(id);
+                
+                foreach (var document in CurrentItem.Documents)
+                {
+                    DataRow row = VisitorsDocumentsWrapper.
+                        CurrentTable().Table.NewRow();
+                    row["f_visitor_id"] = id;
+                    row["f_doc_name"] = document.Name;
+                    row["f_deleted"] = "N";
+                    VisitorsDocumentsWrapper.
+                        CurrentTable().Table.Rows.Add(row);
+                    int documentId = row.Field<int>("f_vd_id");
+                    foreach (var alias in document.Images)
+                    {
+                        DataRow imageRow = ImagesWrapper.
+                            CurrentTable().Table.NewRow();
+                        imageRow["f_image_alias"] = alias;
+                        imageRow["f_visitor_id"] = id;
+                        imageRow["f_image_type"] = ImageType.Document;
+                        imageRow["f_deleted"] = "N";
+                        images.Add(new KeyValuePair<Guid, ImageType>(
+                            alias, ImageType.Document));
+                        ImagesWrapper.CurrentTable().Table.Rows.Add(imageRow);
+                        int imageId = imageRow.Field<int>("f_image_id");
+
+                        DataRow imageDocRow = ImageDocumentWrapper.
+                            CurrentTable().Table.NewRow();
+                        imageDocRow["f_image_id"] = imageId;
+                        imageDocRow["f_doc_id"] = documentId;
+                        imageDocRow["f_deleted"] = "N";
+                        ImageDocumentWrapper.CurrentTable().
+                            Table.Rows.Add(imageDocRow);
+                    }
+                }
+            }
+
+            images.Add(new KeyValuePair<Guid, ImageType>(
+                photoAlias, ImageType.Photo));
+            images.Add(new KeyValuePair<Guid, ImageType>(
+                signAlias, ImageType.Signature));
+            ImagesHelper.AddImages(id, images);
+        }
+
+        private void RemoveOldDocuments(int visitorId)
+        {
+            foreach (DataRow r in VisitorsDocumentsWrapper.
+                CurrentTable().Table.Rows)
+            {
+                if (r.Field<int>("f_visitor_id") == visitorId &&
+                    r.Field<string>("f_deleted") == "N")
+                {
+                    r["f_deleted"] = "Y";
+                    //r.Delete(); // TODO
+                    RemoveOldDocumentImages(r.Field<int>("f_vd_id"));
+                }
+            }
+        }
+
+        private void RemoveOldDocumentImages(int docId)
+        {
+            foreach (DataRow r in ImageDocumentWrapper.
+                CurrentTable().Table.Rows)
+            {
+                if (r.Field<int>("f_doc_id") == docId &&
+                    r.Field<string>("f_deleted") == "N")
+                {
+                    r["f_deleted"] = "Y";
+                    //r.Delete(); // TODO
+                    RemoveOldImages(r.Field<int>("f_image_id"));
+                }
+            }
+        }
+
+        private void RemoveOldImages(int imageId)
+        {
+            foreach (DataRow r in ImagesWrapper.
+                CurrentTable().Table.Rows)
+            {
+                if (r.Field<int>("f_image_id") == imageId &&
+                    r.Field<string>("f_deleted") == "N")
+                {
+                    r["f_deleted"] = "Y";
+                    //r.Delete(); // TODO
+                }
+            }
+        }
+
+        private void EmptyQuery()
         {
             // TODO - пустой вызов, чтобы не падало
         }
@@ -722,6 +930,7 @@ namespace SupRealClient.Views
             if (Set.Count > 0)
             {
                 OrdersCardsToVisitor(0);
+                DocumentsToVisitor(0);
                 CurrentItem = Set[0];
             }
         }
@@ -732,6 +941,7 @@ namespace SupRealClient.Views
             {
                 selectedIndex = 0;
                 OrdersCardsToVisitor(selectedIndex);
+                DocumentsToVisitor(selectedIndex);
                 CurrentItem = Set[0];
             }
             return CurrentItem;
@@ -743,6 +953,7 @@ namespace SupRealClient.Views
             {
                 selectedIndex = Set.Count - 1;
                 OrdersCardsToVisitor(selectedIndex);
+                DocumentsToVisitor(selectedIndex);
                 CurrentItem = Set[selectedIndex];
             }
             return CurrentItem;
@@ -754,6 +965,7 @@ namespace SupRealClient.Views
             {
                 selectedIndex--;
                 OrdersCardsToVisitor(selectedIndex);
+                DocumentsToVisitor(selectedIndex);
                 CurrentItem = Set[selectedIndex];
             }
             return CurrentItem;
@@ -767,6 +979,7 @@ namespace SupRealClient.Views
                 {
                     selectedIndex = i;
                     OrdersCardsToVisitor(selectedIndex);
+                    DocumentsToVisitor(selectedIndex);
                     CurrentItem = Set[selectedIndex];
                     break;
                 }
@@ -780,6 +993,7 @@ namespace SupRealClient.Views
             {
                 selectedIndex++;
                 OrdersCardsToVisitor(selectedIndex);
+                DocumentsToVisitor(selectedIndex);
                 CurrentItem = Set[selectedIndex];
             }
             return CurrentItem;
@@ -845,6 +1059,24 @@ namespace SupRealClient.Views
                     });
             }
         }
+
+        private void DocumentsToVisitor(int index)
+        {
+            if (Set[index].Documents == null)
+            {
+                Set[index].Documents = new ObservableCollection<VisitorsDocument>(
+                    from documents in VisitorsDocumentsWrapper.CurrentTable().
+                    Table.AsEnumerable()
+                    where documents.Field<int>("f_visitor_id") == Set[index].Id &&
+                          documents.Field<string>("f_deleted") == "N"
+                    select new VisitorsDocument
+                    {
+                        Id = documents.Field<int>("f_vd_id"),
+                        VisitorId = Set[index].Id,
+                        Name = documents.Field<string>("f_doc_name")
+                    });
+            }
+        }
     }
 
     public class NewVisitsModel : BaseVisitsModel
@@ -885,6 +1117,7 @@ namespace SupRealClient.Views
             };
             Set = new ObservableCollection<EnumerationClasses.Visitor>();
             CurrentItem = new EnumerationClasses.Visitor();
+            CurrentItem.Documents = new ObservableCollection<VisitorsDocument>();
             Set.Add(CurrentItem);
         }
         
@@ -944,13 +1177,7 @@ namespace SupRealClient.Views
                 CurrentItem.CabinetId : 0;
             VisitorsWrapper.CurrentTable().Table.Rows.Add(row);
 
-            List<KeyValuePair<Guid, ImageType>> images =
-                new List<KeyValuePair<Guid, ImageType>>
-            {
-                new KeyValuePair<Guid, ImageType>(photoAlias, ImageType.Photo),
-                new KeyValuePair<Guid, ImageType>(signAlias, ImageType.Signature),
-            };
-            ImagesHelper.AddImages(CurrentItem.Id, images);
+            SaveAdditionalData((int)row["f_visitor_id"]);
 
             return true;
         }
@@ -1102,13 +1329,7 @@ namespace SupRealClient.Views
                     CurrentItem.DepartmentId : 0;
             }
 
-            List<KeyValuePair<Guid, ImageType>> images =
-                new List<KeyValuePair<Guid, ImageType>>
-            {
-                new KeyValuePair<Guid, ImageType>(photoAlias, ImageType.Photo),
-                new KeyValuePair<Guid, ImageType>(signAlias, ImageType.Signature),
-            };
-            ImagesHelper.AddImages(CurrentItem.Id, images);
+            SaveAdditionalData(CurrentItem.Id);
 
             return true;
         }

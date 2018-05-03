@@ -23,6 +23,8 @@
         VisDepartment,
         VisImages,
         VisRegions,
-        VisSprOrderTypes
+        VisSprOrderTypes,
+        VisVisitorsDocuments,
+        VisImageDocument,
     }
 }

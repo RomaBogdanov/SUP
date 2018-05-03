@@ -572,4 +572,64 @@ namespace SupRealClient.TabsSingleton
         }
     }
 
+	/// <summary>
+	/// Документы посетителей
+	/// </summary>
+	partial class VisitorsDocumentsWrapper : TableWrapper
+	{
+		static VisitorsDocumentsWrapper currentTable;
+
+        public static VisitorsDocumentsWrapper CurrentTable()
+        {
+            if (currentTable == null)
+            {
+                currentTable = new VisitorsDocumentsWrapper();
+                wrappers.Add(currentTable);
+            }
+            return currentTable;
+        }
+
+		public override void Dispose()
+        {
+            base.Dispose();
+            currentTable = null;
+        }
+
+        private VisitorsDocumentsWrapper() : base()
+        {
+            this.table = connector.GetTable(TableName.VisVisitorsDocuments);
+            this.Subscribe();
+        }
+    }
+
+	/// <summary>
+	/// ??
+	/// </summary>
+	partial class ImageDocumentWrapper : TableWrapper
+	{
+		static ImageDocumentWrapper currentTable;
+
+        public static ImageDocumentWrapper CurrentTable()
+        {
+            if (currentTable == null)
+            {
+                currentTable = new ImageDocumentWrapper();
+                wrappers.Add(currentTable);
+            }
+            return currentTable;
+        }
+
+		public override void Dispose()
+        {
+            base.Dispose();
+            currentTable = null;
+        }
+
+        private ImageDocumentWrapper() : base()
+        {
+            this.table = connector.GetTable(TableName.VisImageDocument);
+            this.Subscribe();
+        }
+    }
+
 }

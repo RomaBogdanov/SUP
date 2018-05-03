@@ -235,3 +235,40 @@ go
 
 UPDATE vis_visitors SET f_doc_code=''
 go
+
+use VisitorsImages;
+go
+
+alter table vis_image
+add
+	f_deleted CHAR(1)
+go
+
+UPDATE vis_image SET f_deleted='N'
+go
+
+-- Создание vis_image
+CREATE TABLE vis_image_document
+    (f_img_doc_id                  int NOT NULL,
+    f_image_id                     int,
+    f_doc_id                       int,
+    f_deleted                      CHAR(1))
+
+ALTER TABLE vis_image_document
+ADD PRIMARY KEY (f_img_doc_id)
+
+
+use Visitors;
+go
+
+-- Создание vis_visitors_documents
+
+CREATE TABLE vis_visitors_documents
+    (f_vd_id                       int NOT NULL,
+    f_visitor_id                   int,
+    f_doc_name                     VARCHAR(100),
+    f_deleted                      CHAR(1))
+
+ALTER TABLE vis_visitors_documents
+ADD PRIMARY KEY (f_vd_id)
+

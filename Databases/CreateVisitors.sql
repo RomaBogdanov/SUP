@@ -481,6 +481,17 @@ ADD PRIMARY KEY (f_visitor_id)
 insert into vis_visitors (f_visitor_id, f_org_id) values (0, 0);
 go
 
+-- Создание vis_visitors_documents
+
+CREATE TABLE vis_visitors_documents
+    (f_vd_id                       int NOT NULL,
+    f_visitor_id                   int,
+    f_doc_name                     VARCHAR(100),
+    f_deleted                      CHAR(1))
+
+ALTER TABLE vis_visitors_documents
+ADD PRIMARY KEY (f_vd_id)
+
 -- Создание vis_visits
 
 CREATE TABLE vis_visits

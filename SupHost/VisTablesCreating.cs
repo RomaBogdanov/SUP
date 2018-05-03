@@ -336,4 +336,25 @@
 			this.getTableBehavior = new VisSprOrderTypesTableBehavior(); 
 		}
     }
+    /// <summary>
+    /// TableBehavior для Документы посетителей
+    /// </summary>
+    partial class VisVisitorsDocumentsTableBehavior : VisitorsDBTableBehavior
+    {
+        public VisVisitorsDocumentsTableBehavior()
+        {
+            this.StandartSetup("vis_visitors_documents", "f_vd_id");
+        }
+    }
+
+    /// <summary>
+    /// TableWrapper для Документы посетителей
+    /// </summary>
+	partial class VisVisitorsDocumentsTableWrapper : AbstractTableWrapper
+    {
+        public VisVisitorsDocumentsTableWrapper()
+        { 
+			this.getTableBehavior = new VisVisitorsDocumentsTableBehavior(); 
+		}
+    }
 }
