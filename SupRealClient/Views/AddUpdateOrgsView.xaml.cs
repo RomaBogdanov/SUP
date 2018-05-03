@@ -53,7 +53,10 @@ namespace SupRealClient.Views
         
         private void TypeTextBox_OnTextChanged(object sender, TextChangedEventArgs e)
         {
-            TypePopup.IsOpen = true;
+            if (TypePopup != null)
+            {
+                TypePopup.IsOpen = true;
+            }
         }
         
         private void TypeTextBox_OnLostFocus(object sender, RoutedEventArgs e)
@@ -63,12 +66,31 @@ namespace SupRealClient.Views
 
         private void DescriptionTextBlock_OnTextChanged(object sender, TextChangedEventArgs e)
         {
-            NamePopup.IsOpen = true;
+            if (NamePopup != null)
+            {
+                NamePopup.IsOpen = true;
+            }
         }
 
         private void DescriptionTextBlock_OnLostFocus(object sender, RoutedEventArgs e)
         {
             NamePopup.IsOpen = false;
+        }
+
+        private void DescriptionTextBlock_OnGotFocus(object sender, RoutedEventArgs e)
+        {
+            if (NamePopup != null)
+            {
+                NamePopup.IsOpen = true;
+            }
+        }
+
+        private void TypeTextBox_OnGotFocus(object sender, RoutedEventArgs e)
+        {
+            if (TypePopup != null)
+            {
+                TypePopup.IsOpen = true;
+            }
         }
     }
 }

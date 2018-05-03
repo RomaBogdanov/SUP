@@ -77,6 +77,7 @@
             <Style x:Key="AzureDataGrid1" TargetType="DataGrid" BasedOn="{StaticResource AzureDataGrid}">
                 <Setter Property="AutoGenerateColumns" Value="False"/>
                 <Setter Property="AlternatingRowBackground" Value="AliceBlue"/>
+                <Setter Property="IsReadOnly" Value="True"/>
             </Style>
 
             <Style x:Key="MetroComboBox1" TargetType="ComboBox" BasedOn="{StaticResource MetroComboBox}">

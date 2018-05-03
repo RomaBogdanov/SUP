@@ -52,11 +52,13 @@
                 Style="{StaticResource TextBoxStyle}"
                 KeyUp="TextBox_OnKeyUp"
                 TextChanged="TypeTextBox_OnTextChanged"
+                GotFocus="TypeTextBox_OnGotFocus"
                 LostFocus="TypeTextBox_OnLostFocus"/>
             <Popup
                 x:Name="TypePopup"
                 AllowsTransparency="True"
                 MaxWidth="180"
+                MinWidth="100"
                 StaysOpen="True"
                 Placement="Bottom">
                 <Border
@@ -93,11 +95,13 @@
                 Style="{StaticResource TextBoxStyle}"
                 KeyUp="TextBox_OnKeyUp"
                 TextChanged="DescriptionTextBlock_OnTextChanged"
+                GotFocus="DescriptionTextBlock_OnGotFocus"
                 LostFocus="DescriptionTextBlock_OnLostFocus"/>
             <Popup
                 x:Name="NamePopup"
                 AllowsTransparency="True"
                 MaxWidth="180"
+                MinWidth="100"
                 StaysOpen="True"
                 Placement="Bottom">
                 <Border
