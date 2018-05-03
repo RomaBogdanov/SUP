@@ -2,17 +2,17 @@
 
 namespace SupHost
 {
-    class VisImagesTableBehavior : BaseTableBehavior
+    class VisImageDocumentTableBehavior : BaseTableBehavior
     {
         private Connector connector = ImagesConnector.CurrentConnector;
 
-        public VisImagesTableBehavior()
+        public VisImageDocumentTableBehavior()
         {
-            this.query = $"select f_image_id, f_image_alias, f_visitor_id, f_image_type, f_deleted from vis_image";
+            this.query = $"select * from vis_image_document";
             this.primaryKeyColumns = new string[1];
-            this.primaryKeyColumns[0] = "f_image_id";
+            this.primaryKeyColumns[0] = "f_img_doc_id";
             this.autoPrimaryKey = true;
-            this.tableName = "vis_image";
+            this.tableName = "vis_image_document";
         }
 
         protected override Connector GetConnector()

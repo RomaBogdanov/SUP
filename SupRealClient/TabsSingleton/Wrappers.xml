@@ -19,4 +19,6 @@
   <Item Name="ImagesWrapper" Type="VisImages" Comment="Изображения" />
   <Item Name="RegionsWrapper" Type="VisRegions" Comment="Регионы" />
   <Item Name="SprOrderTypesWrapper" Type="VisSprOrderTypes" Comment="Типы заявок" />
+  <Item Name="VisitorsDocumentsWrapper" Type="VisVisitorsDocuments" Comment="Документы посетителей" />
+  <Item Name="ImageDocumentWrapper" Type="VisImageDocument" Comment="??" />
 </Enum>

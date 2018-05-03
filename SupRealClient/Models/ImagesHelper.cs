@@ -4,6 +4,7 @@ using System;
 using System.Collections.Generic;
 using System.Data;
 using System.IO;
+using System.Linq;
 
 namespace SupRealClient.Models
 {
@@ -30,9 +31,8 @@ namespace SupRealClient.Models
         /// по Guid
         /// </summary>
         /// <param name="path"></param>
-        /// <param name="imageType"></param>
         /// <returns></returns>
-        public static Guid LoadImage(string path, ImageType imageType)
+        public static Guid LoadImage(string path)
         {
             var alias = Guid.NewGuid();
             byte[] data = File.ReadAllBytes(path);
@@ -55,8 +55,7 @@ namespace SupRealClient.Models
             DataRow row = null;
             foreach (DataRow r in ImagesWrapper.CurrentTable().Table.Rows)
             {
-                if (r.Field<int>("f_visitor_id") == id &&
-                    r.Field<int>("f_image_type") == (int)imageType)
+                if (Find(r, id, imageType, Guid.Empty))
                 {
                     row = r;
                     break;
@@ -83,6 +82,23 @@ namespace SupRealClient.Models
                 }
             }
             return alias;
+        }
+
+        /// <summary>
+        /// Сохраняем картинку из базы на диск
+        /// </summary>
+        public static void CacheImage(Guid alias)
+        {
+            string path = GetImagePath(alias);
+            if (!File.Exists(path))
+            {
+                byte[] data =
+                    ImagesWrapper.CurrentTable().Connector.GetImage(alias);
+                if (data != null)
+                {
+                    File.WriteAllBytes(path, data);
+                }
+            }
         }
 
         /// <summary>
@@ -117,27 +133,41 @@ namespace SupRealClient.Models
                 DataRow row = null;
                 foreach (DataRow r in ImagesWrapper.CurrentTable().Table.Rows)
                 {
-                    if (r.Field<int>("f_visitor_id") == id &&
-                        r.Field<int>("f_image_type") == (int)image.Value)
+                    if (Find(r, id, image.Value, image.Key))
                     {
                         row = r;
                         break;
                     }
                 }
 
-                bool find = row != null;
-                row = row ?? ImagesWrapper.CurrentTable().Table.NewRow();
-                row["f_image_alias"] = image.Key;
-                if (!find)
+                if (row == null)
                 {
+                    row = ImagesWrapper.CurrentTable().Table.NewRow();
+                    row["f_image_alias"] = image.Key;
                     row["f_visitor_id"] = id;
                     row["f_image_type"] = image.Value;
+                    row["f_deleted"] = "N";
                     ImagesWrapper.CurrentTable().Table.Rows.Add(row);
+                    imagesToSave.Add(image.Key,
+                        File.ReadAllBytes(GetImagePath(image.Key)));
                 }
-                imagesToSave.Add(image.Key,
-                    File.ReadAllBytes(GetImagePath(image.Key)));
+                else if (image.Value == ImageType.Document)
+                {
+                    imagesToSave.Add(image.Key,
+                        File.ReadAllBytes(GetImagePath(image.Key)));
+                }
+                else if (!image.Key.Equals(row["f_image_alias"]))
+                {
+                    row["f_image_alias"] = image.Key;
+                    row["f_deleted"] = "N";
+                    imagesToSave.Add(image.Key,
+                        File.ReadAllBytes(GetImagePath(image.Key)));
+                }
             }
-            ImagesWrapper.CurrentTable().Connector.SetImages(imagesToSave);
+            if (imagesToSave.Any())
+            {
+                ImagesWrapper.CurrentTable().Connector.SetImages(imagesToSave);
+            }
         }
 
         private static void RemoveImage(int id, ImageType imageType)
@@ -145,8 +175,7 @@ namespace SupRealClient.Models
             DataRow row = null;
             foreach (DataRow r in ImagesWrapper.CurrentTable().Table.Rows)
             {
-                if (r.Field<int>("f_visitor_id") == id &&
-                    r.Field<int>("f_image_type") == (int)imageType)
+                if (Find(r, id, imageType, Guid.Empty))
                 {
                     row = r;
                     break;
@@ -154,8 +183,21 @@ namespace SupRealClient.Models
             }
             if (row != null)
             {
-                row.Delete();
+                row["f_deleted"] = "Y";
+                //row.Delete(); // TODO
             }
+        }
+
+        private static bool Find(DataRow row, int id, ImageType imageType, Guid alias)
+        {
+            return imageType == ImageType.Document ?
+                row.Field<int>("f_visitor_id") == id &&
+                row.Field<Guid>("f_image_alias") == alias &&
+                row.Field<int>("f_image_type") == (int)imageType &&
+                row.Field<string>("f_deleted") == "N" :
+                row.Field<int>("f_visitor_id") == id &&
+                row.Field<int>("f_image_type") == (int)imageType &&
+                row.Field<string>("f_deleted") == "N";
         }
     }
 }
