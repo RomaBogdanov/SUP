@@ -1,0 +1,89 @@
+﻿<mah:MetroWindow x:Class="SupRealClient.Views.DocumentImagesView"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:mah="http://metro.mahapps.com/winfx/xaml/controls"
+        mc:Ignorable="d" Title="Изображения" Height="600" Width="600">
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="100"/>
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition/>
+            <ColumnDefinition Width="200"/>
+        </Grid.ColumnDefinitions>
+
+        <TextBlock Grid.ColumnSpan="2" VerticalAlignment="Center" HorizontalAlignment="Center">Нет изображений</TextBlock>
+
+        <Image
+            Grid.Row="0"
+            Grid.Column="0"
+            Grid.ColumnSpan="2"
+            Stretch="UniformToFill"
+            Source="{Binding Path=Image, Mode=OneWay}"/>
+
+        <Grid
+            Grid.Row="2"
+            Grid.Column="1">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition/>
+                <ColumnDefinition/>
+            </Grid.ColumnDefinitions>
+
+            <Button
+                    Command="{Binding Path=PrevCommand}"
+                    Grid.Column="0"
+                    Margin="2"
+                    IsEnabled="{Binding Path=VisitorsEnable.PreviousButtonEnable, Mode=TwoWay}"
+                    Visibility="{Binding Path=VisitorsVisible.PreviousButtonEnable, 
+                    Converter={StaticResource BooleanToVisibilityConverter}}"
+                    Style="{StaticResource VisitorsSquareButtonStyle}">
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition/>
+                        <RowDefinition Height="0.3*"/>
+                    </Grid.RowDefinitions>
+
+                    <Image
+                            Grid.Row="0"
+                            Source="../Resources/Предыдущий (2).ico"/>
+
+                    <TextBlock
+                            Grid.Row="1"
+                            Text="Пред."
+                            FontSize="12"
+                            Style="{StaticResource TextBLockStyle}"/>
+                </Grid>
+            </Button>
+
+            <Button
+                    Command="{Binding Path=NextCommand}"
+                    Grid.Column="1"
+                    Margin="2"
+                    IsEnabled="{Binding Path=VisitorsEnable.NextButtonEnable, Mode=TwoWay}"
+                    Visibility="{Binding Path=VisitorsVisible.NextButtonEnable, 
+                    Converter={StaticResource BooleanToVisibilityConverter}}"
+                    Style="{StaticResource VisitorsSquareButtonStyle}">
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition/>
+                        <RowDefinition Height="0.3*"/>
+                    </Grid.RowDefinitions>
+
+                    <Image
+                            Grid.Row="0"
+                            Source="../Resources/Следующий (2).ico"/>
+
+                    <TextBlock
+                            Grid.Row="1"
+                            Text="След."
+                            FontSize="12"
+                            Style="{StaticResource TextBLockStyle}"/>
+                </Grid>
+            </Button>
+        </Grid>
+    </Grid>
+</mah:MetroWindow>

@@ -203,6 +203,7 @@ namespace SupRealClient.Views
         public ICommand AddSignatureCommand { get; set; }
         public ICommand RemoveSignatureCommand { get; set; }
 
+        public ICommand OpenDocumentCommand { get; set; }
         public ICommand AddDocumentCommand { get; set; }
         public ICommand EditDocumentCommand { get; set; }
         public ICommand RemoveDocumentCommand { get; set; }
@@ -241,6 +242,7 @@ namespace SupRealClient.Views
             AddSignatureCommand = new RelayCommand(arg => AddImageSource(ImageType.Signature));
             RemoveSignatureCommand = new RelayCommand(arg => RemoveImageSource(ImageType.Signature));
 
+            OpenDocumentCommand = new RelayCommand(arg => OpenDocument());
             AddDocumentCommand = new RelayCommand(arg => AddDocument());
             EditDocumentCommand = new RelayCommand(arg => EditDocument());
             RemoveDocumentCommand = new RelayCommand(arg => RemoveDocument());
@@ -435,6 +437,18 @@ namespace SupRealClient.Views
         private void RemoveImageSource(ImageType imageType)
         {
             Model.RemoveImageSource(imageType);
+        }
+
+        private void OpenDocument()
+        {
+            if (SelectedDocument < 0)
+            {
+                return;
+            }
+
+            var window = new DocumentImagesView(
+                CurrentItem.Documents[SelectedDocument]);
+            window.ShowDialog();
         }
 
         private void AddDocument()

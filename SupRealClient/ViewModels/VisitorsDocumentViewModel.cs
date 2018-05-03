@@ -58,7 +58,6 @@ namespace SupRealClient.ViewModels
         }
 
         public ICommand AddImageCommand { get; set; }
-        public ICommand OpenImageCommand { get; set; }
         public ICommand RemoveImageCommand { get; set; }
 
         public ICommand Ok { get; set; }
@@ -93,7 +92,6 @@ namespace SupRealClient.ViewModels
             this.Cancel = new RelayCommand(arg => this.model.Cancel());
 
             AddImageCommand = new RelayCommand(arg => AddImage());
-            OpenImageCommand = new RelayCommand(arg => OpenImage());
             RemoveImageCommand = new RelayCommand(arg => RemoveImage());
         }
 
@@ -110,10 +108,6 @@ namespace SupRealClient.ViewModels
                 Images.Add(ImagesHelper.GetImagePath(id));
                 imageCache.Add(id);
             }
-        }
-
-        private void OpenImage()
-        {
         }
 
         private void RemoveImage()

@@ -80,6 +80,7 @@
     <Compile Include="Behaviour\DialogService.cs" />
     <Compile Include="Behaviour\HeaderToCurrentColumnConverter.cs" />
     <Compile Include="Behaviour\IDialogService.cs" />
+    <Compile Include="Behaviour\InverseBooleanConverterюcs.cs" />
     <Compile Include="Behaviour\SearchValueConverter.cs" />
     <Compile Include="Common\CommonHelper.cs" />
     <Compile Include="EnumerationClasses\Cabinet.cs" />
@@ -147,6 +148,7 @@
       <DependentUpon>Wrappers.tt</DependentUpon>
     </Compile>
     <Compile Include="ViewModels\AddUpdateCardViewModel.cs" />
+    <Compile Include="ViewModels\DocumentImagesViewModel.cs" />
     <Compile Include="ViewModels\VisitorsDocumentViewModel.cs" />
     <Compile Include="ViewModels\Base3ViewModel.cs" />
     <Compile Include="ViewModels\BidsViewModel.cs" />
@@ -183,6 +185,9 @@
       <DependentUpon>AddUpdateOrgsView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Models\Base1CardsModel.cs" />
+    <Compile Include="Views\DocumentImagesView.xaml.cs">
+      <DependentUpon>DocumentImagesView.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Views\VisitorsDocumentView.xaml.cs">
       <DependentUpon>VisitorsDocumentView.xaml</DependentUpon>
     </Compile>
@@ -322,6 +327,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Views\AddUpdateOrgsView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\DocumentImagesView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

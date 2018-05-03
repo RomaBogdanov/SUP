@@ -4,6 +4,7 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:mah="http://metro.mahapps.com/winfx/xaml/controls"
+        xmlns:converters="clr-namespace:SupRealClient.Behaviour"
         mc:Ignorable="d"
         Title="Посетители" Height="900" Width="900"
         ResizeMode="NoResize" WindowStartupLocation="CenterScreen"
@@ -11,6 +12,7 @@
 
     <mah:MetroWindow.Resources>
         <BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter"/>
+        <converters:InverseBooleanConverter x:Key="InverseBooleanConverter"/>
     </mah:MetroWindow.Resources>
     
     <Grid>
@@ -942,11 +944,21 @@
                                 <ColumnDefinition Width="Auto"/>
                                 <ColumnDefinition Width="Auto"/>
                                 <ColumnDefinition Width="Auto"/>
+                                <ColumnDefinition Width="Auto"/>
                             </Grid.ColumnDefinitions>
                             <Button
-                                    Command="{Binding AddDocumentCommand}"
+                                    Command="{Binding OpenDocumentCommand}"
                                     TabIndex="40"
                                     Grid.Column="1"
+                                    Margin="2"
+                                    Height="25"
+                                    Content="Просмотр"
+                                    IsEnabled="{Binding Path=ButtonEnable, Converter={StaticResource InverseBooleanConverter}, Mode=TwoWay}"
+                                    Style="{StaticResource VisitorsSquareButtonStyle}"/>
+                            <Button
+                                    Command="{Binding AddDocumentCommand}"
+                                    TabIndex="41"
+                                    Grid.Column="2"
                                     Margin="2"
                                     Height="25"
                                     Width="25"
@@ -955,8 +967,8 @@
                                     Style="{StaticResource VisitorsSquareButtonStyle}"/>
                             <Button
                                     Command="{Binding EditDocumentCommand}"
-                                    TabIndex="41"
-                                    Grid.Column="2"
+                                    TabIndex="42"
+                                    Grid.Column="3"
                                     Margin="2"
                                     Height="25"
                                     Width="25"
@@ -965,8 +977,8 @@
                                     Style="{StaticResource VisitorsSquareButtonStyle}"/>
                             <Button
                                     Command="{Binding RemoveDocumentCommand}"
-                                    TabIndex="42"
-                                    Grid.Column="3"
+                                    TabIndex="43"
+                                    Grid.Column="4"
                                     Margin="2"
                                     Height="25"
                                     Width="25"
