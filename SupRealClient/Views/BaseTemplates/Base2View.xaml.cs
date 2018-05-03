@@ -22,6 +22,7 @@ namespace SupRealClient.Views
         {
             ((Base1ViewModel)DataContext).SetModel(model);
             InitializeComponent();
+            tbxSearch.Focus();
         }
 
         public DataGrid BaseTab
@@ -52,7 +53,28 @@ namespace SupRealClient.Views
 
         public void SelectSearchBox()
         {
-            aaa.Focus();
+            tbxSearch.Focus();
+        }
+
+        private void UserControl_KeyDown(object sender, KeyEventArgs e)
+        {
+
+        }
+
+        private void UserControl_PreviewKeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.Key== Key.Up)
+            {
+                btnUp.Command.Execute(null);
+            }
+            else if (e.Key==Key.Down)
+            {
+                btnDown.Command.Execute(null);
+            }
+            /*else if(e.Key==Key.Enter)
+            {
+                btnEdit.Command.Execute(null);
+            }*/
         }
     }
 }

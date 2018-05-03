@@ -3,7 +3,11 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
-             mc:Ignorable="d" d:DesignHeight="300" d:DesignWidth="300">
+             xmlns:converters="clr-namespace:SupRealClient.Behaviour"
+             mc:Ignorable="d" d:DesignHeight="300" d:DesignWidth="300"
+             KeyDown="UserControl_KeyDown"
+             PreviewKeyDown="UserControl_PreviewKeyDown"
+             >
     <!--<UserControl.DataContext>
         <local:Organizations1ViewModel />
     </UserControl.DataContext>-->
@@ -33,6 +37,25 @@
             <RowDefinition Height="30"/>
             <RowDefinition Height="50"/>
         </Grid.RowDefinitions>
+        <!--<DataGrid 
+            Name="baseTab" 
+            Grid.Row="0" 
+            Grid.RowSpan="3" 
+            Grid.ColumnSpan="10"
+            ItemsSource="{Binding Path=Set, Mode=TwoWay}" 
+            CurrentItem="{Binding Path=CurrentItem, Mode=TwoWay}"
+            Focusable="True" 
+            FontSize="{Binding FontSize}"
+            SelectedItem="{Binding Path=CurrentItem, Mode=TwoWay}" 
+            converters:DataGridTextSearch.SearchValue="{Binding ElementName=tbxSearch, Path=Text, UpdateSourceTrigger=PropertyChanged}"
+            SelectedIndex="{Binding Path=SelectedIndex, Mode=TwoWay}"
+            SelectedValue="{Binding Path=SelectedValue, Mode=TwoWay}" 
+            CurrentColumn="{Binding Path=CurrentColumn, Mode=TwoWay}"
+            ColumnHeaderStyle="{StaticResource SelectionColumnHeader}"
+            KeyDown="BaseTab_OnKeyDown"
+            ColumnWidth="*" Style="{StaticResource AzureDataGrid1}"
+            CanUserAddRows="False">
+        </DataGrid>-->
         <DataGrid 
             Name="baseTab" 
             Grid.Row="0" 
@@ -43,20 +66,14 @@
             Focusable="True" 
             FontSize="{Binding FontSize}"
             SelectedItem="{Binding Path=CurrentItem, Mode=TwoWay}" 
+            converters:DataGridTextSearch.SearchValue="{Binding ElementName=tbxSearch, Path=Text, UpdateSourceTrigger=PropertyChanged}"
             SelectedIndex="{Binding Path=SelectedIndex, Mode=TwoWay}"
-            SelectedValue="{Binding Path=SelectedValue, Mode=TwoWay}" 
+            
             CurrentColumn="{Binding Path=CurrentColumn, Mode=TwoWay}"
             ColumnHeaderStyle="{StaticResource SelectionColumnHeader}"
             KeyDown="BaseTab_OnKeyDown"
             ColumnWidth="*" Style="{StaticResource AzureDataGrid1}"
             CanUserAddRows="False">
-            <!--<DataGrid.Columns>
-                <DataGridTextColumn Header="Тип" Binding="{Binding Type}">
-                </DataGridTextColumn>
-                <DataGridTextColumn Header="Название организации" Binding="{Binding Name}"></DataGridTextColumn>
-                <DataGridTextColumn Header="Примечание" Binding="{Binding Note}"></DataGridTextColumn>
-                <DataGridTextColumn Header="Основное название" Binding="{Binding FullName}"></DataGridTextColumn>
-            </DataGrid.Columns>-->
         </DataGrid>
         <TextBlock 
             Grid.Row="2" 
@@ -67,7 +84,7 @@
             Style="{StaticResource TextBLockStyle}"/>
         
         <TextBox 
-            Name="aaa" 
+            Name="tbxSearch" 
             Grid.Row="2" 
             Grid.Column="1"
             Grid.ColumnSpan="9" 
@@ -101,6 +118,7 @@
         </Button>
         
         <Button 
+            Name="btnUp"
             Grid.Row="3" 
             Grid.Column="1" 
             Margin="1" 
@@ -126,6 +144,7 @@
         </Button>
         
         <Button 
+            Name="btnDown"
             Grid.Row="3" 
             Grid.Column="2" 
             Margin="1" 
@@ -201,6 +220,7 @@
         </Button>
         
         <Button 
+            Name="btnEdit"
             Grid.Row="3" 
             Grid.Column="5" 
             Margin="1" 
