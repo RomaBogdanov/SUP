@@ -2,9 +2,12 @@
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
-             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:converters="clr-namespace:SupRealClient.Behaviour"
-             mc:Ignorable="d" d:DesignHeight="300" d:DesignWidth="300">
+             mc:Ignorable="d" d:DesignHeight="300" d:DesignWidth="300"
+             KeyDown="UserControl_KeyDown"
+             PreviewKeyDown="UserControl_PreviewKeyDown"
+             >
     <!--<UserControl.DataContext>
         <local:Organizations1ViewModel />
     </UserControl.DataContext>-->
@@ -34,30 +37,287 @@
             <RowDefinition Height="30"/>
             <RowDefinition Height="50"/>
         </Grid.RowDefinitions>
-        <DataGrid Name="baseTab" Grid.Row="0" ItemsSource="{Binding Path=Set, Mode=TwoWay}" CurrentItem="{Binding Path=CurrentItem, Mode=TwoWay}"
-                  converters:DataGridTextSearch.SearchValue="{Binding ElementName=aaa, Path=Text, UpdateSourceTrigger=PropertyChanged}"
-                  AutoGenerateColumns="False" Grid.RowSpan="3" Grid.ColumnSpan="10" Focusable="True"
-                  SelectedItem="{Binding Path=CurrentItem, Mode=TwoWay}" SelectedIndex="{Binding Path=SelectedIndex, Mode=TwoWay}"
-                  SelectedValue="{Binding Path=SelectedValue, Mode=TwoWay}" CurrentColumn="{Binding Path=CurrentColumn, Mode=TwoWay}"
-                  ColumnHeaderStyle="{StaticResource SelectionColumnHeader}">
-            <!--<DataGrid.Columns>
-                <DataGridTextColumn Header="Тип" Binding="{Binding Type}">
-                </DataGridTextColumn>
-                <DataGridTextColumn Header="Название организации" Binding="{Binding Name}"></DataGridTextColumn>
-                <DataGridTextColumn Header="Примечание" Binding="{Binding Note}"></DataGridTextColumn>
-                <DataGridTextColumn Header="Основное название" Binding="{Binding FullName}"></DataGridTextColumn>
-            </DataGrid.Columns>-->
+        <!--<DataGrid 
+            Name="baseTab" 
+            Grid.Row="0" 
+            Grid.RowSpan="3" 
+            Grid.ColumnSpan="10"
+            ItemsSource="{Binding Path=Set, Mode=TwoWay}" 
+            CurrentItem="{Binding Path=CurrentItem, Mode=TwoWay}"
+            Focusable="True" 
+            FontSize="{Binding FontSize}"
+            SelectedItem="{Binding Path=CurrentItem, Mode=TwoWay}" 
+            converters:DataGridTextSearch.SearchValue="{Binding ElementName=tbxSearch, Path=Text, UpdateSourceTrigger=PropertyChanged}"
+            SelectedIndex="{Binding Path=SelectedIndex, Mode=TwoWay}"
+            SelectedValue="{Binding Path=SelectedValue, Mode=TwoWay}" 
+            CurrentColumn="{Binding Path=CurrentColumn, Mode=TwoWay}"
+            ColumnHeaderStyle="{StaticResource SelectionColumnHeader}"
+            KeyDown="BaseTab_OnKeyDown"
+            ColumnWidth="*" Style="{StaticResource AzureDataGrid1}"
+            CanUserAddRows="False">
+        </DataGrid>-->
+        <DataGrid 
+            Name="baseTab" 
+            Grid.Row="0" 
+            Grid.RowSpan="3" 
+            Grid.ColumnSpan="10"
+            ItemsSource="{Binding Path=Set, Mode=TwoWay}" 
+            CurrentItem="{Binding Path=CurrentItem, Mode=TwoWay}"
+            Focusable="True" 
+            FontSize="{Binding FontSize}"
+            SelectedItem="{Binding Path=CurrentItem, Mode=TwoWay}" 
+            converters:DataGridTextSearch.SearchValue="{Binding ElementName=tbxSearch, Path=Text, UpdateSourceTrigger=PropertyChanged}"
+            SelectedIndex="{Binding Path=SelectedIndex, Mode=TwoWay}"
+            SelectedValue="{Binding Path=SelectedValue, Mode=TwoWay}" 
+            CurrentColumn="{Binding Path=CurrentColumn, Mode=TwoWay}"
+            ColumnHeaderStyle="{StaticResource SelectionColumnHeader}"
+            KeyDown="BaseTab_OnKeyDown"
+            ColumnWidth="*" Style="{StaticResource AzureDataGrid1}"
+            CanUserAddRows="False">
         </DataGrid>
-        <Label Grid.Row="1" Grid.ColumnSpan="10" Content="Поиск по полю:" Margin="1"></Label>
-        <TextBox Name="aaa" Grid.Row="2" Grid.ColumnSpan="10" Margin="1" Text="{Binding Path=SearchingText, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
-        <Button Grid.Row="3" Grid.Column="0" Content="Начало" Margin="1" Command="{Binding Path=Begin}"></Button>
-        <Button Grid.Row="3" Grid.Column="1" Content="Пред." Margin="1" Command="{Binding Path=Prev}"/>
-        <Button Grid.Row="3" Grid.Column="2" Content="След." Margin="1" Command="{Binding Path=Next}"/>
-        <Button Grid.Row="3" Grid.Column="3" Content="Конец" Margin="1" Command="{Binding Path=End}"/>
-        <Button Grid.Row="3" Grid.Column="4" Content="Добавить" Margin="1" Command="{Binding Path=Add}"></Button>
-        <Button Grid.Row="3" Grid.Column="5" Content="Правка" Margin="1" Command="{Binding Path=Update}"/>
-        <Button Grid.Row="3" Grid.Column="6" Content="Найти..." Margin="1" Command="{Binding Path=Search}"/>
-        <Button Grid.Row="3" Grid.Column="7" Content="Далее..." Margin="1" Command="{Binding Path=Farther}"/>
-        <Button Grid.Row="3" Grid.Column="9" Content="Закрыть" Margin="1" Command="{Binding Path=Close}"/>
+        <TextBlock 
+            Grid.Row="2" 
+            Grid.Column="0" 
+            Text="Поиск по полю:" 
+            Margin="1" 
+            FontSize="{Binding FontSize}" 
+            Style="{StaticResource TextBLockStyle}"/>
+        
+        <TextBox 
+            Name="tbxSearch" 
+            Grid.Row="2" 
+            Grid.Column="1"
+            Grid.ColumnSpan="9" 
+            Margin="1" 
+            Text="{Binding Path=SearchingText, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" 
+            FontSize="{Binding FontSize}" Style="{StaticResource TextBoxStyle}"/>
+        
+        <Button 
+            Grid.Row="3" 
+            Grid.Column="0" 
+            Margin="1" 
+            Command="{Binding Path=Begin}" 
+            KeyDown="BaseTab_OnKeyDown" 
+            Style="{StaticResource ButtonStyle}">
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="30"/>
+                    <ColumnDefinition/>
+                </Grid.ColumnDefinitions>
+                
+                <Image
+                    Grid.Column="0"
+                    Source="../../Resources/Начало (2).ico"/>
+                
+                <TextBlock
+                    Grid.Column="1"
+                    Text="Начало"
+                    FontSize="15"
+                    Style="{StaticResource TextBLockStyle}"/>
+            </Grid>
+        </Button>
+        
+        <Button 
+            Name="btnUp"
+            Grid.Row="3" 
+            Grid.Column="1" 
+            Margin="1" 
+            Command="{Binding Path=Prev}" 
+            KeyDown="BaseTab_OnKeyDown"
+            Style="{StaticResource ButtonStyle}">
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="30"/>
+                    <ColumnDefinition/>
+                </Grid.ColumnDefinitions>
+
+                <Image
+                    Grid.Column="0"
+                    Source="../../Resources/Предыдущий (2).ico"/>
+
+                <TextBlock
+                    Grid.Column="1"
+                    Text="Пред."
+                    FontSize="15"
+                    Style="{StaticResource TextBLockStyle}"/>
+            </Grid>
+        </Button>
+        
+        <Button 
+            Name="btnDown"
+            Grid.Row="3" 
+            Grid.Column="2" 
+            Margin="1" 
+            Command="{Binding Path=Next}" 
+            KeyDown="BaseTab_OnKeyDown"
+            Style="{StaticResource ButtonStyle}">
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="30"/>
+                    <ColumnDefinition/>
+                </Grid.ColumnDefinitions>
+
+                <Image
+                    Grid.Column="0"
+                    Source="../../Resources/Следующий (2).ico"/>
+
+                <TextBlock
+                    Grid.Column="1"
+                    Text="След."
+                    FontSize="15"
+                    Style="{StaticResource TextBLockStyle}"/>
+            </Grid>
+        </Button>
+        
+        <Button 
+            Grid.Row="3" 
+            Grid.Column="3"
+            Margin="1" 
+            Command="{Binding Path=End}" 
+            KeyDown="BaseTab_OnKeyDown"
+            Style="{StaticResource ButtonStyle}">
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="30"/>
+                    <ColumnDefinition/>
+                </Grid.ColumnDefinitions>
+
+                <Image
+                    Grid.Column="0"
+                    Source="../../Resources/Конец (2).ico"/>
+
+                <TextBlock
+                    Grid.Column="1"
+                    Text="Конец"
+                    FontSize="15"
+                    Style="{StaticResource TextBLockStyle}"/>
+            </Grid>
+        </Button>
+        
+        <Button 
+            Grid.Row="3" 
+            Grid.Column="4" 
+            Margin="1" 
+            Command="{Binding Path=Add}" 
+            KeyDown="BaseTab_OnKeyDown"
+            Style="{StaticResource ButtonStyle}">
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="30"/>
+                    <ColumnDefinition/>
+                </Grid.ColumnDefinitions>
+
+                <Image
+                    Grid.Column="0"
+                    Source="../../Resources/Добавить1 (2).ico"/>
+
+                <TextBlock
+                    Grid.Column="1"
+                    Text="Добавить"
+                    FontSize="15"
+                    Style="{StaticResource TextBLockStyle}"/>
+            </Grid>
+        </Button>
+        
+        <Button 
+            Name="btnEdit"
+            Grid.Row="3" 
+            Grid.Column="5" 
+            Margin="1" 
+            Command="{Binding Path=Update}" 
+            KeyDown="BaseTab_OnKeyDown"
+            Style="{StaticResource ButtonStyle}">
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="30"/>
+                    <ColumnDefinition/>
+                </Grid.ColumnDefinitions>
+
+                <Image
+                    Grid.Column="0"
+                    Source="../../Resources/Редактировать (2).ico"/>
+
+                <TextBlock
+                    Grid.Column="1"
+                    Text="Правка"
+                    FontSize="15"
+                    Style="{StaticResource TextBLockStyle}"/>
+            </Grid>
+        </Button>
+        
+        <Button 
+            Grid.Row="3" 
+            Grid.Column="6" 
+            Margin="1"
+            Command="{Binding Path=Search}"
+            KeyDown="BaseTab_OnKeyDown"
+            Style="{StaticResource ButtonStyle}">
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="30"/>
+                    <ColumnDefinition/>
+                </Grid.ColumnDefinitions>
+
+                <Image
+                    Grid.Column="0"
+                    Source="../../Resources/Найти (2).ico"/>
+
+                <TextBlock
+                    Grid.Column="1"
+                    Text="Найти..."
+                    FontSize="15"
+                    Style="{StaticResource TextBLockStyle}"/>
+            </Grid>
+        </Button>
+        
+        <Button 
+            Grid.Row="3" 
+            Grid.Column="7" 
+            Margin="1" 
+            Command="{Binding Path=Farther}" 
+            KeyDown="BaseTab_OnKeyDown"
+            Style="{StaticResource ButtonStyle}">
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="30"/>
+                    <ColumnDefinition/>
+                </Grid.ColumnDefinitions>
+
+                <Image
+                    Grid.Column="0"
+                    Source="../../Resources/Далее.ico"/>
+
+                <TextBlock
+                    Grid.Column="1"
+                    Text="Далее..."
+                    FontSize="15"
+                    Style="{StaticResource TextBLockStyle}"/>
+            </Grid>
+        </Button>
+        
+        <Button 
+            Grid.Row="3" 
+            Grid.Column="9" 
+            Margin="1" 
+            Command="{Binding Path=Close}" 
+            KeyDown="BaseTab_OnKeyDown"
+            Style="{StaticResource ButtonStyle}">
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="30"/>
+                    <ColumnDefinition/>
+                </Grid.ColumnDefinitions>
+
+                <Image
+                    Grid.Column="0"
+                    Source="../../Resources/Отмена (2).ico"/>
+
+                <TextBlock
+                    Grid.Column="1"
+                    Text="Закрыть"
+                    FontSize="15"
+                    Style="{StaticResource TextBLockStyle}"/>
+            </Grid>
+        </Button>
     </Grid>
 </UserControl>

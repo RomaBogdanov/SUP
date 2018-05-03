@@ -1,6 +1,8 @@
-﻿using SupRealClient.Models;
+﻿using System.Linq;
+using SupRealClient.Models;
 using SupRealClient.ViewModels;
 using System.Windows.Controls;
+using System.Windows.Input;
 
 namespace SupRealClient.Views
 {
@@ -20,6 +22,7 @@ namespace SupRealClient.Views
         {
             ((Base1ViewModel)DataContext).SetModel(model);
             InitializeComponent();
+            tbxSearch.Focus();
         }
 
         public DataGrid BaseTab
@@ -28,6 +31,7 @@ namespace SupRealClient.Views
             set
             {
                 baseTab = value;
+                baseTab.Focus();
             }
         }
 
@@ -36,6 +40,40 @@ namespace SupRealClient.Views
             if (baseTab.Columns.Count > 0)
             {
                 baseTab.CurrentColumn = baseTab.Columns[0];
+            }
+        }
+
+        private void BaseTab_OnKeyDown(object sender, KeyEventArgs e)
+        {
+            //if (e.Key == Key.Down)
+            {
+                SelectSearchBox();
+            }
+        }
+
+        public void SelectSearchBox()
+        {
+            tbxSearch.Focus();
+        }
+
+        private void UserControl_KeyDown(object sender, KeyEventArgs e)
+        {
+
+        }
+
+        private void UserControl_PreviewKeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.Key== Key.Up)
+            {
+                btnUp.Command.Execute(null);
+            }
+            else if (e.Key==Key.Down)
+            {
+                btnDown.Command.Execute(null);
+            }
+            else if(e.Key==Key.Enter)
+            {
+                btnEdit.Command.Execute(null);
             }
         }
     }

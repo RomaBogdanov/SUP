@@ -112,7 +112,9 @@
     <Compile Include="Models\Base3ZonesModel.cs" />
     <Compile Include="Models\BaseOrgsModel.cs" />
     <Compile Include="Models\ChildOrgsModel.cs" />
+    <Compile Include="Models\GlobalSettings.cs" />
     <Compile Include="Models\IAddUpdateCardModel.cs" />
+    <Compile Include="Models\IGlobalSettings.cs" />
     <Compile Include="Models\ImagesHelper.cs" />
     <Compile Include="Models\ISearch1Model.cs" />
     <Compile Include="Models\Human.cs" />

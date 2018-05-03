@@ -11,8 +11,10 @@
     
     <Grid>
         <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="Auto"/>
             <ColumnDefinition Width="1*"/>
-            <ColumnDefinition Width="1*"/>
+            <ColumnDefinition Width="30"/>
+            <ColumnDefinition Width="30"/>
         </Grid.ColumnDefinitions>
         <Grid.RowDefinitions>
             <RowDefinition Height="30"/>
@@ -31,58 +33,105 @@
             <RowDefinition/>
         </Grid.RowDefinitions>
         <TextBlock 
-            Grid.ColumnSpan="2"
+            Grid.ColumnSpan="4"
             Text="Тип:" 
-            FontSize="15"
+            FontSize="{Binding FontSize}"
             HorizontalAlignment="Left"
             Style="{StaticResource TextBLockStyle}"/>
         
-        <TextBox 
-            x:Name="TypeTextBox"
+        <StackPanel
             Grid.Row="1" 
             Grid.Column="0"
-            Grid.ColumnSpan="2" 
-            TabIndex="0"
-            Text="{Binding Path=Type, Mode=TwoWay}"
-            Margin="2"
-            Style="{StaticResource TextBoxStyle}"
-            KeyUp="TextBox_OnKeyUp"/>
-        
+            Grid.ColumnSpan="4" >
+            <TextBox 
+                x:Name="TypeTextBox"
+                TabIndex="0"
+                FontSize="{Binding FontSize}"
+                Text="{Binding Path=Type, Mode=TwoWay}"
+                Margin="2"
+                Style="{StaticResource TextBoxStyle}"
+                KeyUp="TextBox_OnKeyUp"
+                TextChanged="TypeTextBox_OnTextChanged"
+                GotFocus="TypeTextBox_OnGotFocus"
+                LostFocus="TypeTextBox_OnLostFocus"/>
+            <Popup
+                x:Name="TypePopup"
+                AllowsTransparency="True"
+                MaxWidth="180"
+                MinWidth="100"
+                StaysOpen="True"
+                Placement="Bottom">
+                <Border
+                    BorderThickness="1"
+                    BorderBrush="Black">
+                    <TextBlock 
+                        Text="{Binding TypeToolType}"
+                        Background="Snow"
+                        FontSize="{Binding FontSize}"
+                        TextWrapping="Wrap"/>
+                </Border>
+            </Popup>
+        </StackPanel>
+            
         <TextBlock 
             Grid.Row="2" 
             Grid.Column="0"
-            Grid.ColumnSpan="2"
+            Grid.ColumnSpan="4"
             Text="Название:" 
-            FontSize="15"
+            FontSize="{Binding FontSize}"
             HorizontalAlignment="Left"
             Style="{StaticResource TextBLockStyle}"/>
         
-        <TextBox 
-            x:Name="DescriptionTextBlock"
+        <StackPanel
             Grid.Row="3" 
             Grid.Column="0"
-            Grid.ColumnSpan="2" 
-            Margin="2"
-            TabIndex="1"
-            Text="{Binding Path=Name, Mode=TwoWay}"
-            Style="{StaticResource TextBoxStyle}"
-            KeyUp="TextBox_OnKeyUp"/>
+            Grid.ColumnSpan="4" >
+            <TextBox 
+                x:Name="DescriptionTextBlock"
+                Margin="2"
+                TabIndex="1"
+                FontSize="{Binding FontSize}"
+                Text="{Binding Path=Name, Mode=TwoWay}"
+                Style="{StaticResource TextBoxStyle}"
+                KeyUp="TextBox_OnKeyUp"
+                TextChanged="DescriptionTextBlock_OnTextChanged"
+                GotFocus="DescriptionTextBlock_OnGotFocus"
+                LostFocus="DescriptionTextBlock_OnLostFocus"/>
+            <Popup
+                x:Name="NamePopup"
+                AllowsTransparency="True"
+                MaxWidth="180"
+                MinWidth="100"
+                StaysOpen="True"
+                Placement="Bottom">
+                <Border
+                    BorderThickness="1"
+                    BorderBrush="Black">
+                    <TextBlock 
+                        Text="{Binding NameToolType}"
+                        Background="Snow"
+                        FontSize="{Binding FontSize}"
+                        TextWrapping="Wrap"/>
+                </Border>
+            </Popup>
+        </StackPanel>
         
         <TextBlock 
             Grid.Row="4" 
             Grid.Column="0"
-            Grid.ColumnSpan="2"
+            Grid.ColumnSpan="4"
             Text="Комментарий:"
-            FontSize="15"
+            FontSize="{Binding FontSize}"
             HorizontalAlignment="Left"
             Style="{StaticResource TextBLockStyle}"/>
         
         <TextBox 
             Grid.Row="5" 
             Grid.Column="0"
-            Grid.ColumnSpan="2" 
+            Grid.ColumnSpan="4" 
             Margin="2"
             TabIndex="2"
+            FontSize="{Binding FontSize}"
             Text="{Binding Path=Comment,Mode=TwoWay}"
             Style="{StaticResource TextBoxStyle}"
             KeyUp="TextBox_OnKeyUp"/>
@@ -90,9 +139,9 @@
         <TextBlock 
             Grid.Row="6" 
             Grid.Column="0"
-            Grid.ColumnSpan="2"
+            Grid.ColumnSpan="4"
             Text="Основное название:"
-            FontSize="15"
+            FontSize="{Binding FontSize}"
             HorizontalAlignment="Left"
             Style="{StaticResource TextBLockStyle}"/>
         
@@ -101,17 +150,33 @@
             Grid.Column="0"
             Grid.ColumnSpan="2" 
             Margin="2"
-            TabIndex="3"
+            FontSize="{Binding FontSize}"
             Text="{Binding Path=FullName, Mode=TwoWay}"
             Style="{StaticResource TextBoxStyle}"
             KeyUp="TextBox_OnKeyUp"/>
         
+        <Button
+            Grid.Row="7"
+            Grid.Column="2"
+            Content="..."
+            TabIndex="3"
+            Margin="2"
+            Style="{StaticResource ButtonStyle}"/>
+
+        <Button
+            Grid.Row="7"
+            Grid.Column="3"
+            Content="X"
+            TabIndex="4"
+            Margin="2"
+            Style="{StaticResource ButtonStyle}"/>
+
         <TextBlock
             Grid.Row="8"
             Grid.Column="0"
             Grid.ColumnSpan="2"
             Text="Регион"
-            FontSize="15"
+            FontSize="{Binding FontSize}"
             HorizontalAlignment="Left"
             Style="{StaticResource TextBLockStyle}"/>
         
@@ -120,16 +185,32 @@
             Grid.Column="0"
             Grid.ColumnSpan="2"
             Margin="2"
-            TabIndex="4"
+            FontSize="{Binding FontSize}"
             Style="{StaticResource TextBoxStyle}"
             KeyUp="TextBox_OnKeyUp"/>
-        
+
+        <Button
+            Grid.Row="9"
+            Grid.Column="2"
+            Content="..."
+            Margin="2"
+            TabIndex="5"
+            Style="{StaticResource ButtonStyle}"/>
+
+        <Button
+            Grid.Row="9"
+            Grid.Column="3"
+            Content="X"
+            Margin="2"
+            TabIndex="6"
+            Style="{StaticResource ButtonStyle}"/>
+
         <TextBlock
             Grid.Row="10"
             Grid.Column="0"
             Grid.ColumnSpan="2"
             Text="Страна"
-            FontSize="15"
+            FontSize="{Binding FontSize}"
             HorizontalAlignment="Left"
             Style="{StaticResource TextBLockStyle}"/>
         
@@ -138,16 +219,32 @@
             Grid.Column="0"
             Grid.ColumnSpan="2"
             Margin="2"
-            TabIndex="5"
+            FontSize="{Binding FontSize}"
             Style="{StaticResource TextBoxStyle}"
             KeyUp="TextBox_OnKeyUp"/>
-        
+
+        <Button
+            Grid.Row="11"
+            Grid.Column="2"
+            Content="..."
+            Margin="2"
+            TabIndex="7"
+            Style="{StaticResource ButtonStyle}"/>
+
+        <Button
+            Grid.Row="11"
+            Grid.Column="3"
+            Content="X"
+            Margin="2"
+            TabIndex="8"
+            Style="{StaticResource ButtonStyle}"/>
+
         <Button 
             Grid.Row="13" 
             Grid.Column="0"
             Command="{Binding Path=Ok}"
             Margin="2"
-            TabIndex="6"
+            TabIndex="9"
             Style="{StaticResource ButtonStyle}">
             <Grid Width="140">
                 <Grid.ColumnDefinitions>
@@ -162,6 +259,7 @@
                 <TextBlock
                     Grid.Column="1"
                     Text="Ок"
+                    FontSize="{Binding FontSize}"
                     Style="{StaticResource TextBLockStyle}"/>
             </Grid>
         </Button>
@@ -169,8 +267,9 @@
         <Button 
             Grid.Row="13" 
             Grid.Column="1" 
+            Grid.ColumnSpan="3"
             Margin="2"
-            TabIndex="7"
+            TabIndex="10"
             Command="{Binding Path=Cancel}"
             Style="{StaticResource ButtonStyle}">
             <Grid Width="140">
@@ -186,6 +285,7 @@
                 <TextBlock
                     Grid.Column="1"
                     Text="Отмена"
+                    FontSize="{Binding FontSize}"
                     Style="{StaticResource TextBLockStyle}"/>
             </Grid>
         </Button>

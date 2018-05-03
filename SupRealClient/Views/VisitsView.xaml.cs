@@ -1154,7 +1154,7 @@ namespace SupRealClient.Views
             row["f_personal_data_agreement"] =
                 CommonHelper.BoolToString(CurrentItem.IsAgree);
             row["f_personal_data_last_date"] = CurrentItem.AgreeToDate;
- 
+
             row["f_phones"] = CurrentItem.Telephone ?? "";
             row["f_cntr_id"] = CurrentItem.NationId >= 0 ?
                 CurrentItem.NationId : 0;
