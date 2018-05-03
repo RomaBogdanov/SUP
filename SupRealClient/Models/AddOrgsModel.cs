@@ -50,7 +50,8 @@ namespace SupRealClient.Models
 
             if (newOrganization)
             {
-                if (!(data.Type == "" | data.Name == "" | data.FullName == ""))
+                //if (!(data.Type == "" | data.Name == "" | data.FullName == ""))
+                if (!(data.Type == "" | data.Name == ""))
                 {
                     DataRow row = organizations.Table.NewRow();
                     row["f_org_type"] = data.Type;

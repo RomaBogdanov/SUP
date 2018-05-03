@@ -16,12 +16,36 @@ namespace SupRealClient.Views
         /// </summary>
         private TraversalRequest _focusMover = new TraversalRequest(FocusNavigationDirection.Next);
 
+        private bool _loaded = false;
+
         public AddUpdateOrgsView(IAddUpdateOrgsModel model)
         {
             Closing += (s, e) =>
             {
                 TypePopup.IsOpen = false;
                 NamePopup.IsOpen = false;
+            };
+
+            LocationChanged += (s, e) =>
+            {
+                if (_loaded)
+                {
+                    if (TypePopup.IsOpen)
+                    {
+                        TypePopup.IsOpen = false;
+                        TypePopup.IsOpen = true;
+                    }
+                    if (NamePopup.IsOpen)
+                    {
+                        NamePopup.IsOpen = false;
+                        NamePopup.IsOpen = true;
+                    }
+                }
+            };
+
+            Loaded += (s, e) =>
+            {
+                _loaded = true;
             };
 
             model.OnClose += Handling_OnClose;
