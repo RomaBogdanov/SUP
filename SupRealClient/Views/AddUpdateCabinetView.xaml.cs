@@ -1,16 +1,6 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Shapes;
 using System.Data;
 using SupRealClient.TabsSingleton;
 using SupRealClient.EnumerationClasses;
@@ -29,6 +19,8 @@ namespace SupRealClient.Views
         public AddUpdateCabinetView()
         {
             InitializeComponent();
+
+            AfterInitialize();
         }
 
         public AddUpdateCabinetView(Cabinet cabinet)
@@ -39,6 +31,8 @@ namespace SupRealClient.Views
             numCab.Text = cabinet.CabNum;
             descript.Text = cabinet.Descript;
             numDoor.Text = cabinet.DoorNum;
+
+            AfterInitialize();
         }
 
         private void ok_Click(object sender, RoutedEventArgs e)

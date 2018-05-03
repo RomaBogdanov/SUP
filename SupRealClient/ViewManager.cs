@@ -303,6 +303,8 @@ namespace SupRealClient
                     return new Base4NationsWindView();
                 case "Base4OrganizationsWindView":
                     return new Base4OrganizationsWindView();
+                case "Base4RegionsWindView":
+                    return new Base4RegionsWindView();
             }
 
             return null;

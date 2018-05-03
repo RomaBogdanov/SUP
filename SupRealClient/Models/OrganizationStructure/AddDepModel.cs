@@ -1,8 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using SupRealClient.Models.OrganizationStructure.Interfaces;
 using System.Data;
 using SupRealClient.TabsSingleton;
@@ -24,10 +20,12 @@ namespace SupRealClient.Models.OrganizationStructure
         public event Action OnClose;
 
         private int organizationId;
+        private int departmentId;
 
-        public AddDepModel(int organizationId)
+        public AddDepModel(int organizationId, int departmentId)
         {
             this.organizationId = organizationId;
+            this.departmentId = departmentId;
         }
 
         public void EditItem()
@@ -37,8 +35,10 @@ namespace SupRealClient.Models.OrganizationStructure
                 DataRow row = DepartmentWrapper.CurrentTable().Table.NewRow();
                 row["f_dep_name"] = Description;
                 row["f_org_id"] = organizationId;
+                row["f_parent_id"] = departmentId;
                 row["f_rec_date"] = DateTime.Now;
                 row["f_rec_operator"] = Authorizer.AppAuthorizer.Id;
+                row["f_deleted"] = "N";
                 DepartmentWrapper.CurrentTable().Table.Rows.Add(row);
             }
             OnClose?.Invoke();

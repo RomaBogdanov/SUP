@@ -20,5 +20,71 @@ go
 select * from vis_orders;
 go
 
-insert into vis_visitors values ( '0', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '')
+insert into vis_cabinets values ( '0', '', '', '', 'N', '', '', '')
+go
+
+insert into vis_cabinets_zones values ( '', '', '0')
+go
+
+insert into vis_cabinets_zones_2 values ( '', '', '0')
+go
+
+insert into vis_cards values ( '0', '', '', '', 'N', '', '', '', '', '', '')
+go
+
+insert into vis_countries values ( '0', '', 'N', '', '')
+go
+
+insert into vis_departaments values ( '0', '', '', '', 'N', '', '', '-1')
+go
+
+insert into vis_documents values ( '0', '', 'N', '', '')
+go
+
+insert into vis_flag values ( '0', 'N')
+go
+
+insert into vis_new_roles values ( '0', '', '')
+go
+
+insert into vis_new_roles_list values ( '0', '', '', '')
+go
+
+insert into vis_new_user values ( '0', '', '', '')
+go
+
+insert into vis_order_elements values ( '0', '', '', '', '', '', '', '', 'N', '', '', '', '', '')
+go
+
+insert into vis_orderlist values ( '', '', 'N', '0')
+go
+
+insert into vis_orders values ( '0', '0', '', '', '', '', '', '', '', '', 'N', '', '', '')
+go
+
+insert into vis_organizations values ( '0', '', '', '', '', '', '', 'N', '', '', '', '', '', '', '')
+go
+
+insert into vis_regions values ( '0', '', 'N', '', '')
+go
+
+insert into vis_spr_cardstates values ( '0', '', 'N', '', '')
+go
+
+insert into vis_spr_order_types values ( '0', '', 'N', '', '')
+go
+
+insert into vis_visitors values ( '0', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', 'N', '', '', '', '', '', '', '', '', '', '')
+go
+
+insert into vis_visits values ( '0', '', '', '', '', '', '', '', '', 'N', '', '', '', '', '', '', '')
+go
+
+insert into vis_zone_types values ( '0', '', 'N', '', '', '')
+go
+
+insert into vis_zones values ('0', '', '', '', 'N', '', '', '', '', '','', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '')
+go
+
+insert into vis_zones_order_elements values ( '0', '', '')
 go

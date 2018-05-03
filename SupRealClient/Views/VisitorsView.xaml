@@ -3,12 +3,10 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        xmlns:local="clr-namespace:SupRealClient.Views"
         xmlns:mah="http://metro.mahapps.com/winfx/xaml/controls"
         mc:Ignorable="d"
         Title="Посетители" Height="900" Width="900"
-        ResizeMode="NoResize"
-        WindowStartupLocation="CenterScreen"
+        ResizeMode="NoResize" WindowStartupLocation="CenterScreen"
         Closing="Window_Closing">
 
     <mah:MetroWindow.Resources>
@@ -50,6 +48,7 @@
                 Style="{StaticResource TextBLockStyle}"/>
 
             <TextBox
+                TabIndex="0"
                 Text="{Binding Path=CurrentItem.Family, Mode=TwoWay}"
                 Grid.Row="1"
                 Grid.Column="0"
@@ -63,6 +62,7 @@
                 Style="{StaticResource TextBLockStyle}"/>
 
             <TextBox
+                TabIndex="1"
                 Text="{Binding Path=CurrentItem.Name, Mode=TwoWay}"
                 Grid.Row="1"
                 Grid.Column="1"
@@ -76,6 +76,7 @@
                 Style="{StaticResource TextBLockStyle}"/>
 
             <TextBox
+                TabIndex="2"
                 Text="{Binding Path=CurrentItem.Patronymic, Mode=TwoWay}"
                 Grid.Row="1"
                 Grid.Column="2"
@@ -133,6 +134,7 @@
                 <ColumnDefinition Width="120"/>
                 <ColumnDefinition/>
                 <ColumnDefinition Width="50"/>
+                <ColumnDefinition Width="50"/>
             </Grid.ColumnDefinitions>
             
             <Grid.RowDefinitions>
@@ -147,13 +149,16 @@
                 Style="{StaticResource TextBLockStyle}"/>
 
             <TextBox
+                TabIndex="3"
                 Text="{Binding Path=CurrentItem.Organization, Mode=TwoWay}"
                 Grid.Row="0"
                 Grid.Column="1"
                 IsEnabled="{Binding Path=TextEnable, Mode=TwoWay}"
-                Style="{StaticResource TextBoxStyle}"/>
+                Style="{StaticResource TextBoxStyle}"
+                IsReadOnly="True"/>
             
             <Button
+                TabIndex="4"
                 Command="{Binding Path=OrganizationCommand}"
                 Grid.Row="0"
                 Grid.Column="2"
@@ -162,7 +167,19 @@
                 Width="25"
                 IsEnabled="{Binding Path=ButtonEnable, Mode=TwoWay}"
                 Style="{StaticResource VisitorsSquareButtonStyle}"/>
-            
+
+            <Button
+                Command="{Binding ClearCommand}"
+                CommandParameter="Organization"
+                TabIndex="5"
+                Grid.Column="3"
+                Height="25"
+                Width="25"
+                Margin="0"
+                Content="X"
+                IsEnabled="{Binding Path=ButtonEnable, Mode=TwoWay}"
+                Style="{StaticResource VisitorsSquareButtonStyle}"/>
+
             <TextBlock
                 Grid.Row="1"
                 Grid.Column="0"
@@ -170,6 +187,7 @@
                 Style="{StaticResource TextBLockStyle}"/>
 
             <TextBox
+                TabIndex="6"
                 Text="{Binding Path=CurrentItem.Comment, Mode=TwoWay}"
                 Grid.Row="1"
                 Grid.Column="1"
@@ -177,11 +195,25 @@
                 Style="{StaticResource TextBoxStyle}"/>
 
             <Button
+                TabIndex="7"
                 Grid.Row="1"
                 Grid.Column="2"
                 Content="..."
                 Height="25"
                 Width="25"
+                IsEnabled="{Binding Path=ButtonEnable, Mode=TwoWay}"
+                Style="{StaticResource VisitorsSquareButtonStyle}"/>
+
+            <Button
+                Command="{Binding ClearCommand}"
+                CommandParameter="Comment"
+                TabIndex="8"
+                Grid.Row="1"
+                Grid.Column="3"
+                Height="25"
+                Width="25"
+                Margin="0"
+                Content="X"
                 IsEnabled="{Binding Path=ButtonEnable, Mode=TwoWay}"
                 Style="{StaticResource VisitorsSquareButtonStyle}"/>
         </Grid>
@@ -203,6 +235,7 @@
                 </Grid.ColumnDefinitions>
                 
                 <CheckBox
+                    TabIndex="9"
                     IsChecked="{Binding Path=CurrentItem.IsAccessDenied, Mode=TwoWay}"
                     Grid.Column="0"
                     VerticalAlignment="Center"
@@ -224,6 +257,7 @@
                 </Grid.ColumnDefinitions>
 
                 <CheckBox
+                    TabIndex="10"
                     IsChecked="{Binding Path=CurrentItem.IsCanHaveVisitors, Mode=TwoWay}"
                     Grid.Column="0"
                     VerticalAlignment="Center"
@@ -245,6 +279,7 @@
                 </Grid.ColumnDefinitions>
 
                 <CheckBox
+                    TabIndex="11"
                     IsChecked="{Binding Path=CurrentItem.IsNotFormular, Mode=TwoWay}"
                     Grid.Column="0"
                     VerticalAlignment="Center"
@@ -289,6 +324,7 @@
                             Style="{StaticResource TextBLockStyle}"/>
                         
                         <TextBox
+                            TabIndex="12"
                             Text="{Binding Path=CurrentItem.Telephone, Mode=TwoWay}"
                             Grid.Row="0"
                             Grid.Column="1"
@@ -307,12 +343,14 @@
                             Style="{StaticResource TextBLockStyle}"/>
 
                         <TextBox
+                            TabIndex="13"
                             Text="{Binding Path=CurrentItem.Nation, Mode=TwoWay}"
                             Grid.Row="1"
                             Grid.Column="1"
                             HorizontalAlignment="Stretch"
                             IsEnabled="{Binding Path=TextEnable, Mode=TwoWay}"
-                            Style="{StaticResource TextBoxStyle}"/>
+                            Style="{StaticResource TextBoxStyle}"
+                            IsReadOnly="True"/>
                         
                         <Grid
                             Grid.Row="1"
@@ -323,6 +361,7 @@
                             </Grid.ColumnDefinitions>
                         
                             <Button
+                                TabIndex="14"
                                 Command="{Binding CountryCommand}"
                                 Grid.Column="0"
                                 Height="25"
@@ -331,8 +370,11 @@
                                 Content="..."
                                 IsEnabled="{Binding Path=ButtonEnable, Mode=TwoWay}"
                                 Style="{StaticResource VisitorsSquareButtonStyle}"/>
-                            
+
                             <Button
+                                Command="{Binding ClearCommand}"
+                                CommandParameter="Nation"
+                                TabIndex="15"
                                 Grid.Column="1"
                                 Height="25"
                                 Width="25"
@@ -379,6 +421,7 @@
                                 Style="{StaticResource TextBLockStyle}"/>
 
                             <TextBox
+                                TabIndex="16"
                                 Grid.Row="1"
                                 Grid.Column="1"
                                 Text="{Binding Path=CurrentItem.DocType, Mode=TwoWay}"
@@ -386,7 +429,8 @@
                                 FontSize="15"
                                 HorizontalAlignment="Stretch"
                                 IsEnabled="{Binding Path=TextEnable, Mode=TwoWay}"
-                                Style="{StaticResource TextBoxStyle}"/>
+                                Style="{StaticResource TextBoxStyle}"
+                                IsReadOnly="True"/>
                             
                             <Grid
                                 Grid.Row="1"
@@ -397,6 +441,7 @@
                                 </Grid.ColumnDefinitions>
                                 
                                 <Button
+                                    TabIndex="17"
                                     Command="{Binding DocumentsCommand}"
                                     Grid.Column="0"
                                     Margin="0"
@@ -407,6 +452,9 @@
                                     Style="{StaticResource VisitorsSquareButtonStyle}"/>
 
                                 <Button
+                                    Command="{Binding ClearCommand}"
+                                    CommandParameter="DocType"
+                                    TabIndex="18"
                                     Grid.Column="1"
                                     Margin="0"
                                     Height="25"
@@ -431,6 +479,7 @@
                                     Style="{StaticResource TextBLockStyle}"/>
                                 
                                 <TextBox
+                                    TabIndex="19"
                                     Text="{Binding Path=CurrentItem.DocSeria, Mode=TwoWay}"
                                     Grid.Column="1"
                                     IsEnabled="{Binding Path=TextEnable, Mode=TwoWay}"
@@ -452,6 +501,7 @@
                                     Style="{StaticResource TextBLockStyle}"/>
 
                                 <TextBox
+                                    TabIndex="20"
                                     Text="{Binding Path=CurrentItem.DocNum, Mode=TwoWay}"
                                     Grid.Column="1"
                                     IsEnabled="{Binding Path=TextEnable, Mode=TwoWay}"
@@ -467,15 +517,34 @@
                                 Style="{StaticResource TextBLockStyle}"/>
 
                             <TextBox
+                                TabIndex="21"
                                 Grid.Row="2"
                                 Grid.Column="1"
-                                Grid.ColumnSpan="4"
+                                Grid.ColumnSpan="2"
                                 Text="{Binding Path=CurrentItem.DocDate, Mode=TwoWay}"
                                 FontSize="15"
                                 HorizontalAlignment="Stretch"
                                 IsEnabled="{Binding Path=TextEnable, Mode=TwoWay}"
                                 Style="{StaticResource TextBoxStyle}"/>
-                            
+
+                            <TextBlock 
+                                Grid.Row="2"
+                                Grid.Column="3"
+                                Text="Код документа"
+                                FontSize="15"
+                                HorizontalAlignment="Left"
+                                Style="{StaticResource TextBLockStyle}"/>
+
+                            <TextBox
+                                TabIndex="22"
+                                Grid.Row="2"
+                                Grid.Column="4"
+                                Text="{Binding Path=CurrentItem.DocCode, Mode=TwoWay}"
+                                FontSize="15"
+                                HorizontalAlignment="Stretch"
+                                IsEnabled="{Binding Path=TextEnable, Mode=TwoWay}"
+                                Style="{StaticResource TextBoxStyle}"/>
+
                             <TextBlock 
                                 Grid.Row="3"
                                 Grid.Column="0"
@@ -484,6 +553,7 @@
                                 Style="{StaticResource TextBLockStyle}"/>
 
                             <TextBox
+                                TabIndex="23"
                                 Grid.Row="3"
                                 Grid.Column="1"
                                 Grid.ColumnSpan="4"
@@ -506,6 +576,7 @@
                                 </Grid.ColumnDefinitions>
 
                                 <CheckBox 
+                                    TabIndex="24"
                                     IsChecked="{Binding Path=CurrentItem.IsAgree, Mode=TwoWay}"
                                     Grid.Column="0"
                                     HorizontalAlignment="Center"
@@ -524,6 +595,7 @@
                                     Style="{StaticResource TextBLockStyle}"/>
                                 
                                 <DatePicker
+                                    TabIndex="25"
                                     Grid.Column="3"
                                     SelectedDate="{Binding Path=CurrentItem.AgreeToDate, Mode=TwoWay}"
                                     IsEnabled="{Binding Path=TextEnable, Mode=TwoWay}"
@@ -578,7 +650,7 @@
                 </mah:MetroTabItem>
                 <mah:MetroTabItem 
                     Header="Заявки" 
-                    Visibility="{Binding BidsVisibility, 
+                    Visibility="{Binding AccessVisibility, 
                     Converter={StaticResource BooleanToVisibilityConverter}}">
                     <DataGrid Style="{StaticResource AzureDataGrid1}" 
                               ItemsSource="{Binding Path=CurrentItem.Orders}"
@@ -620,13 +692,20 @@
                             Style="{StaticResource TextBLockStyle}"/>
                         
                         <TextBox
+                            TabIndex="26"
                             Text="{Binding Path=CurrentItem.Department, Mode=TwoWay}"
                             Grid.Row="1"
+                            Grid.RowSpan="3"
                             Grid.Column="0"
                             Grid.ColumnSpan="2"
                             Margin="2"
                             IsEnabled="{Binding Path=TextEnable, Mode=TwoWay}"
-                            Style="{StaticResource TextBoxStyle}"/>
+                            Style="{StaticResource TextBoxStyle}"
+                            TextWrapping="Wrap"
+                            AcceptsReturn="True"
+                            VerticalScrollBarVisibility="Visible"
+                            VerticalAlignment="Stretch"
+                            IsReadOnly="True"/>
 
                         <Grid
                             Grid.Row="1"
@@ -636,16 +715,21 @@
                                 <ColumnDefinition/>
                             </Grid.ColumnDefinitions>
                             
-                            <Button 
+                            <Button
+                                Command="{Binding DepartmentsCommand}"
+                                TabIndex="27"
                                 Grid.Column="0"
                                 Content="..."
                                 Margin="2"
                                 Height="25"
                                 Width="25"
                                 IsEnabled="{Binding Path=ButtonEnable, Mode=TwoWay}"
-                                Style="{StaticResource VisitorsSquareButtonStyle}"/>
+                                Style="{StaticResource VisitorsSquareButtonStyle}" />
 
                             <Button 
+                                Command="{Binding ClearCommand}"
+                                CommandParameter="Department"
+                                TabIndex="28"
                                 Grid.Column="1"
                                 Content="X"
                                 Margin="2"
@@ -654,51 +738,6 @@
                                 IsEnabled="{Binding Path=ButtonEnable, Mode=TwoWay}"
                                 Style="{StaticResource VisitorsSquareButtonStyle}"/>
                         </Grid>
-                        
-                        <TextBox
-                            Text="{Binding Path=CurrentItem.DepartmentUnit, Mode=TwoWay}"
-                            Grid.Row="2"
-                            Grid.Column="0"
-                            Grid.ColumnSpan="2"
-                            Margin="2"
-                            IsEnabled="{Binding Path=TextEnable, Mode=TwoWay}"
-                            Style="{StaticResource TextBoxStyle}"/>
-
-                        <Grid
-                            Grid.Row="2"
-                            Grid.Column="2">
-                            <Grid.ColumnDefinitions>
-                                <ColumnDefinition/>
-                                <ColumnDefinition/>
-                            </Grid.ColumnDefinitions>
-
-                            <Button 
-                                Grid.Column="0"
-                                Content="..."
-                                Margin="2"
-                                Height="25"
-                                Width="25"
-                                IsEnabled="{Binding Path=ButtonEnable, Mode=TwoWay}"
-                                Style="{StaticResource VisitorsSquareButtonStyle}"/>
-
-                            <Button 
-                                Grid.Column="1"
-                                Content="X"
-                                Margin="2"
-                                Height="25"
-                                Width="25"
-                                IsEnabled="{Binding Path=ButtonEnable, Mode=TwoWay}"
-                                Style="{StaticResource VisitorsSquareButtonStyle}"/>
-                        </Grid>
-
-                        <TextBox
-                            Text="{Binding Path=CurrentItem.DepartmentUnitUnit, Mode=TwoWay}"
-                            Grid.Row="3"
-                            Grid.Column="0"
-                            Grid.ColumnSpan="3"
-                            Margin="2"
-                            IsEnabled="{Binding Path=TextEnable, Mode=TwoWay}"
-                            Style="{StaticResource TextBoxStyle}"/>
                         
                         <TextBlock
                             Grid.Row="4" 
@@ -707,40 +746,14 @@
                             Style="{StaticResource TextBLockStyle}"/>
 
                         <TextBox
+                            TabIndex="29"
                             Text="{Binding Path=CurrentItem.Position, Mode=TwoWay}"
                             Grid.Row="5"
                             Grid.Column="0"
-                            Grid.ColumnSpan="2"
+                            Grid.ColumnSpan="4"
                             Margin="2"
                             IsEnabled="{Binding Path=TextEnable, Mode=TwoWay}"
                             Style="{StaticResource TextBoxStyle}"/>
-
-                        <Grid
-                            Grid.Row="5"
-                            Grid.Column="2">
-                            <Grid.ColumnDefinitions>
-                                <ColumnDefinition/>
-                                <ColumnDefinition/>
-                            </Grid.ColumnDefinitions>
-
-                            <Button 
-                                Grid.Column="0"
-                                Content="..."
-                                Margin="2"
-                                Height="25"
-                                Width="25"
-                                IsEnabled="{Binding Path=ButtonEnable, Mode=TwoWay}"
-                                Style="{StaticResource VisitorsSquareButtonStyle}"/>
-
-                            <Button 
-                                Grid.Column="1"
-                                Content="X"
-                                Margin="2"
-                                Height="25"
-                                Width="25"
-                                IsEnabled="{Binding Path=ButtonEnable, Mode=TwoWay}"
-                                Style="{StaticResource VisitorsSquareButtonStyle}"/>
-                        </Grid>
 
                         <Grid
                             Grid.Row="6"
@@ -751,6 +764,7 @@
                             </Grid.ColumnDefinitions>
 
                             <CheckBox
+                                TabIndex="32"
                                 IsChecked="{Binding Path=CurrentItem.IsRightSign, Mode=TwoWay}"
                                 Grid.Column="0"
                                 HorizontalAlignment="Center"
@@ -774,6 +788,7 @@
                             </Grid.ColumnDefinitions>
 
                             <CheckBox
+                                TabIndex="33"
                                 IsChecked="{Binding Path=CurrentItem.IsAgreement, Mode=TwoWay}"
                                 Grid.Column="0"
                                 HorizontalAlignment="Center"
@@ -805,10 +820,12 @@
                                 <ColumnDefinition Width="0.5*"/>
                             </Grid.ColumnDefinitions>
                             <TextBox
+                                TabIndex="34"
                                 Text="{Binding Path=CurrentItem.Cabinet, Mode=TwoWay}"
                                 Margin="2"
                                 Style="{StaticResource TextBoxStyle}"
-                                IsEnabled="{Binding Path=TextEnable, Mode=TwoWay}"/>
+                                IsEnabled="{Binding Path=TextEnable, Mode=TwoWay}"
+                                IsReadOnly="True"/>
 
                             <Grid
                                 Grid.Column="1">
@@ -818,6 +835,7 @@
                                 </Grid.ColumnDefinitions>
 
                             <Button 
+                                TabIndex="35"
                                 Command="{Binding CabinetsCommand}"
                                 Grid.Column="0"
                                 Content="..."
@@ -828,6 +846,9 @@
                                 Style="{StaticResource VisitorsSquareButtonStyle}"/>
 
                                 <Button 
+                                    Command="{Binding ClearCommand}"
+                                    CommandParameter="Cabinet"
+                                    TabIndex="36"
                                     Grid.Column="1"
                                     Content="X"
                                     Margin="2"
@@ -845,6 +866,7 @@
                                 Style="{StaticResource TextBLockStyle}"/>
                             
                             <Button
+                                TabIndex="37"
                                 Grid.Column="3"
                                 ToolTip="Добавить подпись"
                                 Margin="0"
@@ -873,6 +895,7 @@
                                         <Image Source="{Binding Signature}"/>
                                     </Border>
                                     <Button
+                                        TabIndex="38"
                                         Grid.Row="0"
                                         Grid.Column="1"
                                         Content="X"
@@ -905,6 +928,7 @@
                             Style="{StaticResource TextBLockStyle}"/>
                         
                         <ListBox
+                            TabIndex="39"
                             Grid.Row="1"
                             BorderBrush="Black"
                             BorderThickness="1"
@@ -1181,6 +1205,7 @@
                 </Button>
 
                 <Button
+                    Command="{Binding OkCommand}"
                     Grid.Row="1"
                     Grid.Column="2"
                     Margin="2"
@@ -1234,6 +1259,7 @@
                 </Button>
 
                 <Button
+                    Command="{Binding FindCommand}"
                     Grid.Row="1"
                     Grid.Column="4"
                     Margin="2"

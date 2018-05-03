@@ -72,6 +72,9 @@ namespace SupRealClient.Views.Visitor
         public DateTime DocDate
         { get; set; }
 
+        public string DocCode
+        { get; set; }
+
         public string DocPlace
         { get; set; }
     }

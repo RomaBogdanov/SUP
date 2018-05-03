@@ -6,7 +6,9 @@
         public string Name { get; set; }
         public string Comment { get; set; }
         public string FullName { get; set; }
+        public int CountryId { get; set; } = 0;
         public string Country { get; set; }
+        public int RegionId { get; set; } = 0;
         public string Region { get; set; }
     }
 }

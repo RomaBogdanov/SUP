@@ -63,6 +63,7 @@ namespace SupRealClient.Models
         protected override void Query()
         {
             var documents = from docs in table.AsEnumerable()
+                            where docs.Field<int>("f_doc_id") != 0
                             select new Document()
                             {
                                 Id = docs.Field<int>("f_doc_id"),

@@ -71,7 +71,8 @@ namespace SupRealClient.Models
         protected override void Query()
         {
             var cabinets = from cabs in table.AsEnumerable()
-                            select new Cabinet()
+                           where cabs.Field<int>("f_cabinet_id") != 0
+                           select new Cabinet()
                             {
                                 Id = cabs.Field<int>("f_cabinet_id"),
                                 CabNum = cabs.Field<string>("f_cabinet_num"),

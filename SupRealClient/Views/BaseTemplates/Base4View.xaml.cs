@@ -462,9 +462,23 @@ namespace SupRealClient.Views
                 {
                     Id = orgs.Field<int>("f_org_id"),
                     Type = orgs.Field<string>("f_org_type"),
-                    FullName = orgs.Field<string>("f_full_org_name"),
+                    FullName = orgs.Field<int>("f_syn_id") == 0 ? "" :
+                        OrganizationsWrapper.CurrentTable().Table.AsEnumerable().
+                        FirstOrDefault(arg => arg.Field<int>("f_org_id") == 
+                        orgs.Field<int>("f_syn_id"))["f_full_org_name"].ToString(),
                     Name = orgs.Field<string>("f_org_name"),
-                    Comment = orgs.Field<string>("f_comment")
+                    Comment = orgs.Field<string>("f_comment"),
+                    CountryId = orgs.Field<int>("f_cntr_id"),
+                    Country = orgs.Field<int>("f_cntr_id") == 0 ? 
+                        "" : CountriesWrapper.CurrentTable()
+                        .Table.AsEnumerable().FirstOrDefault(
+                        arg => arg.Field<int>("f_cntr_id") ==
+                        orgs.Field<int>("f_cntr_id"))["f_cntr_name"].ToString(),
+                    RegionId = orgs.Field<int>("f_region_id"),
+                    Region = RegionsWrapper.CurrentTable().Table
+                        .AsEnumerable().FirstOrDefault(
+                        arg => arg.Field<int>("f_region_id") ==
+                        orgs.Field<int>("f_region_id"))["f_region_name"].ToString()
                 });
         }
 
@@ -531,11 +545,6 @@ namespace SupRealClient.Views
         {
             Visitor.AddVisitorView wind = new Visitor.AddVisitorView();
             wind.Show();
-        }
-        
-        public override void Close()
-        {
-            System.Windows.Forms.MessageBox.Show("Close");
         }
 
         public override void Farther()
@@ -621,6 +630,7 @@ namespace SupRealClient.Views
         {
             Set = new ObservableCollection<T>(
     from nats in CountriesWrapper.CurrentTable().Table.AsEnumerable()
+    where nats.Field<int>("f_cntr_id") != 0
     select new T
     {
         Id = nats.Field<int>("f_cntr_id"),
@@ -691,6 +701,7 @@ namespace SupRealClient.Views
         {
             Set = new ObservableCollection<T>(
     from cabs in CabinetsWrapper.CurrentTable().Table.AsEnumerable()
+    where cabs.Field<int>("f_cabinet_id") != 0
     select new T
     {
         Id = cabs.Field<int>("f_cabinet_id"),
@@ -762,6 +773,7 @@ namespace SupRealClient.Views
         {
             Set = new ObservableCollection<T>(
     from docs in DocumentsWrapper.CurrentTable().Table.AsEnumerable()
+    where docs.Field<int>("f_doc_id") != 0
     select new T
     {
         Id = docs.Field<int>("f_doc_id"),
@@ -799,6 +811,76 @@ namespace SupRealClient.Views
             return new Dictionary<string, string>()
             {
                 { "DocName", "f_doc_name" },
+            };
+        }
+    }
+
+    public class RegionsListModel<T> : Base4ModelAbstr<T>
+        where T : EnumerationClasses.Region, new()
+    {
+        public RegionsListModel()
+        {
+            RegionsWrapper.CurrentTable().OnChanged += Query;
+            Query();
+            Begin();
+        }
+
+        public override void Add()
+        {
+            ViewManager.Instance.Add(new AddItemRegionsModel(), Parent);
+        }
+
+        public override void Update()
+        {
+            ViewManager.Instance.Update(new UpdateItemRegionsModel(CurrentItem), Parent);
+        }
+
+        protected override BaseModelResult GetResult()
+        {
+            return new BaseModelResult { Id = CurrentItem.Id, Name = CurrentItem.RegionName };
+        }
+
+        protected override void DoQuery()
+        {
+            Set = new ObservableCollection<T>(
+                from regs in RegionsWrapper.CurrentTable().Table.AsEnumerable()
+                where regs.Field<int>("f_region_id") != 0
+                select new T
+                {
+                    Id = regs.Field<int>("f_region_id"),
+                    RegionName = regs.Field<string>("f_region_name"),
+                    Deleted = regs.Field<string>("f_deleted"),
+                    RecDate = regs.Field<DateTime>("f_rec_date"),
+                    RecOperator = regs.Field<int>("f_rec_operator")
+                });
+        }
+
+        public override IDictionary<string, string> GetFields()
+        {
+            return new Dictionary<string, string>()
+            {
+                { "f_region_name", "Название" }
+            };
+        }
+
+        public override long GetId(int index)
+        {
+            return Rows[index].Field<int>("f_region_id");
+        }
+
+        protected override DataTable Table
+        {
+            get
+            {
+                return RegionsWrapper.CurrentTable().Table;
+            }
+        }
+
+        protected override IDictionary<string, string> GetColumns()
+        {
+            return new Dictionary<string, string>()
+            {
+                { "RegionName", "f_region_name" },
             };
         }
     }

@@ -1,17 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows;
+﻿using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Shapes;
-using SupRealClient.EnumerationClasses;
 
 namespace SupRealClient.Views
 {
@@ -25,13 +14,16 @@ namespace SupRealClient.Views
             InitializeComponent();
             var viewModel = new Base4ViewModel<EnumerationClasses.Visitor>
             {
+                OkCaption = "OK",
+                Parent = this,
                 Model = new VisitorsListModel<EnumerationClasses.Visitor>()
             };
+            viewModel.Model.OnClose += Handling_OnClose;
             base4.DataContext = viewModel;
-            CreateColumns();
+            AfterInitialize();
         }
 
-        private void CreateColumns()
+        partial void CreateColumns()
         {
             DataGridTextColumn dataGridTextColumn = new DataGridTextColumn
             {

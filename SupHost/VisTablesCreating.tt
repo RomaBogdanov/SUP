@@ -31,7 +31,9 @@ var entityQuery = from entity in entityTypeDoc.Root.Elements()
 namespace SupHost
 {
 <#foreach(var entity in entityQuery) { #>
-
+    /// <summary>
+    /// TableBehavior для <#=entity.Comment#>
+    /// </summary>
     partial class <#=entity.Name#>TableBehavior : VisitorsDBTableBehavior
     {
         public <#=entity.Name#>TableBehavior()
@@ -40,6 +42,9 @@ namespace SupHost
         }
     }
 
+    /// <summary>
+    /// TableWrapper для <#=entity.Comment#>
+    /// </summary>
 	partial class <#=entity.Name#>TableWrapper : AbstractTableWrapper
     {
         public <#=entity.Name#>TableWrapper()

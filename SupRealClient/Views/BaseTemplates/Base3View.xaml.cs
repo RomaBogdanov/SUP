@@ -29,6 +29,11 @@ namespace SupRealClient.Views
             DataContext = viewModel;
         }
 
+        public void Init()
+        {
+            InitializeComponent();
+        }
+
         public void SetViewModel(Base3ModelAbstr model)
         {
             ((Base3ViewModel)DataContext).SetModel(model);

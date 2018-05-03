@@ -1,0 +1,11 @@
+﻿<Window x:Class="SupRealClient.Views.Base4RegionsWindView"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+      xmlns:local="clr-namespace:SupRealClient.Views"
+      mc:Ignorable="d" Title="Регионы" Height="600" Width="720">
+    <Grid>
+        <local:Base4View x:Name="base4"></local:Base4View>
+    </Grid>
+</Window>

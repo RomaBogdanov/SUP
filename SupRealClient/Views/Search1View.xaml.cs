@@ -18,6 +18,8 @@ namespace SupRealClient.Views
 			DataContext = new Search1ViewModel();
 			((Search1ViewModel)DataContext).SetModel(model);
 			InitializeComponent();
-		}
+
+            AfterInitialize();
+        }
     }
 }

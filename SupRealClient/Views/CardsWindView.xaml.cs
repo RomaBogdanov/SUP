@@ -14,10 +14,17 @@ namespace SupRealClient.Views
         public CardsWindView()
         {
             InitializeComponent();
+
             Base1ModelAbstr b = new Base1CardsModel(
                 (Base1ViewModel)base2.DataContext, this);
             b.OnClose += Handling_OnClose;
             base2.SetViewModel(b);
+
+            AfterInitialize();
+        }
+
+        partial void CreateColumns()
+        {
             DataGridTextColumn dataGridTextColumn = new DataGridTextColumn
             {
                 Header = "Пропуск",

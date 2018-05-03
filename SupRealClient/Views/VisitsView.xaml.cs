@@ -1,14 +1,17 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Data;
-using System.IO;
 using System.Linq;
 using System.Runtime.CompilerServices;
+using System.Text;
 using System.Windows.Forms;
 using System.Windows.Input;
+using SupClientConnectionLib;
 using SupContract;
 using SupRealClient.Annotations;
+using SupRealClient.Common;
 using SupRealClient.Common.Interfaces;
 using SupRealClient.EnumerationClasses;
 using SupRealClient.Models;
@@ -60,6 +63,8 @@ namespace SupRealClient.Views
                 VisitorsEnable = model.VisitorsEnable;
                 VisitorsVisible = model.VisitorsVisible;
                 TextEnable = model.TextEnable;
+                ButtonEnable = model.ButtonEnable;
+                AccessVisibility = model.AccessVisibility;
             }
         }
 
@@ -99,7 +104,27 @@ namespace SupRealClient.Views
             }
         }
 
-        ObservableCollection<EnumerationClasses.Visitor> Set
+        public bool ButtonEnable
+        {
+            get { return Model.ButtonEnable; }
+            set
+            {
+                Model.ButtonEnable = value;
+                OnPropertyChanged();
+            }
+        }
+
+        public bool AccessVisibility
+        {
+            get { return Model.AccessVisibility; }
+            set
+            {
+                Model.AccessVisibility = value;
+                OnPropertyChanged();
+            }
+        }
+
+        public ObservableCollection<EnumerationClasses.Visitor> Set
         {
             get { return Model?.Set; }
             set
@@ -149,13 +174,18 @@ namespace SupRealClient.Views
         public ICommand OrganizationCommand { get; set; }
         public ICommand CountryCommand { get; set; }
         public ICommand CabinetsCommand { get; set; }
+        public ICommand DepartmentsCommand { get; set; }
         public ICommand DocumentsCommand { get; set; }
+
+        public ICommand ClearCommand { get; set; }
 
         public ICommand ExtraditeCommand { get; set; }
         public ICommand ReturnCommand { get; set; }
 
+        public ICommand OkCommand { get; set; }
         public ICommand CancelCommand { get; set; }
         public ICommand EditCommand { get; set; }
+        public ICommand FindCommand { get; set; }
 
         public ICommand AddImageSourceCommand { get; set; }
         public ICommand RemoveImageSourceCommand { get; set; }
@@ -178,13 +208,18 @@ namespace SupRealClient.Views
             OrganizationCommand = new RelayCommand(arg => OrganizationsList());
             CountryCommand = new RelayCommand(arg => CountyList());
             CabinetsCommand = new RelayCommand(arg => CabinetsList());
+            DepartmentsCommand = new RelayCommand(arg => DepartmentsList());
             DocumentsCommand = new RelayCommand(arg => DocumentsListModel());
+
+            ClearCommand = new RelayCommand(arg => Clear(arg as string));
 
             ExtraditeCommand = new RelayCommand(obj => Extradite());
             ReturnCommand = new RelayCommand(obj => Return());
 
+            OkCommand = new RelayCommand(arg => Ok());
             CancelCommand = new RelayCommand(arg => Cancel());
             EditCommand = new RelayCommand(arg => Edit());
+            FindCommand = new RelayCommand(arg => Find());
 
             AddImageSourceCommand = new RelayCommand(arg => AddImageSource(ImageType.Photo));
             RemoveImageSourceCommand= new RelayCommand(arg => RemoveImageSource(ImageType.Photo));
@@ -219,6 +254,20 @@ namespace SupRealClient.Views
             OnPropertyChanged("CurrentItem");
         }
 
+        private void DepartmentsList()
+        {
+            var result = ViewManager.Instance.OpenWindowModal(
+                "MainOrganisationStructureView", view) as BaseModelResult;
+            if (result == null)
+            {
+                return;
+            }
+            CurrentItem.DepartmentId = result.Id;
+            CurrentItem.Department =
+                Model.GetDepartmenstList(CurrentItem.DepartmentId);
+            OnPropertyChanged("CurrentItem");
+        }
+
         private void OrganizationsList()
         {
             var result = ViewManager.Instance.OpenWindowModal(
@@ -242,6 +291,43 @@ namespace SupRealClient.Views
             }
             CurrentItem.NationId = result.Id;
             CurrentItem.Nation = result.Name;
+            OnPropertyChanged("CurrentItem");
+        }
+
+        private void Clear(string field)
+        {
+            switch (field)
+            {
+                case "Nation":
+                    CurrentItem.NationId = -1;
+                    CurrentItem.Nation = "";
+                    break;
+                case "Organization":
+                    CurrentItem.OrganizationId = -1;
+                    CurrentItem.Organization = "";
+                    break;
+                case "DocType":
+                    CurrentItem.DocumentId = -1;
+                    CurrentItem.DocType = "";
+                    break;
+                case "Department":
+                    CurrentItem.DepartmentId = -1;
+                    CurrentItem.Department = "";
+                    break;
+                case "Cabinet":
+                    CurrentItem.CabinetId = -1;
+                    CurrentItem.Cabinet = "";
+                    break;
+                case "Position":
+                    CurrentItem.Position = "";
+                    break;
+                case "Comment":
+                    CurrentItem.Comment = "";
+                    break;
+                default:
+                    return;
+            }
+
             OnPropertyChanged("CurrentItem");
         }
 
@@ -287,6 +373,23 @@ namespace SupRealClient.Views
         private void Edit()
         {
             Model = new EditVisitsModel(Set, CurrentItem);
+        }
+
+        private void Find()
+        {
+            var result = ViewManager.Instance.OpenWindowModal(
+                "VisitorsListWindView", view) as BaseModelResult;
+            if (result == null)
+            {
+                return;
+            }
+            CurrentItem = Model.Find(result.Id);
+        }
+
+        private void Ok()
+        {
+            if (Model.Ok())
+                Model = new VisitsModel();
         }
 
         private void Cancel()
@@ -336,42 +439,42 @@ namespace SupRealClient.Views
         bool TextEnable { get; set; }
         VisitorsEnableOrVisible VisitorsEnable { get; set; }
         VisitorsEnableOrVisible VisitorsVisible { get; set; }
+        bool ButtonEnable { get; set; }
+        bool AccessVisibility { get; set; }
 
         EnumerationClasses.Visitor Begin();
         EnumerationClasses.Visitor End();
         EnumerationClasses.Visitor Next();
         EnumerationClasses.Visitor Prev();
+        EnumerationClasses.Visitor Find(int id);
 
         void AddImageSource(string path, ImageType imageType);
         void RemoveImageSource(ImageType imageType);
+        bool Ok();
+
+        string GetDepartmenstList(int? id);
     }
 
-    public class VisitsModel : IVisitsModel
+    public abstract class BaseVisitsModel : IVisitsModel
     {
-        private const string Images = "Images";
-
         public event ModelPropertyChanged OnModelPropertyChanged;
 
-        private ObservableCollection<EnumerationClasses.Visitor> set;
         private EnumerationClasses.Visitor currentItem;
-        private int selectedIndex;
-        private VisitorsEnableOrVisible visitorsEnable =
-            new VisitorsEnableOrVisible
-            {
-                AcceptButtonEnable = false,
-                CancelButtonEnable = false
-            };
-        private VisitorsEnableOrVisible visitorsVisible =
-            new VisitorsEnableOrVisible();
+        protected VisitorsEnableOrVisible visitorsEnable;
+
+        protected Guid photoAlias;
+        protected Guid signAlias;
+
+        protected BaseVisitsModel()
+        {
+            ImagesHelper.Init();
+            ImagesWrapper.CurrentTable().OnChanged += OnImageChanged;
+        }
 
         public string PhotoSource { get; private set; }
         public string Signature { get; private set; }
 
-        public ObservableCollection<EnumerationClasses.Visitor> Set
-        {
-            get { return set; }
-            set { set = value; }
-        }
+        public ObservableCollection<EnumerationClasses.Visitor> Set { get; set; }
 
         public EnumerationClasses.Visitor CurrentItem
         {
@@ -384,40 +487,168 @@ namespace SupRealClient.Views
             }
         }
 
-        public bool TextEnable
+        public abstract bool TextEnable { get; set; }
+
+        public VisitorsEnableOrVisible VisitorsEnable
+        {
+            get { return visitorsEnable; }
+            set { visitorsEnable = value; }
+        }
+
+        public VisitorsEnableOrVisible VisitorsVisible { get; set; } =
+            new VisitorsEnableOrVisible();
+
+        public abstract bool ButtonEnable { get; set; }
+
+        public abstract bool AccessVisibility { get; set; }
+
+        public virtual EnumerationClasses.Visitor Begin()
+        {
+            throw new NotImplementedException();
+        }
+
+        public virtual EnumerationClasses.Visitor End()
+        {
+            throw new NotImplementedException();
+        }
+
+        public virtual EnumerationClasses.Visitor Next()
+        {
+            throw new NotImplementedException();
+        }
+
+        public virtual EnumerationClasses.Visitor Prev()
+        {
+            throw new NotImplementedException();
+        }
+
+        public virtual EnumerationClasses.Visitor Find(int id)
+        {
+            throw new NotImplementedException();
+        }
+
+        public virtual void AddImageSource(string path, ImageType imageType)
+        {
+            SetImageSource(ImagesHelper.LoadImage(path, imageType), imageType);
+        }
+
+        public virtual void RemoveImageSource(ImageType imageType)
+        {
+            SetImageSource(Guid.Empty, imageType);
+        }
+
+        public virtual bool Ok()
+        {
+            return false;
+        }
+
+        public string GetDepartmenstList(int? id)
+        {
+            var sb = new StringBuilder();
+            while (id.HasValue && id.Value > 0)
+            {
+                DataRow row = DepartmentWrapper.CurrentTable().
+                    Table.AsEnumerable().FirstOrDefault(arg =>
+                    arg.Field<int>("f_dep_id") == id);
+                if (row == null)
+                {
+                    break;
+                }
+                sb.AppendLine(row["f_dep_name"] as string);
+                id = row["f_parent_id"] as int?;
+            }
+            return sb.ToString();
+        }
+
+        protected bool Validate()
+        {
+            if (CurrentItem.Family == "" || CurrentItem.Family == null ||
+                CurrentItem.Name == "" || CurrentItem.Name == null)
+            {
+                MessageBox.Show("Не все поля заполнены корректно!");
+                return false;
+            }
+            if (!CurrentItem.IsNotFormular &
+                (CurrentItem.Telephone == null || CurrentItem.Telephone == "" ||
+                CurrentItem.Nation == null || CurrentItem.Nation == "" ||
+                CurrentItem.DocType == null || CurrentItem.DocType == "" ||
+                CurrentItem.DocSeria == null || CurrentItem.DocSeria == "" ||
+                CurrentItem.DocNum == null || CurrentItem.DocNum == "" ||
+                CurrentItem.DocDate == null || CurrentItem.DocDate == DateTime.MinValue ||
+                CurrentItem.DocPlace == null || CurrentItem.DocPlace == ""))
+            {
+                MessageBox.Show("Не все поля вкладки Основная заполнены!");
+                return false;
+            }
+            return true;
+        }
+
+        private void OnImageChanged()
+        {
+            // TODO - пустой вызов, чтобы не падало
+        }
+
+        private void SetImageSource(Guid alias, ImageType imageType)
+        {
+            if (imageType == ImageType.Photo)
+            {
+                photoAlias = alias;
+                PhotoSource = ImagesHelper.GetImagePath(photoAlias);
+                OnModelPropertyChanged?.Invoke("PhotoSource");
+            }
+            else if (imageType == ImageType.Signature)
+            {
+                signAlias = alias;
+                Signature = ImagesHelper.GetImagePath(signAlias);
+                OnModelPropertyChanged?.Invoke("Signature");
+            }
+        }
+
+        private void GetPhoto()
+        {
+            SetImageSource(ImagesHelper.GetImage(
+                CurrentItem.Id, ImageType.Photo), ImageType.Photo);
+        }
+
+        private void GetSign()
+        {
+            SetImageSource(ImagesHelper.GetImage(
+                CurrentItem.Id, ImageType.Signature), ImageType.Signature);
+        }
+    }
+
+    public class VisitsModel : BaseVisitsModel
+    {
+        private int selectedIndex;
+
+        public override bool TextEnable
         {
             get { return false; }
             set { }
         }
-        
-        public VisitorsEnableOrVisible VisitorsEnable
+
+        public override bool ButtonEnable
         {
-            get { return visitorsEnable; }
-            set
-            {
-                visitorsEnable = value;
-            }
+            get { return false; }
+            set { }
         }
 
-        public VisitorsEnableOrVisible VisitorsVisible
+        public override bool AccessVisibility
         {
-            get
-            { return visitorsVisible; }
-            set
-            {
-                visitorsVisible = value;
-            }
+            get { return true; }
+            set { }
         }
-        
+
         public VisitsModel()
         {
-            if (!Directory.Exists(Images))
+            visitorsEnable =
+            new VisitorsEnableOrVisible
             {
-                Directory.CreateDirectory(Images);
-            }
+                AcceptButtonEnable = false,
+                CancelButtonEnable = false
+            };
             VisitorsWrapper.CurrentTable().OnChanged += Query;
             OrganizationsWrapper.CurrentTable().OnChanged += Query;
-            ImagesWrapper.CurrentTable().OnChanged += OnImageChanged;
             Query();
         }
 
@@ -425,10 +656,12 @@ namespace SupRealClient.Views
             ObservableCollection<EnumerationClasses.Visitor> set, 
             EnumerationClasses.Visitor visitor)
         {
-            if (!Directory.Exists(Images))
+            visitorsEnable =
+            new VisitorsEnableOrVisible
             {
-                Directory.CreateDirectory(Images);
-            }
+                AcceptButtonEnable = false,
+                CancelButtonEnable = false
+            };
             VisitorsWrapper.CurrentTable().OnChanged += Query;
             OrganizationsWrapper.CurrentTable().OnChanged += Query;
             Set = set;
@@ -452,10 +685,10 @@ namespace SupRealClient.Views
                         arg.Field<int>("f_org_id") ==
                         visitors.Field<int>("f_org_id"))?["f_full_org_name"],
                     Comment = visitors.Field<string>("f_vr_text"),
-                    IsAccessDenied = visitors.Field<string>(
-                        "f_persona_non_grata").ToUpper() == "Y" ? true : false,
-                    IsCanHaveVisitors = visitors.Field<string>(
-                        "f_can_sign_orders").ToUpper() == "Y" ? true : false,
+                    IsAccessDenied = CommonHelper.StringToBool(visitors.Field<string>(
+                        "f_persona_non_grata")),
+                    IsCanHaveVisitors = CommonHelper.StringToBool(visitors.Field<string>(
+                        "f_can_have_visitors")),
                     IsNotFormular = true,
                     Telephone = visitors.Field<string>("f_phones"),
                     Nation = (string)CountriesWrapper.CurrentTable()
@@ -469,23 +702,18 @@ namespace SupRealClient.Views
                     DocSeria = visitors.Field<string>("f_doc_seria"),
                     DocNum = visitors.Field<string>("f_doc_num"),
                     DocDate = visitors.Field<DateTime>("f_doc_date"),
+                    DocCode = visitors.Field<string>("f_doc_code"),
                     DocPlace = visitors.Field<string>("f_doc_org"),
-                    IsAgree = true,
-                    AgreeToDate = DateTime.Now,
+                    IsAgree = CommonHelper.StringToBool(visitors.Field<string>(
+                        "f_personal_data_agreement")),
+                    AgreeToDate = visitors.Field<DateTime>("f_personal_data_last_date"),
                     Operator = visitors.Field<int>("f_rec_operator").ToString(),
-                    Department = (string)DepartmentWrapper.CurrentTable()
-                        .Table.AsEnumerable().FirstOrDefault(arg =>
-                        arg.Field<int>("f_dep_id") ==
-                        visitors.Field<int>("f_dep_id"))?["f_dep_name"],
-                    DepartmentUnit = (string)DepartmentSectionWrapper.CurrentTable()
-                        .Table.AsEnumerable().FirstOrDefault(arg =>
-                        arg.Field<int>("f_section_id") ==
-                        visitors.Field<int>("f_section_id"))?["f_section_name"],
+                    Department = GetDepartmenstList(visitors.Field<int>("f_dep_id")),
                     Position = visitors.Field<string>("f_job"),
-                    IsRightSign = visitors.Field<string>("f_can_sign_orders")
-                        .ToUpper() == "Y" ? true :false,
-                    IsAgreement = visitors.Field<string>("f_can_adjust_orders")
-                        .ToUpper() == "Y" ? true : false,
+                    IsRightSign = CommonHelper.StringToBool(visitors.Field<string>(
+                        "f_can_sign_orders")),
+                    IsAgreement = CommonHelper.StringToBool(visitors.Field<string>(
+                        "f_can_adjust_orders")),
                     Cabinet = (string)CabinetsWrapper.CurrentTable()
                         .Table.AsEnumerable().FirstOrDefault(arg =>
                         arg.Field<int>("f_cabinet_id") ==
@@ -498,12 +726,7 @@ namespace SupRealClient.Views
             }
         }
 
-        private void OnImageChanged()
-        {
-            // TODO - пустой вызов, чтобы не падало
-        }
-
-        public EnumerationClasses.Visitor Begin()
+        public override EnumerationClasses.Visitor Begin()
         {
             if (Set.Count > 0)
             {
@@ -514,7 +737,7 @@ namespace SupRealClient.Views
             return CurrentItem;
         }
 
-        public EnumerationClasses.Visitor End()
+        public override EnumerationClasses.Visitor End()
         {
             if (Set.Count > 0)
             {
@@ -525,7 +748,7 @@ namespace SupRealClient.Views
             return CurrentItem;
         }
 
-        public EnumerationClasses.Visitor Prev()
+        public override EnumerationClasses.Visitor Prev()
         {
             if (Set.Count > 0 && selectedIndex > 0)
             {
@@ -536,7 +759,22 @@ namespace SupRealClient.Views
             return CurrentItem;
         }
 
-        public EnumerationClasses.Visitor Next()
+        public override EnumerationClasses.Visitor Find(int id)
+        {
+            for (int i = 0; i < Set.Count; i++)
+            {
+                if (Set[i].Id == id)
+                {
+                    selectedIndex = i;
+                    OrdersCardsToVisitor(selectedIndex);
+                    CurrentItem = Set[selectedIndex];
+                    break;
+                }
+            }
+            return CurrentItem;
+        }
+
+        public override EnumerationClasses.Visitor Next()
         {
             if (Set.Count > 0 && selectedIndex < Set.Count - 1)
             {
@@ -547,6 +785,16 @@ namespace SupRealClient.Views
             return CurrentItem;
         }
 
+        public override void AddImageSource(string path, ImageType imageType)
+        {
+            throw new NotImplementedException();
+        }
+
+        public override void RemoveImageSource(ImageType imageType)
+        {
+            throw new NotImplementedException();
+        }
+
         private void OrdersCardsToVisitor(int index)
         {
             if (Set[index].Orders == null)
@@ -555,8 +803,8 @@ namespace SupRealClient.Views
                         from OrdElem in OrderElementsWrapper.CurrentTable()
                         .Table.AsEnumerable()
                         join
-    Ord in OrdersWrapper.CurrentTable().Table.AsEnumerable()
-    on OrdElem.Field<int>("f_ord_id") equals Ord.Field<int>("f_ord_id")
+                        Ord in OrdersWrapper.CurrentTable().Table.AsEnumerable()
+                        on OrdElem.Field<int>("f_ord_id") equals Ord.Field<int>("f_ord_id")
                         where OrdElem.Field<int>("f_visitor_id") == Set[index].Id
                         select new Order
                         {
@@ -597,239 +845,31 @@ namespace SupRealClient.Views
                     });
             }
         }
-
-        // TODO - перенести в Model
-        public void AddImageSource(string path, ImageType imageType)
-        {
-            DataRow row = null;
-            foreach (DataRow r in ImagesWrapper.CurrentTable().Table.Rows)
-            {
-                if (r.Field<int>("f_visitor_id") == CurrentItem.Id &&
-                    r.Field<int>("f_image_type") == (int)imageType)
-                {
-                    row = r;
-                    break;
-                }
-            }
-            bool find = row != null;
-            row = row ?? ImagesWrapper.CurrentTable().Table.NewRow();
-            var alias = Guid.NewGuid();
-            row["f_image_alias"] = alias;
-            if (!find)
-            {
-                row["f_visitor_id"] = CurrentItem.Id;
-                row["f_image_type"] = imageType;
-                ImagesWrapper.CurrentTable().Table.Rows.Add(row);
-            }
-            byte[] data = File.ReadAllBytes(path);
-
-            string image = "";
-            if (ImagesWrapper.CurrentTable().Connector.SetImage(alias, data))
-            {
-                image = Directory.GetCurrentDirectory() + "\\" + Images + "\\" + alias;
-                File.WriteAllBytes(image, data);
-            }
-
-            SetImageSource(image, imageType);
-        }
-
-        public void RemoveImageSource(ImageType imageType)
-        {
-            DataRow row = null;
-            foreach (DataRow r in ImagesWrapper.CurrentTable().Table.Rows)
-            {
-                if (r.Field<int>("f_visitor_id") == CurrentItem.Id &&
-                    r.Field<int>("f_image_type") == (int)imageType)
-                {
-                    row = r;
-                    break;
-                }
-            }
-            if (row != null)
-            {
-                row.Delete();
-            }
-            SetImageSource("", imageType);
-        }
-
-        private void SetImageSource(string source, ImageType imageType)
-        {
-            if (imageType == ImageType.Photo)
-            {
-                PhotoSource = source;
-                if (OnModelPropertyChanged != null)
-                {
-                    OnModelPropertyChanged("PhotoSource");
-                }
-            }
-            else if (imageType == ImageType.Signature)
-            {
-                Signature = source;
-                if (OnModelPropertyChanged != null)
-                {
-                    OnModelPropertyChanged("Signature");
-                }
-            }
-        }
-
-        private void GetPhoto()
-        {
-            GetImage(ImageType.Photo);
-        }
-
-        private void GetSign()
-        {
-            GetImage(ImageType.Signature);
-        }
-
-        private void GetImage(ImageType imageType)
-        {
-            DataRow row = null;
-            foreach (DataRow r in ImagesWrapper.CurrentTable().Table.Rows)
-            {
-                if (r.Field<int>("f_visitor_id") == CurrentItem.Id &&
-                    r.Field<int>("f_image_type") == (int)imageType)
-                {
-                    row = r;
-                    break;
-                }
-            }
-
-            string source = "";
-            if (row != null)
-            {
-                string path = Directory.GetCurrentDirectory() + "\\" + Images + "\\" + row["f_image_alias"];
-                if (!File.Exists(path))
-                {
-                    byte[] data =
-                        ImagesWrapper.CurrentTable().Connector.GetImage((Guid)row["f_image_alias"]);
-                    if (data != null)
-                    {
-                        File.WriteAllBytes(path, data);
-                    }
-                    else
-                    {
-                        path = "";
-                    }
-                }
-                source = path;
-            }
-
-            SetImageSource(source, imageType);
-        }
     }
 
-    public class NewVisitsModel : IVisitsModel
+    public class NewVisitsModel : BaseVisitsModel
     {
-        public event ModelPropertyChanged OnModelPropertyChanged;
-
-        public string PhotoSource { get; private set; }
-        public string Signature { get; private set; }
-
-        private ObservableCollection<EnumerationClasses.Visitor> set;
-        private EnumerationClasses.Visitor currentItem;
-        private VisitorsEnableOrVisible visitorsEnable =
-            new VisitorsEnableOrVisible
-            {
-                StartButtonEnable = false,
-                PreviousButtonEnable = false,
-                NextButtonEnable = false,
-                EndButtonEnable = false,
-                ExtraditeButtonEnable = false,
-                ReturnButtonEnable = false,
-                NewButtonEnable = false,
-                EditButtonEnable = false,
-                SearchButtonEnable = false,
-                RefreshButtonEnable = false
-            };
-        private VisitorsEnableOrVisible visitorsVisible =
-            new VisitorsEnableOrVisible();
-
-        public VisitorsEnableOrVisible VisitorsEnable
-        {
-            get { return visitorsEnable; }
-            set
-            {
-                visitorsEnable = value;
-            }
-        }
-
-        public VisitorsEnableOrVisible VisitorsVisible
-        {
-            get
-            { return visitorsVisible; }
-            set
-            {
-                visitorsVisible = value;
-            }
-        }
-
-        public ObservableCollection<EnumerationClasses.Visitor> Set
-        {
-            get { return set; }
-            set { set = value; }
-        }
-
-        public EnumerationClasses.Visitor CurrentItem
-        {
-            get { return currentItem; }
-            set { currentItem = value; }
-        }
-
-        public bool TextEnable
+        public override bool TextEnable
         {
             get { return true; }
             set { }
         }
 
+        public override bool ButtonEnable
+        {
+            get { return true; }
+            set { }
+        }
+
+        public override bool AccessVisibility
+        {
+            get { return false; }
+            set { }
+        }
+
         public NewVisitsModel()
         {
-            Set = new ObservableCollection<EnumerationClasses.Visitor>();
-            CurrentItem = new EnumerationClasses.Visitor();
-            Set.Add(CurrentItem);
-        }
-
-        public EnumerationClasses.Visitor Begin()
-        {
-            throw new NotImplementedException();
-        }
-
-        public EnumerationClasses.Visitor End()
-        {
-            throw new NotImplementedException();
-        }
-
-        public EnumerationClasses.Visitor Next()
-        {
-            throw new NotImplementedException();
-        }
-
-        public EnumerationClasses.Visitor Prev()
-        {
-            throw new NotImplementedException();
-        }
-
-        public void AddImageSource(string path, ImageType imageType)
-        {
-            throw new NotImplementedException();
-        }
-
-        public void RemoveImageSource(ImageType imageType)
-        {
-            throw new NotImplementedException();
-        }
-    }
-
-    public class EditVisitsModel : IVisitsModel
-    {
-        public event ModelPropertyChanged OnModelPropertyChanged;
-
-        public string PhotoSource { get; private set; }
-        public string Signature { get; private set; }
-
-        private ObservableCollection<EnumerationClasses.Visitor> set;
-        private EnumerationClasses.Visitor currentItem;
-        private VisitorsEnableOrVisible visitorsEnable =
+            visitorsEnable =
             new VisitorsEnableOrVisible
             {
                 StartButtonEnable = false,
@@ -843,85 +883,234 @@ namespace SupRealClient.Views
                 SearchButtonEnable = false,
                 RefreshButtonEnable = false
             };
-        private VisitorsEnableOrVisible visitorsVisible =
-            new VisitorsEnableOrVisible();
-
-        public EnumerationClasses.Visitor OldVisitor
-        { get; set; }
-
-        public VisitorsEnableOrVisible VisitorsEnable
+            Set = new ObservableCollection<EnumerationClasses.Visitor>();
+            CurrentItem = new EnumerationClasses.Visitor();
+            Set.Add(CurrentItem);
+        }
+        
+        public override bool Ok()
         {
-            get { return visitorsEnable; }
-            set
+            DataRow row = VisitorsWrapper.CurrentTable().Table.NewRow();
+
+            if (!Validate())
             {
-                visitorsEnable = value;
+                return false;
             }
-        }
 
-        public VisitorsEnableOrVisible VisitorsVisible
-        {
-            get
-            { return visitorsVisible; }
-            set
+            row["f_rec_date_pass"] = DateTime.MinValue;
+            row["f_is_short_data"] = CommonHelper.BoolToString(false);
+            row["f_rec_operator_pass"] = -1;
+            row["f_full_name"] = CommonHelper.CreateFullName(CurrentItem.Family,
+                CurrentItem.Name, CurrentItem.Patronymic);
+
+            row["f_deleted"] = CommonHelper.BoolToString(false);
+            row["f_rec_date"] = DateTime.Now;
+            row["f_rec_operator"] = Authorizer.AppAuthorizer.Id;
+
+            row["f_family"] = CurrentItem.Family;
+            row["f_fst_name"] = CurrentItem.Name;
+            row["f_sec_name"] = CurrentItem.Patronymic;
+            row["f_org_id"] = CurrentItem.OrganizationId >= 0 ?
+                CurrentItem.OrganizationId : 0;
+            row["f_vr_text"] = CurrentItem.Comment ?? "";
+
+            row["f_persona_non_grata"] =
+                CommonHelper.BoolToString(CurrentItem.IsAccessDenied);
+            row["f_can_have_visitors"] =
+                CommonHelper.BoolToString(CurrentItem.IsCanHaveVisitors);
+            row["f_personal_data_agreement"] =
+                CommonHelper.BoolToString(CurrentItem.IsAgree);
+            row["f_personal_data_last_date"] = CurrentItem.AgreeToDate;
+
+            row["f_phones"] = CurrentItem.Telephone ?? "";
+            row["f_cntr_id"] = CurrentItem.NationId >= 0 ?
+                CurrentItem.NationId : 0;
+            row["f_doc_id"] = CurrentItem.DocumentId >= 0 ?
+                CurrentItem.DocumentId : 0;
+            row["f_doc_seria"] = CurrentItem.DocSeria ?? "";
+            row["f_doc_num"] = CurrentItem.DocNum ?? "";
+            row["f_doc_date"] = CurrentItem.DocDate;
+            row["f_doc_code"] = CurrentItem.DocCode;
+            row["f_doc_org"] = CurrentItem.DocPlace ?? "";
+            row["f_job"] = CurrentItem.Position ?? "";
+            row["f_can_sign_orders"] =
+                CommonHelper.BoolToString(CurrentItem.IsRightSign);
+            row["f_can_adjust_orders"] =
+                CommonHelper.BoolToString(CurrentItem.IsAgreement);
+
+            row["f_dep_id"] = CurrentItem.DepartmentId >= 0 ?
+                CurrentItem.DepartmentId : 0;
+            row["f_cabinet_id"] = CurrentItem.CabinetId >= 0 ?
+                CurrentItem.CabinetId : 0;
+            VisitorsWrapper.CurrentTable().Table.Rows.Add(row);
+
+            List<KeyValuePair<Guid, ImageType>> images =
+                new List<KeyValuePair<Guid, ImageType>>
             {
-                visitorsVisible = value;
-            }
-        }
+                new KeyValuePair<Guid, ImageType>(photoAlias, ImageType.Photo),
+                new KeyValuePair<Guid, ImageType>(signAlias, ImageType.Signature),
+            };
+            ImagesHelper.AddImages(CurrentItem.Id, images);
 
-        public ObservableCollection<EnumerationClasses.Visitor> Set
-        {
-            get { return set; }
-            set { set = value; }
+            return true;
         }
+    }
 
-        public EnumerationClasses.Visitor CurrentItem
-        {
-            get { return currentItem; }
-            set { currentItem = value; }
-        }
+    public class EditVisitsModel : BaseVisitsModel
+    {
+        public EnumerationClasses.Visitor OldVisitor { get; set; }
 
-        public bool TextEnable
+        public override bool TextEnable
         {
             get { return true; }
+            set { }
+        }
+
+        public override bool ButtonEnable
+        {
+            get { return true; }
+            set { }
+        }
+
+        public override bool AccessVisibility
+        {
+            get { return false; }
             set { }
         }
 
         public EditVisitsModel(ObservableCollection<EnumerationClasses.Visitor> set, 
             EnumerationClasses.Visitor visitor)
         {
+            visitorsEnable =
+            new VisitorsEnableOrVisible
+            {
+                StartButtonEnable = false,
+                PreviousButtonEnable = false,
+                NextButtonEnable = false,
+                EndButtonEnable = false,
+                ExtraditeButtonEnable = false,
+                ReturnButtonEnable = false,
+                NewButtonEnable = false,
+                EditButtonEnable = false,
+                SearchButtonEnable = false,
+                RefreshButtonEnable = false
+            };
             Set = set;
             CurrentItem = (EnumerationClasses.Visitor)visitor.Clone();
             OldVisitor = visitor;
         }
 
-        public EnumerationClasses.Visitor Begin()
+        public override bool Ok()
         {
-            throw new NotImplementedException();
-        }
+            DataRow row = VisitorsWrapper.CurrentTable().Table.Rows.Find(
+                CurrentItem.Id);
 
-        public EnumerationClasses.Visitor End()
-        {
-            throw new NotImplementedException();
-        }
+            if (!Validate())
+            {
+                return false;
+            }
 
-        public EnumerationClasses.Visitor Next()
-        {
-            throw new NotImplementedException();
-        }
+            row["f_rec_date"] = DateTime.Now;
+            if (OldVisitor.Operator != CurrentItem.Operator)
+            {
+                row["f_rec_operator"] = Authorizer.AppAuthorizer.Id;
+            }
 
-        public EnumerationClasses.Visitor Prev()
-        {
-            throw new NotImplementedException();
-        }
+            bool fullNameChanged = false;
+            if (OldVisitor.Family != CurrentItem.Family)
+            {
+                row["f_family"] = CurrentItem.Family;
+                fullNameChanged = true;
+            }
+            if (OldVisitor.Name != CurrentItem.Name)
+            {
+                row["f_fst_name"] = CurrentItem.Name;
+                fullNameChanged = true;
+            }
+            if (OldVisitor.Patronymic != CurrentItem.Patronymic)
+            {
+                row["f_sec_name"] = CurrentItem.Patronymic;
+                fullNameChanged = true;
+            }
+            if (fullNameChanged)
+            {
+                row["f_full_name"] = CommonHelper.CreateFullName(
+                    CurrentItem.Family, CurrentItem.Name, CurrentItem.Patronymic);
+            }
+            if (OldVisitor.OrganizationId != CurrentItem.OrganizationId)
+                row["f_org_id"] = CurrentItem.OrganizationId >= 0 ?
+                    CurrentItem.OrganizationId : 0;
+            if (OldVisitor.Comment != CurrentItem.Comment)
+                row["f_vr_text"] = CurrentItem.Comment;
+            if (OldVisitor.IsAccessDenied != CurrentItem.IsAccessDenied)
+            {
+                row["f_persona_non_grata"] =
+                    CommonHelper.BoolToString(CurrentItem.IsAccessDenied);
+            }
+            if (OldVisitor.IsCanHaveVisitors != CurrentItem.IsCanHaveVisitors)
+            {
+                row["f_can_have_visitors"] =
+                    CommonHelper.BoolToString(CurrentItem.IsCanHaveVisitors);
+            }
+            if (OldVisitor.IsAgree != CurrentItem.IsAgree)
+            {
+                row["f_personal_data_agreement"] =
+                    CommonHelper.BoolToString(CurrentItem.IsAgree);
+            }
+            if (OldVisitor.AgreeToDate != CurrentItem.AgreeToDate)
+            {
+                row["f_personal_data_last_date"] = CurrentItem.AgreeToDate;
+            }
+            if (OldVisitor.Telephone != CurrentItem.Telephone)
+                row["f_phones"] = CurrentItem.Telephone;
+            if (OldVisitor.Nation != CurrentItem.Nation)
+                row["f_cntr_id"] = CurrentItem.NationId >= 0 ?
+                    CurrentItem.NationId : 0;
+            if (OldVisitor.DocType != CurrentItem.DocType)
+                row["f_doc_id"] = CurrentItem.DocumentId >= 0 ?
+                    CurrentItem.DocumentId : 0;
+            if (OldVisitor.DocSeria != CurrentItem.DocSeria)
+                row["f_doc_seria"] = CurrentItem.DocSeria;
+            if (OldVisitor.DocNum != CurrentItem.DocNum)
+                row["f_doc_num"] = CurrentItem.DocNum;
+            if (OldVisitor.DocDate != CurrentItem.DocDate)
+                row["f_doc_date"] = CurrentItem.DocDate;
+            if (OldVisitor.DocCode != CurrentItem.DocCode)
+                row["f_doc_code"] = CurrentItem.DocCode;
+            if (OldVisitor.DocPlace != CurrentItem.DocPlace)
+                row["f_doc_org"] = CurrentItem.DocPlace;
+            if (OldVisitor.Position != CurrentItem.Position)
+                row["f_job"] = CurrentItem.Position;
+            if (OldVisitor.IsRightSign != CurrentItem.IsRightSign)
+            {
+                row["f_can_sign_orders"] =
+                    CommonHelper.BoolToString(CurrentItem.IsRightSign);
+            }
+            if (OldVisitor.IsAgreement != CurrentItem.IsAgreement)
+            {
+                row["f_can_adjust_orders"] =
+                    CommonHelper.BoolToString(CurrentItem.IsAgreement);
+            }
+            if (OldVisitor.Cabinet != CurrentItem.Cabinet)
+            {
+                row["f_cabinet_id"] = CurrentItem.CabinetId >= 0 ?
+                    CurrentItem.CabinetId : 0;
+            }
+            if (OldVisitor.Department != CurrentItem.Department)
+            {
+                row["f_dep_id"] = CurrentItem.DepartmentId >= 0 ?
+                    CurrentItem.DepartmentId : 0;
+            }
 
-        public void AddImageSource(string path, ImageType imageType)
-        {
-            throw new NotImplementedException();
-        }
+            List<KeyValuePair<Guid, ImageType>> images =
+                new List<KeyValuePair<Guid, ImageType>>
+            {
+                new KeyValuePair<Guid, ImageType>(photoAlias, ImageType.Photo),
+                new KeyValuePair<Guid, ImageType>(signAlias, ImageType.Signature),
+            };
+            ImagesHelper.AddImages(CurrentItem.Id, images);
 
-        public void RemoveImageSource(ImageType imageType)
-        {
-            throw new NotImplementedException();
+            return true;
         }
     }
 }

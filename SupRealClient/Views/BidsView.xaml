@@ -43,6 +43,7 @@
                             Style="{StaticResource TextBLockStyle}"/>
                         
                         <TextBox
+                            Text="{Binding CurrentSingleOrder.RegNumber, Mode=TwoWay}"
                             Grid.Column="1"
                             Style="{StaticResource TextBoxStyle}"/>
                     </Grid>
@@ -63,6 +64,7 @@
                             Style="{StaticResource TextBLockStyle}"/>
 
                         <TextBox
+                            Text="{Binding CurrentSingleOrder.From, Mode=TwoWay}"
                             Grid.Column="1"
                             Style="{StaticResource TextBoxStyle}"/>
                         
@@ -106,6 +108,7 @@
                             Style="{StaticResource TextBLockStyle}"/>
 
                         <TextBox
+                            Text="{Binding CurrentSingleOrder.Signed, Mode=TwoWay}"
                             Grid.Column="1"
                             Style="{StaticResource TextBoxStyle}"/>
 
@@ -133,6 +136,7 @@
                             Style="{StaticResource TextBLockStyle}"/>
 
                         <TextBox
+                            Text="{Binding CurrentSingleOrder.Note, Mode=TwoWay}"
                             Grid.Column="1"
                             Grid.ColumnSpan="3"
                             Style="{StaticResource TextBoxStyle}"/>
@@ -204,6 +208,7 @@
                             Style="{StaticResource TextBLockStyle}"/>
                         
                         <TextBox
+                            Text="{Binding CurrentTemporaryOrder.RegNumber, Mode=TwoWay}"
                             Grid.Column="1"
                             Style="{StaticResource TextBoxStyle}"/>
                         
@@ -236,6 +241,7 @@
                             Style="{StaticResource TextBLockStyle}"/>
 
                         <TextBox
+                            Text="{Binding CurrentTemporaryOrder.From, Mode=TwoWay}"
                             Grid.Column="1"
                             Style="{StaticResource TextBoxStyle}"/>
 
@@ -252,6 +258,7 @@
                             Style="{StaticResource TextBLockStyle}"/>
                         
                         <TextBox
+                            Text="{Binding CurrentTemporaryOrder.To, Mode=TwoWay}"
                             Grid.Column="4"
                             Style="{StaticResource TextBoxStyle}"/>
 
@@ -292,6 +299,7 @@
                             Style="{StaticResource TextBLockStyle}"/>
                         
                         <TextBox
+                            Text="{Binding CurrentTemporaryOrder.Signed, Mode=TwoWay}"
                             Grid.Column="1"
                             Style="{StaticResource TextBoxStyle}"/>
                         
@@ -308,6 +316,7 @@
                             Style="{StaticResource TextBLockStyle}"/>
 
                         <TextBox
+                            Text="{Binding CurrentTemporaryOrder.Agree, Mode=TwoWay}"
                             Grid.Column="4"
                             Style="{StaticResource TextBoxStyle}"/>
 
@@ -344,6 +353,7 @@
                             Style="{StaticResource TextBLockStyle}"/>
                         
                         <TextBox
+                            Text="{Binding CurrentTemporaryOrder.Note, Mode=TwoWay}"
                             Grid.Column="3"
                             Style="{StaticResource TextBoxStyle}"/>
                     </Grid>
@@ -374,6 +384,7 @@
                             Style="{StaticResource TextBLockStyle}"/>
                         
                         <TextBox
+                            Text="{Binding CurrentVirtueOrder.RegNumber, Mode=TwoWay}"
                             Grid.Column="1"
                             Style="{StaticResource TextBoxStyle}"/>
                         
@@ -406,6 +417,7 @@
                             Style="{StaticResource TextBLockStyle}"/>
                         
                         <TextBox
+                             Text="{Binding CurrentVirtueOrder.From, Mode=TwoWay}"
                             Grid.Column="1"
                             Style="{StaticResource TextBoxStyle}"/>
                         
@@ -422,6 +434,7 @@
                             Style="{StaticResource TextBLockStyle}"/>
                         
                         <TextBox
+                             Text="{Binding CurrentVirtueOrder.To, Mode=TwoWay}"
                             Grid.Column="4"
                             Style="{StaticResource TextBoxStyle}"/>
                         
@@ -484,6 +497,7 @@
                             Style="{StaticResource TextBLockStyle}"/>
 
                         <TextBox
+                             Text="{Binding CurrentVirtueOrder.Organization, Mode=TwoWay}"
                             Grid.Row="2"
                             Grid.Column="1"
                             Grid.ColumnSpan="2"
@@ -498,6 +512,7 @@
                             Style="{StaticResource TextBLockStyle}"/>
 
                         <TextBox
+                            Text="{Binding CurrentVirtueOrder.Passes, Mode=TwoWay}"
                             Grid.Row="3"
                             Grid.Column="1"
                             Style="{StaticResource TextBoxStyle}"/>
@@ -551,20 +566,20 @@
             </mah:MetroTabItem>
 
             <mah:MetroTabItem Header="Список заявок">
-                <DataGrid>
+                <DataGrid ItemsSource="{Binding Path=OrdersSet}" AutoGenerateColumns="False">
                     <DataGrid.Columns>
-                        <DataGridTextColumn Header="№ заявки"/>
-                        <DataGridTextColumn Header="Дата начала"/>
-                        <DataGridTextColumn Header="Дата окончания"/>
-                        <DataGridTextColumn Width="*">
+                        <DataGridTextColumn Header="№ заявки" Binding="{Binding RegNumber}"/>
+                        <DataGridTextColumn Header="Дата начала" Binding="{Binding From}"/>
+                        <DataGridTextColumn Header="Дата окончания" Binding="{Binding To}"/>
+                        <DataGridTextColumn Width="*" Binding="{Binding Catcher}">
                             <DataGridTextColumn.Header>
                                 <TextBlock Text="Принимающее лицо посетителя"
                                            TextWrapping="Wrap"/>
                             </DataGridTextColumn.Header>
                         </DataGridTextColumn>
-                            <DataGridTextColumn Header="Подразделение организация"/>
-                        <DataGridTextColumn Header="Подписывающее лицо" Width="*"/>
-                        <DataGridTextColumn Header="Примечание"/>
+                            <DataGridTextColumn Header="Подразделение организация" Binding="{Binding Organization}"/>
+                        <DataGridTextColumn Header="Подписывающее лицо" Width="*" Binding="{Binding Signed}"/>
+                        <DataGridTextColumn Header="Примечание" Binding="{Binding Note}"/>
                     </DataGrid.Columns>
                 </DataGrid>
             </mah:MetroTabItem>
@@ -587,6 +602,7 @@
             </Grid.ColumnDefinitions>
 
             <Button
+                Command="{Binding BeginCommand}"
                     Grid.Row="0"
                     Grid.Column="0"
                     Margin="2"
@@ -611,6 +627,7 @@
             </Button>
 
             <Button
+                Command="{Binding PrevCommand}"
                     Grid.Row="0"
                     Grid.Column="1"
                     Margin="2"
@@ -635,6 +652,7 @@
             </Button>
 
             <Button
+                Command="{Binding NextCommand}"
                     Grid.Row="0"
                     Grid.Column="2"
                     Margin="2"
@@ -659,6 +677,7 @@
             </Button>
 
             <Button
+                Command="{Binding EndCommand}"
                     Grid.Row="0"
                     Grid.Column="3"
                     Margin="2"
@@ -682,6 +701,7 @@
             </Button>
 
             <Button
+                Command="{Binding SearchCommand}"
                     Grid.Row="0"
                     Grid.Column="4"
                     Margin="2"
@@ -706,6 +726,7 @@
             </Button>
 
             <Button
+                Command="{Binding DelayCommand}"
                     Grid.Row="0"
                     Grid.Column="5"
                     Margin="2"
@@ -730,6 +751,7 @@
             </Button>
 
             <Button
+                Command="{Binding NewCommand}"
                     Grid.Row="1"
                     Grid.Column="0"
                     Margin="2"
@@ -754,6 +776,7 @@
             </Button>
 
             <Button
+                Command="{Binding EditCommand}"
                     Grid.Row="1"
                     Grid.Column="1"
                     Margin="2"
@@ -778,6 +801,7 @@
             </Button>
 
             <Button
+                Command="{Binding OkCommand}"
                     Grid.Row="1"
                     Grid.Column="2"
                     Margin="2"
@@ -802,6 +826,7 @@
             </Button>
 
             <Button
+                Command="{Binding CancelCommand}"
                     Grid.Row="1"
                     Grid.Column="3"
                     Margin="2"
@@ -826,6 +851,7 @@
             </Button>
 
             <Button
+                Command="{Binding FurtherCommand}"
                     Grid.Row="1"
                     Grid.Column="4"
                     Margin="2"
@@ -850,6 +876,7 @@
             </Button>
 
             <Button
+                Command="{Binding ReloadCommand}"
                     Grid.Row="1"
                     Grid.Column="5"
                     Margin="2"

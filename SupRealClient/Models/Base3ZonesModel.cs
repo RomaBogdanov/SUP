@@ -80,6 +80,7 @@ namespace SupRealClient.Models
             var zoneDoors = from cabs in cabinets.Table.AsEnumerable()
                             join cabszns in cabinetsZones.Table.AsEnumerable()
                             on cabs.Field<int>("f_cabinet_id") equals cabszns.Field<int>("f_cabinet_id")
+                            where cabszns.Field<int>("f_zone_id") != 0
                             select new
                             {
                                 Id = cabszns.Field<int>("f_zone_id"),

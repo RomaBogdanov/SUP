@@ -97,6 +97,9 @@ namespace SupRealClient.ViewModels
         public ICommand ListZonesClick
         { get; set; }
 
+        public ICommand ListRegionsClick
+        { get; set; }
+
         public ICommand LogsClick
         { get; set; }
 
@@ -134,6 +137,7 @@ namespace SupRealClient.ViewModels
             ListCardsClick = new RelayCommand(arg => ViewManager.Instance.OpenWindow("CardsWindView"));
             ListZonesClick = new RelayCommand(arg => ViewManager.Instance.OpenWindow("ZonesWindView"));
             ListCabinetsClick = new RelayCommand(arg => ViewManager.Instance.OpenWindow("CabinetsWindView"));
+            ListRegionsClick = new RelayCommand(arg => ViewManager.Instance.OpenWindow("Base4RegionsWindView"));
             LogsClick = new RelayCommand(arg => ViewManager.Instance.OpenWindow("LogsWindView"));
             ListBaseOrgsStructClick = new RelayCommand(arg => ViewManager.Instance.OpenWindow("MainOrganisationStructureView"));
             ListChildOrgs = new RelayCommand(arg => ViewManager.Instance.OpenWindow("ChildOrgsView"));
@@ -158,7 +162,10 @@ namespace SupRealClient.ViewModels
 
         private void OpenBids()
         {
-            var bidsViewModel = new BidsViewModel();
+            var bidsViewModel = new BidsViewModel
+            {
+                BidsModel = new BidsModel()
+            };
 
             var window = new BidsView {DataContext = bidsViewModel};
             window.ShowDialog();

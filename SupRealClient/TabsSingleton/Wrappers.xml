@@ -3,19 +3,20 @@
   <Item Name="UsersWrapper" Type="VisClientUsers" Comment="Пользователи без пароля" />
   <Item Name="LogsWrapper" Type="VisClientLogs" Comment="Логи сервера" />
   <Item Name="CardsWrapper" Type="VisCards" Comment="??" />
-  <Item Name="CountriesWrapper" Type="VisCountries" Comment="??" />
-  <Item Name="DocumentsWrapper" Type="VisDocuments" Comment="??" />
-  <Item Name="OrganizationsWrapper" Type="VisOrganizations" Comment="??" />
+  <Item Name="CountriesWrapper" Type="VisCountries" Comment="Страны" />
+  <Item Name="DocumentsWrapper" Type="VisDocuments" Comment="Документы" />
+  <Item Name="OrganizationsWrapper" Type="VisOrganizations" Comment="Организации" />
   <Item Name="SprCardstatesWrapper" Type="VisSprCardstates" Comment="??" />
-  <Item Name="VisitorsWrapper" Type="VisVisitors" Comment="??" />
+  <Item Name="VisitorsWrapper" Type="VisVisitors" Comment="Посетители" />
   <Item Name="VisitsWrapper" Type="VisVisits" Comment="??" />
-  <Item Name="CabinetsWrapper" Type="VisCabinets" Comment="??" />
-  <Item Name="ZonesWrapper" Type="VisZones" Comment="??" />
+  <Item Name="CabinetsWrapper" Type="VisCabinets" Comment="Кабинеты" />
+  <Item Name="ZonesWrapper" Type="VisZones" Comment="Зоны" />
   <Item Name="CabinetsZonesWrapper" Type="VisCabinetsZones" Comment="??" />
   <Item Name="ZoneTypesWrapper" Type="VisZoneTypes" Comment="??" />
-  <Item Name="DepartmentWrapper" Type="VisDepartment" Comment="??" />
-  <Item Name="DepartmentSectionWrapper" Type="VisDepartmentSection" Comment="??" />
+  <Item Name="DepartmentWrapper" Type="VisDepartment" Comment="Подразделения" />
   <Item Name="OrdersWrapper" Type="VisOrders" Comment="??" />
   <Item Name="OrderElementsWrapper" Type="VisOrderElements" Comment="??" />
-  <Item Name="ImagesWrapper" Type="VisImages" Comment="??" />
+  <Item Name="ImagesWrapper" Type="VisImages" Comment="Изображения" />
+  <Item Name="RegionsWrapper" Type="VisRegions" Comment="Регионы" />
+  <Item Name="SprOrderTypesWrapper" Type="VisSprOrderTypes" Comment="Типы заявок" />
 </Enum>
