@@ -25,6 +25,7 @@ namespace SupRealClient.Views
             this.Closing += Window_Closing;
             this.StateChanged += Window_StateChanged;
             this.Loaded += Window_Loaded;
+            this.WindowStartupLocation = WindowStartupLocation.CenterScreen;
 
             CreateColumns();
         }
@@ -95,6 +96,7 @@ namespace SupRealClient.Views
             this.Closing += Window_Closing;
             this.StateChanged += Window_StateChanged;
             this.Loaded += Window_Loaded;
+            this.WindowStartupLocation = WindowStartupLocation.CenterScreen;
 
             CreateColumns();
         }
@@ -165,6 +167,7 @@ namespace SupRealClient.Views
             this.Closing += Window_Closing;
             this.StateChanged += Window_StateChanged;
             this.Loaded += Window_Loaded;
+            this.WindowStartupLocation = WindowStartupLocation.CenterScreen;
 
             CreateColumns();
         }
@@ -235,6 +238,7 @@ namespace SupRealClient.Views
             this.Closing += Window_Closing;
             this.StateChanged += Window_StateChanged;
             this.Loaded += Window_Loaded;
+            this.WindowStartupLocation = WindowStartupLocation.CenterScreen;
 
             CreateColumns();
         }
@@ -305,6 +309,7 @@ namespace SupRealClient.Views
             this.Closing += Window_Closing;
             this.StateChanged += Window_StateChanged;
             this.Loaded += Window_Loaded;
+            this.WindowStartupLocation = WindowStartupLocation.CenterScreen;
 
             CreateColumns();
         }
@@ -375,6 +380,7 @@ namespace SupRealClient.Views
             this.Closing += Window_Closing;
             this.StateChanged += Window_StateChanged;
             this.Loaded += Window_Loaded;
+            this.WindowStartupLocation = WindowStartupLocation.CenterScreen;
 
             CreateColumns();
         }
@@ -445,6 +451,7 @@ namespace SupRealClient.Views
             this.Closing += Window_Closing;
             this.StateChanged += Window_StateChanged;
             this.Loaded += Window_Loaded;
+            this.WindowStartupLocation = WindowStartupLocation.CenterScreen;
 
             CreateColumns();
         }
@@ -515,6 +522,7 @@ namespace SupRealClient.Views
             this.Closing += Window_Closing;
             this.StateChanged += Window_StateChanged;
             this.Loaded += Window_Loaded;
+            this.WindowStartupLocation = WindowStartupLocation.CenterScreen;
 
             CreateColumns();
         }
@@ -585,6 +593,7 @@ namespace SupRealClient.Views
             this.Closing += Window_Closing;
             this.StateChanged += Window_StateChanged;
             this.Loaded += Window_Loaded;
+            this.WindowStartupLocation = WindowStartupLocation.CenterScreen;
 
             CreateColumns();
         }
@@ -655,6 +664,7 @@ namespace SupRealClient.Views
             this.Closing += Window_Closing;
             this.StateChanged += Window_StateChanged;
             this.Loaded += Window_Loaded;
+            this.WindowStartupLocation = WindowStartupLocation.CenterScreen;
 
             CreateColumns();
         }
@@ -725,6 +735,7 @@ namespace SupRealClient.Views
             this.Closing += Window_Closing;
             this.StateChanged += Window_StateChanged;
             this.Loaded += Window_Loaded;
+            this.WindowStartupLocation = WindowStartupLocation.CenterScreen;
 
             CreateColumns();
         }
@@ -795,6 +806,7 @@ namespace SupRealClient.Views
             this.Closing += Window_Closing;
             this.StateChanged += Window_StateChanged;
             this.Loaded += Window_Loaded;
+            this.WindowStartupLocation = WindowStartupLocation.CenterScreen;
 
             CreateColumns();
         }
@@ -865,6 +877,7 @@ namespace SupRealClient.Views
             this.Closing += Window_Closing;
             this.StateChanged += Window_StateChanged;
             this.Loaded += Window_Loaded;
+            this.WindowStartupLocation = WindowStartupLocation.CenterScreen;
 
             CreateColumns();
         }
@@ -935,6 +948,7 @@ namespace SupRealClient.Views
             this.Closing += Window_Closing;
             this.StateChanged += Window_StateChanged;
             this.Loaded += Window_Loaded;
+            this.WindowStartupLocation = WindowStartupLocation.CenterScreen;
 
             CreateColumns();
         }
@@ -1005,6 +1019,7 @@ namespace SupRealClient.Views
             this.Closing += Window_Closing;
             this.StateChanged += Window_StateChanged;
             this.Loaded += Window_Loaded;
+            this.WindowStartupLocation = WindowStartupLocation.CenterScreen;
 
             CreateColumns();
         }
@@ -1075,6 +1090,7 @@ namespace SupRealClient.Views
             this.Closing += Window_Closing;
             this.StateChanged += Window_StateChanged;
             this.Loaded += Window_Loaded;
+            this.WindowStartupLocation = WindowStartupLocation.CenterScreen;
 
             CreateColumns();
         }
@@ -1145,6 +1161,7 @@ namespace SupRealClient.Views
             this.Closing += Window_Closing;
             this.StateChanged += Window_StateChanged;
             this.Loaded += Window_Loaded;
+            this.WindowStartupLocation = WindowStartupLocation.CenterScreen;
 
             CreateColumns();
         }
