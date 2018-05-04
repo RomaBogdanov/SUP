@@ -1008,7 +1008,7 @@
             <TextBlock
                 Grid.Row="0"
                 Grid.Column="0"
-                Text="{Binding Path=Operator, Mode=TwoWay}"
+                Text="{Binding Path=CurrentItem.Operator, Mode=TwoWay}"
                 FontSize="15"
                 Margin="5"
                 HorizontalAlignment="Left"

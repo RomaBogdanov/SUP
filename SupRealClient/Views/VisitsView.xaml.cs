@@ -915,7 +915,8 @@ namespace SupRealClient.Views
                     IsAgree = CommonHelper.StringToBool(visitors.Field<string>(
                         "f_personal_data_agreement")),
                     AgreeToDate = visitors.Field<DateTime>("f_personal_data_last_date"),
-                    Operator = visitors.Field<int>("f_rec_operator").ToString(),
+                    Operator = GetOperator(visitors.Field<int>("f_rec_operator"),
+                        visitors.Field<DateTime>("f_rec_date")),
                     Department = GetDepartmenstList(visitors.Field<int>("f_dep_id")),
                     Position = visitors.Field<string>("f_job"),
                     IsRightSign = CommonHelper.StringToBool(visitors.Field<string>(
@@ -1076,6 +1077,14 @@ namespace SupRealClient.Views
                         Name = documents.Field<string>("f_doc_name")
                     });
             }
+        }
+
+        private string GetOperator(int id, DateTime date)
+        {
+            return (string)UsersWrapper.CurrentTable()
+                .Table.AsEnumerable().FirstOrDefault(arg =>
+                arg.Field<int>("f_user_id") == id)?["f_user"] +
+                " " + date.ToShortDateString();
         }
     }
 
