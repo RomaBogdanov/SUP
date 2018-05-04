@@ -185,11 +185,13 @@
             Grid.Column="0"
             Grid.ColumnSpan="2"
             Margin="2"
+            Text="{Binding Path=Region, Mode=TwoWay}"
             FontSize="{Binding FontSize}"
             Style="{StaticResource TextBoxStyle}"
             KeyUp="TextBox_OnKeyUp"/>
 
         <Button
+            Command="{Binding RegionCommand}"
             Grid.Row="9"
             Grid.Column="2"
             Content="..."
@@ -198,6 +200,8 @@
             Style="{StaticResource ButtonStyle}"/>
 
         <Button
+            Command="{Binding ClearCommand}"
+            CommandParameter="Region"
             Grid.Row="9"
             Grid.Column="3"
             Content="X"
@@ -220,10 +224,12 @@
             Grid.ColumnSpan="2"
             Margin="2"
             FontSize="{Binding FontSize}"
+            Text="{Binding Path=Country, Mode=TwoWay}"
             Style="{StaticResource TextBoxStyle}"
             KeyUp="TextBox_OnKeyUp"/>
 
         <Button
+            Command="{Binding CountryCommand}"
             Grid.Row="11"
             Grid.Column="2"
             Content="..."
@@ -232,6 +238,8 @@
             Style="{StaticResource ButtonStyle}"/>
 
         <Button
+            Command="{Binding ClearCommand}"
+            CommandParameter="Nation"
             Grid.Row="11"
             Grid.Column="3"
             Content="X"
