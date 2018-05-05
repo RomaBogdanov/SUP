@@ -409,56 +409,55 @@
                             <TextBlock 
                                 Grid.Row="0"
                                 Grid.Column="0"
-                                Text="Документ"
+                                Text="Документы"
                                 FontSize="15"
                                 HorizontalAlignment="Left"
                                 Style="{StaticResource TextBLockStyle}"/>
 
-                            <TextBlock 
-                                Grid.Row="1"
-                                Grid.Column="0"
-                                Text="Тип"
-                                FontSize="15"
-                                HorizontalAlignment="Left"
-                                Style="{StaticResource TextBLockStyle}"/>
-
-                            <TextBox
+                            <ListBox
                                 TabIndex="16"
                                 Grid.Row="1"
-                                Grid.Column="1"
-                                Text="{Binding Path=CurrentItem.DocType, Mode=TwoWay}"
-                                TextWrapping="Wrap"
-                                FontSize="15"
-                                HorizontalAlignment="Stretch"
-                                IsEnabled="{Binding Path=TextEnable, Mode=TwoWay}"
-                                Style="{StaticResource TextBoxStyle}"
-                                IsReadOnly="True"/>
-                            
-                            <Grid
-                                Grid.Row="1"
-                                Grid.Column="2">
+                                Grid.Column="0"
+                                Grid.RowSpan="2"
+                                Grid.ColumnSpan="5"
+                                BorderBrush="Black"
+                                BorderThickness="1"
+                                SelectedIndex="{Binding Path=SelectedMainDocument}"
+                                ItemsSource="{Binding Path=CurrentItem.MainDocuments, Mode=OneWay}"/>
+
+                            <Grid Grid.Row="3" Grid.ColumnSpan="5">
                                 <Grid.ColumnDefinitions>
-                                    <ColumnDefinition/>
-                                    <ColumnDefinition/>
+                                    <ColumnDefinition />
+                                    <ColumnDefinition Width="Auto"/>
+                                    <ColumnDefinition Width="Auto"/>
+                                    <ColumnDefinition Width="Auto"/>
                                 </Grid.ColumnDefinitions>
                                 
                                 <Button
+                                    Command="{Binding AddMainDocumentCommand}"
                                     TabIndex="17"
-                                    Command="{Binding DocumentsCommand}"
-                                    Grid.Column="0"
-                                    Margin="0"
+                                    Grid.Column="1"
+                                    Margin="2"
+                                    Height="25"
+                                    Width="25"
+                                    Content="+"
+                                    IsEnabled="{Binding Path=ButtonEnable, Mode=TwoWay}"
+                                    Style="{StaticResource VisitorsSquareButtonStyle}"/>
+                                <Button
+                                    Command="{Binding EditMainDocumentCommand}"
+                                    TabIndex="18"
+                                    Grid.Column="2"
+                                    Margin="2"
                                     Height="25"
                                     Width="25"
                                     Content="..."
                                     IsEnabled="{Binding Path=ButtonEnable, Mode=TwoWay}"
                                     Style="{StaticResource VisitorsSquareButtonStyle}"/>
-
                                 <Button
-                                    Command="{Binding ClearCommand}"
-                                    CommandParameter="DocType"
-                                    TabIndex="18"
-                                    Grid.Column="1"
-                                    Margin="0"
+                                    Command="{Binding RemoveMainDocumentCommand}"
+                                    TabIndex="19"
+                                    Grid.Column="3"
+                                    Margin="2"
                                     Height="25"
                                     Width="25"
                                     Content="X"
@@ -466,105 +465,6 @@
                                     Style="{StaticResource VisitorsSquareButtonStyle}"/>
                             </Grid>
 
-                            <Grid
-                                Grid.Row="1"
-                                Grid.Column="3">
-                                <Grid.ColumnDefinitions>
-                                    <ColumnDefinition Width="0.6*"/>
-                                    <ColumnDefinition/>
-                                </Grid.ColumnDefinitions>
-
-                                <TextBlock
-                                    Grid.Column="0"
-                                    Text="Серия"
-                                    FontSize="15"
-                                    Style="{StaticResource TextBLockStyle}"/>
-                                
-                                <TextBox
-                                    TabIndex="19"
-                                    Text="{Binding Path=CurrentItem.DocSeria, Mode=TwoWay}"
-                                    Grid.Column="1"
-                                    IsEnabled="{Binding Path=TextEnable, Mode=TwoWay}"
-                                    Style="{StaticResource TextBoxStyle}"/>
-                            </Grid>
-
-                            <Grid
-                                Grid.Row="1"
-                                Grid.Column="4">
-                                <Grid.ColumnDefinitions>
-                                    <ColumnDefinition Width="0.6*"/>
-                                    <ColumnDefinition/>
-                                </Grid.ColumnDefinitions>
-
-                                <TextBlock
-                                    Grid.Column="0"
-                                    Text="№"
-                                    FontSize="15"
-                                    Style="{StaticResource TextBLockStyle}"/>
-
-                                <TextBox
-                                    TabIndex="20"
-                                    Text="{Binding Path=CurrentItem.DocNum, Mode=TwoWay}"
-                                    Grid.Column="1"
-                                    IsEnabled="{Binding Path=TextEnable, Mode=TwoWay}"
-                                    Style="{StaticResource TextBoxStyle}"/>
-                            </Grid>
-
-                            <TextBlock 
-                                Grid.Row="2"
-                                Grid.Column="0"
-                                Text="Дата выдачи"
-                                FontSize="15"
-                                HorizontalAlignment="Left"
-                                Style="{StaticResource TextBLockStyle}"/>
-
-                            <TextBox
-                                TabIndex="21"
-                                Grid.Row="2"
-                                Grid.Column="1"
-                                Grid.ColumnSpan="2"
-                                Text="{Binding Path=CurrentItem.DocDate, Mode=TwoWay}"
-                                FontSize="15"
-                                HorizontalAlignment="Stretch"
-                                IsEnabled="{Binding Path=TextEnable, Mode=TwoWay}"
-                                Style="{StaticResource TextBoxStyle}"/>
-
-                            <TextBlock 
-                                Grid.Row="2"
-                                Grid.Column="3"
-                                Text="Код документа"
-                                FontSize="15"
-                                HorizontalAlignment="Left"
-                                Style="{StaticResource TextBLockStyle}"/>
-
-                            <TextBox
-                                TabIndex="22"
-                                Grid.Row="2"
-                                Grid.Column="4"
-                                Text="{Binding Path=CurrentItem.DocCode, Mode=TwoWay}"
-                                FontSize="15"
-                                HorizontalAlignment="Stretch"
-                                IsEnabled="{Binding Path=TextEnable, Mode=TwoWay}"
-                                Style="{StaticResource TextBoxStyle}"/>
-
-                            <TextBlock 
-                                Grid.Row="3"
-                                Grid.Column="0"
-                                Text="Кем выдан"
-                                HorizontalAlignment="Left"
-                                Style="{StaticResource TextBLockStyle}"/>
-
-                            <TextBox
-                                TabIndex="23"
-                                Grid.Row="3"
-                                Grid.Column="1"
-                                Grid.ColumnSpan="4"
-                                Text="{Binding Path=CurrentItem.DocPlace, Mode=TwoWay}"
-                                FontSize="15"
-                                HorizontalAlignment="Stretch"
-                                IsEnabled="{Binding Path=TextEnable, Mode=TwoWay}"
-                                Style="{StaticResource TextBoxStyle}"/>
-                           
 
                             <Grid
                                 Grid.Row="4"
@@ -1008,7 +908,7 @@
             <TextBlock
                 Grid.Row="0"
                 Grid.Column="0"
-                Text="{Binding Path=Operator, Mode=TwoWay}"
+                Text="{Binding Path=CurrentItem.Operator, Mode=TwoWay}"
                 FontSize="15"
                 Margin="5"
                 HorizontalAlignment="Left"

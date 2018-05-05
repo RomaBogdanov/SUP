@@ -486,7 +486,13 @@ go
 CREATE TABLE vis_visitors_documents
     (f_vd_id                       int NOT NULL,
     f_visitor_id                   int,
+    f_doctype_id                   int,
     f_doc_name                     VARCHAR(100),
+    f_doc_seria                    VARCHAR(20),
+    f_doc_num                      VARCHAR(20),
+    f_doc_date                     DATE,
+    f_doc_org                      VARCHAR(100),
+    f_doc_code                     VARCHAR(20),
     f_deleted                      CHAR(1))
 
 ALTER TABLE vis_visitors_documents
