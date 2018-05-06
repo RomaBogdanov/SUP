@@ -14,12 +14,14 @@ namespace SupRealClient.ViewModels
     public class VisitorsDocumentViewModel : INotifyPropertyChanged
     {
         public event PropertyChangedEventHandler PropertyChanged;
-        private VisitorsDocumentModel model;
+        protected VisitorsDocumentModel model;
         private string name = "";
         private ObservableCollection<string> images =
             new ObservableCollection<string>();
         private List<Guid> imageCache = new List<Guid>();
         private int selectedImage = -1;
+
+        public string Caption { get; private set; }
 
         public ObservableCollection<string> Images
         {
@@ -70,7 +72,15 @@ namespace SupRealClient.ViewModels
         public void SetModel(VisitorsDocumentModel model)
         {
             this.model = model;
+            Caption = model.Data.Id == 0 ? "Добавление документа" :
+                "Редактирование документа";
             this.Name = model.Data.Name;
+            SetModel();
+            this.Cancel = new RelayCommand(arg => this.model.Cancel());
+        }
+
+        protected virtual void SetModel()
+        {
             if (model.Data.Images.Any())
             {
                 imageCache = model.Data.Images;
@@ -86,10 +96,15 @@ namespace SupRealClient.ViewModels
                 new VisitorsDocument
                 {
                     Name = Name,
+                    TypeId = 0,
+                    Seria = "",
+                    Num = "",
+                    Org = "",
+                    Code = "",
+                    Date = DateTime.MinValue,
                     Images = imageCache,
                     IsChanged = true
                 }));
-            this.Cancel = new RelayCommand(arg => this.model.Cancel());
 
             AddImageCommand = new RelayCommand(arg => AddImage());
             RemoveImageCommand = new RelayCommand(arg => RemoveImage());

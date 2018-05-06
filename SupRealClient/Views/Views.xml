@@ -19,4 +19,5 @@
   <Item Name="AddUpdateCabinetView" />
   <Item Name="VisitorsDocumentView" />
   <Item Name="DocumentImagesView" />
+  <Item Name="VisitorsDocumentExtView" />
 </Enum>

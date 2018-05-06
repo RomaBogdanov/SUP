@@ -272,3 +272,16 @@ CREATE TABLE vis_visitors_documents
 ALTER TABLE vis_visitors_documents
 ADD PRIMARY KEY (f_vd_id)
 
+alter table vis_visitors_documents
+add
+    f_doctype_id                   int,
+    f_doc_seria                    VARCHAR(20),
+    f_doc_num                      VARCHAR(20),
+    f_doc_date                     DATE,
+    f_doc_org                      VARCHAR(100),
+    f_doc_code                     VARCHAR(20)
+go
+
+UPDATE vis_visitors_documents SET f_doctype_id=0, f_doc_seria='', f_doc_num='', f_doc_date='', f_doc_org='', f_doc_code=''
+go
+
