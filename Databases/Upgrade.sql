@@ -285,3 +285,18 @@ go
 UPDATE vis_visitors_documents SET f_doctype_id=0, f_doc_seria='', f_doc_num='', f_doc_date='', f_doc_org='', f_doc_code=''
 go
 
+alter table vis_regions
+add
+    f_cntr_id                      int
+go
+
+UPDATE vis_regions SET f_cntr_id=0
+go
+
+alter table vis_organizations
+drop column
+	f_synonim_id
+go
+
+drop table vis_org_synonim
+go

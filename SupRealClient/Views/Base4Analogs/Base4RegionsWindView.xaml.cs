@@ -21,7 +21,13 @@ namespace SupRealClient.Views
             DataGridTextColumn dataGridTextColumn = new DataGridTextColumn
             {
                 Header = "Название",
-                Binding = new Binding("RegionName")
+                Binding = new Binding("Name")
+            };
+            base4.baseTab.Columns.Add(dataGridTextColumn);
+            dataGridTextColumn = new DataGridTextColumn
+            {
+                Header = "Страна",
+                Binding = new Binding("Country")
             };
             base4.baseTab.Columns.Add(dataGridTextColumn);
         }

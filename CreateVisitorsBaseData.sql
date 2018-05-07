@@ -62,10 +62,10 @@ go
 insert into vis_orders values ( '0', '0', '', '', '', '', '', '', '', '', 'N', '', '', '')
 go
 
-insert into vis_organizations values ( '0', '', '', '', '', '', '', 'N', '', '', '', '', '', '', '')
+insert into vis_organizations values ( '0', '', '', '', '', '', 'N', '', '', '', '', '', '', '')
 go
 
-insert into vis_regions values ( '0', '', 'N', '', '')
+insert into vis_regions values ( '0', '', '0', 'N', '', '')
 go
 
 insert into vis_spr_cardstates values ( '0', '', 'N', '', '')

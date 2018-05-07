@@ -16,7 +16,9 @@ namespace SupRealClient.Behaviour
             if (!string.IsNullOrEmpty(searchText) &&
                 !string.IsNullOrEmpty(cellText))
             {
-                return cellText.ToUpper().Contains(searchText.ToUpper());
+                // TODO - плохая реализация, для названий организаций в кавычках
+                return cellText.ToUpper().StartsWith(searchText.ToUpper()) ||
+                    cellText.ToUpper().StartsWith("\"" + searchText.ToUpper());
             }
             return false;
         }

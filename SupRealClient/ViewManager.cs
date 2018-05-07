@@ -57,6 +57,11 @@ namespace SupRealClient
                 ReopenWindow("AddCardView",
                     new AddUpdateCardView(model as AddCardModel), parent);
             }
+            else if (model is AddItemRegionsModel)
+            {
+                ReopenWindow("AddRegionView",
+                    new AddUpdateRegionView(model as AddItemRegionsModel), parent);
+            }
         }
 
         /// <summary>
@@ -85,6 +90,11 @@ namespace SupRealClient
             {
                 ReopenWindow("UpdateCardView",
                     new AddUpdateCardView(model as UpdateCardModel), parent);
+            }
+            else if (model is UpdateItemRegionsModel)
+            {
+                ReopenWindow("UpdateRegionView",
+                    new AddUpdateRegionView(model as UpdateItemRegionsModel), parent);
             }
         }
 
