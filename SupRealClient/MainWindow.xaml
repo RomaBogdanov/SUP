@@ -136,7 +136,8 @@
                 IsEnabled="True" 
                 Style="{DynamicResource SquareButtonStyle}" 
                 FontSize="{Binding ElementName=FontSizeLixtBox, Path=SelectedItem.Content}"
-                Command="{Binding OpenVisitorsCommand}">
+                Command="{Binding OpenVisitorsCommand}"
+                ToolTip="Ctrl+P">
                 <Grid>
                     <Grid.RowDefinitions>
                         <RowDefinition/>
@@ -151,7 +152,8 @@
                 IsEnabled="True" 
                 Style="{DynamicResource SquareButtonStyle}" 
                 FontSize="{Binding ElementName=FontSizeLixtBox, Path=SelectedItem.Content}"
-                Command="{Binding OpenBidsCommand}">
+                Command="{Binding OpenBidsCommand}"
+                ToolTip="Ctrl+O">
                 <Grid>
                     <Grid.RowDefinitions>
                         <RowDefinition/>
@@ -166,7 +168,8 @@
                 IsEnabled="True" 
                 Style="{DynamicResource SquareButtonStyle}" 
                 FontSize="{Binding ElementName=FontSizeLixtBox, Path=SelectedItem.Content}"
-                Command="{Binding OpenVisitsCommand}">
+                Command="{Binding OpenVisitsCommand}"
+                ToolTip="Ctrl+V">
                 <Grid>
                     <Grid.RowDefinitions>
                         <RowDefinition/>
