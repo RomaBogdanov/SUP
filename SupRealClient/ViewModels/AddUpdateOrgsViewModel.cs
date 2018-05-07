@@ -1,12 +1,10 @@
 ﻿using System.Collections.Generic;
 using SupRealClient.Models;
 using System.ComponentModel;
-using System.Data;
-using System.Linq;
-using System.Windows;
 using System.Windows.Input;
 using SupRealClient.EnumerationClasses;
-using SupRealClient.TabsSingleton;
+using SupRealClient.Views;
+using System.Windows.Data;
 
 namespace SupRealClient.ViewModels
 {
@@ -18,45 +16,18 @@ namespace SupRealClient.ViewModels
         private string name = "";
         private string comment = "";
         private string fullName = "";
+        private int countryId = 0;
+        private string country = "";
+        private int regionId = 0;
+        private string region = "";
         public int FontSize => GlobalSettings.GetSettings();
 
-        public string TypeToolType
-        {
-            get
-            {
-                var list = new List<string>();
-                var organizations = OrganizationsWrapper.CurrentTable();
+        public ICommand CountryCommand { get; set; }
+        public ICommand RegionCommand { get; set; }
 
-                foreach (DataRow row in organizations.Table.Rows)
-                {
-                    if (!list.Contains(row.ItemArray[2].ToString()) && row.ItemArray[2].ToString() != "нет данных")
-                    {
-                        list.Add(row.ItemArray[2].ToString());
-                    }
-                }
+        public ICommand ClearCommand { get; set; }
 
-                return list.Aggregate("", (current, row) => current + (row + "\n"));
-            }
-        }
-
-        public string NameToolType
-        {
-            get
-            {
-                var list = new List<string>();
-                var organizations = OrganizationsWrapper.CurrentTable();
-
-                foreach (DataRow row in organizations.Table.Rows)
-                {
-                    if (!list.Contains(row.ItemArray[3].ToString()))
-                    {
-                        list.Add(row.ItemArray[3].ToString());
-                    }
-                }
-
-                return list.Aggregate("", (current, row) => current + (row + "\n"));
-            }
-        }
+        public string Caption { get; private set; }
 
         public string Type
         {
@@ -110,6 +81,36 @@ namespace SupRealClient.ViewModels
             }
         }
 
+        public string Country
+        {
+            get { return country; }
+            set
+            {
+                if (value != null)
+                {
+                    country = value;
+                    OnPropertyChanged("Country");
+                }
+            }
+        }
+
+        public string Region
+        {
+            get { return region; }
+            set
+            {
+                if (value != null)
+                {
+                    region = value;
+                    OnPropertyChanged("Region");
+                }
+            }
+        }
+
+        public CollectionView TypeList { get; private set; }
+
+        public CollectionView DescriptionList { get; private set; }
+
         public ICommand Ok { get; set; }
 
         public ICommand Cancel { get; set; }
@@ -122,23 +123,86 @@ namespace SupRealClient.ViewModels
         public void SetModel(IAddUpdateOrgsModel addItem1Model)
         {
             this.model = addItem1Model;
+            this.Caption = model.Data.Id <= 0 ? "Добавление организации" :
+                "Редактирование организации";
+            this.TypeList =
+                new CollectionView(OrganizationsHelper.GetTypes());
+            this.DescriptionList =
+                new CollectionView(OrganizationsHelper.GetDescriptions());
             this.Type = model.Data.Type;
             this.Name = model.Data.Name;
             this.Comment = model.Data.Comment;
             this.FullName = model.Data.FullName;
-            
+            this.countryId = model.Data.CountryId;
+            this.Country = model.Data.Country;
+            this.regionId = model.Data.RegionId;
+            this.Region = model.Data.Region;
+
             this.Ok = new RelayCommand(arg => this.model.Ok(new Organization
             {
                 Type = Type,
                 Name = Name,
                 Comment = Comment,
-                FullName = FullName
+                FullName = FullName,
+                CountryId = countryId,
+                Country = Country,
+                RegionId = regionId,
+                Region = Region
             }));
             this.Cancel = new RelayCommand(arg => this.model.Cancel());
+
+            CountryCommand = new RelayCommand(arg => CountyList());
+            RegionCommand = new RelayCommand(arg => RegionList());
+
+            ClearCommand = new RelayCommand(arg => Clear(arg as string));
         }
 
         protected virtual void OnPropertyChanged(string propertyName) =>
             this.PropertyChanged?.Invoke(this,
             new PropertyChangedEventArgs(propertyName));
+
+        private void CountyList()
+        {
+            var result = ViewManager.Instance.OpenWindowModal(
+                "Base4NationsWindView", null) as BaseModelResult;
+            if (result == null)
+            {
+                return;
+            }
+            countryId = result.Id <= 0 ? 0 : result.Id;
+            Country = result.Name;
+        }
+
+        private void RegionList()
+        {
+            var result = ViewManager.Instance.OpenWindowModal(
+                "Base4RegionsWindView", null) as BaseModelResult;
+            if (result == null)
+            {
+                return;
+            }
+            regionId = result.Id <= 0 ? 0 : result.Id;
+            Region = result.Name;
+        }
+
+        private void Clear(string field)
+        {
+            switch (field)
+            {
+                case "Country":
+                    countryId = 0;
+                    Country = "";
+                    break;
+                case "Region":
+                    regionId = 0;
+                    Region = "";
+                    break;
+                case "FullName":
+                    FullName = "";
+                    break;
+                default:
+                    return;
+            }
+        }
     }
 }

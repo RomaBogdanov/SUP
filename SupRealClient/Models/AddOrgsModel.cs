@@ -1,10 +1,9 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Data;
 using System.Linq;
 using System.Windows;
-using System.Windows.Input;
 using SupClientConnectionLib;
+using SupRealClient.Common;
 using SupRealClient.EnumerationClasses;
 using SupRealClient.TabsSingleton;
 
@@ -58,10 +57,13 @@ namespace SupRealClient.Models
                     row["f_org_name"] = data.Name;
                     row["f_comment"] = data.Comment;
                     row["f_full_org_name"] = data.FullName;
-                    row["f_rec_date"] = DateTime.Now;
+                    row["f_syn_id"] = 0;
+                    row["f_region_id"] = data.RegionId;
+                    row["f_cntr_id"] = data.CountryId;
                     row["f_rec_operator"] = Authorizer.AppAuthorizer.Id;
-                    row["f_has_free_access"] = IsChild ? "Y" : "N";
-                    row["f_is_basic"] = IsMaster ? "Y" : "N";
+                    row["f_has_free_access"] = CommonHelper.BoolToString(IsChild);
+                    row["f_is_basic"] = CommonHelper.BoolToString(IsMaster);
+                    row["f_deleted"] = CommonHelper.BoolToString(false);
                     organizations.Table.Rows.Add(row);
                 }
                 Cancel();

@@ -105,6 +105,7 @@
     <Compile Include="Common\Data\SearchData.cs" />
     <Compile Include="Models\AddItemRegionsModel.cs" />
     <Compile Include="Models\DocumentsHelper.cs" />
+    <Compile Include="Models\OrganizationsHelper.cs" />
     <Compile Include="Models\VisitorsDocumentModel.cs" />
     <Compile Include="Models\Base3CabinetsModel.cs" />
     <Compile Include="Models\Base1LogsModel.cs" />

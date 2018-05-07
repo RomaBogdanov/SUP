@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Data;
 using SupClientConnectionLib;
+using SupRealClient.Common;
 using SupRealClient.EnumerationClasses;
 using SupRealClient.TabsSingleton;
 
@@ -19,10 +20,15 @@ namespace SupRealClient.Models
             {
                 return new Organization
                 {
+                    Id = organization.Id,
                     Type = organization.Type,
                     Name = organization.Name,
                     Comment = organization.Comment,
-                    FullName = organization.FullName
+                    FullName = organization.FullName,
+                    CountryId = organization.CountryId,
+                    Country = organization.Country,
+                    RegionId = organization.RegionId,
+                    Region = organization.Region
                 };
             }
         }
@@ -41,15 +47,18 @@ namespace SupRealClient.Models
         {
             OrganizationsWrapper organizations =
                 OrganizationsWrapper.CurrentTable();
-            if (!(data.Type == "" | data.Name == "" | data.FullName == ""))
+            if (!(data.Type == "" | data.Name == ""))
             {
                 DataRow row = organizations.Table.Rows.Find(organization.Id);
                 row["f_org_type"] = data.Type;
                 row["f_org_name"] = data.Name;
                 row["f_comment"] = data.Comment;
                 row["f_full_org_name"] = data.FullName;
+                row["f_region_id"] = data.RegionId;
+                row["f_cntr_id"] = data.CountryId;
                 row["f_rec_date"] = DateTime.Now;
                 row["f_rec_operator"] = Authorizer.AppAuthorizer.Id;
+                row["f_deleted"] = CommonHelper.BoolToString(false);
             }
             Cancel();
         }
