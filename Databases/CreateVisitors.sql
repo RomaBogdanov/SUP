@@ -340,24 +340,10 @@ ADD PRIMARY KEY (f_ord_id)
 
 insert into vis_orders (f_ord_id, f_order_type_id, f_signed_by, f_adjusted_with) values (0, 0, 0, 0)
 
--- Создание vis_org_synonim
-
-CREATE TABLE vis_org_synonim
-    (f_synonim_id                  int NOT NULL,
-    f_synonim_name                 VARCHAR(50),
-    f_synonim_comment              VARCHAR(200),
-    f_deleted                      CHAR(1),
-    f_rec_date                     DATE,
-    f_rec_operator                 int)
-
-ALTER TABLE vis_org_synonim
-ADD PRIMARY KEY (f_synonim_id)
-
 -- Создание vis_organizations
 
 CREATE TABLE vis_organizations
     (f_org_id                      int NOT NULL,
-    f_synonim_id                   int,
     f_org_type                     VARCHAR(15),
     f_org_name                     VARCHAR(50),
     f_has_free_access              VARCHAR(1),
@@ -382,6 +368,7 @@ insert into vis_organizations (f_org_id) values (0)
 CREATE TABLE vis_regions
     (f_region_id                   int NOT NULL,
     f_region_name                  VARCHAR(50),
+    f_cntr_id                      int,
     f_deleted                      CHAR(1),
     f_rec_date                     DATE,
     f_rec_operator                 int)
