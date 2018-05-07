@@ -71,10 +71,10 @@ namespace SupRealClient.Views
             {
                 btnDown.Command.Execute(null);
             }
-            /*else if(e.Key==Key.Enter)
+            else if(e.Key==Key.Enter)
             {
                 btnEdit.Command.Execute(null);
-            }*/
+            }
         }
     }
 }
