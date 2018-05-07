@@ -826,17 +826,17 @@ namespace SupRealClient.Views
 
         public override void Add()
         {
-            ViewManager.Instance.Add(new AddItemRegionsModel(), Parent);
+            ViewManager.Instance.AddObject(new AddItemRegionsModel(), Parent);
         }
 
         public override void Update()
         {
-            ViewManager.Instance.Update(new UpdateItemRegionsModel(CurrentItem), Parent);
+            ViewManager.Instance.UpdateObject(new UpdateItemRegionsModel(CurrentItem), Parent);
         }
 
         protected override BaseModelResult GetResult()
         {
-            return new BaseModelResult { Id = CurrentItem.Id, Name = CurrentItem.RegionName };
+            return new BaseModelResult { Id = CurrentItem.Id, Name = CurrentItem.Name };
         }
 
         protected override void DoQuery()
@@ -847,7 +847,13 @@ namespace SupRealClient.Views
                 select new T
                 {
                     Id = regs.Field<int>("f_region_id"),
-                    RegionName = regs.Field<string>("f_region_name"),
+                    Name = regs.Field<string>("f_region_name"),
+                    CountryId = regs.Field<int>("f_cntr_id"),
+                    Country = regs.Field<int>("f_cntr_id") == 0 ?
+                        "" : CountriesWrapper.CurrentTable()
+                        .Table.AsEnumerable().FirstOrDefault(
+                        arg => arg.Field<int>("f_cntr_id") ==
+                        regs.Field<int>("f_cntr_id"))["f_cntr_name"].ToString(),
                     Deleted = regs.Field<string>("f_deleted"),
                     RecDate = regs.Field<DateTime>("f_rec_date"),
                     RecOperator = regs.Field<int>("f_rec_operator")
@@ -879,7 +885,7 @@ namespace SupRealClient.Views
         {
             return new Dictionary<string, string>()
             {
-                { "RegionName", "f_region_name" },
+                { "Name", "f_region_name" },
             };
         }
     }

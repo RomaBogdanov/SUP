@@ -21,4 +21,5 @@
   <Item Name="DocumentImagesView" />
   <Item Name="VisitorsDocumentExtView" />
   <Item Name="FullNameView" />
+  <Item Name="AddUpdateRegionView" />
 </Enum>

@@ -105,7 +105,9 @@
     <Compile Include="Common\Data\SearchData.cs" />
     <Compile Include="Models\AddItemRegionsModel.cs" />
     <Compile Include="Models\DocumentsHelper.cs" />
+    <Compile Include="Models\IAddUpdateRegionModel.cs" />
     <Compile Include="Models\OrganizationsHelper.cs" />
+    <Compile Include="Models\RegionsHelper.cs" />
     <Compile Include="Models\VisitorsDocumentModel.cs" />
     <Compile Include="Models\Base3CabinetsModel.cs" />
     <Compile Include="Models\Base1LogsModel.cs" />
@@ -151,6 +153,7 @@
       <DependentUpon>Wrappers.tt</DependentUpon>
     </Compile>
     <Compile Include="ViewModels\AddUpdateCardViewModel.cs" />
+    <Compile Include="ViewModels\AddUpdateRegionViewModel.cs" />
     <Compile Include="ViewModels\DocumentImagesViewModel.cs" />
     <Compile Include="ViewModels\FullNameViewModel.cs" />
     <Compile Include="ViewModels\VisitorsDocumentViewModel.cs" />
@@ -190,6 +193,9 @@
       <DependentUpon>AddUpdateOrgsView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Models\Base1CardsModel.cs" />
+    <Compile Include="Views\AddUpdateRegionView.xaml.cs">
+      <DependentUpon>AddUpdateRegionView.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Views\DocumentImagesView.xaml.cs">
       <DependentUpon>DocumentImagesView.xaml</DependentUpon>
     </Compile>
@@ -338,6 +344,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Views\AddUpdateOrgsView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\AddUpdateRegionView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

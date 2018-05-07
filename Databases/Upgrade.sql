@@ -299,3 +299,4 @@ drop column
 go
 
 drop table vis_org_synonim
+go
