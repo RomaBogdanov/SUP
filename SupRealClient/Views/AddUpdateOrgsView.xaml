@@ -122,6 +122,7 @@
             Content="..."
             TabIndex="3"
             Margin="2"
+            IsEnabled="{Binding FullNameEnabled, Mode=OneWay}"
             Style="{StaticResource ButtonStyle}"/>
 
         <Button
@@ -132,6 +133,7 @@
             Content="X"
             TabIndex="4"
             Margin="2"
+            IsEnabled="{Binding FullNameEnabled, Mode=OneWay}"
             Style="{StaticResource ButtonStyle}"/>
 
         <TextBlock

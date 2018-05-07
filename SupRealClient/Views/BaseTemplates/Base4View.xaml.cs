@@ -462,11 +462,9 @@ namespace SupRealClient.Views
                 {
                     Id = orgs.Field<int>("f_org_id"),
                     Type = orgs.Field<string>("f_org_type"),
-                    FullName = orgs.Field<int>("f_syn_id") == 0 ? "" :
-                        OrganizationsWrapper.CurrentTable().Table.AsEnumerable().
-                        FirstOrDefault(arg => arg.Field<int>("f_org_id") == 
-                        orgs.Field<int>("f_syn_id"))["f_full_org_name"].ToString(),
                     Name = orgs.Field<string>("f_org_name"),
+                    FullName = OrganizationsHelper.
+                        GenerateFullName(orgs.Field<int>("f_org_id")),
                     Comment = orgs.Field<string>("f_comment"),
                     CountryId = orgs.Field<int>("f_cntr_id"),
                     Country = orgs.Field<int>("f_cntr_id") == 0 ? 
@@ -475,10 +473,12 @@ namespace SupRealClient.Views
                         arg => arg.Field<int>("f_cntr_id") ==
                         orgs.Field<int>("f_cntr_id"))["f_cntr_name"].ToString(),
                     RegionId = orgs.Field<int>("f_region_id"),
-                    Region = RegionsWrapper.CurrentTable().Table
-                        .AsEnumerable().FirstOrDefault(
+                    Region = orgs.Field<int>("f_region_id") == 0 ? 
+                        "" : RegionsWrapper.CurrentTable()
+                        .Table.AsEnumerable().FirstOrDefault(
                         arg => arg.Field<int>("f_region_id") ==
-                        orgs.Field<int>("f_region_id"))["f_region_name"].ToString()
+                        orgs.Field<int>("f_region_id"))["f_region_name"].ToString(),
+                    SynId = orgs.Field<int>("f_syn_id")
                 });
         }
 
@@ -502,7 +502,6 @@ namespace SupRealClient.Views
             return new Dictionary<string, string>()
             {
                 { "f_org_type", "Тип" },
-                { "f_full_org_name", "Основное название" },
                 { "f_org_name", "Название организации" },
                 { "f_comment", "Примечание" },
             };
@@ -521,7 +520,6 @@ namespace SupRealClient.Views
             return new Dictionary<string, string>()
             {
                 { "Type", "f_org_type" },
-                { "FullName", "f_full_org_name"},
                 { "Name", "f_org_name" },
                 { "Comment", "f_comment" },
             };

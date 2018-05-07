@@ -17,7 +17,7 @@ using SupRealClient.ViewModels;
 using SupRealClient.Views;
 using SupRealClient.TabsSingleton;
 using System.Data;
-
+using SupRealClient.Models;
 
 namespace SupRealClient.Views
 {
@@ -146,7 +146,8 @@ namespace SupRealClient.Views
                  {
                      Id = orgs.Field<int>("f_org_id"),
                      Type = orgs.Field<string>("f_org_type"),
-                     FullName = orgs.Field<string>("f_full_org_name"),
+                     FullName = OrganizationsHelper.
+                        GenerateFullName(orgs.Field<int>("f_org_id")),
                      Name = orgs.Field<string>("f_org_name"),
                      Comment = orgs.Field<string>("f_comment")
                  });
@@ -177,7 +178,8 @@ namespace SupRealClient.Views
                  {
                      Id = orgs.Field<int>("f_org_id"),
                      Type = orgs.Field<string>("f_org_type"),
-                     FullName = orgs.Field<string>("f_full_org_name"),
+                     FullName = OrganizationsHelper.
+                        GenerateFullName(orgs.Field<int>("f_org_id")),
                      Name = orgs.Field<string>("f_org_name"),
                      Comment = orgs.Field<string>("f_comment")
                  });

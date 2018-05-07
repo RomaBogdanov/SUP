@@ -152,6 +152,7 @@
     </Compile>
     <Compile Include="ViewModels\AddUpdateCardViewModel.cs" />
     <Compile Include="ViewModels\DocumentImagesViewModel.cs" />
+    <Compile Include="ViewModels\FullNameViewModel.cs" />
     <Compile Include="ViewModels\VisitorsDocumentViewModel.cs" />
     <Compile Include="ViewModels\Base3ViewModel.cs" />
     <Compile Include="ViewModels\BidsViewModel.cs" />
@@ -191,6 +192,9 @@
     <Compile Include="Models\Base1CardsModel.cs" />
     <Compile Include="Views\DocumentImagesView.xaml.cs">
       <DependentUpon>DocumentImagesView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\FullNameView.xaml.cs">
+      <DependentUpon>FullNameView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\VisitorsDocumentExtView.xaml.cs">
       <DependentUpon>VisitorsDocumentExtView.xaml</DependentUpon>
@@ -338,6 +342,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Views\DocumentImagesView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\FullNameView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

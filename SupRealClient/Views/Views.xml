@@ -20,4 +20,5 @@
   <Item Name="VisitorsDocumentView" />
   <Item Name="DocumentImagesView" />
   <Item Name="VisitorsDocumentExtView" />
+  <Item Name="FullNameView" />
 </Enum>

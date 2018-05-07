@@ -24,11 +24,13 @@ namespace SupRealClient.Models
                     Type = organization.Type,
                     Name = organization.Name,
                     Comment = organization.Comment,
-                    FullName = organization.FullName,
+                    FullName = OrganizationsHelper.
+                        GenerateFullName(organization.Id),
                     CountryId = organization.CountryId,
                     Country = organization.Country,
                     RegionId = organization.RegionId,
-                    Region = organization.Region
+                    Region = organization.Region,
+                    SynId = organization.SynId
                 };
             }
         }
@@ -53,7 +55,8 @@ namespace SupRealClient.Models
                 row["f_org_type"] = data.Type;
                 row["f_org_name"] = data.Name;
                 row["f_comment"] = data.Comment;
-                row["f_full_org_name"] = data.FullName;
+                //row["f_full_org_name"] = data.FullName;
+                row["f_syn_id"] = data.SynId;
                 row["f_region_id"] = data.RegionId;
                 row["f_cntr_id"] = data.CountryId;
                 row["f_rec_date"] = DateTime.Now;

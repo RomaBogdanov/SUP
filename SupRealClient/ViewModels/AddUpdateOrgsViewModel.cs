@@ -16,12 +16,15 @@ namespace SupRealClient.ViewModels
         private string name = "";
         private string comment = "";
         private string fullName = "";
+        private bool fullNameEnabled;
         private int countryId = 0;
         private string country = "";
         private int regionId = 0;
         private string region = "";
+        private int synId = 0;
         public int FontSize => GlobalSettings.GetSettings();
 
+        public ICommand FullNameCommand { get; set; }
         public ICommand CountryCommand { get; set; }
         public ICommand RegionCommand { get; set; }
 
@@ -81,6 +84,16 @@ namespace SupRealClient.ViewModels
             }
         }
 
+        public bool FullNameEnabled
+        {
+            get { return fullNameEnabled; }
+            set
+            {
+                fullNameEnabled = value;
+                OnPropertyChanged("FullNameEnabled");
+            }
+        }
+
         public string Country
         {
             get { return country; }
@@ -132,27 +145,31 @@ namespace SupRealClient.ViewModels
             this.Type = model.Data.Type;
             this.Name = model.Data.Name;
             this.Comment = model.Data.Comment;
-            this.FullName = model.Data.FullName;
+            this.FullName = model.Data.SynId <= 0 ? "" :
+                OrganizationsHelper.GenerateFullName(model.Data.Id);
+            this.FullNameEnabled = OrganizationsHelper.FullNameEnabled(model.Data.Id);
             this.countryId = model.Data.CountryId;
             this.Country = model.Data.Country;
             this.regionId = model.Data.RegionId;
             this.Region = model.Data.Region;
+            this.synId = model.Data.SynId;
 
             this.Ok = new RelayCommand(arg => this.model.Ok(new Organization
             {
                 Type = Type,
                 Name = Name,
                 Comment = Comment,
-                FullName = FullName,
                 CountryId = countryId,
                 Country = Country,
                 RegionId = regionId,
-                Region = Region
+                Region = Region,
+                SynId = synId
             }));
             this.Cancel = new RelayCommand(arg => this.model.Cancel());
 
             CountryCommand = new RelayCommand(arg => CountyList());
             RegionCommand = new RelayCommand(arg => RegionList());
+            FullNameCommand = new RelayCommand(arg => FullNameList());
 
             ClearCommand = new RelayCommand(arg => Clear(arg as string));
         }
@@ -185,6 +202,22 @@ namespace SupRealClient.ViewModels
             Region = result.Name;
         }
 
+        private void FullNameList()
+        {
+            var window = new FullNameView(
+                new FullNameViewModel(model.Data.Id));
+            window.ShowDialog();
+            var organization = window.WindowResult as Organization;
+
+            if (organization == null)
+            {
+                return;
+            }
+
+            synId = organization.Id;
+            FullName = OrganizationsHelper.GenerateFullName(synId);
+        }
+
         private void Clear(string field)
         {
             switch (field)
@@ -198,6 +231,7 @@ namespace SupRealClient.ViewModels
                     Region = "";
                     break;
                 case "FullName":
+                    synId = 0;
                     FullName = "";
                     break;
                 default:
