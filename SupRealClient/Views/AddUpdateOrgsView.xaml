@@ -116,6 +116,7 @@
             KeyUp="TextBox_OnKeyUp"/>
         
         <Button
+            Command="{Binding FullNameCommand}"
             Grid.Row="7"
             Grid.Column="2"
             Content="..."
@@ -137,52 +138,13 @@
             Grid.Row="8"
             Grid.Column="0"
             Grid.ColumnSpan="2"
-            Text="Регион"
-            FontSize="{Binding FontSize}"
-            HorizontalAlignment="Left"
-            Style="{StaticResource TextBLockStyle}"/>
-        
-        <TextBox
-            Grid.Row="9"
-            Grid.Column="0"
-            Grid.ColumnSpan="2"
-            Margin="2"
-            IsReadOnly="True"
-            Text="{Binding Path=Region, Mode=TwoWay}"
-            FontSize="{Binding FontSize}"
-            Style="{StaticResource TextBoxStyle}"
-            KeyUp="TextBox_OnKeyUp"/>
-
-        <Button
-            Command="{Binding RegionCommand}"
-            Grid.Row="9"
-            Grid.Column="2"
-            Content="..."
-            Margin="2"
-            TabIndex="5"
-            Style="{StaticResource ButtonStyle}"/>
-
-        <Button
-            Command="{Binding ClearCommand}"
-            CommandParameter="Region"
-            Grid.Row="9"
-            Grid.Column="3"
-            Content="X"
-            Margin="2"
-            TabIndex="6"
-            Style="{StaticResource ButtonStyle}"/>
-
-        <TextBlock
-            Grid.Row="10"
-            Grid.Column="0"
-            Grid.ColumnSpan="2"
             Text="Страна"
             FontSize="{Binding FontSize}"
             HorizontalAlignment="Left"
             Style="{StaticResource TextBLockStyle}"/>
         
         <TextBox
-            Grid.Row="11"
+            Grid.Row="9"
             Grid.Column="0"
             Grid.ColumnSpan="2"
             Margin="2"
@@ -194,16 +156,55 @@
 
         <Button
             Command="{Binding CountryCommand}"
+            Grid.Row="9"
+            Grid.Column="2"
+            Content="..."
+            Margin="2"
+            TabIndex="5"
+            Style="{StaticResource ButtonStyle}"/>
+
+        <Button
+            Command="{Binding ClearCommand}"
+            CommandParameter="Country"
+            Grid.Row="9"
+            Grid.Column="3"
+            Content="X"
+            Margin="2"
+            TabIndex="6"
+            Style="{StaticResource ButtonStyle}"/>
+
+        <TextBlock
+            Grid.Row="10"
+            Grid.Column="0"
+            Grid.ColumnSpan="2"
+            Text="Регион"
+            FontSize="{Binding FontSize}"
+            HorizontalAlignment="Left"
+            Style="{StaticResource TextBLockStyle}"/>
+
+        <TextBox
+            Grid.Row="11"
+            Grid.Column="0"
+            Grid.ColumnSpan="2"
+            Margin="2"
+            IsReadOnly="True"
+            Text="{Binding Path=Region, Mode=TwoWay}"
+            FontSize="{Binding FontSize}"
+            Style="{StaticResource TextBoxStyle}"
+            KeyUp="TextBox_OnKeyUp"/>
+
+        <Button
+            Command="{Binding RegionCommand}"
             Grid.Row="11"
             Grid.Column="2"
             Content="..."
             Margin="2"
             TabIndex="7"
             Style="{StaticResource ButtonStyle}"/>
-
+        
         <Button
             Command="{Binding ClearCommand}"
-            CommandParameter="Country"
+            CommandParameter="Region"
             Grid.Row="11"
             Grid.Column="3"
             Content="X"
