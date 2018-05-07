@@ -53,7 +53,8 @@ namespace SupRealClient.Models
                                     Type = orgs.Field<string>("f_org_type"),
                                     FullName = OrganizationsHelper.
                                         GenerateFullName(orgs.Field<int>("f_org_id")),
-                                    Name = orgs.Field<string>("f_org_name"),
+                                    Name = OrganizationsHelper.UntrimName(
+                                        orgs.Field<string>("f_org_name")),
                                     Comment = orgs.Field<string>("f_comment")
                                 };
             this.viewModel.Organizations = organizations;

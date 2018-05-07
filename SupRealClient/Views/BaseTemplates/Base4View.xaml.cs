@@ -462,7 +462,8 @@ namespace SupRealClient.Views
                 {
                     Id = orgs.Field<int>("f_org_id"),
                     Type = orgs.Field<string>("f_org_type"),
-                    Name = orgs.Field<string>("f_org_name"),
+                    Name = OrganizationsHelper.UntrimName(
+                        orgs.Field<string>("f_org_name")),
                     FullName = OrganizationsHelper.
                         GenerateFullName(orgs.Field<int>("f_org_id")),
                     Comment = orgs.Field<string>("f_comment"),

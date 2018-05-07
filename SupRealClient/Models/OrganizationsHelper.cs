@@ -10,35 +10,38 @@ namespace SupRealClient.Models
 {
     public static class OrganizationsHelper
     {
-        public static List<string> GetTypes()
+        public static List<string> GetTypes(string type)
         {
             var list = new List<string>();
             var organizations = OrganizationsWrapper.CurrentTable();
 
+            list.Add(type);
             foreach (DataRow row in organizations.Table.Rows)
             {
-                if (!list.Contains(row.ItemArray[2].ToString()) &&
-                    !string.IsNullOrEmpty(row.ItemArray[2].ToString()) &&
-                    row.ItemArray[2].ToString() != "нет данных")
+                type = row.Field<string>("f_org_type");
+                if (!list.Contains(type) && !string.IsNullOrEmpty(type) &&
+                    type != "нет данных")
                 {
-                    list.Add(row.ItemArray[2].ToString());
+                    list.Add(type);
                 }
             }
 
             return list;
         }
 
-        public static List<string> GetDescriptions()
+        public static List<string> GetNames(string name)
         {
             var list = new List<string>();
             var organizations = OrganizationsWrapper.CurrentTable();
 
+            list.Add(TrimName(name));
             foreach (DataRow row in organizations.Table.Rows)
             {
-                if (!list.Contains(row.ItemArray[3].ToString()) &&
-                    !string.IsNullOrEmpty(row.ItemArray[3].ToString()))
+                name = row.Field<string>("f_org_name");
+                if (!list.Contains(name) &&
+                    !string.IsNullOrEmpty(name))
                 {
-                    list.Add(row.ItemArray[3].ToString());
+                    list.Add(TrimName(name));
                 }
             }
 
@@ -57,7 +60,7 @@ namespace SupRealClient.Models
                  {
                      Id = orgs.Field<int>("f_org_id"),
                      Type = orgs.Field<string>("f_org_type"),
-                     Name = orgs.Field<string>("f_org_name"),
+                     Name = UntrimName(orgs.Field<string>("f_org_name")),
                      CountryId = orgs.Field<int>("f_cntr_id"),
                      Country = orgs.Field<int>("f_cntr_id") == 0 ?
                         "" : CountriesWrapper.CurrentTable()
@@ -74,7 +77,7 @@ namespace SupRealClient.Models
                  });
         }
 
-        public static string GenerateFullName(int id)
+        public static string GenerateFullName(int id, bool calculated = false)
         {
             if (id <= 0)
             {
@@ -88,7 +91,7 @@ namespace SupRealClient.Models
                 {
                     Id = orgs.Field<int>("f_org_id"),
                     Type = orgs.Field<string>("f_org_type"),
-                    Name = orgs.Field<string>("f_org_name"),
+                    Name = UntrimName(orgs.Field<string>("f_org_name")),
                     CountryId = orgs.Field<int>("f_cntr_id"),
                     Country = orgs.Field<int>("f_cntr_id") == 0 ?
                         "" : CountriesWrapper.CurrentTable()
@@ -104,10 +107,29 @@ namespace SupRealClient.Models
                     SynId = orgs.Field<int>("f_syn_id")
                 }).FirstOrDefault();
 
-            return GenerateFullName(org);
+            return GenerateFullName(org, calculated);
         }
 
-        private static string GenerateFullName(Organization organization)
+        public static string TrimName(string name)
+        {
+            return name != null ? name.Trim(new[] { '\"', '\'' }) : "";
+        }
+
+        public static string UntrimName(string name)
+        {
+            return name != null ? "\"" + TrimName(name) + "\"" : "\"\"";
+        }
+
+        public static bool FullNameEnabled(int id)
+        {
+            return id == 0 ? true :
+                !(from orgs in OrganizationsWrapper.CurrentTable().
+                 Table.AsEnumerable()
+                  where orgs.Field<int?>("f_syn_id") == id
+                  select orgs.Field<int?>("f_syn_id")).Any();
+        }
+
+        private static string GenerateFullName(Organization organization, bool calculated)
         {
             if (organization == null)
             {
@@ -116,10 +138,14 @@ namespace SupRealClient.Models
 
             if (organization.SynId == 0)
             {
+                if (!calculated)
+                {
+                    return "";
+                }
                 var sb = new StringBuilder();
                 sb.Append(organization.Type);
                 sb.Append(" ");
-                sb.Append(organization.Name);
+                sb.Append(UntrimName(organization.Name));
                 if (organization.CountryId > 0)
                 {
                     sb.Append(", ");
@@ -135,17 +161,8 @@ namespace SupRealClient.Models
             }
             else
             {
-                return GenerateFullName(organization.SynId);
+                return GenerateFullName(organization.SynId, true);
             }
-        }
-
-        public static bool FullNameEnabled(int id)
-        {
-            return id == 0 ? true :
-                !(from orgs in OrganizationsWrapper.CurrentTable().
-                 Table.AsEnumerable()
-                 where orgs.Field<int?>("f_syn_id") == id
-                 select orgs.Field<int?>("f_syn_id")).Any();
         }
     }
 }

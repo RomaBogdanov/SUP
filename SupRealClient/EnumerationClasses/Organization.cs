@@ -1,4 +1,6 @@
-﻿namespace SupRealClient.EnumerationClasses
+﻿using SupRealClient.Models;
+
+namespace SupRealClient.EnumerationClasses
 {
     public class Organization : IdEntity
     {
@@ -14,7 +16,7 @@
 
         public override string ToString()
         {
-            return Type + " " + Name;
+            return Type + OrganizationsHelper.UntrimName(Name);
         }
     }
 }

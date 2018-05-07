@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Data;
+using System.Windows;
 using SupClientConnectionLib;
 using SupRealClient.Common;
 using SupRealClient.EnumerationClasses;
@@ -47,22 +48,30 @@ namespace SupRealClient.Models
 
         public void Ok(Organization data)
         {
+            if (string.IsNullOrEmpty(data.Type))
+            {
+                MessageBox.Show("Заполните поле Тип");
+                return;
+            }
+            if (string.IsNullOrEmpty(OrganizationsHelper.TrimName(data.Name)))
+            {
+                MessageBox.Show("Заполните поле Название");
+                return;
+            }
+
             OrganizationsWrapper organizations =
                 OrganizationsWrapper.CurrentTable();
-            if (!(data.Type == "" | data.Name == ""))
-            {
-                DataRow row = organizations.Table.Rows.Find(organization.Id);
-                row["f_org_type"] = data.Type;
-                row["f_org_name"] = data.Name;
-                row["f_comment"] = data.Comment;
-                //row["f_full_org_name"] = data.FullName;
-                row["f_syn_id"] = data.SynId;
-                row["f_region_id"] = data.RegionId;
-                row["f_cntr_id"] = data.CountryId;
-                row["f_rec_date"] = DateTime.Now;
-                row["f_rec_operator"] = Authorizer.AppAuthorizer.Id;
-                row["f_deleted"] = CommonHelper.BoolToString(false);
-            }
+            DataRow row = organizations.Table.Rows.Find(organization.Id);
+            row["f_org_type"] = data.Type;
+            row["f_org_name"] = OrganizationsHelper.TrimName(data.Name);
+            row["f_comment"] = data.Comment;
+            //row["f_full_org_name"] = data.FullName;
+            row["f_syn_id"] = data.SynId;
+            row["f_region_id"] = data.RegionId;
+            row["f_cntr_id"] = data.CountryId;
+            row["f_rec_date"] = DateTime.Now;
+            row["f_rec_operator"] = Authorizer.AppAuthorizer.Id;
+            row["f_deleted"] = CommonHelper.BoolToString(false);
             Cancel();
         }
     }

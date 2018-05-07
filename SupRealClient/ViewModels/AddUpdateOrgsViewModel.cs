@@ -139,11 +139,11 @@ namespace SupRealClient.ViewModels
             this.Caption = model.Data.Id <= 0 ? "Добавление организации" :
                 "Редактирование организации";
             this.TypeList =
-                new CollectionView(OrganizationsHelper.GetTypes());
+                new CollectionView(OrganizationsHelper.GetTypes(model.Data.Type));
             this.DescriptionList =
-                new CollectionView(OrganizationsHelper.GetDescriptions());
+                new CollectionView(OrganizationsHelper.GetNames(model.Data.Name));
             this.Type = model.Data.Type;
-            this.Name = model.Data.Name;
+            this.Name = OrganizationsHelper.TrimName(model.Data.Name);
             this.Comment = model.Data.Comment;
             this.FullName = model.Data.SynId <= 0 ? "" :
                 OrganizationsHelper.GenerateFullName(model.Data.Id);
@@ -157,7 +157,7 @@ namespace SupRealClient.ViewModels
             this.Ok = new RelayCommand(arg => this.model.Ok(new Organization
             {
                 Type = Type,
-                Name = Name,
+                Name = OrganizationsHelper.TrimName(Name),
                 Comment = Comment,
                 CountryId = countryId,
                 Country = Country,
@@ -215,7 +215,7 @@ namespace SupRealClient.ViewModels
             }
 
             synId = organization.Id;
-            FullName = OrganizationsHelper.GenerateFullName(synId);
+            FullName = OrganizationsHelper.GenerateFullName(synId, true);
         }
 
         private void Clear(string field)

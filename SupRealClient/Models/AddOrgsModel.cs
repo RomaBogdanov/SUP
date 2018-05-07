@@ -28,13 +28,16 @@ namespace SupRealClient.Models
         
         public void Ok(Organization data)
         {
-            if (string.IsNullOrEmpty(data.Name))
+            if (string.IsNullOrEmpty(data.Type))
+            {
+                MessageBox.Show("Заполните поле Тип");
+                return;
+            }
+            if (string.IsNullOrEmpty(OrganizationsHelper.TrimName(data.Name)))
             {
                 MessageBox.Show("Заполните поле Название");
                 return; 
             }
-
-            data.Name = CheckName(data.Name);
 
             OrganizationsWrapper organizations =
                 OrganizationsWrapper.CurrentTable();
@@ -44,54 +47,34 @@ namespace SupRealClient.Models
             var newOrganization =
                 rows.SingleOrDefault(
                     r =>
-                        r.ItemArray[3].ToString() == data.Name && r.ItemArray[13].ToString() == data.Country &&
-                        r.ItemArray[14].ToString() == data.Region) == null;
+                        r.Field<string>("f_org_type") == data.Type &&
+                        r.Field<string>("f_org_name") ==
+                            OrganizationsHelper.TrimName(data.Name) &&
+                        r.Field<int>("f_cntr_id") == data.CountryId &&
+                        r.Field<int>("f_region_id") == data.RegionId) == null;
 
             if (newOrganization)
             {
-                //if (!(data.Type == "" | data.Name == "" | data.FullName == ""))
-                if (!(data.Type == "" | data.Name == ""))
-                {
-                    DataRow row = organizations.Table.NewRow();
-                    row["f_org_type"] = data.Type;
-                    row["f_org_name"] = data.Name;
-                    row["f_comment"] = data.Comment;
-                    //row["f_full_org_name"] = data.FullName;
-                    row["f_syn_id"] = data.SynId;
-                    row["f_region_id"] = data.RegionId;
-                    row["f_cntr_id"] = data.CountryId;
-                    row["f_rec_operator"] = Authorizer.AppAuthorizer.Id;
-                    row["f_has_free_access"] = CommonHelper.BoolToString(IsChild);
-                    row["f_is_basic"] = CommonHelper.BoolToString(IsMaster);
-                    row["f_deleted"] = CommonHelper.BoolToString(false);
-                    organizations.Table.Rows.Add(row);
-                }
+                DataRow row = organizations.Table.NewRow();
+                row["f_org_type"] = data.Type;
+                row["f_org_name"] = OrganizationsHelper.TrimName(data.Name);
+                row["f_comment"] = data.Comment;
+                //row["f_full_org_name"] = data.FullName;
+                row["f_syn_id"] = data.SynId;
+                row["f_region_id"] = data.RegionId;
+                row["f_cntr_id"] = data.CountryId;
+                row["f_rec_date"] = DateTime.Now;
+                row["f_rec_operator"] = Authorizer.AppAuthorizer.Id;
+                row["f_has_free_access"] = CommonHelper.BoolToString(IsChild);
+                row["f_is_basic"] = CommonHelper.BoolToString(IsMaster);
+                row["f_deleted"] = CommonHelper.BoolToString(false);
+                organizations.Table.Rows.Add(row);
                 Cancel();
             }
             else
             {
                 MessageBox.Show("Такая организация уже записана!");
             }
-        }
-
-        public string CheckName(string name)
-        {
-            if (name.First() == '\"' && name.Last() == '\"')
-            {
-                return name;
-            }
-
-            if (name.First() == '\'')
-            {
-                name = name.Remove(0, 1);
-            }
-
-            if (name.Last() == '\'')
-            {
-                name = name.Remove(name.Length - 1, 1);
-            }
-
-            return $"\"{name}\"";
         }
     }
 
