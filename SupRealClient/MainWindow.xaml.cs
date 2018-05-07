@@ -1,5 +1,8 @@
 ﻿using System;
 using System.Windows;
+using System.Windows.Input;
+using SupRealClient.Models;
+using SupRealClient.ViewModels;
 
 namespace SupRealClient
 {
@@ -8,6 +11,9 @@ namespace SupRealClient
     /// </summary>
     public partial class MainWindow
     {
+        private bool _keyOpenWindowPressed;
+        private bool _keyExitPressed;
+
         public MainWindow()
         {
             InitializeComponent();
