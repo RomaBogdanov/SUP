@@ -188,6 +188,12 @@ namespace SupRealClient.ViewModels
             }
             countryId = result.Id <= 0 ? 0 : result.Id;
             Country = result.Name;
+
+            if (!RegionsHelper.CheckRegion(countryId, regionId))
+            {
+                regionId = 0;
+                Region = "";
+            }
         }
 
         private void RegionList()
@@ -199,7 +205,15 @@ namespace SupRealClient.ViewModels
                 return;
             }
             regionId = result.Id <= 0 ? 0 : result.Id;
-            Region = result.Name;
+            if (!RegionsHelper.CheckRegion(countryId, regionId))
+            {
+                regionId = 0;
+                Region = "";
+            }
+            else
+            {
+                Region = result.Name;
+            }
         }
 
         private void FullNameList()
@@ -225,6 +239,11 @@ namespace SupRealClient.ViewModels
                 case "Country":
                     countryId = 0;
                     Country = "";
+                    if (!RegionsHelper.CheckRegion(countryId, regionId))
+                    {
+                        regionId = 0;
+                        Region = "";
+                    }
                     break;
                 case "Region":
                     regionId = 0;

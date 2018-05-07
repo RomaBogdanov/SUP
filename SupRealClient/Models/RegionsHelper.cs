@@ -54,6 +54,22 @@ namespace SupRealClient.Models
             return row.Field<int>("f_cntr_id");
         }
 
+        public static bool CheckRegion(int countryId, int regionId)
+        {
+            if (countryId <= 0 && regionId == 0)
+            {
+                return true;
+            }
+
+            var regions = RegionsWrapper.CurrentTable();
+            var rows = (from object row in regions.Table.Rows select row as DataRow).ToList();
+
+            return rows.SingleOrDefault(
+                r =>
+                r.Field<int>("f_region_id") == regionId &&
+                r.Field<int>("f_cntr_id") == countryId) != null;
+        }
+
         private static void EmptyQuery()
         {
         }
