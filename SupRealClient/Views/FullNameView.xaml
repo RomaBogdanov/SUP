@@ -6,11 +6,11 @@
         xmlns:mah="http://metro.mahapps.com/winfx/xaml/controls"
         mc:Ignorable="d"
         Title="Организации" 
-        Height="470" Width="300" 
+        Height="500" Width="500" 
         ResizeMode="NoResize">
-
     <Grid>
         <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="1*"/>
             <ColumnDefinition Width="1*"/>
             <ColumnDefinition Width="1*"/>
         </Grid.ColumnDefinitions>
@@ -18,17 +18,52 @@
             <RowDefinition Height="Auto"/>
             <RowDefinition/>
             <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
         </Grid.RowDefinitions>
 
         <ListBox
             Grid.Row="0"
-            Grid.ColumnSpan="2"
+            Grid.ColumnSpan="3"
             ItemsSource="{Binding Path=Orgs}"
             SelectedIndex="{Binding Path=SelectedOrg}" />
 
-        <Button 
+        <TextBox 
+            Name="tbxSearch" 
             Grid.Row="2" 
             Grid.Column="0"
+            Grid.ColumnSpan="3" 
+            Margin="1" 
+            Text="{Binding Path=SearchingText, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" 
+            FontSize="{Binding FontSize}" Style="{StaticResource TextBoxStyle}"/>
+
+        <Button 
+            Grid.Row="3" 
+            Grid.Column="0" 
+            Margin="2" 
+            TabIndex="5"
+            Command="{Binding Path=FartherCommand}" 
+            IsEnabled="{Binding Path=FartherEnabled}"
+            Style="{StaticResource ButtonStyle}">
+            <Grid Width="140">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="30"/>
+                    <ColumnDefinition/>
+                </Grid.ColumnDefinitions>
+
+                <Image
+                    Grid.Column="0"
+                    Source="../Resources/Далее.ico"/>
+
+                <TextBlock
+                    Grid.Column="1"
+                    Text="Далее..."
+                    Style="{StaticResource TextBLockStyle}"/>
+            </Grid>
+        </Button>
+
+        <Button 
+            Grid.Row="3" 
+            Grid.Column="1"
             Command="{Binding Path=Ok}"
             Margin="2"
             TabIndex="6"
@@ -51,8 +86,8 @@
         </Button>
 
         <Button 
-            Grid.Row="2" 
-            Grid.Column="1" 
+            Grid.Row="3" 
+            Grid.Column="2" 
             Margin="2"
             TabIndex="7"
             Command="{Binding Path=Cancel}"

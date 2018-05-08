@@ -15,6 +15,7 @@ namespace SupRealClient.Views
             viewModel.OnClose += Handling_OnClose;
 
             AfterInitialize();
+            tbxSearch.Focus();
         }
     }
 }

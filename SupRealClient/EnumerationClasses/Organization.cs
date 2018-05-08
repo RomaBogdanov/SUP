@@ -13,10 +13,5 @@ namespace SupRealClient.EnumerationClasses
         public int RegionId { get; set; } = 0;
         public string Region { get; set; }
         public int SynId { get; set; } = 0;
-
-        public override string ToString()
-        {
-            return Type + OrganizationsHelper.UntrimName(Name);
-        }
     }
 }
