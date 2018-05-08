@@ -36,6 +36,9 @@
             <Trigger Property="converters:DataGridTextSearch.IsTextMatch" Value="True">
                 <Setter Property="Background" Value="Gray" />
             </Trigger>
+            <Trigger Property="IsSelected" Value="True">
+                <Setter Property="Background" Value="#CCDAFF" />
+            </Trigger>
         </Style.Triggers>
     </Style>
 </ResourceDictionary>
