@@ -139,7 +139,7 @@
                 Command="{Binding OpenVisitorsCommand}">
                 <Button.ToolTip>
                     <TextBlock 
-                        Text="Ctrl+P"
+                        Text="Alt+P"
                         FontSize="16"/>
                 </Button.ToolTip>
                 <Grid>
@@ -159,7 +159,7 @@
                 Command="{Binding OpenBidsCommand}">
                 <Button.ToolTip>
                     <TextBlock 
-                        Text="Ctrl+O"
+                        Text="Alt+O"
                         FontSize="16"/>
                 </Button.ToolTip>
                 <Grid>
@@ -179,7 +179,7 @@
                 Command="{Binding OpenVisitsCommand}">
                 <Button.ToolTip>
                     <TextBlock 
-                        Text="Ctrl+V"
+                        Text="Alt+V"
                         FontSize="16"/>
                 </Button.ToolTip>
                 <Grid>
