@@ -301,7 +301,8 @@ namespace SupRealClient.Views
                 return;
             }
             CurrentItem.OrganizationId = result.Id;
-            CurrentItem.Organization = result.Name;
+            CurrentItem.Organization = OrganizationsHelper.
+                GenerateFullName(result.Id, true);
             OnPropertyChanged("CurrentItem");
         }
 
@@ -994,10 +995,8 @@ namespace SupRealClient.Views
                     Family = visitors.Field<string>("f_family"),
                     Name = visitors.Field<string>("f_fst_name"),
                     Patronymic = visitors.Field<string>("f_sec_name"),
-                    Organization = (string)OrganizationsWrapper.CurrentTable()
-                        .Table.AsEnumerable().FirstOrDefault(arg =>
-                        arg.Field<int>("f_org_id") ==
-                        visitors.Field<int>("f_org_id"))?["f_full_org_name"],
+                    Organization = OrganizationsHelper.
+                        GenerateFullName(visitors.Field<int>("f_org_id"), true),
                     Comment = visitors.Field<string>("f_vr_text"),
                     IsAccessDenied = CommonHelper.StringToBool(visitors.Field<string>(
                         "f_persona_non_grata")),

@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:mah="http://metro.mahapps.com/winfx/xaml/controls"
         mc:Ignorable="d"
-        Title="Добавление организации" 
+        Title="{Binding Path=Caption, Mode=OneTime}"
         Height="470" Width="300" 
         ResizeMode="NoResize">
     
@@ -38,41 +38,21 @@
             FontSize="{Binding FontSize}"
             HorizontalAlignment="Left"
             Style="{StaticResource TextBLockStyle}"/>
-        
-        <StackPanel
+
+        <ComboBox
             Grid.Row="1" 
             Grid.Column="0"
-            Grid.ColumnSpan="4" >
-            <TextBox 
-                x:Name="TypeTextBox"
-                TabIndex="0"
-                FontSize="{Binding FontSize}"
-                Text="{Binding Path=Type, Mode=TwoWay}"
-                Margin="2"
-                Style="{StaticResource TextBoxStyle}"
-                KeyUp="TextBox_OnKeyUp"
-                TextChanged="TypeTextBox_OnTextChanged"
-                GotFocus="TypeTextBox_OnGotFocus"
-                LostFocus="TypeTextBox_OnLostFocus"/>
-            <Popup
-                x:Name="TypePopup"
-                AllowsTransparency="True"
-                MaxWidth="180"
-                MinWidth="100"
-                StaysOpen="True"
-                Placement="Bottom">
-                <Border
-                    BorderThickness="1"
-                    BorderBrush="Black">
-                    <TextBlock 
-                        Text="{Binding TypeToolType}"
-                        Background="Snow"
-                        FontSize="{Binding FontSize}"
-                        TextWrapping="Wrap"/>
-                </Border>
-            </Popup>
-        </StackPanel>
-            
+            Grid.ColumnSpan="4"
+            x:Name="TypeTextBox"
+            TabIndex="0"
+            FontSize="{Binding FontSize}"
+            SelectedValue="{Binding Path=Type, Mode=OneWay}"
+            Text="{Binding Path=Type, Mode=TwoWay}"
+            Margin="2"
+            IsEditable="True"
+            ItemsSource="{Binding Path=TypeList}"
+            KeyUp="TextBox_OnKeyUp" />
+
         <TextBlock 
             Grid.Row="2" 
             Grid.Column="0"
@@ -82,39 +62,18 @@
             HorizontalAlignment="Left"
             Style="{StaticResource TextBLockStyle}"/>
         
-        <StackPanel
+        <ComboBox 
             Grid.Row="3" 
             Grid.Column="0"
-            Grid.ColumnSpan="4" >
-            <TextBox 
-                x:Name="DescriptionTextBlock"
-                Margin="2"
-                TabIndex="1"
-                FontSize="{Binding FontSize}"
-                Text="{Binding Path=Name, Mode=TwoWay}"
-                Style="{StaticResource TextBoxStyle}"
-                KeyUp="TextBox_OnKeyUp"
-                TextChanged="DescriptionTextBlock_OnTextChanged"
-                GotFocus="DescriptionTextBlock_OnGotFocus"
-                LostFocus="DescriptionTextBlock_OnLostFocus"/>
-            <Popup
-                x:Name="NamePopup"
-                AllowsTransparency="True"
-                MaxWidth="180"
-                MinWidth="100"
-                StaysOpen="True"
-                Placement="Bottom">
-                <Border
-                    BorderThickness="1"
-                    BorderBrush="Black">
-                    <TextBlock 
-                        Text="{Binding NameToolType}"
-                        Background="Snow"
-                        FontSize="{Binding FontSize}"
-                        TextWrapping="Wrap"/>
-                </Border>
-            </Popup>
-        </StackPanel>
+            Grid.ColumnSpan="4" 
+            Margin="2"
+            TabIndex="1"
+            IsEditable="True"
+            FontSize="{Binding FontSize}"
+            SelectedValue="{Binding Path=Name, Mode=OneWay}"
+            Text="{Binding Path=Name, Mode=TwoWay}"
+            ItemsSource="{Binding Path=DescriptionList}"
+            KeyUp="TextBox_OnKeyUp" />
         
         <TextBlock 
             Grid.Row="4" 
@@ -150,32 +109,38 @@
             Grid.Column="0"
             Grid.ColumnSpan="2" 
             Margin="2"
+            IsReadOnly="True"
             FontSize="{Binding FontSize}"
             Text="{Binding Path=FullName, Mode=TwoWay}"
             Style="{StaticResource TextBoxStyle}"
             KeyUp="TextBox_OnKeyUp"/>
         
         <Button
+            Command="{Binding FullNameCommand}"
             Grid.Row="7"
             Grid.Column="2"
             Content="..."
             TabIndex="3"
             Margin="2"
+            IsEnabled="{Binding FullNameEnabled, Mode=OneWay}"
             Style="{StaticResource ButtonStyle}"/>
 
         <Button
+            Command="{Binding ClearCommand}"
+            CommandParameter="FullName"
             Grid.Row="7"
             Grid.Column="3"
             Content="X"
             TabIndex="4"
             Margin="2"
+            IsEnabled="{Binding FullNameEnabled, Mode=OneWay}"
             Style="{StaticResource ButtonStyle}"/>
 
         <TextBlock
             Grid.Row="8"
             Grid.Column="0"
             Grid.ColumnSpan="2"
-            Text="Регион"
+            Text="Страна"
             FontSize="{Binding FontSize}"
             HorizontalAlignment="Left"
             Style="{StaticResource TextBLockStyle}"/>
@@ -185,13 +150,14 @@
             Grid.Column="0"
             Grid.ColumnSpan="2"
             Margin="2"
-            Text="{Binding Path=Region, Mode=TwoWay}"
             FontSize="{Binding FontSize}"
+            IsReadOnly="True"
+            Text="{Binding Path=Country, Mode=TwoWay}"
             Style="{StaticResource TextBoxStyle}"
             KeyUp="TextBox_OnKeyUp"/>
 
         <Button
-            Command="{Binding RegionCommand}"
+            Command="{Binding CountryCommand}"
             Grid.Row="9"
             Grid.Column="2"
             Content="..."
@@ -201,7 +167,7 @@
 
         <Button
             Command="{Binding ClearCommand}"
-            CommandParameter="Region"
+            CommandParameter="Country"
             Grid.Row="9"
             Grid.Column="3"
             Content="X"
@@ -213,33 +179,34 @@
             Grid.Row="10"
             Grid.Column="0"
             Grid.ColumnSpan="2"
-            Text="Страна"
+            Text="Регион"
             FontSize="{Binding FontSize}"
             HorizontalAlignment="Left"
             Style="{StaticResource TextBLockStyle}"/>
-        
+
         <TextBox
             Grid.Row="11"
             Grid.Column="0"
             Grid.ColumnSpan="2"
             Margin="2"
+            IsReadOnly="True"
+            Text="{Binding Path=Region, Mode=TwoWay}"
             FontSize="{Binding FontSize}"
-            Text="{Binding Path=Country, Mode=TwoWay}"
             Style="{StaticResource TextBoxStyle}"
             KeyUp="TextBox_OnKeyUp"/>
 
         <Button
-            Command="{Binding CountryCommand}"
+            Command="{Binding RegionCommand}"
             Grid.Row="11"
             Grid.Column="2"
             Content="..."
             Margin="2"
             TabIndex="7"
             Style="{StaticResource ButtonStyle}"/>
-
+        
         <Button
             Command="{Binding ClearCommand}"
-            CommandParameter="Nation"
+            CommandParameter="Region"
             Grid.Row="11"
             Grid.Column="3"
             Content="X"
