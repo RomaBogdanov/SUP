@@ -300,3 +300,23 @@ go
 
 drop table vis_org_synonim
 go
+
+--- Обновление таблиц пользователей и ролей
+
+drop table vis_roles
+go
+
+drop table vis_role_lists
+go
+
+drop table vis_users
+go
+
+exec sp_rename 'vis_new_user', 'vis_users'
+go
+
+exec sp_rename 'vis_new_roles', 'vis_roles'
+go
+
+exec sp_rename 'vis_new_roles_list', 'vis_role_lists'
+go

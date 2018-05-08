@@ -606,6 +606,7 @@
                     Grid.Row="0"
                     Grid.Column="0"
                     Margin="2"
+                    ToolTip="Home"
                     Style="{StaticResource VisitorsSquareButtonStyle}">
                 <Grid
                         >
@@ -631,6 +632,7 @@
                     Grid.Row="0"
                     Grid.Column="1"
                     Margin="2"
+                    ToolTip="↑"
                     Style="{StaticResource VisitorsSquareButtonStyle}">
                 <Grid
                         >
@@ -656,6 +658,7 @@
                     Grid.Row="0"
                     Grid.Column="2"
                     Margin="2"
+                    ToolTip="↓"
                     Style="{StaticResource VisitorsSquareButtonStyle}">
                 <Grid
                         >
@@ -681,6 +684,7 @@
                     Grid.Row="0"
                     Grid.Column="3"
                     Margin="2"
+                    ToolTip="End"
                     Style="{StaticResource VisitorsSquareButtonStyle}">
                 <Grid>
                     <Grid.RowDefinitions>
@@ -705,6 +709,7 @@
                     Grid.Row="0"
                     Grid.Column="4"
                     Margin="2"
+                    ToolTip="Ctrl+F"
                     Style="{StaticResource VisitorsSquareButtonStyle}">
                 <Grid
                         >
@@ -780,6 +785,7 @@
                     Grid.Row="1"
                     Grid.Column="1"
                     Margin="2"
+                    ToolTip="Insert"
                     Style="{StaticResource VisitorsSquareButtonStyle}">
                 <Grid
                         >
@@ -830,6 +836,7 @@
                     Grid.Row="1"
                     Grid.Column="3"
                     Margin="2"
+                    ToolTip="Esc"
                     Style="{StaticResource VisitorsSquareButtonStyle}">
                 <Grid
                         >

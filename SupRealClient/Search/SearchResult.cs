@@ -47,5 +47,10 @@ namespace SupRealClient.Search
 
 			return -1;
 		}
+
+        public bool Any()
+        {
+            return indexes.Count > 0;
+        }
 	}
 }

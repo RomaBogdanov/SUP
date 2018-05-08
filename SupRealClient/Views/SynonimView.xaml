@@ -1,0 +1,75 @@
+﻿<mah:MetroWindow x:Class="SupRealClient.Views.SynonimView"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:mah="http://metro.mahapps.com/winfx/xaml/controls"
+        mc:Ignorable="d"
+        Title="Синонимы" 
+        Height="500" Width="500" 
+        ResizeMode="NoResize">
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="1*"/>
+            <ColumnDefinition Width="1*"/>
+            <ColumnDefinition Width="1*"/>
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition/>
+            <RowDefinition Height="Auto"/>
+        </Grid.RowDefinitions>
+
+        <TextBox 
+            Grid.Row="0" 
+            Grid.Column="0"
+            Grid.ColumnSpan="3" 
+            Margin="1" 
+            IsReadOnly="True"
+            Text="{Binding Path=FullName, Mode=OneWay}" 
+            Background="LightPink"
+            FontSize="{Binding FontSize}" Style="{StaticResource TextBoxStyle}"/>
+        
+        <TextBox 
+            Grid.Row="1" 
+            Grid.Column="0"
+            Grid.ColumnSpan="3" 
+            Margin="1" 
+            IsReadOnly="True"
+            Text="{Binding Path=FirstSynonim, Mode=OneWay}" 
+            Visibility="{Binding Path=FirstSynonimVisibility, Mode=OneWay}" 
+            Background="LightGreen"
+            FontSize="{Binding FontSize}" Style="{StaticResource TextBoxStyle}"/>
+
+        <ListBox
+            Grid.Row="2"
+            Grid.ColumnSpan="3"
+            ItemsSource="{Binding Path=Synonims}" />
+
+        <Button 
+            Grid.Row="4" 
+            Grid.Column="2" 
+            Margin="2"
+            TabIndex="7"
+            Command="{Binding Path=Cancel}"
+            Style="{StaticResource ButtonStyle}">
+            <Grid Width="140">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition/>
+                    <ColumnDefinition/>
+                </Grid.ColumnDefinitions>
+
+                <Image
+                    Grid.Column="0"
+                    Source="../Resources/Отмена (2).ico"/>
+
+                <TextBlock
+                    Grid.Column="1"
+                    Text="Закрыть"
+                    Style="{StaticResource TextBLockStyle}"/>
+            </Grid>
+        </Button>
+    </Grid>
+</mah:MetroWindow>

@@ -36,6 +36,26 @@
             <Trigger Property="converters:DataGridTextSearch.IsTextMatch" Value="True">
                 <Setter Property="Background" Value="Gray" />
             </Trigger>
+            <Trigger Property="IsSelected" Value="True">
+                <Setter Property="Background" Value="#CCDAFF" />
+            </Trigger>
         </Style.Triggers>
     </Style>
+    <!-- TODO - так можно реализовать скрытие строк, но тогда нужно искать по целой строке на вхождение
+    И для всех классов IdEntity реализовать метод ToString(), представляющий строку, в которой будет производится поиск
+    <Style TargetType="{x:Type DataGridRow}">
+        <Setter Property="converters:DataGridTextSearch.IsTextMatch">
+            <Setter.Value>
+                <MultiBinding Converter="{StaticResource SearchValueConverter}">
+                    <Binding RelativeSource="{RelativeSource Self}" Path="Item" />
+                    <Binding RelativeSource="{RelativeSource Self}" Path="(converters:DataGridTextSearch.SearchValue)" />
+                </MultiBinding>
+            </Setter.Value>
+        </Setter>
+        <Style.Triggers>
+            <Trigger Property="converters:DataGridTextSearch.IsTextMatch" Value="False">
+                <Setter Property="Height" Value="0" />
+            </Trigger>
+        </Style.Triggers>
+    </Style>-->
 </ResourceDictionary>

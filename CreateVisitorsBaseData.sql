@@ -44,13 +44,13 @@ go
 insert into vis_flag values ( '0', 'N')
 go
 
-insert into vis_new_roles values ( '0', '', '')
+insert into vis_roles values ( '0', '', '')
 go
 
-insert into vis_new_roles_list values ( '0', '', '', '')
+insert into vis_role_lists values ( '0', '', '', '')
 go
 
-insert into vis_new_user values ( '0', '', '', '')
+insert into vis_users values ( '0', '', '', '')
 go
 
 insert into vis_order_elements values ( '0', '', '', '', '', '', '', '', 'N', '', '', '', '', '')

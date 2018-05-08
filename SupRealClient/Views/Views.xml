@@ -22,4 +22,5 @@
   <Item Name="VisitorsDocumentExtView" />
   <Item Name="FullNameView" />
   <Item Name="AddUpdateRegionView" />
+  <Item Name="SynonimView" />
 </Enum>

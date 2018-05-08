@@ -1,4 +1,5 @@
-﻿using System;
+﻿using SupRealClient.Common;
+using System;
 using System.Globalization;
 using System.Windows.Data;
 
@@ -16,9 +17,7 @@ namespace SupRealClient.Behaviour
             if (!string.IsNullOrEmpty(searchText) &&
                 !string.IsNullOrEmpty(cellText))
             {
-                // TODO - плохая реализация, для названий организаций в кавычках
-                return cellText.ToUpper().StartsWith(searchText.ToUpper()) ||
-                    cellText.ToUpper().StartsWith("\"" + searchText.ToUpper());
+                return CommonHelper.IsSearcConditionMatch(cellText, searchText);
             }
             return false;
         }
