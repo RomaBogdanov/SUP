@@ -110,6 +110,26 @@ namespace SupRealClient.Models
             return GenerateFullName(org, calculated);
         }
 
+        public static string GenerateFullName(Organization organization)
+        {
+            var sb = new StringBuilder();
+            sb.Append(organization.Type);
+            sb.Append(" ");
+            sb.Append(UntrimName(organization.Name));
+            if (organization.CountryId > 0)
+            {
+                sb.Append(", ");
+                sb.Append(organization.Country);
+            }
+            if (organization.RegionId > 0)
+            {
+                sb.Append(", ");
+                sb.Append(organization.Region);
+            }
+
+            return sb.ToString();
+        }
+
         public static string TrimName(string name)
         {
             return name != null ? name.Trim(new[] { '\"', '\'' }) : "";
@@ -136,8 +156,9 @@ namespace SupRealClient.Models
                 (from orgs in OrganizationsWrapper.CurrentTable().
                     Table.AsEnumerable()
                     where orgs.Field<int>("f_syn_id") ==
-                    (org.SynId == 0 ? org.Id : org.SynId)
-                    select new Organization
+                    (org.SynId == 0 ? org.Id : org.SynId) &&
+                    orgs.Field<int>("f_org_id") != org.Id
+                 select new Organization
                     {
                         Id = orgs.Field<int>("f_org_id"),
                         Type = orgs.Field<string>("f_org_type"),
@@ -178,26 +199,6 @@ namespace SupRealClient.Models
             {
                 return GenerateFullName(organization.SynId, true);
             }
-        }
-
-        private static string GenerateFullName(Organization organization)
-        {
-            var sb = new StringBuilder();
-            sb.Append(organization.Type);
-            sb.Append(" ");
-            sb.Append(UntrimName(organization.Name));
-            if (organization.CountryId > 0)
-            {
-                sb.Append(", ");
-                sb.Append(organization.Country);
-            }
-            if (organization.RegionId > 0)
-            {
-                sb.Append(", ");
-                sb.Append(organization.Region);
-            }
-
-            return sb.ToString();
         }
     }
 }

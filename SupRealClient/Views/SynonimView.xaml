@@ -17,6 +17,7 @@
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto"/>
             <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
             <RowDefinition/>
             <RowDefinition Height="Auto"/>
         </Grid.RowDefinitions>
@@ -28,15 +29,27 @@
             Margin="1" 
             IsReadOnly="True"
             Text="{Binding Path=FullName, Mode=OneWay}" 
+            Background="LightPink"
+            FontSize="{Binding FontSize}" Style="{StaticResource TextBoxStyle}"/>
+        
+        <TextBox 
+            Grid.Row="1" 
+            Grid.Column="0"
+            Grid.ColumnSpan="3" 
+            Margin="1" 
+            IsReadOnly="True"
+            Text="{Binding Path=FirstSynonim, Mode=OneWay}" 
+            Visibility="{Binding Path=FirstSynonimVisibility, Mode=OneWay}" 
+            Background="LightGreen"
             FontSize="{Binding FontSize}" Style="{StaticResource TextBoxStyle}"/>
 
         <ListBox
-            Grid.Row="1"
+            Grid.Row="2"
             Grid.ColumnSpan="3"
             ItemsSource="{Binding Path=Synonims}" />
 
         <Button 
-            Grid.Row="3" 
+            Grid.Row="4" 
             Grid.Column="2" 
             Margin="2"
             TabIndex="7"

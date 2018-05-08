@@ -473,9 +473,7 @@ namespace SupRealClient.Views
 
         public override void RightClick()
         {
-            // TODO - переделать чтобы не дургать View из Модели
-            var window = new SynonimView(CurrentItem);
-            window.ShowDialog();
+            ViewManager.Instance.OpenSynonims(CurrentItem);
         }
 
         #endregion
