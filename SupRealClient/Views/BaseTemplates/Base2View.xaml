@@ -274,6 +274,7 @@
             Grid.Column="7" 
             Margin="1" 
             Command="{Binding Path=Farther}" 
+            IsEnabled="{Binding Path=FartherEnabled}"
             KeyDown="BaseTab_OnKeyDown"
             Style="{StaticResource ButtonStyle}">
             <Grid>

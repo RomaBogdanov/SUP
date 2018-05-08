@@ -14,6 +14,7 @@ using SupRealClient.Search;
 using SupRealClient.Common.Interfaces;
 using SupRealClient.Models;
 using System.Windows;
+using SupRealClient.Common;
 
 namespace SupRealClient.Views
 {
@@ -34,6 +35,7 @@ namespace SupRealClient.Views
         private string searchingText;
         private string okCaption;
         private Visibility zonesVisibility;
+        private bool fartherEnabled;
 
         // ==========
         private IBase4Model<T> _model;
@@ -72,6 +74,16 @@ namespace SupRealClient.Views
             }
         }
 
+        public bool FartherEnabled
+        {
+            get { return fartherEnabled; }
+            set
+            {
+                this.fartherEnabled = value;
+                OnPropertyChanged();
+            }
+        }
+
         public string SearchingText
         {
             get { return this.searchingText; }
@@ -79,7 +91,8 @@ namespace SupRealClient.Views
             {
                 this.searchingText = value;
                 OnPropertyChanged();
-                _model?.Searching(this.searchingText.ToUpper());
+                FartherEnabled = _model?.Searching(
+                    this.searchingText.ToUpper()) ?? false;
             }
         }
 
@@ -238,7 +251,7 @@ namespace SupRealClient.Views
         void Search();
         void Update();
 
-        void Searching(string pattern);
+        bool Searching(string pattern);
     }
 
     public abstract class Base4ModelAbstr<T> : IBase4Model<T>, ISearchHelper
@@ -253,7 +266,7 @@ namespace SupRealClient.Views
         protected int selectedIndex;
 
         protected SearchResult searchResult = new SearchResult();
-        public DataGridColumn CurrentColumn {get;set;}
+        public DataGridColumn CurrentColumn { get; set; }
 
         public virtual ObservableCollection<T> Set
         {
@@ -396,24 +409,26 @@ namespace SupRealClient.Views
             }
         }
 
-        public virtual void Searching(string pattern)
+        public virtual bool Searching(string pattern)
         {
             searchResult = new SearchResult();
-            if (CurrentColumn == null ||
+            if (CurrentColumn == null || string.IsNullOrEmpty(pattern) ||
                 !GetColumns().ContainsKey(CurrentColumn.SortMemberPath))
             {
-                return;
+                return false;
             }
             string path = GetColumns()[CurrentColumn.SortMemberPath];
             for (int i = 0; i < Rows.Length; i++)
             {
                 object obj = Rows[i].Field<object>(path);
-                if (obj != null && obj.ToString().ToUpper().Contains(pattern))
+                if (CommonHelper.IsSearcConditionMatch(obj.ToString(), pattern))
                 {
                     searchResult.Add(GetId(i));
                 }
             }
             SetAt(searchResult.Begin());
+
+            return searchResult.Any();
         }
 
         protected abstract DataTable Table { get; }

@@ -19,6 +19,7 @@ namespace SupRealClient.ViewModels
         private bool focused = false;
         private int selectedIndex;
         private string searchingText;
+        private bool fartherEnabled;
 
         public int NumItem { get; set; } = -1;
 
@@ -29,7 +30,8 @@ namespace SupRealClient.ViewModels
             {
                 this.searchingText = value;
                 OnPropertyChanged("SearchingText");
-                this.model?.Searching(this.searchingText.ToUpper());
+                FartherEnabled = this.model?.
+                    Searching(this.searchingText.ToUpper()) ?? false;
             }
         }
 
@@ -97,6 +99,16 @@ namespace SupRealClient.ViewModels
             {
                 this.focused = value;
                 OnPropertyChanged("Focused");
+            }
+        }
+
+        public bool FartherEnabled
+        {
+            get { return fartherEnabled; }
+            set
+            {
+                this.fartherEnabled = value;
+                OnPropertyChanged("FartherEnabled");
             }
         }
 

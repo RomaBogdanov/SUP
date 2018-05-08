@@ -39,7 +39,7 @@
         <Button Grid.Row="3" Grid.Column="0" Content="Добавить" Margin="1" Command="{Binding Path=Add}" FontSize="9" Style="{StaticResource ButtonStyle}"/>
         <Button Grid.Row="3" Grid.Column="1" Content="Правка" Margin="1" Command="{Binding Path=Update}" FontSize="9" Style="{StaticResource ButtonStyle}"/>
         <Button Grid.Row="3" Grid.Column="2" Content="Найти..." Margin="1" Command="{Binding Path=Search}" FontSize="9" Style="{StaticResource ButtonStyle}"/>
-        <Button Grid.Row="3" Grid.Column="3" Content="Далее..." Margin="1" Command="{Binding Path=Farther}" FontSize="9" Style="{StaticResource ButtonStyle}"/>
+        <Button Grid.Row="3" Grid.Column="3" Content="Далее..." Margin="1" Command="{Binding Path=Farther}" FontSize="9" Style="{StaticResource ButtonStyle}" IsEnabled="{Binding Path=FartherEnabled}"/>
         <Button Grid.Row="3" Grid.Column="5" Content="Зоны..." Margin="1" Command="{Binding Path=Zones}" Visibility="{Binding Path=ZonesVisibility, Mode=OneTime}" FontSize="9" Style="{StaticResource ButtonStyle}"/>
         <Button Grid.Row="4" Grid.Column="0" Content="Начало" Margin="1" Command="{Binding Path=Begin}" FontSize="9" Style="{StaticResource ButtonStyle}"/>
         <Button Grid.Row="4" Grid.Column="1" Content="Пред." Margin="1" Command="{Binding Path=Prev}" FontSize="9" Style="{StaticResource ButtonStyle}"/>

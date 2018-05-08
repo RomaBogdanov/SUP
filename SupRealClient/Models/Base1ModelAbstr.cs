@@ -6,6 +6,7 @@ using SupClientConnectionLib;
 using SupRealClient.Common.Interfaces;
 using SupRealClient.EnumerationClasses;
 using SupRealClient.Search;
+using SupRealClient.Common;
 
 namespace SupRealClient.Models
 {
@@ -52,24 +53,26 @@ namespace SupRealClient.Models
             SetAt(searchResult.Next());
         }
 
-        public virtual void Searching(string pattern)
+        public virtual bool Searching(string pattern)
         {
             searchResult = new SearchResult();
-            if (viewModel.CurrentColumn == null ||
+            if (viewModel.CurrentColumn == null || string.IsNullOrEmpty(pattern) ||
                 !GetColumns().ContainsKey(viewModel.CurrentColumn.SortMemberPath))
             {
-                return;
+                return false;
             }
             string path = GetColumns()[viewModel.CurrentColumn.SortMemberPath];
             for (int i = 0; i < Rows.Length; i++)
             {
                 object obj = Rows[i].Field<object>(path);
-                if (obj != null && obj.ToString().ToUpper().Contains(pattern))
+                if (CommonHelper.IsSearcConditionMatch(obj.ToString(), pattern))
                 {
                     searchResult.Add(GetId(i));
                 }
             }
             SetAt(searchResult.Begin());
+
+            return searchResult.Any();
         }
 
         public virtual void Close()

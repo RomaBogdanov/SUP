@@ -41,7 +41,7 @@
         <Button Grid.Row="3" Grid.Column="0" Content="Добавить" Margin="1" Command="{Binding Path=Add}"></Button>
         <Button Grid.Row="3" Grid.Column="1" Content="Правка" Margin="1" Command="{Binding Path=Update}"></Button>
         <Button Grid.Row="3" Grid.Column="2" Content="Найти..." Margin="1" Command="{Binding Path=Search}"></Button>
-        <Button Grid.Row="3" Grid.Column="3" Content="Далее..." Margin="1" Command="{Binding Path=Farther}"></Button>
+        <Button Grid.Row="3" Grid.Column="3" Content="Далее..." Margin="1" Command="{Binding Path=Farther}" IsEnabled="{Binding Path=FartherEnabled}"></Button>
         <Button Grid.Row="4" Grid.Column="0" Content="Начало" Margin="1" Command="{Binding Path=Begin}"></Button>
         <Button Grid.Row="4" Grid.Column="1" Content="Пред." Margin="1" Command="{Binding Path=Prev}"></Button>
         <Button Grid.Row="4" Grid.Column="2" Content="След." Margin="1" Command="{Binding Path=Next}"></Button>
