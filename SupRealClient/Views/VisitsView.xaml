@@ -52,6 +52,7 @@
         <Button
             Grid.Row="1"
             Grid.Column="1"
+            ToolTip="Ctrl+F"
             Style="{StaticResource ButtonStyle}">
             <Grid>
                 <Grid.RowDefinitions>
@@ -92,6 +93,7 @@
         <Button
             Grid.Row="1"
             Grid.Column="3"
+            ToolTip="Home"
             Style="{StaticResource ButtonStyle}">
             <Grid>
                 <Grid.RowDefinitions>
@@ -112,6 +114,7 @@
         <Button
             Grid.Row="1"
             Grid.Column="4"
+            ToolTip="↑"
             Style="{StaticResource ButtonStyle}">
             <Grid>
                 <Grid.RowDefinitions>
@@ -132,6 +135,7 @@
         <Button
             Grid.Row="1"
             Grid.Column="5"
+            ToolTip="↓"
             Style="{StaticResource ButtonStyle}">
             <Grid>
                 <Grid.RowDefinitions>
@@ -152,6 +156,7 @@
         <Button
             Grid.Row="1"
             Grid.Column="6"
+            ToolTip="End"
             Style="{StaticResource ButtonStyle}">
             <Grid>
                 <Grid.RowDefinitions>
@@ -172,6 +177,7 @@
         <Button
             Grid.Row="1"
             Grid.Column="7"
+            ToolTip="F5" 
             Style="{StaticResource ButtonStyle}">
             <Grid>
                 <Grid.RowDefinitions>

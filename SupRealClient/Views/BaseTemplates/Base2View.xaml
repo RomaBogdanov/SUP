@@ -97,7 +97,8 @@
             Margin="1" 
             Command="{Binding Path=Begin}" 
             KeyDown="BaseTab_OnKeyDown" 
-            Style="{StaticResource ButtonStyle}">
+            Style="{StaticResource ButtonStyle}"
+            ToolTip="Home">
             <Grid>
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="30"/>
@@ -123,7 +124,8 @@
             Margin="1" 
             Command="{Binding Path=Prev}" 
             KeyDown="BaseTab_OnKeyDown"
-            Style="{StaticResource ButtonStyle}">
+            Style="{StaticResource ButtonStyle}"
+            ToolTip="↑">
             <Grid>
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="30"/>
@@ -149,7 +151,8 @@
             Margin="1" 
             Command="{Binding Path=Next}" 
             KeyDown="BaseTab_OnKeyDown"
-            Style="{StaticResource ButtonStyle}">
+            Style="{StaticResource ButtonStyle}"
+            ToolTip="↓">
             <Grid>
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="30"/>
@@ -174,7 +177,8 @@
             Margin="1" 
             Command="{Binding Path=End}" 
             KeyDown="BaseTab_OnKeyDown"
-            Style="{StaticResource ButtonStyle}">
+            Style="{StaticResource ButtonStyle}"
+            ToolTip="End">
             <Grid>
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="30"/>
@@ -199,7 +203,8 @@
             Margin="1" 
             Command="{Binding Path=Add}" 
             KeyDown="BaseTab_OnKeyDown"
-            Style="{StaticResource ButtonStyle}">
+            Style="{StaticResource ButtonStyle}"
+            ToolTip="Insert">
             <Grid>
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="30"/>
@@ -250,7 +255,8 @@
             Margin="1"
             Command="{Binding Path=Search}"
             KeyDown="BaseTab_OnKeyDown"
-            Style="{StaticResource ButtonStyle}">
+            Style="{StaticResource ButtonStyle}"
+            ToolTip="Ctrl+F">
             <Grid>
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="30"/>
@@ -301,7 +307,8 @@
             Margin="1" 
             Command="{Binding Path=Close}" 
             KeyDown="BaseTab_OnKeyDown"
-            Style="{StaticResource ButtonStyle}">
+            Style="{StaticResource ButtonStyle}"
+            ToolTip="Esc">
             <Grid>
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="30"/>

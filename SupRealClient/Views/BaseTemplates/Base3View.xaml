@@ -38,16 +38,16 @@
         <Label Grid.Row="1" Grid.ColumnSpan="6" Content="Поиск по полю:" Margin="1"></Label>
         <TextBox Name="aaa" Grid.Row="2" Grid.ColumnSpan="6" Margin="1" Text="{Binding Path=SearchingText, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}">
         </TextBox>
-        <Button Grid.Row="3" Grid.Column="0" Content="Добавить" Margin="1" Command="{Binding Path=Add}"></Button>
+        <Button Grid.Row="3" Grid.Column="0" Content="Добавить" Margin="1" Command="{Binding Path=Add}" ToolTip="Insert"></Button>
         <Button Grid.Row="3" Grid.Column="1" Content="Правка" Margin="1" Command="{Binding Path=Update}"></Button>
-        <Button Grid.Row="3" Grid.Column="2" Content="Найти..." Margin="1" Command="{Binding Path=Search}"></Button>
+        <Button Grid.Row="3" Grid.Column="2" Content="Найти..." Margin="1" Command="{Binding Path=Search}" ToolTip="Ctrl+F"></Button>
         <Button Grid.Row="3" Grid.Column="3" Content="Далее..." Margin="1" Command="{Binding Path=Farther}" IsEnabled="{Binding Path=FartherEnabled}"></Button>
-        <Button Grid.Row="4" Grid.Column="0" Content="Начало" Margin="1" Command="{Binding Path=Begin}"></Button>
-        <Button Grid.Row="4" Grid.Column="1" Content="Пред." Margin="1" Command="{Binding Path=Prev}"></Button>
-        <Button Grid.Row="4" Grid.Column="2" Content="След." Margin="1" Command="{Binding Path=Next}"></Button>
-        <Button Grid.Row="4" Grid.Column="3" Content="Конец" Margin="1" Command="{Binding Path=End}"></Button>
+        <Button Grid.Row="4" Grid.Column="0" Content="Начало" Margin="1" Command="{Binding Path=Begin}" ToolTip="Home"></Button>
+        <Button Grid.Row="4" Grid.Column="1" Content="Пред." Margin="1" Command="{Binding Path=Prev}" ToolTip="↑"></Button>
+        <Button Grid.Row="4" Grid.Column="2" Content="След." Margin="1" Command="{Binding Path=Next}" ToolTip="↓"></Button>
+        <Button Grid.Row="4" Grid.Column="3" Content="Конец" Margin="1" Command="{Binding Path=End}" ToolTip="End"></Button>
         <Button Grid.Row="4" Grid.Column="4" Content="Просмотр" Margin="1" Command="{Binding Path=Update}"></Button>
-        <Button Grid.Row="4" Grid.Column="5" Content="Закрыть" Margin="1" Command="{Binding Path=Close}" Grid.ColumnSpan="2"></Button>
+        <Button Grid.Row="4" Grid.Column="5" Content="Закрыть" Margin="1" Command="{Binding Path=Close}" Grid.ColumnSpan="2" ToolTip="Esc"></Button>
 
     </Grid>
 </UserControl>
