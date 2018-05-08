@@ -3,6 +3,7 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
              xmlns:converters="clr-namespace:SupRealClient.Behaviour"
              mc:Ignorable="d" d:DesignHeight="300" d:DesignWidth="300"
              KeyDown="UserControl_KeyDown"
@@ -73,6 +74,12 @@
             KeyDown="BaseTab_OnKeyDown"
             ColumnWidth="*" Style="{StaticResource AzureDataGrid1}"
             CanUserAddRows="False"> <!-- TODO - вернуть SelectedValue="{Binding Path=SelectedValue, Mode=TwoWay}"  -->
+            <DataGrid.InputBindings>
+                <MouseBinding
+                    MouseAction="LeftDoubleClick"
+                    Command="{Binding RightClickCommand}"
+                    CommandParameter="{Binding SelectedItem/}"/>
+            </DataGrid.InputBindings>
         </DataGrid>
         <TextBlock 
             Grid.Row="2" 

@@ -51,6 +51,7 @@ namespace SupRealClient.Views
         public ICommand Ok { get; set; }
         public ICommand Close { get; set; }
         public ICommand Zones { get; set; }
+        public ICommand RightClickCommand { get; set; }
 
         public IWindow Parent { get; set; }
 
@@ -177,6 +178,7 @@ namespace SupRealClient.Views
             Close = new RelayCommand(obj => CloseCom());
             Ok = new RelayCommand(obj => OkCom());
             Zones = new RelayCommand(obj => MessageBox.Show("Zones"));
+            RightClickCommand = new RelayCommand(obj => RightClickCom(obj));
         }
 
         public event PropertyChangedEventHandler PropertyChanged;
@@ -219,6 +221,10 @@ namespace SupRealClient.Views
         {
             this.Model.Close();
         }
+        private void RightClickCom(object param)
+        {
+            this.Model.RightClick();
+        }
 
         private void Reset()
         {
@@ -250,6 +256,8 @@ namespace SupRealClient.Views
         void Prev();
         void Search();
         void Update();
+
+        void RightClick();
 
         bool Searching(string pattern);
     }
@@ -362,6 +370,8 @@ namespace SupRealClient.Views
         {
             OnClose?.Invoke(null);
         }
+        public virtual void RightClick() { }
+
         protected abstract BaseModelResult GetResult();
 
         protected void Query()
@@ -459,6 +469,13 @@ namespace SupRealClient.Views
         public override void Update()
         {
             ViewManager.Instance.UpdateObject(new UpdateOrgsModel(CurrentItem), Parent);
+        }
+
+        public override void RightClick()
+        {
+            // TODO - переделать чтобы не дургать View из Модели
+            var window = new SynonimView(CurrentItem);
+            window.ShowDialog();
         }
 
         #endregion
