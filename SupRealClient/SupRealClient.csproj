@@ -137,6 +137,7 @@
     <Compile Include="Models\Visit.cs" />
     <Compile Include="Models\VisitorModeEnum.cs" />
     <Compile Include="Models\VisitorsEnableOrVisible.cs" />
+    <Compile Include="Models\WindowEnum.cs" />
     <Compile Include="Properties\Annotations.cs" />
     <Compile Include="Search\CompareStrategyFactory.cs" />
     <Compile Include="Search\ContainsStrategy.cs" />

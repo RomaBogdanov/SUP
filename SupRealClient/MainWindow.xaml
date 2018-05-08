@@ -9,10 +9,19 @@
         mc:Ignorable="d"
         Title="Программа учёта посетителей" FontSize="18"
         Height="350" Width="525"
-        WindowState="Maximized" StateChanged="Window_StateChanged">
+        WindowState="Maximized" 
+        StateChanged="Window_StateChanged">
 
     <!--d:DesignHeight="600" d:DesignWidth="1200"-->
 
+    <mah:MetroWindow.InputBindings>
+        <KeyBinding Gesture="Alt+P" Command="{Binding OpenVisitorsCommand}"/>
+        <KeyBinding Gesture="Alt+V" Command="{Binding OpenVisitsCommand}"/>
+        <KeyBinding Gesture="Alt+O" Command="{Binding OpenBidsCommand}"/>
+        <KeyBinding Gesture="Alt+R" Command="{Binding OpenBidsCommand}"/>
+        <KeyBinding Gesture="Ctrl+F4" Command="{Binding UserExit}"/>
+    </mah:MetroWindow.InputBindings>
+    
     <mah:MetroWindow.RightWindowCommands>
         <mah:WindowCommands>
             <Grid>
@@ -128,6 +137,11 @@
                 Style="{DynamicResource SquareButtonStyle}" 
                 FontSize="{Binding ElementName=FontSizeLixtBox, Path=SelectedItem.Content}"
                 Command="{Binding OpenVisitorsCommand}">
+                <Button.ToolTip>
+                    <TextBlock 
+                        Text="Alt+P"
+                        FontSize="16"/>
+                </Button.ToolTip>
                 <Grid>
                     <Grid.RowDefinitions>
                         <RowDefinition/>
@@ -143,6 +157,11 @@
                 Style="{DynamicResource SquareButtonStyle}" 
                 FontSize="{Binding ElementName=FontSizeLixtBox, Path=SelectedItem.Content}"
                 Command="{Binding OpenBidsCommand}">
+                <Button.ToolTip>
+                    <TextBlock 
+                        Text="Alt+O"
+                        FontSize="16"/>
+                </Button.ToolTip>
                 <Grid>
                     <Grid.RowDefinitions>
                         <RowDefinition/>
@@ -158,6 +177,11 @@
                 Style="{DynamicResource SquareButtonStyle}" 
                 FontSize="{Binding ElementName=FontSizeLixtBox, Path=SelectedItem.Content}"
                 Command="{Binding OpenVisitsCommand}">
+                <Button.ToolTip>
+                    <TextBlock 
+                        Text="Alt+V"
+                        FontSize="16"/>
+                </Button.ToolTip>
                 <Grid>
                     <Grid.RowDefinitions>
                         <RowDefinition/>
@@ -167,7 +191,11 @@
                     <TextBlock Grid.Row="1" Text="Посещения"></TextBlock>
                 </Grid>
             </Button>
-            <Button Grid.Row="3" IsEnabled="False" Style="{DynamicResource SquareButtonStyle}" FontSize="{Binding ElementName=FontSizeLixtBox, Path=SelectedItem.Content}">
+            <Button 
+                Grid.Row="3" 
+                IsEnabled="False" 
+                Style="{DynamicResource SquareButtonStyle}" 
+                FontSize="{Binding ElementName=FontSizeLixtBox, Path=SelectedItem.Content}">
                 <Grid>
                     <Grid.RowDefinitions>
                         <RowDefinition/>
@@ -232,8 +260,8 @@
                 <ColumnDefinition Width="200"/>
                 <ColumnDefinition Width="*"/>
             </Grid.ColumnDefinitions>
-            <TextBox Margin="2" Grid.Column="0" FontSize="18" Text="{Binding Path=AuthorizedUser, Mode=TwoWay}"></TextBox>
-            <TextBox Margin="2" Grid.Column="1" FontSize="18"></TextBox>
+            <TextBox Margin="2" Grid.Column="0" FontSize="{Binding ElementName=FontSizeLixtBox, Path=SelectedItem.Content}" Text="{Binding Path=AuthorizedUser, Mode=TwoWay}"></TextBox>
+            <TextBox Margin="2" Grid.Column="1" FontSize="{Binding ElementName=FontSizeLixtBox, Path=SelectedItem.Content}"></TextBox>
         </Grid>
     </Grid>
 </mah:MetroWindow>

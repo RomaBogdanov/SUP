@@ -157,32 +157,41 @@ namespace SupRealClient.ViewModels
 
         private void OpenVisitors()
         {
-            ViewManager.Instance.OpenWindow("VisitorsView");
+            if (IsUserEnter)
+            {
+                ViewManager.Instance.OpenWindow("VisitorsView");
+            }
         }
 
         private void OpenBids()
         {
-            var bidsViewModel = new BidsViewModel
+            if (IsUserEnter)
             {
-                BidsModel = new BidsModel()
-            };
+                var bidsViewModel = new BidsViewModel
+                {
+                    BidsModel = new BidsModel()
+                };
 
-            var window = new BidsView {DataContext = bidsViewModel};
-            window.ShowDialog();
-            
-            var dc = (BidsViewModel) window.DataContext;
-            dc.ToString();
+                var window = new BidsView {DataContext = bidsViewModel};
+                window.ShowDialog();
+
+                var dc = (BidsViewModel) window.DataContext;
+                dc.ToString();
+            }
         }
 
         public void OpenVisits()
         {
-            var visitsViewModel = new VisitsViewModel();
+            if (IsUserEnter)
+            {
+                var visitsViewModel = new VisitsViewModel();
 
-            var window = new VisitsView {DataContext = visitsViewModel};
-            window.ShowDialog();
+                var window = new VisitsView {DataContext = visitsViewModel};
+                window.ShowDialog();
 
-            var dc = (VisitsViewModel) window.DataContext;
-            dc.ToString();
+                var dc = (VisitsViewModel) window.DataContext;
+                dc.ToString();
+            }
         }
 
         private void UserExitProc()
