@@ -63,7 +63,7 @@ namespace SupRealClient.ViewModels
                     OnPropertyChanged();
                 }
             }
-        }
+          }
 
         public int SelectedIndex
         {

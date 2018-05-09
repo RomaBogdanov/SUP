@@ -205,6 +205,9 @@
     <Compile Include="Views\FullNameView.xaml.cs">
       <DependentUpon>FullNameView.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Views\ListViews\BaseListSmallView.xaml.cs">
+      <DependentUpon>BaseListSmallView.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Views\SynonimView.xaml.cs">
       <DependentUpon>SynonimView.xaml</DependentUpon>
     </Compile>
@@ -362,6 +365,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Views\FullNameView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\ListViews\BaseListSmallView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
