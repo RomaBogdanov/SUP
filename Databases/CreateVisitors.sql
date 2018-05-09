@@ -262,24 +262,24 @@ CREATE TABLE vis_flag
     (f_user_id                     int,
     f_modified                     VARCHAR(1))
   
--- Создание vis_new_roles
+-- Создание vis_roles
 
-CREATE TABLE vis_new_roles
+CREATE TABLE vis_roles
     (f_role_id                     int,
     f_role                         VARCHAR(100),
     f_grb_id                       int)
 
--- Создание vis_new_roles_list
+-- Создание vis_role_lists
 
-CREATE TABLE vis_new_roles_list
+CREATE TABLE vis_role_lists
     (f_id                          int,
     f_role_id                      int,
     f_user_id                      int,
     f_status_id                    int)
 
--- Создание vis_new_user
+-- Создание vis_users
 
-CREATE TABLE vis_new_user
+CREATE TABLE vis_users
     (f_user_id                     int,
     f_user                         VARCHAR(100),
     f_pass                         VARCHAR(100),
@@ -340,24 +340,10 @@ ADD PRIMARY KEY (f_ord_id)
 
 insert into vis_orders (f_ord_id, f_order_type_id, f_signed_by, f_adjusted_with) values (0, 0, 0, 0)
 
--- Создание vis_org_synonim
-
-CREATE TABLE vis_org_synonim
-    (f_synonim_id                  int NOT NULL,
-    f_synonim_name                 VARCHAR(50),
-    f_synonim_comment              VARCHAR(200),
-    f_deleted                      CHAR(1),
-    f_rec_date                     DATE,
-    f_rec_operator                 int)
-
-ALTER TABLE vis_org_synonim
-ADD PRIMARY KEY (f_synonim_id)
-
 -- Создание vis_organizations
 
 CREATE TABLE vis_organizations
     (f_org_id                      int NOT NULL,
-    f_synonim_id                   int,
     f_org_type                     VARCHAR(15),
     f_org_name                     VARCHAR(50),
     f_has_free_access              VARCHAR(1),
@@ -382,25 +368,13 @@ insert into vis_organizations (f_org_id) values (0)
 CREATE TABLE vis_regions
     (f_region_id                   int NOT NULL,
     f_region_name                  VARCHAR(50),
+    f_cntr_id                      int,
     f_deleted                      CHAR(1),
     f_rec_date                     DATE,
     f_rec_operator                 int)
 
 ALTER TABLE vis_regions
 ADD PRIMARY KEY (f_region_id)
-
--- Создание vis_role_lists
-
-CREATE TABLE vis_role_lists
-    (f_role_list_id                int NOT NULL,
-    f_role_id                      int,
-    f_user_id                      int)
-  
--- Создание vis_roles
-
-CREATE TABLE vis_roles
-    (f_role_id                     int NOT NULL,
-    f_role_name                    VARCHAR(60))
 
 -- Создание vis_spr_cardstates
 
@@ -425,21 +399,6 @@ CREATE TABLE vis_spr_order_types
 
 ALTER TABLE vis_spr_order_types
 ADD PRIMARY KEY (f_order_type_id)
-
--- Создание vis_users
-if OBJECT_ID('vis_users','U') is not null
-   drop table vis_users;
-go
-
-CREATE TABLE vis_users
-    (f_user_id                     int identity primary key not null,
-    f_user                         VARCHAR(50) unique not null,
-    f_db_user                      VARCHAR(50),
-    f_db_password                  VARCHAR(50),
-    f_password                     VARCHAR(50))
-
-alter table vis_users
-	alter column f_password varchar(50) not null;
 
 -- Создание vis_visitors
 

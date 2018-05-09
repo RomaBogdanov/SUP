@@ -1,9 +1,6 @@
 ﻿using SupRealClient.Models;
 using SupRealClient.ViewModels;
-using System;
 using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Data;
 using System.Windows.Input;
 
 namespace SupRealClient.Views
@@ -11,39 +8,39 @@ namespace SupRealClient.Views
     /// <summary>
     /// Логика взаимодействия для AddUpdateOrgsView.xaml
     /// </summary>
-    public partial class AddUpdateOrgsView
+    public partial class AddUpdateRegionView
     {
         /// <summary>
         /// Двигатель фокуса
         /// </summary>
         private TraversalRequest _focusMover = new TraversalRequest(FocusNavigationDirection.Next);
 
-        public AddUpdateOrgsView(IAddUpdateOrgsModel model)
+        public AddUpdateRegionView(IAddUpdateRegionModel model)
         {
             model.OnClose += Handling_OnClose;
-            DataContext = new AddUpdateOrgsViewModel();
-            ((AddUpdateOrgsViewModel)DataContext).SetModel(model);
+            DataContext = new AddUpdateRegionViewModel();
+            ((AddUpdateRegionViewModel)DataContext).SetModel(model);
             InitializeComponent();
 
             AfterInitialize();
-            TypeTextBox.Focus();
+            NameTextBox.Focus();
         }
 
         /// <summary>
         /// Конструктор - заглушка
         /// </summary>
-        public AddUpdateOrgsView()
+        public AddUpdateRegionView()
         {
             InitializeComponent();
-            TypeTextBox.Focus();
+            NameTextBox.Focus();
             DataContext = new AddUpdateOrgsViewModel();
         }
-        
+
         private void TextBox_OnKeyUp(object sender, KeyEventArgs e)
         {
             if (e.Key == Key.Enter)
             {
-                ((UIElement) sender).MoveFocus(_focusMover);
+                ((UIElement)sender).MoveFocus(_focusMover);
             }
         }
     }

@@ -1,4 +1,5 @@
 ﻿using SupRealClient.Common.Interfaces;
+using SupRealClient.EnumerationClasses;
 using SupRealClient.Models;
 using SupRealClient.TabsSingleton;
 using SupRealClient.Views;
@@ -57,6 +58,11 @@ namespace SupRealClient
                 ReopenWindow("AddCardView",
                     new AddUpdateCardView(model as AddCardModel), parent);
             }
+            else if (model is AddItemRegionsModel)
+            {
+                ReopenWindow("AddRegionView",
+                    new AddUpdateRegionView(model as AddItemRegionsModel), parent);
+            }
         }
 
         /// <summary>
@@ -85,6 +91,11 @@ namespace SupRealClient
             {
                 ReopenWindow("UpdateCardView",
                     new AddUpdateCardView(model as UpdateCardModel), parent);
+            }
+            else if (model is UpdateItemRegionsModel)
+            {
+                ReopenWindow("UpdateRegionView",
+                    new AddUpdateRegionView(model as UpdateItemRegionsModel), parent);
             }
         }
 
@@ -144,6 +155,12 @@ namespace SupRealClient
         public void OpenWindow(IWindow window, IWindow parent)
         {
             ReopenWindow(window.WindowName, window, parent);
+        }
+
+        public void OpenSynonims(Organization organization)
+        {
+            var window = new SynonimView(organization);
+            window.ShowDialog();
         }
 
         /// <summary>

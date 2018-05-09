@@ -1,4 +1,5 @@
-﻿using System;
+﻿using SupRealClient.Common;
+using System;
 using System.Globalization;
 using System.Windows.Data;
 
@@ -16,7 +17,7 @@ namespace SupRealClient.Behaviour
             if (!string.IsNullOrEmpty(searchText) &&
                 !string.IsNullOrEmpty(cellText))
             {
-                return cellText.ToUpper().Contains(searchText.ToUpper());
+                return CommonHelper.IsSearcConditionMatch(cellText, searchText);
             }
             return false;
         }

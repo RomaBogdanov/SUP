@@ -2,21 +2,31 @@
 using System.Data;
 using SupClientConnectionLib;
 using SupRealClient.EnumerationClasses;
-using SupRealClient.Common.Data;
 using SupRealClient.TabsSingleton;
+using System.Windows;
+using SupRealClient.Common;
 
 namespace SupRealClient.Models
 {
     /// <summary>
     /// Обновление региона - модель
     /// </summary>
-    class UpdateItemRegionsModel : IAddItem1Model
+    class UpdateItemRegionsModel : IAddUpdateRegionModel
     {
         private Region region;
 
-        public FieldData Data
+        public Region Data
         {
-            get { return new FieldData { Field = region.RegionName }; }
+            get
+            {
+                return new Region
+                {
+                    Id = region.Id,
+                    Name = region.Name,
+                    CountryId = region.CountryId,
+                    Country = region.Country
+                };
+            }
         }
 
         public event Action OnClose;
@@ -31,16 +41,24 @@ namespace SupRealClient.Models
             OnClose?.Invoke();
         }
 
-        public void Ok(FieldData data)
+        public void Ok(Region data)
         {
-            RegionsWrapper regions = RegionsWrapper.CurrentTable();
-            if (data.Field != "")
+            if (string.IsNullOrEmpty(data.Name))
             {
-                DataRow dataRow = regions.Table.Rows.Find(region.Id);
-                dataRow["f_region_name"] = data.Field;
-                dataRow["f_rec_date"] = DateTime.Now;
-                dataRow["f_rec_operator"] = Authorizer.AppAuthorizer.Id;
+                MessageBox.Show("Заполните поле Название");
+                return;
             }
+
+            data.CountryId = RegionsHelper.AddOrUpdateCountry(data.Country);
+
+            RegionsWrapper regions = RegionsWrapper.CurrentTable();
+
+            DataRow row = regions.Table.Rows.Find(region.Id);
+            row["f_region_name"] = data.Name;
+            row["f_cntr_id"] = data.CountryId;
+            row["f_rec_date"] = DateTime.Now;
+            row["f_rec_operator"] = Authorizer.AppAuthorizer.Id;
+            row["f_deleted"] = CommonHelper.BoolToString(false);
             Cancel();
         }
     }

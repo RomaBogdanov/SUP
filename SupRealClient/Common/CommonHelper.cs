@@ -18,5 +18,13 @@
             return family.Trim() + " " + name.Trim().Substring(0, 1) + ". " +
                 secondName.Trim().Substring(0, 1) + ".";
         }
+
+        public static bool IsSearcConditionMatch(string value, string searching)
+        {
+            // TODO - плохая реализация, для названий организаций в кавычках
+            return value != null &&
+                (value.ToUpper().StartsWith(searching.ToUpper()) ||
+                value.ToUpper().StartsWith("\"" + searching.ToUpper()));
+        }
     }
 }

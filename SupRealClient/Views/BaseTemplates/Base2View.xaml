@@ -3,6 +3,7 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
              xmlns:converters="clr-namespace:SupRealClient.Behaviour"
              mc:Ignorable="d" d:DesignHeight="300" d:DesignWidth="300"
              KeyDown="UserControl_KeyDown"
@@ -77,6 +78,12 @@
             KeyDown="BaseTab_OnKeyDown"
             ColumnWidth="*" Style="{StaticResource AzureDataGrid1}"
             CanUserAddRows="False"> <!-- TODO - вернуть SelectedValue="{Binding Path=SelectedValue, Mode=TwoWay}"  -->
+            <DataGrid.InputBindings>
+                <MouseBinding
+                    MouseAction="LeftDoubleClick"
+                    Command="{Binding RightClickCommand}"
+                    CommandParameter="{Binding SelectedItem/}"/>
+            </DataGrid.InputBindings>
         </DataGrid>
         <TextBlock 
             Grid.Row="2" 
@@ -101,7 +108,8 @@
             Margin="1" 
             Command="{Binding Path=Begin}" 
             KeyDown="BaseTab_OnKeyDown" 
-            Style="{StaticResource ButtonStyle}">
+            Style="{StaticResource ButtonStyle}"
+            ToolTip="Home">
             <Grid>
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="30"/>
@@ -127,7 +135,8 @@
             Margin="1" 
             Command="{Binding Path=Prev}" 
             KeyDown="BaseTab_OnKeyDown"
-            Style="{StaticResource ButtonStyle}">
+            Style="{StaticResource ButtonStyle}"
+            ToolTip="↑">
             <Grid>
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="30"/>
@@ -153,7 +162,8 @@
             Margin="1" 
             Command="{Binding Path=Next}" 
             KeyDown="BaseTab_OnKeyDown"
-            Style="{StaticResource ButtonStyle}">
+            Style="{StaticResource ButtonStyle}"
+            ToolTip="↓">
             <Grid>
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="30"/>
@@ -178,7 +188,8 @@
             Margin="1" 
             Command="{Binding Path=End}" 
             KeyDown="BaseTab_OnKeyDown"
-            Style="{StaticResource ButtonStyle}">
+            Style="{StaticResource ButtonStyle}"
+            ToolTip="End">
             <Grid>
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="30"/>
@@ -203,7 +214,8 @@
             Margin="1" 
             Command="{Binding Path=Add}" 
             KeyDown="BaseTab_OnKeyDown"
-            Style="{StaticResource ButtonStyle}">
+            Style="{StaticResource ButtonStyle}"
+            ToolTip="Insert">
             <Grid>
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="30"/>
@@ -254,7 +266,8 @@
             Margin="1"
             Command="{Binding Path=Search}"
             KeyDown="BaseTab_OnKeyDown"
-            Style="{StaticResource ButtonStyle}">
+            Style="{StaticResource ButtonStyle}"
+            ToolTip="Ctrl+F">
             <Grid>
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="30"/>
@@ -278,6 +291,7 @@
             Grid.Column="7" 
             Margin="1" 
             Command="{Binding Path=Farther}" 
+            IsEnabled="{Binding Path=FartherEnabled}"
             KeyDown="BaseTab_OnKeyDown"
             Style="{StaticResource ButtonStyle}">
             <Grid>
@@ -304,7 +318,8 @@
             Margin="1" 
             Command="{Binding Path=Close}" 
             KeyDown="BaseTab_OnKeyDown"
-            Style="{StaticResource ButtonStyle}">
+            Style="{StaticResource ButtonStyle}"
+            ToolTip="Esc">
             <Grid>
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="30"/>

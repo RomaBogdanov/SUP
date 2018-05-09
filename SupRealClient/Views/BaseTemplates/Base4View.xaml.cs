@@ -14,6 +14,7 @@ using SupRealClient.Search;
 using SupRealClient.Common.Interfaces;
 using SupRealClient.Models;
 using System.Windows;
+using SupRealClient.Common;
 
 namespace SupRealClient.Views
 {
@@ -34,6 +35,7 @@ namespace SupRealClient.Views
         private string searchingText;
         private string okCaption;
         private Visibility zonesVisibility;
+        private bool fartherEnabled;
 
         // ==========
         private IBase4Model<T> _model;
@@ -49,6 +51,7 @@ namespace SupRealClient.Views
         public ICommand Ok { get; set; }
         public ICommand Close { get; set; }
         public ICommand Zones { get; set; }
+        public ICommand RightClickCommand { get; set; }
 
         public IWindow Parent { get; set; }
 
@@ -72,6 +75,16 @@ namespace SupRealClient.Views
             }
         }
 
+        public bool FartherEnabled
+        {
+            get { return fartherEnabled; }
+            set
+            {
+                this.fartherEnabled = value;
+                OnPropertyChanged();
+            }
+        }
+
         public string SearchingText
         {
             get { return this.searchingText; }
@@ -79,7 +92,8 @@ namespace SupRealClient.Views
             {
                 this.searchingText = value;
                 OnPropertyChanged();
-                _model?.Searching(this.searchingText.ToUpper());
+                FartherEnabled = _model?.Searching(
+                    this.searchingText.ToUpper()) ?? false;
             }
         }
 
@@ -164,6 +178,7 @@ namespace SupRealClient.Views
             Close = new RelayCommand(obj => CloseCom());
             Ok = new RelayCommand(obj => OkCom());
             Zones = new RelayCommand(obj => MessageBox.Show("Zones"));
+            RightClickCommand = new RelayCommand(obj => RightClickCom(obj));
         }
 
         public event PropertyChangedEventHandler PropertyChanged;
@@ -206,6 +221,10 @@ namespace SupRealClient.Views
         {
             this.Model.Close();
         }
+        private void RightClickCom(object param)
+        {
+            this.Model.RightClick();
+        }
 
         private void Reset()
         {
@@ -238,7 +257,9 @@ namespace SupRealClient.Views
         void Search();
         void Update();
 
-        void Searching(string pattern);
+        void RightClick();
+
+        bool Searching(string pattern);
     }
 
     public abstract class Base4ModelAbstr<T> : IBase4Model<T>, ISearchHelper
@@ -253,7 +274,7 @@ namespace SupRealClient.Views
         protected int selectedIndex;
 
         protected SearchResult searchResult = new SearchResult();
-        public DataGridColumn CurrentColumn {get;set;}
+        public DataGridColumn CurrentColumn { get; set; }
 
         public virtual ObservableCollection<T> Set
         {
@@ -349,6 +370,8 @@ namespace SupRealClient.Views
         {
             OnClose?.Invoke(null);
         }
+        public virtual void RightClick() { }
+
         protected abstract BaseModelResult GetResult();
 
         protected void Query()
@@ -396,24 +419,26 @@ namespace SupRealClient.Views
             }
         }
 
-        public virtual void Searching(string pattern)
+        public virtual bool Searching(string pattern)
         {
             searchResult = new SearchResult();
-            if (CurrentColumn == null ||
+            if (CurrentColumn == null || string.IsNullOrEmpty(pattern) ||
                 !GetColumns().ContainsKey(CurrentColumn.SortMemberPath))
             {
-                return;
+                return false;
             }
             string path = GetColumns()[CurrentColumn.SortMemberPath];
             for (int i = 0; i < Rows.Length; i++)
             {
                 object obj = Rows[i].Field<object>(path);
-                if (obj != null && obj.ToString().ToUpper().Contains(pattern))
+                if (CommonHelper.IsSearcConditionMatch(obj.ToString(), pattern))
                 {
                     searchResult.Add(GetId(i));
                 }
             }
             SetAt(searchResult.Begin());
+
+            return searchResult.Any();
         }
 
         protected abstract DataTable Table { get; }
@@ -446,6 +471,11 @@ namespace SupRealClient.Views
             ViewManager.Instance.UpdateObject(new UpdateOrgsModel(CurrentItem), Parent);
         }
 
+        public override void RightClick()
+        {
+            ViewManager.Instance.OpenSynonims(CurrentItem);
+        }
+
         #endregion
 
         protected override BaseModelResult GetResult()
@@ -462,11 +492,10 @@ namespace SupRealClient.Views
                 {
                     Id = orgs.Field<int>("f_org_id"),
                     Type = orgs.Field<string>("f_org_type"),
-                    FullName = orgs.Field<int>("f_syn_id") == 0 ? "" :
-                        OrganizationsWrapper.CurrentTable().Table.AsEnumerable().
-                        FirstOrDefault(arg => arg.Field<int>("f_org_id") == 
-                        orgs.Field<int>("f_syn_id"))["f_full_org_name"].ToString(),
-                    Name = orgs.Field<string>("f_org_name"),
+                    Name = OrganizationsHelper.UntrimName(
+                        orgs.Field<string>("f_org_name")),
+                    FullName = OrganizationsHelper.
+                        GenerateFullName(orgs.Field<int>("f_org_id")),
                     Comment = orgs.Field<string>("f_comment"),
                     CountryId = orgs.Field<int>("f_cntr_id"),
                     Country = orgs.Field<int>("f_cntr_id") == 0 ? 
@@ -475,10 +504,12 @@ namespace SupRealClient.Views
                         arg => arg.Field<int>("f_cntr_id") ==
                         orgs.Field<int>("f_cntr_id"))["f_cntr_name"].ToString(),
                     RegionId = orgs.Field<int>("f_region_id"),
-                    Region = RegionsWrapper.CurrentTable().Table
-                        .AsEnumerable().FirstOrDefault(
+                    Region = orgs.Field<int>("f_region_id") == 0 ? 
+                        "" : RegionsWrapper.CurrentTable()
+                        .Table.AsEnumerable().FirstOrDefault(
                         arg => arg.Field<int>("f_region_id") ==
-                        orgs.Field<int>("f_region_id"))["f_region_name"].ToString()
+                        orgs.Field<int>("f_region_id"))["f_region_name"].ToString(),
+                    SynId = orgs.Field<int>("f_syn_id")
                 });
         }
 
@@ -502,7 +533,6 @@ namespace SupRealClient.Views
             return new Dictionary<string, string>()
             {
                 { "f_org_type", "Тип" },
-                { "f_full_org_name", "Основное название" },
                 { "f_org_name", "Название организации" },
                 { "f_comment", "Примечание" },
             };
@@ -521,7 +551,6 @@ namespace SupRealClient.Views
             return new Dictionary<string, string>()
             {
                 { "Type", "f_org_type" },
-                { "FullName", "f_full_org_name"},
                 { "Name", "f_org_name" },
                 { "Comment", "f_comment" },
             };
@@ -827,17 +856,17 @@ namespace SupRealClient.Views
 
         public override void Add()
         {
-            ViewManager.Instance.Add(new AddItemRegionsModel(), Parent);
+            ViewManager.Instance.AddObject(new AddItemRegionsModel(), Parent);
         }
 
         public override void Update()
         {
-            ViewManager.Instance.Update(new UpdateItemRegionsModel(CurrentItem), Parent);
+            ViewManager.Instance.UpdateObject(new UpdateItemRegionsModel(CurrentItem), Parent);
         }
 
         protected override BaseModelResult GetResult()
         {
-            return new BaseModelResult { Id = CurrentItem.Id, Name = CurrentItem.RegionName };
+            return new BaseModelResult { Id = CurrentItem.Id, Name = CurrentItem.Name };
         }
 
         protected override void DoQuery()
@@ -848,7 +877,13 @@ namespace SupRealClient.Views
                 select new T
                 {
                     Id = regs.Field<int>("f_region_id"),
-                    RegionName = regs.Field<string>("f_region_name"),
+                    Name = regs.Field<string>("f_region_name"),
+                    CountryId = regs.Field<int>("f_cntr_id"),
+                    Country = regs.Field<int>("f_cntr_id") == 0 ?
+                        "" : CountriesWrapper.CurrentTable()
+                        .Table.AsEnumerable().FirstOrDefault(
+                        arg => arg.Field<int>("f_cntr_id") ==
+                        regs.Field<int>("f_cntr_id"))["f_cntr_name"].ToString(),
                     Deleted = regs.Field<string>("f_deleted"),
                     RecDate = regs.Field<DateTime>("f_rec_date"),
                     RecOperator = regs.Field<int>("f_rec_operator")
@@ -880,7 +915,7 @@ namespace SupRealClient.Views
         {
             return new Dictionary<string, string>()
             {
-                { "RegionName", "f_region_name" },
+                { "Name", "f_region_name" },
             };
         }
     }
