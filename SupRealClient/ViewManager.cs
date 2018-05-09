@@ -1,4 +1,5 @@
 ﻿using SupRealClient.Common.Interfaces;
+using SupRealClient.EnumerationClasses;
 using SupRealClient.Models;
 using SupRealClient.TabsSingleton;
 using SupRealClient.Views;
@@ -154,6 +155,12 @@ namespace SupRealClient
         public void OpenWindow(IWindow window, IWindow parent)
         {
             ReopenWindow(window.WindowName, window, parent);
+        }
+
+        public void OpenSynonims(Organization organization)
+        {
+            var window = new SynonimView(organization);
+            window.ShowDialog();
         }
 
         /// <summary>

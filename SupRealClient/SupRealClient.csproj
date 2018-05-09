@@ -158,6 +158,7 @@
     <Compile Include="ViewModels\ListsViewModel\BaseListsViewModel.cs" />
     <Compile Include="ViewModels\DocumentImagesViewModel.cs" />
     <Compile Include="ViewModels\FullNameViewModel.cs" />
+    <Compile Include="ViewModels\SynonimViewModel.cs" />
     <Compile Include="ViewModels\VisitorsDocumentViewModel.cs" />
     <Compile Include="ViewModels\Base3ViewModel.cs" />
     <Compile Include="ViewModels\BidsViewModel.cs" />
@@ -203,6 +204,9 @@
     </Compile>
     <Compile Include="Views\FullNameView.xaml.cs">
       <DependentUpon>FullNameView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\SynonimView.xaml.cs">
+      <DependentUpon>SynonimView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\VisitorsDocumentExtView.xaml.cs">
       <DependentUpon>VisitorsDocumentExtView.xaml</DependentUpon>
@@ -358,6 +362,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Views\FullNameView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\SynonimView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

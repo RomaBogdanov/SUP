@@ -1,4 +1,5 @@
-﻿using SupRealClient.Models;
+﻿using SupRealClient.EnumerationClasses;
+using SupRealClient.Models;
 using System.ComponentModel;
 using System.Windows;
 
@@ -60,6 +61,8 @@ namespace SupRealClient.Common.Interfaces
         /// Открыть окно
         /// </summary>
         void OpenWindow(IWindow window, IWindow parent);
+
+        void OpenSynonims(Organization organization);
 
         /// <summary>
         /// Закрыть окно

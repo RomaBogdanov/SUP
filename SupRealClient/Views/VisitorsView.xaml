@@ -946,6 +946,7 @@
                     Grid.Row="0"
                     Grid.Column="0"
                     Margin="2"
+                    ToolTip="Home"
                     IsEnabled="{Binding Path=VisitorsEnable.StartButtonEnable, Mode=TwoWay}"
                     Visibility="{Binding Path=VisitorsVisible.StartButtonEnable, 
                     Converter={StaticResource BooleanToVisibilityConverter}}"
@@ -973,6 +974,7 @@
                     Grid.Row="0"
                     Grid.Column="1"
                     Margin="2"
+                    ToolTip="↑"
                     IsEnabled="{Binding Path=VisitorsEnable.PreviousButtonEnable, Mode=TwoWay}"
                     Visibility="{Binding Path=VisitorsVisible.PreviousButtonEnable, 
                     Converter={StaticResource BooleanToVisibilityConverter}}"
@@ -1000,6 +1002,7 @@
                     Grid.Row="0"
                     Grid.Column="2"
                     Margin="2"
+                    ToolTip="↓"
                     IsEnabled="{Binding Path=VisitorsEnable.NextButtonEnable, Mode=TwoWay}"
                     Visibility="{Binding Path=VisitorsVisible.NextButtonEnable, 
                     Converter={StaticResource BooleanToVisibilityConverter}}"
@@ -1027,6 +1030,7 @@
                     Grid.Row="0"
                     Grid.Column="3"
                     Margin="2"
+                    ToolTip="End"
                     IsEnabled="{Binding Path=VisitorsEnable.EndButtonEnable, Mode=TwoWay}"
                     Visibility="{Binding Path=VisitorsVisible.EndButtonEnable, 
                     Converter={StaticResource BooleanToVisibilityConverter}}"
@@ -1135,6 +1139,7 @@
                     Grid.Row="1"
                     Grid.Column="1"
                     Margin="2"
+                    ToolTip="Insert"
                     IsEnabled="{Binding Path=VisitorsEnable.EditButtonEnable, Mode=TwoWay}"
                     Visibility="{Binding Path=VisitorsVisible.EditButtonEnable, 
                     Converter={StaticResource BooleanToVisibilityConverter}}"
@@ -1189,6 +1194,7 @@
                     Grid.Row="1"
                     Grid.Column="3"
                     Margin="2"
+                    ToolTip="Esc"
                     IsEnabled="{Binding Path=VisitorsEnable.CancelButtonEnable, Mode=TwoWay}"
                     Visibility="{Binding Path=VisitorsVisible.CancelButtonEnable, 
                     Converter={StaticResource BooleanToVisibilityConverter}}"
@@ -1216,6 +1222,7 @@
                     Grid.Row="1"
                     Grid.Column="4"
                     Margin="2"
+                    ToolTip="Ctrl+F"
                     IsEnabled="{Binding Path=VisitorsEnable.SearchButtonEnable, Mode=TwoWay}"
                     Visibility="{Binding Path=VisitorsVisible.SearchButtonEnable, 
                     Converter={StaticResource BooleanToVisibilityConverter}}"
@@ -1242,6 +1249,7 @@
                     Grid.Row="1"
                     Grid.Column="5"
                     Margin="2"
+                    ToolTip="F5"
                     IsEnabled="{Binding Path=VisitorsEnable.RefreshButtonEnable, Mode=TwoWay}"
                     Visibility="{Binding Path=VisitorsVisible.RefreshButtonEnable, 
                     Converter={StaticResource BooleanToVisibilityConverter}}"
