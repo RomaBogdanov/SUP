@@ -15,15 +15,15 @@ using System.Windows;
 
 namespace SupRealClient.ViewModels
 {
-    class BaseListsViewModel<T> : INotifyPropertyChanged
+    class BaseListViewModel<T> : INotifyPropertyChanged
     {
 
-        private IBaseListsModel<T> model;
+        private IBaseListModel<T> model;
         private string searchingText;
         private string okCaption;
         private Visibility zonesVisibility;
 
-        public IBaseListsModel<T> Model
+        public IBaseListModel<T> Model
         {
             get { return model; }
             set
@@ -147,7 +147,7 @@ namespace SupRealClient.ViewModels
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
 
-        public BaseListsViewModel()
+        public BaseListViewModel()
         {
             Begin = new RelayCommand(obj => BeginCommand());
             Prev = new RelayCommand(obj => PrevCommand());
@@ -210,7 +210,7 @@ namespace SupRealClient.ViewModels
         }
     }
 
-    interface IBaseListsModel<T>
+    interface IBaseListModel<T>
     {
         event ModelPropertyChanged OnModelPropertyChanged;
         event Action<object> OnClose;
