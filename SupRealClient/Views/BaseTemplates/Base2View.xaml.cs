@@ -15,6 +15,8 @@ namespace SupRealClient.Views
 
         public Base2View()
         {
+            InitializeComponent();
+
             DataContext = viewModel;
         }
 
@@ -74,6 +76,18 @@ namespace SupRealClient.Views
             else if(e.Key==Key.Enter)
             {
                 btnEdit.Command.Execute(null);
+            }
+            else if (e.Key == Key.Insert)
+            {
+                ((Base4ViewModel<EnumerationClasses.Organization>)DataContext).Add.Execute(null);
+            }
+            else if (e.Key == Key.Home)
+            {
+                ((Base4ViewModel<EnumerationClasses.Organization>)DataContext).Begin.Execute(null);
+            }
+            else if (e.Key == Key.End)
+            {
+                ((Base4ViewModel<EnumerationClasses.Organization>)DataContext).End.Execute(null);
             }
         }
     }

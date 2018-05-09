@@ -6,8 +6,12 @@
              xmlns:converters="clr-namespace:SupRealClient.Behaviour"
              mc:Ignorable="d" d:DesignHeight="300" d:DesignWidth="300"
              KeyDown="UserControl_KeyDown"
-             PreviewKeyDown="UserControl_PreviewKeyDown"
-             >
+             PreviewKeyDown="UserControl_PreviewKeyDown">
+    
+    <UserControl.InputBindings>
+        <KeyBinding Gesture="Ctrl+F" Command="{Binding Search}"/>
+    </UserControl.InputBindings>
+    
     <!--<UserControl.DataContext>
         <local:Organizations1ViewModel />
     </UserControl.DataContext>-->

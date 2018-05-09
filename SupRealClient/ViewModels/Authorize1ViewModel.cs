@@ -12,6 +12,7 @@ using System.Linq;
 using System.ServiceModel.Configuration;
 using SupRealClient.TabsSingleton;
 using System.Data;
+using SupRealClient.Models;
 
 namespace SupRealClient.ViewModels
 {
@@ -33,6 +34,7 @@ namespace SupRealClient.ViewModels
         SetupStorage setupStorage = SetupStorage.Current;
         Timer logoutTimer;
         int logoutInterval = 180000;
+        public int FontSize => GlobalSettings.GetSettings() + 4;
 
         public string Login
         {

@@ -11,7 +11,9 @@
         Closing="Window_Closing" 
         StateChanged="Window_StateChanged"
         ResizeMode="NoResize"
-        FontSize="{Binding FontSize}">
+        FontSize="{Binding FontSize}"
+        KeyDown="OrganizationsWindView_OnKeyDown">
+    
     <Grid>
         <local:Base2View x:Name="base2"></local:Base2View>
     </Grid>

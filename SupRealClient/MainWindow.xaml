@@ -252,7 +252,15 @@
             <Button DockPanel.Dock="Top" Style="{DynamicResource ButtonStyle}"/>
         </DockPanel>-->
         <!--<local:Authorize1View Grid.Row="2"></local:Authorize1View>-->
-        <ContentControl x:Name="aaa" Grid.Row="1" Grid.RowSpan="2" Grid.Column="1" Content="{Binding Path=Control}" Visibility="{Binding Path=LoginVisibility, Mode=OneWay}" ></ContentControl>
+        <ContentControl 
+            x:Name="aaa" 
+            Grid.Row="1" 
+            Grid.RowSpan="2" 
+            Grid.Column="1" 
+            Content="{Binding Path=Control}" 
+            Visibility="{Binding Path=LoginVisibility, Mode=OneWay}" 
+            FontSize="{Binding ElementName=FontSizeLixtBox, Path=SelectedItem.Content}"/>
+        
         <Grid Grid.Row="3"
               Grid.Column="1">
             <Grid.ColumnDefinitions>
