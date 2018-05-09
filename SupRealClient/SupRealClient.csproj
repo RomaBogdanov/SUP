@@ -155,6 +155,7 @@
     </Compile>
     <Compile Include="ViewModels\AddUpdateCardViewModel.cs" />
     <Compile Include="ViewModels\AddUpdateRegionViewModel.cs" />
+    <Compile Include="ViewModels\ListsViewModel\BaseListViewModel.cs" />
     <Compile Include="ViewModels\DocumentImagesViewModel.cs" />
     <Compile Include="ViewModels\FullNameViewModel.cs" />
     <Compile Include="ViewModels\SynonimViewModel.cs" />
