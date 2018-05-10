@@ -8,6 +8,11 @@
         mc:Ignorable="d"
         Title="Структура главных организаций" Height="400" Width="500"
         ResizeMode="NoResize">
+
+    <mah:MetroWindow.InputBindings>
+        <KeyBinding Key="Escape" Command="{Binding OkCommand}"/>
+    </mah:MetroWindow.InputBindings>
+
     <mah:MetroWindow.DataContext>
         <viewModels:MainOrganizationViewModel/>
     </mah:MetroWindow.DataContext>

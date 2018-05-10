@@ -8,7 +8,8 @@
         mc:Ignorable="d"
         Title="Заявки" 
         ResizeMode="NoResize"
-        Height="800" Width="1050">
+        Height="800" Width="1050"
+        KeyDown="BidsView_OnKeyDown">
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition/>

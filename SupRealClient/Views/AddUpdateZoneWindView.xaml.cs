@@ -229,5 +229,13 @@ namespace SupRealClient.Views
                 return ZoneType;
             }
         }
+
+        private void AddUpdateZoneWindView_OnKeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.Key == Key.Escape)
+            {
+                Close();
+            }
+        }
     }
 }

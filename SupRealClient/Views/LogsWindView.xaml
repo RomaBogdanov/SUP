@@ -5,6 +5,11 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:converters="clr-namespace:SupRealClient.Behaviour"
         mc:Ignorable="d" Title="Логи" Height="600" Width="600">
+
+    <Window.InputBindings>
+        <KeyBinding Key="Escape" Command="{Binding Close}"/>
+    </Window.InputBindings>
+
     <Window.Resources>
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>

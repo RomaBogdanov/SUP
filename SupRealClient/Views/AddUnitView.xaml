@@ -9,6 +9,11 @@
         Title="Новый отдел" Height="150" Width="400"
         ResizeMode="NoResize"
         Icon="../Resources/Добавить.ico">
+
+    <mah:MetroWindow.InputBindings>
+        <KeyBinding Key="Escape" Command="{Binding CancelCommand}"/>
+    </mah:MetroWindow.InputBindings>
+
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition/>

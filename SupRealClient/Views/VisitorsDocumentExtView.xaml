@@ -9,6 +9,10 @@
         Height="600" Width="300" 
         ResizeMode="NoResize">
 
+    <mah:MetroWindow.InputBindings>
+        <KeyBinding Key="Escape" Command="{Binding Cancel}"/>
+    </mah:MetroWindow.InputBindings>
+    
     <Grid>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="1*"/>
