@@ -37,7 +37,7 @@ namespace SupRealClient.EnumerationClasses
         public string Cabinet { get; set; }
         public ObservableCollection<Order> Orders { get; set; }
         public ObservableCollection<Card2> Cards { get; set; }
-        public ObservableCollection<VisitorsDocument> MainDocuments { get; set; }
+        public ObservableCollection<VisitorsMainDocument> MainDocuments { get; set; }
         public ObservableCollection<VisitorsDocument> Documents { get; set; }
 
         public object Clone()

@@ -10,7 +10,7 @@ namespace SupRealClient.ViewModels
     {
         public event PropertyChangedEventHandler PropertyChanged;
 
-        private VisitorsDocument document;
+        private VisitorsDocumentBase document;
         private string image = "";
         private int selectedImage = -1;
 
@@ -27,7 +27,7 @@ namespace SupRealClient.ViewModels
         public ICommand PrevCommand { get; set; }
         public ICommand NextCommand { get; set; }
 
-        public void SetDocument(VisitorsDocument document)
+        public void SetDocument(VisitorsDocumentBase document)
         {
             this.document = document;
             if (!document.Images.Any())

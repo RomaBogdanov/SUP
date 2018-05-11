@@ -847,6 +847,8 @@ namespace SupRealClient.Views
     public class RegionsListModel<T> : Base4ModelAbstr<T>
         where T : EnumerationClasses.Region, new()
     {
+        private int? countryId = null;
+
         public RegionsListModel()
         {
             RegionsWrapper.CurrentTable().OnChanged += Query;
@@ -864,6 +866,13 @@ namespace SupRealClient.Views
             ViewManager.Instance.UpdateObject(new UpdateItemRegionsModel(CurrentItem), Parent);
         }
 
+        public void SetCountry(int countryId)
+        {
+            this.countryId = countryId;
+            Query();
+            Begin();
+        }
+
         protected override BaseModelResult GetResult()
         {
             return new BaseModelResult { Id = CurrentItem.Id, Name = CurrentItem.Name };
@@ -873,7 +882,9 @@ namespace SupRealClient.Views
         {
             Set = new ObservableCollection<T>(
                 from regs in RegionsWrapper.CurrentTable().Table.AsEnumerable()
-                where regs.Field<int>("f_region_id") != 0
+                where regs.Field<int>("f_region_id") != 0 &&
+                (countryId.HasValue ?
+                regs.Field<int>("f_cntr_id") == countryId.Value : true)
                 select new T
                 {
                     Id = regs.Field<int>("f_region_id"),
@@ -901,6 +912,19 @@ namespace SupRealClient.Views
         public override long GetId(int index)
         {
             return Rows[index].Field<int>("f_region_id");
+        }
+
+        public override DataRow[] Rows
+        {
+            get
+            {
+                return (from regs in RegionsWrapper.CurrentTable().Table.AsEnumerable()
+                        where regs.Field<int>("f_region_id") != 0 &&
+                        (countryId.HasValue ?
+                        regs.Field<int>("f_cntr_id") == countryId.Value : true)
+                        select regs).
+                        AsEnumerable().ToArray();
+            }
         }
 
         protected override DataTable Table

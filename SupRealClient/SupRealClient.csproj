@@ -93,6 +93,8 @@
     <Compile Include="EnumerationClasses\Region.cs" />
     <Compile Include="EnumerationClasses\Visitor.cs" />
     <Compile Include="EnumerationClasses\VisitorsDocument.cs" />
+    <Compile Include="EnumerationClasses\VisitorsDocumentBase.cs" />
+    <Compile Include="EnumerationClasses\VisitorsMainDocument.cs" />
     <Compile Include="EnumerationClasses\Zone.cs" />
     <Compile Include="EnumerationClasses\LogItem.cs" />
     <Compile Include="ErrorWindow.xaml.cs">
@@ -137,6 +139,8 @@
     <Compile Include="Models\Visit.cs" />
     <Compile Include="Models\VisitorModeEnum.cs" />
     <Compile Include="Models\VisitorsEnableOrVisible.cs" />
+    <Compile Include="Models\VisitorsHelper.cs" />
+    <Compile Include="Models\VisitorsMainDocumentModel.cs" />
     <Compile Include="Models\WindowEnum.cs" />
     <Compile Include="Properties\Annotations.cs" />
     <Compile Include="Search\CompareStrategyFactory.cs" />
@@ -169,7 +173,7 @@
     <Compile Include="ViewModels\Search1ViewModel.cs" />
     <Compile Include="ViewModels\UnitViewModel.cs" />
     <Compile Include="ViewModels\ViewModelBase.cs" />
-    <Compile Include="ViewModels\VisitorsDocumentExtViewModel.cs" />
+    <Compile Include="ViewModels\VisitorsMainDocumentViewModel.cs" />
     <Compile Include="ViewModels\VisitorsViewModel.cs" />
     <Compile Include="ViewModels\VisitorViewModel.cs" />
     <Compile Include="ViewModels\VisitsViewModel.cs" />
@@ -211,8 +215,8 @@
     <Compile Include="Views\SynonimView.xaml.cs">
       <DependentUpon>SynonimView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Views\VisitorsDocumentExtView.xaml.cs">
-      <DependentUpon>VisitorsDocumentExtView.xaml</DependentUpon>
+    <Compile Include="Views\VisitorsMainDocumentView.xaml.cs">
+      <DependentUpon>VisitorsMainDocumentView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\VisitorsDocumentView.xaml.cs">
       <DependentUpon>VisitorsDocumentView.xaml</DependentUpon>
@@ -376,7 +380,7 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Views\VisitorsDocumentExtView.xaml">
+    <Page Include="Views\VisitorsMainDocumentView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

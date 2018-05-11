@@ -19,7 +19,7 @@
   <Item Name="AddUpdateCabinetView" />
   <Item Name="VisitorsDocumentView" />
   <Item Name="DocumentImagesView" />
-  <Item Name="VisitorsDocumentExtView" />
+  <Item Name="VisitorsMainDocumentView" />
   <Item Name="FullNameView" />
   <Item Name="AddUpdateRegionView" />
   <Item Name="SynonimView" />

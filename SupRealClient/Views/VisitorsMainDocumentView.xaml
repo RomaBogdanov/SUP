@@ -1,0 +1,336 @@
+﻿<mah:MetroWindow x:Class="SupRealClient.Views.VisitorsMainDocumentView"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:mah="http://metro.mahapps.com/winfx/xaml/controls"
+        mc:Ignorable="d"
+        Title="{Binding Path=Caption, Mode=OneTime}" 
+        Height="700" Width="350" 
+        ResizeMode="NoResize">
+
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="1*"/>
+            <ColumnDefinition Width="1*"/>
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition/>
+            <RowDefinition Height="Auto"/>
+        </Grid.RowDefinitions>
+
+        <mah:MetroAnimatedTabControl Margin="5" Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="2">
+            <mah:MetroTabItem Header="Основная">
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="1*"/>
+                        <ColumnDefinition Width="1*"/>
+                    </Grid.ColumnDefinitions>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="30"/>
+                        <RowDefinition Height="30"/>
+                        <RowDefinition Height="30"/>
+                        <RowDefinition Height="30"/>
+                        <RowDefinition Height="30"/>
+                        <RowDefinition Height="30"/>
+                        <RowDefinition Height="30"/>
+                        <RowDefinition Height="80"/>
+                        <RowDefinition Height="30"/>
+                        <RowDefinition Height="30"/>
+                        <RowDefinition Height="30"/>
+                        <RowDefinition Height="30"/>
+                        <RowDefinition Height="30"/>
+                        <RowDefinition Height="30"/>
+                        <RowDefinition Height="30"/>
+                        <RowDefinition Height="30"/>
+                    </Grid.RowDefinitions>
+
+                    <TextBlock 
+                        Grid.Row="0" 
+                        Grid.Column="0"
+                        Grid.ColumnSpan="2"
+                        Text="Тип:" 
+                        FontSize="15"
+                        HorizontalAlignment="Left"
+                        Style="{StaticResource TextBLockStyle}"/>
+
+                    <Grid
+                        Grid.Row="1"
+                        Grid.Column="0"
+                        Grid.ColumnSpan="2">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition/>
+                            <ColumnDefinition Width="Auto"/>
+                            <ColumnDefinition Width="Auto"/>
+                        </Grid.ColumnDefinitions>
+
+                        <TextBox 
+                            Grid.Column="0"
+                            TabIndex="0"
+                            Text="{Binding Path=DocType, Mode=TwoWay}"
+                            Margin="2"
+                            IsReadOnly="True"
+                            Style="{StaticResource TextBoxStyle}"
+                            KeyUp="TextBox_OnKeyUp"/>
+
+                        <Button
+                            TabIndex="1"
+                            Command="{Binding DocumentsCommand}"
+                            Grid.Column="1"
+                            Margin="2"
+                            Height="25"
+                            Width="25"
+                            Content="..."
+                            Style="{StaticResource VisitorsSquareButtonStyle}"/>
+
+                        <Button
+                            Command="{Binding ClearCommand}"
+                            TabIndex="2"
+                            Grid.Column="2"
+                            Margin="2"
+                            Height="25"
+                            Width="25"
+                            Content="X"
+                            Style="{StaticResource VisitorsSquareButtonStyle}"/>
+                    </Grid>
+
+                    <TextBlock 
+                        Grid.Row="2" 
+                        Grid.Column="0"
+                        Grid.ColumnSpan="2"
+                        Text="Серия:" 
+                        FontSize="15"
+                        HorizontalAlignment="Left"
+                        Style="{StaticResource TextBLockStyle}"/>
+
+                    <TextBox 
+                        Grid.Row="3" 
+                        Grid.Column="0"
+                        Grid.ColumnSpan="2" 
+                        TabIndex="3"
+                        Text="{Binding Path=Seria, Mode=TwoWay}"
+                        Margin="2"
+                        Style="{StaticResource TextBoxStyle}"
+                        KeyUp="TextBox_OnKeyUp"/>
+
+                    <TextBlock 
+                        Grid.Row="4" 
+                        Grid.Column="0"
+                        Grid.ColumnSpan="2"
+                        Text="Номер:" 
+                        FontSize="15"
+                        HorizontalAlignment="Left"
+                        Style="{StaticResource TextBLockStyle}"/>
+
+                    <TextBox 
+                        Grid.Row="5" 
+                        Grid.Column="0"
+                        Grid.ColumnSpan="2" 
+                        TabIndex="4"
+                        Text="{Binding Path=Num, Mode=TwoWay}"
+                        Margin="2"
+                        Style="{StaticResource TextBoxStyle}"
+                        KeyUp="TextBox_OnKeyUp"/>
+
+                    <TextBlock 
+                        Grid.Row="6" 
+                        Grid.Column="0"
+                        Grid.ColumnSpan="2"
+                        Text="Кем выдан:" 
+                        FontSize="15"
+                        HorizontalAlignment="Left"
+                        Style="{StaticResource TextBLockStyle}"/>
+
+                    <TextBox 
+                        Grid.Row="7" 
+                        Grid.Column="0"
+                        Grid.ColumnSpan="2" 
+                        TabIndex="5"
+                        TextWrapping="Wrap"
+                        Text="{Binding Path=Org, Mode=TwoWay}"
+                        Margin="2"
+                        Height="76"
+                        Style="{StaticResource TextBoxStyle}"
+                        KeyUp="TextBox_OnKeyUp"/>
+
+                    <TextBlock 
+                        Grid.Row="8" 
+                        Grid.Column="0"
+                        Grid.ColumnSpan="2"
+                        Text="Дата выдачи:" 
+                        FontSize="15"
+                        HorizontalAlignment="Left"
+                        Style="{StaticResource TextBLockStyle}"/>
+
+                    <TextBox 
+                        Grid.Row="9" 
+                        Grid.Column="0"
+                        Grid.ColumnSpan="2" 
+                        TabIndex="6"
+                        Text="{Binding Path=Date, Mode=TwoWay}"
+                        Margin="2"
+                        Style="{StaticResource TextBoxStyle}"
+                        KeyUp="TextBox_OnKeyUp"/>
+
+                    <TextBlock 
+                        Grid.Row="10" 
+                        Grid.Column="0"
+                        Grid.ColumnSpan="2"
+                        Text="Код:" 
+                        FontSize="15"
+                        HorizontalAlignment="Left"
+                        Style="{StaticResource TextBLockStyle}"/>
+
+                    <TextBox 
+                        Grid.Row="11" 
+                        Grid.Column="0"
+                        Grid.ColumnSpan="2" 
+                        TabIndex="7"
+                        Text="{Binding Path=Code, Mode=TwoWay}"
+                        Margin="2"
+                        Style="{StaticResource TextBoxStyle}"
+                        KeyUp="TextBox_OnKeyUp"/>
+
+                    <TextBlock 
+                        Grid.Row="12" 
+                        Grid.Column="0"
+                        Grid.ColumnSpan="2"
+                        Text="Действителен до:" 
+                        FontSize="15"
+                        HorizontalAlignment="Left"
+                        Style="{StaticResource TextBLockStyle}"/>
+
+                    <TextBox 
+                        Grid.Row="13" 
+                        Grid.Column="0"
+                        Grid.ColumnSpan="2" 
+                        TabIndex="8"
+                        Text="{Binding Path=DateTo, Mode=TwoWay}"
+                        Margin="2"
+                        Style="{StaticResource TextBoxStyle}"
+                        KeyUp="TextBox_OnKeyUp"/>
+
+                    <TextBlock 
+                        Grid.Row="14" 
+                        Grid.ColumnSpan="2"
+                        Text="Примечание:" 
+                        FontSize="15"
+                        HorizontalAlignment="Left"
+                        Style="{StaticResource TextBLockStyle}"/>
+
+                    <TextBox 
+                        Grid.Row="15" 
+                        Grid.Column="0"
+                        Grid.ColumnSpan="2" 
+                        TabIndex="9"
+                        Text="{Binding Path=Comment, Mode=TwoWay}"
+                        Margin="2"
+                        Style="{StaticResource TextBoxStyle}"
+                        KeyUp="TextBox_OnKeyUp"/>
+                </Grid>
+            </mah:MetroTabItem>
+            <mah:MetroTabItem Header="Изображения">
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="1*"/>
+                        <ColumnDefinition Width="1*"/>
+                    </Grid.ColumnDefinitions>
+                    <Grid.RowDefinitions>
+                        <RowDefinition/>
+                        <RowDefinition Height="Auto"/>
+                    </Grid.RowDefinitions>
+
+                    <ListBox
+                        Grid.Row="0"
+                        Grid.ColumnSpan="2"
+                        ItemsSource="{Binding Path=Images}"
+                        SelectedIndex="{Binding Path=SelectedImage}">
+                        <ListBox.ItemTemplate>
+                            <DataTemplate>
+                                <StackPanel>
+                                    <Image Height="10" Source="{Binding}" />
+                                </StackPanel>
+                            </DataTemplate>
+                        </ListBox.ItemTemplate>
+                    </ListBox>
+
+                    <Grid Grid.Row="1" Grid.ColumnSpan="2">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition />
+                            <ColumnDefinition Width="Auto"/>
+                            <ColumnDefinition Width="Auto"/>
+                            <ColumnDefinition Width="Auto"/>
+                        </Grid.ColumnDefinitions>
+                        <Button
+                            Command="{Binding AddImageCommand}"
+                            TabIndex="2"
+                            Grid.Column="2"
+                            Margin="2"
+                            Height="25"
+                            Width="25"
+                            Content="+"
+                            IsEnabled="{Binding Path=ButtonEnable, Mode=TwoWay}"
+                            Style="{StaticResource VisitorsSquareButtonStyle}"/>
+                        <Button
+                            Command="{Binding RemoveImageCommand}"
+                            TabIndex="4"
+                            Grid.Column="3"
+                            Margin="2"
+                            Height="25"
+                            Width="25"
+                            Content="X"
+                            IsEnabled="{Binding Path=ButtonEnable, Mode=TwoWay}"
+                            Style="{StaticResource VisitorsSquareButtonStyle}"/>
+                    </Grid>
+                </Grid>
+            </mah:MetroTabItem>
+        </mah:MetroAnimatedTabControl>
+        <Button 
+            Grid.Row="1" 
+            Grid.Column="0"
+            Command="{Binding Path=Ok}"
+            Margin="2"
+            TabIndex="16"
+            Style="{StaticResource ButtonStyle}">
+            <Grid Width="140">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition/>
+                    <ColumnDefinition/>
+                </Grid.ColumnDefinitions>
+
+                <Image 
+                    Grid.Column="0"
+                    Source="../Resources/Принять (2).ico"/>
+
+                <TextBlock
+                    Grid.Column="1"
+                    Text="Ок"
+                    Style="{StaticResource TextBLockStyle}"/>
+            </Grid>
+        </Button>
+
+        <Button 
+            Grid.Row="1" 
+            Grid.Column="1" 
+            Margin="2"
+            TabIndex="17"
+            Command="{Binding Path=Cancel}"
+            Style="{StaticResource ButtonStyle}">
+            <Grid Width="140">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition/>
+                    <ColumnDefinition/>
+                </Grid.ColumnDefinitions>
+
+                <Image
+                    Grid.Column="0"
+                    Source="../Resources/Отмена (2).ico"/>
+
+                <TextBlock
+                    Grid.Column="1"
+                    Text="Отмена"
+                    Style="{StaticResource TextBLockStyle}"/>
+            </Grid>
+        </Button>
+    </Grid>
+</mah:MetroWindow>

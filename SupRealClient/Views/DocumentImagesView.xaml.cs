@@ -8,7 +8,7 @@ namespace SupRealClient.Views
     /// </summary>
     public partial class DocumentImagesView
     {
-        public DocumentImagesView(VisitorsDocument document)
+        public DocumentImagesView(VisitorsDocumentBase document)
         {
             DataContext = new DocumentImagesViewModel();
             ((DocumentImagesViewModel)DataContext).SetDocument(document);

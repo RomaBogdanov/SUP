@@ -157,6 +157,13 @@ namespace SupRealClient
             ReopenWindow(window.WindowName, window, parent);
         }
 
+        public object OpenRegions(int countryId)
+        {
+            var window = new Base4RegionsWindView();
+            window.SetCountry(countryId);
+            return OpenWindowModal(window);
+        }
+
         public void OpenSynonims(Organization organization)
         {
             var window = new SynonimView(organization);
