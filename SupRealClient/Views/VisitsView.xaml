@@ -6,7 +6,8 @@
         xmlns:local="clr-namespace:SupRealClient.Views"
         xmlns:mah="http://metro.mahapps.com/winfx/xaml/controls"
         mc:Ignorable="d"
-        Title="Посещения" Height="450" Width="1100">
+        Title="Посещения" Height="450" Width="1100"
+        KeyDown="VisitsView_OnKeyDown">
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition/>

@@ -10,7 +10,9 @@
              PreviewKeyDown="UserControl_PreviewKeyDown">
     
     <UserControl.InputBindings>
+        <KeyBinding Gesture="Ctrl+D" Command="{Binding Update}"/>
         <KeyBinding Gesture="Ctrl+F" Command="{Binding Search}"/>
+        <KeyBinding Gesture="Ctrl+G" Command="{Binding Farther}"/>
     </UserControl.InputBindings>
     
     <!--<UserControl.DataContext>
@@ -99,7 +101,8 @@
             Grid.ColumnSpan="9" 
             Margin="1" 
             Text="{Binding Path=SearchingText, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" 
-            FontSize="{Binding FontSize}" Style="{StaticResource TextBoxStyle}"/>
+            FontSize="{Binding FontSize}" 
+            Style="{StaticResource TextBoxStyle}"/>
         
         <Button 
             Grid.Row="3" 
@@ -122,7 +125,7 @@
                 <TextBlock
                     Grid.Column="1"
                     Text="Начало"
-                    FontSize="15"
+                    FontSize="{Binding FontSize}"
                     Style="{StaticResource TextBLockStyle}"/>
             </Grid>
         </Button>
@@ -149,7 +152,7 @@
                 <TextBlock
                     Grid.Column="1"
                     Text="Пред."
-                    FontSize="15"
+                    FontSize="{Binding FontSize}"
                     Style="{StaticResource TextBLockStyle}"/>
             </Grid>
         </Button>
@@ -176,7 +179,7 @@
                 <TextBlock
                     Grid.Column="1"
                     Text="След."
-                    FontSize="15"
+                    FontSize="{Binding FontSize}"
                     Style="{StaticResource TextBLockStyle}"/>
             </Grid>
         </Button>
@@ -202,7 +205,7 @@
                 <TextBlock
                     Grid.Column="1"
                     Text="Конец"
-                    FontSize="15"
+                    FontSize="{Binding FontSize}"
                     Style="{StaticResource TextBLockStyle}"/>
             </Grid>
         </Button>
@@ -228,7 +231,7 @@
                 <TextBlock
                     Grid.Column="1"
                     Text="Добавить"
-                    FontSize="15"
+                    FontSize="{Binding FontSize}"
                     Style="{StaticResource TextBLockStyle}"/>
             </Grid>
         </Button>
@@ -254,7 +257,7 @@
                 <TextBlock
                     Grid.Column="1"
                     Text="Правка"
-                    FontSize="15"
+                    FontSize="{Binding FontSize}"
                     Style="{StaticResource TextBLockStyle}"/>
             </Grid>
         </Button>
@@ -280,7 +283,7 @@
                 <TextBlock
                     Grid.Column="1"
                     Text="Найти..."
-                    FontSize="15"
+                    FontSize="{Binding FontSize}"
                     Style="{StaticResource TextBLockStyle}"/>
             </Grid>
         </Button>
@@ -306,7 +309,7 @@
                 <TextBlock
                     Grid.Column="1"
                     Text="Далее..."
-                    FontSize="15"
+                    FontSize="{Binding FontSize}"
                     Style="{StaticResource TextBLockStyle}"/>
             </Grid>
         </Button>
@@ -332,7 +335,7 @@
                 <TextBlock
                     Grid.Column="1"
                     Text="Закрыть"
-                    FontSize="15"
+                    FontSize="{Binding FontSize}"
                     Style="{StaticResource TextBLockStyle}"/>
             </Grid>
         </Button>

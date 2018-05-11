@@ -35,6 +35,11 @@ namespace SupRealClient.ViewModels
             }
         }
 
+        /// <summary>
+        /// Размер шрифта
+        /// </summary>
+        public int FontSize => GlobalSettings.GetSettings();
+
         public IEnumerable<object> Set
         {
             get { return this.set; }

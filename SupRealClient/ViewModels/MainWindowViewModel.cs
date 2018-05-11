@@ -128,6 +128,11 @@ namespace SupRealClient.ViewModels
 
         public ICommand OpenVisitsCommand { get; set; }
 
+        /// <summary>
+        /// Тестовая кнопка
+        /// </summary>
+        public ICommand TestCommand { get; set; }
+
         public MainWindowViewModel()
         {
             Current = this;
@@ -150,6 +155,7 @@ namespace SupRealClient.ViewModels
             OpenVisitorsCommand = new RelayCommand(obj => OpenVisitors());
             OpenBidsCommand = new RelayCommand(obj => OpenBids());
             OpenVisitsCommand = new RelayCommand(obj => OpenVisits());
+            TestCommand = new RelayCommand(obj => TestMethod());
         }
 
         protected virtual void OnPropertyChanged(string propertyName) =>
@@ -206,7 +212,14 @@ namespace SupRealClient.ViewModels
             LoginVisibility = Visibility.Visible;
             DataVisibility = Visibility.Hidden;
         }
-        
+
+        private void TestMethod()
+        {
+            var window = new TestView();
+
+            window.ShowDialog();
+        }
+
         private void ExitApp()
         {
             //TableWrapper.DisposeAll();

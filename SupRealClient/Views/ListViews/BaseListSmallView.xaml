@@ -21,8 +21,8 @@
         <Grid.RowDefinitions>
             <RowDefinition/>
             <RowDefinition Height="50"/>
-            <RowDefinition Height="50"/>
-            <RowDefinition Height="50"/>
+            <RowDefinition Height="45"/>
+            <RowDefinition Height="45"/>
         </Grid.RowDefinitions>
         <Grid.ColumnDefinitions>
             <ColumnDefinition/>
@@ -44,7 +44,6 @@
             SelectedItem="{Binding Path=CurrentItem, Mode=TwoWay}" 
             SelectedIndex="{Binding Path=SelectedIndex, Mode=TwoWay}"
             CurrentColumn="{Binding Path=CurrentColumn, Mode=TwoWay}" 
-            ColumnHeaderStyle="{StaticResource SelectionColumnHeader}"
             Style="{StaticResource AzureDataGrid}"/>
         
         <TextBlock

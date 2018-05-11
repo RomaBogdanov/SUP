@@ -235,7 +235,12 @@
                     <TextBlock Grid.Row="1" Text="Регистрация"></TextBlock>
                 </Grid>
             </Button>
-            <Button Grid.Row="7" Style="{DynamicResource SquareButtonStyle}" FontSize="{Binding ElementName=FontSizeLixtBox, Path=SelectedItem.Content}"/>
+            <Button 
+                Grid.Row="7" 
+                Style="{DynamicResource SquareButtonStyle}" 
+                FontSize="{Binding ElementName=FontSizeLixtBox, Path=SelectedItem.Content}" 
+                Content="Тест"
+                Command="{Binding TestCommand}"/>
         </Grid>
         <!--<DockPanel 
             Grid.Row="1" 

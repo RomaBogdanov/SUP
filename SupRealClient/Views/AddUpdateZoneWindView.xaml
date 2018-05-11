@@ -5,7 +5,8 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:SupRealClient.Views"
         mc:Ignorable="d"
-        Title="Добавить зону" Height="367.13" Width="419.255">
+        Title="Добавить зону" Height="367.13" Width="419.255"
+        KeyDown="AddUpdateZoneWindView_OnKeyDown">
     <Grid>
         <Label Content="Тип зоны:" HorizontalAlignment="Left" VerticalAlignment="Top"/>
         <ComboBox Name="zoneType" HorizontalAlignment="Left" Margin="99,0,0,0" VerticalAlignment="Top" Width="302"/>

@@ -7,7 +7,8 @@
         xmlns:behaviour="clr-namespace:SupRealClient.Behaviour"
         xmlns:mah="http://metro.mahapps.com/winfx/xaml/controls"
         mc:Ignorable="d"
-        Title="Подробно" Height="600" Width="400">
+        Title="Подробно" Height="600" Width="400"
+        KeyDown="DetailVisitsView_OnKeyDown">
     
     <mah:MetroWindow.Resources>
         <ResourceDictionary>

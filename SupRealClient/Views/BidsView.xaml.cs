@@ -23,5 +23,13 @@ namespace SupRealClient.Views
         {
             InitializeComponent();
         }
+
+        private void BidsView_OnKeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.Key == Key.Escape)
+            {
+                Close();
+            }
+        }
     }
 }

@@ -18,6 +18,7 @@ using SupRealClient.EnumerationClasses;
 using SupRealClient.Models;
 using SupRealClient.TabsSingleton;
 using SupRealClient.Views.Visitor;
+using KeyEventArgs = System.Windows.Input.KeyEventArgs;
 
 namespace SupRealClient.Views
 {
@@ -38,6 +39,14 @@ namespace SupRealClient.Views
                 var visit = (Visit) sender;
 
                 visit.ToString();
+            }
+        }
+
+        private void VisitsView_OnKeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.Key == Key.Escape)
+            {
+                Close();
             }
         }
     }

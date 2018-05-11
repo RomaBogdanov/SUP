@@ -4,7 +4,8 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:SupRealClient.Views"
-        mc:Ignorable="d" Title="Список посетителей" Height="600" Width="720">
+        mc:Ignorable="d" Title="Список посетителей" Height="600" Width="720"
+        KeyDown="VisitorsListWindView_OnKeyDown">
     <Grid>
         <local:Base4View x:Name="base4"></local:Base4View>
     </Grid>

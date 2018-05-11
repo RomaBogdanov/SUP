@@ -15,16 +15,18 @@ using System.Windows.Shapes;
 namespace SupRealClient.Views
 {
     /// <summary>
-    /// Interaction logic for VisitorsEmployeeTabView.xaml
+    /// Interaction logic for TestView.xaml
     /// </summary>
-    public partial class VisitorsEmployeeTabView
+    public partial class TestView
     {
-        public VisitorsEmployeeTabView()
+        public TestView()
         {
             InitializeComponent();
+
+            //BaseListSmallView.aaa.Focus();
         }
 
-        private void VisitorsEmployeeTabView_OnKeyDown(object sender, KeyEventArgs e)
+        private void TestView_OnKeyDown(object sender, KeyEventArgs e)
         {
             if (e.Key == Key.Escape)
             {

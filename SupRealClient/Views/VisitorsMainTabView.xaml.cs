@@ -23,5 +23,13 @@ namespace SupRealClient.Views
         {
             InitializeComponent();
         }
+
+        private void VisitorsMainTabView_OnKeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.Key == Key.Escape)
+            {
+                Close();
+            }
+        }
     }
 }

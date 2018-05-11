@@ -215,6 +215,12 @@
     <Compile Include="Views\SynonimView.xaml.cs">
       <DependentUpon>SynonimView.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Views\TestView.xaml.cs">
+      <DependentUpon>TestView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\VisitorsDocumentExtView.xaml.cs">
+      <DependentUpon>VisitorsDocumentExtView.xaml</DependentUpon>
+	</Compile>
     <Compile Include="Views\VisitorsMainDocumentView.xaml.cs">
       <DependentUpon>VisitorsMainDocumentView.xaml</DependentUpon>
     </Compile>
@@ -378,6 +384,14 @@
     </Page>
     <Page Include="Views\SynonimView.xaml">
       <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\TestView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\VisitorsDocumentExtView.xaml">
+	      <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Views\VisitorsMainDocumentView.xaml">
