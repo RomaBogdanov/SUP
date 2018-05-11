@@ -32,7 +32,7 @@ namespace SupRealClient.Models
         public VisitorsMainDocumentModel(VisitorsMainDocument visitorsMainDocument)
         {
             this.visitorsMainDocument = visitorsMainDocument ??
-                new VisitorsMainDocument();
+                new VisitorsMainDocument() { Id = -1 };
         }
 
         public void Cancel()

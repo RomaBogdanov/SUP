@@ -218,6 +218,7 @@ namespace SupRealClient.Views
         public ICommand EditDocumentCommand { get; set; }
         public ICommand RemoveDocumentCommand { get; set; }
 
+        public ICommand OpenMainDocumentCommand { get; set; }
         public ICommand AddMainDocumentCommand { get; set; }
         public ICommand EditMainDocumentCommand { get; set; }
         public ICommand RemoveMainDocumentCommand { get; set; }
@@ -260,6 +261,7 @@ namespace SupRealClient.Views
             EditDocumentCommand = new RelayCommand(arg => EditDocument());
             RemoveDocumentCommand = new RelayCommand(arg => RemoveDocument());
 
+            OpenMainDocumentCommand = new RelayCommand(arg => OpenMainDocument());
             AddMainDocumentCommand = new RelayCommand(arg => AddMainDocument());
             EditMainDocumentCommand = new RelayCommand(arg => EditMainDocument());
             RemoveMainDocumentCommand = new RelayCommand(arg => RemoveMainDocument());
@@ -497,6 +499,18 @@ namespace SupRealClient.Views
                 return;
             }
             Model.RemoveDocument(SelectedDocument);
+        }
+
+        private void OpenMainDocument()
+        {
+            if (SelectedMainDocument < 0)
+            {
+                return;
+            }
+
+            var window = new DocumentImagesView(
+                CurrentItem.MainDocuments[SelectedMainDocument]);
+            window.ShowDialog();
         }
 
         private void AddMainDocument()
@@ -773,17 +787,6 @@ namespace SupRealClient.Views
                     }
                 }
 
-                /*foreach (DataRow r in VisitorsDocumentsWrapper.
-                    CurrentTable().Table.Rows)
-                {
-                    if (r.Field<int>("f_visitor_id") == id &&
-                        r.Field<int>("f_doctype_id") != 0 &&
-                        r.Field<string>("f_deleted") == "N")
-                    {
-                        r["f_deleted"] = "Y";
-                        //r.Delete(); // TODO
-                    }
-                }*/
                 RemoveOldDocuments(id, true);
                 foreach (var document in CurrentItem.MainDocuments)
                 {
@@ -802,6 +805,28 @@ namespace SupRealClient.Views
                     row["f_deleted"] = "N";
                     VisitorsDocumentsWrapper.
                         CurrentTable().Table.Rows.Add(row);
+                    int documentId = row.Field<int>("f_vd_id");
+                    foreach (var alias in document.Images)
+                    {
+                        DataRow imageRow = ImagesWrapper.
+                            CurrentTable().Table.NewRow();
+                        imageRow["f_image_alias"] = alias;
+                        imageRow["f_visitor_id"] = id;
+                        imageRow["f_image_type"] = ImageType.Document;
+                        imageRow["f_deleted"] = "N";
+                        images.Add(new KeyValuePair<Guid, ImageType>(
+                            alias, ImageType.Document));
+                        ImagesWrapper.CurrentTable().Table.Rows.Add(imageRow);
+                        int imageId = imageRow.Field<int>("f_image_id");
+
+                        DataRow imageDocRow = ImageDocumentWrapper.
+                            CurrentTable().Table.NewRow();
+                        imageDocRow["f_image_id"] = imageId;
+                        imageDocRow["f_doc_id"] = documentId;
+                        imageDocRow["f_deleted"] = "N";
+                        ImageDocumentWrapper.CurrentTable().
+                            Table.Rows.Add(imageDocRow);
+                    }
                 }
             }
 
@@ -817,7 +842,6 @@ namespace SupRealClient.Views
                 }
 
                 RemoveOldDocuments(id, false);
-                
                 foreach (var document in CurrentItem.Documents)
                 {
                     DataRow row = VisitorsDocumentsWrapper.

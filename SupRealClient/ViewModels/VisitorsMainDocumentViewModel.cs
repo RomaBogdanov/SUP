@@ -178,7 +178,7 @@ namespace SupRealClient.ViewModels
         public void SetModel(VisitorsMainDocumentModel model)
         {
             this.model = model;
-            Caption = model.Data.Id == 0 ? "Добавление документа" :
+            Caption = model.Data.Id == -1 ? "Добавление документа" :
                 "Редактирование документа";
 
             this.Seria = model.Data.Seria;

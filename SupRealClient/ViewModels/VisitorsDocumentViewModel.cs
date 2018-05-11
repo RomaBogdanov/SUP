@@ -72,7 +72,7 @@ namespace SupRealClient.ViewModels
         public void SetModel(VisitorsDocumentModel model)
         {
             this.model = model;
-            Caption = model.Data.Id == 0 ? "Добавление документа" :
+            Caption = model.Data.Id == -1 ? "Добавление документа" :
                 "Редактирование документа";
             this.Name = model.Data.Name;
             if (model.Data.Images.Any())

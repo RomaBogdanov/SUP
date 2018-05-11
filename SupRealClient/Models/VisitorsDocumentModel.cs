@@ -25,7 +25,8 @@ namespace SupRealClient.Models
 
         public VisitorsDocumentModel(VisitorsDocument visitorsDocument)
         {
-            this.visitorsDocument = visitorsDocument ?? new VisitorsDocument();
+            this.visitorsDocument = visitorsDocument ??
+                new VisitorsDocument() { Id = -1 };
         }
 
         public void Cancel()
