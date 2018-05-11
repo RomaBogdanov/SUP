@@ -49,8 +49,9 @@ namespace SupRealClient.Models
                 System.Threading.Tasks.Task.Run(new Action(() => 
                 {
                     System.Threading.Thread.Sleep(200);
-                    Views.OrganizationsWindView.CurrentWindow.Dispatcher.Invoke(() => { Views.OrganizationsWindView.CurrentWindow.Activate(); });
-                    //Views.OrganizationsWindView.CurrentWindow.Focus();
+                    Views.OrganizationsWindView.CurrentWindow.Dispatcher.Invoke(
+                        () => { Views.OrganizationsWindView.CurrentWindow.Activate(); });
+                    
                 }));
             }
         }
