@@ -16,11 +16,6 @@ namespace SupRealClient.Models
                     Id = visitorsDocument.Id,
                     Name = visitorsDocument.Name,
                     TypeId = visitorsDocument.TypeId,
-                    Seria = visitorsDocument.Seria,
-                    Num = visitorsDocument.Num,
-                    Date = visitorsDocument.Date,
-                    Org = visitorsDocument.Org,
-                    Code = visitorsDocument.Code,
                     Images = visitorsDocument.Images,
                 };
             }

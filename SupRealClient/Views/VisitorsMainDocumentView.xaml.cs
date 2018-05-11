@@ -8,32 +8,30 @@ namespace SupRealClient.Views
     /// <summary>
     /// Логика взаимодействия для VisitorsDocumentExtView.xaml
     /// </summary>
-    public partial class VisitorsDocumentExtView
+    public partial class VisitorsMainDocumentView
     {
         /// <summary>
         /// Двигатель фокуса
         /// </summary>
         private TraversalRequest _focusMover = new TraversalRequest(FocusNavigationDirection.Next);
 
-        public VisitorsDocumentExtView(VisitorsDocumentModel model)
+        public VisitorsMainDocumentView(VisitorsMainDocumentModel model)
         {
             model.OnClose += Handling_OnClose;
-            DataContext = new VisitorsDocumentExtViewModel();
-            ((VisitorsDocumentExtViewModel)DataContext).SetModel(model);
+            DataContext = new VisitorsMainDocumentViewModel();
+            ((VisitorsMainDocumentViewModel)DataContext).SetModel(model);
             InitializeComponent();
 
             AfterInitialize();
-            NameTextBox.Focus();
         }
 
         /// <summary>
         /// Конструктор - заглушка
         /// </summary>
-        public VisitorsDocumentExtView()
+        public VisitorsMainDocumentView()
         {
             InitializeComponent();
-            NameTextBox.Focus();
-            DataContext = new VisitorsDocumentExtViewModel();
+            DataContext = new VisitorsMainDocumentViewModel();
         }
 
         private void TextBox_OnKeyUp(object sender, KeyEventArgs e)

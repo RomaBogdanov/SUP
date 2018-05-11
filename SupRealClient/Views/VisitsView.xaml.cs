@@ -501,10 +501,10 @@ namespace SupRealClient.Views
 
         private void AddMainDocument()
         {
-            var window = new VisitorsDocumentExtView(
-                new VisitorsDocumentModel(null));
+            var window = new VisitorsMainDocumentView(
+                new VisitorsMainDocumentModel(null));
             window.ShowDialog();
-            var document = window.WindowResult as VisitorsDocument;
+            var document = window.WindowResult as VisitorsMainDocument;
 
             if (document == null)
             {
@@ -520,11 +520,11 @@ namespace SupRealClient.Views
             {
                 return;
             }
-            var window = new VisitorsDocumentExtView(
-                new VisitorsDocumentModel(
+            var window = new VisitorsMainDocumentView(
+                new VisitorsMainDocumentModel(
                     CurrentItem.MainDocuments[SelectedMainDocument]));
             window.ShowDialog();
-            var document = window.WindowResult as VisitorsDocument;
+            var document = window.WindowResult as VisitorsMainDocument;
 
             if (document == null)
             {
@@ -581,8 +581,8 @@ namespace SupRealClient.Views
         void AddDocument(VisitorsDocument document);
         void EditDocument(int index, VisitorsDocument document);
         void RemoveDocument(int index);
-        void AddMainDocument(VisitorsDocument document);
-        void EditMainDocument(int index, VisitorsDocument document);
+        void AddMainDocument(VisitorsMainDocument document);
+        void EditMainDocument(int index, VisitorsMainDocument document);
         void RemoveMainDocument(int index);
     }
 
@@ -717,14 +717,14 @@ namespace SupRealClient.Views
             isDocumentsChanged = true;
         }
 
-        public void AddMainDocument(VisitorsDocument document)
+        public void AddMainDocument(VisitorsMainDocument document)
         {
             CurrentItem.MainDocuments.Add(document);
             isMainDocumentsChanged = true;
             document.IsChanged = true;
         }
 
-        public void EditMainDocument(int index, VisitorsDocument document)
+        public void EditMainDocument(int index, VisitorsMainDocument document)
         {
             CurrentItem.MainDocuments.RemoveAt(index);
             CurrentItem.MainDocuments.Insert(index, document);
@@ -764,7 +764,16 @@ namespace SupRealClient.Views
 
             if (isMainDocumentsChanged)
             {
-                foreach (DataRow r in VisitorsDocumentsWrapper.
+                foreach (var document in CurrentItem.MainDocuments)
+                {
+                    if (!document.Images.Any())
+                    {
+                        document.Images =
+                            DocumentsHelper.CacheImages(document.Id);
+                    }
+                }
+
+                /*foreach (DataRow r in VisitorsDocumentsWrapper.
                     CurrentTable().Table.Rows)
                 {
                     if (r.Field<int>("f_visitor_id") == id &&
@@ -774,19 +783,22 @@ namespace SupRealClient.Views
                         r["f_deleted"] = "Y";
                         //r.Delete(); // TODO
                     }
-                }
+                }*/
+                RemoveOldDocuments(id, true);
                 foreach (var document in CurrentItem.MainDocuments)
                 {
                     DataRow row = VisitorsDocumentsWrapper.
                         CurrentTable().Table.NewRow();
                     row["f_visitor_id"] = id;
                     row["f_doctype_id"] = document.TypeId;
-                    row["f_doc_name"] = document.Name;
+                    row["f_doc_name"] = "";
                     row["f_doc_seria"] = document.Seria;
                     row["f_doc_num"] = document.Num;
                     row["f_doc_date"] = document.Date;
+                    row["f_doc_date_to"] = document.DateTo;
                     row["f_doc_org"] = document.Org;
                     row["f_doc_code"] = document.Code;
+                    row["f_comment"] = document.Comment;
                     row["f_deleted"] = "N";
                     VisitorsDocumentsWrapper.
                         CurrentTable().Table.Rows.Add(row);
@@ -804,7 +816,7 @@ namespace SupRealClient.Views
                     }
                 }
 
-                RemoveOldDocuments(id);
+                RemoveOldDocuments(id, false);
                 
                 foreach (var document in CurrentItem.Documents)
                 {
@@ -816,8 +828,10 @@ namespace SupRealClient.Views
                     row["f_doc_seria"] = "";
                     row["f_doc_num"] = "";
                     row["f_doc_date"] = DateTime.MinValue;
+                    row["f_doc_date_to"] = DateTime.MinValue;
                     row["f_doc_org"] = "";
                     row["f_doc_code"] = "";
+                    row["f_comment"] = "";
                     row["f_deleted"] = "N";
                     VisitorsDocumentsWrapper.
                         CurrentTable().Table.Rows.Add(row);
@@ -853,13 +867,14 @@ namespace SupRealClient.Views
             ImagesHelper.AddImages(id, images);
         }
 
-        private void RemoveOldDocuments(int visitorId)
+        private void RemoveOldDocuments(int visitorId, bool isMain)
         {
             foreach (DataRow r in VisitorsDocumentsWrapper.
                 CurrentTable().Table.Rows)
             {
                 if (r.Field<int>("f_visitor_id") == visitorId &&
-                    r.Field<int>("f_doctype_id") == 0 &&
+                    (isMain ? r.Field<int>("f_doctype_id") != 0 :
+                    r.Field<int>("f_doctype_id") == 0) &&
                     r.Field<string>("f_deleted") == "N")
                 {
                     r["f_deleted"] = "Y";
@@ -1170,24 +1185,28 @@ namespace SupRealClient.Views
         {
             if (Set[index].MainDocuments == null)
             {
-                Set[index].MainDocuments = new ObservableCollection<VisitorsDocument>(
+                Set[index].MainDocuments = new ObservableCollection<VisitorsMainDocument>(
                     from documents in VisitorsDocumentsWrapper.CurrentTable().
                     Table.AsEnumerable()
                     where documents.Field<int>("f_visitor_id") == Set[index].Id &&
                           documents.Field<int>("f_doctype_id") != 0 &&
                           documents.Field<string>("f_deleted") == "N"
-                    select new VisitorsDocument
+                    select new VisitorsMainDocument
                     {
                         Id = documents.Field<int>("f_vd_id"),
                         VisitorId = Set[index].Id,
                         TypeId = documents.Field<int>("f_doctype_id"),
-                        Name = documents.Field<string>("f_doc_name"),
+                        Type = (string)DocumentsWrapper.CurrentTable().Table
+                            .AsEnumerable().FirstOrDefault(arg =>
+                            arg.Field<int>("f_doc_id") ==
+                            documents.Field<int>("f_doctype_id"))?["f_doc_name"],
                         Seria = documents.Field<string>("f_doc_seria"),
                         Num = documents.Field<string>("f_doc_num"),
                         Date = documents.Field<DateTime>("f_doc_date"),
+                        DateTo = documents.Field<DateTime>("f_doc_date_to"),
                         Org = documents.Field<string>("f_doc_org"),
                         Code = documents.Field<string>("f_doc_code"),
-                        Images = new List<Guid>()
+                        Comment = documents.Field<string>("f_comment")
                     });
             }
             if (Set[index].Documents == null)
@@ -1204,11 +1223,6 @@ namespace SupRealClient.Views
                         VisitorId = Set[index].Id,
                         TypeId = 0,
                         Name = documents.Field<string>("f_doc_name"),
-                        Seria = documents.Field<string>("f_doc_seria"),
-                        Num = documents.Field<string>("f_doc_num"),
-                        Date = documents.Field<DateTime>("f_doc_date"),
-                        Org = documents.Field<string>("f_doc_org"),
-                        Code = documents.Field<string>("f_doc_code"),
                     });
             }
         }
@@ -1260,7 +1274,7 @@ namespace SupRealClient.Views
             };
             Set = new ObservableCollection<EnumerationClasses.Visitor>();
             CurrentItem = new EnumerationClasses.Visitor();
-            CurrentItem.MainDocuments = new ObservableCollection<VisitorsDocument>();
+            CurrentItem.MainDocuments = new ObservableCollection<VisitorsMainDocument>();
             CurrentItem.Documents = new ObservableCollection<VisitorsDocument>();
             Set.Add(CurrentItem);
         }
