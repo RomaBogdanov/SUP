@@ -16,6 +16,12 @@ namespace SupRealClient.Views
             AfterInitialize();
         }
 
+        public void SetCountry(int countryId)
+        {
+            ((base4.DataContext as Base4ViewModel<EnumerationClasses.Region>).Model
+                as RegionsListModel<EnumerationClasses.Region>).SetCountry(countryId);
+        }
+
         private void CreateColumns()
         {
             DataGridTextColumn dataGridTextColumn = new DataGridTextColumn
