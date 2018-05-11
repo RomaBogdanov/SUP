@@ -139,6 +139,7 @@
     <Compile Include="Models\Visit.cs" />
     <Compile Include="Models\VisitorModeEnum.cs" />
     <Compile Include="Models\VisitorsEnableOrVisible.cs" />
+    <Compile Include="Models\VisitorsHelper.cs" />
     <Compile Include="Models\VisitorsMainDocumentModel.cs" />
     <Compile Include="Models\WindowEnum.cs" />
     <Compile Include="Properties\Annotations.cs" />

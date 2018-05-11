@@ -6,6 +6,7 @@ using System.Data;
 using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Text;
+using System.Windows.Data;
 using System.Windows.Forms;
 using System.Windows.Input;
 using SupClientConnectionLib;
@@ -47,6 +48,8 @@ namespace SupRealClient.Views
         private IWindow view;
         private int selectedMainDocument = -1;
         private int selectedDocument = -1;
+
+        public CollectionView PositionList { get; private set; }
 
         public IVisitsModel Model
         {
@@ -227,6 +230,10 @@ namespace SupRealClient.Views
         {
             this.view = view;
             Model = new VisitsModel();
+
+            this.PositionList =
+                new CollectionView(VisitorsHelper.GetPositions(
+                    Model.CurrentItem.Position));
 
             OnPropertyChanged("PhotoSource");
             OnPropertyChanged("Signature");

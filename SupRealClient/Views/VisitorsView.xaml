@@ -658,15 +658,18 @@
                             Text="Должность:"
                             Style="{StaticResource TextBLockStyle}"/>
 
-                        <TextBox
-                            TabIndex="29"
-                            Text="{Binding Path=CurrentItem.Position, Mode=TwoWay}"
+                        <ComboBox
                             Grid.Row="5"
                             Grid.Column="0"
                             Grid.ColumnSpan="4"
                             Margin="2"
+                            TabIndex="29"
+                            FontSize="{Binding FontSize}"
                             IsEnabled="{Binding Path=TextEnable, Mode=TwoWay}"
-                            Style="{StaticResource TextBoxStyle}"/>
+                            SelectedValue="{Binding Path=CurrentItem.Position, Mode=OneWay}"
+                            Text="{Binding Path=CurrentItem.Position, Mode=TwoWay}"
+                            IsEditable="True"
+                            ItemsSource="{Binding Path=PositionList}" />
 
                         <Grid
                             Grid.Row="6"
