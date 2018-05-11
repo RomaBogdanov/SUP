@@ -44,7 +44,11 @@ namespace SupRealClient.Views.ListViews
             }
             else if (e.Key == Key.Escape)
             {
-                ((BaseListViewModel<object>)DataContext).Add.Execute(null);
+                //((BaseListViewModel<object>)DataContext).Add.Execute(null);
+            }
+            else
+            {
+                aaa.Focus();
             }
         }
     }
