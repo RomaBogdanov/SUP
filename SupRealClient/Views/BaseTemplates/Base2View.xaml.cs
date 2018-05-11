@@ -64,11 +64,11 @@ namespace SupRealClient.Views
 
         private void UserControl_PreviewKeyDown(object sender, KeyEventArgs e)
         {
-            if (e.Key== Key.Up)
+            if (e.Key== Key.Up & !BaseTab.IsKeyboardFocusWithin)
             {
                 btnUp.Command.Execute(null);
             }
-            else if (e.Key==Key.Down)
+            else if (e.Key==Key.Down & !BaseTab.IsKeyboardFocusWithin)
             {
                 btnDown.Command.Execute(null);
             }

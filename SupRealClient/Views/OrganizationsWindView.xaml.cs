@@ -10,8 +10,14 @@ namespace SupRealClient.Views
     /// </summary>
     public partial class OrganizationsWindView
     {
+        public static OrganizationsWindView CurrentWindow
+        {
+            get; set;
+        }
+
         public OrganizationsWindView()
         {
+            CurrentWindow = this;
             InitializeComponent();
 
             // TODO - потом убрать, когда все View на новой модели будут

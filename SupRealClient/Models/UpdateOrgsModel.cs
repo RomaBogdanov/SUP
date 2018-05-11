@@ -44,6 +44,16 @@ namespace SupRealClient.Models
         public void Cancel()
         {
             OnClose?.Invoke();
+            if (Views.OrganizationsWindView.CurrentWindow != null)
+            {
+                System.Threading.Tasks.Task.Run(new Action(() => 
+                {
+                    System.Threading.Thread.Sleep(200);
+                    Views.OrganizationsWindView.CurrentWindow.Dispatcher.Invoke(
+                        () => { Views.OrganizationsWindView.CurrentWindow.Activate(); });
+                    
+                }));
+            }
         }
 
         public void Ok(Organization data)
