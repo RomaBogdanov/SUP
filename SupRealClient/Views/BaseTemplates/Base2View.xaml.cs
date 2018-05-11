@@ -1,5 +1,4 @@
-﻿using System.Linq;
-using SupRealClient.Models;
+﻿using SupRealClient.Models;
 using SupRealClient.ViewModels;
 using System.Windows.Controls;
 using System.Windows.Input;
