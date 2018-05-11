@@ -36,17 +36,93 @@
                 <RowDefinition Height="1*"/>
                 <RowDefinition Height="1*"/>
             </Grid.RowDefinitions>
-            <Label Grid.ColumnSpan="2" FontSize="24" FontWeight="Bold" Margin="2">Регистрация</Label>
-            <Label Grid.Row="1" Grid.ColumnSpan="2" FontSize="20" Margin="2">Имя пользователя:</Label>
-            <TextBox Grid.Row="2" Grid.ColumnSpan="2" FontSize="20" Margin="2" Text="{Binding Path=Login, Mode=TwoWay}"></TextBox>
-            <Label Grid.Row="3" Grid.ColumnSpan="2" FontSize="20" Margin="2">Пароль:</Label>
-            <PasswordBox Grid.Row="4" Grid.ColumnSpan="2" FontSize="20" Margin="2" Name="txtPass"></PasswordBox>
-            <Label Grid.Row="5" Grid.ColumnSpan="2" FontSize="20" Margin="2">Выбрать сервер:</Label>
-            <ComboBox Grid.Row="6" Grid.ColumnSpan="2" FontSize="20" Margin="2" IsEnabled="True"
-                      ItemsSource="{Binding Path=Hosts, Mode=OneTime}" SelectedItem="{Binding Path=SelectedHost, Mode=TwoWay}"
-                      SelectedValuePath="Key" DisplayMemberPath="Value" />
-            <Button Grid.ColumnSpan="2" Grid.Row="7" Grid.Column="0" Margin="2" Content="Ок" FontSize="20" Command="{Binding Path=Enter}" CommandParameter="{Binding ElementName=txtPass}"></Button>
-            <Label FontSize="20" Grid.ColumnSpan="2" Grid.Row="8" Foreground="{Binding Path=InfoStyle, Mode=TwoWay}" Content="{Binding Path=Msg, Mode=TwoWay}"/>
+            <TextBlock 
+                Grid.Column="0"
+                Grid.ColumnSpan="2" 
+                FontSize="24" 
+                FontWeight="Bold" 
+                Margin="2"
+                Text="Регистрация"
+                HorizontalAlignment="Left"
+                Style="{StaticResource TextBLockStyle}"/>
+            
+            <TextBlock 
+                Grid.Row="1" 
+                Grid.Column="0"
+                Grid.ColumnSpan="2" 
+                FontSize="{Binding FontSize}" 
+                Margin="2"
+                Text="Имя пользователя:"
+                HorizontalAlignment="Left"
+                Style="{StaticResource TextBLockStyle}"/>
+            
+            <TextBox 
+                Grid.Row="2" 
+                Grid.Column="0"
+                Grid.ColumnSpan="2" 
+                FontSize="{Binding FontSize}" 
+                Margin="2" 
+                Text="{Binding Path=Login, Mode=TwoWay}"/>
+            
+            <TextBlock 
+                Grid.Row="3" 
+                Grid.Column="0"
+                Grid.ColumnSpan="2" 
+                FontSize="{Binding FontSize}" 
+                Margin="2"
+                Text="Пароль:"
+                HorizontalAlignment="Left"
+                Style="{StaticResource TextBLockStyle}"/>
+            
+            <PasswordBox 
+                Grid.Row="4" 
+                Grid.Column="0"
+                Grid.ColumnSpan="2" 
+                FontSize="{Binding FontSize}" 
+                Margin="2" 
+                Name="txtPass"/>
+            
+            <TextBlock 
+                Grid.Row="5" 
+                Grid.Column="0"
+                Grid.ColumnSpan="2" 
+                FontSize="{Binding FontSize}" 
+                Margin="2"
+                Text="Выбрать сервер:"
+                HorizontalAlignment="Left"
+                Style="{StaticResource TextBLockStyle}"/>
+            
+            <ComboBox 
+                Grid.Row="6" 
+                Grid.Column="0"
+                Grid.ColumnSpan="2" 
+                FontSize="{Binding FontSize}" 
+                Margin="2" 
+                IsEnabled="True"
+                ItemsSource="{Binding Path=Hosts, Mode=OneTime}" 
+                SelectedItem="{Binding Path=SelectedHost, Mode=TwoWay}"
+                SelectedValuePath="Key" 
+                DisplayMemberPath="Value" />
+            
+            <Button 
+                Grid.Column="0"
+                Grid.ColumnSpan="2" 
+                Grid.Row="7" 
+                Margin="2" 
+                Content="Ок" 
+                FontSize="{Binding FontSize}" 
+                Command="{Binding Path=Enter}" 
+                CommandParameter="{Binding ElementName=txtPass}"/>
+            
+            <TextBlock 
+                Grid.Row="8" 
+                Grid.Column="0"
+                Grid.ColumnSpan="2" 
+                FontSize="{Binding FontSize}" 
+                Foreground="{Binding Path=InfoStyle, Mode=TwoWay}" 
+                Text="{Binding Path=Msg, Mode=TwoWay}"
+                HorizontalAlignment="Left"
+                Style="{StaticResource TextBLockStyle}"/>
             <!--<Button Grid.Row="7" Grid.Column="1" Margin="2" Content="Отмена" FontSize="20"></Button>-->
         </Grid>
     </Grid>

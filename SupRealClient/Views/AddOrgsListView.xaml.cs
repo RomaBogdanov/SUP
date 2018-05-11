@@ -24,7 +24,7 @@ namespace SupRealClient.Views
     /// <summary>
     /// Логика взаимодействия для AddOrgsListView.xaml
     /// </summary>
-    public partial class AddOrgsListView : Window
+    public partial class AddOrgsListView 
     {
         public AddOrgsListView(AddOrgsListModel model)
         {

@@ -29,6 +29,8 @@ namespace SupRealClient.Views
             viewModel.Model.OnClose += Handling_OnClose;
             base2.DataContext = viewModel;
             AfterInitialize();
+
+            base2.Focus();
         }
 
         partial void CreateColumns()
@@ -77,6 +79,14 @@ namespace SupRealClient.Views
             if (e.Key == Key.Down)
             {
                 e.ToString();
+            }
+        }
+
+        private void OrganizationsWindView_OnKeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.Key == Key.Escape)
+            {
+                Close();
             }
         }
     }
