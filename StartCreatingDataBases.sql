@@ -8,12 +8,12 @@ go
 -- Создание БД Visitors на T-SQL
 -- ===========================================
 
-if DB_ID('Visitors1') is not null
-	drop database Visitors1;
-create database Visitors1;
+if DB_ID('Visitors') is not null
+	drop database Visitors;
+create database Visitors;
 go
 
-use Visitors1;
+use Visitors;
 go
 
 -- Создание vis_cabinets
@@ -493,8 +493,10 @@ CREATE TABLE vis_visitors_documents
     f_doc_seria                    VARCHAR(20),
     f_doc_num                      VARCHAR(20),
     f_doc_date                     DATE,
+	f_doc_date_to                  DATE,
     f_doc_org                      VARCHAR(100),
     f_doc_code                     VARCHAR(20),
+	f_comment                      VARCHAR(100),
     f_deleted                      CHAR(1))
 
 ALTER TABLE vis_visitors_documents
@@ -502,7 +504,7 @@ ADD PRIMARY KEY (f_vd_id)
 
 if not exists(select * from vis_visitors_documents where f_vd_id = '0')
 begin
-	insert into vis_visitors_documents values ( '0', '', '', '', '', '', '', '', '', '')
+	insert into vis_visitors_documents values ( '0', '', '', '', '', '', '', '', '', '', '', '')
 end
 go
 
@@ -682,12 +684,12 @@ go
 -- Создание БД VisitorsImages на T-SQL
 -- ===========================================
 
-if DB_ID('VisitorsImages1') is not null
-	drop database VisitorsImages1;
-create database VisitorsImages1;
+if DB_ID('VisitorsImages') is not null
+	drop database VisitorsImages;
+create database VisitorsImages;
 go
 
-use VisitorsImages1;
+use VisitorsImages;
 go
 
 -- Создание vis_image
@@ -727,10 +729,10 @@ ADD PRIMARY KEY (f_img_doc_id)
 -- Создание БД VisitorsLogs на T-SQL
 -- ===========================================
 
-if DB_ID('VisitorsLogs1') is not null
-	drop database VisitorsLogs1;
+if DB_ID('VisitorsLogs') is not null
+	drop database VisitorsLogs;
 
-create database VisitorsLogs1;
+create database VisitorsLogs;
 go
 
 use VisitorsLogs1;
