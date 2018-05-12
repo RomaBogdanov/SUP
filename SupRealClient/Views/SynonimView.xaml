@@ -8,6 +8,11 @@
         Title="Синонимы" 
         Height="500" Width="500" 
         ResizeMode="NoResize">
+
+    <mah:MetroWindow.InputBindings>
+        <KeyBinding Key="Escape" Command="{Binding Cancel}"/>
+    </mah:MetroWindow.InputBindings>
+
     <Grid>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="1*"/>

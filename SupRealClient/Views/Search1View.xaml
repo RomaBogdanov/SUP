@@ -5,6 +5,11 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
 		xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
         mc:Ignorable="d" Title="Поиск" Height="310" Width="300">
+
+    <Window.InputBindings>
+        <KeyBinding Key="Escape" Command="{Binding Cancel}"/>
+    </Window.InputBindings>
+
     <Grid>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="2*"/>

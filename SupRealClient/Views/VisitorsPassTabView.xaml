@@ -7,7 +7,8 @@
         mc:Ignorable="d"
         Title="Пропуска" Height="350" Width="700"
         ResizeMode="NoResize"
-        WindowStartupLocation="CenterScreen">
+        WindowStartupLocation="CenterScreen"
+        KeyDown="VisitorsPassTabView_OnKeyDown">
     <Grid>
         <DataGrid AutoGenerateColumns="False">
             <DataGrid.Columns>

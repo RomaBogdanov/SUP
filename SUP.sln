@@ -27,6 +27,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Databases", "Databases", "{
 		CreateVisitorsBaseData.sql = CreateVisitorsBaseData.sql
 		Databases\CreateVisitorsImages.sql = Databases\CreateVisitorsImages.sql
 		Databases\CreateVisitorsLogs.sql = Databases\CreateVisitorsLogs.sql
+		StartCreatingDataBases.sql = StartCreatingDataBases.sql
 		Databases\Upgrade.sql = Databases\Upgrade.sql
 	EndProjectSection
 EndProject

@@ -8,7 +8,7 @@
         Title="{Binding Path=Caption, Mode=OneTime}"
         Height="470" Width="300" 
         ResizeMode="NoResize">
-    
+
     <mah:MetroWindow.InputBindings>
         <KeyBinding Key="Escape" Command="{Binding Cancel}"/>
     </mah:MetroWindow.InputBindings>

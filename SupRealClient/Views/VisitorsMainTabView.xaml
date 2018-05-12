@@ -6,7 +6,8 @@
         xmlns:local="clr-namespace:SupRealClient.Views"
         xmlns:mah="http://metro.mahapps.com/winfx/xaml/controls"
         mc:Ignorable="d"
-        Title="Основная" Height="350" Width="700">
+        Title="Основная" Height="350" Width="700"
+        KeyDown="VisitorsMainTabView_OnKeyDown">
     <Grid>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="0.3*"/>

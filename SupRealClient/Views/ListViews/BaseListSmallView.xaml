@@ -21,8 +21,8 @@
         <Grid.RowDefinitions>
             <RowDefinition/>
             <RowDefinition Height="50"/>
-            <RowDefinition Height="50"/>
-            <RowDefinition Height="50"/>
+            <RowDefinition Height="45"/>
+            <RowDefinition Height="45"/>
         </Grid.RowDefinitions>
         <Grid.ColumnDefinitions>
             <ColumnDefinition/>
@@ -37,14 +37,13 @@
             Grid.Column="0"
             Grid.ColumnSpan="5"
             Focusable="True" 
-            AutoGenerateColumns="False"
+            AutoGenerateColumns="True"
             behaviour:DataGridTextSearch.SearchValue="{Binding ElementName=aaa, Path=Text, UpdateSourceTrigger=PropertyChanged}"
             ItemsSource="{Binding Path=Set, Mode=TwoWay}" 
             CurrentItem="{Binding Path=CurrentItem, Mode=TwoWay}"
             SelectedItem="{Binding Path=CurrentItem, Mode=TwoWay}" 
             SelectedIndex="{Binding Path=SelectedIndex, Mode=TwoWay}"
             CurrentColumn="{Binding Path=CurrentColumn, Mode=TwoWay}" 
-            ColumnHeaderStyle="{StaticResource SelectionColumnHeader}"
             Style="{StaticResource AzureDataGrid}"/>
         
         <TextBlock

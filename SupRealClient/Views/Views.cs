@@ -2,6 +2,7 @@
 using System;
 using System.ComponentModel;
 using System.Windows;
+using System.Windows.Input;
 
 namespace SupRealClient.Views
 {
@@ -287,6 +288,14 @@ namespace SupRealClient.Views
         partial void CreateColumns();
 
         partial void SetDefaultColumn();
+
+        private void CardsWindView_OnKeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.Key == Key.Escape)
+            {
+                Close();
+            }
+        }
     }
 
     /// <summary>
@@ -429,6 +438,14 @@ namespace SupRealClient.Views
         partial void CreateColumns();
 
         partial void SetDefaultColumn();
+
+        private void NationsWindView_OnKeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.Key == Key.Escape)
+            {
+                Close();
+            }
+        }
     }
 
     /// <summary>
@@ -642,6 +659,14 @@ namespace SupRealClient.Views
         partial void CreateColumns();
 
         partial void SetDefaultColumn();
+
+        private void ZonesWindView_OnKeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.Key == Key.Escape)
+            {
+                Close();
+            }
+        }
     }
 
     /// <summary>
@@ -1068,6 +1093,14 @@ namespace SupRealClient.Views
         partial void CreateColumns();
 
         partial void SetDefaultColumn();
+
+        private void VisitorsListWindView_OnKeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.Key == Key.Escape)
+            {
+                Close();
+            }
+        }
     }
 
     /// <summary>
@@ -1210,6 +1243,14 @@ namespace SupRealClient.Views
         partial void CreateColumns();
 
         partial void SetDefaultColumn();
+
+        private void AddUpdateCabinetView_OnKeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.Key == Key.Escape)
+            {
+                Close();
+            }
+        }
     }
 
     /// <summary>
@@ -1352,6 +1393,14 @@ namespace SupRealClient.Views
         partial void CreateColumns();
 
         partial void SetDefaultColumn();
+
+        private void DocumentImagesView_OnKeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.Key == Key.Escape)
+            {
+                Close();
+            }
+        }
     }
 
     /// <summary>
