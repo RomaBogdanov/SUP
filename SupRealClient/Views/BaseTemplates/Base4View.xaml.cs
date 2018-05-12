@@ -533,7 +533,7 @@ namespace SupRealClient.Views
 
         public override IDictionary<string, string> GetFields()
         {
-            return new Dictionary<string, string>()
+            return new Dictionary<string, string>
             {
                 { "f_org_type", "Тип" },
                 { "f_org_name", "Название организации" },
@@ -551,7 +551,7 @@ namespace SupRealClient.Views
 
         protected override IDictionary<string, string> GetColumns()
         {
-            return new Dictionary<string, string>()
+            return new Dictionary<string, string>
             {
                 { "Type", "f_org_type" },
                 { "Name", "f_org_name" },
