@@ -9,6 +9,7 @@ namespace SupRealClient.EnumerationClasses
         public string Family { get; set; }
         public string Name { get; set; }
         public string Patronymic { get; set; }
+        public DateTime BirthDate { get; set; }
         public int OrganizationId { get; set; }
         public string Organization { get; set; }
         public string Comment { get; set; }
