@@ -4,6 +4,7 @@ using System.Windows.Input;
 using System.Windows.Controls;
 using SupClientConnectionLib;
 using SupRealClient.Views;
+using SupRealClient.EnumerationClasses;
 
 namespace SupRealClient.ViewModels
 {
@@ -215,7 +216,13 @@ namespace SupRealClient.ViewModels
 
         private void TestMethod()
         {
-            var window = new TestView();
+            IBaseListModel<Organization> model = 
+                new OrgsSample<Organization>();
+
+            BaseListViewModel<Organization> viewModel = 
+                new BaseListViewModel<Organization>();
+            viewModel.Model = model;
+            var window = new TestView { DataContext = viewModel };
 
             window.ShowDialog();
         }
