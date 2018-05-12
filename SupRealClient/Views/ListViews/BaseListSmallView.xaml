@@ -7,7 +7,7 @@
              xmlns:behaviour="clr-namespace:SupRealClient.Behaviour"
              mc:Ignorable="d" 
              d:DesignHeight="500" d:DesignWidth="600"
-             KeyDown="BaseListSmallView_OnKeyDown">
+             PreviewKeyDown="BaseListSmallView_OnKeyDown">
     
     <UserControl.InputBindings>
         <KeyBinding Key="Insert" Command="{Binding Add}"/>
@@ -57,7 +57,7 @@
             Style="{StaticResource TextBLockStyle}"/>
         
         <TextBox
-            Name="aaa"
+            Name="tbxSearch"
             Grid.Row="1"
             Grid.Column="1"
             Grid.ColumnSpan="4"
