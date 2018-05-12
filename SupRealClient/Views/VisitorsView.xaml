@@ -435,12 +435,23 @@
                                     <ColumnDefinition Width="Auto"/>
                                     <ColumnDefinition Width="Auto"/>
                                     <ColumnDefinition Width="Auto"/>
+                                    <ColumnDefinition Width="Auto"/>
                                 </Grid.ColumnDefinitions>
-                                
+
+                                <Button
+                                    Command="{Binding OpenMainDocumentCommand}"
+                                    TabIndex="40"
+                                    Grid.Column="1"
+                                    Margin="2"
+                                    Height="25"
+                                    Content="Просмотр"
+                                    IsEnabled="{Binding Path=ButtonEnable, Converter={StaticResource InverseBooleanConverter}, Mode=TwoWay}"
+                                    Style="{StaticResource VisitorsSquareButtonStyle}"/>
+
                                 <Button
                                     Command="{Binding AddMainDocumentCommand}"
                                     TabIndex="17"
-                                    Grid.Column="1"
+                                    Grid.Column="2"
                                     Margin="2"
                                     Height="25"
                                     Width="25"
@@ -450,7 +461,7 @@
                                 <Button
                                     Command="{Binding EditMainDocumentCommand}"
                                     TabIndex="18"
-                                    Grid.Column="2"
+                                    Grid.Column="3"
                                     Margin="2"
                                     Height="25"
                                     Width="25"
@@ -460,7 +471,7 @@
                                 <Button
                                     Command="{Binding RemoveMainDocumentCommand}"
                                     TabIndex="19"
-                                    Grid.Column="3"
+                                    Grid.Column="4"
                                     Margin="2"
                                     Height="25"
                                     Width="25"
@@ -651,15 +662,18 @@
                             Text="Должность:"
                             Style="{StaticResource TextBLockStyle}"/>
 
-                        <TextBox
-                            TabIndex="29"
-                            Text="{Binding Path=CurrentItem.Position, Mode=TwoWay}"
+                        <ComboBox
                             Grid.Row="5"
                             Grid.Column="0"
                             Grid.ColumnSpan="4"
                             Margin="2"
+                            TabIndex="29"
+                            FontSize="{Binding FontSize}"
                             IsEnabled="{Binding Path=TextEnable, Mode=TwoWay}"
-                            Style="{StaticResource TextBoxStyle}"/>
+                            SelectedValue="{Binding Path=CurrentItem.Position, Mode=OneWay}"
+                            Text="{Binding Path=CurrentItem.Position, Mode=TwoWay}"
+                            IsEditable="True"
+                            ItemsSource="{Binding Path=PositionList}" />
 
                         <Grid
                             Grid.Row="6"

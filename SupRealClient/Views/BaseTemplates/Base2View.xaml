@@ -82,9 +82,8 @@
             CanUserAddRows="False"> <!-- TODO - вернуть SelectedValue="{Binding Path=SelectedValue, Mode=TwoWay}"  -->
             <DataGrid.InputBindings>
                 <MouseBinding
-                    MouseAction="LeftDoubleClick"
-                    Command="{Binding RightClickCommand}"
-                    CommandParameter="{Binding SelectedItem/}"/>
+                    MouseAction="RightClick"
+                    Command="{Binding RightClickCommand}"/>
             </DataGrid.InputBindings>
         </DataGrid>
         <TextBlock 

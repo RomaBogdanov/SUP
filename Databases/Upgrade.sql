@@ -320,3 +320,15 @@ go
 
 exec sp_rename 'vis_new_roles_list', 'vis_role_lists'
 go
+
+
+-- После 11.05
+
+alter table vis_visitors_documents
+add
+    f_doc_date_to                  DATE,
+    f_comment                      VARCHAR(100)
+go
+
+UPDATE vis_visitors_documents SET f_doc_date_to='', f_comment=''
+go

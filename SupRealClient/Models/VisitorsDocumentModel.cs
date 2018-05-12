@@ -16,11 +16,6 @@ namespace SupRealClient.Models
                     Id = visitorsDocument.Id,
                     Name = visitorsDocument.Name,
                     TypeId = visitorsDocument.TypeId,
-                    Seria = visitorsDocument.Seria,
-                    Num = visitorsDocument.Num,
-                    Date = visitorsDocument.Date,
-                    Org = visitorsDocument.Org,
-                    Code = visitorsDocument.Code,
                     Images = visitorsDocument.Images,
                 };
             }
@@ -30,7 +25,8 @@ namespace SupRealClient.Models
 
         public VisitorsDocumentModel(VisitorsDocument visitorsDocument)
         {
-            this.visitorsDocument = visitorsDocument ?? new VisitorsDocument();
+            this.visitorsDocument = visitorsDocument ??
+                new VisitorsDocument() { Id = -1 };
         }
 
         public void Cancel()

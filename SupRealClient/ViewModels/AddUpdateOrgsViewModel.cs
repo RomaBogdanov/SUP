@@ -198,8 +198,8 @@ namespace SupRealClient.ViewModels
 
         private void RegionList()
         {
-            var result = ViewManager.Instance.OpenWindowModal(
-                "Base4RegionsWindView", null) as BaseModelResult;
+            var result = ViewManager.Instance.OpenRegions(
+                countryId) as BaseModelResult;
             if (result == null)
             {
                 return;
