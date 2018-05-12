@@ -2,18 +2,6 @@ use Visitors;
 go
 -- Заполнение таблиц тестовыми данными
 
--- Заполнение тестовой таблицы данными
-delete TestTab
-insert into TestTab values ('Hello', 'World', '!');
-go
-insert into TestTab values ('Bia', 'is', 'Hia');
-go
-
--- Заполнение таблицы vis_acc
-delete vis_acc
-insert into vis_acc values ( 'N')
-insert into vis_acc values ( 'N')
-
 -- Заполнение таблицы vis_cabinets
 delete vis_cabinets where f_cabinet_id <> '0'
 insert into vis_cabinets values ( '1', '105', 'Фин. отдел', '1', 'N', '29-сен-2017 11:18:21', '22', '1')
@@ -95,7 +83,7 @@ insert into vis_documents values ( '1', 'Паспорт', 'N', '19-июл-2017 16:04:39', 
 insert into vis_documents values ( '21', 'Удостоверение личнос', 'N', '25-сен-2017 17:49:30', '2')
 
 -- Заполнение таблицы vis_flag
-delete vis_flag
+delete vis_flag where f_user_id <> '0'
 insert into vis_flag values ( '1', 'Y')
 insert into vis_flag values ( '2', 'Y')
 insert into vis_flag values ( '22', 'Y')
@@ -379,7 +367,7 @@ insert into vis_visitors values ( '22', '', '', 'Бонд', 'Джеймс', '', '2-сен-193
 insert into vis_visitors values ( '23', '1', '1', 'Дагаев', 'Юрий', 'Владимрович', '29-сен-2000 10:53:13', '', '', '', '', '', '', 'Y', '', '', 'N', 'N', 'N', 'N', 'N', '29-сен-2017 12:29:46', '22', '42', '29-сен-2017 12:29:46', '22', '', 'Дагаев Ю. В.', 'N', '', '')
 
 -- Заполнение таблицы vis_visitors_documents
-delete vis_visitors_documents
+delete vis_visitors_documents where f_vd_id <> '0'
 insert into vis_visitors_documents values ( '1', '2', '1', '', '1234', '123456', '1-июл-2010', '', 'Кем-то', '666', '', 'N')
 insert into vis_visitors_documents values ( '2', '21', '1', '', '3333', '444444', '12-июл-2005', '', 'ОУ ФМС 2', '111-111', '', 'N')
 insert into vis_visitors_documents values ( '3', '22', '1', '', '6666', '777777', '21-июл-2001', '', 'ОУ ФМС 3', '000-000', '', 'N')
