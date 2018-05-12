@@ -321,7 +321,7 @@ ADD CONSTRAINT orderlist_idx_un PRIMARY KEY (f_orderlist_id)
 
 CREATE TABLE vis_orders
     (f_ord_id                      int NOT NULL,
-    f_order_type_id                CHAR(18) NOT NULL,
+    f_order_type_id                int NOT NULL,
     f_reg_number                   int,
     f_ord_date                     DATE,
     f_date_from                    DATE,
@@ -391,7 +391,7 @@ ADD PRIMARY KEY (f_state_id)
 -- Создание vis_spr_order_types
 
 CREATE TABLE vis_spr_order_types
-    (f_order_type_id               CHAR(18) NOT NULL,
+    (f_order_type_id               int NOT NULL,
     f_order_text                   VARCHAR(50),
     f_deleted                      CHAR(1),
     f_rec_date                     DATE,
@@ -409,6 +409,7 @@ CREATE TABLE vis_visitors
     f_family                       VARCHAR(50),
     f_fst_name                     VARCHAR(20),
     f_sec_name                     VARCHAR(20),
+    f_birth_date                   DATE,
     f_doc_seria                    VARCHAR(20),
     f_doc_num                      VARCHAR(20),
     f_doc_date                     DATE,

@@ -332,3 +332,12 @@ go
 
 UPDATE vis_visitors_documents SET f_doc_date_to='', f_comment=''
 go
+
+-- после 12.05 - дата рождения
+ALTER TABLE vis_visitors
+ADD
+	f_birth_date                   DATE
+go
+
+UPDATE vis_visitors SET f_birth_date=''
+go

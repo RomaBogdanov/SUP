@@ -416,7 +416,7 @@ if OBJECT_ID('vis_spr_order_types') is not null
 	drop table vis_spr_order_types
 
 CREATE TABLE vis_spr_order_types
-    (f_order_type_id               CHAR(18) NOT NULL,
+    (f_order_type_id               int NOT NULL,
     f_order_text                   VARCHAR(50),
     f_deleted                      CHAR(1),
     f_rec_date                     DATE,
@@ -445,6 +445,7 @@ CREATE TABLE vis_visitors
     f_family                       VARCHAR(50),
     f_fst_name                     VARCHAR(20),
     f_sec_name                     VARCHAR(20),
+    f_birth_date                   DATE,
     f_doc_seria                    VARCHAR(20),
     f_doc_num                      VARCHAR(20),
     f_doc_date                     DATE,
@@ -475,7 +476,7 @@ ADD PRIMARY KEY (f_visitor_id)
 
 if not exists(select * from vis_visitors where f_visitor_id = '0')
 begin
-	insert into vis_visitors values ( '0', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', 'N', '', '', '', '', '', '', '', '', '', '')
+	insert into vis_visitors values ( '0', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', 'N', '', '', '', '', '', '', '', '', '', '')
 end
 go
 
@@ -735,7 +736,7 @@ if DB_ID('VisitorsLogs') is not null
 create database VisitorsLogs;
 go
 
-use VisitorsLogs1;
+use VisitorsLogs;
 go
 
 -- Создание vis_log
