@@ -15,7 +15,8 @@ namespace SupRealClient.EnumerationClasses
 
         public override string ToString()
         {
-            return Type + " " + Seria + " " + Num + " " + Date.ToShortDateString();
+            return Type + " - Серия " + Seria + ", № " + Num +
+                ", Дата выдачи " + Date.ToShortDateString();
         }
     }
 }
