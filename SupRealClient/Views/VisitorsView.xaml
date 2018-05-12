@@ -43,8 +43,9 @@
             </Grid.ColumnDefinitions>
             
             <Grid.RowDefinitions>
+                <RowDefinition Height="0.8*"/>
                 <RowDefinition/>
-                <RowDefinition Height="2*"/>
+                <RowDefinition Height="0.8*"/>
             </Grid.RowDefinitions>
             
             <TextBlock
@@ -88,6 +89,38 @@
                 Grid.Column="2"
                 IsEnabled="{Binding Path=TextEnable, Mode=TwoWay}"
                 Style="{StaticResource TextBoxStyle}"/>
+
+            <TextBlock
+                Grid.Row="2"
+                Grid.Column="0"
+                Margin="8"
+                HorizontalAlignment="Left"
+                Text="Дата рождения"
+                Style="{StaticResource TextBLockStyle}"/>
+
+            <DatePicker
+                TabIndex="3"
+                Grid.Row="2"
+                Grid.Column="1"
+                SelectedDate="{Binding Path=CurrentItem.BirthDate, Mode=TwoWay}"
+                IsEnabled="{Binding Path=TextEnable, Mode=TwoWay}"
+                Text="Дата">
+                <DatePicker.Resources>
+                    <Style TargetType="{x:Type DatePickerTextBox}">
+                        <Setter Property="Control.Template">
+                            <Setter.Value>
+                                <ControlTemplate>
+                                    <TextBox
+                                        x:Name="PART_TextBox"
+                                        ToolTip="Выберите дату"
+                                        Text="{Binding Path=SelectedDate, StringFormat='dd.MM.yyyy', 
+                                        RelativeSource={RelativeSource AncestorType={x:Type DatePicker}}}" />
+                                </ControlTemplate>
+                            </Setter.Value>
+                        </Setter>
+                    </Style>
+                </DatePicker.Resources>
+            </DatePicker>
         </Grid>
 
         <Button
@@ -155,7 +188,7 @@
                 Style="{StaticResource TextBLockStyle}"/>
 
             <TextBox
-                TabIndex="3"
+                TabIndex="4"
                 Text="{Binding Path=CurrentItem.Organization, Mode=TwoWay}"
                 Grid.Row="0"
                 Grid.Column="1"
@@ -164,7 +197,7 @@
                 IsReadOnly="True"/>
             
             <Button
-                TabIndex="4"
+                TabIndex="5"
                 Command="{Binding Path=OrganizationCommand}"
                 Grid.Row="0"
                 Grid.Column="2"
@@ -177,7 +210,7 @@
             <Button
                 Command="{Binding ClearCommand}"
                 CommandParameter="Organization"
-                TabIndex="5"
+                TabIndex="6"
                 Grid.Column="3"
                 Height="25"
                 Width="25"
@@ -193,7 +226,7 @@
                 Style="{StaticResource TextBLockStyle}"/>
 
             <TextBox
-                TabIndex="6"
+                TabIndex="7"
                 Text="{Binding Path=CurrentItem.Comment, Mode=TwoWay}"
                 Grid.Row="1"
                 Grid.Column="1"
@@ -201,7 +234,7 @@
                 Style="{StaticResource TextBoxStyle}"/>
 
             <Button
-                TabIndex="7"
+                TabIndex="8"
                 Grid.Row="1"
                 Grid.Column="2"
                 Content="..."
@@ -213,7 +246,7 @@
             <Button
                 Command="{Binding ClearCommand}"
                 CommandParameter="Comment"
-                TabIndex="8"
+                TabIndex="9"
                 Grid.Row="1"
                 Grid.Column="3"
                 Height="25"
@@ -241,7 +274,7 @@
                 </Grid.ColumnDefinitions>
                 
                 <CheckBox
-                    TabIndex="9"
+                    TabIndex="10"
                     IsChecked="{Binding Path=CurrentItem.IsAccessDenied, Mode=TwoWay}"
                     Grid.Column="0"
                     VerticalAlignment="Center"
@@ -263,7 +296,7 @@
                 </Grid.ColumnDefinitions>
 
                 <CheckBox
-                    TabIndex="10"
+                    TabIndex="11"
                     IsChecked="{Binding Path=CurrentItem.IsCanHaveVisitors, Mode=TwoWay}"
                     Grid.Column="0"
                     VerticalAlignment="Center"
@@ -285,7 +318,7 @@
                 </Grid.ColumnDefinitions>
 
                 <CheckBox
-                    TabIndex="11"
+                    TabIndex="12"
                     IsChecked="{Binding Path=CurrentItem.IsNotFormular, Mode=TwoWay}"
                     Grid.Column="0"
                     VerticalAlignment="Center"
@@ -305,6 +338,7 @@
             Grid.Column="0"
             Grid.ColumnSpan="2">
             <mah:MetroAnimatedTabControl
+                TabIndex="21"
                 Margin="5">
                 <mah:MetroTabItem Header="Основная">
                     <Grid>
@@ -331,7 +365,7 @@
                             Style="{StaticResource TextBLockStyle}"/>
                         
                         <TextBox
-                            TabIndex="12"
+                            TabIndex="22"
                             Text="{Binding Path=CurrentItem.Telephone, Mode=TwoWay}"
                             Grid.Row="0"
                             Grid.Column="1"
@@ -350,7 +384,7 @@
                             Style="{StaticResource TextBLockStyle}"/>
 
                         <TextBox
-                            TabIndex="13"
+                            TabIndex="23"
                             Text="{Binding Path=CurrentItem.Nation, Mode=TwoWay}"
                             Grid.Row="1"
                             Grid.Column="1"
@@ -368,7 +402,7 @@
                             </Grid.ColumnDefinitions>
                         
                             <Button
-                                TabIndex="14"
+                                TabIndex="24"
                                 Command="{Binding CountryCommand}"
                                 Grid.Column="0"
                                 Height="25"
@@ -381,7 +415,7 @@
                             <Button
                                 Command="{Binding ClearCommand}"
                                 CommandParameter="Nation"
-                                TabIndex="15"
+                                TabIndex="25"
                                 Grid.Column="1"
                                 Height="25"
                                 Width="25"
@@ -406,7 +440,7 @@
                             Margin="10"
                             FontSize="15"
                             VerticalAlignment="Center"
-                            TabIndex="16"
+                            TabIndex="26"
                             HorizontalAlignment="Stretch"
                             IsEnabled="{Binding Path=TextEnable, Mode=TwoWay}"
                             SelectedValue="{Binding Path=CurrentItem.Position, Mode=OneWay}"
@@ -443,7 +477,7 @@
                                 Style="{StaticResource TextBLockStyle}"/>
 
                             <ListBox
-                                TabIndex="17"
+                                TabIndex="27"
                                 Grid.Row="1"
                                 Grid.Column="0"
                                 Grid.RowSpan="2"
@@ -464,7 +498,7 @@
                                 
                                 <Button
                                     Command="{Binding OpenMainDocumentCommand}"
-                                    TabIndex="18"
+                                    TabIndex="28"
                                     Grid.Column="1"
                                     Margin="2"
                                     Height="25"
@@ -474,7 +508,7 @@
 
                                 <Button
                                     Command="{Binding AddMainDocumentCommand}"
-                                    TabIndex="19"
+                                    TabIndex="29"
                                     Grid.Column="2"
                                     Margin="2"
                                     Height="25"
@@ -484,7 +518,7 @@
                                     Style="{StaticResource VisitorsSquareButtonStyle}"/>
                                 <Button
                                     Command="{Binding EditMainDocumentCommand}"
-                                    TabIndex="20"
+                                    TabIndex="30"
                                     Grid.Column="3"
                                     Margin="2"
                                     Height="25"
@@ -494,7 +528,7 @@
                                     Style="{StaticResource VisitorsSquareButtonStyle}"/>
                                 <Button
                                     Command="{Binding RemoveMainDocumentCommand}"
-                                    TabIndex="21"
+                                    TabIndex="31"
                                     Grid.Column="6"
                                     Margin="2"
                                     Height="25"
@@ -516,7 +550,7 @@
                                 </Grid.ColumnDefinitions>
 
                                 <CheckBox 
-                                    TabIndex="24"
+                                    TabIndex="34"
                                     IsChecked="{Binding Path=CurrentItem.IsAgree, Mode=TwoWay}"
                                     Grid.Column="0"
                                     HorizontalAlignment="Center"
@@ -535,7 +569,7 @@
                                     Style="{StaticResource TextBLockStyle}"/>
                                 
                                 <DatePicker
-                                    TabIndex="25"
+                                    TabIndex="35"
                                     Grid.Column="3"
                                     SelectedDate="{Binding Path=CurrentItem.AgreeToDate, Mode=TwoWay}"
                                     IsEnabled="{Binding Path=TextEnable, Mode=TwoWay}"
@@ -632,7 +666,7 @@
                             Style="{StaticResource TextBLockStyle}"/>
                         
                         <TextBox
-                            TabIndex="26"
+                            TabIndex="41"
                             Text="{Binding Path=CurrentItem.Department, Mode=TwoWay}"
                             Grid.Row="1"
                             Grid.RowSpan="3"
@@ -657,7 +691,7 @@
                             
                             <Button
                                 Command="{Binding DepartmentsCommand}"
-                                TabIndex="27"
+                                TabIndex="42"
                                 Grid.Column="0"
                                 Content="..."
                                 Margin="2"
@@ -669,7 +703,7 @@
                             <Button 
                                 Command="{Binding ClearCommand}"
                                 CommandParameter="Department"
-                                TabIndex="28"
+                                TabIndex="43"
                                 Grid.Column="1"
                                 Content="X"
                                 Margin="2"
@@ -688,7 +722,7 @@
                             </Grid.ColumnDefinitions>
 
                             <CheckBox
-                                TabIndex="32"
+                                TabIndex="44"
                                 IsChecked="{Binding Path=CurrentItem.IsRightSign, Mode=TwoWay}"
                                 Grid.Column="0"
                                 HorizontalAlignment="Center"
@@ -712,7 +746,7 @@
                             </Grid.ColumnDefinitions>
 
                             <CheckBox
-                                TabIndex="33"
+                                TabIndex="45"
                                 IsChecked="{Binding Path=CurrentItem.IsAgreement, Mode=TwoWay}"
                                 Grid.Column="0"
                                 HorizontalAlignment="Center"
@@ -744,7 +778,7 @@
                                 <ColumnDefinition Width="0.5*"/>
                             </Grid.ColumnDefinitions>
                             <TextBox
-                                TabIndex="34"
+                                TabIndex="46"
                                 Text="{Binding Path=CurrentItem.Cabinet, Mode=TwoWay}"
                                 Margin="2"
                                 Style="{StaticResource TextBoxStyle}"
@@ -759,7 +793,7 @@
                                 </Grid.ColumnDefinitions>
 
                             <Button 
-                                TabIndex="35"
+                                TabIndex="47"
                                 Command="{Binding CabinetsCommand}"
                                 Grid.Column="0"
                                 Content="..."
@@ -772,7 +806,7 @@
                                 <Button 
                                     Command="{Binding ClearCommand}"
                                     CommandParameter="Cabinet"
-                                    TabIndex="36"
+                                    TabIndex="48"
                                     Grid.Column="1"
                                     Content="X"
                                     Margin="2"
@@ -790,7 +824,7 @@
                                 Style="{StaticResource TextBLockStyle}"/>
                             
                             <Button
-                                TabIndex="37"
+                                TabIndex="49"
                                 Grid.Column="3"
                                 ToolTip="Добавить подпись"
                                 Margin="0"
@@ -819,7 +853,7 @@
                                         <Image Source="{Binding Signature}"/>
                                     </Border>
                                     <Button
-                                        TabIndex="38"
+                                        TabIndex="50"
                                         Grid.Row="0"
                                         Grid.Column="1"
                                         Content="X"
@@ -853,7 +887,7 @@
                             Style="{StaticResource TextBLockStyle}"/>
                         
                         <ListBox
-                            TabIndex="39"
+                            TabIndex="60"
                             Grid.Row="1"
                             BorderBrush="Black"
                             BorderThickness="1"
@@ -870,7 +904,7 @@
                             </Grid.ColumnDefinitions>
                             <Button
                                     Command="{Binding OpenDocumentCommand}"
-                                    TabIndex="40"
+                                    TabIndex="61"
                                     Grid.Column="1"
                                     Margin="2"
                                     Height="25"
@@ -879,7 +913,7 @@
                                     Style="{StaticResource VisitorsSquareButtonStyle}"/>
                             <Button
                                     Command="{Binding AddDocumentCommand}"
-                                    TabIndex="41"
+                                    TabIndex="62"
                                     Grid.Column="2"
                                     Margin="2"
                                     Height="25"
@@ -889,7 +923,7 @@
                                     Style="{StaticResource VisitorsSquareButtonStyle}"/>
                             <Button
                                     Command="{Binding EditDocumentCommand}"
-                                    TabIndex="42"
+                                    TabIndex="63"
                                     Grid.Column="3"
                                     Margin="2"
                                     Height="25"
@@ -899,7 +933,7 @@
                                     Style="{StaticResource VisitorsSquareButtonStyle}"/>
                             <Button
                                     Command="{Binding RemoveDocumentCommand}"
-                                    TabIndex="43"
+                                    TabIndex="64"
                                     Grid.Column="4"
                                     Margin="2"
                                     Height="25"

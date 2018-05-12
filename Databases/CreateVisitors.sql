@@ -409,6 +409,7 @@ CREATE TABLE vis_visitors
     f_family                       VARCHAR(50),
     f_fst_name                     VARCHAR(20),
     f_sec_name                     VARCHAR(20),
+    f_birth_date                   DATE,
     f_doc_seria                    VARCHAR(20),
     f_doc_num                      VARCHAR(20),
     f_doc_date                     DATE,

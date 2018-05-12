@@ -445,6 +445,7 @@ CREATE TABLE vis_visitors
     f_family                       VARCHAR(50),
     f_fst_name                     VARCHAR(20),
     f_sec_name                     VARCHAR(20),
+    f_birth_date                   DATE,
     f_doc_seria                    VARCHAR(20),
     f_doc_num                      VARCHAR(20),
     f_doc_date                     DATE,
@@ -475,7 +476,7 @@ ADD PRIMARY KEY (f_visitor_id)
 
 if not exists(select * from vis_visitors where f_visitor_id = '0')
 begin
-	insert into vis_visitors values ( '0', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', 'N', '', '', '', '', '', '', '', '', '', '')
+	insert into vis_visitors values ( '0', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', 'N', '', '', '', '', '', '', '', '', '', '')
 end
 go
 
