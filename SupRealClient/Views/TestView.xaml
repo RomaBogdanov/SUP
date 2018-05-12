@@ -11,6 +11,7 @@
         Height="500" Width="800"
         ResizeMode="NoResize"
         KeyDown="TestView_OnKeyDown">
+    
     <Grid>
         <views:BaseListSmallView 
             x:Name="BaseListSmallView"/>

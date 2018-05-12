@@ -288,7 +288,10 @@ namespace SupRealClient.ViewModels
         public DataGridColumn CurrentColumn { get; set; }
         public IWindow Parent { get; set; }
 
-        public DataRow[] Rows => throw new NotImplementedException();
+        public DataRow[] Rows
+        {
+            get { throw new NotImplementedException(); }
+        }
 
         public event ModelPropertyChanged OnModelPropertyChanged;
         public event Action<object> OnClose;
@@ -300,7 +303,7 @@ namespace SupRealClient.ViewModels
 
         public void Begin()
         {
-            throw new NotImplementedException();
+            this.selectedIndex = 0;
         }
 
         public void Close()
@@ -315,7 +318,7 @@ namespace SupRealClient.ViewModels
 
         public void End()
         {
-            throw new NotImplementedException();
+            this.selectedIndex = set.Count - 1;
         }
 
         public void Farther()
@@ -335,7 +338,10 @@ namespace SupRealClient.ViewModels
 
         public void Next()
         {
-            throw new NotImplementedException();
+            if (this.SelectedIndex < this.Set.Count() - 1)
+            {
+                this.SelectedIndex++;
+            }
         }
 
         public void Ok()
@@ -345,7 +351,10 @@ namespace SupRealClient.ViewModels
 
         public void Prev()
         {
-            throw new NotImplementedException();
+            if (this.SelectedIndex > 0)
+            {
+                this.SelectedIndex--;
+            }
         }
 
         public void RightClick()
@@ -355,12 +364,13 @@ namespace SupRealClient.ViewModels
 
         public void Search()
         {
-            throw new NotImplementedException();
+            ViewManager.Instance.Search(this, Parent);
         }
 
         public void Searching(string pattern)
         {
-            throw new NotImplementedException();
+            //todo реализовать поиск
+            //throw new NotImplementedException();
         }
 
         public void SetAt(long id)
@@ -370,6 +380,7 @@ namespace SupRealClient.ViewModels
 
         public void Update()
         {
+            //todo реализовать редактирование
             throw new NotImplementedException();
         }
 
