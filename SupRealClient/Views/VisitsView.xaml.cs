@@ -1328,9 +1328,9 @@ namespace SupRealClient.Views
                 return false;
             }
 
-            row["f_rec_date_pass"] = DateTime.MinValue;
+            row["f_rec_date_pass"] = DateTime.Now;
             row["f_is_short_data"] = CommonHelper.BoolToString(false);
-            row["f_rec_operator_pass"] = -1;
+            row["f_rec_operator_pass"] = Authorizer.AppAuthorizer.Id;
             row["f_full_name"] = CommonHelper.CreateFullName(CurrentItem.Family,
                 CurrentItem.Name, CurrentItem.Patronymic);
 
@@ -1435,11 +1435,8 @@ namespace SupRealClient.Views
                 return false;
             }
 
-            row["f_rec_date"] = DateTime.Now;
-            if (OldVisitor.Operator != CurrentItem.Operator)
-            {
-                row["f_rec_operator"] = Authorizer.AppAuthorizer.Id;
-            }
+            row["f_rec_date_pass"] = DateTime.Now;
+            row["f_rec_operator_pass"] = Authorizer.AppAuthorizer.Id;
 
             bool fullNameChanged = false;
             if (OldVisitor.Family != CurrentItem.Family)
