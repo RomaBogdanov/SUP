@@ -1050,6 +1050,7 @@ namespace SupRealClient.Views
                     Family = visitors.Field<string>("f_family"),
                     Name = visitors.Field<string>("f_fst_name"),
                     Patronymic = visitors.Field<string>("f_sec_name"),
+                    BirthDate = visitors.Field<DateTime>("f_birth_date"),
                     Organization = OrganizationsHelper.
                         GenerateFullName(visitors.Field<int>("f_org_id"), true),
                     Comment = visitors.Field<string>("f_vr_text"),
@@ -1328,9 +1329,9 @@ namespace SupRealClient.Views
                 return false;
             }
 
-            row["f_rec_date_pass"] = DateTime.MinValue;
+            row["f_rec_date_pass"] = DateTime.Now;
             row["f_is_short_data"] = CommonHelper.BoolToString(false);
-            row["f_rec_operator_pass"] = -1;
+            row["f_rec_operator_pass"] = Authorizer.AppAuthorizer.Id;
             row["f_full_name"] = CommonHelper.CreateFullName(CurrentItem.Family,
                 CurrentItem.Name, CurrentItem.Patronymic);
 
@@ -1341,6 +1342,7 @@ namespace SupRealClient.Views
             row["f_family"] = CurrentItem.Family;
             row["f_fst_name"] = CurrentItem.Name;
             row["f_sec_name"] = CurrentItem.Patronymic;
+            row["f_birth_date"] = CurrentItem.BirthDate;
             row["f_org_id"] = CurrentItem.OrganizationId >= 0 ?
                 CurrentItem.OrganizationId : 0;
             row["f_vr_text"] = CurrentItem.Comment ?? "";
@@ -1435,11 +1437,8 @@ namespace SupRealClient.Views
                 return false;
             }
 
-            row["f_rec_date"] = DateTime.Now;
-            if (OldVisitor.Operator != CurrentItem.Operator)
-            {
-                row["f_rec_operator"] = Authorizer.AppAuthorizer.Id;
-            }
+            row["f_rec_date_pass"] = DateTime.Now;
+            row["f_rec_operator_pass"] = Authorizer.AppAuthorizer.Id;
 
             bool fullNameChanged = false;
             if (OldVisitor.Family != CurrentItem.Family)
@@ -1461,6 +1460,10 @@ namespace SupRealClient.Views
             {
                 row["f_full_name"] = CommonHelper.CreateFullName(
                     CurrentItem.Family, CurrentItem.Name, CurrentItem.Patronymic);
+            }
+            if (OldVisitor.BirthDate != CurrentItem.BirthDate)
+            {
+                row["f_birth_date"] = CurrentItem.BirthDate;
             }
             if (OldVisitor.OrganizationId != CurrentItem.OrganizationId)
                 row["f_org_id"] = CurrentItem.OrganizationId >= 0 ?

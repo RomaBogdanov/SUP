@@ -24,9 +24,6 @@ namespace SupRealClient.Views.ListViews
         public BaseListSmallView()
         {
             InitializeComponent();
-
-            //DataContext = BaseListViewModel<>
-
             DataGrid.Focus();
         }
 
@@ -46,21 +43,21 @@ namespace SupRealClient.Views.ListViews
             }
             else if (e.Key == Key.Insert)
             {
-                ((BaseListViewModel<EnumerationClasses.Organization>)DataContext).Add.Execute(null);
+                ((IBaseListViewModelStandartCommands)DataContext).Add.Execute(null);
             }
             else if (e.Key == Key.Home)
             {
-                ((BaseListViewModel<EnumerationClasses.Organization>)DataContext).Begin.Execute(null);
+                ((IBaseListViewModelStandartCommands)DataContext).Begin.Execute(null);
             }
             else if (e.Key == Key.End)
             {
-                ((BaseListViewModel<EnumerationClasses.Organization>)DataContext).End.Execute(null);
+                ((IBaseListViewModelStandartCommands)DataContext).End.Execute(null);
             }
         }
 
         private void DataGrid_OnKeyDown(object sender, KeyEventArgs e)
         {
-            aaa.Focus();
+            tbxSearch.Focus();
         }
     }
 }

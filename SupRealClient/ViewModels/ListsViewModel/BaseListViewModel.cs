@@ -16,10 +16,35 @@ using System.Data;
 using SupRealClient.TabsSingleton;
 using SupRealClient.Models;
 using SupRealClient.EnumerationClasses;
+using SupRealClient.Search;
+using SupRealClient.Common;
 
 namespace SupRealClient.ViewModels
 {
-    class BaseListViewModel<T> : INotifyPropertyChanged
+    /// <summary>
+    /// Интерфейс для команд BaseListViewModel запускаемых из необобщённых классов
+    /// или классов, которые не знают на базе чего было сделано обобщение.
+    /// </summary>
+    interface IBaseListViewModelStandartCommands
+    {
+        ICommand Begin { get; set; }
+        ICommand Prev { get; set; }
+        ICommand Next { get; set; }
+        ICommand End { get; set; }
+        ICommand Add { get; set; }
+        ICommand Update { get; set; }
+        ICommand Search { get; set; }
+        ICommand Farther { get; set; }
+        ICommand Ok { get; set; }
+        ICommand Close { get; set; }
+        ICommand Zones { get; set; }
+        ICommand Watch { get; set; }
+        ICommand DoubleClick { get; set; }
+        ICommand RightClick { get; set; }
+    }
+
+    class BaseListViewModel<T> : INotifyPropertyChanged, 
+        IBaseListViewModelStandartCommands
     {
 
         private IBaseListModel<T> model;
@@ -240,7 +265,7 @@ namespace SupRealClient.ViewModels
         void Watch();
         void Zones();
 
-        void Searching(string pattern);
+        bool Searching(string pattern);
     }
 
     /// <summary>
@@ -248,11 +273,30 @@ namespace SupRealClient.ViewModels
     /// полем поиска, и базовыми кнопками работы со списком (до 12 шт.)
     /// </summary>
     /// <typeparam name="T"></typeparam>
-    class BaseListModel<T> : IBaseListModel<T>, ISearchHelper
+    abstract class BaseListModel<T> : IBaseListModel<T>, ISearchHelper
     {
+        
+        public event ModelPropertyChanged OnModelPropertyChanged;
+        public event Action<object> OnClose;
+
         protected ObservableCollection<T> set;
         protected T currentItem;
         protected int selectedIndex;
+        protected SearchResult searchResult = new SearchResult();
+
+        public DataGridColumn CurrentColumn { get; set; }
+
+        public IWindow Parent { get; set; }
+
+        public virtual DataRow[] Rows
+        { get { return Table.AsEnumerable().ToArray(); } }
+
+        protected virtual DataTable Table { get; }
+
+        protected virtual IDictionary<string, string> GetColumns()
+        {
+            return new Dictionary<string, string>();
+        }
 
         /// <summary>
         /// Множество, которое выводится в список.
@@ -284,115 +328,212 @@ namespace SupRealClient.ViewModels
             get { return selectedIndex; }
             set { selectedIndex = value; }
         }
-
-        public DataGridColumn CurrentColumn { get; set; }
-        public IWindow Parent { get; set; }
-
-        public DataRow[] Rows
+        
+        /// <summary>
+        /// Процедура обработки нажатия кнопки Начало
+        /// </summary>
+        public virtual void Begin()
         {
-            get { throw new NotImplementedException(); }
-        }
-
-        public event ModelPropertyChanged OnModelPropertyChanged;
-        public event Action<object> OnClose;
-
-        public void Add()
-        {
-            System.Windows.Forms.MessageBox.Show("Add");
-        }
-
-        public void Begin()
-        {
-            this.selectedIndex = 0;
-        }
-
-        public void Close()
-        {
-            throw new NotImplementedException();
-        }
-
-        public void DoubleClick()
-        {
-            throw new NotImplementedException();
-        }
-
-        public void End()
-        {
-            this.selectedIndex = set.Count - 1;
-        }
-
-        public void Farther()
-        {
-            throw new NotImplementedException();
-        }
-
-        public IDictionary<string, string> GetFields()
-        {
-            throw new NotImplementedException();
-        }
-
-        public long GetId(int index)
-        {
-            throw new NotImplementedException();
-        }
-
-        public void Next()
-        {
-            if (this.SelectedIndex < this.Set.Count() - 1)
+            if (Set.Count > 0)
             {
-                this.SelectedIndex++;
+                SelectedIndex = 0;
+                CurrentItem = Set[SelectedIndex];
+            }
+            else
+            {
+                SelectedIndex = -1;
             }
         }
 
-        public void Ok()
+        /// <summary>
+        /// Процедура обработки нажатия кнопки Конец
+        /// </summary>
+        public virtual void End()
         {
-            throw new NotImplementedException();
-        }
-
-        public void Prev()
-        {
-            if (this.SelectedIndex > 0)
+            if (Set.Count > 0)
             {
-                this.SelectedIndex--;
+                SelectedIndex = Set.Count - 1;
+                CurrentItem = Set[SelectedIndex];
+            }
+            else
+            {
+                SelectedIndex = -1;
             }
         }
 
-        public void RightClick()
+        /// <summary>
+        /// Процедура обработки нажатия кнопки Пред.
+        /// </summary>
+        public virtual void Prev()
         {
-            throw new NotImplementedException();
+            if (Set.Count > 0)
+            {
+                if (SelectedIndex > 0)
+                {
+                    SelectedIndex--;
+                    CurrentItem = Set[SelectedIndex];
+                }
+            }
+            else
+            {
+                SelectedIndex = -1;
+            }
         }
 
-        public void Search()
+        /// <summary>
+        /// Процедура обработки нажатия кнопки След.
+        /// </summary>
+        public virtual void Next()
+        {
+            if (Set.Count > 0)
+            {
+                if (SelectedIndex < Set.Count - 1)
+                {
+                    SelectedIndex++;
+                    CurrentItem = Set[SelectedIndex];
+                }
+            }
+            else
+            {
+                SelectedIndex = -1;
+            }
+        }
+
+        /// <summary>
+        /// Процедура обработки нажатия кнопки Добавить
+        /// </summary>
+        public abstract void Add();
+
+        /// <summary>
+        /// Процедура обработки нажатия кнопки Отредактировать
+        /// (при определённых вариантах Удалить)
+        /// </summary>
+        public abstract void Update();
+
+        /// <summary>
+        /// Процедура обработки нажатия кнопки Далее
+        /// </summary>
+        public virtual void Farther()
+        {
+            SetAt(searchResult.Next());
+        }
+
+        /// <summary>
+        /// Отрабатывает нажатие кнопки поиска
+        /// </summary>
+        public virtual void Search()
         {
             ViewManager.Instance.Search(this, Parent);
         }
 
-        public void Searching(string pattern)
+        /// <summary>
+        /// Процедура обработки кнопки Ок
+        /// </summary>
+        public virtual void Ok()
         {
-            //todo реализовать поиск
-            //throw new NotImplementedException();
+            OnClose?.Invoke(GetResult());
         }
 
-        public void SetAt(long id)
+        /// <summary>
+        /// Процедура обработки кнопки Закрыть
+        /// </summary>
+        public virtual void Close()
         {
-            throw new NotImplementedException();
+            OnClose?.Invoke(null);
         }
 
-        public void Update()
+        /// <summary>
+        /// Процедура обработки нажатия правой кнопки мыши
+        /// </summary>
+        public virtual void RightClick() { }
+
+        /// <summary>
+        /// TODO: пока не совсем понятно.
+        /// Возможно процедура получения результата.
+        /// </summary>
+        /// <returns></returns>
+        protected virtual BaseModelResult GetResult()
+        { return null; }
+
+        /// <summary>
+        /// Процедура, которая должна будет обработать двойное нажатие ЛКМ
+        /// </summary>
+        public virtual void DoubleClick() { }
+
+        /// <summary>
+        /// TODO: вообще непонятно, что это.
+        /// </summary>
+        /// <returns></returns>
+        public virtual IDictionary<string, string> GetFields()
         {
-            //todo реализовать редактирование
-            throw new NotImplementedException();
+            return new Dictionary<string, string>();
         }
 
-        public void Watch()
+        /// <summary>
+        /// TODO: непонятно.
+        /// Скорее всего, индекс строки.
+        /// </summary>
+        /// <param name="index"></param>
+        /// <returns></returns>
+        public virtual long GetId(int index)
         {
-            throw new NotImplementedException();
+            return -1;
         }
 
-        public void Zones()
+        /// <summary>
+        /// TODO: непонятно.
+        /// </summary>
+        /// <param name="id"></param>
+        public virtual void SetAt(long id)
         {
-            throw new NotImplementedException();
+            for (int i = 0; i < Set.Count(); i++)
+            {
+                if ((Set.ElementAt(i) as IdEntity).Id == id)
+                {
+                    CurrentItem = Set.ElementAt(i);
+                    OnModelPropertyChanged?.Invoke("CurrentItem");
+                    break;
+                }
+            }
         }
+
+        /// <summary>
+        /// TODO: непонятно.
+        /// Скорее всего, поиск.
+        /// </summary>
+        /// <param name="pattern"></param>
+        /// <returns></returns>
+        public virtual bool Searching(string pattern)
+        {
+            searchResult = new SearchResult();
+            if (CurrentColumn == null || string.IsNullOrEmpty(pattern) ||
+                !GetColumns().ContainsKey(CurrentColumn.SortMemberPath))
+            {
+                return false;
+            }
+            string path = GetColumns()[CurrentColumn.SortMemberPath];
+            for (int i = 0; i < Rows.Length; i++)
+            {
+                object obj = Rows[i].Field<object>(path);
+                if (CommonHelper.IsSearcConditionMatch(obj.ToString(), pattern))
+                {
+                    searchResult.Add(GetId(i));
+                }
+            }
+            SetAt(searchResult.Begin());
+
+            return searchResult.Any();
+        }
+
+        /// <summary>
+        /// Обработка кнопки Просмотр
+        /// </summary>
+        public virtual void Watch() { }
+
+        /// <summary>
+        /// Обработка кнопки Зоны
+        /// </summary>
+        public virtual void Zones() { }
 
         protected void Query()
         {
@@ -413,6 +554,7 @@ namespace SupRealClient.ViewModels
         }
 
         protected virtual void DoQuery() { }
+
     }
 
     class OrgsSample<T>: BaseListModel<T>
@@ -421,6 +563,16 @@ namespace SupRealClient.ViewModels
         public OrgsSample()
         {
             Query();
+        }
+
+        public override void Add()
+        {
+            System.Windows.Forms.MessageBox.Show("Add");
+        }
+
+        public override void Update()
+        {
+            System.Windows.Forms.MessageBox.Show("Update");
         }
 
         protected override void DoQuery()
@@ -451,6 +603,43 @@ namespace SupRealClient.ViewModels
             orgs.Field<int>("f_region_id"))["f_region_name"].ToString(),
         SynId = orgs.Field<int>("f_syn_id")
     });
+        }
+
+        protected override BaseModelResult GetResult()
+        {
+            return new BaseModelResult
+            {
+                Id = CurrentItem.Id,
+                Name = CurrentItem.FullName
+            };
+        }
+
+        public override IDictionary<string, string> GetFields()
+        {
+            return new Dictionary<string, string>
+            {
+                { "f_org_type", "Тип" },
+                { "f_org_name", "Название организации" },
+                { "f_comment", "Примечание" },
+            };
+        }
+
+        protected override DataTable Table
+        {
+            get
+            {
+                return OrganizationsWrapper.CurrentTable().Table;
+            }
+        }
+
+        protected override IDictionary<string, string> GetColumns()
+        {
+            return new Dictionary<string, string>
+            {
+                { "Type", "f_org_type" },
+                { "Name", "f_org_name" },
+                { "Comment", "f_comment" },
+            };
         }
     }
 }

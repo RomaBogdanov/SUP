@@ -23,9 +23,8 @@ namespace SupRealClient.Views
         {
             InitializeComponent();
 
-            //BaseListSmallView.aaa.Focus();
-
-            BaseListSmallView.Focus();
+            BaseListSmallView.tbxSearch.Focus();
+            
         }
 
         private void TestView_OnKeyDown(object sender, KeyEventArgs e)
@@ -33,22 +32,6 @@ namespace SupRealClient.Views
             if (e.Key == Key.Escape)
             {
                 Close();
-            }
-            else if (e.Key == Key.Up & !BaseListSmallView.DataGrid.IsKeyboardFocusWithin)
-            {
-                BaseListSmallView.btnprev.Command.Execute(null);
-            }
-            else if (e.Key == Key.Down & !BaseListSmallView.DataGrid.IsKeyboardFocusWithin)
-            {
-                BaseListSmallView.btnnext.Command.Execute(null);
-            }
-            else if (e.Key == Key.Home & !BaseListSmallView.DataGrid.IsKeyboardFocusWithin)
-            {
-                BaseListSmallView.btnstart.Command.Execute(null);
-            }
-            else if (e.Key == Key.End & !BaseListSmallView.DataGrid.IsKeyboardFocusWithin)
-            {
-                BaseListSmallView.btnend.Command.Execute(null);
             }
         }
     }

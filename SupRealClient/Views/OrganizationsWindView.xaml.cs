@@ -21,8 +21,8 @@ namespace SupRealClient.Views
             InitializeComponent();
 
             // TODO - потом убрать, когда все View на новой модели будут
-            base2.SetViewModel(null);
-
+            //base2.SetViewModel(null);
+            base2.tbxSearch.Focus();
             // TODO - потом перенести в генерируемый код
             Base4ViewModel<EnumerationClasses.Organization> viewModel =
             new Base4ViewModel<EnumerationClasses.Organization>
