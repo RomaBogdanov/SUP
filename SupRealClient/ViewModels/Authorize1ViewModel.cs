@@ -34,7 +34,7 @@ namespace SupRealClient.ViewModels
         SetupStorage setupStorage = SetupStorage.Current;
         Timer logoutTimer;
         int logoutInterval = 180000;
-        public int FontSize => GlobalSettings.GetSettings() + 4;
+        public int FontSize => GlobalSettings.GetFontSize() + 4;
 
         public string Login
         {

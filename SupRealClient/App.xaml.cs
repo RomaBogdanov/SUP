@@ -12,7 +12,7 @@ namespace SupRealClient
     {
         public App()
         {
-            GlobalSettings.SetSettings(12);
+            GlobalSettings.SetFontSize(12);
             this.DispatcherUnhandledException += App_DispatcherUnhandledException;
         }
 

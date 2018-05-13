@@ -10,6 +10,11 @@
         ResizeMode="NoResize"
         Height="800" Width="1050"
         KeyDown="BidsView_OnKeyDown">
+
+    <!--ResizeMode="NoResize"-->
+    <!--Height="{Binding WindowSettings.BidsHeight}" 
+        Width="{Binding WindowSettings.BidsWidth}"-->
+
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition/>
@@ -53,7 +58,7 @@
                         Grid.Row="1">
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition Width="130"/>
-                            <ColumnDefinition Width="150"/>
+                            <ColumnDefinition Width="200"/>
                             <ColumnDefinition Width="50"/>
                             <ColumnDefinition/>
                         </Grid.ColumnDefinitions>

@@ -11,7 +11,7 @@ CREATE TABLE vis_image
     f_image_alias                  UNIQUEIDENTIFIER NOT NULL,
     f_visitor_id                   int,
     f_image_type                   int,
-    f_data                         VARBINARY(MAX)
+    f_data                         VARBINARY(MAX),
     f_deleted                      CHAR(1))
 
 ALTER TABLE vis_image
