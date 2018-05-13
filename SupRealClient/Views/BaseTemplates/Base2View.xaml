@@ -13,7 +13,7 @@
         <KeyBinding Gesture="Ctrl+D" Command="{Binding Update}"/>
         <KeyBinding Gesture="Ctrl+F" Command="{Binding Search}"/>
         <KeyBinding Gesture="Ctrl+G" Command="{Binding Farther}"/>
-        <KeyBinding Gesture="Ctrl+D" Command="{Binding RightClickCommand}"/>
+        
     </UserControl.InputBindings>
     
     <!--<UserControl.DataContext>
@@ -69,7 +69,7 @@
                 
                 <MouseBinding
                     MouseAction="LeftDoubleClick"
-                    Command="{Binding RightClickCommand}"/>
+                    Command="{Binding Update}"/>
             </DataGrid.InputBindings>
         </DataGrid>
         
@@ -222,7 +222,7 @@
                     Style="{StaticResource TextBLockStyle}"/>
             </Grid>
         </Button>
-        
+
         <Button 
             Name="btnEdit"
             Grid.Row="3" 
@@ -230,7 +230,8 @@
             Margin="1" 
             Command="{Binding Path=Update}" 
             KeyDown="BaseTab_OnKeyDown"
-            Style="{StaticResource ButtonStyle}">
+            Style="{StaticResource ButtonStyle}"
+            ToolTip="Ctrl+D">
             <Grid>
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="30"/>
