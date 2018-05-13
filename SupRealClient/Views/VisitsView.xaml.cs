@@ -235,8 +235,12 @@ namespace SupRealClient.Views
         public ICommand EditMainDocumentCommand { get; set; }
         public ICommand RemoveMainDocumentCommand { get; set; }
 
+        public ChildWindowSettings WindowSettings { get; set; }
+
         public VisitsViewModel(IWindow view)
         {
+            WindowSettings = GlobalSettings.GetChildWindowSettings();
+
             this.view = view;
             Model = new VisitsModel();
 

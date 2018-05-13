@@ -13,7 +13,7 @@ namespace SupRealClient.ViewModels
         private string name = "";
         private int countryId = 0;
         private string country = "";
-        public int FontSize => GlobalSettings.GetSettings();
+        public int FontSize => GlobalSettings.GetFontSize();
 
         public string Caption { get; private set; }
 

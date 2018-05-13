@@ -16,17 +16,34 @@ namespace SupRealClient.Models
             }
         }
 
+        public static GlobalSettings GetSettings()
+        {
+            return instance;
+        }
+
         private static GlobalSettings instance;
-        public static int GetSettings()
+        public static int GetFontSize()
         {
             return FontSize;
         }
 
-        public static void SetSettings(int fontSize)
+        public static void SetFontSize(int fontSize)
         {
             FontSize = fontSize;
         }
 
         private static int FontSize { get; set; } = 15;
+
+        public static ChildWindowSettings GetChildWindowSettings()
+        {
+            return ChildWindowSettings;
+        }
+
+        public static void SetChildWindowSettings(ChildWindowSettings settings)
+        {
+            ChildWindowSettings = settings;
+        }
+
+        private static ChildWindowSettings ChildWindowSettings { get; set; }
     }
 }

@@ -13,6 +13,7 @@
         <KeyBinding Gesture="Ctrl+D" Command="{Binding Update}"/>
         <KeyBinding Gesture="Ctrl+F" Command="{Binding Search}"/>
         <KeyBinding Gesture="Ctrl+G" Command="{Binding Farther}"/>
+        <KeyBinding Gesture="Ctrl+D" Command="{Binding RightClickCommand}"/>
     </UserControl.InputBindings>
     
     <!--<UserControl.DataContext>
@@ -64,6 +65,10 @@
             <DataGrid.InputBindings>
                 <MouseBinding
                     MouseAction="RightClick"
+                    Command="{Binding RightClickCommand}"/>
+                
+                <MouseBinding
+                    MouseAction="LeftDoubleClick"
                     Command="{Binding RightClickCommand}"/>
             </DataGrid.InputBindings>
         </DataGrid>
