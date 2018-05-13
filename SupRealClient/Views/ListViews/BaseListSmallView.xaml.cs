@@ -24,32 +24,40 @@ namespace SupRealClient.Views.ListViews
         public BaseListSmallView()
         {
             InitializeComponent();
-
-            //DataContext = BaseListViewModel<>
+            DataGrid.Focus();
         }
 
         private void BaseListSmallView_OnKeyDown(object sender, KeyEventArgs e)
         {
-            if (e.Key == Key.Insert)
+            if (e.Key == Key.Up & !DataGrid.IsKeyboardFocusWithin)
             {
-                ((BaseListViewModel<object>) DataContext).Add.Execute(null);
+                btnprev.Command.Execute(null);
+            }
+            else if (e.Key == Key.Down & !DataGrid.IsKeyboardFocusWithin)
+            {
+                btnnext.Command.Execute(null);
+            }
+            else if (e.Key == Key.Enter)
+            {
+                btnok.Command.Execute(null);
+            }
+            else if (e.Key == Key.Insert)
+            {
+                ((IBaseListViewModelStandartCommands)DataContext).Add.Execute(null);
             }
             else if (e.Key == Key.Home)
             {
-                ((BaseListViewModel<object>)DataContext).Add.Execute(null);
+                ((IBaseListViewModelStandartCommands)DataContext).Begin.Execute(null);
             }
             else if (e.Key == Key.End)
             {
-                ((BaseListViewModel<object>)DataContext).Add.Execute(null);
+                ((IBaseListViewModelStandartCommands)DataContext).End.Execute(null);
             }
-            else if (e.Key == Key.Escape)
-            {
-                //((BaseListViewModel<object>)DataContext).Add.Execute(null);
-            }
-            else
-            {
-                aaa.Focus();
-            }
+        }
+
+        private void DataGrid_OnKeyDown(object sender, KeyEventArgs e)
+        {
+            tbxSearch.Focus();
         }
     }
 }

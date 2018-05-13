@@ -21,8 +21,8 @@ namespace SupRealClient.Views
             InitializeComponent();
 
             // TODO - потом убрать, когда все View на новой модели будут
-            base2.SetViewModel(null);
-
+            //base2.SetViewModel(null);
+            base2.tbxSearch.Focus();
             // TODO - потом перенести в генерируемый код
             Base4ViewModel<EnumerationClasses.Organization> viewModel =
             new Base4ViewModel<EnumerationClasses.Organization>
@@ -79,15 +79,7 @@ namespace SupRealClient.Views
             base2.baseTab.Columns.Add(dataGridTextColumn);
             base2.SetDefaultColumn();
         }
-
-        private void Base2_OnKeyDown(object sender, KeyEventArgs e)
-        {
-            if (e.Key == Key.Down)
-            {
-                e.ToString();
-            }
-        }
-
+        
         private void OrganizationsWindView_OnKeyDown(object sender, KeyEventArgs e)
         {
             if (e.Key == Key.Escape)

@@ -44,25 +44,6 @@
             <RowDefinition Height="30"/>
             <RowDefinition Height="50"/>
         </Grid.RowDefinitions>
-        <!--<DataGrid 
-            Name="baseTab" 
-            Grid.Row="0" 
-            Grid.RowSpan="3" 
-            Grid.ColumnSpan="10"
-            ItemsSource="{Binding Path=Set, Mode=TwoWay}" 
-            CurrentItem="{Binding Path=CurrentItem, Mode=TwoWay}"
-            Focusable="True" 
-            FontSize="{Binding FontSize}"
-            SelectedItem="{Binding Path=CurrentItem, Mode=TwoWay}" 
-            converters:DataGridTextSearch.SearchValue="{Binding ElementName=tbxSearch, Path=Text, UpdateSourceTrigger=PropertyChanged}"
-            SelectedIndex="{Binding Path=SelectedIndex, Mode=TwoWay}"
-            SelectedValue="{Binding Path=SelectedValue, Mode=TwoWay}" 
-            CurrentColumn="{Binding Path=CurrentColumn, Mode=TwoWay}"
-            ColumnHeaderStyle="{StaticResource SelectionColumnHeader}"
-            KeyDown="BaseTab_OnKeyDown"
-            ColumnWidth="*" Style="{StaticResource AzureDataGrid1}"
-            CanUserAddRows="False">
-        </DataGrid>-->
         <DataGrid 
             Name="baseTab" 
             Grid.Row="0" 
@@ -86,6 +67,7 @@
                     Command="{Binding RightClickCommand}"/>
             </DataGrid.InputBindings>
         </DataGrid>
+        
         <TextBlock 
             Grid.Row="2" 
             Grid.Column="0" 

@@ -23,7 +23,8 @@ namespace SupRealClient.Views
         {
             InitializeComponent();
 
-            //BaseListSmallView.aaa.Focus();
+            BaseListSmallView.tbxSearch.Focus();
+            
         }
 
         private void TestView_OnKeyDown(object sender, KeyEventArgs e)

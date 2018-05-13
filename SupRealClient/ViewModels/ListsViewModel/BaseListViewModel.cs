@@ -21,7 +21,30 @@ using SupRealClient.Common;
 
 namespace SupRealClient.ViewModels
 {
-    class BaseListViewModel<T> : INotifyPropertyChanged
+    /// <summary>
+    /// Интерфейс для команд BaseListViewModel запускаемых из необобщённых классов
+    /// или классов, которые не знают на базе чего было сделано обобщение.
+    /// </summary>
+    interface IBaseListViewModelStandartCommands
+    {
+        ICommand Begin { get; set; }
+        ICommand Prev { get; set; }
+        ICommand Next { get; set; }
+        ICommand End { get; set; }
+        ICommand Add { get; set; }
+        ICommand Update { get; set; }
+        ICommand Search { get; set; }
+        ICommand Farther { get; set; }
+        ICommand Ok { get; set; }
+        ICommand Close { get; set; }
+        ICommand Zones { get; set; }
+        ICommand Watch { get; set; }
+        ICommand DoubleClick { get; set; }
+        ICommand RightClick { get; set; }
+    }
+
+    class BaseListViewModel<T> : INotifyPropertyChanged, 
+        IBaseListViewModelStandartCommands
     {
 
         private IBaseListModel<T> model;

@@ -174,7 +174,8 @@ namespace SupRealClient.ViewModels
                     org.Field<int?>("f_syn_id") == 0
                 select new Organization
                 {
-                    Description = org.Field<string>("f_full_org_name"),
+                    Description = $"{org.Field<string>("f_org_type")} " +
+                        $"{org.Field<string>("f_org_name")}",
                     Id = org.Field<int>("f_org_id"),
                     Items = new ObservableCollection<Department>(
                         from department in DepartmentWrapper
