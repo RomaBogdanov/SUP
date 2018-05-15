@@ -685,7 +685,6 @@
                             Grid.Column="0"
                             Grid.ColumnSpan="2"
                             Margin="2"
-                            IsEnabled="{Binding Path=TextEnable, Mode=TwoWay}"
                             Style="{StaticResource TextBoxStyle}"
                             TextWrapping="Wrap"
                             AcceptsReturn="True"

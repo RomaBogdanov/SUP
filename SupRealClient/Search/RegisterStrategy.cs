@@ -18,7 +18,13 @@
 
 		public bool Execute(string value1, string value2)
 		{
-			return action(register ? value1 : value1.ToUpper(), register ? value2 : value2.ToUpper());
+            value1 = value1.Replace('Ё', 'Е');
+            value1 = value1.Replace('ё', 'е');
+            value2 = value2.Replace('Ё', 'Е');
+            value2 = value2.Replace('ё', 'е');
+
+            return action(register ? value1 : value1.ToUpper(),
+                register ? value2 : value2.ToUpper());
 		}
 	}
 }
