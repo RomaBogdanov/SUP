@@ -19,12 +19,12 @@
                 secondName.Trim().Substring(0, 1) + ".";
         }
 
-        public static bool IsSearcConditionMatch(string value, string searching)
+        public static bool IsSearchConditionMatch(string value, string searching)
         {
             // TODO - плохая реализация, для названий организаций в кавычках
             return value != null &&
-                (value.ToUpper().StartsWith(searching.ToUpper()) ||
-                value.ToUpper().StartsWith("\"" + searching.ToUpper()));
+                (value.ToUpper().Replace('Ё', 'Е').StartsWith(searching.ToUpper()) ||
+                value.ToUpper().Replace('Ё', 'Е').StartsWith("\"" + searching.ToUpper()));
         }
     }
 }

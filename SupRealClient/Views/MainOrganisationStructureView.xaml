@@ -80,7 +80,7 @@
                 
                 <TextBlock
                     Grid.Row="1"
-                    Text="Департамент"/>
+                    Text="Подразделение"/>
             </Grid>
         </Button>
         

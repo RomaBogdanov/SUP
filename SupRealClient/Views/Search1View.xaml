@@ -10,7 +10,7 @@
         <KeyBinding Key="Escape" Command="{Binding Cancel}"/>
     </Window.InputBindings>
 
-    <Grid>
+    <Grid FocusManager.FocusedElement="{Binding ElementName=SearchText}">
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="2*"/>
             <ColumnDefinition Width="2*"/>
@@ -24,7 +24,7 @@
             <RowDefinition Height="*"/>
         </Grid.RowDefinitions>
         <GroupBox Header="Значение поля" Grid.Row="0" Grid.ColumnSpan="4">
-			<TextBox Text="{Binding Path=Text, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}">
+            <TextBox Name="SearchText" Text="{Binding Path=Text, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}">
 				<i:Interaction.Triggers>
 					<i:EventTrigger EventName="TextChanged">
 						<i:InvokeCommandAction Command="{Binding Find}"/>

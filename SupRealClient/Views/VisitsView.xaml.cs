@@ -714,7 +714,7 @@ namespace SupRealClient.Views
 
         public string GetDepartmenstList(int? id)
         {
-            var sb = new StringBuilder();
+            var departmentList = new List<string>();
             while (id.HasValue && id.Value > 0)
             {
                 DataRow row = DepartmentWrapper.CurrentTable().
@@ -724,8 +724,20 @@ namespace SupRealClient.Views
                 {
                     break;
                 }
-                sb.AppendLine(row["f_dep_name"] as string);
+                departmentList.Insert(0, row["f_dep_name"] as string);
                 id = row["f_parent_id"] as int?;
+            }
+
+            var sb = new StringBuilder();
+            int k = 0;
+            foreach (var department in departmentList)
+            {
+                for (int i = 0; i < k; i++)
+                {
+                    sb.Append("   ");
+                }
+                sb.AppendLine(department);
+                k++;
             }
             return sb.ToString();
         }
@@ -774,15 +786,17 @@ namespace SupRealClient.Views
 
         protected bool Validate()
         {
-            if (CurrentItem.Family == "" || CurrentItem.Family == null ||
-                CurrentItem.Name == "" || CurrentItem.Name == null)
+            if (string.IsNullOrEmpty(CurrentItem.Family) ||
+                string.IsNullOrEmpty(CurrentItem.Name) ||
+                string.IsNullOrEmpty(CurrentItem.Patronymic) ||
+                string.IsNullOrEmpty(CurrentItem.Organization))
             {
                 MessageBox.Show("Не все поля заполнены корректно!");
                 return false;
             }
             if (!CurrentItem.IsNotFormular &
-                (CurrentItem.Telephone == null || CurrentItem.Telephone == "" ||
-                CurrentItem.Nation == null || CurrentItem.Nation == "" ||
+                (string.IsNullOrEmpty(CurrentItem.Telephone) ||
+                string.IsNullOrEmpty(CurrentItem.Nation) ||
                 !CurrentItem.MainDocuments.Any()))
             {
                 MessageBox.Show("Не все поля вкладки Основная заполнены!");

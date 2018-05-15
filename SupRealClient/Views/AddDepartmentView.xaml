@@ -6,7 +6,7 @@
         xmlns:local="clr-namespace:SupRealClient.Views"
         xmlns:mah="http://metro.mahapps.com/winfx/xaml/controls"
         mc:Ignorable="d"
-        Title="Новый департамент" Height="150" Width="400"
+        Title="Новое подразделение" Height="150" Width="400"
         ResizeMode="NoResize"
         Icon="../Resources/Добавить.ico">
     
@@ -34,7 +34,7 @@
             Grid.ColumnSpan="4"
             HorizontalAlignment="Center"
             VerticalAlignment="Center"
-            Text="Введите имя нового департамента"/>
+            Text="Введите имя нового подразделения"/>
         
         <TextBox
             Grid.Row="1"

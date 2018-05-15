@@ -142,7 +142,7 @@ namespace SupRealClient.ViewModels
             }
             for (int i = 0; i < Orgs.Count; i++)
             {
-                if (CommonHelper.IsSearcConditionMatch(
+                if (CommonHelper.IsSearchConditionMatch(
                     Orgs[i].ToString(), pattern))
                 {
                     searchResult.Add(Orgs[i].Id);

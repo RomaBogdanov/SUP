@@ -434,7 +434,7 @@ namespace SupRealClient.Views
             for (int i = 0; i < Rows.Length; i++)
             {
                 object obj = Rows[i].Field<object>(path);
-                if (CommonHelper.IsSearcConditionMatch(obj.ToString(), pattern))
+                if (CommonHelper.IsSearchConditionMatch(obj.ToString(), pattern))
                 {
                     searchResult.Add(GetId(i));
                 }
