@@ -21,6 +21,7 @@ namespace SupRealClient.ViewModels
         private string country = "";
         private int regionId = 0;
         private string region = "";
+        private bool countryRegionEnabled;
         private int synId = 0;
         public int FontSize => GlobalSettings.GetFontSize();
 
@@ -120,6 +121,16 @@ namespace SupRealClient.ViewModels
             }
         }
 
+        public bool CountryRegionEnabled
+        {
+            get { return countryRegionEnabled; }
+            set
+            {
+                countryRegionEnabled = value;
+                OnPropertyChanged("CountryRegionEnabled");
+            }
+        }
+
         public CollectionView TypeList { get; private set; }
 
         public CollectionView DescriptionList { get; private set; }
@@ -153,9 +164,11 @@ namespace SupRealClient.ViewModels
             this.regionId = model.Data.RegionId;
             this.Region = model.Data.Region;
             this.synId = model.Data.SynId;
+            this.CountryRegionEnabled = this.synId <= 0;
 
             this.Ok = new RelayCommand(arg => this.model.Ok(new Organization
             {
+                Id = model.Data.Id,
                 Type = Type,
                 Name = OrganizationsHelper.TrimName(Name),
                 Comment = Comment,
@@ -229,6 +242,7 @@ namespace SupRealClient.ViewModels
             }
 
             synId = organization.Id;
+            CountryRegionEnabled = synId <= 0;
             FullName = OrganizationsHelper.GenerateFullName(synId, true);
         }
 
@@ -251,6 +265,7 @@ namespace SupRealClient.ViewModels
                     break;
                 case "FullName":
                     synId = 0;
+                    CountryRegionEnabled = synId <= 0;
                     FullName = "";
                     break;
                 default:
