@@ -75,6 +75,14 @@ namespace SupRealClient.Views
         partial void CreateColumns();
 
         partial void SetDefaultColumn();
+
+        private void Window_PreviewKeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.Key == Key.Escape)
+            {
+                Close();
+            }
+        }
     }
 
     /// <summary>
@@ -146,6 +154,14 @@ namespace SupRealClient.Views
         partial void CreateColumns();
 
         partial void SetDefaultColumn();
+
+        private void Window_PreviewKeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.Key == Key.Escape)
+            {
+                Close();
+            }
+        }
     }
 
     /// <summary>
@@ -217,6 +233,14 @@ namespace SupRealClient.Views
         partial void CreateColumns();
 
         partial void SetDefaultColumn();
+
+        private void Window_PreviewKeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.Key == Key.Escape)
+            {
+                Close();
+            }
+        }
     }
 
     /// <summary>
@@ -289,7 +313,7 @@ namespace SupRealClient.Views
 
         partial void SetDefaultColumn();
 
-        private void CardsWindView_OnKeyDown(object sender, KeyEventArgs e)
+        private void Window_PreviewKeyDown(object sender, KeyEventArgs e)
         {
             if (e.Key == Key.Escape)
             {
@@ -367,6 +391,14 @@ namespace SupRealClient.Views
         partial void CreateColumns();
 
         partial void SetDefaultColumn();
+
+        private void Window_PreviewKeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.Key == Key.Escape)
+            {
+                Close();
+            }
+        }
     }
 
     /// <summary>
@@ -439,7 +471,7 @@ namespace SupRealClient.Views
 
         partial void SetDefaultColumn();
 
-        private void NationsWindView_OnKeyDown(object sender, KeyEventArgs e)
+        private void Window_PreviewKeyDown(object sender, KeyEventArgs e)
         {
             if (e.Key == Key.Escape)
             {
@@ -517,6 +549,14 @@ namespace SupRealClient.Views
         partial void CreateColumns();
 
         partial void SetDefaultColumn();
+
+        private void Window_PreviewKeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.Key == Key.Escape)
+            {
+                Close();
+            }
+        }
     }
 
     /// <summary>
@@ -588,6 +628,14 @@ namespace SupRealClient.Views
         partial void CreateColumns();
 
         partial void SetDefaultColumn();
+
+        private void Window_PreviewKeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.Key == Key.Escape)
+            {
+                Close();
+            }
+        }
     }
 
     /// <summary>
@@ -660,7 +708,7 @@ namespace SupRealClient.Views
 
         partial void SetDefaultColumn();
 
-        private void ZonesWindView_OnKeyDown(object sender, KeyEventArgs e)
+        private void Window_PreviewKeyDown(object sender, KeyEventArgs e)
         {
             if (e.Key == Key.Escape)
             {
@@ -738,6 +786,14 @@ namespace SupRealClient.Views
         partial void CreateColumns();
 
         partial void SetDefaultColumn();
+
+        private void Window_PreviewKeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.Key == Key.Escape)
+            {
+                Close();
+            }
+        }
     }
 
     /// <summary>
@@ -809,6 +865,14 @@ namespace SupRealClient.Views
         partial void CreateColumns();
 
         partial void SetDefaultColumn();
+
+        private void Window_PreviewKeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.Key == Key.Escape)
+            {
+                Close();
+            }
+        }
     }
 
     /// <summary>
@@ -880,6 +944,14 @@ namespace SupRealClient.Views
         partial void CreateColumns();
 
         partial void SetDefaultColumn();
+
+        private void Window_PreviewKeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.Key == Key.Escape)
+            {
+                Close();
+            }
+        }
     }
 
     /// <summary>
@@ -951,6 +1023,14 @@ namespace SupRealClient.Views
         partial void CreateColumns();
 
         partial void SetDefaultColumn();
+
+        private void Window_PreviewKeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.Key == Key.Escape)
+            {
+                Close();
+            }
+        }
     }
 
     /// <summary>
@@ -1022,6 +1102,14 @@ namespace SupRealClient.Views
         partial void CreateColumns();
 
         partial void SetDefaultColumn();
+
+        private void Window_PreviewKeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.Key == Key.Escape)
+            {
+                Close();
+            }
+        }
     }
 
     /// <summary>
@@ -1094,7 +1182,7 @@ namespace SupRealClient.Views
 
         partial void SetDefaultColumn();
 
-        private void VisitorsListWindView_OnKeyDown(object sender, KeyEventArgs e)
+        private void Window_PreviewKeyDown(object sender, KeyEventArgs e)
         {
             if (e.Key == Key.Escape)
             {
@@ -1172,6 +1260,14 @@ namespace SupRealClient.Views
         partial void CreateColumns();
 
         partial void SetDefaultColumn();
+
+        private void Window_PreviewKeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.Key == Key.Escape)
+            {
+                Close();
+            }
+        }
     }
 
     /// <summary>
@@ -1244,7 +1340,7 @@ namespace SupRealClient.Views
 
         partial void SetDefaultColumn();
 
-        private void AddUpdateCabinetView_OnKeyDown(object sender, KeyEventArgs e)
+        private void Window_PreviewKeyDown(object sender, KeyEventArgs e)
         {
             if (e.Key == Key.Escape)
             {
@@ -1322,6 +1418,14 @@ namespace SupRealClient.Views
         partial void CreateColumns();
 
         partial void SetDefaultColumn();
+
+        private void Window_PreviewKeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.Key == Key.Escape)
+            {
+                Close();
+            }
+        }
     }
 
     /// <summary>
@@ -1394,7 +1498,7 @@ namespace SupRealClient.Views
 
         partial void SetDefaultColumn();
 
-        private void DocumentImagesView_OnKeyDown(object sender, KeyEventArgs e)
+        private void Window_PreviewKeyDown(object sender, KeyEventArgs e)
         {
             if (e.Key == Key.Escape)
             {
@@ -1472,6 +1576,14 @@ namespace SupRealClient.Views
         partial void CreateColumns();
 
         partial void SetDefaultColumn();
+
+        private void Window_PreviewKeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.Key == Key.Escape)
+            {
+                Close();
+            }
+        }
     }
 
     /// <summary>
@@ -1543,6 +1655,14 @@ namespace SupRealClient.Views
         partial void CreateColumns();
 
         partial void SetDefaultColumn();
+
+        private void Window_PreviewKeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.Key == Key.Escape)
+            {
+                Close();
+            }
+        }
     }
 
     /// <summary>
@@ -1614,6 +1734,14 @@ namespace SupRealClient.Views
         partial void CreateColumns();
 
         partial void SetDefaultColumn();
+
+        private void Window_PreviewKeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.Key == Key.Escape)
+            {
+                Close();
+            }
+        }
     }
 
     /// <summary>
@@ -1685,6 +1813,14 @@ namespace SupRealClient.Views
         partial void CreateColumns();
 
         partial void SetDefaultColumn();
+
+        private void Window_PreviewKeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.Key == Key.Escape)
+            {
+                Close();
+            }
+        }
     }
 
 }

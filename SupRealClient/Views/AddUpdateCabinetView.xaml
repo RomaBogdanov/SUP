@@ -4,7 +4,7 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         mc:Ignorable="d" Title="Добавление кабинета" Height="170.497" Width="300"
-        KeyDown="AddUpdateCabinetView_OnKeyDown">
+        PreviewKeyDown="Window_PreviewKeyDown">
     <Grid>
         <Label Content="Номер кабинета" HorizontalAlignment="Left" Margin="10,10,0,0" VerticalAlignment="Top"/>
         <Label Content="Описание" HorizontalAlignment="Left" Margin="10,37,0,0" VerticalAlignment="Top"/>

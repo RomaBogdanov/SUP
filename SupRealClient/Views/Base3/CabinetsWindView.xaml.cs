@@ -7,7 +7,7 @@ namespace SupRealClient.Views
     /// <summary>
     /// Логика взаимодействия для CabinetsWindView.xaml
     /// </summary>
-    public partial class CabinetsWindView : Window
+    public partial class CabinetsWindView
     {
         public CabinetsWindView()
         {

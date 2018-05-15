@@ -2,6 +2,7 @@
 using System;
 using System.ComponentModel;
 using System.Windows;
+using System.Windows.Input;
 
 namespace SupRealClient.Views
 {
@@ -76,6 +77,14 @@ namespace SupRealClient.Views
         {
             SetDefaultColumn();
         }
+				
+        private void Window_PreviewKeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.Key == Key.Escape)
+            {
+                Close();
+            }
+        }
     }
 
     /// <summary>
@@ -148,6 +157,14 @@ namespace SupRealClient.Views
         private void Window_Loaded(object sender, RoutedEventArgs e)
         {
             SetDefaultColumn();
+        }
+				
+        private void Window_PreviewKeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.Key == Key.Escape)
+            {
+                Close();
+            }
         }
     }
 
@@ -222,6 +239,14 @@ namespace SupRealClient.Views
         {
             SetDefaultColumn();
         }
+				
+        private void Window_PreviewKeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.Key == Key.Escape)
+            {
+                Close();
+            }
+        }
     }
 
     /// <summary>
@@ -295,6 +320,14 @@ namespace SupRealClient.Views
         {
             SetDefaultColumn();
         }
+				
+        private void Window_PreviewKeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.Key == Key.Escape)
+            {
+                Close();
+            }
+        }
     }
 
     /// <summary>
@@ -367,6 +400,14 @@ namespace SupRealClient.Views
         private void Window_Loaded(object sender, RoutedEventArgs e)
         {
             SetDefaultColumn();
+        }
+				
+        private void Window_PreviewKeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.Key == Key.Escape)
+            {
+                Close();
+            }
         }
     }
 

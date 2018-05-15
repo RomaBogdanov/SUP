@@ -7,7 +7,7 @@ namespace SupRealClient.Views
     /// <summary>
     /// Логика взаимодействия для NationsWindView.xaml
     /// </summary>
-    public partial class NationsWindView : Window
+    public partial class NationsWindView
     {
         public NationsWindView()
         {

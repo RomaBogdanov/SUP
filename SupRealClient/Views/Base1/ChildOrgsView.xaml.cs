@@ -3,25 +3,22 @@ using SupRealClient.ViewModels;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Data;
-using System.Windows.Input;
 
 namespace SupRealClient.Views
 {
     /// <summary>
-    /// Логика взаимодействия для BaseOrgs.xaml
+    /// Логика взаимодействия для ChildOrgs.xaml
     /// </summary>
-    public partial class BaseOrgsView : Window
+    public partial class ChildOrgsView
     {
-        public BaseOrgsView()
+        public ChildOrgsView()
         {
             InitializeComponent();
-            base1.tbxSearch.Focus();
-            Base1ModelAbstr b = new BaseOrgsModel(
+            Base1ModelAbstr b = new ChildOrgsModel(
                 (Base1ViewModel)base1.DataContext, this);
             b.OnClose += Handling_OnClose;
             base1.SetViewModel(b);
             AfterInitialize();
-            base1.Focus();
         }
 
         partial void CreateColumns()
@@ -40,14 +37,6 @@ namespace SupRealClient.Views
             base1.BaseTab.Columns.Add(dataGridTextColumn);
             base1.btnUpdate.Content = "Удалить";
             base1.SetDefaultColumn();
-        }
-
-        private void Window_PreviewKeyDown(object sender, System.Windows.Input.KeyEventArgs e)
-        {
-            if (e.Key == Key.Escape)
-            {
-                Close();
-            }
         }
     }
 }

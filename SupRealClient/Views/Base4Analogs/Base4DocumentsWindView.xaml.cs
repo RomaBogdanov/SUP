@@ -7,7 +7,7 @@ namespace SupRealClient.Views
     /// <summary>
     /// Логика взаимодействия для Base4DocumentsWindView.xaml
     /// </summary>
-    public partial class Base4DocumentsWindView : Window
+    public partial class Base4DocumentsWindView
     {
         public Base4DocumentsWindView()
         {

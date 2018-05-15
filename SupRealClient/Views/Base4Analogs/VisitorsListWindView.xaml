@@ -1,12 +1,13 @@
-﻿<Window x:Class="SupRealClient.Views.CabinetsWindView"
+﻿<mah:MetroWindow x:Class="SupRealClient.Views.VisitorsListWindView"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:SupRealClient.Views"
-        mc:Ignorable="d"
-        Title="Кабинеты" Height="600" Width="720">
+        mc:Ignorable="d" Title="Список посетителей" Height="600" Width="720"
+        xmlns:mah="http://metro.mahapps.com/winfx/xaml/controls"        
+        PreviewKeyDown="Window_PreviewKeyDown">
     <Grid>
-        <local:Base3View x:Name="base3"></local:Base3View>
+        <local:Base4View x:Name="base4"></local:Base4View>
     </Grid>
-</Window>
+</mah:MetroWindow>

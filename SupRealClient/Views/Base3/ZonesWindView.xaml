@@ -1,12 +1,13 @@
-﻿<Window x:Class="SupRealClient.Views.ChildOrgsView"
+﻿<mah:MetroWindow x:Class="SupRealClient.Views.ZonesWindView"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:SupRealClient.Views"
-        mc:Ignorable="d" Title="Дочерние акционерные общества" Height="600" Width="600">
+        xmlns:mah="http://metro.mahapps.com/winfx/xaml/controls"        
+        mc:Ignorable="d" Title="Зоны" Height="600" Width="720"
+        PreviewKeyDown="Window_PreviewKeyDown">
     <Grid>
-        <local:Base1View x:Name="base1">
-        </local:Base1View>
+        <local:Base3View x:Name="base3"></local:Base3View>
     </Grid>
-</Window>
+</mah:MetroWindow>

@@ -9,7 +9,7 @@ namespace SupRealClient.Views
     /// <summary>
     /// Логика взаимодействия для CardsWindView.xaml
     /// </summary>
-    public partial class CardsWindView : Window
+    public partial class CardsWindView
     {
         public CardsWindView()
         {

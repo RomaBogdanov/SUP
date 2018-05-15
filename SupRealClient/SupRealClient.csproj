@@ -254,16 +254,16 @@
     <Compile Include="Views\BaseTemplates\Base4View.xaml.cs">
       <DependentUpon>Base4View.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Views\BaseOrgsView.xaml.cs">
+    <Compile Include="Views\Base1\BaseOrgsView.xaml.cs">
       <DependentUpon>BaseOrgsView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\BidsView.xaml.cs">
       <DependentUpon>BidsView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Views\CabinetsWindView.xaml.cs">
+    <Compile Include="Views\Base3\CabinetsWindView.xaml.cs">
       <DependentUpon>CabinetsWindView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Views\CardsWindView.xaml.cs">
+    <Compile Include="Views\Base2\CardsWindView.xaml.cs">
       <DependentUpon>CardsWindView.xaml</DependentUpon>
     </Compile>
     <Compile Include="EnumerationClasses\Card.cs" />
@@ -271,7 +271,7 @@
     <Compile Include="Views\DetailVisitsView.xaml.cs">
       <DependentUpon>DetailVisitsView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Views\ChildOrgsView.xaml.cs">
+    <Compile Include="Views\Base1\ChildOrgsView.xaml.cs">
       <DependentUpon>ChildOrgsView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\LogsWindView.xaml.cs">
@@ -286,7 +286,7 @@
     <Compile Include="Views\VisitorsEmployeeTabView.xaml.cs">
       <DependentUpon>VisitorsEmployeeTabView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Views\VisitorsListWindView.xaml.cs">
+    <Compile Include="Views\Base4Analogs\VisitorsListWindView.xaml.cs">
       <DependentUpon>VisitorsListWindView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\VisitorsMainTabView.xaml.cs">
@@ -328,7 +328,7 @@
     <Compile Include="Views\VisitsView.xaml.cs">
       <DependentUpon>VisitsView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Views\ZonesWindView.xaml.cs">
+    <Compile Include="Views\Base3\ZonesWindView.xaml.cs">
       <DependentUpon>ZonesWindView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\Views.cs">
@@ -428,7 +428,7 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Views\BaseOrgsView.xaml">
+    <Page Include="Views\Base1\BaseOrgsView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -436,11 +436,11 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Views\CabinetsWindView.xaml">
+    <Page Include="Views\Base3\CabinetsWindView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Views\CardsWindView.xaml">
+    <Page Include="Views\Base2\CardsWindView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -448,7 +448,7 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Views\ChildOrgsView.xaml">
+    <Page Include="Views\Base1\ChildOrgsView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -460,11 +460,11 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Views\OrganizationsWindView.xaml">
+    <Page Include="Views\Base2\OrganizationsWindView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Views\NationsWindView.xaml">
+    <Page Include="Views\Base1\NationsWindView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -476,7 +476,7 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Views\DocumentsWindView.xaml">
+    <Page Include="Views\Base1\DocumentsWindView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -498,7 +498,7 @@
     </Page>
     <Compile Include="Models\Base1OrganizationsModel.cs" />
     <Compile Include="Models\AddItemNationsModel.cs" />
-    <Compile Include="Views\OrganizationsWindView.xaml.cs">
+    <Compile Include="Views\Base2\OrganizationsWindView.xaml.cs">
       <DependentUpon>OrganizationsWindView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Models\Base1NationsModel.cs" />
@@ -507,7 +507,7 @@
     <Compile Include="Models\UpdateItemDocumentsModel.cs" />
     <Compile Include="EnumerationClasses\Nation.cs" />
     <Compile Include="Models\UpdateItemNationsModel.cs" />
-    <Compile Include="Views\NationsWindView.xaml.cs">
+    <Compile Include="Views\Base1\NationsWindView.xaml.cs">
       <DependentUpon>NationsWindView.xaml</DependentUpon>
     </Compile>
     <Compile Include="ViewModels\AddItem1ViewModel.cs" />
@@ -525,7 +525,7 @@
     <Compile Include="Models\Base1DocsModel.cs" />
     <Compile Include="Models\Base1ModelAbstr.cs" />
     <Compile Include="ViewModels\Base1ViewModel.cs" />
-    <Compile Include="Views\DocumentsWindView.xaml.cs">
+    <Compile Include="Views\Base1\DocumentsWindView.xaml.cs">
       <DependentUpon>DocumentsWindView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\BaseTemplates\Base1View.xaml.cs">
@@ -562,7 +562,7 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Views\VisitorsListWindView.xaml">
+    <Page Include="Views\Base4Analogs\VisitorsListWindView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -618,7 +618,7 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Views\ZonesWindView.xaml">
+    <Page Include="Views\Base3\ZonesWindView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -763,9 +763,6 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Models\ListsModels\" />
-    <Folder Include="Views\Base1\" />
-    <Folder Include="Views\Base2\" />
-    <Folder Include="Views\Base3\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
