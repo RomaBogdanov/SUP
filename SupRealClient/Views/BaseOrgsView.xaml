@@ -4,7 +4,8 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:SupRealClient.Views"
-        mc:Ignorable="d" Title="Главные организации"  Height="600" Width="600">
+        mc:Ignorable="d" Title="Главные организации"  Height="600" Width="600"
+        PreviewKeyDown="Window_PreviewKeyDown">
     <Grid>
         <local:Base1View x:Name="base1">
         </local:Base1View>
