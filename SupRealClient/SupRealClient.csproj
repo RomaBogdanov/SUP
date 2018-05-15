@@ -83,6 +83,7 @@
     <Compile Include="Behaviour\InverseBooleanConverterюcs.cs" />
     <Compile Include="Behaviour\SearchValueConverter.cs" />
     <Compile Include="Common\CommonHelper.cs" />
+    <Compile Include="Common\Interfaces\IBase4ViewModel.cs" />
     <Compile Include="EnumerationClasses\Cabinet.cs" />
     <Compile Include="Common\Interfaces\ISearchHelper.cs" />
     <Compile Include="Common\Interfaces\IViewManager.cs" />

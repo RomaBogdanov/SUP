@@ -8,7 +8,8 @@
         mc:Ignorable="d"
         Title="Список организаций" 
         Height="600" Width="720"
-        ResizeMode="NoResize">
+        ResizeMode="NoResize"
+        PreviewKeyDown="Window_PreviewKeyDown">
     <Grid>
         <local:Base4View x:Name="base4"></local:Base4View>
     </Grid>

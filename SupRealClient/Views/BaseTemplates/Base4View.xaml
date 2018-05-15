@@ -4,7 +4,8 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:converters="clr-namespace:SupRealClient.Behaviour"
-             mc:Ignorable="d" d:DesignHeight="300" d:DesignWidth="300">
+             mc:Ignorable="d" d:DesignHeight="300" d:DesignWidth="300"
+             PreviewKeyDown="UserControl_PreviewKeyDown">
     
     <UserControl.InputBindings>
         <KeyBinding Gesture="Ctrl+D" Command="{Binding Update}"/>
@@ -60,7 +61,7 @@
             Margin="1"/>
         
         <TextBox 
-            Name="aaa" 
+            Name="tbxSearch" 
             Grid.Row="2" 
             Grid.Column="0"
             Grid.ColumnSpan="6" 
@@ -92,7 +93,8 @@
             </Grid>
         </Button>
         
-        <Button 
+        <Button
+            Name="btnUpdate"
             Grid.Row="3" 
             Grid.Column="1" 
             Margin="1" 
@@ -168,8 +170,8 @@
         </Button>
         
         <Button 
-            Grid.Row="3" 
-            Grid.Column="5" 
+            Grid.Row="4" 
+            Grid.Column="4" 
             Margin="1" 
             Command="{Binding Path=Zones}" 
             Visibility="{Binding Path=ZonesVisibility, Mode=OneTime}" 
@@ -217,7 +219,8 @@
             </Grid>
         </Button>
         
-        <Button 
+        <Button
+            Name="btnUp"
             Grid.Row="4" 
             Grid.Column="1" 
             Margin="1" 
@@ -243,6 +246,7 @@
         </Button>
         
         <Button 
+            Name="btnDown"
             Grid.Row="4" 
             Grid.Column="2" 
             Margin="1" 
@@ -291,16 +295,33 @@
                     Style="{StaticResource TextBLockDetailStyle}"/>
             </Grid>
         </Button>
-        
+
         <Button 
-            Grid.Row="4" 
-            Grid.Column="4" 
-            Content="{Binding Path=OkCaption, Mode=OneTime}" 
+            Grid.Row="3" 
+            Grid.Column="5" 
+            
             Margin="1" 
             Command="{Binding Path=Ok}" 
             FontSize="{Binding FontSize}" 
-            Style="{StaticResource ButtonStyle}"/>
-        
+            Style="{StaticResource ButtonStyle}">
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="30"/>
+                    <ColumnDefinition/>
+                </Grid.ColumnDefinitions>
+
+                <Image
+                    Grid.Column="0"
+                    Source="../../Resources/Принять (2).ico"/>
+
+                <TextBlock
+                    Grid.Column="1"
+                    Text="Ок"
+                    FontSize="{Binding FontSize}"
+                    Style="{StaticResource TextBLockDetailStyle}"/>
+            </Grid>
+        </Button>
+
         <Button 
             Grid.Row="4" 
             Grid.Column="5" 

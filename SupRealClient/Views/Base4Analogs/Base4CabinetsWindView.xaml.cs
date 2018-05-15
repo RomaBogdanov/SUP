@@ -12,8 +12,9 @@ namespace SupRealClient.Views
         public Base4CabinetsWindView()
         {
             InitializeComponent();
-
+            base4.tbxSearch.Focus();
             AfterInitialize();
+            base4.Focus();
         }
 
         private void CreateColumns()

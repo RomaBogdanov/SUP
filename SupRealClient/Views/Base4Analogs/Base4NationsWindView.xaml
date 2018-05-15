@@ -6,7 +6,8 @@
       xmlns:local="clr-namespace:SupRealClient.Views"
       xmlns:mah="http://metro.mahapps.com/winfx/xaml/controls"      
       mc:Ignorable="d" 
-      Title="Гражданства" Height="600" Width="720">
+      Title="Гражданства" Height="600" Width="720"
+      PreviewKeyDown="Window_PreviewKeyDown">
     <Grid>
         <local:Base4View x:Name="base4"></local:Base4View>
     </Grid>
