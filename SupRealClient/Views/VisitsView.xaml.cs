@@ -714,7 +714,7 @@ namespace SupRealClient.Views
 
         public string GetDepartmenstList(int? id)
         {
-            var sb = new StringBuilder();
+            var departmentList = new List<string>();
             while (id.HasValue && id.Value > 0)
             {
                 DataRow row = DepartmentWrapper.CurrentTable().
@@ -724,8 +724,20 @@ namespace SupRealClient.Views
                 {
                     break;
                 }
-                sb.AppendLine(row["f_dep_name"] as string);
+                departmentList.Insert(0, row["f_dep_name"] as string);
                 id = row["f_parent_id"] as int?;
+            }
+
+            var sb = new StringBuilder();
+            int k = 0;
+            foreach (var department in departmentList)
+            {
+                for (int i = 0; i < k; i++)
+                {
+                    sb.Append("   ");
+                }
+                sb.AppendLine(department);
+                k++;
             }
             return sb.ToString();
         }
