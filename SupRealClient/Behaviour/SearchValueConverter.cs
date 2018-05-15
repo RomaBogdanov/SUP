@@ -17,7 +17,7 @@ namespace SupRealClient.Behaviour
             if (!string.IsNullOrEmpty(searchText) &&
                 !string.IsNullOrEmpty(cellText))
             {
-                return CommonHelper.IsSearcConditionMatch(cellText, searchText);
+                return CommonHelper.IsSearchConditionMatch(cellText, searchText);
             }
             return false;
         }
