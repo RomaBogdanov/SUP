@@ -106,6 +106,7 @@
     <Compile Include="Models\AddCardModel.cs" />
     <Compile Include="Common\Data\SearchData.cs" />
     <Compile Include="Models\AddItemRegionsModel.cs" />
+    <Compile Include="Models\ChildWindowSettings.cs" />
     <Compile Include="Models\DocumentsHelper.cs" />
     <Compile Include="Models\IAddUpdateRegionModel.cs" />
     <Compile Include="Models\OrganizationsHelper.cs" />

@@ -66,7 +66,7 @@ namespace SupRealClient.Views
         }
 
         //todo Вот тут можно даже ручками увеличить значение, что бы заметить реакцию окна на его изменение
-        public int FontSize => GlobalSettings.GetSettings();
+        public int FontSize => GlobalSettings.GetFontSize();
 
         public Visibility ZonesVisibility
         {

@@ -7,8 +7,13 @@
         xmlns:converters="clr-namespace:SupRealClient.Behaviour"
         mc:Ignorable="d"
         Title="Посетители" Height="900" Width="900"
-        ResizeMode="NoResize" WindowStartupLocation="CenterScreen"
+        ResizeMode="NoResize"
+        WindowStartupLocation="CenterScreen"
         Closing="Window_Closing">
+
+    <!--ResizeMode="NoResize"-->
+    <!--Height="{Binding WindowSettings.VisitorsHeight}" 
+        Width="{Binding WindowSettings.VisitorsWidth}"-->
 
     <mah:MetroWindow.InputBindings>
         <KeyBinding Key="Escape" Command="{Binding CancelCommand}"/>
@@ -59,6 +64,7 @@
                 Text="{Binding Path=CurrentItem.Family, Mode=TwoWay}"
                 Grid.Row="1"
                 Grid.Column="0"
+                Margin="2"
                 IsEnabled="{Binding Path=TextEnable, Mode=TwoWay}"
                 Style="{StaticResource TextBoxStyle}"/>
             
@@ -73,6 +79,7 @@
                 Text="{Binding Path=CurrentItem.Name, Mode=TwoWay}"
                 Grid.Row="1"
                 Grid.Column="1"
+                Margin="2"
                 IsEnabled="{Binding Path=TextEnable, Mode=TwoWay}"
                 Style="{StaticResource TextBoxStyle}"/>
             
@@ -87,6 +94,7 @@
                 Text="{Binding Path=CurrentItem.Patronymic, Mode=TwoWay}"
                 Grid.Row="1"
                 Grid.Column="2"
+                Margin="2"
                 IsEnabled="{Binding Path=TextEnable, Mode=TwoWay}"
                 Style="{StaticResource TextBoxStyle}"/>
 
@@ -101,9 +109,10 @@
             <DatePicker
                 TabIndex="3"
                 Grid.Row="2"
-                Grid.Column="1"
+                Grid.Column="2"
                 SelectedDate="{Binding Path=CurrentItem.BirthDate, Mode=TwoWay}"
                 IsEnabled="{Binding Path=TextEnable, Mode=TwoWay}"
+                Margin="2"
                 Text="Дата">
                 <DatePicker.Resources>
                     <Style TargetType="{x:Type DatePickerTextBox}">
@@ -456,7 +465,7 @@
                                 <RowDefinition Height="0.6*"/>
                                 <RowDefinition/>
                                 <RowDefinition/>
-                                <RowDefinition/>
+                                <RowDefinition Height="1.1*"/>
                                 <RowDefinition Height="0.8*"/>
                             </Grid.RowDefinitions>
                             
@@ -504,7 +513,7 @@
                                     Height="25"
                                     Content="Просмотр"
                                     IsEnabled="{Binding Path=ButtonEnable, Converter={StaticResource InverseBooleanConverter}, Mode=TwoWay}"
-                                    Style="{StaticResource VisitorsSquareButtonStyle}"/>
+                                    Style="{StaticResource ButtonStyle}"/>
 
                                 <Button
                                     Command="{Binding AddMainDocumentCommand}"
@@ -515,7 +524,8 @@
                                     Width="25"
                                     Content="+"
                                     IsEnabled="{Binding Path=ButtonEnable, Mode=TwoWay}"
-                                    Style="{StaticResource VisitorsSquareButtonStyle}"/>
+                                    Style="{StaticResource ButtonStyle}"/>
+                                
                                 <Button
                                     Command="{Binding EditMainDocumentCommand}"
                                     TabIndex="30"
@@ -525,7 +535,8 @@
                                     Width="25"
                                     Content="..."
                                     IsEnabled="{Binding Path=ButtonEnable, Mode=TwoWay}"
-                                    Style="{StaticResource VisitorsSquareButtonStyle}"/>
+                                    Style="{StaticResource ButtonStyle}"/>
+                                
                                 <Button
                                     Command="{Binding RemoveMainDocumentCommand}"
                                     TabIndex="31"
@@ -535,7 +546,8 @@
                                     Width="25"
                                     Content="X"
                                     IsEnabled="{Binding Path=ButtonEnable, Mode=TwoWay}"
-                                    Style="{StaticResource VisitorsSquareButtonStyle}"/>
+                                    Style="{StaticResource ButtonStyle}"/>
+                                
                             </Grid>
 
                             <Grid

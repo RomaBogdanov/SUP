@@ -180,7 +180,7 @@ namespace SupRealClient.ViewModels
                 };
 
                 var window = new BidsView {DataContext = bidsViewModel};
-                window.ShowDialog();
+                window.Show();
 
                 var dc = (BidsViewModel) window.DataContext;
                 dc.ToString();

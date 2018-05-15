@@ -162,15 +162,32 @@
                         HorizontalAlignment="Left"
                         Style="{StaticResource TextBLockStyle}"/>
 
-                    <TextBox 
+                    <DatePicker
                         Grid.Row="9" 
                         Grid.Column="0"
                         Grid.ColumnSpan="2" 
                         TabIndex="6"
-                        Text="{Binding Path=Date, Mode=TwoWay}"
+                        SelectedDate="{Binding Path=Date, Mode=TwoWay}"
+                        IsEnabled="True"
+                        Text="Дата"
                         Margin="2"
-                        Style="{StaticResource TextBoxStyle}"
-                        KeyUp="TextBox_OnKeyUp"/>
+                        KeyUp="TextBox_OnKeyUp">
+                        <DatePicker.Resources>
+                            <Style TargetType="{x:Type DatePickerTextBox}">
+                                <Setter Property="Control.Template">
+                                    <Setter.Value>
+                                        <ControlTemplate>
+                                            <TextBox 
+                                                            x:Name="PART_TextBox"
+                                                            ToolTip="Выберите дату"
+                                                            Text="{Binding Path=SelectedDate, StringFormat='dd.MM.yyyy', Mode=TwoWay,
+                                                            RelativeSource={RelativeSource AncestorType={x:Type DatePicker}}}" />
+                                        </ControlTemplate>
+                                    </Setter.Value>
+                                </Setter>
+                            </Style>
+                        </DatePicker.Resources>
+                    </DatePicker>
 
                     <TextBlock 
                         Grid.Row="10" 
@@ -200,15 +217,31 @@
                         HorizontalAlignment="Left"
                         Style="{StaticResource TextBLockStyle}"/>
 
-                    <TextBox 
+                    <DatePicker 
                         Grid.Row="13" 
                         Grid.Column="0"
                         Grid.ColumnSpan="2" 
                         TabIndex="8"
-                        Text="{Binding Path=DateTo, Mode=TwoWay}"
+                        Text="Дата до"
+                        SelectedDate="{Binding Path=DateTo, Mode=TwoWay}"
                         Margin="2"
-                        Style="{StaticResource TextBoxStyle}"
-                        KeyUp="TextBox_OnKeyUp"/>
+                        KeyUp="TextBox_OnKeyUp">
+                        <DatePicker.Resources>
+                            <Style TargetType="{x:Type DatePickerTextBox}">
+                                <Setter Property="Control.Template">
+                                    <Setter.Value>
+                                        <ControlTemplate>
+                                            <TextBox 
+                                                            x:Name="PART_TextBox"
+                                                            ToolTip="Выберите дату"
+                                                            Text="{Binding Path=SelectedDate, StringFormat='dd.MM.yyyy', Mode=TwoWay,
+                                                            RelativeSource={RelativeSource AncestorType={x:Type DatePicker}}}" />
+                                        </ControlTemplate>
+                                    </Setter.Value>
+                                </Setter>
+                            </Style>
+                        </DatePicker.Resources>
+                    </DatePicker>
 
                     <TextBlock 
                         Grid.Row="14" 

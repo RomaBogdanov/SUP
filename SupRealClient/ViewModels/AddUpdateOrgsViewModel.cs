@@ -22,7 +22,7 @@ namespace SupRealClient.ViewModels
         private int regionId = 0;
         private string region = "";
         private int synId = 0;
-        public int FontSize => GlobalSettings.GetSettings();
+        public int FontSize => GlobalSettings.GetFontSize();
 
         public ICommand FullNameCommand { get; set; }
         public ICommand CountryCommand { get; set; }
