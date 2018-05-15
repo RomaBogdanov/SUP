@@ -49,6 +49,7 @@
             SelectedItem="{Binding Path=CurrentItem, Mode=TwoWay}" 
             SelectedIndex="{Binding Path=SelectedIndex, Mode=TwoWay}"
             CurrentColumn="{Binding Path=CurrentColumn, Mode=TwoWay}" 
+            Style="{StaticResource AzureDataGrid1}"
             ColumnHeaderStyle="{StaticResource SelectionColumnHeader}"/>
         
         <TextBlock 
@@ -96,7 +97,8 @@
             Grid.Column="1" 
             Margin="1" 
             Command="{Binding Path=Update}" 
-            Style="{StaticResource ButtonStyle}">
+            Style="{StaticResource ButtonStyle}"
+            ToolTip="Ctrl+D">
             <Grid>
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="30"/>

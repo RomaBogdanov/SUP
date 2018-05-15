@@ -1,6 +1,7 @@
 ﻿using SupRealClient.Models;
 using SupRealClient.ViewModels;
 using System.Windows.Controls;
+using System.Windows.Input;
 
 namespace SupRealClient.Views
 {
@@ -13,6 +14,7 @@ namespace SupRealClient.Views
 
         public Base1View()
         {
+            InitializeComponent();
             DataContext = viewModel;
         }
 
@@ -20,6 +22,7 @@ namespace SupRealClient.Views
         {
             ((Base1ViewModel)DataContext).SetModel(model);
             InitializeComponent();
+            tbxSearch.Focus();
         }
 
         public DataGrid BaseTab
@@ -28,6 +31,7 @@ namespace SupRealClient.Views
             set
             {
                 baseTab = value;
+                baseTab.Focus();
             }
         }
 
@@ -36,6 +40,36 @@ namespace SupRealClient.Views
             if (baseTab.Columns.Count > 0)
             {
                 baseTab.CurrentColumn = baseTab.Columns[0];
+            }
+        }
+
+        private void UserControl_PreviewKeyDown(object sender, System.Windows.Input.KeyEventArgs e)
+        {
+            if (e.Key == Key.Up & !BaseTab.IsKeyboardFocusWithin)
+            {
+                btnUp.Command.Execute(null);
+                e.Handled = true;
+            }
+            else if (e.Key == Key.Down & !BaseTab.IsKeyboardFocusWithin)
+            {
+                btnDown.Command.Execute(null);
+                e.Handled = true;
+            }
+            else if (e.Key == Key.Enter)
+            {
+                btnUpdate.Command.Execute(null);
+            }
+            else if (e.Key == Key.Insert)
+            {
+                ((Common.Interfaces.IBase1ViewModel)DataContext).Add.Execute(null);
+            }
+            else if (e.Key == Key.Home)
+            {
+                ((Common.Interfaces.IBase1ViewModel)DataContext).Begin.Execute(null);
+            }
+            else if (e.Key == Key.End)
+            {
+                ((Common.Interfaces.IBase1ViewModel)DataContext).End.Execute(null);
             }
         }
     }

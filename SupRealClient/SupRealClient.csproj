@@ -763,6 +763,9 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Models\ListsModels\" />
+    <Folder Include="Views\Base1\" />
+    <Folder Include="Views\Base2\" />
+    <Folder Include="Views\Base3\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

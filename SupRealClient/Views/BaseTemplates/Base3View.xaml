@@ -5,6 +5,13 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:converters="clr-namespace:SupRealClient.Behaviour"
              mc:Ignorable="d" d:DesignHeight="300" d:DesignWidth="300">
+
+    <UserControl.InputBindings>
+        <KeyBinding Gesture="Ctrl+D" Command="{Binding Update}"/>
+        <KeyBinding Gesture="Ctrl+F" Command="{Binding Search}"/>
+        <KeyBinding Gesture="Ctrl+G" Command="{Binding Farther}"/>
+    </UserControl.InputBindings>
+
     <UserControl.Resources>
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
@@ -28,26 +35,285 @@
             <RowDefinition Height="40"/>
             <RowDefinition Height="50"/>
         </Grid.RowDefinitions>
-        <DataGrid Name="baseTab" Focusable="True" AutoGenerateColumns="False" Grid.ColumnSpan="6" Grid.Row="0"
+        <DataGrid Name="baseTab" 
+                  Focusable="True" 
+                  AutoGenerateColumns="False" 
+                  Grid.ColumnSpan="6" 
+                  Grid.Row="0"
                   converters:DataGridTextSearch.SearchValue="{Binding ElementName=aaa, Path=Text, UpdateSourceTrigger=PropertyChanged}"
-                  ItemsSource="{Binding Path=Set, Mode=TwoWay}" CurrentItem="{Binding Path=CurrentItem, Mode=TwoWay}"
-                  SelectedItem="{Binding Path=CurrentItem, Mode=TwoWay}" SelectedIndex="{Binding Path=SelectedIndex, Mode=TwoWay}"
-                  SelectedValue="{Binding Path=SelectedValue, Mode=TwoWay}"  CurrentColumn="{Binding Path=CurrentColumn, Mode=TwoWay}"
+                  ItemsSource="{Binding Path=Set, Mode=TwoWay}" 
+                  CurrentItem="{Binding Path=CurrentItem, Mode=TwoWay}"
+                  SelectedItem="{Binding Path=CurrentItem, Mode=TwoWay}" 
+                  SelectedIndex="{Binding Path=SelectedIndex, Mode=TwoWay}"
+                  SelectedValue="{Binding Path=SelectedValue, Mode=TwoWay}"  
+                  CurrentColumn="{Binding Path=CurrentColumn, Mode=TwoWay}"
+                  Style="{StaticResource AzureDataGrid1}"
                   ColumnHeaderStyle="{StaticResource SelectionColumnHeader}">
         </DataGrid>
-        <Label Grid.Row="1" Grid.ColumnSpan="6" Content="Поиск по полю:" Margin="1"></Label>
-        <TextBox Name="aaa" Grid.Row="2" Grid.ColumnSpan="6" Margin="1" Text="{Binding Path=SearchingText, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}">
-        </TextBox>
-        <Button Grid.Row="3" Grid.Column="0" Content="Добавить" Margin="1" Command="{Binding Path=Add}" ToolTip="Insert"></Button>
-        <Button Grid.Row="3" Grid.Column="1" Content="Правка" Margin="1" Command="{Binding Path=Update}"></Button>
-        <Button Grid.Row="3" Grid.Column="2" Content="Найти..." Margin="1" Command="{Binding Path=Search}" ToolTip="Ctrl+F"></Button>
-        <Button Grid.Row="3" Grid.Column="3" Content="Далее..." Margin="1" Command="{Binding Path=Farther}" IsEnabled="{Binding Path=FartherEnabled}"></Button>
-        <Button Grid.Row="4" Grid.Column="0" Content="Начало" Margin="1" Command="{Binding Path=Begin}" ToolTip="Home"></Button>
-        <Button Grid.Row="4" Grid.Column="1" Content="Пред." Margin="1" Command="{Binding Path=Prev}" ToolTip="↑"></Button>
-        <Button Grid.Row="4" Grid.Column="2" Content="След." Margin="1" Command="{Binding Path=Next}" ToolTip="↓"></Button>
-        <Button Grid.Row="4" Grid.Column="3" Content="Конец" Margin="1" Command="{Binding Path=End}" ToolTip="End"></Button>
-        <Button Grid.Row="4" Grid.Column="4" Content="Просмотр" Margin="1" Command="{Binding Path=Update}"></Button>
-        <Button Grid.Row="4" Grid.Column="5" Content="Закрыть" Margin="1" Command="{Binding Path=Close}" Grid.ColumnSpan="2" ToolTip="Esc"></Button>
+        <TextBlock 
+            Grid.Row="1" 
+            Grid.Column="0"
+            Grid.ColumnSpan="6" 
+            Text="Поиск по полю:" 
+            Margin="1"/>
+        
+        <TextBox 
+            Name="tbxSearch" 
+            Grid.Row="2" 
+            Grid.Column="0"
+            Grid.ColumnSpan="6" 
+            Margin="1" 
+            Text="{Binding Path=SearchingText, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
+
+        <Button 
+            Grid.Row="3" 
+            Grid.Column="0" 
+            Margin="1" 
+            Command="{Binding Path=Add}" 
+            Style="{StaticResource ButtonStyle}" 
+            ToolTip="Insert">
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="30"/>
+                    <ColumnDefinition/>
+                </Grid.ColumnDefinitions>
+
+                <Image
+                    Grid.Column="0"
+                    Source="../../Resources/Добавить1 (2).ico"/>
+
+                <TextBlock
+                    Grid.Column="1"
+                    Text="Добавить"
+                    FontSize="{Binding FontSize}"
+                    Style="{StaticResource TextBLockDetailStyle}"/>
+            </Grid>
+        </Button>
+
+        <Button 
+            Grid.Row="3" 
+            Grid.Column="1" 
+            Margin="1" 
+            Command="{Binding Path=Update}" 
+            Style="{StaticResource ButtonStyle}"
+            ToolTip="Ctrl+D">
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="30"/>
+                    <ColumnDefinition/>
+                </Grid.ColumnDefinitions>
+
+                <Image
+                    Grid.Column="0"
+                    Source="../../Resources/Редактировать (2).ico"/>
+
+                <TextBlock
+                    Grid.Column="1"
+                    Text="Правка"
+                    FontSize="{Binding FontSize}"
+                    Style="{StaticResource TextBLockDetailStyle}"/>
+            </Grid>
+        </Button>
+        
+        <Button 
+            Grid.Row="3" 
+            Grid.Column="2" 
+            Margin="1" 
+            Command="{Binding Path=Search}" 
+            Style="{StaticResource ButtonStyle}" 
+            ToolTip="Ctrl+F">
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="30"/>
+                    <ColumnDefinition/>
+                </Grid.ColumnDefinitions>
+
+                <Image
+                    Grid.Column="0"
+                    Source="../../Resources/Найти (2).ico"/>
+
+                <TextBlock
+                    Grid.Column="1"
+                    Text="Найти..."
+                    FontSize="{Binding FontSize}"
+                    Style="{StaticResource TextBLockDetailStyle}"/>
+            </Grid>
+        </Button>
+
+        <Button 
+            Grid.Row="3" 
+            Grid.Column="3" 
+            Margin="1" 
+            Command="{Binding Path=Farther}" 
+            Style="{StaticResource ButtonStyle}" 
+            IsEnabled="{Binding Path=FartherEnabled}">
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="30"/>
+                    <ColumnDefinition/>
+                </Grid.ColumnDefinitions>
+
+                <Image
+                    Grid.Column="0"
+                    Source="../../Resources/Далее.ico"/>
+
+                <TextBlock
+                    Grid.Column="1"
+                    Text="Далее..."
+                    FontSize="{Binding FontSize}"
+                    Style="{StaticResource TextBLockDetailStyle}"/>
+            </Grid>
+        </Button>
+
+        <Button 
+            Grid.Row="4" 
+            Grid.Column="0" 
+            Margin="1" 
+            Command="{Binding Path=Begin}" 
+            Style="{StaticResource ButtonStyle}" 
+            ToolTip="Home">
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="30"/>
+                    <ColumnDefinition/>
+                </Grid.ColumnDefinitions>
+
+                <Image
+                    Grid.Column="0"
+                    Source="../../Resources/Начало (2).ico"/>
+
+                <TextBlock
+                    Grid.Column="1"
+                    Text="Начало"
+                    FontSize="{Binding FontSize}"
+                    Style="{StaticResource TextBLockDetailStyle}"/>
+            </Grid>
+        </Button>
+        
+        <Button 
+            Grid.Row="4" 
+            Grid.Column="1" 
+            Margin="1" 
+            Command="{Binding Path=Prev}" 
+            Style="{StaticResource ButtonStyle}" 
+            ToolTip="↑">
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="30"/>
+                    <ColumnDefinition/>
+                </Grid.ColumnDefinitions>
+
+                <Image
+                    Grid.Column="0"
+                    Source="../../Resources/Предыдущий (2).ico"/>
+
+                <TextBlock
+                    Grid.Column="1"
+                    Text="Пред."
+                    FontSize="{Binding FontSize}"
+                    Style="{StaticResource TextBLockDetailStyle}"/>
+            </Grid>
+        </Button>
+
+        <Button 
+            Grid.Row="4" 
+            Grid.Column="2" 
+            Margin="1" 
+            Command="{Binding Path=Next}" 
+            Style="{StaticResource ButtonStyle}" 
+            ToolTip="↓">
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="30"/>
+                    <ColumnDefinition/>
+                </Grid.ColumnDefinitions>
+
+                <Image
+                    Grid.Column="0"
+                    Source="../../Resources/Следующий (2).ico"/>
+
+                <TextBlock
+                    Grid.Column="1"
+                    Text="След."
+                    FontSize="{Binding FontSize}"
+                    Style="{StaticResource TextBLockDetailStyle}"/>
+            </Grid>
+        </Button>
+
+        <Button 
+            Grid.Row="4" 
+            Grid.Column="3" 
+            Margin="1" 
+            Command="{Binding Path=End}" 
+            Style="{StaticResource ButtonStyle}" 
+            ToolTip="End">
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="30"/>
+                    <ColumnDefinition/>
+                </Grid.ColumnDefinitions>
+
+                <Image
+                    Grid.Column="0"
+                    Source="../../Resources/Конец (2).ico"/>
+
+                <TextBlock
+                    Grid.Column="1"
+                    Text="Конец"
+                    FontSize="{Binding FontSize}"
+                    Style="{StaticResource TextBLockDetailStyle}"/>
+            </Grid>
+        </Button>
+        
+        <Button 
+            Grid.Row="4" 
+            Grid.Column="4" 
+            Margin="1" 
+            Command="{Binding Path=Update}"
+            Style="{StaticResource ButtonStyle}">
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="30"/>
+                    <ColumnDefinition/>
+                </Grid.ColumnDefinitions>
+
+                <Image
+                    Grid.Column="0"
+                    Source="../../Resources/Подробно.ico"/>
+
+                <TextBlock
+                    Grid.Column="1"
+                    Text="Просмотр"
+                    FontSize="{Binding FontSize}"
+                    Style="{StaticResource TextBLockDetailStyle}"/>
+            </Grid>
+        </Button>
+        
+        <Button 
+            Grid.Row="4" 
+            Grid.Column="5" 
+            Grid.ColumnSpan="2" 
+            Margin="1" 
+            Command="{Binding Path=Close}" 
+            Style="{StaticResource ButtonStyle}" 
+            ToolTip="Esc">
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="30"/>
+                    <ColumnDefinition/>
+                </Grid.ColumnDefinitions>
+
+                <Image
+                    Grid.Column="0"
+                    Source="../../Resources/Отмена (2).ico"/>
+
+                <TextBlock
+                    Grid.Column="1"
+                    Text="Закрыть"
+                    FontSize="{Binding FontSize}"
+                    Style="{StaticResource TextBLockDetailStyle}"/>
+            </Grid>
+        </Button>
 
     </Grid>
 </UserControl>
