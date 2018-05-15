@@ -774,15 +774,17 @@ namespace SupRealClient.Views
 
         protected bool Validate()
         {
-            if (CurrentItem.Family == "" || CurrentItem.Family == null ||
-                CurrentItem.Name == "" || CurrentItem.Name == null)
+            if (string.IsNullOrEmpty(CurrentItem.Family) ||
+                string.IsNullOrEmpty(CurrentItem.Name) ||
+                string.IsNullOrEmpty(CurrentItem.Patronymic) ||
+                string.IsNullOrEmpty(CurrentItem.Organization))
             {
                 MessageBox.Show("Не все поля заполнены корректно!");
                 return false;
             }
             if (!CurrentItem.IsNotFormular &
-                (CurrentItem.Telephone == null || CurrentItem.Telephone == "" ||
-                CurrentItem.Nation == null || CurrentItem.Nation == "" ||
+                (string.IsNullOrEmpty(CurrentItem.Telephone) ||
+                string.IsNullOrEmpty(CurrentItem.Nation) ||
                 !CurrentItem.MainDocuments.Any()))
             {
                 MessageBox.Show("Не все поля вкладки Основная заполнены!");
