@@ -82,6 +82,15 @@ namespace SupRealClient.Models
             row["f_rec_date"] = DateTime.Now;
             row["f_rec_operator"] = Authorizer.AppAuthorizer.Id;
             row["f_deleted"] = CommonHelper.BoolToString(false);
+            foreach (DataRow row2 in from orgs in
+                    OrganizationsWrapper.CurrentTable().
+                    Table.AsEnumerable()
+                    where orgs.Field<int?>("f_syn_id") == data.Id
+                    select orgs)
+            {
+                row2["f_region_id"] = data.RegionId;
+                row2["f_cntr_id"] = data.CountryId;
+            }
             Cancel();
         }
     }

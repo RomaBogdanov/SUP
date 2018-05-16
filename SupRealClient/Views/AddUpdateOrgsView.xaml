@@ -12,7 +12,7 @@
     <mah:MetroWindow.InputBindings>
         <KeyBinding Key="Escape" Command="{Binding Cancel}"/>
     </mah:MetroWindow.InputBindings>
-    
+
     <Grid>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="Auto"/>
@@ -167,6 +167,7 @@
             Content="..."
             Margin="2"
             TabIndex="5"
+            IsEnabled="{Binding Path=CountryRegionEnabled, Mode=OneWay}"
             Style="{StaticResource ButtonStyle}"/>
 
         <Button
@@ -177,6 +178,7 @@
             Content="X"
             Margin="2"
             TabIndex="6"
+            IsEnabled="{Binding Path=CountryRegionEnabled, Mode=OneWay}"
             Style="{StaticResource ButtonStyle}"/>
 
         <TextBlock
@@ -206,6 +208,7 @@
             Content="..."
             Margin="2"
             TabIndex="7"
+            IsEnabled="{Binding Path=CountryRegionEnabled, Mode=OneWay}"
             Style="{StaticResource ButtonStyle}"/>
         
         <Button
@@ -216,6 +219,7 @@
             Content="X"
             Margin="2"
             TabIndex="8"
+            IsEnabled="{Binding Path=CountryRegionEnabled, Mode=OneWay}"
             Style="{StaticResource ButtonStyle}"/>
 
         <Button 
