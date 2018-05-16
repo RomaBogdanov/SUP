@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using System.Windows.Controls;
 using System.Windows.Input;
 using System.Windows;
+using System.Collections.ObjectModel;
 
 namespace SupRealClient.Common.Interfaces
 {
@@ -24,11 +25,22 @@ namespace SupRealClient.Common.Interfaces
         ICommand Zones { get; set; }
         ICommand RightClickCommand { get; set; }
 
+        string SearchingText { get; set; }
+        int SelectedIndex { get; set; }
+        bool FartherEnabled { get; set; }
+        DataGridColumn CurrentColumn { get; set; }
+
         IWindow Parent { get; set; }
 
         string OkCaption { get; set; }
         Visibility ZonesVisibility { get; set; }
-        bool FartherEnabled { get; set; }
-        string SearchingText { get; set; }
+        
+        
+        //T CurrentItem { get; set; }
+        
+        //ObservableCollection<T> Set { get; set; }
+        
+        //IBase4Model<T> Model { get; set; }
+
     }
 }
