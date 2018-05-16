@@ -245,8 +245,9 @@ namespace SupRealClient.Views
             Model = new VisitsModel();
 
             this.PositionList =
-                new CollectionView(VisitorsHelper.GetPositions(
-                    Model.CurrentItem.Position));
+                new CollectionView(Model.CurrentItem != null ?
+                VisitorsHelper.GetPositions(
+                Model.CurrentItem.Position) : new List<string>());
 
             OnPropertyChanged("PhotoSource");
             OnPropertyChanged("Signature");
@@ -994,14 +995,16 @@ namespace SupRealClient.Views
 
         private void GetPhoto()
         {
-            SetImageSource(ImagesHelper.GetImage(
-                CurrentItem.Id, ImageType.Photo), ImageType.Photo);
+            SetImageSource(CurrentItem == null ? Guid.Empty :
+                ImagesHelper.GetImage(
+                    CurrentItem.Id, ImageType.Photo), ImageType.Photo);
         }
 
         private void GetSign()
         {
-            SetImageSource(ImagesHelper.GetImage(
-                CurrentItem.Id, ImageType.Signature), ImageType.Signature);
+            SetImageSource(CurrentItem == null ? Guid.Empty : 
+                ImagesHelper.GetImage(
+                    CurrentItem.Id, ImageType.Signature), ImageType.Signature);
         }
     }
 
