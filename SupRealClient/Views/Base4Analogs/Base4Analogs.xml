@@ -5,4 +5,5 @@
   <Item Name="Nations" Type="Nation" />
   <Item Name="Organizations" Type="Organization" OkCaption="OK" />
   <Item Name="Regions" Type="Region" />
+  <Item Name="Zones" Type="Zone" ZonesVisibility="Visible" />
 </Enum>

@@ -205,6 +205,18 @@
     <Compile Include="Views\AddUpdateRegionView.xaml.cs">
       <DependentUpon>AddUpdateRegionView.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Views\Base4Analogs\Base4ZonesWindView.xaml.cs">
+      <DependentUpon>Base4ZonesWindView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\BaseTemplates\Base4ModelAbstr.cs" />
+    <Compile Include="Views\BaseTemplates\Base4ViewModel.cs" />
+    <Compile Include="Views\BaseTemplates\Наследники Base4ModelAbstr\CabinetsListModel.cs" />
+    <Compile Include="Views\BaseTemplates\Наследники Base4ModelAbstr\DocumentsListModel.cs" />
+    <Compile Include="Views\BaseTemplates\IBase4Model.cs" />
+    <Compile Include="Views\BaseTemplates\Наследники Base4ModelAbstr\NationsListModel.cs" />
+    <Compile Include="Views\BaseTemplates\Наследники Base4ModelAbstr\OrganizationsListModel.cs" />
+    <Compile Include="Views\BaseTemplates\Наследники Base4ModelAbstr\RegionsListModel.cs" />
+    <Compile Include="Views\BaseTemplates\Наследники Base4ModelAbstr\VisitorsListModel.cs" />
     <Compile Include="Views\DocumentImagesView.xaml.cs">
       <DependentUpon>DocumentImagesView.xaml</DependentUpon>
     </Compile>
@@ -366,6 +378,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Views\AddUpdateRegionView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\Base4Analogs\Base4ZonesWindView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

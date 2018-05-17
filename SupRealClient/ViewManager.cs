@@ -303,6 +303,8 @@ namespace SupRealClient
                     return new CardsWindView();
                 case "OrganizationsWindView":
                     return new OrganizationsWindView();
+                case "Base4ZonesWindView":
+                    return new Base4ZonesWindView();
                 case "ZonesWindView":
                     return new ZonesWindView();
                 case "CabinetsWindView":
