@@ -46,10 +46,13 @@ namespace SupRealClient.Models
 
         public override void Update()
         {
-            //ViewManager.Instance.Update(new UpdateItemDocumentsModel((Document)this.viewModel.CurrentItem), parent);
-            AddUpdateZoneWindView addUpdateZoneWindView = 
-                new AddUpdateZoneWindView((Zone)this.viewModel.CurrentItem);
-            addUpdateZoneWindView.Show();
+            if ((Zone)this.viewModel.CurrentItem != null)
+            {
+                //ViewManager.Instance.Update(new UpdateItemDocumentsModel((Document)this.viewModel.CurrentItem), parent);
+                AddUpdateZoneWindView addUpdateZoneWindView =
+                    new AddUpdateZoneWindView((Zone)this.viewModel.CurrentItem);
+                addUpdateZoneWindView.Show();
+            }
         }
 
         public override void Begin()

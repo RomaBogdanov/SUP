@@ -471,7 +471,10 @@ namespace SupRealClient.Views
 
         public override void Update()
         {
-            ViewManager.Instance.UpdateObject(new UpdateOrgsModel(CurrentItem), Parent);
+            if (CurrentItem != null)
+            {
+                ViewManager.Instance.UpdateObject(new UpdateOrgsModel(CurrentItem), Parent);
+            }
         }
 
         public override void RightClick()
@@ -591,7 +594,10 @@ namespace SupRealClient.Views
 
         public override void Update()
         {
-            System.Windows.Forms.MessageBox.Show("Update");
+            if (CurrentItem != null)
+            {
+                System.Windows.Forms.MessageBox.Show("Update");
+            }
         }
 
         #endregion
@@ -650,7 +656,10 @@ namespace SupRealClient.Views
 
         public override void Update()
         {
-            ViewManager.Instance.Update(new UpdateItemNationsModel(CurrentItem), Parent);
+            if (CurrentItem != null)
+            {
+                ViewManager.Instance.Update(new UpdateItemNationsModel(CurrentItem), Parent);
+            }
         }
 
         protected override BaseModelResult GetResult()
@@ -721,7 +730,10 @@ namespace SupRealClient.Views
 
         public override void Update()
         {
-            ViewManager.Instance.OpenWindow(new AddUpdateCabinetView(CurrentItem), Parent);
+            if (CurrentItem != null)
+            {
+                ViewManager.Instance.OpenWindow(new AddUpdateCabinetView(CurrentItem), Parent);
+            }
         }
 
         protected override BaseModelResult GetResult()
@@ -793,7 +805,10 @@ namespace SupRealClient.Views
 
         public override void Update()
         {
-            ViewManager.Instance.Update(new UpdateItemDocumentsModel(CurrentItem), Parent);
+            if (CurrentItem != null)
+            {
+                ViewManager.Instance.Update(new UpdateItemDocumentsModel(CurrentItem), Parent);
+            }
         }
 
         protected override BaseModelResult GetResult()
@@ -866,7 +881,10 @@ namespace SupRealClient.Views
 
         public override void Update()
         {
-            ViewManager.Instance.UpdateObject(new UpdateItemRegionsModel(CurrentItem), Parent);
+            if (CurrentItem != null)
+            {
+                ViewManager.Instance.UpdateObject(new UpdateItemRegionsModel(CurrentItem), Parent);
+            }
         }
 
         public void SetCountry(int countryId)
