@@ -50,6 +50,7 @@
             CurrentItem="{Binding Path=CurrentItem, Mode=TwoWay}"
             SelectedItem="{Binding Path=CurrentItem, Mode=TwoWay}" 
             SelectedIndex="{Binding Path=SelectedIndex, Mode=TwoWay}"
+	                  SelectedValue="{Binding Path=SelectedValue, Mode=TwoWay}"	
             CurrentColumn="{Binding Path=CurrentColumn, Mode=TwoWay}" 
             Style="{StaticResource AzureDataGrid1}"
             ColumnHeaderStyle="{StaticResource SelectionColumnHeader}"/>
@@ -169,7 +170,30 @@
                     Style="{StaticResource TextBLockDetailStyle}"/>
             </Grid>
         </Button>
-        
+        <Button 
+            Grid.Row="3" 
+            Grid.Column="4" 
+            Margin="1" 
+            Command="{Binding Path=Watch}"
+			Visibility="{Binding Path=WatchVisibility, Mode=OneTime}" 							  
+            Style="{StaticResource ButtonStyle}">
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="30"/>
+                    <ColumnDefinition/>
+                </Grid.ColumnDefinitions>
+
+                <Image
+                    Grid.Column="0"
+                    Source="../../Resources/Подробно.ico"/>
+
+                <TextBlock
+                    Grid.Column="1"
+                    Text="Просмотр"
+                    FontSize="{Binding FontSize}"
+                    Style="{StaticResource TextBLockDetailStyle}"/>
+            </Grid>
+        </Button>
         <Button 
             Grid.Row="4" 
             Grid.Column="4" 

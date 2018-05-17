@@ -8,27 +8,11 @@ namespace SupRealClient.Common.Interfaces
     /// Интерфейс для доступа методов Base1ViewModel из Base1Model
     /// ПЕРЕИМЕНОВАТЬ В БОЛЕЕ ПОДХОДЯЩЕЕ НАЗВАНИЕ!!!
     /// </summary>
-    public interface IBase1ViewModel
+    public interface IBase1ViewModel : ISuperBaseViewModel
     {
-        ICommand Add { get; set; }
-        ICommand Update { get; set; }
-        ICommand Search { get; set; }
-        ICommand Farther { get; set; }
-        ICommand Begin { get; set; }
-        ICommand Prev { get; set; }
-        ICommand Next { get; set; }
-        ICommand End { get; set; }
         //ICommand Ok { get; set; }
-        ICommand Close { get; set; }
         //ICommand Zones { get; set; }
         //ICommand RightClick { get; set; }
-
-        string SearchingText { get; set; }
-        int SelectedIndex { get; set; }
-        bool FartherEnabled { get; set; }
-        DataGridColumn CurrentColumn { get; set; }
-
-
 
         int NumItem { get; set; }
         

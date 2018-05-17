@@ -10,7 +10,11 @@ using System.Collections.ObjectModel;
 
 namespace SupRealClient.Common.Interfaces
 {
-    interface IBase4ViewModel
+    /// <summary>
+    /// Задача, интерфейса - свести IBase1ViewModel и IBase4ViewModel
+    /// в один интерфейс.
+    /// </summary>
+    public interface ISuperBaseViewModel
     {
         ICommand Add { get; set; }
         ICommand Update { get; set; }
@@ -20,15 +24,20 @@ namespace SupRealClient.Common.Interfaces
         ICommand Prev { get; set; }
         ICommand Next { get; set; }
         ICommand End { get; set; }
-        ICommand Ok { get; set; }
+
         ICommand Close { get; set; }
-        ICommand Zones { get; set; }
-        ICommand RightClickCommand { get; set; }
 
         string SearchingText { get; set; }
         int SelectedIndex { get; set; }
         bool FartherEnabled { get; set; }
         DataGridColumn CurrentColumn { get; set; }
+    }
+
+    public interface IBase4ViewModel : ISuperBaseViewModel
+    {
+        ICommand Ok { get; set; }
+        ICommand Zones { get; set; }
+        ICommand RightClickCommand { get; set; }
 
         IWindow Parent { get; set; }
 

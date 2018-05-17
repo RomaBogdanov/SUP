@@ -56,15 +56,15 @@ namespace SupRealClient.Views
             }
             else if (e.Key == Key.Insert)
             {
-                ((IBase4ViewModel)DataContext).Add.Execute(null);
+                ((ISuperBaseViewModel)DataContext).Add.Execute(null);
             }
             else if (e.Key == Key.Home)
             {
-                ((IBase4ViewModel)DataContext).Begin.Execute(null);
+                ((ISuperBaseViewModel)DataContext).Begin.Execute(null);
             }
             else if (e.Key == Key.End)
             {
-                ((IBase4ViewModel)DataContext).End.Execute(null);
+                ((ISuperBaseViewModel)DataContext).End.Execute(null);
             }
         }
     }
@@ -75,6 +75,7 @@ namespace SupRealClient.Views
         private string searchingText;
         private string okCaption;
         private Visibility zonesVisibility;
+        private Visibility watchVisibility;
         private bool fartherEnabled;
 
         // ==========
@@ -91,6 +92,7 @@ namespace SupRealClient.Views
         public ICommand Ok { get; set; }
         public ICommand Close { get; set; }
         public ICommand Zones { get; set; }
+        public ICommand Watch { get; set; }
         public ICommand RightClickCommand { get; set; }
 
         public IWindow Parent { get; set; }
@@ -108,6 +110,10 @@ namespace SupRealClient.Views
         //todo Вот тут можно даже ручками увеличить значение, что бы заметить реакцию окна на его изменение
         public int FontSize => GlobalSettings.GetFontSize();
 
+        /// <summary>
+        /// В контексте контрола base4View соответствует видимости кнопки
+        /// Зоны.
+        /// </summary>
         public Visibility ZonesVisibility
         {
             get { return zonesVisibility; }
@@ -118,6 +124,24 @@ namespace SupRealClient.Views
             }
         }
 
+        /// <summary>
+        /// В контексте контрола base4View соответствует видимости кнопки
+        /// Просмотр.
+        /// </summary>
+        public Visibility WatchVisibility
+        {
+            get { return watchVisibility; }
+            set
+            {
+                watchVisibility = value;
+                OnPropertyChanged();
+            }
+        }
+
+        /// <summary>
+        /// В контексте контрола base4View соответствует доступности для нажатия
+        /// кнопки Далее.
+        /// </summary>
         public bool FartherEnabled
         {
             get { return fartherEnabled; }
@@ -127,6 +151,7 @@ namespace SupRealClient.Views
                 OnPropertyChanged();
             }
         }
+
 
         public string SearchingText
         {
@@ -220,7 +245,8 @@ namespace SupRealClient.Views
             End = new RelayCommand(obj => EndCom());
             Close = new RelayCommand(obj => CloseCom());
             Ok = new RelayCommand(obj => OkCom());
-            Zones = new RelayCommand(obj => MessageBox.Show("Zones"));
+            Zones = new RelayCommand(obj => ZonesCom());
+            Watch = new RelayCommand(obj => WatchCom());
             RightClickCommand = new RelayCommand(obj => RightClickCom(obj));
         }
 
@@ -256,14 +282,10 @@ namespace SupRealClient.Views
             this.Model.Next();
             Reset();
         }
-        private void OkCom()
-        {
-            this.Model.Ok();
-        }
-        private void CloseCom()
-        {
-            this.Model.Close();
-        }
+        private void OkCom() { this.Model.Ok(); }
+        private void CloseCom() { this.Model.Close(); }
+        private void ZonesCom() { this.Model.Zones(); }
+        private void WatchCom() { this.Model.Watch(); }
         private void RightClickCom(object param)
         {
             this.Model.RightClick();
@@ -299,7 +321,8 @@ namespace SupRealClient.Views
         void Prev();
         void Search();
         void Update();
-
+        void Zones();
+        void Watch();
         void RightClick();
 
         bool Searching(string pattern);
@@ -413,6 +436,8 @@ namespace SupRealClient.Views
         {
             OnClose?.Invoke(null);
         }
+        public virtual void Zones() { }
+        public virtual void Watch() { }
         public virtual void RightClick() { }
 
         protected abstract BaseModelResult GetResult();
@@ -490,6 +515,7 @@ namespace SupRealClient.Views
         {
             return new Dictionary<string, string>();
         }
+
     }
 
     public class OrganizationsListModel<T> : Base4ModelAbstr<T>

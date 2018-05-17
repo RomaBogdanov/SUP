@@ -2,6 +2,7 @@
 using SupRealClient.ViewModels;
 using System.Windows.Controls;
 using System.Windows.Input;
+using SupRealClient.Common.Interfaces;
 
 namespace SupRealClient.Views
 {
@@ -80,15 +81,15 @@ namespace SupRealClient.Views
             }
             else if (e.Key == Key.Insert)
             {
-                ((Common.Interfaces.IBase1ViewModel)DataContext).Add.Execute(null);
+                ((ISuperBaseViewModel)DataContext).Add.Execute(null);
             }
             else if (e.Key == Key.Home)
             {
-                ((Common.Interfaces.IBase1ViewModel)DataContext).Begin.Execute(null);
+                ((ISuperBaseViewModel)DataContext).Begin.Execute(null);
             }
             else if (e.Key == Key.End)
             {
-                ((Common.Interfaces.IBase1ViewModel)DataContext).End.Execute(null);
+                ((ISuperBaseViewModel)DataContext).End.Execute(null);
             }
         }
     }
