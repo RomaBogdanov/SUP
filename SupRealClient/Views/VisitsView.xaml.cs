@@ -529,15 +529,16 @@ namespace SupRealClient.Views
                 return;
             }
 
-            var window = new DocumentImagesView(
-                CurrentItem.MainDocuments[SelectedMainDocument]);
+            var window = new VisitorsMainDocumentView(
+               new VisitorsMainDocumentModel(
+                   CurrentItem.MainDocuments[SelectedMainDocument]), false);
             window.ShowDialog();
         }
 
         private void AddMainDocument()
         {
             var window = new VisitorsMainDocumentView(
-                new VisitorsMainDocumentModel(null));
+                new VisitorsMainDocumentModel(null), true);
             window.ShowDialog();
             var document = window.WindowResult as VisitorsMainDocument;
 
@@ -557,7 +558,7 @@ namespace SupRealClient.Views
             }
             var window = new VisitorsMainDocumentView(
                 new VisitorsMainDocumentModel(
-                    CurrentItem.MainDocuments[SelectedMainDocument]));
+                    CurrentItem.MainDocuments[SelectedMainDocument]), true);
             window.ShowDialog();
             var document = window.WindowResult as VisitorsMainDocument;
 

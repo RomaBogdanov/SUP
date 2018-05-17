@@ -15,10 +15,10 @@ namespace SupRealClient.Views
         /// </summary>
         private TraversalRequest _focusMover = new TraversalRequest(FocusNavigationDirection.Next);
 
-        public VisitorsMainDocumentView(VisitorsMainDocumentModel model)
+        public VisitorsMainDocumentView(VisitorsMainDocumentModel model, bool editable)
         {
             model.OnClose += Handling_OnClose;
-            DataContext = new VisitorsMainDocumentViewModel();
+            DataContext = new VisitorsMainDocumentViewModel(editable);
             ((VisitorsMainDocumentViewModel)DataContext).SetModel(model);
             InitializeComponent();
 
@@ -31,7 +31,7 @@ namespace SupRealClient.Views
         public VisitorsMainDocumentView()
         {
             InitializeComponent();
-            DataContext = new VisitorsMainDocumentViewModel();
+            DataContext = new VisitorsMainDocumentViewModel(false);
         }
 
         private void TextBox_OnKeyUp(object sender, KeyEventArgs e)
