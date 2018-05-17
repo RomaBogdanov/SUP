@@ -43,11 +43,13 @@ namespace SupRealClient.Views
                 DataRow row = cabinetsWrapper.Table.Rows.Find(this.cabinet.Id);
                 if (numCab.Text != "" & numDoor.Text != "")
                 {
+                    row.BeginEdit();
                     row["f_cabinet_num"] = numCab.Text;
                     row["f_cabinet_desc"] = descript.Text;
                     row["f_door_num"] = numDoor.Text;
                     row["f_rec_date"] = DateTime.Now;
                     row["f_rec_operator"] = Authorizer.AppAuthorizer.Id;
+                    row.EndEdit();
                 }
             }
             else

@@ -173,9 +173,11 @@ namespace SupRealClient.Views
             // Проверяем на изменнения зону.
             ZonesWrapper zonesWrapper = ZonesWrapper.CurrentTable();
             DataRow row = zonesWrapper.Table.Rows.Find(zoneId);
+            row.BeginEdit();
             row["f_zone_type_id"] = ((TypeZone)zoneType.SelectedValue).Id;
             row["f_zone_name"] = zoneName.Text;
             row["f_rec_operator"] = Authorizer.AppAuthorizer.Id;
+            row.EndEdit();
             // Проверяем на изменения список привязанных дверей.
             ObservableCollection<CabDoor> forDelet = new ObservableCollection<CabDoor>(
                 from f in baseRelDoorsList

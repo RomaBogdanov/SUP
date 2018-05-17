@@ -1344,12 +1344,12 @@ namespace SupRealClient.Views
         
         public override bool Ok()
         {
-            DataRow row = VisitorsWrapper.CurrentTable().Table.NewRow();
-
             if (!Validate())
             {
                 return false;
             }
+
+            DataRow row = VisitorsWrapper.CurrentTable().Table.NewRow();
 
             row["f_rec_date_pass"] = DateTime.Now;
             row["f_is_short_data"] = CommonHelper.BoolToString(false);
@@ -1451,13 +1451,15 @@ namespace SupRealClient.Views
 
         public override bool Ok()
         {
-            DataRow row = VisitorsWrapper.CurrentTable().Table.Rows.Find(
-                CurrentItem.Id);
-
             if (!Validate())
             {
                 return false;
             }
+
+            DataRow row = VisitorsWrapper.CurrentTable().Table.Rows.Find(
+                CurrentItem.Id);
+
+            row.BeginEdit();
 
             row["f_rec_date_pass"] = DateTime.Now;
             row["f_rec_operator_pass"] = Authorizer.AppAuthorizer.Id;
@@ -1551,6 +1553,7 @@ namespace SupRealClient.Views
                 row["f_dep_id"] = CurrentItem.DepartmentId >= 0 ?
                     CurrentItem.DepartmentId : 0;
             }
+            row.EndEdit();
 
             SaveAdditionalData(CurrentItem.Id);
 

@@ -72,6 +72,7 @@ namespace SupRealClient.Models
             OrganizationsWrapper organizations =
                 OrganizationsWrapper.CurrentTable();
             DataRow row = organizations.Table.Rows.Find(organization.Id);
+            row.BeginEdit();
             row["f_org_type"] = data.Type;
             row["f_org_name"] = OrganizationsHelper.TrimName(data.Name);
             row["f_comment"] = data.Comment;
@@ -82,14 +83,17 @@ namespace SupRealClient.Models
             row["f_rec_date"] = DateTime.Now;
             row["f_rec_operator"] = Authorizer.AppAuthorizer.Id;
             row["f_deleted"] = CommonHelper.BoolToString(false);
+            row.EndEdit();
             foreach (DataRow row2 in from orgs in
                     OrganizationsWrapper.CurrentTable().
                     Table.AsEnumerable()
                     where orgs.Field<int?>("f_syn_id") == data.Id
                     select orgs)
             {
+                row2.BeginEdit();
                 row2["f_region_id"] = data.RegionId;
                 row2["f_cntr_id"] = data.CountryId;
+                row2.EndEdit();
             }
             Cancel();
         }

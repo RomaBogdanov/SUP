@@ -36,9 +36,11 @@ namespace SupRealClient.Models.OrganizationStructure
             {
                 DataRow row = DepartmentWrapper.CurrentTable()
                     .Table.Rows.Find(departmentId);
+                row.BeginEdit();
                 row["f_dep_name"] = Description;
                 row["f_rec_date"] = DateTime.Now;
                 row["f_rec_operator"] = Authorizer.AppAuthorizer.Id;
+                row.EndEdit();
                 //DepartmentWrapper.CurrentTable().Table.AcceptChanges();
             }
             OnClose?.Invoke();
