@@ -111,15 +111,14 @@
                 Text="Дата рождения"
                 Style="{StaticResource TextBLockStyle}"/>
 
-            <DatePicker
-                TabIndex="3"
-                Grid.Row="2"
-                Grid.Column="2"
-                SelectedDate="{Binding Path=CurrentItem.BirthDate, Mode=TwoWay}"
-                IsEnabled="{Binding Path=TextEnable, Mode=TwoWay}"
-                Margin="2"
-                Text="Дата">
-            </DatePicker>
+            <TextBlock
+               Grid.Row="2"
+                Grid.Column="1"
+                Grid.ColumnSpan="2"
+                Margin="8"
+                HorizontalAlignment="Left"
+                Text="{Binding Path=CurrentItem.BirthDate, Mode=OneWay}"
+                Style="{StaticResource TextBLockStyle}"/>
         </Grid>
 
         <Button

@@ -804,6 +804,13 @@ namespace SupRealClient.Views
                 MessageBox.Show("Не все поля вкладки Основная заполнены!");
                 return false;
             }
+            if (!ValidateDocumentDates() &&
+                MessageBox.Show("В документах разные даты рождения. Все равно сохранить?",
+                "Внимание", MessageBoxButtons.YesNo) == DialogResult.No)
+            {
+                return false;
+            }
+
             return true;
         }
 
@@ -926,6 +933,52 @@ namespace SupRealClient.Views
             images.Add(new KeyValuePair<Guid, ImageType>(
                 signAlias, ImageType.Signature));
             ImagesHelper.AddImages(id, images);
+        }
+
+        protected string GetBirthDate(EnumerationClasses.Visitor visitor)
+        {
+            DateTime? birthDate = null;
+            foreach (var document in visitor.MainDocuments)
+            {
+                if (document.BirthDate > DateTime.MinValue)
+                {
+                    if (!birthDate.HasValue)
+                    {
+                        birthDate = document.BirthDate;
+                    }
+                    else
+                    {
+                        if (!document.BirthDate.Equals(birthDate))
+                        {
+                            return "В документах указаны разные даты рождения";
+                        }
+                    }
+                }
+            }
+            return birthDate.HasValue ? birthDate.Value.ToShortDateString() : "";
+        }
+
+        private bool ValidateDocumentDates()
+        {
+            DateTime? birthDate = null;
+            foreach (var document in CurrentItem.MainDocuments)
+            {
+                if (document.BirthDate > DateTime.MinValue)
+                {
+                    if (!birthDate.HasValue)
+                    {
+                        birthDate = document.BirthDate;
+                    }
+                    else
+                    {
+                        if (!document.BirthDate.Equals(birthDate))
+                        {
+                            return false;
+                        }
+                    }
+                }
+            }
+            return true;
         }
 
         private void RemoveOldDocuments(int visitorId, bool isMain)
@@ -1073,7 +1126,6 @@ namespace SupRealClient.Views
                     Family = visitors.Field<string>("f_family"),
                     Name = visitors.Field<string>("f_fst_name"),
                     Patronymic = visitors.Field<string>("f_sec_name"),
-                    BirthDate = visitors.Field<DateTime>("f_birth_date"),
                     Organization = OrganizationsHelper.
                         GenerateFullName(visitors.Field<int>("f_org_id"), true),
                     Comment = visitors.Field<string>("f_vr_text"),
@@ -1273,6 +1325,7 @@ namespace SupRealClient.Views
                         BirthDate = documents.Field<DateTime>("f_birth_date"),
                         Comment = documents.Field<string>("f_comment")
                     });
+                Set[index].BirthDate = GetBirthDate(Set[index]);
             }
             if (Set[index].Documents == null)
             {
@@ -1367,7 +1420,6 @@ namespace SupRealClient.Views
             row["f_family"] = CurrentItem.Family;
             row["f_fst_name"] = CurrentItem.Name;
             row["f_sec_name"] = CurrentItem.Patronymic;
-            row["f_birth_date"] = CurrentItem.BirthDate;
             row["f_org_id"] = CurrentItem.OrganizationId >= 0 ?
                 CurrentItem.OrganizationId : 0;
             row["f_vr_text"] = CurrentItem.Comment ?? "";
@@ -1487,10 +1539,6 @@ namespace SupRealClient.Views
             {
                 row["f_full_name"] = CommonHelper.CreateFullName(
                     CurrentItem.Family, CurrentItem.Name, CurrentItem.Patronymic);
-            }
-            if (OldVisitor.BirthDate != CurrentItem.BirthDate)
-            {
-                row["f_birth_date"] = CurrentItem.BirthDate;
             }
             if (OldVisitor.OrganizationId != CurrentItem.OrganizationId)
                 row["f_org_id"] = CurrentItem.OrganizationId >= 0 ?
