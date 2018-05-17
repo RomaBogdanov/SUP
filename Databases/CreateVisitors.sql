@@ -454,6 +454,7 @@ CREATE TABLE vis_visitors_documents
 	f_doc_date_to                  DATE,
     f_doc_org                      VARCHAR(100),
     f_doc_code                     VARCHAR(20),
+	f_birth_date                   DATE,
 	f_comment                      VARCHAR(100),
     f_deleted                      CHAR(1))
 

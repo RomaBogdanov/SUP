@@ -7,7 +7,7 @@
         xmlns:converters="clr-namespace:SupRealClient.Behaviour"
         mc:Ignorable="d"
         Title="{Binding Path=Caption, Mode=OneTime}" 
-        Height="700" Width="600" 
+        Height="800" Width="600" 
         ResizeMode="NoResize">
 
     <mah:MetroWindow.Resources>
@@ -46,6 +46,8 @@
                         <RowDefinition Height="30"/>
                         <RowDefinition Height="30"/>
                         <RowDefinition Height="80"/>
+                        <RowDefinition Height="30"/>
+                        <RowDefinition Height="30"/>
                         <RowDefinition Height="30"/>
                         <RowDefinition Height="30"/>
                         <RowDefinition Height="30"/>
@@ -233,6 +235,27 @@
 
                     <TextBlock 
                         Grid.Row="14" 
+                        Grid.Column="0"
+                        Grid.ColumnSpan="2"
+                        Text="Дата рождения:" 
+                        FontSize="15"
+                        HorizontalAlignment="Left"
+                        Style="{StaticResource TextBLockStyle}"/>
+
+                    <DatePicker 
+                        Grid.Row="15" 
+                        Grid.Column="0"
+                        Grid.ColumnSpan="2" 
+                        TabIndex="9"
+                        Text="Дата рождения"
+                        SelectedDate="{Binding Path=BirthDate, Mode=TwoWay}"
+                        Margin="2"
+                        IsEnabled="{Binding Path=Editable, Mode=OneTime}"
+                        KeyUp="TextBox_OnKeyUp">
+                    </DatePicker>
+
+                    <TextBlock 
+                        Grid.Row="16" 
                         Grid.ColumnSpan="2"
                         Text="Примечание:" 
                         FontSize="15"
@@ -240,11 +263,13 @@
                         Style="{StaticResource TextBLockStyle}"/>
 
                     <TextBox 
-                        Grid.Row="15" 
+                        Grid.Row="17" 
                         Grid.Column="0"
                         Grid.ColumnSpan="2" 
-                        TabIndex="9"
+                        TabIndex="10"
+                        TextWrapping="Wrap"
                         Text="{Binding Path=Comment, Mode=TwoWay}"
+                        Height="76"
                         Margin="2"
                         IsReadOnly="{Binding Path=Editable, Converter={StaticResource InverseBooleanConverter}, Mode=OneTime}"
                         Style="{StaticResource TextBoxStyle}"
@@ -286,6 +311,7 @@
                             Command="{Binding AddImageCommand}"
                             Grid.Column="0"
                             Margin="2"
+                            TabIndex="11"
                             IsEnabled="{Binding Path=Editable, Mode=OneTime}"
                             Style="{StaticResource VisitorsSquareButtonStyle}">
                             
@@ -311,6 +337,7 @@
                             Command="{Binding RemoveImageCommand}"
                             Grid.Column="1"
                             Margin="2"
+                            TabIndex="12"
                             IsEnabled="{Binding Path=Editable, Mode=OneTime}"
                             Style="{StaticResource VisitorsSquareButtonStyle}">
 
@@ -336,6 +363,7 @@
                             Command="{Binding Path=PrevCommand}"
                             Grid.Column="2"
                             Margin="2"
+                            TabIndex="13"
                             Style="{StaticResource VisitorsSquareButtonStyle}">
                             <Grid>
                                 <Grid.RowDefinitions>
@@ -359,6 +387,7 @@
                             Command="{Binding Path=NextCommand}"
                             Grid.Column="3"
                             Margin="2"
+                            TabIndex="14"
                             Style="{StaticResource VisitorsSquareButtonStyle}">
                             <Grid>
                                 <Grid.RowDefinitions>

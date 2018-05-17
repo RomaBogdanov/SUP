@@ -497,6 +497,7 @@ CREATE TABLE vis_visitors_documents
 	f_doc_date_to                  DATE,
     f_doc_org                      VARCHAR(100),
     f_doc_code                     VARCHAR(20),
+	f_birth_date                   DATE,
 	f_comment                      VARCHAR(100),
     f_deleted                      CHAR(1))
 
@@ -505,7 +506,7 @@ ADD PRIMARY KEY (f_vd_id)
 
 if not exists(select * from vis_visitors_documents where f_vd_id = '0')
 begin
-	insert into vis_visitors_documents values ( '0', '', '', '', '', '', '', '', '', '', '', '')
+	insert into vis_visitors_documents values ( '0', '', '', '', '', '', '', '', '', '', '', '', '')
 end
 go
 

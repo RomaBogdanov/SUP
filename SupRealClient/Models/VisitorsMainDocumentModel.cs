@@ -21,6 +21,7 @@ namespace SupRealClient.Models
                     Org = visitorsMainDocument.Org,
                     DateTo = visitorsMainDocument.DateTo,
                     Code = visitorsMainDocument.Code,
+                    BirthDate = visitorsMainDocument.BirthDate,
                     Comment = visitorsMainDocument.Comment,
                     Images = visitorsMainDocument.Images,
                 };

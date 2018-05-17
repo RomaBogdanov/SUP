@@ -368,10 +368,10 @@ insert into vis_visitors values ( '23', '1', '1', 'Дагаев', 'Юрий', 'Владимрович
 
 -- Заполнение таблицы vis_visitors_documents
 delete vis_visitors_documents where f_vd_id <> '0'
-insert into vis_visitors_documents values ( '1', '2', '1', '', '1234', '123456', '1-июл-2010', '', 'Кем-то', '666', '', 'N')
-insert into vis_visitors_documents values ( '2', '21', '1', '', '3333', '444444', '12-июл-2005', '', 'ОУ ФМС 2', '111-111', '', 'N')
-insert into vis_visitors_documents values ( '3', '22', '1', '', '6666', '777777', '21-июл-2001', '', 'ОУ ФМС 3', '000-000', '', 'N')
-insert into vis_visitors_documents values ( '4', '23', '1', '', '9999', '888888', '13-июл-2002', '21-июл-2021', 'ОУ ФМС 4', '999-999', '', 'N')
+insert into vis_visitors_documents values ( '1', '2', '1', '', '1234', '123456', '1-июл-2010', '', 'Кем-то', '666', '29-сен-1917 10:53:13', '', 'N')
+insert into vis_visitors_documents values ( '2', '21', '1', '', '3333', '444444', '12-июл-2005', '', 'ОУ ФМС 2', '111-111', '9-сен-1997 10:53:13', '', 'N')
+insert into vis_visitors_documents values ( '3', '22', '1', '', '6666', '777777', '21-июл-2001', '', 'ОУ ФМС 3', '000-000', '2-сен-1937 10:53:13', '', 'N')
+insert into vis_visitors_documents values ( '4', '23', '1', '', '9999', '888888', '13-июл-2002', '21-июл-2021', 'ОУ ФМС 4', '999-999', '29-сен-2000 10:53:13', '', 'N')
 
 -- Заполнение таблицы vis_visits
 delete vis_visits where f_visit_id <> '0'

@@ -25,6 +25,7 @@ namespace SupRealClient.ViewModels
         private DateTime dateTo;
         private string org = "";
         private string code = "";
+        private DateTime birthDate;
         private string comment = "";
 
         private string image = "";
@@ -127,6 +128,19 @@ namespace SupRealClient.ViewModels
             }
         }
 
+        public DateTime BirthDate
+        {
+            get { return birthDate; }
+            set
+            {
+                if (value != null)
+                {
+                    birthDate = value;
+                    OnPropertyChanged("BirthDate");
+                }
+            }
+        }
+
         public string Comment
         {
             get { return comment; }
@@ -191,6 +205,7 @@ namespace SupRealClient.ViewModels
             this.Org = model.Data.Org;
             this.Code = model.Data.Code;
             this.Comment = model.Data.Comment;
+            this.BirthDate = model.Data.BirthDate;
             documentId = model.Data.TypeId;
             DocType = (string)DocumentsWrapper.CurrentTable().Table
                 .AsEnumerable().FirstOrDefault(arg =>
@@ -293,6 +308,7 @@ namespace SupRealClient.ViewModels
                     Code = Code,
                     Date = Date,
                     DateTo = DateTo,
+                    BirthDate = BirthDate,
                     Comment = Comment,
                     Images = imageCache,
                     IsChanged = true

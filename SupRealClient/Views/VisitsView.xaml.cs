@@ -837,6 +837,7 @@ namespace SupRealClient.Views
                     row["f_doc_date_to"] = document.DateTo;
                     row["f_doc_org"] = document.Org;
                     row["f_doc_code"] = document.Code;
+                    row["f_birth_date"] = document.BirthDate;
                     row["f_comment"] = document.Comment;
                     row["f_deleted"] = "N";
                     VisitorsDocumentsWrapper.
@@ -1269,6 +1270,7 @@ namespace SupRealClient.Views
                         DateTo = documents.Field<DateTime>("f_doc_date_to"),
                         Org = documents.Field<string>("f_doc_org"),
                         Code = documents.Field<string>("f_doc_code"),
+                        BirthDate = documents.Field<DateTime>("f_birth_date"),
                         Comment = documents.Field<string>("f_comment")
                     });
             }
