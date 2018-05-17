@@ -28,6 +28,11 @@ var entityQuery = from entity in entityTypeDoc.Root.Elements()
 #>
 using SupContract;
 
+/*
+ФАЙЛ СГЕНЕРИРОВАН АВТОМАТИЧЕСКИ
+ИЗМЕНЕНИЯ НЕ ВНОСИТЬ!!!!!
+*/
+
 namespace SupRealClient.TabsSingleton
 {
 <#foreach(var entity in entityQuery) { #>

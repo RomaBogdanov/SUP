@@ -28,6 +28,11 @@ var entityQuery = from entity in entityTypeDoc.Root.Elements()
 		Element = entity
 	};
 #>
+/*
+ФАЙЛ СГЕНЕРИРОВАН АВТОМАТИЧЕСКИ
+ИЗМЕНЕНИЯ НЕ ВНОСИТЬ!!!!!
+*/
+
 namespace SupHost
 {
 <#foreach(var entity in entityQuery) { #>

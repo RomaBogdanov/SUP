@@ -1,5 +1,10 @@
 ﻿using SupContract;
 
+/*
+ФАЙЛ СГЕНЕРИРОВАН АВТОМАТИЧЕСКИ
+ИЗМЕНЕНИЯ НЕ ВНОСИТЬ!!!!!
+*/
+
 namespace SupRealClient.TabsSingleton
 {
 	/// <summary>

@@ -3,6 +3,11 @@ using System;
 using System.ComponentModel;
 using System.Windows;
 
+/*
+ФАЙЛ СГЕНЕРИРОВАН АВТОМАТИЧЕСКИ
+ИЗМЕНЕНИЯ НЕ ВНОСИТЬ!!!!!
+*/
+
 namespace SupRealClient.Views
 {
     /// <summary>
