@@ -137,19 +137,36 @@ namespace SupRealClient.ViewModels
         public MainWindowViewModel()
         {
             Current = this;
-            ListOrganizationsClick = new RelayCommand(arg => ViewManager.Instance.OpenWindow("OrganizationsWindView"));
-            ListDocumentsClick = new RelayCommand(arg => ViewManager.Instance.OpenWindow("DocumentsWindView"));
-            ListNationsClick = new RelayCommand(arg => ViewManager.Instance.OpenWindow("NationsWindView"));
-            ListCardsClick = new RelayCommand(arg => ViewManager.Instance.OpenWindow("CardsWindView"));
-            ListZonesClick = new RelayCommand(arg => ViewManager.Instance.OpenWindow("Base4ZonesWindView"));
+            ListOrganizationsClick = new RelayCommand(arg => 
+                ViewManager.Instance.OpenWindow("OrganizationsWindView"));
+            ListDocumentsClick = new RelayCommand(arg =>
+                ViewManager.Instance.OpenWindow("Base4DocumentsWindView"));
+            //ViewManager.Instance.OpenWindow("DocumentsWindView"));
+            ListNationsClick = new RelayCommand(arg => 
+                ViewManager.Instance.OpenWindow("Base4NationsWindView"));
+            //ViewManager.Instance.OpenWindow("NationsWindView"));
+            ListCardsClick = new RelayCommand(arg => 
+                ViewManager.Instance.OpenWindow("CardsWindView"));
+            ListZonesClick = new RelayCommand(arg => 
+                ViewManager.Instance.OpenWindow("Base4ZonesWindView"));
             //ListZonesClick = new RelayCommand(arg => ViewManager.Instance.OpenWindow("ZonesWindView"));
-            ListCabinetsClick = new RelayCommand(arg => ViewManager.Instance.OpenWindow("Base4CabinetsWindView"));
-            ListRegionsClick = new RelayCommand(arg => ViewManager.Instance.OpenWindow("Base4RegionsWindView"));
-            LogsClick = new RelayCommand(arg => ViewManager.Instance.OpenWindow("LogsWindView"));
-            ListBaseOrgsStructClick = new RelayCommand(arg => ViewManager.Instance.OpenWindow("MainOrganisationStructureView"));
-            ListChildOrgs = new RelayCommand(arg => ViewManager.Instance.OpenWindow("ChildOrgsView"));
-            ListBaseOrgs = new RelayCommand(arg => ViewManager.Instance.OpenWindow("BaseOrgsView"));
-            ListVisitorsClick = new RelayCommand(arg => ViewManager.Instance.OpenWindow("VisitorsListWindView"));
+            ListCabinetsClick = new RelayCommand(arg => 
+                ViewManager.Instance.OpenWindow("Base4CabinetsWindView"));
+            ListRegionsClick = new RelayCommand(arg => 
+                ViewManager.Instance.OpenWindow("Base4RegionsWindView"));
+            LogsClick = new RelayCommand(arg => 
+                ViewManager.Instance.OpenWindow("LogsWindView"));
+            ListBaseOrgsStructClick = new RelayCommand(arg => 
+                ViewManager.Instance.OpenWindow("MainOrganisationStructureView"));
+            ListChildOrgs = new RelayCommand(arg => 
+                ViewManager.Instance.OpenWindow("Base4ChildOrgsWindView"));
+            //ViewManager.Instance.OpenWindow("ChildOrgsView"));
+            //ListBaseOrgs = new RelayCommand(arg => 
+            //    ViewManager.Instance.OpenWindow("BaseOrgsView"));
+            ListBaseOrgs = new RelayCommand(arg =>
+                ViewManager.Instance.OpenWindow("Base4BaseOrgsWindView"));
+            ListVisitorsClick = new RelayCommand(arg => 
+                ViewManager.Instance.OpenWindow("VisitorsListWindView"));
             UserExit = new RelayCommand(arg => UserExitProc());
             setupStorage.ChangeUserExit += arg => IsUserEnter = !arg;
             Close = new RelayCommand(arg => ExitApp());

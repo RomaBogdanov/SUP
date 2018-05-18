@@ -19,6 +19,7 @@ var entityQuery = from entity in entityTypeDoc.Root.Elements()
 	let okCaption = entity.Attribute("OkCaption")
 	let zonesVisibility = entity.Attribute("ZonesVisibility")
 	let watchVisibility = entity.Attribute("WatchVisibility")
+	let prefix = entity.Attribute("Prefix")
 	where name != null && !string.IsNullOrEmpty(name.Value) &&
 	type != null && !string.IsNullOrEmpty(type.Value)
 	select new
@@ -28,7 +29,8 @@ var entityQuery = from entity in entityTypeDoc.Root.Elements()
 		OkCaption = okCaption != null ? okCaption.Value : "OK",
 		ZonesVisibility = zonesVisibility != null ? zonesVisibility.Value : "Hidden",
 		WatchVisibility = watchVisibility != null ? watchVisibility.Value : "Hidden",
-		Element = entity
+		Element = entity,
+		Prefix = prefix != null ? prefix.Value : ""
 	};
 #>
 using SupRealClient.Common.Interfaces;
@@ -69,7 +71,7 @@ namespace SupRealClient.Views
                 ZonesVisibility = Visibility.<#=entity.ZonesVisibility#>,
 				WatchVisibility = Visibility.<#=entity.WatchVisibility#>,
                 Parent = this,
-                Model = new <#=entity.Type#>sListModel<EnumerationClasses.<#=entity.Type#>>(),
+                Model = new <#=entity.Prefix#><#=entity.Type#>sListModel<EnumerationClasses.<#=entity.Type#>>(),
             };
             viewModel.Model.OnClose += Handling_OnClose;
             base4.DataContext = viewModel;

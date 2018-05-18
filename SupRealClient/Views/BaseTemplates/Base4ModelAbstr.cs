@@ -9,6 +9,7 @@ using SupRealClient.Search;
 using SupRealClient.Common.Interfaces;
 using SupRealClient.Common;
 using SupRealClient.TabsSingleton;
+using SupRealClient.Models;
 
 namespace SupRealClient.Views
 {
@@ -280,6 +281,134 @@ namespace SupRealClient.Views
             {
                 { "ZoneNum", "f_zone_num" },
                 { "Name", "f_zone_name" },
+            };
+        }
+    }
+
+    public class BaseOrganizationsListModel<T> : Base4ModelAbstr<T>
+        where T : Organization, new()
+    {
+        protected override DataTable Table
+        {
+            get { return OrganizationsWrapper.CurrentTable().Table; }
+        }
+
+        public BaseOrganizationsListModel()
+        {
+            OrganizationsWrapper.CurrentTable().OnChanged += Query;
+            Query();
+            Begin();
+        }
+
+        public override void Add()
+        {
+            var wind = new AddOrgsListView(new AddBaseOrgsListModel());
+            wind.ShowDialog();
+        }
+
+        public override void Update()
+        {
+            OrganizationsWrapper organizations =
+                OrganizationsWrapper.CurrentTable();
+            DataRow row = organizations.Table.Rows.Find(
+                (this.CurrentItem as Organization).Id);
+            row["f_is_basic"] = "N";
+        }
+
+        protected override void DoQuery()
+        {
+            Set = new ObservableCollection<T>(
+                from orgs in Table.AsEnumerable()
+                where orgs.Field<int>("f_org_id") != 0 &
+                orgs.Field<string>("f_is_basic")
+                .ToString().ToUpper() == "Y"
+                select new T
+                {
+                    Id = orgs.Field<int>("f_org_id"),
+                    Type = orgs.Field<string>("f_org_type"),
+                    FullName = OrganizationsHelper.GenerateFullName(
+                        orgs.Field<int>("f_org_id")),
+                    Name = OrganizationsHelper.UntrimName(
+                        orgs.Field<string>("f_org_name")),
+                    Comment = orgs.Field<string>("f_comment")
+                });
+        }
+
+        protected override BaseModelResult GetResult()
+        {
+            return new BaseModelResult { Id = CurrentItem.Id, Name = CurrentItem.Name };
+        }
+
+        public override IDictionary<string, string> GetFields()
+        {
+            return new Dictionary<string, string>
+            {
+                { "f_org_type", "Тип" },
+                { "f_full_org_name", "Основное название" }
+            };
+        }
+    }
+
+    public class ChildOrganizationsListModel<T> : Base4ModelAbstr<T>
+        where T : Organization, new()
+    {
+        protected override DataTable Table
+        {
+            get { return OrganizationsWrapper.CurrentTable().Table; }
+        }
+
+        public ChildOrganizationsListModel()
+        {
+            OrganizationsWrapper.CurrentTable().OnChanged += Query;
+            Query();
+            Begin();
+        }
+
+        public override void Add()
+        {
+            var wind = new AddOrgsListView(new AddChildOrgsListModel());
+            wind.ShowDialog();
+        }
+
+        public override void Update()
+        {
+            OrganizationsWrapper organizations =
+                OrganizationsWrapper.CurrentTable();
+            DataRow row = organizations.Table.Rows.Find(
+                (this.CurrentItem as Organization).Id);
+            row["f_has_free_access"] = "N";
+        }
+
+        protected override void DoQuery()
+        {
+            Set = new ObservableCollection<T>(
+                from orgs in Table.AsEnumerable()
+                where orgs.Field<int>("f_org_id") != 0 &
+                orgs.Field<string>("f_has_free_access")
+                .ToString().ToUpper() == "Y"
+            select new T
+            {
+                Id = orgs.Field<int>("f_org_id"),
+                Type = orgs.Field<string>("f_org_type"),
+                FullName = OrganizationsHelper.GenerateFullName(
+                    orgs.Field<int>("f_org_id")),
+                Name = OrganizationsHelper.UntrimName(
+                    orgs.Field<string>("f_org_name")),
+                Comment = orgs.Field<string>("f_comment")
+            });
+        }
+
+        protected override BaseModelResult GetResult()
+        {
+            return new BaseModelResult { Id = CurrentItem.Id, Name = CurrentItem.Name };
+        }
+
+        public override IDictionary<string, string> GetFields()
+        {
+            return new Dictionary<string, string>
+            {
+                { "f_org_type", "Тип" },
+                { "f_full_org_name", "Основное название" }
             };
         }
     }

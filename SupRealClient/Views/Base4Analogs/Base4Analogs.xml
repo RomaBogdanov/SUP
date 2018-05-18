@@ -6,4 +6,6 @@
   <Item Name="Organizations" Type="Organization" OkCaption="OK" />
   <Item Name="Regions" Type="Region" />
   <Item Name="Zones" Type="Zone" ZonesVisibility="Visible" />
+  <Item Name="BaseOrgs" Type="Organization" Prefix="Base" />
+  <Item Name="ChildOrgs" Type="Organization" Prefix="Child" />
 </Enum>
