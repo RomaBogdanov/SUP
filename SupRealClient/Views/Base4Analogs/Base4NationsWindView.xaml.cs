@@ -12,8 +12,9 @@ namespace SupRealClient.Views
         public Base4NationsWindView()
         {
             InitializeComponent();
-
+            base4.tbxSearch.Focus();
             AfterInitialize();
+            base4.Focus();
         }
 
         private void CreateColumns()
