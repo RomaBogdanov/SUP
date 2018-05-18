@@ -82,6 +82,7 @@
     <Compile Include="Behaviour\IDialogService.cs" />
     <Compile Include="Behaviour\InverseBooleanConverterюcs.cs" />
     <Compile Include="Behaviour\SearchValueConverter.cs" />
+    <Compile Include="Behaviour\SupDateConverter.cs" />
     <Compile Include="Common\CommonHelper.cs" />
     <Compile Include="EnumerationClasses\Cabinet.cs" />
     <Compile Include="Common\Interfaces\ISearchHelper.cs" />

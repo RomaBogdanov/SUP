@@ -3,6 +3,7 @@
                     xmlns:converters="clr-namespace:SupRealClient.Behaviour">
     <converters:HeaderToCurrentColumnConverter x:Key="HeaderToCurrentColumnConverter" />
     <converters:SearchValueConverter x:Key="SearchValueConverter" />
+    <converters:SupDateConverter x:Key="SupDateConverter" />
     <Style TargetType="{x:Type DataGrid}">
         <Setter Property="IsReadOnly">
             <Setter.Value>True</Setter.Value>
@@ -66,6 +67,7 @@
                         x:Name="PART_TextBox"
                         ToolTip="Выберите дату"
                         Text="{Binding Path=SelectedDate, StringFormat='dd.MM.yyyy', ValidatesOnDataErrors=True,
+                        Converter={StaticResource SupDateConverter},
                         RelativeSource={RelativeSource AncestorType={x:Type DatePicker}}}" />
                 </ControlTemplate>
             </Setter.Value>
