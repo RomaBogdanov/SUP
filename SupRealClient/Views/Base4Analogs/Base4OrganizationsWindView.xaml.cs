@@ -12,9 +12,9 @@ namespace SupRealClient.Views
         public Base4OrganizationsWindView()
         {
             InitializeComponent();
-
-            //TODO временно убрал запуск подключения к серверу
+            base4.tbxSearch.Focus();
             AfterInitialize();
+            base4.Focus();
         }
 
         private void CreateColumns()

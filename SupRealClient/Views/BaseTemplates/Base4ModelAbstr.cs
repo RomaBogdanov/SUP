@@ -10,6 +10,7 @@ using SupRealClient.Common.Interfaces;
 using SupRealClient.Common;
 using SupRealClient.TabsSingleton;
 using SupRealClient.Models;
+using SupRealClient.Common.Interfaces;
 
 namespace SupRealClient.Views
 {
@@ -224,7 +225,7 @@ namespace SupRealClient.Views
 
         public override void Add()
         {
-            AddUpdateZoneWindView addUpdateZoneWindView = 
+            AddUpdateZoneWindView addUpdateZoneWindView =
                 new AddUpdateZoneWindView();
             addUpdateZoneWindView.Show();
         }
@@ -248,7 +249,8 @@ namespace SupRealClient.Views
                                 Door = cabs.Field<string>("f_door_num")
                             };
             var znsDoors = zoneDoors.GroupBy(x => x.Id)
-                .Select(g => new {
+                .Select(g => new
+                {
                     g.Key,
                     Door = string
                 .Join(", ", g.Select(x => x.Door))
@@ -386,16 +388,16 @@ namespace SupRealClient.Views
                 where orgs.Field<int>("f_org_id") != 0 &
                 orgs.Field<string>("f_has_free_access")
                 .ToString().ToUpper() == "Y"
-            select new T
-            {
-                Id = orgs.Field<int>("f_org_id"),
-                Type = orgs.Field<string>("f_org_type"),
-                FullName = OrganizationsHelper.GenerateFullName(
-                    orgs.Field<int>("f_org_id")),
-                Name = OrganizationsHelper.UntrimName(
-                    orgs.Field<string>("f_org_name")),
-                Comment = orgs.Field<string>("f_comment")
-            });
+                select new T
+                {
+                    Id = orgs.Field<int>("f_org_id"),
+                    Type = orgs.Field<string>("f_org_type"),
+                    FullName = OrganizationsHelper.GenerateFullName(
+                        orgs.Field<int>("f_org_id")),
+                    Name = OrganizationsHelper.UntrimName(
+                        orgs.Field<string>("f_org_name")),
+                    Comment = orgs.Field<string>("f_comment")
+                });
         }
 
         protected override BaseModelResult GetResult()
@@ -410,6 +412,87 @@ namespace SupRealClient.Views
                 { "f_org_type", "Тип" },
                 { "f_full_org_name", "Основное название" }
             };
+        }
+    }
+
+    public class CardsListModel<T> : Base4ModelAbstr<T>
+        where T : Card, new()
+    {
+        protected override DataTable Table => throw new NotImplementedException();
+
+        CardsWrapper cardsWrapper = CardsWrapper.CurrentTable();
+        SprCardstatesWrapper sprCardstatesWrapper = SprCardstatesWrapper.CurrentTable();
+        VisitsWrapper visitsWrapper = VisitsWrapper.CurrentTable();
+        VisitorsWrapper visitorsWrapper = VisitorsWrapper.CurrentTable();
+
+        public CardsListModel()
+        {
+            cardsWrapper.OnChanged += Query;
+            sprCardstatesWrapper.OnChanged += Query;
+            visitsWrapper.OnChanged += Query;
+            visitorsWrapper.OnChanged += Query;
+            Query();
+            Begin();
+        }
+
+        public override void Add()
+        {
+            ViewManager.Instance.AddObject(new AddCardModel(), null);
+        }
+
+        public override void Update()
+        {
+            ViewManager.Instance.UpdateObject(new UpdateCardModel((Card)this.CurrentItem), null);
+        }
+
+        protected override void DoQuery()
+        {
+            DateTime d = new DateTime(2000, 1, 1);
+            var cardsPersons =
+                from c in cardsWrapper.Table.AsEnumerable()
+                from v in visitsWrapper.Table.AsEnumerable()
+                from p in visitorsWrapper.Table.AsEnumerable()
+                where c.Field<int>("f_card_id") != 0 &
+                c.Field<int>("f_card_id") == v.Field<int>("f_card_id") &
+                v.Field<int>("f_visitor_id") == p.Field<int>("f_visitor_id") &
+                c.Field<int>("f_state_id") == 3 &
+                v.Field<int>("f_rec_operator_back") == 0
+                select new CardsPersons
+                {
+                    IdCard = c.Field<int>("f_card_id"),
+                    PersonName = p.Field<string>("f_full_name")
+                };
+
+            Set = new ObservableCollection<T>(
+                from c in cardsWrapper.Table.AsEnumerable()
+                join s in sprCardstatesWrapper.Table.AsEnumerable()
+                on c.Field<int>("f_state_id") equals s.Field<int>("f_state_id")
+                select new T
+                {
+                    Id = c.Field<int>("f_card_id"),
+                    CurdNum = c.Field<int>("f_card_num"),
+                    CreateDate = c.Field<DateTime>("f_create_date"),
+                    ChangeDate = c.Field<DateTime>("f_rec_date"),
+                    Comment = c.Field<string>("f_comment"),
+                    Lost = c.Field<DateTime?>("f_lost_date") > d
+                        ? c.Field<DateTime?>("f_lost_date") : null,
+                    State = s.Field<string>("f_state_text"),
+                    ReceiversName =
+                        (cardsPersons.FirstOrDefault(p =>
+                        p.IdCard == c.Field<int>("f_card_id"))?
+                        .PersonName.ToString())
+                });
+        }
+
+        protected override BaseModelResult GetResult()
+        {
+            return new BaseModelResult { Id = CurrentItem.Id, Name = CurrentItem.ReceiversName };
+        }
+
+        public class CardsPersons
+        {
+            public int IdCard { get; set; }
+            public string PersonName { get; set; }
         }
     }
 }

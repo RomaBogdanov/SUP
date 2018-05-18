@@ -301,6 +301,8 @@ namespace SupRealClient
                     return new NationsWindView();
                 case "CardsWindView":
                     return new CardsWindView();
+                case "Base4CardsWindView":
+                    return new Base4CardsWindView();
                 case "OrganizationsWindView":
                     return new OrganizationsWindView();
                 case "Base4ZonesWindView":

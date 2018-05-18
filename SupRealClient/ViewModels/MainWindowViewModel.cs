@@ -138,7 +138,8 @@ namespace SupRealClient.ViewModels
         {
             Current = this;
             ListOrganizationsClick = new RelayCommand(arg => 
-                ViewManager.Instance.OpenWindow("OrganizationsWindView"));
+                ViewManager.Instance.OpenWindow("Base4OrganizationsWindView"));
+            //ViewManager.Instance.OpenWindow("OrganizationsWindView"));
             ListDocumentsClick = new RelayCommand(arg =>
                 ViewManager.Instance.OpenWindow("Base4DocumentsWindView"));
             //ViewManager.Instance.OpenWindow("DocumentsWindView"));
@@ -146,7 +147,8 @@ namespace SupRealClient.ViewModels
                 ViewManager.Instance.OpenWindow("Base4NationsWindView"));
             //ViewManager.Instance.OpenWindow("NationsWindView"));
             ListCardsClick = new RelayCommand(arg => 
-                ViewManager.Instance.OpenWindow("CardsWindView"));
+                ViewManager.Instance.OpenWindow("Base4CardsWindView"));
+            //ViewManager.Instance.OpenWindow("CardsWindView"));
             ListZonesClick = new RelayCommand(arg => 
                 ViewManager.Instance.OpenWindow("Base4ZonesWindView"));
             //ListZonesClick = new RelayCommand(arg => ViewManager.Instance.OpenWindow("ZonesWindView"));
