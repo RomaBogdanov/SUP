@@ -27,7 +27,10 @@ namespace SupRealClient.Views
 
         public override void Update()
         {
-            ViewManager.Instance.UpdateObject(new UpdateOrgsModel(CurrentItem), Parent);
+            if (CurrentItem != null)
+            {
+                ViewManager.Instance.UpdateObject(new UpdateOrgsModel(CurrentItem), Parent);
+            }
         }
 
         public override void RightClick()

@@ -36,7 +36,10 @@ namespace SupRealClient.Views
 
         public override void Update()
         {
-            System.Windows.Forms.MessageBox.Show("Update");
+            if (CurrentItem != null)
+            {
+                System.Windows.Forms.MessageBox.Show("Update");
+            }
         }
 
         #endregion

@@ -3,7 +3,6 @@ using System.ComponentModel;
 using System.Windows.Input;
 using SupRealClient.EnumerationClasses;
 using System.Windows.Forms;
-using System.Collections.ObjectModel;
 using System.Linq;
 using System;
 using System.Collections.Generic;
@@ -26,12 +25,15 @@ namespace SupRealClient.ViewModels
         private DateTime dateTo;
         private string org = "";
         private string code = "";
+        private DateTime birthDate;
         private string comment = "";
 
-        private ObservableCollection<string> images =
-            new ObservableCollection<string>();
+        private string image = "";
+
         private List<Guid> imageCache = new List<Guid>();
         private int selectedImage = -1;
+
+        public bool Editable { get; private set; }
 
         public string Caption { get; private set; }
 
@@ -126,6 +128,19 @@ namespace SupRealClient.ViewModels
             }
         }
 
+        public DateTime BirthDate
+        {
+            get { return birthDate; }
+            set
+            {
+                if (value != null)
+                {
+                    birthDate = value;
+                    OnPropertyChanged("BirthDate");
+                }
+            }
+        }
+
         public string Comment
         {
             get { return comment; }
@@ -135,19 +150,6 @@ namespace SupRealClient.ViewModels
                 {
                     comment = value;
                     OnPropertyChanged("Comment");
-                }
-            }
-        }
-
-        public ObservableCollection<string> Images
-        {
-            get { return images; }
-            set
-            {
-                if (value != null)
-                {
-                    images = value;
-                    OnPropertyChanged("Images");
                 }
             }
         }
@@ -162,24 +164,39 @@ namespace SupRealClient.ViewModels
             }
         }
 
+        public string Image
+        {
+            get { return image; }
+            set
+            {
+                image = value;
+                OnPropertyChanged("Image");
+            }
+        }
+
         public ICommand AddImageCommand { get; set; }
         public ICommand RemoveImageCommand { get; set; }
 
         public ICommand DocumentsCommand { get; set; }
         public ICommand ClearCommand { get; set; }
 
+        public ICommand PrevCommand { get; set; }
+        public ICommand NextCommand { get; set; }
+
         public ICommand Ok { get; set; }
         public ICommand Cancel { get; set; }
 
-        public VisitorsMainDocumentViewModel()
+        public VisitorsMainDocumentViewModel(bool editable)
         {
+            Editable = editable;
         }
 
         public void SetModel(VisitorsMainDocumentModel model)
         {
             this.model = model;
-            Caption = model.Data.Id == -1 ? "Добавление документа" :
-                "Редактирование документа";
+            Caption = !Editable ? "Просмотр документа" :
+                (model.Data.Id == -1 ? "Добавление документа" :
+                "Редактирование документа");
 
             this.Seria = model.Data.Seria;
             this.Num = model.Data.Num;
@@ -188,6 +205,7 @@ namespace SupRealClient.ViewModels
             this.Org = model.Data.Org;
             this.Code = model.Data.Code;
             this.Comment = model.Data.Comment;
+            this.BirthDate = model.Data.BirthDate;
             documentId = model.Data.TypeId;
             DocType = (string)DocumentsWrapper.CurrentTable().Table
                 .AsEnumerable().FirstOrDefault(arg =>
@@ -201,8 +219,10 @@ namespace SupRealClient.ViewModels
             {
                 imageCache = DocumentsHelper.CacheImages(model.Data.Id);
             }
-            Images = new ObservableCollection<string>(imageCache.Select(i =>
-                ImagesHelper.GetImagePath(i)));
+            if (imageCache.Any())
+            {
+                SetImage(0);
+            }
 
             this.Ok = new RelayCommand(arg => OkExecute());
             this.Cancel = new RelayCommand(arg => this.model.Cancel());
@@ -212,6 +232,9 @@ namespace SupRealClient.ViewModels
 
             AddImageCommand = new RelayCommand(arg => AddImage());
             RemoveImageCommand = new RelayCommand(arg => RemoveImage());
+
+            PrevCommand = new RelayCommand(arg => Prev());
+            NextCommand = new RelayCommand(arg => Next());
         }
 
         protected virtual void OnPropertyChanged(string propertyName) =>
@@ -224,8 +247,8 @@ namespace SupRealClient.ViewModels
             if (dlg.ShowDialog() == DialogResult.OK)
             {
                 Guid id = ImagesHelper.LoadImage(dlg.FileName);
-                Images.Add(ImagesHelper.GetImagePath(id));
                 imageCache.Add(id);
+                SetImage(imageCache.Count - 1);
             }
         }
 
@@ -236,8 +259,31 @@ namespace SupRealClient.ViewModels
                 return;
             }
             int selected = SelectedImage;
-            Images.RemoveAt(selected);
             imageCache.RemoveAt(selected);
+            SetImage(selected <= imageCache.Count - 1 ? selected : selected - 1);
+        }
+
+        private void Prev()
+        {
+            if (selectedImage > 0)
+            {
+                SetImage(selectedImage - 1);
+            }
+        }
+
+        private void Next()
+        {
+            if (selectedImage < imageCache.Count - 1)
+            {
+                SetImage(selectedImage + 1);
+            }
+        }
+
+        private void SetImage(int index)
+        {
+            selectedImage = index;
+            Image = selectedImage < 0 ? "" :
+                ImagesHelper.GetImagePath(imageCache[selectedImage]);
         }
 
         private void OkExecute()
@@ -262,6 +308,7 @@ namespace SupRealClient.ViewModels
                     Code = Code,
                     Date = Date,
                     DateTo = DateTo,
+                    BirthDate = BirthDate,
                     Comment = Comment,
                     Images = imageCache,
                     IsChanged = true

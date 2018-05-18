@@ -25,7 +25,10 @@ namespace SupRealClient.Views
 
         public override void Update()
         {
-            ViewManager.Instance.Update(new UpdateItemNationsModel(CurrentItem), Parent);
+            if (CurrentItem != null)
+            {
+                ViewManager.Instance.Update(new UpdateItemNationsModel(CurrentItem), Parent);
+            }
         }
 
         protected override BaseModelResult GetResult()

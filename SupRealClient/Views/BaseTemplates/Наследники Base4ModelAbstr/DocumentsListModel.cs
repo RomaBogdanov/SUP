@@ -26,7 +26,10 @@ namespace SupRealClient.Views
 
         public override void Update()
         {
-            ViewManager.Instance.Update(new UpdateItemDocumentsModel(CurrentItem), Parent);
+            if (CurrentItem != null)
+            {
+                ViewManager.Instance.Update(new UpdateItemDocumentsModel(CurrentItem), Parent);
+            }
         }
 
         protected override BaseModelResult GetResult()

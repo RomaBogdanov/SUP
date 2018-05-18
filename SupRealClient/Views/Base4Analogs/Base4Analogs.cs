@@ -4,6 +4,11 @@ using System.ComponentModel;
 using System.Windows;
 using System.Windows.Input;
 
+/*
+ФАЙЛ СГЕНЕРИРОВАН АВТОМАТИЧЕСКИ
+ИЗМЕНЕНИЯ НЕ ВНОСИТЬ!!!!!
+*/
+
 namespace SupRealClient.Views
 {
     /// <summary>

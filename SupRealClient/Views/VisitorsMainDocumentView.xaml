@@ -4,22 +4,33 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:mah="http://metro.mahapps.com/winfx/xaml/controls"
+        xmlns:converters="clr-namespace:SupRealClient.Behaviour"
         mc:Ignorable="d"
         Title="{Binding Path=Caption, Mode=OneTime}" 
-        Height="700" Width="350" 
+        Height="800" Width="600" 
         ResizeMode="NoResize">
 
+    <mah:MetroWindow.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="SupResourcesDictionary.xaml" />
+            </ResourceDictionary.MergedDictionaries>
+            <converters:InverseBooleanConverter x:Key="InverseBooleanConverter"/>
+        </ResourceDictionary>
+    </mah:MetroWindow.Resources>
+    
     <Grid>
         <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="1*"/>
-            <ColumnDefinition Width="1*"/>
+            <ColumnDefinition />
+            <ColumnDefinition />
+            <ColumnDefinition />
         </Grid.ColumnDefinitions>
         <Grid.RowDefinitions>
-            <RowDefinition/>
+            <RowDefinition />
             <RowDefinition Height="Auto"/>
         </Grid.RowDefinitions>
 
-        <mah:MetroAnimatedTabControl Margin="5" Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="2">
+        <mah:MetroAnimatedTabControl Margin="5" Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="3">
             <mah:MetroTabItem Header="Основная">
                 <Grid>
                     <Grid.ColumnDefinitions>
@@ -35,6 +46,8 @@
                         <RowDefinition Height="30"/>
                         <RowDefinition Height="30"/>
                         <RowDefinition Height="80"/>
+                        <RowDefinition Height="30"/>
+                        <RowDefinition Height="30"/>
                         <RowDefinition Height="30"/>
                         <RowDefinition Height="30"/>
                         <RowDefinition Height="30"/>
@@ -81,6 +94,7 @@
                             Height="25"
                             Width="25"
                             Content="..."
+                            IsEnabled="{Binding Path=Editable, Mode=OneTime}"
                             Style="{StaticResource VisitorsSquareButtonStyle}"/>
 
                         <Button
@@ -91,6 +105,7 @@
                             Height="25"
                             Width="25"
                             Content="X"
+                            IsEnabled="{Binding Path=Editable, Mode=OneTime}"
                             Style="{StaticResource VisitorsSquareButtonStyle}"/>
                     </Grid>
 
@@ -110,6 +125,7 @@
                         TabIndex="3"
                         Text="{Binding Path=Seria, Mode=TwoWay}"
                         Margin="2"
+                        IsReadOnly="{Binding Path=Editable, Converter={StaticResource InverseBooleanConverter}, Mode=OneTime}"
                         Style="{StaticResource TextBoxStyle}"
                         KeyUp="TextBox_OnKeyUp"/>
 
@@ -129,6 +145,7 @@
                         TabIndex="4"
                         Text="{Binding Path=Num, Mode=TwoWay}"
                         Margin="2"
+                        IsReadOnly="{Binding Path=Editable, Converter={StaticResource InverseBooleanConverter}, Mode=OneTime}"
                         Style="{StaticResource TextBoxStyle}"
                         KeyUp="TextBox_OnKeyUp"/>
 
@@ -150,6 +167,7 @@
                         Text="{Binding Path=Org, Mode=TwoWay}"
                         Margin="2"
                         Height="76"
+                        IsReadOnly="{Binding Path=Editable, Converter={StaticResource InverseBooleanConverter}, Mode=OneTime}"
                         Style="{StaticResource TextBoxStyle}"
                         KeyUp="TextBox_OnKeyUp"/>
 
@@ -169,6 +187,7 @@
                         TabIndex="6"
                         Text="{Binding Path=Code, Mode=TwoWay}"
                         Margin="2"
+                        IsReadOnly="{Binding Path=Editable, Converter={StaticResource InverseBooleanConverter}, Mode=OneTime}"
                         Style="{StaticResource TextBoxStyle}"
                         KeyUp="TextBox_OnKeyUp"/>
 
@@ -187,25 +206,10 @@
                         Grid.ColumnSpan="2" 
                         TabIndex="7"
                         SelectedDate="{Binding Path=Date, Mode=TwoWay}"
-                        IsEnabled="True"
                         Text="Дата"
                         Margin="2"
+                        IsEnabled="{Binding Path=Editable, Mode=OneTime}"
                         KeyUp="TextBox_OnKeyUp">
-                        <DatePicker.Resources>
-                            <Style TargetType="{x:Type DatePickerTextBox}">
-                                <Setter Property="Control.Template">
-                                    <Setter.Value>
-                                        <ControlTemplate>
-                                            <TextBox 
-                                                            x:Name="PART_TextBox"
-                                                            ToolTip="Выберите дату"
-                                                            Text="{Binding Path=SelectedDate, StringFormat='dd.MM.yyyy', Mode=TwoWay,
-                                                            RelativeSource={RelativeSource AncestorType={x:Type DatePicker}}}" />
-                                        </ControlTemplate>
-                                    </Setter.Value>
-                                </Setter>
-                            </Style>
-                        </DatePicker.Resources>
                     </DatePicker>
 
                     <TextBlock 
@@ -225,26 +229,33 @@
                         Text="Дата до"
                         SelectedDate="{Binding Path=DateTo, Mode=TwoWay}"
                         Margin="2"
+                        IsEnabled="{Binding Path=Editable, Mode=OneTime}"
                         KeyUp="TextBox_OnKeyUp">
-                        <DatePicker.Resources>
-                            <Style TargetType="{x:Type DatePickerTextBox}">
-                                <Setter Property="Control.Template">
-                                    <Setter.Value>
-                                        <ControlTemplate>
-                                            <TextBox 
-                                                            x:Name="PART_TextBox"
-                                                            ToolTip="Выберите дату"
-                                                            Text="{Binding Path=SelectedDate, StringFormat='dd.MM.yyyy', Mode=TwoWay,
-                                                            RelativeSource={RelativeSource AncestorType={x:Type DatePicker}}}" />
-                                        </ControlTemplate>
-                                    </Setter.Value>
-                                </Setter>
-                            </Style>
-                        </DatePicker.Resources>
                     </DatePicker>
 
                     <TextBlock 
                         Grid.Row="14" 
+                        Grid.Column="0"
+                        Grid.ColumnSpan="2"
+                        Text="Дата рождения:" 
+                        FontSize="15"
+                        HorizontalAlignment="Left"
+                        Style="{StaticResource TextBLockStyle}"/>
+
+                    <DatePicker 
+                        Grid.Row="15" 
+                        Grid.Column="0"
+                        Grid.ColumnSpan="2" 
+                        TabIndex="9"
+                        Text="Дата рождения"
+                        SelectedDate="{Binding Path=BirthDate, Mode=TwoWay}"
+                        Margin="2"
+                        IsEnabled="{Binding Path=Editable, Mode=OneTime}"
+                        KeyUp="TextBox_OnKeyUp">
+                    </DatePicker>
+
+                    <TextBlock 
+                        Grid.Row="16" 
                         Grid.ColumnSpan="2"
                         Text="Примечание:" 
                         FontSize="15"
@@ -252,78 +263,160 @@
                         Style="{StaticResource TextBLockStyle}"/>
 
                     <TextBox 
-                        Grid.Row="15" 
+                        Grid.Row="17" 
                         Grid.Column="0"
                         Grid.ColumnSpan="2" 
-                        TabIndex="9"
+                        TabIndex="10"
+                        TextWrapping="Wrap"
                         Text="{Binding Path=Comment, Mode=TwoWay}"
+                        Height="76"
                         Margin="2"
+                        IsReadOnly="{Binding Path=Editable, Converter={StaticResource InverseBooleanConverter}, Mode=OneTime}"
                         Style="{StaticResource TextBoxStyle}"
                         KeyUp="TextBox_OnKeyUp"/>
                 </Grid>
             </mah:MetroTabItem>
             <mah:MetroTabItem Header="Изображения">
                 <Grid>
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="1*"/>
-                        <ColumnDefinition Width="1*"/>
-                    </Grid.ColumnDefinitions>
                     <Grid.RowDefinitions>
                         <RowDefinition/>
                         <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="100"/>
                     </Grid.RowDefinitions>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition/>
+                        <ColumnDefinition Width="400"/>
+                    </Grid.ColumnDefinitions>
 
-                    <ListBox
+                    <TextBlock Grid.ColumnSpan="2" VerticalAlignment="Center" HorizontalAlignment="Center">Нет изображений</TextBlock>
+
+                    <Image
                         Grid.Row="0"
+                        Grid.Column="0"
                         Grid.ColumnSpan="2"
-                        ItemsSource="{Binding Path=Images}"
-                        SelectedIndex="{Binding Path=SelectedImage}">
-                        <ListBox.ItemTemplate>
-                            <DataTemplate>
-                                <StackPanel>
-                                    <Image Height="10" Source="{Binding}" />
-                                </StackPanel>
-                            </DataTemplate>
-                        </ListBox.ItemTemplate>
-                    </ListBox>
+                        Stretch="UniformToFill"
+                        Source="{Binding Path=Image, Mode=OneWay}"/>
 
-                    <Grid Grid.Row="1" Grid.ColumnSpan="2">
+                    <Grid
+                        Grid.Row="2"
+                        Grid.Column="1">
                         <Grid.ColumnDefinitions>
-                            <ColumnDefinition />
-                            <ColumnDefinition Width="Auto"/>
-                            <ColumnDefinition Width="Auto"/>
-                            <ColumnDefinition Width="Auto"/>
+                            <ColumnDefinition/>
+                            <ColumnDefinition/>
+                            <ColumnDefinition/>
+                            <ColumnDefinition/>
                         </Grid.ColumnDefinitions>
+
                         <Button
                             Command="{Binding AddImageCommand}"
-                            TabIndex="2"
-                            Grid.Column="2"
+                            Grid.Column="0"
                             Margin="2"
-                            Height="25"
-                            Width="25"
-                            Content="+"
-                            IsEnabled="{Binding Path=ButtonEnable, Mode=TwoWay}"
-                            Style="{StaticResource VisitorsSquareButtonStyle}"/>
+                            TabIndex="11"
+                            IsEnabled="{Binding Path=Editable, Mode=OneTime}"
+                            Style="{StaticResource VisitorsSquareButtonStyle}">
+                            
+                            <Grid>
+                                <Grid.RowDefinitions>
+                                    <RowDefinition/>
+                                    <RowDefinition Height="0.3*"/>
+                                </Grid.RowDefinitions>
+
+                                <Image
+                                    Grid.Row="0"
+                                    Source="../Resources/Добавить1 (2).ico"/>
+
+                                <TextBlock
+                                    Grid.Row="1"
+                                    Text="Добавить"
+                                    FontSize="12"
+                                    Style="{StaticResource TextBLockStyle}"/>
+                            </Grid>
+                        </Button>
+
                         <Button
                             Command="{Binding RemoveImageCommand}"
-                            TabIndex="4"
+                            Grid.Column="1"
+                            Margin="2"
+                            TabIndex="12"
+                            IsEnabled="{Binding Path=Editable, Mode=OneTime}"
+                            Style="{StaticResource VisitorsSquareButtonStyle}">
+
+                            <Grid>
+                                <Grid.RowDefinitions>
+                                    <RowDefinition/>
+                                    <RowDefinition Height="0.3*"/>
+                                </Grid.RowDefinitions>
+
+                                <Image
+                                    Grid.Row="0"
+                                    Source="../Resources/Отмена (2).ico"/>
+
+                                <TextBlock
+                                    Grid.Row="1"
+                                    Text="Удалить"
+                                    FontSize="12"
+                                    Style="{StaticResource TextBLockStyle}"/>
+                            </Grid>
+                        </Button>
+
+                        <Button
+                            Command="{Binding Path=PrevCommand}"
+                            Grid.Column="2"
+                            Margin="2"
+                            TabIndex="13"
+                            Style="{StaticResource VisitorsSquareButtonStyle}">
+                            <Grid>
+                                <Grid.RowDefinitions>
+                                    <RowDefinition/>
+                                    <RowDefinition Height="0.3*"/>
+                                </Grid.RowDefinitions>
+
+                                <Image
+                                    Grid.Row="0"
+                                    Source="../Resources/Предыдущий (2).ico"/>
+
+                                <TextBlock
+                                    Grid.Row="1"
+                                    Text="Пред."
+                                    FontSize="12"
+                                    Style="{StaticResource TextBLockStyle}"/>
+                            </Grid>
+                        </Button>
+
+                        <Button
+                            Command="{Binding Path=NextCommand}"
                             Grid.Column="3"
                             Margin="2"
-                            Height="25"
-                            Width="25"
-                            Content="X"
-                            IsEnabled="{Binding Path=ButtonEnable, Mode=TwoWay}"
-                            Style="{StaticResource VisitorsSquareButtonStyle}"/>
+                            TabIndex="14"
+                            Style="{StaticResource VisitorsSquareButtonStyle}">
+                            <Grid>
+                                <Grid.RowDefinitions>
+                                    <RowDefinition/>
+                                    <RowDefinition Height="0.3*"/>
+                                </Grid.RowDefinitions>
+
+                                <Image
+                                    Grid.Row="0"
+                                    Source="../Resources/Следующий (2).ico"/>
+
+                                <TextBlock
+                                    Grid.Row="1"
+                                    Text="След."
+                                    FontSize="12"
+                                    Style="{StaticResource TextBLockStyle}"/>
+                            </Grid>
+                        </Button>
                     </Grid>
                 </Grid>
             </mah:MetroTabItem>
         </mah:MetroAnimatedTabControl>
         <Button 
             Grid.Row="1" 
-            Grid.Column="0"
+            Grid.Column="1"
             Command="{Binding Path=Ok}"
             Margin="2"
             TabIndex="16"
+            IsEnabled="{Binding Path=Editable, Mode=OneTime}"
             Style="{StaticResource ButtonStyle}">
             <Grid Width="140">
                 <Grid.ColumnDefinitions>
@@ -344,7 +437,7 @@
 
         <Button 
             Grid.Row="1" 
-            Grid.Column="1" 
+            Grid.Column="2" 
             Margin="2"
             TabIndex="17"
             Command="{Binding Path=Cancel}"

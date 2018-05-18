@@ -10,6 +10,14 @@
         Height="220" Width="450"
         ResizeMode="NoResize">
 
+    <mah:MetroWindow.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="../SupResourcesDictionary.xaml" />
+            </ResourceDictionary.MergedDictionaries>
+        </ResourceDictionary>
+    </mah:MetroWindow.Resources>
+
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition/>
@@ -73,21 +81,6 @@
                 Grid.Column="0"
                 Margin="10"
                 Text="Дата">
-                <DatePicker.Resources>
-                    <Style TargetType="{x:Type DatePickerTextBox}">
-                        <Setter Property="Control.Template">
-                            <Setter.Value>
-                                <ControlTemplate>
-                                    <TextBox 
-                                        x:Name="PART_TextBox"
-                                        ToolTip="Выберите дату"
-                                        Text="{Binding Path=SelectedDate, StringFormat='dd.MM.yyyy', 
-                                        RelativeSource={RelativeSource AncestorType={x:Type DatePicker}}}" />
-                                </ControlTemplate>
-                            </Setter.Value>
-                        </Setter>
-                    </Style>
-                </DatePicker.Resources>
             </DatePicker>
 
             <TextBox

@@ -24,7 +24,10 @@ namespace SupRealClient.Views
 
         public override void Update()
         {
-            ViewManager.Instance.OpenWindow(new AddUpdateCabinetView(CurrentItem), Parent);
+            if (CurrentItem != null)
+            {
+                ViewManager.Instance.OpenWindow(new AddUpdateCabinetView(CurrentItem), Parent);
+            }
         }
 
         protected override BaseModelResult GetResult()

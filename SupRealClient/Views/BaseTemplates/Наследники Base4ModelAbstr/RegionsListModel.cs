@@ -27,7 +27,10 @@ namespace SupRealClient.Views
 
         public override void Update()
         {
-            ViewManager.Instance.UpdateObject(new UpdateItemRegionsModel(CurrentItem), Parent);
+            if (CurrentItem != null)
+            {
+                ViewManager.Instance.UpdateObject(new UpdateItemRegionsModel(CurrentItem), Parent);
+            }
         }
 
         public void SetCountry(int countryId)

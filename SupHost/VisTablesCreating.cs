@@ -1,4 +1,9 @@
-﻿namespace SupHost
+﻿/*
+ФАЙЛ СГЕНЕРИРОВАН АВТОМАТИЧЕСКИ
+ИЗМЕНЕНИЯ НЕ ВНОСИТЬ!!!!!
+*/
+
+namespace SupHost
 {
     /// <summary>
     /// TableBehavior для Кабинеты

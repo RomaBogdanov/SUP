@@ -34,9 +34,11 @@ namespace SupRealClient.Models
             if (data.Field != "")
             {
                 DataRow dataRow = countries.Table.Rows.Find(nation.Id);
+                dataRow.BeginEdit();
                 dataRow["f_cntr_name"] = data.Field;
                 dataRow["f_rec_date"] = DateTime.Now;
                 dataRow["f_rec_operator"] = Authorizer.AppAuthorizer.Id;
+                dataRow.EndEdit();
             }
             Cancel();
         }

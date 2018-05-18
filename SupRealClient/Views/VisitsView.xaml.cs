@@ -245,8 +245,9 @@ namespace SupRealClient.Views
             Model = new VisitsModel();
 
             this.PositionList =
-                new CollectionView(VisitorsHelper.GetPositions(
-                    Model.CurrentItem.Position));
+                new CollectionView(Model.CurrentItem != null ?
+                VisitorsHelper.GetPositions(
+                Model.CurrentItem.Position) : new List<string>());
 
             OnPropertyChanged("PhotoSource");
             OnPropertyChanged("Signature");
@@ -528,15 +529,16 @@ namespace SupRealClient.Views
                 return;
             }
 
-            var window = new DocumentImagesView(
-                CurrentItem.MainDocuments[SelectedMainDocument]);
+            var window = new VisitorsMainDocumentView(
+               new VisitorsMainDocumentModel(
+                   CurrentItem.MainDocuments[SelectedMainDocument]), false);
             window.ShowDialog();
         }
 
         private void AddMainDocument()
         {
             var window = new VisitorsMainDocumentView(
-                new VisitorsMainDocumentModel(null));
+                new VisitorsMainDocumentModel(null), true);
             window.ShowDialog();
             var document = window.WindowResult as VisitorsMainDocument;
 
@@ -556,7 +558,7 @@ namespace SupRealClient.Views
             }
             var window = new VisitorsMainDocumentView(
                 new VisitorsMainDocumentModel(
-                    CurrentItem.MainDocuments[SelectedMainDocument]));
+                    CurrentItem.MainDocuments[SelectedMainDocument]), true);
             window.ShowDialog();
             var document = window.WindowResult as VisitorsMainDocument;
 
@@ -802,6 +804,13 @@ namespace SupRealClient.Views
                 MessageBox.Show("Не все поля вкладки Основная заполнены!");
                 return false;
             }
+            if (!ValidateDocumentDates() &&
+                MessageBox.Show("В документах разные даты рождения. Все равно сохранить?",
+                "Внимание", MessageBoxButtons.YesNo) == DialogResult.No)
+            {
+                return false;
+            }
+
             return true;
         }
 
@@ -835,6 +844,7 @@ namespace SupRealClient.Views
                     row["f_doc_date_to"] = document.DateTo;
                     row["f_doc_org"] = document.Org;
                     row["f_doc_code"] = document.Code;
+                    row["f_birth_date"] = document.BirthDate;
                     row["f_comment"] = document.Comment;
                     row["f_deleted"] = "N";
                     VisitorsDocumentsWrapper.
@@ -925,6 +935,52 @@ namespace SupRealClient.Views
             ImagesHelper.AddImages(id, images);
         }
 
+        protected string GetBirthDate(EnumerationClasses.Visitor visitor)
+        {
+            DateTime? birthDate = null;
+            foreach (var document in visitor.MainDocuments)
+            {
+                if (document.BirthDate > DateTime.MinValue)
+                {
+                    if (!birthDate.HasValue)
+                    {
+                        birthDate = document.BirthDate;
+                    }
+                    else
+                    {
+                        if (!document.BirthDate.Equals(birthDate))
+                        {
+                            return "В документах указаны разные даты рождения";
+                        }
+                    }
+                }
+            }
+            return birthDate.HasValue ? birthDate.Value.ToShortDateString() : "";
+        }
+
+        private bool ValidateDocumentDates()
+        {
+            DateTime? birthDate = null;
+            foreach (var document in CurrentItem.MainDocuments)
+            {
+                if (document.BirthDate > DateTime.MinValue)
+                {
+                    if (!birthDate.HasValue)
+                    {
+                        birthDate = document.BirthDate;
+                    }
+                    else
+                    {
+                        if (!document.BirthDate.Equals(birthDate))
+                        {
+                            return false;
+                        }
+                    }
+                }
+            }
+            return true;
+        }
+
         private void RemoveOldDocuments(int visitorId, bool isMain)
         {
             foreach (DataRow r in VisitorsDocumentsWrapper.
@@ -994,14 +1050,16 @@ namespace SupRealClient.Views
 
         private void GetPhoto()
         {
-            SetImageSource(ImagesHelper.GetImage(
-                CurrentItem.Id, ImageType.Photo), ImageType.Photo);
+            SetImageSource(CurrentItem == null ? Guid.Empty :
+                ImagesHelper.GetImage(
+                    CurrentItem.Id, ImageType.Photo), ImageType.Photo);
         }
 
         private void GetSign()
         {
-            SetImageSource(ImagesHelper.GetImage(
-                CurrentItem.Id, ImageType.Signature), ImageType.Signature);
+            SetImageSource(CurrentItem == null ? Guid.Empty : 
+                ImagesHelper.GetImage(
+                    CurrentItem.Id, ImageType.Signature), ImageType.Signature);
         }
     }
 
@@ -1068,7 +1126,6 @@ namespace SupRealClient.Views
                     Family = visitors.Field<string>("f_family"),
                     Name = visitors.Field<string>("f_fst_name"),
                     Patronymic = visitors.Field<string>("f_sec_name"),
-                    BirthDate = visitors.Field<DateTime>("f_birth_date"),
                     Organization = OrganizationsHelper.
                         GenerateFullName(visitors.Field<int>("f_org_id"), true),
                     Comment = visitors.Field<string>("f_vr_text"),
@@ -1094,8 +1151,8 @@ namespace SupRealClient.Views
                     IsAgree = CommonHelper.StringToBool(visitors.Field<string>(
                         "f_personal_data_agreement")),
                     AgreeToDate = visitors.Field<DateTime>("f_personal_data_last_date"),
-                    Operator = GetOperator(visitors.Field<int>("f_rec_operator"),
-                        visitors.Field<DateTime>("f_rec_date")),
+                    Operator = GetOperator(visitors.Field<int>("f_rec_operator_pass"),
+                        visitors.Field<DateTime>("f_rec_date_pass")),
                     Department = GetDepartmenstList(visitors.Field<int>("f_dep_id")),
                     Position = visitors.Field<string>("f_job"),
                     IsRightSign = CommonHelper.StringToBool(visitors.Field<string>(
@@ -1265,8 +1322,10 @@ namespace SupRealClient.Views
                         DateTo = documents.Field<DateTime>("f_doc_date_to"),
                         Org = documents.Field<string>("f_doc_org"),
                         Code = documents.Field<string>("f_doc_code"),
+                        BirthDate = documents.Field<DateTime>("f_birth_date"),
                         Comment = documents.Field<string>("f_comment")
                     });
+                Set[index].BirthDate = GetBirthDate(Set[index]);
             }
             if (Set[index].Documents == null)
             {
@@ -1291,7 +1350,8 @@ namespace SupRealClient.Views
             return (string)UsersWrapper.CurrentTable()
                 .Table.AsEnumerable().FirstOrDefault(arg =>
                 arg.Field<int>("f_user_id") == id)?["f_user"] +
-                " " + date.ToShortDateString();
+                " " + date.ToShortDateString() + " " +
+                date.ToShortTimeString();
         }
     }
 
@@ -1340,12 +1400,12 @@ namespace SupRealClient.Views
         
         public override bool Ok()
         {
-            DataRow row = VisitorsWrapper.CurrentTable().Table.NewRow();
-
             if (!Validate())
             {
                 return false;
             }
+
+            DataRow row = VisitorsWrapper.CurrentTable().Table.NewRow();
 
             row["f_rec_date_pass"] = DateTime.Now;
             row["f_is_short_data"] = CommonHelper.BoolToString(false);
@@ -1360,7 +1420,6 @@ namespace SupRealClient.Views
             row["f_family"] = CurrentItem.Family;
             row["f_fst_name"] = CurrentItem.Name;
             row["f_sec_name"] = CurrentItem.Patronymic;
-            row["f_birth_date"] = CurrentItem.BirthDate;
             row["f_org_id"] = CurrentItem.OrganizationId >= 0 ?
                 CurrentItem.OrganizationId : 0;
             row["f_vr_text"] = CurrentItem.Comment ?? "";
@@ -1447,13 +1506,15 @@ namespace SupRealClient.Views
 
         public override bool Ok()
         {
-            DataRow row = VisitorsWrapper.CurrentTable().Table.Rows.Find(
-                CurrentItem.Id);
-
             if (!Validate())
             {
                 return false;
             }
+
+            DataRow row = VisitorsWrapper.CurrentTable().Table.Rows.Find(
+                CurrentItem.Id);
+
+            row.BeginEdit();
 
             row["f_rec_date_pass"] = DateTime.Now;
             row["f_rec_operator_pass"] = Authorizer.AppAuthorizer.Id;
@@ -1478,10 +1539,6 @@ namespace SupRealClient.Views
             {
                 row["f_full_name"] = CommonHelper.CreateFullName(
                     CurrentItem.Family, CurrentItem.Name, CurrentItem.Patronymic);
-            }
-            if (OldVisitor.BirthDate != CurrentItem.BirthDate)
-            {
-                row["f_birth_date"] = CurrentItem.BirthDate;
             }
             if (OldVisitor.OrganizationId != CurrentItem.OrganizationId)
                 row["f_org_id"] = CurrentItem.OrganizationId >= 0 ?
@@ -1547,6 +1604,7 @@ namespace SupRealClient.Views
                 row["f_dep_id"] = CurrentItem.DepartmentId >= 0 ?
                     CurrentItem.DepartmentId : 0;
             }
+            row.EndEdit();
 
             SaveAdditionalData(CurrentItem.Id);
 

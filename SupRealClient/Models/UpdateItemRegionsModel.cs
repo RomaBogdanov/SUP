@@ -54,11 +54,13 @@ namespace SupRealClient.Models
             RegionsWrapper regions = RegionsWrapper.CurrentTable();
 
             DataRow row = regions.Table.Rows.Find(region.Id);
+            row.BeginEdit();
             row["f_region_name"] = data.Name;
             row["f_cntr_id"] = data.CountryId;
             row["f_rec_date"] = DateTime.Now;
             row["f_rec_operator"] = Authorizer.AppAuthorizer.Id;
             row["f_deleted"] = CommonHelper.BoolToString(false);
+            row.EndEdit();
             Cancel();
         }
     }

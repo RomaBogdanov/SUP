@@ -29,9 +29,11 @@ namespace SupRealClient.Models
             if (data.Field != "")
             {
                 DataRow dataRow = documents.Table.Rows.Find(document.Id);
+                dataRow.BeginEdit();
                 dataRow["f_doc_name"] = data.Field;
                 dataRow["f_rec_date"] = DateTime.Now;
                 dataRow["f_rec_operator"] = Authorizer.AppAuthorizer.Id;
+                dataRow.EndEdit();
             }
             Cancel();
         }

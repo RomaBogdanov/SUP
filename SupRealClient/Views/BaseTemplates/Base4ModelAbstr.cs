@@ -10,7 +10,6 @@ using SupRealClient.Common.Interfaces;
 using SupRealClient.Common;
 using SupRealClient.TabsSingleton;
 using SupRealClient.Models;
-using SupRealClient.Common.Interfaces;
 
 namespace SupRealClient.Views
 {
@@ -232,9 +231,12 @@ namespace SupRealClient.Views
 
         public override void Update()
         {
-            AddUpdateZoneWindView addUpdateZoneWindView =
-                new AddUpdateZoneWindView(this.CurrentItem);
-            addUpdateZoneWindView.Show();
+            if (this.CurrentItem != null)
+            {
+                AddUpdateZoneWindView addUpdateZoneWindView =
+                    new AddUpdateZoneWindView(this.CurrentItem);
+                addUpdateZoneWindView.Show();
+            }
         }
 
         protected override void DoQuery()
@@ -442,7 +444,10 @@ namespace SupRealClient.Views
 
         public override void Update()
         {
-            ViewManager.Instance.UpdateObject(new UpdateCardModel((Card)this.CurrentItem), null);
+            if (this.CurrentItem != null)
+            {
+                ViewManager.Instance.UpdateObject(new UpdateCardModel((Card)this.CurrentItem), null);
+            }
         }
 
         protected override void DoQuery()
