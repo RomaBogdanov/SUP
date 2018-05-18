@@ -117,32 +117,15 @@ namespace SupRealClient.ViewModels
             }
         }
 
-        public ICommand Add
-        { get; set; }
-
-        public ICommand Update
-        { get; set; }
-
-        public ICommand Search
-        { get; set; }
-
-        public ICommand Farther
-        { get; set; }
-
-        public ICommand Begin
-        { get; set; }
-
-        public ICommand Prev
-        { get; set; }
-
-        public ICommand Next
-        { get; set; }
-
-        public ICommand End
-        { get; set; }
-
-        public ICommand Close
-        { get; set; }
+        public ICommand Add { get; set; }
+        public ICommand Update { get; set; }
+        public ICommand Search { get; set; }
+        public ICommand Farther { get; set; }
+        public ICommand Begin { get; set; }
+        public ICommand Prev { get; set; }
+        public ICommand Next { get; set; }
+        public ICommand End { get; set; }
+        public ICommand Close { get; set; }
         /*
         public ICommand TextChanged
         { get; set; }
@@ -161,12 +144,7 @@ namespace SupRealClient.ViewModels
             this.Close = new RelayCommand(arg => model.Close());
             //this.TextChanged = new RelayCommand(arg => Chan(arg));
         }
-
-        /*private void Chan(object arg)
-        {
-            //throw new NotImplementedException();
-        }*/
-
+        
         public Base1ViewModel()
         {
         }

@@ -2,6 +2,7 @@
 using SupRealClient.ViewModels;
 using System.Windows.Controls;
 using System.Windows.Input;
+using SupRealClient.Common.Interfaces;
 
 namespace SupRealClient.Views
 {
@@ -10,19 +11,12 @@ namespace SupRealClient.Views
     /// </summary>
     public partial class Base1View : UserControl
     {
-        Base1ViewModel viewModel = new Base1ViewModel();
+        
 
         public Base1View()
         {
             InitializeComponent();
-            DataContext = viewModel;
-        }
-
-        public void SetViewModel(Base1ModelAbstr model)
-        {
-            ((Base1ViewModel)DataContext).SetModel(model);
-            InitializeComponent();
-            tbxSearch.Focus();
+            //DataContext = viewModel;
         }
 
         public DataGrid BaseTab
@@ -32,14 +26,6 @@ namespace SupRealClient.Views
             {
                 baseTab = value;
                 baseTab.Focus();
-            }
-        }
-
-        public void SetDefaultColumn()
-        {
-            if (baseTab.Columns.Count > 0)
-            {
-                baseTab.CurrentColumn = baseTab.Columns[0];
             }
         }
 
@@ -61,16 +47,37 @@ namespace SupRealClient.Views
             }
             else if (e.Key == Key.Insert)
             {
-                ((Common.Interfaces.IBase1ViewModel)DataContext).Add.Execute(null);
+                ((ISuperBaseViewModel)DataContext).Add.Execute(null);
             }
             else if (e.Key == Key.Home)
             {
-                ((Common.Interfaces.IBase1ViewModel)DataContext).Begin.Execute(null);
+                ((ISuperBaseViewModel)DataContext).Begin.Execute(null);
             }
             else if (e.Key == Key.End)
             {
-                ((Common.Interfaces.IBase1ViewModel)DataContext).End.Execute(null);
+                ((ISuperBaseViewModel)DataContext).End.Execute(null);
             }
         }
+
+        #region Под удаление
+
+        Base1ViewModel viewModel = new Base1ViewModel();
+
+        public void SetViewModel(Base1ModelAbstr model)
+        {
+            ((Base1ViewModel)DataContext).SetModel(model);
+            InitializeComponent();
+            tbxSearch.Focus();
+        }
+
+        public void SetDefaultColumn()
+        {
+            if (baseTab.Columns.Count > 0)
+            {
+                baseTab.CurrentColumn = baseTab.Columns[0];
+            }
+        }
+
+        #endregion
     }
 }

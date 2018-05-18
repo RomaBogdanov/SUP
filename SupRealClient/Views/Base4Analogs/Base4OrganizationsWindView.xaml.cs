@@ -7,14 +7,14 @@ namespace SupRealClient.Views
     /// <summary>
     /// Логика взаимодействия для Base4OrganizationsWindView.xaml
     /// </summary>
-    public partial class Base4OrganizationsWindView : Window
+    public partial class Base4OrganizationsWindView
     {
         public Base4OrganizationsWindView()
         {
             InitializeComponent();
-
-            //TODO временно убрал запуск подключения к серверу
+            base4.tbxSearch.Focus();
             AfterInitialize();
+            base4.Focus();
         }
 
         private void CreateColumns()

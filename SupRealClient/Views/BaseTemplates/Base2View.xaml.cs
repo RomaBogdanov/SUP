@@ -2,6 +2,7 @@
 using SupRealClient.ViewModels;
 using System.Windows.Controls;
 using System.Windows.Input;
+using SupRealClient.Common.Interfaces;
 
 namespace SupRealClient.Views
 {
@@ -16,7 +17,7 @@ namespace SupRealClient.Views
         {
             InitializeComponent();
 
-            DataContext = viewModel;
+            //DataContext = viewModel;
         }
 
         public void SetViewModel(Base1ModelAbstr model)
@@ -80,15 +81,15 @@ namespace SupRealClient.Views
             }
             else if (e.Key == Key.Insert)
             {
-                ((Base4ViewModel<EnumerationClasses.Organization>)DataContext).Add.Execute(null);
+                ((ISuperBaseViewModel)DataContext).Add.Execute(null);
             }
             else if (e.Key == Key.Home)
             {
-                ((Base4ViewModel<EnumerationClasses.Organization>)DataContext).Begin.Execute(null);
+                ((ISuperBaseViewModel)DataContext).Begin.Execute(null);
             }
             else if (e.Key == Key.End)
             {
-                ((Base4ViewModel<EnumerationClasses.Organization>)DataContext).End.Execute(null);
+                ((ISuperBaseViewModel)DataContext).End.Execute(null);
             }
         }
     }

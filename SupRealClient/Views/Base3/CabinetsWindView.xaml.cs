@@ -7,14 +7,14 @@ namespace SupRealClient.Views
     /// <summary>
     /// Логика взаимодействия для CabinetsWindView.xaml
     /// </summary>
-    public partial class CabinetsWindView : Window
+    public partial class CabinetsWindView
     {
         public CabinetsWindView()
         {
             InitializeComponent();
 
             base3.Init();
-
+            base3.tbxSearch.Focus();
             // TODO - потом перенести в генерируемый код
             Base4ViewModel<EnumerationClasses.Cabinet> viewModel =
             new Base4ViewModel<EnumerationClasses.Cabinet>
@@ -28,6 +28,7 @@ namespace SupRealClient.Views
             base3.DataContext = viewModel;
 
             AfterInitialize();
+            base3.Focus();
         }
 
         partial void CreateColumns()

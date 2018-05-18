@@ -83,6 +83,7 @@
     <Compile Include="Behaviour\InverseBooleanConverterюcs.cs" />
     <Compile Include="Behaviour\SearchValueConverter.cs" />
     <Compile Include="Common\CommonHelper.cs" />
+    <Compile Include="Common\Interfaces\IBase4ViewModel.cs" />
     <Compile Include="EnumerationClasses\Cabinet.cs" />
     <Compile Include="Common\Interfaces\ISearchHelper.cs" />
     <Compile Include="Common\Interfaces\IViewManager.cs" />
@@ -204,6 +205,27 @@
     <Compile Include="Views\AddUpdateRegionView.xaml.cs">
       <DependentUpon>AddUpdateRegionView.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Views\Base4Analogs\Base4ZonesWindView.xaml.cs">
+      <DependentUpon>Base4ZonesWindView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Base4Analogs\Base4BaseOrgsWindView.xaml.cs">
+      <DependentUpon>Base4BaseOrgsWindView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Base4Analogs\Base4ChildOrgsWindView.xaml.cs">
+      <DependentUpon>Base4ChildOrgsWindView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Base4Analogs\Base4CardsWindView.xaml.cs">
+      <DependentUpon>Base4CardsWindView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\BaseTemplates\Base4ModelAbstr.cs" />
+    <Compile Include="Views\BaseTemplates\Base4ViewModel.cs" />
+    <Compile Include="Views\BaseTemplates\Наследники Base4ModelAbstr\CabinetsListModel.cs" />
+    <Compile Include="Views\BaseTemplates\Наследники Base4ModelAbstr\DocumentsListModel.cs" />
+    <Compile Include="Views\BaseTemplates\IBase4Model.cs" />
+    <Compile Include="Views\BaseTemplates\Наследники Base4ModelAbstr\NationsListModel.cs" />
+    <Compile Include="Views\BaseTemplates\Наследники Base4ModelAbstr\OrganizationsListModel.cs" />
+    <Compile Include="Views\BaseTemplates\Наследники Base4ModelAbstr\RegionsListModel.cs" />
+    <Compile Include="Views\BaseTemplates\Наследники Base4ModelAbstr\VisitorsListModel.cs" />
     <Compile Include="Views\DocumentImagesView.xaml.cs">
       <DependentUpon>DocumentImagesView.xaml</DependentUpon>
     </Compile>
@@ -254,16 +276,16 @@
     <Compile Include="Views\BaseTemplates\Base4View.xaml.cs">
       <DependentUpon>Base4View.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Views\BaseOrgsView.xaml.cs">
+    <Compile Include="Views\Base1\BaseOrgsView.xaml.cs">
       <DependentUpon>BaseOrgsView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\BidsView.xaml.cs">
       <DependentUpon>BidsView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Views\CabinetsWindView.xaml.cs">
+    <Compile Include="Views\Base3\CabinetsWindView.xaml.cs">
       <DependentUpon>CabinetsWindView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Views\CardsWindView.xaml.cs">
+    <Compile Include="Views\Base2\CardsWindView.xaml.cs">
       <DependentUpon>CardsWindView.xaml</DependentUpon>
     </Compile>
     <Compile Include="EnumerationClasses\Card.cs" />
@@ -271,7 +293,7 @@
     <Compile Include="Views\DetailVisitsView.xaml.cs">
       <DependentUpon>DetailVisitsView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Views\ChildOrgsView.xaml.cs">
+    <Compile Include="Views\Base1\ChildOrgsView.xaml.cs">
       <DependentUpon>ChildOrgsView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\LogsWindView.xaml.cs">
@@ -286,7 +308,7 @@
     <Compile Include="Views\VisitorsEmployeeTabView.xaml.cs">
       <DependentUpon>VisitorsEmployeeTabView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Views\VisitorsListWindView.xaml.cs">
+    <Compile Include="Views\Base4Analogs\VisitorsListWindView.xaml.cs">
       <DependentUpon>VisitorsListWindView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\VisitorsMainTabView.xaml.cs">
@@ -328,7 +350,7 @@
     <Compile Include="Views\VisitsView.xaml.cs">
       <DependentUpon>VisitsView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Views\ZonesWindView.xaml.cs">
+    <Compile Include="Views\Base3\ZonesWindView.xaml.cs">
       <DependentUpon>ZonesWindView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\Views.cs">
@@ -365,6 +387,22 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Views\AddUpdateRegionView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\Base4Analogs\Base4ZonesWindView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\Base4Analogs\Base4BaseOrgsWindView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\Base4Analogs\Base4ChildOrgsWindView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\Base4Analogs\Base4CardsWindView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -428,7 +466,7 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Views\BaseOrgsView.xaml">
+    <Page Include="Views\Base1\BaseOrgsView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -436,11 +474,11 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Views\CabinetsWindView.xaml">
+    <Page Include="Views\Base3\CabinetsWindView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Views\CardsWindView.xaml">
+    <Page Include="Views\Base2\CardsWindView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -448,7 +486,7 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Views\ChildOrgsView.xaml">
+    <Page Include="Views\Base1\ChildOrgsView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -460,11 +498,11 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Views\OrganizationsWindView.xaml">
+    <Page Include="Views\Base2\OrganizationsWindView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Views\NationsWindView.xaml">
+    <Page Include="Views\Base1\NationsWindView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -476,7 +514,7 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Views\DocumentsWindView.xaml">
+    <Page Include="Views\Base1\DocumentsWindView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -498,7 +536,7 @@
     </Page>
     <Compile Include="Models\Base1OrganizationsModel.cs" />
     <Compile Include="Models\AddItemNationsModel.cs" />
-    <Compile Include="Views\OrganizationsWindView.xaml.cs">
+    <Compile Include="Views\Base2\OrganizationsWindView.xaml.cs">
       <DependentUpon>OrganizationsWindView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Models\Base1NationsModel.cs" />
@@ -507,7 +545,7 @@
     <Compile Include="Models\UpdateItemDocumentsModel.cs" />
     <Compile Include="EnumerationClasses\Nation.cs" />
     <Compile Include="Models\UpdateItemNationsModel.cs" />
-    <Compile Include="Views\NationsWindView.xaml.cs">
+    <Compile Include="Views\Base1\NationsWindView.xaml.cs">
       <DependentUpon>NationsWindView.xaml</DependentUpon>
     </Compile>
     <Compile Include="ViewModels\AddItem1ViewModel.cs" />
@@ -525,7 +563,7 @@
     <Compile Include="Models\Base1DocsModel.cs" />
     <Compile Include="Models\Base1ModelAbstr.cs" />
     <Compile Include="ViewModels\Base1ViewModel.cs" />
-    <Compile Include="Views\DocumentsWindView.xaml.cs">
+    <Compile Include="Views\Base1\DocumentsWindView.xaml.cs">
       <DependentUpon>DocumentsWindView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\BaseTemplates\Base1View.xaml.cs">
@@ -562,7 +600,7 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Views\VisitorsListWindView.xaml">
+    <Page Include="Views\Base4Analogs\VisitorsListWindView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -618,7 +656,7 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Views\ZonesWindView.xaml">
+    <Page Include="Views\Base3\ZonesWindView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -730,6 +768,7 @@
     <Resource Include="Resources\Перенести.ico">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Resource>
+    <Resource Include="Resources\Зона.ico" />
     <Content Include="TabsSingleton\Wrappers.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
       <LastGenOutput>Wrappers.cs</LastGenOutput>
@@ -763,9 +802,6 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Models\ListsModels\" />
-    <Folder Include="Views\Base1\" />
-    <Folder Include="Views\Base2\" />
-    <Folder Include="Views\Base3\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
