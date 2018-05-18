@@ -6,10 +6,7 @@
              xmlns:converters="clr-namespace:SupRealClient.Behaviour"
              mc:Ignorable="d" d:DesignHeight="300" d:DesignWidth="300"
              PreviewKeyDown="UserControl_PreviewKeyDown">
-    <!--<UserControl.DataContext>
-        <local:Base1ViewModel/>
-    </UserControl.DataContext>-->
-    
+
     <UserControl.InputBindings>
         <KeyBinding Gesture="Ctrl+D" Command="{Binding Update}"/>
         <KeyBinding Gesture="Ctrl+F" Command="{Binding Search}"/>
@@ -45,7 +42,8 @@
                   AutoGenerateColumns="False" 
                   Grid.ColumnSpan="5" 
                   Grid.Row="0"
-                  converters:DataGridTextSearch.SearchValue="{Binding ElementName=aaa, Path=Text, UpdateSourceTrigger=PropertyChanged}"
+				  FontSize="{Binding FontSize}"					 
+                  converters:DataGridTextSearch.SearchValue="{Binding ElementName=tbxSearch, Path=Text, UpdateSourceTrigger=PropertyChanged}"
                   ItemsSource="{Binding Path=Set, Mode=TwoWay}" 
                   CurrentItem="{Binding Path=CurrentItem, Mode=TwoWay}"
                   SelectedItem="{Binding Path=CurrentItem, Mode=TwoWay}" 
@@ -282,13 +280,29 @@
 
 
         <Button 
-            Grid.Row="4" 
+            Grid.Row="3" 
             Grid.Column="4" 
-            Content="{Binding Path=OkCaption, Mode=OneTime}" 
             Margin="1" 
             Command="{Binding Path=Ok}" 
             FontSize="{Binding FontSize}" 
-            Style="{StaticResource ButtonStyle}"/>
+            Style="{StaticResource ButtonStyle}">
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="30"/>
+                    <ColumnDefinition/>
+                </Grid.ColumnDefinitions>
+
+                <Image
+                    Grid.Column="0"
+                    Source="../../Resources/Принять (2).ico"/>
+
+                <TextBlock
+                    Grid.Column="1"
+                    Text="{Binding Path=OkCaption, Mode=OneTime}"
+                    FontSize="{Binding FontSize}"
+                    Style="{StaticResource TextBLockDetailStyle}"/>
+            </Grid>
+        </Button>				  
 
         <Button 
             Grid.Row="4" 

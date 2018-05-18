@@ -7,7 +7,7 @@ namespace SupRealClient.Views
     /// <summary>
     /// Логика взаимодействия для VisitorsListWindView.xaml
     /// </summary>
-    public partial class VisitorsListWindView : Window
+    public partial class VisitorsListWindView
     {
         public VisitorsListWindView()
         {

@@ -164,7 +164,7 @@ namespace SupRealClient.Models
             };
         }
 
-        class CardsPersons
+        public class CardsPersons
         {
             public int IdCard { get; set; }
             public string PersonName { get; set; }

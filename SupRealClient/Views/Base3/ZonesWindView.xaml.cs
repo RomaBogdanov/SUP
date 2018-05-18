@@ -9,7 +9,7 @@ namespace SupRealClient.Views
     /// <summary>
     /// Логика взаимодействия для ZonesWindView.xaml
     /// </summary>
-    public partial class ZonesWindView : Window
+    public partial class ZonesWindView
     {
         public ZonesWindView()
         {

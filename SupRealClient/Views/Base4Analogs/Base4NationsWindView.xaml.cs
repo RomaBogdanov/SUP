@@ -7,13 +7,14 @@ namespace SupRealClient.Views
     /// <summary>
     /// Логика взаимодействия для Base4NationsWindView.xaml
     /// </summary>
-    public partial class Base4NationsWindView : Window
+    public partial class Base4NationsWindView
     {
         public Base4NationsWindView()
         {
             InitializeComponent();
-
+            base4.tbxSearch.Focus();
             AfterInitialize();
+            base4.Focus();
         }
 
         private void CreateColumns()

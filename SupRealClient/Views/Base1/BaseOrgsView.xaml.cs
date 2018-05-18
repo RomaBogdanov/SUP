@@ -3,22 +3,25 @@ using SupRealClient.ViewModels;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Data;
+using System.Windows.Input;
 
 namespace SupRealClient.Views
 {
     /// <summary>
-    /// Логика взаимодействия для ChildOrgs.xaml
+    /// Логика взаимодействия для BaseOrgs.xaml
     /// </summary>
-    public partial class ChildOrgsView : Window
+    public partial class BaseOrgsView
     {
-        public ChildOrgsView()
+        public BaseOrgsView()
         {
             InitializeComponent();
-            Base1ModelAbstr b = new ChildOrgsModel(
+            base1.tbxSearch.Focus();
+            Base1ModelAbstr b = new BaseOrgsModel(
                 (Base1ViewModel)base1.DataContext, this);
             b.OnClose += Handling_OnClose;
             base1.SetViewModel(b);
             AfterInitialize();
+            base1.Focus();
         }
 
         partial void CreateColumns()

@@ -4,7 +4,8 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:converters="clr-namespace:SupRealClient.Behaviour"
-             mc:Ignorable="d" d:DesignHeight="300" d:DesignWidth="300">
+             mc:Ignorable="d" d:DesignHeight="300" d:DesignWidth="300"
+             PreviewKeyDown="UserControl_PreviewKeyDown">
     
     <UserControl.InputBindings>
         <KeyBinding Gesture="Ctrl+D" Command="{Binding Update}"/>
@@ -21,12 +22,12 @@
     </UserControl.Resources>
     <Grid>
         <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="5*"/>
-            <ColumnDefinition Width="5*"/>
-            <ColumnDefinition Width="5*"/>
-            <ColumnDefinition Width="5*"/>
-            <ColumnDefinition Width="5*"/>
-            <ColumnDefinition Width="5*"/>
+            <ColumnDefinition Width="1*"/>
+            <ColumnDefinition Width="1*"/>
+            <ColumnDefinition Width="1*"/>
+            <ColumnDefinition Width="1*"/>
+            <ColumnDefinition Width="1*"/>
+            <ColumnDefinition Width="1*"/>
         </Grid.ColumnDefinitions>
         <Grid.RowDefinitions>
             <RowDefinition Height="1*"/>
@@ -38,16 +39,18 @@
         
         <DataGrid 
             Name="baseTab" 
+			ColumnWidth="*"
             Focusable="True" 
             AutoGenerateColumns="False" 
             Grid.ColumnSpan="6" 
             Grid.Row="0"
             FontSize="{Binding FontSize}"
-            converters:DataGridTextSearch.SearchValue="{Binding ElementName=aaa, Path=Text, UpdateSourceTrigger=PropertyChanged}"
+            converters:DataGridTextSearch.SearchValue="{Binding ElementName=tbxSearch, Path=Text, UpdateSourceTrigger=PropertyChanged}"
             ItemsSource="{Binding Path=Set, Mode=TwoWay}" 
             CurrentItem="{Binding Path=CurrentItem, Mode=TwoWay}"
             SelectedItem="{Binding Path=CurrentItem, Mode=TwoWay}" 
             SelectedIndex="{Binding Path=SelectedIndex, Mode=TwoWay}"
+	                  SelectedValue="{Binding Path=SelectedValue, Mode=TwoWay}"	
             CurrentColumn="{Binding Path=CurrentColumn, Mode=TwoWay}" 
             Style="{StaticResource AzureDataGrid1}"
             ColumnHeaderStyle="{StaticResource SelectionColumnHeader}"/>
@@ -60,7 +63,7 @@
             Margin="1"/>
         
         <TextBox 
-            Name="aaa" 
+            Name="tbxSearch" 
             Grid.Row="2" 
             Grid.Column="0"
             Grid.ColumnSpan="6" 
@@ -92,7 +95,8 @@
             </Grid>
         </Button>
         
-        <Button 
+        <Button
+            Name="btnUpdate"
             Grid.Row="3" 
             Grid.Column="1" 
             Margin="1" 
@@ -166,10 +170,33 @@
                     Style="{StaticResource TextBLockDetailStyle}"/>
             </Grid>
         </Button>
-        
         <Button 
             Grid.Row="3" 
-            Grid.Column="5" 
+            Grid.Column="4" 
+            Margin="1" 
+            Command="{Binding Path=Watch}"
+			Visibility="{Binding Path=WatchVisibility, Mode=OneTime}" 							  
+            Style="{StaticResource ButtonStyle}">
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="30"/>
+                    <ColumnDefinition/>
+                </Grid.ColumnDefinitions>
+
+                <Image
+                    Grid.Column="0"
+                    Source="../../Resources/Подробно.ico"/>
+
+                <TextBlock
+                    Grid.Column="1"
+                    Text="Просмотр"
+                    FontSize="{Binding FontSize}"
+                    Style="{StaticResource TextBLockDetailStyle}"/>
+            </Grid>
+        </Button>
+        <Button 
+            Grid.Row="4" 
+            Grid.Column="4" 
             Margin="1" 
             Command="{Binding Path=Zones}" 
             Visibility="{Binding Path=ZonesVisibility, Mode=OneTime}" 
@@ -182,7 +209,7 @@
 
                 <Image
                     Grid.Column="0"
-                    Source="../../Resources/Далее.ico"/>
+                    Source="../../Resources/Зона.ico"/>
 
                 <TextBlock
                     Grid.Column="1"
@@ -217,7 +244,8 @@
             </Grid>
         </Button>
         
-        <Button 
+        <Button
+            Name="btnUp"
             Grid.Row="4" 
             Grid.Column="1" 
             Margin="1" 
@@ -243,6 +271,7 @@
         </Button>
         
         <Button 
+            Name="btnDown"
             Grid.Row="4" 
             Grid.Column="2" 
             Margin="1" 
@@ -291,16 +320,32 @@
                     Style="{StaticResource TextBLockDetailStyle}"/>
             </Grid>
         </Button>
-        
+
         <Button 
-            Grid.Row="4" 
-            Grid.Column="4" 
-            Content="{Binding Path=OkCaption, Mode=OneTime}" 
+            Grid.Row="3" 
+            Grid.Column="5" 
             Margin="1" 
             Command="{Binding Path=Ok}" 
             FontSize="{Binding FontSize}" 
-            Style="{StaticResource ButtonStyle}"/>
-        
+            Style="{StaticResource ButtonStyle}">
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="30"/>
+                    <ColumnDefinition/>
+                </Grid.ColumnDefinitions>
+
+                <Image
+                    Grid.Column="0"
+                    Source="../../Resources/Принять (2).ico"/>
+
+                <TextBlock
+                    Grid.Column="1"
+                    Text="{Binding Path=OkCaption, Mode=OneTime}"
+                    FontSize="{Binding FontSize}"
+                    Style="{StaticResource TextBLockDetailStyle}"/>
+            </Grid>
+        </Button>
+
         <Button 
             Grid.Row="4" 
             Grid.Column="5" 

@@ -2,6 +2,7 @@
 using System;
 using System.ComponentModel;
 using System.Windows;
+using System.Windows.Input;
 
 /*
 ФАЙЛ СГЕНЕРИРОВАН АВТОМАТИЧЕСКИ
@@ -79,6 +80,14 @@ namespace SupRealClient.Views
         partial void CreateColumns();
 
         partial void SetDefaultColumn();
+
+        private void Window_PreviewKeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.Key == Key.Escape)
+            {
+                Close();
+            }
+        }
     }
 
     /// <summary>
@@ -150,6 +159,14 @@ namespace SupRealClient.Views
         partial void CreateColumns();
 
         partial void SetDefaultColumn();
+
+        private void Window_PreviewKeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.Key == Key.Escape)
+            {
+                Close();
+            }
+        }
     }
 
     /// <summary>
@@ -221,6 +238,14 @@ namespace SupRealClient.Views
         partial void CreateColumns();
 
         partial void SetDefaultColumn();
+
+        private void Window_PreviewKeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.Key == Key.Escape)
+            {
+                Close();
+            }
+        }
     }
 
     /// <summary>
@@ -292,6 +317,14 @@ namespace SupRealClient.Views
         partial void CreateColumns();
 
         partial void SetDefaultColumn();
+
+        private void Window_PreviewKeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.Key == Key.Escape)
+            {
+                Close();
+            }
+        }
     }
 
     /// <summary>
@@ -363,6 +396,14 @@ namespace SupRealClient.Views
         partial void CreateColumns();
 
         partial void SetDefaultColumn();
+
+        private void Window_PreviewKeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.Key == Key.Escape)
+            {
+                Close();
+            }
+        }
     }
 
     /// <summary>
@@ -434,6 +475,14 @@ namespace SupRealClient.Views
         partial void CreateColumns();
 
         partial void SetDefaultColumn();
+
+        private void Window_PreviewKeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.Key == Key.Escape)
+            {
+                Close();
+            }
+        }
     }
 
     /// <summary>
@@ -505,6 +554,14 @@ namespace SupRealClient.Views
         partial void CreateColumns();
 
         partial void SetDefaultColumn();
+
+        private void Window_PreviewKeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.Key == Key.Escape)
+            {
+                Close();
+            }
+        }
     }
 
     /// <summary>
@@ -576,6 +633,14 @@ namespace SupRealClient.Views
         partial void CreateColumns();
 
         partial void SetDefaultColumn();
+
+        private void Window_PreviewKeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.Key == Key.Escape)
+            {
+                Close();
+            }
+        }
     }
 
     /// <summary>
@@ -647,6 +712,14 @@ namespace SupRealClient.Views
         partial void CreateColumns();
 
         partial void SetDefaultColumn();
+
+        private void Window_PreviewKeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.Key == Key.Escape)
+            {
+                Close();
+            }
+        }
     }
 
     /// <summary>
@@ -718,6 +791,14 @@ namespace SupRealClient.Views
         partial void CreateColumns();
 
         partial void SetDefaultColumn();
+
+        private void Window_PreviewKeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.Key == Key.Escape)
+            {
+                Close();
+            }
+        }
     }
 
     /// <summary>
@@ -789,6 +870,14 @@ namespace SupRealClient.Views
         partial void CreateColumns();
 
         partial void SetDefaultColumn();
+
+        private void Window_PreviewKeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.Key == Key.Escape)
+            {
+                Close();
+            }
+        }
     }
 
     /// <summary>
@@ -860,6 +949,14 @@ namespace SupRealClient.Views
         partial void CreateColumns();
 
         partial void SetDefaultColumn();
+
+        private void Window_PreviewKeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.Key == Key.Escape)
+            {
+                Close();
+            }
+        }
     }
 
     /// <summary>
@@ -931,6 +1028,14 @@ namespace SupRealClient.Views
         partial void CreateColumns();
 
         partial void SetDefaultColumn();
+
+        private void Window_PreviewKeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.Key == Key.Escape)
+            {
+                Close();
+            }
+        }
     }
 
     /// <summary>
@@ -1002,6 +1107,14 @@ namespace SupRealClient.Views
         partial void CreateColumns();
 
         partial void SetDefaultColumn();
+
+        private void Window_PreviewKeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.Key == Key.Escape)
+            {
+                Close();
+            }
+        }
     }
 
     /// <summary>
@@ -1073,6 +1186,14 @@ namespace SupRealClient.Views
         partial void CreateColumns();
 
         partial void SetDefaultColumn();
+
+        private void Window_PreviewKeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.Key == Key.Escape)
+            {
+                Close();
+            }
+        }
     }
 
     /// <summary>
@@ -1144,6 +1265,14 @@ namespace SupRealClient.Views
         partial void CreateColumns();
 
         partial void SetDefaultColumn();
+
+        private void Window_PreviewKeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.Key == Key.Escape)
+            {
+                Close();
+            }
+        }
     }
 
     /// <summary>
@@ -1215,6 +1344,14 @@ namespace SupRealClient.Views
         partial void CreateColumns();
 
         partial void SetDefaultColumn();
+
+        private void Window_PreviewKeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.Key == Key.Escape)
+            {
+                Close();
+            }
+        }
     }
 
     /// <summary>
@@ -1286,6 +1423,14 @@ namespace SupRealClient.Views
         partial void CreateColumns();
 
         partial void SetDefaultColumn();
+
+        private void Window_PreviewKeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.Key == Key.Escape)
+            {
+                Close();
+            }
+        }
     }
 
     /// <summary>
@@ -1357,6 +1502,14 @@ namespace SupRealClient.Views
         partial void CreateColumns();
 
         partial void SetDefaultColumn();
+
+        private void Window_PreviewKeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.Key == Key.Escape)
+            {
+                Close();
+            }
+        }
     }
 
     /// <summary>
@@ -1428,6 +1581,14 @@ namespace SupRealClient.Views
         partial void CreateColumns();
 
         partial void SetDefaultColumn();
+
+        private void Window_PreviewKeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.Key == Key.Escape)
+            {
+                Close();
+            }
+        }
     }
 
     /// <summary>
@@ -1499,6 +1660,14 @@ namespace SupRealClient.Views
         partial void CreateColumns();
 
         partial void SetDefaultColumn();
+
+        private void Window_PreviewKeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.Key == Key.Escape)
+            {
+                Close();
+            }
+        }
     }
 
     /// <summary>
@@ -1570,6 +1739,14 @@ namespace SupRealClient.Views
         partial void CreateColumns();
 
         partial void SetDefaultColumn();
+
+        private void Window_PreviewKeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.Key == Key.Escape)
+            {
+                Close();
+            }
+        }
     }
 
     /// <summary>
@@ -1641,6 +1818,14 @@ namespace SupRealClient.Views
         partial void CreateColumns();
 
         partial void SetDefaultColumn();
+
+        private void Window_PreviewKeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.Key == Key.Escape)
+            {
+                Close();
+            }
+        }
     }
 
 }
