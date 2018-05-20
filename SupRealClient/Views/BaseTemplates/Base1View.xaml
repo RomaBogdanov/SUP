@@ -284,6 +284,7 @@
             Grid.Column="4" 
             Margin="1" 
             Command="{Binding Path=Ok}" 
+            Visibility="{Binding Path=OkVisibility, Mode=OneTime}" 
             FontSize="{Binding FontSize}" 
             Style="{StaticResource ButtonStyle}">
             <Grid>

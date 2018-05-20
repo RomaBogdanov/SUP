@@ -14,6 +14,8 @@ namespace SupRealClient.Views
             InitializeComponent();
             base4.tbxSearch.Focus();
             AfterInitialize();
+            ((Base4ViewModel<EnumerationClasses.Document>)base4.DataContext)
+                .OkVisibility = Visibility.Hidden;
             base4.Focus();
         }
 

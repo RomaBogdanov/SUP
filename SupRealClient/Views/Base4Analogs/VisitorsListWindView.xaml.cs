@@ -21,6 +21,8 @@ namespace SupRealClient.Views
             viewModel.Model.OnClose += Handling_OnClose;
             base4.DataContext = viewModel;
             AfterInitialize();
+            ((Base4ViewModel<EnumerationClasses.Visitor>)base4.DataContext)
+                .OkVisibility = Visibility.Hidden;
         }
 
         partial void CreateColumns()
