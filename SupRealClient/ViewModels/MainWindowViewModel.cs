@@ -138,7 +138,7 @@ namespace SupRealClient.ViewModels
         {
             Current = this;
             ListOrganizationsClick = new RelayCommand(arg => 
-                ViewManager.Instance.OpenWindow("Base4OrganizationsWindView"));
+                ViewManager.Instance.OpenWindow("Base4OrganizationsLargeWindView"));
             //ViewManager.Instance.OpenWindow("OrganizationsWindView"));
             ListDocumentsClick = new RelayCommand(arg =>
                 ViewManager.Instance.OpenWindow("Base4DocumentsWindView"));

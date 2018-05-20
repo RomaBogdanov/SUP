@@ -291,7 +291,7 @@ namespace SupRealClient.Views
         private void CabinetsList()
         {
             var result = ViewManager.Instance.OpenWindowModal(
-                "Base4CabinetsWindView", view) as BaseModelResult;
+                "Base4CabinetsWindViewOk", view) as BaseModelResult;
             if (result == null)
             {
                 return;
@@ -332,7 +332,7 @@ namespace SupRealClient.Views
         private void CountyList()
         {
             var result = ViewManager.Instance.OpenWindowModal(
-                "Base4NationsWindView", view) as BaseModelResult;
+                "Base4NationsWindViewOk", view) as BaseModelResult;
             if (result == null)
             {
                 return;

@@ -9,13 +9,13 @@ namespace SupRealClient.Views
     /// </summary>
     public partial class Base4CabinetsWindView
     {
-        public Base4CabinetsWindView()
+        public Base4CabinetsWindView(Visibility okVisibility)
         {
             InitializeComponent();
             base4.tbxSearch.Focus();
             AfterInitialize();
             ((Base4ViewModel<EnumerationClasses.Cabinet>)base4.DataContext)
-                .OkVisibility = Visibility.Hidden;
+                .OkVisibility = okVisibility;
             base4.Focus();
         }
 

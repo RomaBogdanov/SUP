@@ -9,4 +9,5 @@
   <Item Name="BaseOrgs" Type="Organization" Prefix="Base" />
   <Item Name="ChildOrgs" Type="Organization" Prefix="Child" />
   <Item Name="Cards" Type="Card" />
+  <Item Name="OrganizationsLarge" Type="Organization" />
 </Enum>
