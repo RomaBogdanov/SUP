@@ -270,7 +270,7 @@ namespace SupRealClient.ViewModels
                 ClientSection client = (ClientSection)serviceModel.Sections["client"];
                 foreach (ChannelEndpointElement endpoint in client.Endpoints)
                 {
-                    if (SelectedHost.Key == endpoint.Address.Host.ToUpper())
+                    if (SelectedHost.Key == endpoint.Name.ToUpper())
                     {
                         return endpoint.Address;
                     }

@@ -15,17 +15,15 @@ using System.Windows.Shapes;
 namespace SupRealClient.Views
 {
     /// <summary>
-    /// Логика взаимодействия для Base4BaseOrgsWindView.xaml
+    /// Логика взаимодействия для Base4OrganizationsLargeWindView.xaml
     /// </summary>
-    public partial class Base4BaseOrgsWindView
+    public partial class Base4OrganizationsLargeWindView
     {
-        public Base4BaseOrgsWindView()
+        public Base4OrganizationsLargeWindView()
         {
             InitializeComponent();
             base4.tbxSearch.Focus();
             AfterInitialize();
-            ((Base4ViewModel<EnumerationClasses.Organization>)base4.DataContext)
-                .OkVisibility = Visibility.Hidden;
             base4.Focus();
         }
 
@@ -36,15 +34,25 @@ namespace SupRealClient.Views
                 Header = "Тип",
                 Binding = new Binding("Type")
             };
-            base4.BaseTab.Columns.Add(dataGridTextColumn);
+            base4.baseTab.Columns.Add(dataGridTextColumn);
             dataGridTextColumn = new DataGridTextColumn
             {
-                Header = "Название",
+                Header = "Название организации",
                 Binding = new Binding("Name")
             };
-            base4.BaseTab.Columns.Add(dataGridTextColumn);
-            base4.btnUpdate.Content = "Удалить";
-            
+            base4.baseTab.Columns.Add(dataGridTextColumn);
+            dataGridTextColumn = new DataGridTextColumn
+            {
+                Header = "Примечание",
+                Binding = new Binding("Comment")
+            };
+            base4.baseTab.Columns.Add(dataGridTextColumn);
+            dataGridTextColumn = new DataGridTextColumn
+            {
+                Header = "Основное название",
+                Binding = new Binding("FullName")
+            };
+            base4.baseTab.Columns.Add(dataGridTextColumn);
         }
 
         private void SetDefaultColumn()

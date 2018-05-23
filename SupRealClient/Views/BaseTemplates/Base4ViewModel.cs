@@ -17,6 +17,7 @@ namespace SupRealClient.Views
         private string okCaption;
         private Visibility zonesVisibility;
         private Visibility watchVisibility;
+        private Visibility okVisibility;
         private bool fartherEnabled;
 
         // ==========
@@ -76,6 +77,16 @@ namespace SupRealClient.Views
             set
             {
                 watchVisibility = value;
+                OnPropertyChanged();
+            }
+        }
+
+        public Visibility OkVisibility
+        {
+            get { return okVisibility; }
+            set
+            {
+                okVisibility = value;
                 OnPropertyChanged();
             }
         }

@@ -318,7 +318,7 @@ namespace SupRealClient.ViewModels
         private void DocumentsListModel()
         {
             var result = ViewManager.Instance.OpenWindowModal(
-                "Base4DocumentsWindView", null) as BaseModelResult;
+                "Base4DocumentsWindViewOk", null) as BaseModelResult;
             if (result == null)
             {
                 return;

@@ -220,6 +220,9 @@
     <Compile Include="Views\Base4Analogs\Base4CardsWindView.xaml.cs">
       <DependentUpon>Base4CardsWindView.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Views\Base4Analogs\Base4OrganizationsLargeWindView.xaml.cs">
+      <DependentUpon>Base4OrganizationsLargeWindView.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Views\BaseTemplates\Base4ModelAbstr.cs" />
     <Compile Include="Views\BaseTemplates\Base4ViewModel.cs" />
     <Compile Include="Views\BaseTemplates\Наследники Base4ModelAbstr\CabinetsListModel.cs" />
@@ -406,6 +409,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Views\Base4Analogs\Base4CardsWindView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\Base4Analogs\Base4OrganizationsLargeWindView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

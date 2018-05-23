@@ -9,11 +9,13 @@ namespace SupRealClient.Views
     /// </summary>
     public partial class Base4DocumentsWindView
     {
-        public Base4DocumentsWindView()
+        public Base4DocumentsWindView(Visibility okVisibility)
         {
             InitializeComponent();
             base4.tbxSearch.Focus();
             AfterInitialize();
+            ((Base4ViewModel<EnumerationClasses.Document>)base4.DataContext)
+                .OkVisibility = okVisibility;
             base4.Focus();
         }
 

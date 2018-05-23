@@ -194,7 +194,7 @@ namespace SupRealClient.ViewModels
         private void CountyList()
         {
             var result = ViewManager.Instance.OpenWindowModal(
-                "Base4NationsWindView", null) as BaseModelResult;
+                "Base4NationsWindViewOk", null) as BaseModelResult;
             if (result == null)
             {
                 return;
