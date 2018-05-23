@@ -1,12 +1,7 @@
-﻿using System;
-
-namespace SupRealClient.EnumerationClasses
+﻿namespace SupRealClient.EnumerationClasses
 {
-    public class Nation : IdEntity
+    public class Nation : EntityBase
     {
         public string CountryName { get; set; }
-        public string Deleted { get; set; }
-        public DateTime RecDate { get; set; }
-        public int RecOperator { get; set; }
     }
 }

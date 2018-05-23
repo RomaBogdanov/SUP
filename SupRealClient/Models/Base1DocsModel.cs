@@ -5,6 +5,7 @@ using System.Data;
 using SupRealClient.TabsSingleton;
 using SupRealClient.EnumerationClasses;
 using SupRealClient.Common.Interfaces;
+using SupRealClient.Common;
 
 namespace SupRealClient.Models
 {
@@ -68,7 +69,8 @@ namespace SupRealClient.Models
                             {
                                 Id = docs.Field<int>("f_doc_id"),
                                 DocName = docs.Field<string>("f_doc_name"),
-                                Deleted = docs.Field<string>("f_deleted"),
+                                Deleted = CommonHelper.StringToBool(
+                                    docs.Field<string>("f_deleted")),
                                 RecDate = docs.Field<DateTime>("f_rec_date"),
                                 RecOperator = docs.Field<int>("f_rec_operator")
                             };

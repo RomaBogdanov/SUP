@@ -5,6 +5,7 @@ using System.Collections.ObjectModel;
 using SupRealClient.TabsSingleton;
 using System.Data;
 using SupRealClient.Models;
+using SupRealClient.Common;
 
 namespace SupRealClient.Views
 {
@@ -62,7 +63,8 @@ namespace SupRealClient.Views
                         .Table.AsEnumerable().FirstOrDefault(
                         arg => arg.Field<int>("f_cntr_id") ==
                         regs.Field<int>("f_cntr_id"))["f_cntr_name"].ToString(),
-                    Deleted = regs.Field<string>("f_deleted"),
+                    Deleted = CommonHelper.StringToBool(
+                        regs.Field<string>("f_deleted")),
                     RecDate = regs.Field<DateTime>("f_rec_date"),
                     RecOperator = regs.Field<int>("f_rec_operator")
                 });

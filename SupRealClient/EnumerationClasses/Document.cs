@@ -1,12 +1,7 @@
-﻿using System;
-
-namespace SupRealClient.EnumerationClasses
+﻿namespace SupRealClient.EnumerationClasses
 {
-    public class Document : IdEntity
+    public class Document : EntityBase
     {
         public string DocName { get; set; }
-        public string Deleted { get; set; }
-        public DateTime RecDate { get; set; }
-        public int RecOperator { get; set; }
     }
 }

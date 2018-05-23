@@ -6,6 +6,7 @@ using SupRealClient.TabsSingleton;
 using SupRealClient.EnumerationClasses;
 using System.Data;
 using SupRealClient.Models;
+using SupRealClient.Common;
 
 namespace SupRealClient.Views
 {
@@ -40,17 +41,18 @@ namespace SupRealClient.Views
         protected override void DoQuery()
         {
             Set = new ObservableCollection<T>(
-    from docs in DocumentsWrapper.CurrentTable().Table.AsEnumerable()
-    where docs.Field<int>("f_doc_id") != 0
-    select new T
-    {
-        Id = docs.Field<int>("f_doc_id"),
-        DocName = docs.Field<string>("f_doc_name"),
-        Deleted = docs.Field<string>("f_deleted"),
-        RecDate = docs.Field<DateTime>("f_rec_date"),
-        RecOperator = docs.Field<int>("f_rec_operator")
-    }
-    );
+                from docs in DocumentsWrapper.CurrentTable().Table.AsEnumerable()
+                where docs.Field<int>("f_doc_id") != 0
+                select new T
+                {
+                    Id = docs.Field<int>("f_doc_id"),
+                    DocName = docs.Field<string>("f_doc_name"),
+                    Deleted = CommonHelper.StringToBool(
+                        docs.Field<string>("f_deleted")),
+                    RecDate = docs.Field<DateTime>("f_rec_date"),
+                    RecOperator = docs.Field<int>("f_rec_operator")
+                }
+                );
         }
 
         public override IDictionary<string, string> GetFields()
