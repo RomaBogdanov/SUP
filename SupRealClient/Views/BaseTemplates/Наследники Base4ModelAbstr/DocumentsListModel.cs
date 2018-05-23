@@ -42,7 +42,8 @@ namespace SupRealClient.Views
         {
             Set = new ObservableCollection<T>(
                 from docs in DocumentsWrapper.CurrentTable().Table.AsEnumerable()
-                where docs.Field<int>("f_doc_id") != 0
+                where docs.Field<int>("f_doc_id") != 0 &&
+                CommonHelper.NotDeleted(docs)
                 select new T
                 {
                     Id = docs.Field<int>("f_doc_id"),

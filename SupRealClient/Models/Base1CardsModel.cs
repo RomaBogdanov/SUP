@@ -5,6 +5,7 @@ using System.Data;
 using SupRealClient.TabsSingleton;
 using SupRealClient.EnumerationClasses;
 using SupRealClient.Common.Interfaces;
+using SupRealClient.Common;
 
 namespace SupRealClient.Models
 {
@@ -75,6 +76,7 @@ namespace SupRealClient.Models
                                from v in visitsWrapper.Table.AsEnumerable()
                                from p in visitorsWrapper.Table.AsEnumerable()
                                where c.Field<int>("f_card_id") != 0 &
+                               CommonHelper.NotDeleted(c) &
                                c.Field<int>("f_card_id") == v.Field<int>("f_card_id") &
                                v.Field<int>("f_visitor_id") == p.Field<int>("f_visitor_id") &
                                c.Field<int>("f_state_id") == 3 &

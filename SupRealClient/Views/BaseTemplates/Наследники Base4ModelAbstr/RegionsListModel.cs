@@ -51,6 +51,7 @@ namespace SupRealClient.Views
             Set = new ObservableCollection<T>(
                 from regs in RegionsWrapper.CurrentTable().Table.AsEnumerable()
                 where regs.Field<int>("f_region_id") != 0 &&
+                CommonHelper.NotDeleted(regs) &&
                 (countryId.HasValue ?
                 regs.Field<int>("f_cntr_id") == countryId.Value : true)
                 select new T

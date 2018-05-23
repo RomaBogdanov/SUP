@@ -41,7 +41,8 @@ namespace SupRealClient.Views
         {
             Set = new ObservableCollection<T>(
                 from nats in CountriesWrapper.CurrentTable().Table.AsEnumerable()
-                where nats.Field<int>("f_cntr_id") != 0
+                where nats.Field<int>("f_cntr_id") != 0 &&
+                CommonHelper.NotDeleted(nats)
                 select new T
                 {
                     Id = nats.Field<int>("f_cntr_id"),

@@ -5,6 +5,7 @@ using SupRealClient.TabsSingleton;
 using SupRealClient.EnumerationClasses;
 using System.Data;
 using SupRealClient.Models;
+using SupRealClient.Common;
 
 namespace SupRealClient.Views
 {
@@ -49,7 +50,8 @@ namespace SupRealClient.Views
         {
             Set = new ObservableCollection<T>(
                 from orgs in OrganizationsWrapper.CurrentTable().Table.AsEnumerable()
-                where orgs.Field<int>("f_org_id") != 0
+                where orgs.Field<int>("f_org_id") != 0 &&
+                CommonHelper.NotDeleted(orgs)
                 select new T
                 {
                     Id = orgs.Field<int>("f_org_id"),

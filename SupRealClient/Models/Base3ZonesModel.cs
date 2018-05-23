@@ -8,6 +8,7 @@ using System.Data;
 using SupRealClient.EnumerationClasses;
 using SupRealClient.TabsSingleton;
 using SupRealClient.Views;
+using SupRealClient.Common;
 
 namespace SupRealClient.Models
 {
@@ -83,7 +84,8 @@ namespace SupRealClient.Models
             var zoneDoors = from cabs in cabinets.Table.AsEnumerable()
                             join cabszns in cabinetsZones.Table.AsEnumerable()
                             on cabs.Field<int>("f_cabinet_id") equals cabszns.Field<int>("f_cabinet_id")
-                            where cabszns.Field<int>("f_zone_id") != 0
+                            where cabszns.Field<int>("f_zone_id") != 0 &&
+                            CommonHelper.NotDeleted(cabs)
                             select new
                             {
                                 Id = cabszns.Field<int>("f_zone_id"),

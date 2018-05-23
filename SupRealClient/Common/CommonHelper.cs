@@ -1,4 +1,6 @@
-﻿namespace SupRealClient.Common
+﻿using System.Data;
+
+namespace SupRealClient.Common
 {
     public static class CommonHelper
     {
@@ -10,6 +12,11 @@
         public static bool StringToBool(string value)
         {
             return value.ToUpper() == "Y";
+        }
+
+        public static bool NotDeleted(DataRow row)
+        {
+            return row.Field<string>("f_deleted").ToUpper() != "Y";
         }
 
         public static string CreateFullName(string family, string name,

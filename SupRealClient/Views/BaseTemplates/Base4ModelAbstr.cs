@@ -244,7 +244,8 @@ namespace SupRealClient.Views
             var zoneDoors = from cabs in CabinetsWrapper.CurrentTable().Table.AsEnumerable()
                             join cabszns in CabinetsZonesWrapper.CurrentTable().Table.AsEnumerable()
                             on cabs.Field<int>("f_cabinet_id") equals cabszns.Field<int>("f_cabinet_id")
-                            where cabszns.Field<int>("f_zone_id") != 0
+                            where cabszns.Field<int>("f_zone_id") != 0 &&
+                            CommonHelper.NotDeleted(cabs)
                             select new
                             {
                                 Id = cabszns.Field<int>("f_zone_id"),
@@ -325,7 +326,8 @@ namespace SupRealClient.Views
                 from orgs in Table.AsEnumerable()
                 where orgs.Field<int>("f_org_id") != 0 &
                 orgs.Field<string>("f_is_basic")
-                .ToString().ToUpper() == "Y"
+                .ToString().ToUpper() == "Y" &&
+                CommonHelper.NotDeleted(orgs)
                 select new T
                 {
                     Id = orgs.Field<int>("f_org_id"),
@@ -389,7 +391,8 @@ namespace SupRealClient.Views
                 from orgs in Table.AsEnumerable()
                 where orgs.Field<int>("f_org_id") != 0 &
                 orgs.Field<string>("f_has_free_access")
-                .ToString().ToUpper() == "Y"
+                .ToString().ToUpper() == "Y" &&
+                CommonHelper.NotDeleted(orgs)
                 select new T
                 {
                     Id = orgs.Field<int>("f_org_id"),
@@ -458,6 +461,7 @@ namespace SupRealClient.Views
                 from v in visitsWrapper.Table.AsEnumerable()
                 from p in visitorsWrapper.Table.AsEnumerable()
                 where c.Field<int>("f_card_id") != 0 &
+                CommonHelper.NotDeleted(c) &
                 c.Field<int>("f_card_id") == v.Field<int>("f_card_id") &
                 v.Field<int>("f_visitor_id") == p.Field<int>("f_visitor_id") &
                 c.Field<int>("f_state_id") == 3 &

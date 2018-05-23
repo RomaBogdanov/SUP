@@ -64,7 +64,8 @@ namespace SupRealClient.Models
         protected override void Query()
         {
             var nations = from nats in table.AsEnumerable()
-                          where nats.Field<int>("f_cntr_id") != 0
+                          where nats.Field<int>("f_cntr_id") != 0 &&
+                          CommonHelper.NotDeleted(nats)
                           select new Nation()
                             {
                                 Id = nats.Field<int>("f_cntr_id"),

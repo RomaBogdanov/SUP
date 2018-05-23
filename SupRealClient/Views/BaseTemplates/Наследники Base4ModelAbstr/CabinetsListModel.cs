@@ -4,6 +4,7 @@ using System.Collections.ObjectModel;
 using SupRealClient.TabsSingleton;
 using SupRealClient.EnumerationClasses;
 using System.Data;
+using SupRealClient.Common;
 
 namespace SupRealClient.Views
 {
@@ -39,7 +40,8 @@ namespace SupRealClient.Views
         {
             Set = new ObservableCollection<T>(
     from cabs in CabinetsWrapper.CurrentTable().Table.AsEnumerable()
-    where cabs.Field<int>("f_cabinet_id") != 0
+    where cabs.Field<int>("f_cabinet_id") != 0 &&
+    CommonHelper.NotDeleted(cabs)
     select new T
     {
         Id = cabs.Field<int>("f_cabinet_id"),
