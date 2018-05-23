@@ -33,6 +33,23 @@ namespace SupRealClient.Views
             }
         }
 
+        public override bool Remove()
+        {
+            if ((from docs in VisitorsDocumentsWrapper.CurrentTable().Table.AsEnumerable()
+                 where docs.Field<int>("f_doctype_id") == currentItem.Id &&
+                 CommonHelper.NotDeleted(docs)
+                 select docs).Any())
+            {
+                return false;
+            }
+
+            DataRow row =
+                DocumentsWrapper.CurrentTable().Table.Rows.Find(currentItem.Id);
+            row["f_deleted"] = CommonHelper.BoolToString(true);
+
+            return true;
+        }
+
         protected override BaseModelResult GetResult()
         {
             return new BaseModelResult { Id = CurrentItem.Id, Name = CurrentItem.DocName };

@@ -31,6 +31,30 @@ namespace SupRealClient.Views
             }
         }
 
+        public override bool Remove()
+        {
+            if ((from vis in VisitorsWrapper.CurrentTable().Table.AsEnumerable()
+                 where vis.Field<int>("f_cabinet_id") == currentItem.Id &&
+                 CommonHelper.NotDeleted(vis)
+                 select vis).Any())
+            {
+                return false;
+            }
+
+            if ((from cz in CabinetsZonesWrapper.CurrentTable().Table.AsEnumerable()
+                 where cz.Field<int>("f_cabinet_id") == currentItem.Id
+                 select cz).Any())
+            {
+                return false;
+            }
+
+            DataRow row =
+                CabinetsWrapper.CurrentTable().Table.Rows.Find(currentItem.Id);
+            row["f_deleted"] = CommonHelper.BoolToString(true);
+
+            return true;
+        }
+
         protected override BaseModelResult GetResult()
         {
             return new BaseModelResult { Id = CurrentItem.Id, Name = CurrentItem.Descript};

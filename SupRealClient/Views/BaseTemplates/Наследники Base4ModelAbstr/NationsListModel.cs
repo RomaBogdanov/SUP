@@ -32,6 +32,31 @@ namespace SupRealClient.Views
             }
         }
 
+        public override bool Remove()
+        {
+            if ((from orgs in OrganizationsWrapper.CurrentTable().Table.AsEnumerable()
+                 where orgs.Field<int>("f_cntr_id") == currentItem.Id &&
+                 CommonHelper.NotDeleted(orgs)
+                 select orgs).Any())
+            {
+                return false;
+            }
+
+            if ((from regs in RegionsWrapper.CurrentTable().Table.AsEnumerable()
+                 where regs.Field<int>("f_cntr_id") == currentItem.Id &&
+                 CommonHelper.NotDeleted(regs)
+                 select regs).Any())
+            {
+                return false;
+            }
+
+            DataRow row =
+                CountriesWrapper.CurrentTable().Table.Rows.Find(currentItem.Id);
+            row["f_deleted"] = CommonHelper.BoolToString(true);
+
+            return true;
+        }
+
         protected override BaseModelResult GetResult()
         {
             return new BaseModelResult { Id = CurrentItem.Id, Name = CurrentItem.CountryName };

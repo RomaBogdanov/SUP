@@ -125,8 +125,9 @@ namespace SupRealClient.Views
         public virtual void Watch() { }
         public virtual void RightClick() { }
 
-        public virtual void Remove()
+        public virtual bool Remove()
         {
+            return true;
         }
 
         protected abstract BaseModelResult GetResult();

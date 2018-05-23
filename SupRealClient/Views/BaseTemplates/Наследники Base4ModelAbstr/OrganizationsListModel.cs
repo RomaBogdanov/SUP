@@ -41,6 +41,31 @@ namespace SupRealClient.Views
 
         #endregion
 
+        public override bool Remove()
+        {
+            if ((from vis in VisitorsWrapper.CurrentTable().Table.AsEnumerable()
+                 where vis.Field<int>("f_org_id") == currentItem.Id &&
+                 CommonHelper.NotDeleted(vis)
+                 select vis).Any())
+            {
+                return false;
+            }
+
+            if ((from orgs in OrganizationsWrapper.CurrentTable().Table.AsEnumerable()
+                 where orgs.Field<int>("f_syn_id") == currentItem.Id &&
+                 CommonHelper.NotDeleted(orgs)
+                 select orgs).Any())
+            {
+                return false;
+            }
+
+            DataRow row =
+                OrganizationsWrapper.CurrentTable().Table.Rows.Find(currentItem.Id);
+            row["f_deleted"] = CommonHelper.BoolToString(true);
+
+            return true;
+        }
+
         protected override BaseModelResult GetResult()
         {
             return new BaseModelResult { Id = CurrentItem.Id, Name = CurrentItem.FullName };

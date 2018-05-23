@@ -240,7 +240,11 @@ namespace SupRealClient.Views
                 MessageBox.Show("Вы уверены?", "", MessageBoxButton.YesNo) ==
                 MessageBoxResult.Yes)
             {
-                this.Model.Remove();
+                if (!this.Model.Remove())
+                {
+                    MessageBox.Show("Не удалось удалить элемент,\n" +
+                        "Возможно, он используется в других элементах");
+                }
             }
         }
 
