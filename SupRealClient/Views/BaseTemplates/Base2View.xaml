@@ -63,6 +63,7 @@
             ColumnWidth="*" Style="{StaticResource AzureDataGrid1}"
             CanUserAddRows="False"> <!-- TODO - вернуть SelectedValue="{Binding Path=SelectedValue, Mode=TwoWay}"  -->
             <DataGrid.InputBindings>
+                <KeyBinding Key="Delete" Command="{Binding Remove}"/>
                 <MouseBinding
                     MouseAction="RightClick"
                     Command="{Binding RightClickCommand}"/>

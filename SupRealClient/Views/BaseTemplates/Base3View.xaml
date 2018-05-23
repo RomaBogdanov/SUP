@@ -52,7 +52,11 @@
 	                  SelectedValue="{Binding Path=SelectedValue, Mode=TwoWay}"	
             CurrentColumn="{Binding Path=CurrentColumn, Mode=TwoWay}" 
             Style="{StaticResource AzureDataGrid1}"
-            ColumnHeaderStyle="{StaticResource SelectionColumnHeader}"/>
+            ColumnHeaderStyle="{StaticResource SelectionColumnHeader}">
+            <DataGrid.InputBindings>
+                <KeyBinding Key="Delete" Command="{Binding Remove}"/>
+            </DataGrid.InputBindings>
+        </DataGrid>
         <TextBlock 
             Grid.Row="1" 
             Grid.Column="0"
