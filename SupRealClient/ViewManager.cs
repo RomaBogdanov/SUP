@@ -328,7 +328,9 @@ namespace SupRealClient
                 case "Base4CabinetsWindViewOk":
                     return new Base4CabinetsWindView(Visibility.Visible);
                 case "Base4DocumentsWindView":
-                    return new Base4DocumentsWindView();
+                    return new Base4DocumentsWindView(Visibility.Hidden);
+                case "Base4DocumentsWindViewOk":
+                    return new Base4DocumentsWindView(Visibility.Visible);
                 case "Base4NationsWindView":
                     return new Base4NationsWindView(Visibility.Hidden);
                 case "Base4NationsWindViewOk":
