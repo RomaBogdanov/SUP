@@ -4,6 +4,7 @@ using System.Collections.ObjectModel;
 using SupRealClient.TabsSingleton;
 using SupRealClient.EnumerationClasses;
 using System.Data;
+using SupRealClient.Common;
 
 namespace SupRealClient.Views
 {
@@ -30,6 +31,30 @@ namespace SupRealClient.Views
             }
         }
 
+        public override bool Remove()
+        {
+            if ((from vis in VisitorsWrapper.CurrentTable().Table.AsEnumerable()
+                 where vis.Field<int>("f_cabinet_id") == currentItem.Id &&
+                 CommonHelper.NotDeleted(vis)
+                 select vis).Any())
+            {
+                return false;
+            }
+
+            if ((from cz in CabinetsZonesWrapper.CurrentTable().Table.AsEnumerable()
+                 where cz.Field<int>("f_cabinet_id") == currentItem.Id
+                 select cz).Any())
+            {
+                return false;
+            }
+
+            DataRow row =
+                CabinetsWrapper.CurrentTable().Table.Rows.Find(currentItem.Id);
+            row["f_deleted"] = CommonHelper.BoolToString(true);
+
+            return true;
+        }
+
         protected override BaseModelResult GetResult()
         {
             return new BaseModelResult { Id = CurrentItem.Id, Name = CurrentItem.Descript};
@@ -39,7 +64,8 @@ namespace SupRealClient.Views
         {
             Set = new ObservableCollection<T>(
     from cabs in CabinetsWrapper.CurrentTable().Table.AsEnumerable()
-    where cabs.Field<int>("f_cabinet_id") != 0
+    where cabs.Field<int>("f_cabinet_id") != 0 &&
+    CommonHelper.NotDeleted(cabs)
     select new T
     {
         Id = cabs.Field<int>("f_cabinet_id"),

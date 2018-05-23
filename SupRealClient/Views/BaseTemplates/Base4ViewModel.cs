@@ -36,6 +36,7 @@ namespace SupRealClient.Views
         public ICommand Zones { get; set; }
         public ICommand Watch { get; set; }
         public ICommand RightClickCommand { get; set; }
+        public ICommand Remove { get; set; }
 
         public IWindow Parent { get; set; }
 
@@ -200,6 +201,7 @@ namespace SupRealClient.Views
             Zones = new RelayCommand(obj => ZonesCom());
             Watch = new RelayCommand(obj => WatchCom());
             RightClickCommand = new RelayCommand(obj => RightClickCom(obj));
+            Remove = new RelayCommand(obj => RemoveCom());
         }
 
         public event PropertyChangedEventHandler PropertyChanged;
@@ -241,6 +243,20 @@ namespace SupRealClient.Views
         private void RightClickCom(object param)
         {
             this.Model.RightClick();
+        }
+
+        private void RemoveCom()
+        {
+            if (CurrentItem != null &&
+                MessageBox.Show("Вы уверены?", "", MessageBoxButton.YesNo) ==
+                MessageBoxResult.Yes)
+            {
+                if (!this.Model.Remove())
+                {
+                    MessageBox.Show("Не удалось удалить элемент,\n" +
+                        "Возможно, он используется в других элементах");
+                }
+            }
         }
 
         private void Reset()

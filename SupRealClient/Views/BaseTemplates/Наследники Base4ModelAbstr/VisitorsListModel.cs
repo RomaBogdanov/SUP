@@ -2,6 +2,7 @@
 using System.Collections.ObjectModel;
 using SupRealClient.TabsSingleton;
 using System.Data;
+using SupRealClient.Common;
 
 namespace SupRealClient.Views
 {
@@ -53,7 +54,8 @@ namespace SupRealClient.Views
         {
             Set = new ObservableCollection<T>(
                 from visitors in VisitorsWrapper.CurrentTable().Table.AsEnumerable()
-                where visitors.Field<int>("f_visitor_id") != 0
+                where visitors.Field<int>("f_visitor_id") != 0 &&
+                CommonHelper.NotDeleted(visitors)
                 select new T
                 {
                     Id = visitors.Field<int>("f_visitor_id"),

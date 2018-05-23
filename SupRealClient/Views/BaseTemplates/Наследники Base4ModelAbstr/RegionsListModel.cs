@@ -5,6 +5,7 @@ using System.Collections.ObjectModel;
 using SupRealClient.TabsSingleton;
 using System.Data;
 using SupRealClient.Models;
+using SupRealClient.Common;
 
 namespace SupRealClient.Views
 {
@@ -40,6 +41,23 @@ namespace SupRealClient.Views
             Begin();
         }
 
+        public override bool Remove()
+        {
+            if ((from orgs in OrganizationsWrapper.CurrentTable().Table.AsEnumerable()
+                where orgs.Field<int>("f_region_id") == currentItem.Id &&
+                CommonHelper.NotDeleted(orgs)
+                select orgs).Any())
+            {
+                return false;
+            }
+
+            DataRow row =
+                RegionsWrapper.CurrentTable().Table.Rows.Find(currentItem.Id);
+            row["f_deleted"] = CommonHelper.BoolToString(true);
+
+            return true;
+        }
+
         protected override BaseModelResult GetResult()
         {
             return new BaseModelResult { Id = CurrentItem.Id, Name = CurrentItem.Name };
@@ -50,6 +68,7 @@ namespace SupRealClient.Views
             Set = new ObservableCollection<T>(
                 from regs in RegionsWrapper.CurrentTable().Table.AsEnumerable()
                 where regs.Field<int>("f_region_id") != 0 &&
+                CommonHelper.NotDeleted(regs) &&
                 (countryId.HasValue ?
                 regs.Field<int>("f_cntr_id") == countryId.Value : true)
                 select new T
@@ -62,7 +81,8 @@ namespace SupRealClient.Views
                         .Table.AsEnumerable().FirstOrDefault(
                         arg => arg.Field<int>("f_cntr_id") ==
                         regs.Field<int>("f_cntr_id"))["f_cntr_name"].ToString(),
-                    Deleted = regs.Field<string>("f_deleted"),
+                    Deleted = CommonHelper.StringToBool(
+                        regs.Field<string>("f_deleted")),
                     RecDate = regs.Field<DateTime>("f_rec_date"),
                     RecOperator = regs.Field<int>("f_rec_operator")
                 });

@@ -5,6 +5,7 @@ using System.Data;
 using SupRealClient.TabsSingleton;
 using SupRealClient.EnumerationClasses;
 using SupRealClient.Common.Interfaces;
+using SupRealClient.Common;
 
 namespace SupRealClient.Models
 {
@@ -63,12 +64,14 @@ namespace SupRealClient.Models
         protected override void Query()
         {
             var documents = from docs in table.AsEnumerable()
-                            where docs.Field<int>("f_doc_id") != 0
+                            where docs.Field<int>("f_doc_id") != 0 &&
+                            CommonHelper.NotDeleted(docs)
                             select new Document()
                             {
                                 Id = docs.Field<int>("f_doc_id"),
                                 DocName = docs.Field<string>("f_doc_name"),
-                                Deleted = docs.Field<string>("f_deleted"),
+                                Deleted = CommonHelper.StringToBool(
+                                    docs.Field<string>("f_deleted")),
                                 RecDate = docs.Field<DateTime>("f_rec_date"),
                                 RecOperator = docs.Field<int>("f_rec_operator")
                             };

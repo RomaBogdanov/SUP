@@ -8,6 +8,7 @@ using System.Data;
 using SupRealClient.EnumerationClasses;
 using SupRealClient.TabsSingleton;
 using SupRealClient.Views;
+using SupRealClient.Common;
 
 namespace SupRealClient.Models
 {
@@ -71,7 +72,8 @@ namespace SupRealClient.Models
         protected override void Query()
         {
             var cabinets = from cabs in table.AsEnumerable()
-                           where cabs.Field<int>("f_cabinet_id") != 0
+                           where cabs.Field<int>("f_cabinet_id") != 0 &&
+                           CommonHelper.NotDeleted(cabs)
                            select new Cabinet()
                             {
                                 Id = cabs.Field<int>("f_cabinet_id"),

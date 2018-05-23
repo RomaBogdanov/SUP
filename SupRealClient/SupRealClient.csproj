@@ -89,7 +89,9 @@
     <Compile Include="Common\Interfaces\ISearchHelper.cs" />
     <Compile Include="Common\Interfaces\IViewManager.cs" />
     <Compile Include="Common\Interfaces\IWindow.cs" />
+    <Compile Include="EnumerationClasses\EntityBase.cs" />
     <Compile Include="EnumerationClasses\IdEntity.cs" />
+    <Compile Include="EnumerationClasses\IEntity.cs" />
     <Compile Include="EnumerationClasses\Order.cs" />
     <Compile Include="EnumerationClasses\Card2.cs" />
     <Compile Include="EnumerationClasses\Region.cs" />

@@ -5,6 +5,7 @@ using System.Data;
 using SupRealClient.TabsSingleton;
 using SupRealClient.EnumerationClasses;
 using SupRealClient.Common.Interfaces;
+using SupRealClient.Common;
 
 namespace SupRealClient.Models
 {
@@ -63,7 +64,8 @@ namespace SupRealClient.Models
         protected override void Query()
         {
             var organizations = from orgs in table.AsEnumerable()
-                                where orgs.Field<int>("f_org_id") != 0
+                                where orgs.Field<int>("f_org_id") != 0 &&
+                                CommonHelper.NotDeleted(orgs)
                                 select new Organization()
                                 {
                                     Id = orgs.Field<int>("f_org_id"),

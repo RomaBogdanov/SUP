@@ -29,6 +29,7 @@ namespace SupRealClient.Views
         void Zones();
         void Watch();
         void RightClick();
+        bool Remove();
 
         bool Searching(string pattern);
     }
