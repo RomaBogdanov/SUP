@@ -295,7 +295,7 @@ namespace SupRealClient
         {
             switch (name)
             {
-                case "DocumentsWindView":
+                case nameof(DocumentsWindView):
                     return new DocumentsWindView();
                 case "NationsWindView":
                     return new NationsWindView();
@@ -321,7 +321,7 @@ namespace SupRealClient
                     return new BaseOrgsView();
                 case "VisitorsView":
                     return new VisitorsView();
-                case "VisitorsListWindView":
+                case @"VisitorsListWindView":
                     return new VisitorsListWindView();
                 case "Base4CabinetsWindView":
                     return new Base4CabinetsWindView(Visibility.Hidden);
@@ -346,6 +346,28 @@ namespace SupRealClient
                     return new Base4BaseOrgsWindView();
                 case "Base4ChildOrgsWindView":
                     return new Base4ChildOrgsWindView();
+                case "Base4SpacesWindView":
+                    return new Base4SpacesWindView();
+                case "Base4DoorsWindView":
+                    return new Base4DoorsWindView();
+                case "Base4AreasWindView":
+                    return new Base4AreasWindView();
+                case "Base4AreasSpacesWindView":
+                    return new Base4AreasSpacesWindView();
+                case "Base4AccessPointsWindView":
+                    return new Base4AccessPointsWindView();
+                case "Base4KeysWindView":
+                    return new Base4KeysWindView();
+                case "Base4SchedulesWindView":
+                    return new Base4SchedulesWindView();
+                case "Base4AccessLevelsWindView":
+                    return new Base4AccessLevelsWindView();
+                case "Base4CarsWindView":
+                    return new Base4CarsWindView();
+                case "Base4EquipmentsWindView":
+                    return new Base4EquipmentsWindView();
+                default:
+                    break;
             }
 
             return null;

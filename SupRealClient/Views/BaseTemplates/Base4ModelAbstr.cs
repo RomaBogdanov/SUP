@@ -500,4 +500,264 @@ namespace SupRealClient.Views
             public string PersonName { get; set; }
         }
     }
+
+    public class SpacesListModel<T> : Base4ModelAbstr<T>
+        where T : Space, new()
+    {
+        protected override DataTable Table => throw new NotImplementedException();
+
+        public override void Add()
+        {
+            throw new NotImplementedException();
+        }
+
+        public override void Update()
+        {
+            throw new NotImplementedException();
+        }
+
+        protected override void DoQuery()
+        {
+            throw new NotImplementedException();
+        }
+
+        protected override BaseModelResult GetResult()
+        {
+            throw new NotImplementedException();
+        }
+    }
+
+    public class DoorsListModel<T> : Base4ModelAbstr<T>
+        where T : Door, new()
+    {
+        protected override DataTable Table => throw new NotImplementedException();
+
+        public override void Add()
+        {
+            throw new NotImplementedException();
+        }
+
+        public override void Update()
+        {
+            throw new NotImplementedException();
+        }
+
+        protected override void DoQuery()
+        {
+            throw new NotImplementedException();
+        }
+
+        protected override BaseModelResult GetResult()
+        {
+            throw new NotImplementedException();
+        }
+    }
+
+    public class AreasListModel<T> : Base4ModelAbstr<T>
+        where T : Area, new()
+    {
+        protected override DataTable Table => throw new NotImplementedException();
+
+        public override void Add()
+        {
+            throw new NotImplementedException();
+        }
+
+        public override void Update()
+        {
+            throw new NotImplementedException();
+        }
+
+        protected override void DoQuery()
+        {
+            throw new NotImplementedException();
+        }
+
+        protected override BaseModelResult GetResult()
+        {
+            throw new NotImplementedException();
+        }
+    }
+
+    public class AreaSpacesListModel<T> : Base4ModelAbstr<T>
+    where T : AreaSpace, new()
+    {
+        protected override DataTable Table => throw new NotImplementedException();
+
+        public override void Add()
+        {
+            throw new NotImplementedException();
+        }
+
+        public override void Update()
+        {
+            throw new NotImplementedException();
+        }
+
+        protected override void DoQuery()
+        {
+            throw new NotImplementedException();
+        }
+
+        protected override BaseModelResult GetResult()
+        {
+            throw new NotImplementedException();
+        }
+    }
+
+    public class AccessPointsListModel<T> : Base4ModelAbstr<T>
+    where T : AccessPoint, new()
+    {
+        protected override DataTable Table => throw new NotImplementedException();
+
+        public override void Add()
+        {
+            throw new NotImplementedException();
+        }
+
+        public override void Update()
+        {
+            throw new NotImplementedException();
+        }
+
+        protected override void DoQuery()
+        {
+            throw new NotImplementedException();
+        }
+
+        protected override BaseModelResult GetResult()
+        {
+            throw new NotImplementedException();
+        }
+    }
+
+    public class KeysListModel<T> : Base4ModelAbstr<T>
+    where T : RealKey, new()
+    {
+        protected override DataTable Table => throw new NotImplementedException();
+
+        public override void Add()
+        {
+            throw new NotImplementedException();
+        }
+
+        public override void Update()
+        {
+            throw new NotImplementedException();
+        }
+
+        protected override void DoQuery()
+        {
+            throw new NotImplementedException();
+        }
+
+        protected override BaseModelResult GetResult()
+        {
+            throw new NotImplementedException();
+        }
+    }
+
+    public class SchedulesListModel<T> : Base4ModelAbstr<T>
+    where T : Schedule, new()
+    {
+        protected override DataTable Table => throw new NotImplementedException();
+
+        public override void Add()
+        {
+            throw new NotImplementedException();
+        }
+
+        public override void Update()
+        {
+            throw new NotImplementedException();
+        }
+
+        protected override void DoQuery()
+        {
+            throw new NotImplementedException();
+        }
+
+        protected override BaseModelResult GetResult()
+        {
+            throw new NotImplementedException();
+        }
+    }
+
+    public class AccessLevelsListModel<T> : Base4ModelAbstr<T>
+    where T : AccessLevel, new()
+    {
+        protected override DataTable Table => throw new NotImplementedException();
+
+        public override void Add()
+        {
+            throw new NotImplementedException();
+        }
+
+        public override void Update()
+        {
+            throw new NotImplementedException();
+        }
+
+        protected override void DoQuery()
+        {
+            throw new NotImplementedException();
+        }
+
+        protected override BaseModelResult GetResult()
+        {
+            throw new NotImplementedException();
+        }
+    }
+
+    public class CarsListModel<T> : Base4ModelAbstr<T>
+    where T : Car, new()
+    {
+        protected override DataTable Table => throw new NotImplementedException();
+
+        public override void Add()
+        {
+            throw new NotImplementedException();
+        }
+
+        public override void Update()
+        {
+            throw new NotImplementedException();
+        }
+
+        protected override void DoQuery()
+        {
+            throw new NotImplementedException();
+        }
+
+        protected override BaseModelResult GetResult()
+        {
+            throw new NotImplementedException();
+        }
+    }
+
+    public class EquipmentsListModel<T> : Base4ModelAbstr<T>
+    where T : Equipment, new()
+    {
+        protected override DataTable Table => throw new NotImplementedException();
+
+        public override void Add()
+        {
+            throw new NotImplementedException();
+        }
+
+        public override void Update()
+        {
+            throw new NotImplementedException();
+        }
+
+        protected override void DoQuery()
+        {
+            throw new NotImplementedException();
+        }
+
+        protected override BaseModelResult GetResult()
+        {
+            throw new NotImplementedException();
+        }
+    }
 }

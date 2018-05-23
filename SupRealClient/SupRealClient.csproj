@@ -93,6 +93,7 @@
     <Compile Include="EnumerationClasses\Order.cs" />
     <Compile Include="EnumerationClasses\Card2.cs" />
     <Compile Include="EnumerationClasses\Region.cs" />
+    <Compile Include="EnumerationClasses\Space.cs" />
     <Compile Include="EnumerationClasses\Visitor.cs" />
     <Compile Include="EnumerationClasses\VisitorsDocument.cs" />
     <Compile Include="EnumerationClasses\VisitorsDocumentBase.cs" />
@@ -206,6 +207,12 @@
     <Compile Include="Views\AddUpdateRegionView.xaml.cs">
       <DependentUpon>AddUpdateRegionView.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Views\Base4Analogs\Base4AccessLevelsWindView.xaml.cs">
+      <DependentUpon>Base4AccessLevelsWindView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Base4Analogs\Base4AccessPointsWindView.xaml.cs">
+      <DependentUpon>Base4AccessPointsWindView.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Views\Base4Analogs\Base4ZonesWindView.xaml.cs">
       <DependentUpon>Base4ZonesWindView.xaml</DependentUpon>
     </Compile>
@@ -220,6 +227,30 @@
     </Compile>
     <Compile Include="Views\Base4Analogs\Base4OrganizationsLargeWindView.xaml.cs">
       <DependentUpon>Base4OrganizationsLargeWindView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Base4Analogs\Base4SpacesWindView.xaml.cs">
+      <DependentUpon>Base4SpacesWindView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Base4Analogs\Base4DoorsWindView.xaml.cs">
+      <DependentUpon>Base4DoorsWindView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Base4Analogs\Base4AreasWindView.xaml.cs">
+      <DependentUpon>Base4AreasWindView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Base4Analogs\Base4AreasSpacesWindView.xaml.cs">
+      <DependentUpon>Base4AreasSpacesWindView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Base4Analogs\Base4CarsWindView.xaml.cs">
+      <DependentUpon>Base4CarsWindView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Base4Analogs\Base4EquipmentsWindView.xaml.cs">
+      <DependentUpon>Base4EquipmentsWindView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Base4Analogs\Base4KeysWindView .xaml.cs">
+      <DependentUpon>Base4KeysWindView .xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Base4Analogs\Base4SchedulesWindView.xaml.cs">
+      <DependentUpon>Base4SchedulesWindView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\BaseTemplates\Base4ModelAbstr.cs" />
     <Compile Include="Views\BaseTemplates\Base4ViewModel.cs" />
@@ -394,6 +425,14 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="Views\Base4Analogs\Base4AccessLevelsWindView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\Base4Analogs\Base4AccessPointsWindView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Views\Base4Analogs\Base4ZonesWindView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -411,6 +450,38 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Views\Base4Analogs\Base4OrganizationsLargeWindView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\Base4Analogs\Base4SpacesWindView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\Base4Analogs\Base4DoorsWindView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\Base4Analogs\Base4AreasWindView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\Base4Analogs\Base4AreasSpacesWindView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\Base4Analogs\Base4CarsWindView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\Base4Analogs\Base4EquipmentsWindView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\Base4Analogs\Base4KeysWindView .xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\Base4Analogs\Base4SchedulesWindView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

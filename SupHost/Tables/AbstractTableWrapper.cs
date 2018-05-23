@@ -46,6 +46,16 @@ namespace SupHost
                 { TableName.VisSprOrderTypes.ToString(), new VisSprOrderTypesTableWrapper() },
                 { TableName.VisVisitorsDocuments.ToString(), new VisVisitorsDocumentsTableWrapper() },
                 { TableName.VisImageDocument.ToString(), new VisImageDocumentTableWrapper() },
+                { TableName.VisSpaces.ToString(), new VisSpacesTableWrapper() },
+                { TableName.VisDoors.ToString(), new VisDoorsTableWrapper() },
+                { TableName.VisAreas.ToString(), new VisAreasTableWrapper() },
+                { TableName.VisAreasSpaces.ToString(), new VisAreasSpacesTableWrapper() },
+                { TableName.VisAccessPoints.ToString(), new VisAccessPointsTableWrapper() },
+                { TableName.VisKeys.ToString(), new VisKeysTableWrapper() },
+                { TableName.VisSchedules.ToString(), new VisSchedulesTableWrapper() },
+                { TableName.VisAccessLevel.ToString(), new VisAccessLevelTableWrapper() },
+                { TableName.VisCars.ToString(), new VisCarsTableWrapper() },
+                { TableName.VisEquipment.ToString(), new VisEquipmentTableWrapper() }
             };
         }
 
