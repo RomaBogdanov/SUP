@@ -29,20 +29,44 @@ namespace SupRealClient.Views
 
         private void CreateColumns()
         {
-            /*DataGridTextColumn dataGridTextColumn = new DataGridTextColumn
+            DataGridTextColumn dataGridTextColumn = new DataGridTextColumn
             {
-                Header = "Тип",
-                Binding = new Binding("Type")
+                Header = "Номер",
+                Binding = new Binding("DoorNum")
             };
             base4.BaseTab.Columns.Add(dataGridTextColumn);
             dataGridTextColumn = new DataGridTextColumn
             {
-                Header = "Название",
-                Binding = new Binding("Name")
+                Header = "Описание",
+                Binding = new Binding("Descript")
             };
             base4.BaseTab.Columns.Add(dataGridTextColumn);
-            base4.btnUpdate.Content = "Удалить";
-            */
+            dataGridTextColumn = new DataGridTextColumn
+            {
+                Header = "Внутреннее помещение",
+                Binding = new Binding("SpaceIn")
+            };
+            base4.BaseTab.Columns.Add(dataGridTextColumn);
+            dataGridTextColumn = new DataGridTextColumn
+            {
+                Header = "Внешнее помещение",
+                Binding = new Binding("SpaceOut")
+            };
+            base4.BaseTab.Columns.Add(dataGridTextColumn);
+            dataGridTextColumn = new DataGridTextColumn
+            {
+                Header = "Точка доступа",
+                Binding = new Binding("AccessPointId")
+            };
+            base4.BaseTab.Columns.Add(dataGridTextColumn);
+            dataGridTextColumn = new DataGridTextColumn
+            {
+                Header = "Ключ",
+                Binding = new Binding("KeyId")
+            };
+            base4.BaseTab.Columns.Add(dataGridTextColumn);
+
+
         }
 
         private void SetDefaultColumn()

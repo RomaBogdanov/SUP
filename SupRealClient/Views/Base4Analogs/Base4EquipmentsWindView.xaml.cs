@@ -29,20 +29,47 @@ namespace SupRealClient.Views
 
         private void CreateColumns()
         {
-            /*DataGridTextColumn dataGridTextColumn = new DataGridTextColumn
-            {
-                Header = "Тип",
-                Binding = new Binding("Type")
-            };
-            base4.BaseTab.Columns.Add(dataGridTextColumn);
-            dataGridTextColumn = new DataGridTextColumn
+            DataGridTextColumn dataGridTextColumn = new DataGridTextColumn
             {
                 Header = "Название",
                 Binding = new Binding("Name")
             };
             base4.BaseTab.Columns.Add(dataGridTextColumn);
-            base4.btnUpdate.Content = "Удалить";
-            */
+            dataGridTextColumn = new DataGridTextColumn
+            {
+                Header = "Количество",
+                Binding = new Binding("Count")
+            };
+            base4.BaseTab.Columns.Add(dataGridTextColumn);
+            dataGridTextColumn = new DataGridTextColumn
+            {
+                Header = "Уникальный идентификатор",
+                Binding = new Binding("EquipNum")
+            };
+            base4.BaseTab.Columns.Add(dataGridTextColumn); dataGridTextColumn = new DataGridTextColumn
+            {
+                Header = "На внос",
+                Binding = new Binding("PurposeIn")
+            };
+            base4.BaseTab.Columns.Add(dataGridTextColumn);
+            dataGridTextColumn = new DataGridTextColumn
+            {
+                Header = "На вынос",
+                Binding = new Binding("PurposeOut")
+            };
+            base4.BaseTab.Columns.Add(dataGridTextColumn);
+            dataGridTextColumn = new DataGridTextColumn
+            {
+                Header = "Организация",
+                Binding = new Binding("OrgId")
+            };
+            base4.BaseTab.Columns.Add(dataGridTextColumn);
+            dataGridTextColumn = new DataGridTextColumn
+            {
+                Header = "Посетитель",
+                Binding = new Binding("VisId")
+            };
+            base4.BaseTab.Columns.Add(dataGridTextColumn);
         }
 
         private void SetDefaultColumn()

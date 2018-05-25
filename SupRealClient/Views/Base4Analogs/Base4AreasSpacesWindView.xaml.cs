@@ -29,20 +29,19 @@ namespace SupRealClient.Views
 
         private void CreateColumns()
         {
-            /*DataGridTextColumn dataGridTextColumn = new DataGridTextColumn
+            DataGridTextColumn dataGridTextColumn = new DataGridTextColumn
             {
-                Header = "Тип",
-                Binding = new Binding("Type")
+                Header = "Область доступа",
+                Binding = new Binding("AreaId")
             };
             base4.BaseTab.Columns.Add(dataGridTextColumn);
             dataGridTextColumn = new DataGridTextColumn
             {
-                Header = "Название",
-                Binding = new Binding("Name")
+                Header = "Помещение",
+                Binding = new Binding("SpaceId")
             };
             base4.BaseTab.Columns.Add(dataGridTextColumn);
-            base4.btnUpdate.Content = "Удалить";
-            */
+            
         }
 
         private void SetDefaultColumn()
