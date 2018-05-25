@@ -48,14 +48,20 @@ namespace SupRealClient.Views
             };
             base4.BaseTab.Columns.Add(dataGridTextColumn); dataGridTextColumn = new DataGridTextColumn
             {
-                Header = "На внос",
-                Binding = new Binding("PurposeIn")
+                Header = "Направление",
+                Binding = new Binding("Direct")
             };
             base4.BaseTab.Columns.Add(dataGridTextColumn);
             dataGridTextColumn = new DataGridTextColumn
             {
-                Header = "На вынос",
-                Binding = new Binding("PurposeOut")
+                Header = "Перемещение с",
+                Binding = new Binding("From")
+            };
+            base4.BaseTab.Columns.Add(dataGridTextColumn);
+            dataGridTextColumn = new DataGridTextColumn
+            {
+                Header = "Перемещение по",
+                Binding = new Binding("To")
             };
             base4.BaseTab.Columns.Add(dataGridTextColumn);
             dataGridTextColumn = new DataGridTextColumn

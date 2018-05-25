@@ -49,6 +49,9 @@ namespace SupRealClient.EnumerationClasses
     {
         public string Name { get; set; }
         public string Descript { get; set; }
+        public int DoorId { get; set; } // номер двери, к которой привязан ключ
+        public int KeyHolderId { get; set; } // номер ключницы, в которой находится ключ
+        public int KeyCaseId { get; set; } // номер пенала, в котором находится ключ
     }
 
     public class Schedule : IdEntity
@@ -59,6 +62,7 @@ namespace SupRealClient.EnumerationClasses
     public class AccessLevel : IdEntity
     {
         public int AreaId { get; set; }
+        public string Name { get; set; }
         public int ScheduleId { get; set; }
         public string AccessLevelNote { get; set; }
     }
@@ -68,6 +72,7 @@ namespace SupRealClient.EnumerationClasses
         public string CarMark { get; set; }
         public string CarNumber { get; set; }
         public int OrgId { get; set; }
+        public int VisitorId { get; set; } // имя водителя
     }
 
     public class Equipment : IdEntity
@@ -75,8 +80,9 @@ namespace SupRealClient.EnumerationClasses
         public string Name { get; set; }
         public int Count { get; set; }
         public string EquipNum { get; set; }
-        public string PurposeIn { get; set; }
-        public string PurposeOut { get; set; }
+        public string Direct { get; set; }
+        public DateTime From { get; set; }
+        public DateTime To { get; set; }
         public int OrgId { get; set; }
         public int VisId { get; set; }
     }

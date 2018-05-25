@@ -836,6 +836,7 @@ namespace SupRealClient.Views
            select new T
            {
                Id = acclev.Field<int>("f_access_level_id"),
+               Name = acclev.Field<string>("f_level_name"),
                AreaId = acclev.Field<int>("f_area_id"),
                ScheduleId = acclev.Field<int>("f_schedule_id"),
                AccessLevelNote = acclev.Field<string>("f_access_level_note")
@@ -881,7 +882,8 @@ namespace SupRealClient.Views
                Id = cars.Field<int>("f_car_id"),
                CarMark = cars.Field<string>("f_car_mark"),
                CarNumber = cars.Field<string>("f_car_number"),
-               OrgId = cars.Field<int>("f_org_id")
+               OrgId = cars.Field<int>("f_org_id"),
+               VisitorId = cars.Field<int>("f_visitor_id")
            });
         }
 
@@ -925,8 +927,9 @@ namespace SupRealClient.Views
                Name = equips.Field<string>("f_equip_name"),
                Count = equips.Field<int>("f_equip_count"),
                EquipNum = equips.Field<string>("f_equip_num"),
-               PurposeIn = equips.Field<string>("f_purpose_in"),
-               PurposeOut = equips.Field<string>("f_purpose_out"),
+               Direct = equips.Field<string>("f_direct"),
+               From = equips.Field<DateTime>("f_from"),
+               To = equips.Field<DateTime>("f_to"),
                OrgId = equips.Field<int>("f_org_id"),
                VisId = equips.Field<int>("f_visitor_id")
            });

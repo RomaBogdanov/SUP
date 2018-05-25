@@ -24,6 +24,7 @@ if	OBJECT_ID('vis_access_level') is not null
 create table vis_access_level
 (
 	f_access_level_id int not null,
+	f_level_name varchar(50), -- название уровня доступа
 	f_area_id int, -- id области доступа
 	f_schedule_id int, -- id расписания
 	f_access_level_note varchar(100), -- заметка по уровню доступа
@@ -37,7 +38,7 @@ alter table vis_access_level
 
 if not exists(select * from vis_access_level where f_access_level_id = '0')
 begin
-	insert into vis_access_level values ('0', '', '', '', 'N', '', '')
+	insert into vis_access_level values ('0', '', '', '', '', 'N', '', '')
 end
 
 -- Создание vis_access_points
@@ -223,6 +224,7 @@ create table vis_cars
 	f_car_mark varchar(50), -- марка машины
 	f_car_number varchar(20), -- номер машины
 	f_org_id int, -- номер организации
+	f_visitor_id int, -- номер водителя
 	f_deleted                      CHAR(1),
     f_rec_date                     DATE,
     f_rec_operator                 int
@@ -233,7 +235,7 @@ add primary key (f_car_id)
 
 if not exists(select * from vis_cars where f_car_id = '0')
 begin
-	insert into vis_cars values ('0', '', '', '', 'N', '', '')
+	insert into vis_cars values ('0', '', '', '', '', 'N', '', '')
 end
 go
 
@@ -348,8 +350,9 @@ create table vis_equipment
 	f_equip_name varchar(100), -- наименование мат. имущества
 	f_equip_count int, -- количество проносимых
 	f_equip_num varchar(50), -- инвентарный или серийный номер
-	f_purpose_in varchar(100), -- цель вноса
-	f_purpose_out varchar(100), -- цель выноса
+	f_direct varchar(15), -- направление внос, вынос, перемещение
+	f_from date, -- время, с которого разрешено перемещение
+	f_to date, -- время, по которое разрешено перемещение
 	f_org_id int, -- номер организации
 	f_visitor_id int, -- номер посетителя
 	f_deleted                      CHAR(1),
@@ -362,7 +365,7 @@ alter table vis_equipment
 
 if not exists(select * from vis_equipment where f_equip_id='0')
 begin
-	insert into vis_equipment values ('0', '', '', '', '', '', '', '', 'N', '', '')
+	insert into vis_equipment values ('0', '', '', '', '', '', '', '', '', 'N', '', '')
 end
 go
 
@@ -393,6 +396,9 @@ create table vis_keys
 	f_key_id int not null,
 	f_key_name varchar(20),
 	f_key_description varchar(100),
+	f_door_id int, -- номер двери, к которой привязан ключ
+	f_key_holder_id int, -- номер ключницы, в которой ключ
+	f_key_case_id int, -- номер пенала, в котором ключ
 	f_deleted                      CHAR(1),
     f_rec_date                     DATE,
     f_rec_operator                 int
@@ -403,7 +409,7 @@ alter table vis_keys
 
 if not exists(select * from vis_keys where f_key_id='0')
 begin
-	insert into vis_keys values ('0', '', '', 'N', '', '')
+	insert into vis_keys values ('0', '', '', '', '', '', 'N', '', '')
 end
 go
 

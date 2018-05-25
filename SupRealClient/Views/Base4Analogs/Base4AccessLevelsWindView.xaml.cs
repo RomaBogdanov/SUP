@@ -37,6 +37,12 @@ namespace SupRealClient.Views
             base4.BaseTab.Columns.Add(dataGridTextColumn);
             dataGridTextColumn = new DataGridTextColumn
             {
+                Header = "Название",
+                Binding = new Binding("Name")
+            };
+            base4.BaseTab.Columns.Add(dataGridTextColumn);
+            dataGridTextColumn = new DataGridTextColumn
+            {
                 Header = "Расписание",
                 Binding = new Binding("ScheduleId")
             };

@@ -41,6 +41,24 @@ namespace SupRealClient.Views
                 Binding = new Binding("Descript")
             };
             base4.BaseTab.Columns.Add(dataGridTextColumn);
+            dataGridTextColumn = new DataGridTextColumn
+            {
+                Header = "Дверь",
+                Binding = new Binding("DoorId")
+            };
+            base4.BaseTab.Columns.Add(dataGridTextColumn);
+            dataGridTextColumn = new DataGridTextColumn
+            {
+                Header = "Ключница",
+                Binding = new Binding("KeyHolderId")
+            };
+            base4.BaseTab.Columns.Add(dataGridTextColumn);
+            dataGridTextColumn = new DataGridTextColumn
+            {
+                Header = "Пенал",
+                Binding = new Binding("KeyCaseId")
+            };
+            base4.BaseTab.Columns.Add(dataGridTextColumn);
         }
 
         private void SetDefaultColumn()
