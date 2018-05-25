@@ -1,6 +1,6 @@
 ﻿namespace SupRealClient.EnumerationClasses
 {
-    public class IdEntity
+    public abstract class IdEntity : IEntity
     {
         public int Id { get; set; }
     }

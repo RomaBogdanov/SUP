@@ -579,7 +579,8 @@ namespace SupRealClient.ViewModels
         {
             Set = new ObservableCollection<T>(
     from orgs in OrganizationsWrapper.CurrentTable().Table.AsEnumerable()
-    where orgs.Field<int>("f_org_id") != 0
+    where orgs.Field<int>("f_org_id") != 0 &&
+    CommonHelper.NotDeleted(orgs)
     select new T
     {
         Id = orgs.Field<int>("f_org_id"),

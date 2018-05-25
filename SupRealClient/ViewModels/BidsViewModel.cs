@@ -8,6 +8,7 @@ using System.Collections.ObjectModel;
 using System.Data;
 using SupRealClient.EnumerationClasses;
 using SupRealClient.TabsSingleton;
+using SupRealClient.Common;
 
 namespace SupRealClient.ViewModels
 {
@@ -335,7 +336,8 @@ namespace SupRealClient.ViewModels
                 from orders in OrdersWrapper.CurrentTable().Table.AsEnumerable()
                 join elems in OrderElementsWrapper.CurrentTable().Table.AsEnumerable()
                 on orders.Field<int>("f_ord_id") equals elems.Field<int>("f_ord_id")
-                where orders.Field<int>("f_ord_id") != 0 & orders.Field<int>("f_order_type_id") != 0
+                where orders.Field<int>("f_ord_id") != 0 & orders.Field<int>("f_order_type_id") != 0 &&
+                CommonHelper.NotDeleted(orders)
                 select new Order
                 {
                     Id = orders.Field<int>("f_ord_id"),
