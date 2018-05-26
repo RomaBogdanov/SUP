@@ -1392,7 +1392,7 @@ namespace SupRealClient.Views
                 RefreshButtonEnable = false
             };
             Set = new ObservableCollection<EnumerationClasses.Visitor>();
-            CurrentItem = new EnumerationClasses.Visitor();
+            CurrentItem = new EnumerationClasses.Visitor() {AgreeToDate=DateTime.Now };
             CurrentItem.MainDocuments = new ObservableCollection<VisitorsMainDocument>();
             CurrentItem.Documents = new ObservableCollection<VisitorsDocument>();
             Set.Add(CurrentItem);
