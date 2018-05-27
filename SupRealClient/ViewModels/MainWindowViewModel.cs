@@ -80,53 +80,44 @@ namespace SupRealClient.ViewModels
             }
         }
 
-        public ICommand ListOrganizationsClick
-        { get; set; }
+        public ICommand ListOrganizationsClick { get; set; }
+        public ICommand ListDocumentsClick { get; set; }
+        public ICommand ListNationsClick { get; set; }
+        public ICommand ListCardsClick { get; set; }
+        public ICommand ListCabinetsClick { get; set; }
+        public ICommand ListZonesClick { get; set; }
+        public ICommand ListRegionsClick { get; set; }
+        public ICommand LogsClick { get; set; }
+        public ICommand ListBaseOrgsStructClick { get; set; }
+        public ICommand ListChildOrgs { get; set; }
+        public ICommand ListBaseOrgs { get; set; }
+        public ICommand ListVisitorsClick { get; set; }
 
-        public ICommand ListDocumentsClick
-        { get; set; }
+        public ICommand ListSpacesClick { get; set; } = new RelayCommand(arg =>
+                ViewManager.Instance.OpenWindow("Base4SpacesWindView"));
+        public ICommand ListDoorsClick { get; set; } = new RelayCommand(arg =>
+                ViewManager.Instance.OpenWindow("Base4DoorsWindView"));
+        public ICommand ListAreasClick { get; set; } = new RelayCommand(arg =>
+                ViewManager.Instance.OpenWindow("Base4AreasWindView"));
+        public ICommand ListAreasSpacesClick { get; set; } = new RelayCommand(arg =>
+                ViewManager.Instance.OpenWindow("Base4AreasSpacesWindView"));
+        public ICommand ListAccessPointsClick { get; set; } = new RelayCommand(arg =>
+                ViewManager.Instance.OpenWindow("Base4AccessPointsWindView"));
+        public ICommand ListKeysClick { get; set; } = new RelayCommand(arg =>
+                ViewManager.Instance.OpenWindow("Base4KeysWindView"));
+        public ICommand ListSchedulesClick { get; set; } = new RelayCommand(arg =>
+                ViewManager.Instance.OpenWindow("Base4SchedulesWindView"));
+        public ICommand ListAccessLevelsClick { get; set; } = new RelayCommand(arg =>
+                ViewManager.Instance.OpenWindow("Base4AccessLevelsWindView"));
+        public ICommand ListCarsClick { get; set; } = new RelayCommand(arg =>
+                ViewManager.Instance.OpenWindow("Base4CarsWindView"));
+        public ICommand ListEquipmentsClick { get; set; } = new RelayCommand(arg =>
+                ViewManager.Instance.OpenWindow("Base4EquipmentsWindView"));
 
-        public ICommand ListNationsClick
-        { get; set; }
-
-        public ICommand ListCardsClick
-        { get; set; }
-
-        public ICommand ListCabinetsClick
-        { get; set; }
-
-        public ICommand ListZonesClick
-        { get; set; }
-
-        public ICommand ListRegionsClick
-        { get; set; }
-
-        public ICommand LogsClick
-        { get; set; }
-
-        public ICommand ListBaseOrgsStructClick
-        { get; set; }
-
-        public ICommand ListChildOrgs
-        { get; set; }
-
-        public ICommand ListBaseOrgs
-        { get; set; }
-
-        public ICommand ListVisitorsClick
-        { get; set; }
-
-        public ICommand UserExit
-        { get; set; }
-
-        public ICommand Close
-        { get; set; }
-
-        public ICommand OpenVisitorsCommand
-        { get; set; }
-
+        public ICommand UserExit { get; set; }
+        public ICommand Close { get; set; }
+        public ICommand OpenVisitorsCommand { get; set; }
         public ICommand OpenBidsCommand { get; set; }
-
         public ICommand OpenVisitsCommand { get; set; }
 
         /// <summary>

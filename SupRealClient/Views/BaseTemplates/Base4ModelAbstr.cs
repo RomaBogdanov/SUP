@@ -509,4 +509,444 @@ namespace SupRealClient.Views
             public string PersonName { get; set; }
         }
     }
+
+    public class SpacesListModel<T> : Base4ModelAbstr<T>
+        where T : Space, new()
+    {
+        protected override DataTable Table
+        { get { return SpacesWrapper.CurrentTable().Table; } }
+
+        public SpacesListModel()
+        {
+            SpacesWrapper.CurrentTable().OnChanged += Query;
+            Query();
+            Begin();
+        }
+
+        public override void Add()
+        {
+            throw new NotImplementedException();
+        }
+
+        public override void Update()
+        {
+            throw new NotImplementedException();
+        }
+
+        protected override void DoQuery()
+        {
+            Set = new ObservableCollection<T>(
+                from spaces in Table.AsEnumerable()
+                where spaces.Field<int>("f_space_id") != 0
+                select new T
+                {
+                    Id = spaces.Field<int>("f_space_id"),
+                    NumReal = spaces.Field<string>("f_num_real"),
+                    NumBuild = spaces.Field<string>("f_num_build"),
+                    Descript = spaces.Field<string>("f_descript"),
+                    Note = spaces.Field<string>("f_note")
+                });
+        }
+
+        protected override BaseModelResult GetResult()
+        {
+            return new BaseModelResult { Id = CurrentItem.Id, Name = CurrentItem.NumReal };
+
+        }
+    }
+
+    public class DoorsListModel<T> : Base4ModelAbstr<T>
+        where T : Door, new()
+    {
+        protected override DataTable Table
+        { get { return DoorsWrapper.CurrentTable().Table; } }
+
+        public DoorsListModel()
+        {
+            DoorsWrapper.CurrentTable().OnChanged += Query;
+            Query();
+            Begin();
+        }
+
+        public override void Add()
+        {
+            throw new NotImplementedException();
+        }
+
+        public override void Update()
+        {
+            throw new NotImplementedException();
+        }
+
+        protected override void DoQuery()
+        {
+            Set = new ObservableCollection<T>(
+                    from doors in Table.AsEnumerable()
+                    where doors.Field<int>("f_door_id") != 0
+                    select new T
+                    {
+                        Id = doors.Field<int>("f_door_id"),
+                        DoorNum = doors.Field<string>("f_door_num"),
+                        Descript = doors.Field<string>("f_descript"),
+                        SpaceIn = doors.Field<int>("f_space_in"),
+                        SpaceOut = doors.Field<int>("f_space_out"),
+                        AccessPointId = doors.Field<int>("f_access_point_id"),
+                        KeyId = doors.Field<int>("f_key_id")
+                    });
+        }
+
+        protected override BaseModelResult GetResult()
+        {
+            return new BaseModelResult { Id = CurrentItem.Id, Name = CurrentItem.DoorNum };
+        }
+    }
+
+    public class AreasListModel<T> : Base4ModelAbstr<T>
+        where T : Area, new()
+    {
+        protected override DataTable Table
+        { get { return AreasWrapper.CurrentTable().Table; } }
+
+        public AreasListModel()
+        {
+            AreasWrapper.CurrentTable().OnChanged += Query;
+            Query();
+            Begin();
+        }
+
+        public override void Add()
+        {
+            throw new NotImplementedException();
+        }
+
+        public override void Update()
+        {
+            throw new NotImplementedException();
+        }
+
+        protected override void DoQuery()
+        {
+            Set = new ObservableCollection<T>(
+        from areas in Table.AsEnumerable()
+        where areas.Field<int>("f_area_id") != 0
+        select new T
+        {
+            Id = areas.Field<int>("f_area_id"),
+            Name = areas.Field<string>("f_area_name"),
+            Descript = areas.Field<string>("f_area_descript")
+        });
+        }
+
+        protected override BaseModelResult GetResult()
+        {
+            return new BaseModelResult { Id = CurrentItem.Id, Name = CurrentItem.Name };
+        }
+    }
+
+    public class AreaSpacesListModel<T> : Base4ModelAbstr<T>
+    where T : AreaSpace, new()
+    {
+        protected override DataTable Table
+        { get { return AreasSpacesWrapper.CurrentTable().Table; } }
+
+        public AreaSpacesListModel()
+        {
+            AreasSpacesWrapper.CurrentTable().OnChanged += Query;
+            Query();
+            Begin();
+        }
+
+        public override void Add()
+        {
+            throw new NotImplementedException();
+        }
+
+        public override void Update()
+        {
+            throw new NotImplementedException();
+        }
+
+        protected override void DoQuery()
+        {
+            Set = new ObservableCollection<T>(
+           from arsp in Table.AsEnumerable()
+           where arsp.Field<int>("f_area_space_id") != 0
+           select new T
+           {
+               Id = arsp.Field<int>("f_area_space_id"),
+               AreaId = arsp.Field<int>("f_area_id"),
+               SpaceId = arsp.Field<int>("f_space_id")
+           });
+        }
+
+        protected override BaseModelResult GetResult()
+        {
+            return new BaseModelResult { Id = CurrentItem.Id, Name = CurrentItem.Id.ToString() };
+        }
+    }
+
+    public class AccessPointsListModel<T> : Base4ModelAbstr<T>
+    where T : AccessPoint, new()
+    {
+        protected override DataTable Table
+        { get { return AccessPointsWrapper.CurrentTable().Table; } }
+
+        public AccessPointsListModel()
+        {
+            AccessPointsWrapper.CurrentTable().OnChanged += Query;
+            Query();
+            Begin();
+        }
+
+        public override void Add()
+        {
+            throw new NotImplementedException();
+        }
+
+        public override void Update()
+        {
+            throw new NotImplementedException();
+        }
+
+        protected override void DoQuery()
+        {
+            Set = new ObservableCollection<T>(
+           from accpnt in Table.AsEnumerable()
+           where accpnt.Field<int>("f_access_point_id") != 0
+           select new T
+           {
+               Id = accpnt.Field<int>("f_access_point_id"),
+               Name = accpnt.Field<string>("f_access_point_name"),
+               Descript = accpnt.Field<string>("f_access_point_description"),
+               SpaceIn = accpnt.Field<string>("f_access_point_space_in"),
+               SpaceOut = accpnt.Field<string>("f_access_point_space_out")
+           });
+        }
+
+        protected override BaseModelResult GetResult()
+        {
+            return new BaseModelResult { Id = CurrentItem.Id, Name = CurrentItem.Name };
+        }
+    }
+
+    public class KeysListModel<T> : Base4ModelAbstr<T>
+    where T : RealKey, new()
+    {
+        protected override DataTable Table
+        { get { return KeysWrapper.CurrentTable().Table; } }
+
+        public KeysListModel()
+        {
+            KeysWrapper.CurrentTable().OnChanged += Query;
+            Query();
+            Begin();
+        }
+
+        public override void Add()
+        {
+            throw new NotImplementedException();
+        }
+
+        public override void Update()
+        {
+            throw new NotImplementedException();
+        }
+
+        protected override void DoQuery()
+        {
+            Set = new ObservableCollection<T>(
+           from keys in Table.AsEnumerable()
+           where keys.Field<int>("f_key_id") != 0
+           select new T
+           {
+               Id = keys.Field<int>("f_key_id"),
+               Name = keys.Field<string>("f_key_name"),
+               Descript = keys.Field<string>("f_key_description")
+           });
+        }
+
+        protected override BaseModelResult GetResult()
+        {
+            return new BaseModelResult { Id = CurrentItem.Id, Name = CurrentItem.Name };
+        }
+    }
+
+    public class SchedulesListModel<T> : Base4ModelAbstr<T>
+    where T : Schedule, new()
+    {
+        protected override DataTable Table
+        { get { return SchedulesWrapper.CurrentTable().Table; } }
+
+        public SchedulesListModel()
+        {
+            SchedulesWrapper.CurrentTable().OnChanged += Query;
+            Query();
+            Begin();
+        }
+
+        public override void Add()
+        {
+            throw new NotImplementedException();
+        }
+
+        public override void Update()
+        {
+            throw new NotImplementedException();
+        }
+
+        protected override void DoQuery()
+        {
+            // TODO: непонятно
+            /*Set = new ObservableCollection<T>(
+           from arsp in Table.AsEnumerable()
+           where arsp.Field<int>("f_area_space_id") != 0
+           select new T
+           {
+               Id = arsp.Field<int>("f_area_space_id"),
+               AreaId = arsp.Field<int>("f_area_id"),
+               SpaceId = arsp.Field<int>("f_space_id")
+           });*/
+        }
+
+        protected override BaseModelResult GetResult()
+        {
+            throw new NotImplementedException();
+        }
+    }
+
+    public class AccessLevelsListModel<T> : Base4ModelAbstr<T>
+    where T : AccessLevel, new()
+    {
+        protected override DataTable Table
+        { get { return AccessLevelWrapper.CurrentTable().Table; } }
+
+        public AccessLevelsListModel()
+        {
+            AccessLevelWrapper.CurrentTable().OnChanged += Query;
+            Query();
+            Begin();
+        }
+
+        public override void Add()
+        {
+            throw new NotImplementedException();
+        }
+
+        public override void Update()
+        {
+            throw new NotImplementedException();
+        }
+
+        protected override void DoQuery()
+        {
+            Set = new ObservableCollection<T>(
+           from acclev in Table.AsEnumerable()
+           where acclev.Field<int>("f_access_level_id") != 0
+           select new T
+           {
+               Id = acclev.Field<int>("f_access_level_id"),
+               Name = acclev.Field<string>("f_level_name"),
+               AreaId = acclev.Field<int>("f_area_id"),
+               ScheduleId = acclev.Field<int>("f_schedule_id"),
+               AccessLevelNote = acclev.Field<string>("f_access_level_note")
+           });
+        }
+
+        protected override BaseModelResult GetResult()
+        {
+            return new BaseModelResult { Id = CurrentItem.Id, Name = CurrentItem.Id.ToString() };
+        }
+    }
+
+    public class CarsListModel<T> : Base4ModelAbstr<T>
+    where T : Car, new()
+    {
+        protected override DataTable Table
+        { get { return CarsWrapper.CurrentTable().Table; } }
+
+        public CarsListModel()
+        {
+            CarsWrapper.CurrentTable().OnChanged += Query;
+            Query();
+            Begin();
+        }
+
+        public override void Add()
+        {
+            throw new NotImplementedException();
+        }
+
+        public override void Update()
+        {
+            throw new NotImplementedException();
+        }
+
+        protected override void DoQuery()
+        {
+            Set = new ObservableCollection<T>(
+           from cars in Table.AsEnumerable()
+           where cars.Field<int>("f_car_id") != 0
+           select new T
+           {
+               Id = cars.Field<int>("f_car_id"),
+               CarMark = cars.Field<string>("f_car_mark"),
+               CarNumber = cars.Field<string>("f_car_number"),
+               OrgId = cars.Field<int>("f_org_id"),
+               VisitorId = cars.Field<int>("f_visitor_id")
+           });
+        }
+
+        protected override BaseModelResult GetResult()
+        {
+            return new BaseModelResult { Id = CurrentItem.Id, Name = CurrentItem.CarMark };
+        }
+    }
+
+    public class EquipmentsListModel<T> : Base4ModelAbstr<T>
+    where T : Equipment, new()
+    {
+        protected override DataTable Table
+        { get { return EquipmentWrapper.CurrentTable().Table; } }
+
+        public EquipmentsListModel()
+        {
+            EquipmentWrapper.CurrentTable().OnChanged += Query;
+            Query();
+            Begin();
+        }
+
+        public override void Add()
+        {
+            throw new NotImplementedException();
+        }
+
+        public override void Update()
+        {
+            throw new NotImplementedException();
+        }
+
+        protected override void DoQuery()
+        {
+            Set = new ObservableCollection<T>(
+           from equips in Table.AsEnumerable()
+           where equips.Field<int>("f_equip_id") != 0
+           select new T
+           {
+               Id = equips.Field<int>("f_equip_id"),
+               Name = equips.Field<string>("f_equip_name"),
+               Count = equips.Field<int>("f_equip_count"),
+               EquipNum = equips.Field<string>("f_equip_num"),
+               Direct = equips.Field<string>("f_direct"),
+               From = equips.Field<DateTime>("f_from"),
+               To = equips.Field<DateTime>("f_to"),
+               OrgId = equips.Field<int>("f_org_id"),
+               VisId = equips.Field<int>("f_visitor_id")
+           });
+        }
+
+        protected override BaseModelResult GetResult()
+        {
+            return new BaseModelResult { Id = CurrentItem.Id, Name = CurrentItem.Name };
+        }
+    }
 }

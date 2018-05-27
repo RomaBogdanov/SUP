@@ -26,5 +26,15 @@
         VisSprOrderTypes,
         VisVisitorsDocuments,
         VisImageDocument,
+        VisSpaces,
+        VisDoors,
+        VisAreas,
+        VisAreasSpaces,
+        VisAccessPoints,
+        VisKeys,
+        VisSchedules,
+        VisAccessLevel,
+        VisCars,
+        VisEquipment
     }
 }

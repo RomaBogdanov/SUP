@@ -637,4 +637,304 @@ namespace SupRealClient.TabsSingleton
         }
     }
 
+	/// <summary>
+	/// ??
+	/// </summary>
+	partial class SpacesWrapper : TableWrapper
+	{
+		static SpacesWrapper currentTable;
+
+        public static SpacesWrapper CurrentTable()
+        {
+            if (currentTable == null)
+            {
+                currentTable = new SpacesWrapper();
+                wrappers.Add(currentTable);
+            }
+            return currentTable;
+        }
+
+		public override void Dispose()
+        {
+            base.Dispose();
+            currentTable = null;
+        }
+
+        private SpacesWrapper() : base()
+        {
+            this.table = connector.GetTable(TableName.VisSpaces);
+            this.Subscribe();
+        }
+    }
+
+	/// <summary>
+	/// ??
+	/// </summary>
+	partial class DoorsWrapper : TableWrapper
+	{
+		static DoorsWrapper currentTable;
+
+        public static DoorsWrapper CurrentTable()
+        {
+            if (currentTable == null)
+            {
+                currentTable = new DoorsWrapper();
+                wrappers.Add(currentTable);
+            }
+            return currentTable;
+        }
+
+		public override void Dispose()
+        {
+            base.Dispose();
+            currentTable = null;
+        }
+
+        private DoorsWrapper() : base()
+        {
+            this.table = connector.GetTable(TableName.VisDoors);
+            this.Subscribe();
+        }
+    }
+
+	/// <summary>
+	/// ??
+	/// </summary>
+	partial class AreasWrapper : TableWrapper
+	{
+		static AreasWrapper currentTable;
+
+        public static AreasWrapper CurrentTable()
+        {
+            if (currentTable == null)
+            {
+                currentTable = new AreasWrapper();
+                wrappers.Add(currentTable);
+            }
+            return currentTable;
+        }
+
+		public override void Dispose()
+        {
+            base.Dispose();
+            currentTable = null;
+        }
+
+        private AreasWrapper() : base()
+        {
+            this.table = connector.GetTable(TableName.VisAreas);
+            this.Subscribe();
+        }
+    }
+
+	/// <summary>
+	/// ??
+	/// </summary>
+	partial class AreasSpacesWrapper : TableWrapper
+	{
+		static AreasSpacesWrapper currentTable;
+
+        public static AreasSpacesWrapper CurrentTable()
+        {
+            if (currentTable == null)
+            {
+                currentTable = new AreasSpacesWrapper();
+                wrappers.Add(currentTable);
+            }
+            return currentTable;
+        }
+
+		public override void Dispose()
+        {
+            base.Dispose();
+            currentTable = null;
+        }
+
+        private AreasSpacesWrapper() : base()
+        {
+            this.table = connector.GetTable(TableName.VisAreasSpaces);
+            this.Subscribe();
+        }
+    }
+
+	/// <summary>
+	/// ??
+	/// </summary>
+	partial class AccessPointsWrapper : TableWrapper
+	{
+		static AccessPointsWrapper currentTable;
+
+        public static AccessPointsWrapper CurrentTable()
+        {
+            if (currentTable == null)
+            {
+                currentTable = new AccessPointsWrapper();
+                wrappers.Add(currentTable);
+            }
+            return currentTable;
+        }
+
+		public override void Dispose()
+        {
+            base.Dispose();
+            currentTable = null;
+        }
+
+        private AccessPointsWrapper() : base()
+        {
+            this.table = connector.GetTable(TableName.VisAccessPoints);
+            this.Subscribe();
+        }
+    }
+
+	/// <summary>
+	/// ??
+	/// </summary>
+	partial class KeysWrapper : TableWrapper
+	{
+		static KeysWrapper currentTable;
+
+        public static KeysWrapper CurrentTable()
+        {
+            if (currentTable == null)
+            {
+                currentTable = new KeysWrapper();
+                wrappers.Add(currentTable);
+            }
+            return currentTable;
+        }
+
+		public override void Dispose()
+        {
+            base.Dispose();
+            currentTable = null;
+        }
+
+        private KeysWrapper() : base()
+        {
+            this.table = connector.GetTable(TableName.VisKeys);
+            this.Subscribe();
+        }
+    }
+
+	/// <summary>
+	/// ??
+	/// </summary>
+	partial class SchedulesWrapper : TableWrapper
+	{
+		static SchedulesWrapper currentTable;
+
+        public static SchedulesWrapper CurrentTable()
+        {
+            if (currentTable == null)
+            {
+                currentTable = new SchedulesWrapper();
+                wrappers.Add(currentTable);
+            }
+            return currentTable;
+        }
+
+		public override void Dispose()
+        {
+            base.Dispose();
+            currentTable = null;
+        }
+
+        private SchedulesWrapper() : base()
+        {
+            this.table = connector.GetTable(TableName.VisSchedules);
+            this.Subscribe();
+        }
+    }
+
+	/// <summary>
+	/// ??
+	/// </summary>
+	partial class AccessLevelWrapper : TableWrapper
+	{
+		static AccessLevelWrapper currentTable;
+
+        public static AccessLevelWrapper CurrentTable()
+        {
+            if (currentTable == null)
+            {
+                currentTable = new AccessLevelWrapper();
+                wrappers.Add(currentTable);
+            }
+            return currentTable;
+        }
+
+		public override void Dispose()
+        {
+            base.Dispose();
+            currentTable = null;
+        }
+
+        private AccessLevelWrapper() : base()
+        {
+            this.table = connector.GetTable(TableName.VisAccessLevel);
+            this.Subscribe();
+        }
+    }
+
+	/// <summary>
+	/// ??
+	/// </summary>
+	partial class CarsWrapper : TableWrapper
+	{
+		static CarsWrapper currentTable;
+
+        public static CarsWrapper CurrentTable()
+        {
+            if (currentTable == null)
+            {
+                currentTable = new CarsWrapper();
+                wrappers.Add(currentTable);
+            }
+            return currentTable;
+        }
+
+		public override void Dispose()
+        {
+            base.Dispose();
+            currentTable = null;
+        }
+
+        private CarsWrapper() : base()
+        {
+            this.table = connector.GetTable(TableName.VisCars);
+            this.Subscribe();
+        }
+    }
+
+	/// <summary>
+	/// ??
+	/// </summary>
+	partial class EquipmentWrapper : TableWrapper
+	{
+		static EquipmentWrapper currentTable;
+
+        public static EquipmentWrapper CurrentTable()
+        {
+            if (currentTable == null)
+            {
+                currentTable = new EquipmentWrapper();
+                wrappers.Add(currentTable);
+            }
+            return currentTable;
+        }
+
+		public override void Dispose()
+        {
+            base.Dispose();
+            currentTable = null;
+        }
+
+        private EquipmentWrapper() : base()
+        {
+            this.table = connector.GetTable(TableName.VisEquipment);
+            this.Subscribe();
+        }
+    }
+
 }

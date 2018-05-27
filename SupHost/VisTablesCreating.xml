@@ -17,4 +17,14 @@
   <Item Name="VisDepartment" TabName="vis_departaments" ColId="f_dep_id" Comment="Департаменты" />
   <Item Name="VisSprOrderTypes" TabName="vis_spr_order_types" ColId="f_order_type_id" Comment="Тип заявки" />
   <Item Name="VisVisitorsDocuments" TabName="vis_visitors_documents" ColId="f_vd_id" Comment="Документы посетителей" />
+  <Item Name="VisSpaces" TabName="vis_spaces" ColId="f_space_id" Comment="Таблица помещений" />
+  <Item Name="VisDoors" TabName="vis_doors" ColId="f_door_id" Comment="Список сущностей двери" />
+  <Item Name="VisAreas" TabName="vis_areas" ColId="f_area_id" Comment="Области доступа" />
+  <Item Name="VisAreasSpaces" TabName="vis_areas_spaces" ColId="f_area_space_id" Comment="Соотношение помещений областей доступа" />
+  <Item Name="VisAccessPoints" TabName="vis_access_points" ColId="f_access_point_id" Comment="Точки доступа" />
+  <Item Name="VisKeys" TabName="vis_keys" ColId="f_key_id" Comment="ключи привязанные к дверям" />
+  <Item Name="VisSchedules" TabName="vis_schedules" ColId="f_schedule_id" Comment="Расписания" />
+  <Item Name="VisAccessLevel" TabName="vis_access_level" ColId="f_access_level_id" Comment="Связь между расписаниями и уровнями доступа" />
+  <Item Name="VisCars" TabName="vis_cars" ColId="f_car_id" Comment="Машины проезжающие на территорию" />
+  <Item Name="VisEquipment" TabName="vis_equipment" ColId="f_equip_id" Comment="Проносимое имущество" />
 </Enum>

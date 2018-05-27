@@ -16,6 +16,109 @@ go
 use Visitors;
 go
 
+-- Создание vis_access_level
+
+if	OBJECT_ID('vis_access_level') is not null
+	drop table vis_access_level;
+
+create table vis_access_level
+(
+	f_access_level_id int not null,
+	f_level_name varchar(50), -- название уровня доступа
+	f_area_id int, -- id области доступа
+	f_schedule_id int, -- id расписания
+	f_access_level_note varchar(100), -- заметка по уровню доступа
+	f_deleted                      CHAR(1),
+    f_rec_date                     DATE,
+    f_rec_operator                 int,
+)
+
+alter table vis_access_level
+	add primary key(f_access_level_id)
+
+if not exists(select * from vis_access_level where f_access_level_id = '0')
+begin
+	insert into vis_access_level values ('0', '', '', '', '', 'N', '', '')
+end
+
+-- Создание vis_access_points
+-- Таблица с информацией по сущности "точка доступа". Точка доступа привязана к сущности "дверь",
+-- а может быть не привязана. Точка доступа двунаправлена, т.е. возможен однонаправленный проход.
+
+if OBJECT_ID('vis_access_points') is not null
+	drop table vis_access_points
+
+create table vis_access_points
+(
+	f_access_point_id int not null,
+	f_access_point_name varchar(20),
+	f_access_point_description varchar(200),
+	f_access_point_space_in varchar(50), -- ? метка по внутреннему помещению. Пока непонятно, что привязывать.
+	f_access_point_space_out varchar(50), -- ? метка по внешнему помещению. Пока непонятно, что привязывать.
+	f_deleted                      CHAR(1),
+    f_rec_date                     DATE,
+    f_rec_operator                 int,
+)
+
+alter table vis_access_points
+	add primary key(f_access_point_id)
+
+if not exists(select * from vis_access_points where f_access_point_id='0')
+begin
+	insert into vis_access_points values ('0', '', '', '', '', 'N', '', '')
+end
+go
+
+-- Создание vis_areas
+-- Таблица с информацией по сущности "области доступа". Аналог таблиц связанных с zones
+
+if OBJECT_ID('vis_areas') is not null
+	drop table vis_areas;
+
+create table vis_areas
+(
+	f_area_id int not null,
+	f_area_name varchar(50),
+	f_area_descript varchar(200),
+	f_deleted                      CHAR(1),
+    f_rec_date                     DATE,
+    f_rec_operator                 int,
+)
+
+alter table vis_areas
+	add primary key (f_area_id)
+
+if not exists(select * from vis_areas where f_area_id='0')
+begin
+	insert into vis_areas values ('0', '', '', 'N', '', '')
+end
+go
+
+-- Создание vis_areas_spaces
+-- Таблица соотношения между "областями доступа" и "помещениями". 
+
+if OBJECT_ID('vis_areas_spaces') is not null
+	drop table vis_areas_spaces;
+
+create table vis_areas_spaces
+(
+	f_area_space_id int not null,
+	f_area_id int, -- id области доступа
+	f_space_id int, -- id помещения
+	f_deleted                      CHAR(1),
+    f_rec_date                     DATE,
+    f_rec_operator                 int,
+)
+
+alter table vis_areas_spaces
+	add primary key (f_area_space_id)
+
+if not exists(select * from vis_areas_spaces where f_area_space_id = '0')
+begin
+	insert into vis_areas_spaces values ('0', '', '', 'N', '', '')
+end
+go
+
 -- Создание vis_cabinets
 -- TODO: Сделать описание таблицы
 
@@ -109,6 +212,33 @@ begin
 end
 go
 
+-- Создание vis_cars
+-- Таблица списка машин.
+
+if OBJECT_ID('vis_cars') is not null
+	drop table vis_cars;
+
+create table vis_cars
+(
+	f_car_id int not null,
+	f_car_mark varchar(50), -- марка машины
+	f_car_number varchar(20), -- номер машины
+	f_org_id int, -- номер организации
+	f_visitor_id int, -- номер водителя
+	f_deleted                      CHAR(1),
+    f_rec_date                     DATE,
+    f_rec_operator                 int
+)
+
+alter table vis_cars
+add primary key (f_car_id)
+
+if not exists(select * from vis_cars where f_car_id = '0')
+begin
+	insert into vis_cars values ('0', '', '', '', '', 'N', '', '')
+end
+go
+
 -- Создание vis_countries
 -- Таблица списка стран. Пока используется для определения гражданств и стран из которых организации.
 
@@ -178,6 +308,67 @@ begin
 end
 go
 
+-- Создание vis_doors
+-- Таблица описания сущности "дверь". "Дверь" - разделитель между "Помещениями", 
+-- у которого есть или обыкновенный ключ или электронный.
+
+if OBJECT_ID('vis_doors') is not null
+	drop table vis_doors;
+
+CREATE TABLE vis_doors
+(
+	f_door_id int not null,
+	f_door_num varchar(20), -- номер "двери". Дан в текстовом виде для обобщения.
+	f_descript varchar(100), -- описание "двери". По умолчанию равно описанию внутреннего "помещения"
+	f_space_in int, -- id внутреннего помещения.
+	f_space_out int, -- id внешнего помещения.
+	f_access_point_id int, -- id точки доступа.
+	f_key_id int, -- id ключа
+	f_deleted                      CHAR(1),
+    f_rec_date                     DATE,
+    f_rec_operator                 int
+)
+
+alter table vis_doors
+add primary key (f_door_id)
+
+if not exists (select * from vis_doors where f_door_id = '0')
+begin
+	insert into vis_doors values ('0', '', '', '', '', '', '', 'N', '', '')
+end
+go
+
+-- Создание vis_equipment
+-- Таблица проносимого материального имущества.
+
+if OBJECT_ID('vis_equipment') is not null
+	drop table vis_equipment;
+
+create table vis_equipment
+(
+	f_equip_id int not null,
+	f_equip_name varchar(100), -- наименование мат. имущества
+	f_equip_count int, -- количество проносимых
+	f_equip_num varchar(50), -- инвентарный или серийный номер
+	f_direct varchar(15), -- направление внос, вынос, перемещение
+	f_from date, -- время, с которого разрешено перемещение
+	f_to date, -- время, по которое разрешено перемещение
+	f_org_id int, -- номер организации
+	f_visitor_id int, -- номер посетителя
+	f_deleted                      CHAR(1),
+    f_rec_date                     DATE,
+    f_rec_operator                 int
+)
+
+alter table vis_equipment
+	add primary key(f_equip_id)
+
+if not exists(select * from vis_equipment where f_equip_id='0')
+begin
+	insert into vis_equipment values ('0', '', '', '', '', '', '', '', '', 'N', '', '')
+end
+go
+
 -- Создание vis_flag
 -- TODO: Сделать описание таблицы
 
@@ -191,6 +382,34 @@ CREATE TABLE vis_flag
 if not exists(select * from vis_flag where f_user_id = '0')
 begin
 	insert into vis_flag values ( '0', 'N')
+end
+go
+
+-- Создание vis_keys
+-- Таблица с описанием ключа. Доработать (?)
+
+if OBJECT_ID('vis_keys') is not null
+	drop table vis_keys;
+
+create table vis_keys
+(
+	f_key_id int not null,
+	f_key_name varchar(20),
+	f_key_description varchar(100),
+	f_door_id int, -- номер двери, к которой привязан ключ
+	f_key_holder_id int, -- номер ключницы, в которой ключ
+	f_key_case_id int, -- номер пенала, в котором ключ
+	f_deleted                      CHAR(1),
+    f_rec_date                     DATE,
+    f_rec_operator                 int
+)
+
+alter table vis_keys
+	add primary key(f_key_id)
+
+if not exists(select * from vis_keys where f_key_id='0')
+begin
+	insert into vis_keys values ('0', '', '', '', '', '', 'N', '', '')
 end
 go
 
@@ -244,6 +463,12 @@ CREATE TABLE vis_users
 if not exists(select * from vis_users where f_user_id = '0')
 begin
 	insert into vis_users values ( '0', '', '', '0')
+end
+go
+
+if not exists(select * from vis_users where f_user_id = '1')
+begin
+	insert into vis_users values ( '1', '1', '1', '180')
 end
 go
 
@@ -383,6 +608,69 @@ ADD PRIMARY KEY (f_region_id)
 if not exists(select * from vis_regions where f_region_id = '0')
 begin
 	insert into vis_regions values ( '0', '', '0', 'N', '', '')
+end
+go
+
+-- Создание vis_schedules
+
+if OBJECT_ID('vis_schedules') is not null
+	drop table vis_schedules
+
+create table vis_schedules
+(
+	f_schedule_id int not null,
+	f_monday_time_begin datetime,
+	f_monday_time_end datetime,
+	f_tuesday_time_begin datetime,
+	f_tuesday_time_end datetime,
+	f_whensday_time_begin datetime,
+	f_whensday_time_end datetime,
+	f_thursday_time_begin datetime,
+	f_thursday_time_end datetime,
+	f_friday_time_begin datetime,
+	f_friday_time_end datetime,
+	f_saturday_time_begin datetime,
+	f_saturday_time_end datetime,
+	f_sunday_time_begin datetime,
+	f_sunday_time_end datetime,
+	f_holiday_time_begin datetime,
+	f_holiday_time_end datetime,
+)
+
+alter table vis_schedules
+	add primary key (f_schedule_id)
+
+if not exists (select * from vis_schedules where f_schedule_id='0')
+begin
+	insert into vis_schedules values('0', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '')
+end
+go
+
+-- Создание vis_space
+-- Таблица списка помещений. Под помещением понимается область ограниченная
+-- "дверями" (см. таблицу vis_doors). Пришла на смену сущности "кабинеты".
+
+if OBJECT_ID('vis_spaces') is not null
+	drop table vis_spaces
+
+CREATE TABLE vis_spaces
+	(
+	f_space_id int not null,
+	f_num_real varchar(50), --номер помещения дан в текстовом виде для большего обобщения, в теории будет эквивалентем названию помещения
+	f_num_build varchar(50), --номер помещения дан в текстовом виде для большего обобщения, в теории будет эквивалентем названию помещения на этапе строительства
+	f_descript varchar(200), -- описание помещения
+	f_note varchar(200), -- примечание по помещению
+	f_deleted                      CHAR(1),
+    f_rec_date                     DATE,
+    f_rec_operator                 int
+	)
+
+ALTER TABLE vis_spaces
+ADD PRIMARY KEY (f_space_id)
+
+if not exists (select * from vis_spaces where f_space_id='0')
+begin
+	insert into vis_spaces values ('0', '', '', '', '', 'N', '', '')
 end
 go
 

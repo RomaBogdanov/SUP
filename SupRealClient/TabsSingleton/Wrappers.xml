@@ -21,4 +21,14 @@
   <Item Name="SprOrderTypesWrapper" Type="VisSprOrderTypes" Comment="Типы заявок" />
   <Item Name="VisitorsDocumentsWrapper" Type="VisVisitorsDocuments" Comment="Документы посетителей" />
   <Item Name="ImageDocumentWrapper" Type="VisImageDocument" Comment="??" />
+  <Item Name="SpacesWrapper" Type="VisSpaces" Comment="??" />
+  <Item Name="DoorsWrapper" Type="VisDoors" Comment="??" />
+  <Item Name="AreasWrapper" Type="VisAreas" Comment="??" />
+  <Item Name="AreasSpacesWrapper" Type="VisAreasSpaces" Comment="??" />
+  <Item Name="AccessPointsWrapper" Type="VisAccessPoints" Comment="??" />
+  <Item Name="KeysWrapper" Type="VisKeys" Comment="??" />
+  <Item Name="SchedulesWrapper" Type="VisSchedules" Comment="??" />
+  <Item Name="AccessLevelWrapper" Type="VisAccessLevel" Comment="??" />
+  <Item Name="CarsWrapper" Type="VisCars" Comment="??" />
+  <Item Name="EquipmentWrapper" Type="VisEquipment" Comment="??" />
 </Enum>
