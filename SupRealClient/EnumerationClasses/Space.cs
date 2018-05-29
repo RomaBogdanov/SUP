@@ -22,7 +22,6 @@ namespace SupRealClient.EnumerationClasses
         public int SpaceIn { get; set; }
         public int SpaceOut { get; set; }
         public int AccessPointId { get; set; }
-        public int KeyId { get; set; }
     }
 
     public class Area : IdEntity

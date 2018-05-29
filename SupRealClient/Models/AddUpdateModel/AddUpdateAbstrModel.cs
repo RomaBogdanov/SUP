@@ -74,7 +74,6 @@ namespace SupRealClient.Models.AddUpdateModel
             row["f_space_in"] = ((Door)CurrentItem).SpaceIn;
             row["f_space_out"] = ((Door)CurrentItem).SpaceOut;
             row["f_access_point_id"] = ((Door)CurrentItem).AccessPointId;
-            row["f_key_id"] = ((Door)CurrentItem).KeyId;
             row["f_deleted"] = "N";
             row["f_rec_date"] = DateTime.Now;
             row["f_rec_operator"] = Authorizer.AppAuthorizer.Id;

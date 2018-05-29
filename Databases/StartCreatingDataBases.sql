@@ -324,7 +324,6 @@ CREATE TABLE vis_doors
 	f_space_in int, -- id внутреннего помещения.
 	f_space_out int, -- id внешнего помещения.
 	f_access_point_id int, -- id точки доступа.
-	f_key_id int, -- id ключа
 	f_deleted                      CHAR(1),
     f_rec_date                     DATE,
     f_rec_operator                 int
@@ -335,7 +334,7 @@ add primary key (f_door_id)
 
 if not exists (select * from vis_doors where f_door_id = '0')
 begin
-	insert into vis_doors values ('0', '', '', '', '', '', '', 'N', '', '')
+	insert into vis_doors values ('0', '', '', '', '', '', 'N', '', '')
 end
 go
 
