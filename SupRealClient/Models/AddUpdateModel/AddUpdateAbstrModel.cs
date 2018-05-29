@@ -198,6 +198,7 @@ namespace SupRealClient.Models.AddUpdateModel
             row["f_car_number"] = ((Car)CurrentItem).CarNumber;
             row["f_org_id"] = ((Car)CurrentItem).OrgId;
             row["f_visitor_id"] = ((Car)CurrentItem).VisitorId;
+            row["f_color"] = ((Car)CurrentItem).Color;
             row["f_deleted"] = "N";
             row["f_rec_date"] = DateTime.Now;
             row["f_rec_operator"] = Authorizer.AppAuthorizer.Id;

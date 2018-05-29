@@ -72,7 +72,8 @@ namespace SupRealClient.EnumerationClasses
         public string CarMark { get; set; }
         public string CarNumber { get; set; }
         public int OrgId { get; set; }
-        public int VisitorId { get; set; } // имя водителя
+        public int VisitorId { get; set; } // имя заявителя
+        public string Color { get; set; } // цвет машины
     }
 
     public class Equipment : IdEntity

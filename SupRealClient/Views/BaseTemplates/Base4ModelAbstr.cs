@@ -858,7 +858,8 @@ namespace SupRealClient.Views
                CarMark = cars.Field<string>("f_car_mark"),
                CarNumber = cars.Field<string>("f_car_number"),
                OrgId = cars.Field<int>("f_org_id"),
-               VisitorId = cars.Field<int>("f_visitor_id")
+               VisitorId = cars.Field<int>("f_visitor_id"),
+               Color = cars.Field<string>("f_color")
            });
         }
 
