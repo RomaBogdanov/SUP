@@ -180,6 +180,8 @@
     </Compile>
     <Compile Include="ViewModels\AddUpdateCardViewModel.cs" />
     <Compile Include="ViewModels\AddUpdateRegionViewModel.cs" />
+    <Compile Include="Models\AddUpdateModel\AddUpdateAbstrModel.cs" />
+    <Compile Include="ViewModels\AddUpdateViewModel\AddUpdateAbstrViewModel.cs" />
     <Compile Include="ViewModels\ListsViewModel\BaseListViewModel.cs" />
     <Compile Include="ViewModels\DocumentImagesViewModel.cs" />
     <Compile Include="ViewModels\FullNameViewModel.cs" />
@@ -223,6 +225,33 @@
     <Compile Include="Models\Base1CardsModel.cs" />
     <Compile Include="Views\AddUpdateRegionView.xaml.cs">
       <DependentUpon>AddUpdateRegionView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\AddUpdateView\AddUpdateAccessLevelWindView.xaml.cs">
+      <DependentUpon>AddUpdateAccessLevelWindView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\AddUpdateView\AddUpdateAccessPointWindView.xaml.cs">
+      <DependentUpon>AddUpdateAccessPointWindView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\AddUpdateView\AddUpdateAreaSpaceWindView.xaml.cs">
+      <DependentUpon>AddUpdateAreaSpaceWindView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\AddUpdateView\AddUpdateAreaWindView.xaml.cs">
+      <DependentUpon>AddUpdateAreaWindView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\AddUpdateView\AddUpdateCarWindView.xaml.cs">
+      <DependentUpon>AddUpdateCarWindView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\AddUpdateView\AddUpdateDoorWindView.xaml.cs">
+      <DependentUpon>AddUpdateDoorWindView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\AddUpdateView\AddUpdateEquipmentWindView.xaml.cs">
+      <DependentUpon>AddUpdateEquipmentWindView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\AddUpdateView\AddUpdateKeyWindView.xaml.cs">
+      <DependentUpon>AddUpdateKeyWindView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\AddUpdateView\AddUpdateSpaceView.xaml.cs">
+      <DependentUpon>AddUpdateSpaceView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\Base4Analogs\Base4AccessLevelsWindView.xaml.cs">
       <DependentUpon>Base4AccessLevelsWindView.xaml</DependentUpon>
@@ -271,6 +300,8 @@
     </Compile>
     <Compile Include="Views\BaseTemplates\Base4ModelAbstr.cs" />
     <Compile Include="Views\BaseTemplates\Base4ViewModel.cs" />
+    <Compile Include="Views\BaseTemplates\DoorsListModel.cs" />
+    <Compile Include="Views\BaseTemplates\SpacesListModel.cs" />
     <Compile Include="Views\BaseTemplates\Наследники Base4ModelAbstr\CabinetsListModel.cs" />
     <Compile Include="Views\BaseTemplates\Наследники Base4ModelAbstr\DocumentsListModel.cs" />
     <Compile Include="Views\BaseTemplates\IBase4Model.cs" />
@@ -439,6 +470,42 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Views\AddUpdateRegionView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\AddUpdateView\AddUpdateAccessLevelWindView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\AddUpdateView\AddUpdateAccessPointWindView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\AddUpdateView\AddUpdateAreaSpaceWindView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\AddUpdateView\AddUpdateAreaWindView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\AddUpdateView\AddUpdateCarWindView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\AddUpdateView\AddUpdateDoorWindView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\AddUpdateView\AddUpdateEquipmentWindView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\AddUpdateView\AddUpdateKeyWindView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\AddUpdateView\AddUpdateSpaceView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
