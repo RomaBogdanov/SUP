@@ -18,6 +18,9 @@ namespace SupRealClient.ViewModels
 {
     class Authorize1ViewModel : INotifyPropertyChanged
     {
+        private string _emptyLoginData = "Неверный логин или пароль. Введите правильные логин и пароль.";
+        private string _userNotExist = "Пользователя с таким логином нет в базе.";
+
         public event PropertyChangedEventHandler PropertyChanged;
 
         private string login;
@@ -36,6 +39,9 @@ namespace SupRealClient.ViewModels
         int logoutInterval = 180000;
         public int FontSize => GlobalSettings.GetFontSize() + 4;
 
+        /// <summary>
+        /// Логин.
+        /// </summary>
         public string Login
         {
             get { return this.login; }
@@ -49,6 +55,9 @@ namespace SupRealClient.ViewModels
             }
         }
 
+        /// <summary>
+        /// Пароль.
+        /// </summary>
         public string Password
         {
             get { return this.password; }
@@ -62,6 +71,9 @@ namespace SupRealClient.ViewModels
             }
         }
 
+        /// <summary>
+        /// Выбранный хост.
+        /// </summary>
         public KeyValuePair<string, string> SelectedHost
         {
             get { return this.selectedHost; }
@@ -72,6 +84,9 @@ namespace SupRealClient.ViewModels
             }
         }
 
+        /// <summary>
+        /// Сообщение.
+        /// </summary>
         public string Msg
         {
             get { return msg; }
@@ -82,6 +97,9 @@ namespace SupRealClient.ViewModels
             }
         }
 
+        /// <summary>
+        /// Цвет инф. сообщений.
+        /// </summary>
         public Brush InfoStyle
         {
             get { return this.infoStyle; }
@@ -92,6 +110,9 @@ namespace SupRealClient.ViewModels
             }
         }
 
+        /// <summary>
+        /// Хосты.
+        /// </summary>
         public Dictionary<string, string> Hosts
         {
             get { return this.hosts; }
@@ -102,9 +123,14 @@ namespace SupRealClient.ViewModels
             }
         }
 
-        public ICommand Enter
-        { get; set; }
+        /// <summary>
+        /// Вход по нажатию "ОК".
+        /// </summary>
+        public ICommand Enter { get; set; }
 
+        /// <summary>
+        /// Конструктор по умолчанию.
+        /// </summary>
         public Authorize1ViewModel()
         {
             int res;
@@ -127,6 +153,9 @@ namespace SupRealClient.ViewModels
             Reset();
         }
 
+        /// <summary>
+        /// Сброс настроек.
+        /// </summary>
         public void Reset()
         {
             IsAuthorization = false;
@@ -145,6 +174,10 @@ namespace SupRealClient.ViewModels
             this.PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
 
+        /// <summary>
+        /// Авторизация.
+        /// </summary>
+        /// <param name="password"></param>
         private void Entering(object password)
         {
             this.mainWindowViewModel = MainWindowViewModel.Current;
@@ -160,7 +193,19 @@ namespace SupRealClient.ViewModels
                 try
                 {
                     this.connector = ClientConnector.ResetConnector(ParseUri());
+
+                    // Если пустые логин и пароль, то ошибка "Введите логин и пароль".
+                    if ((Login == String.Empty) || (Password == String.Empty))
+                    {
+                        throw new Exception(_emptyLoginData);
+                    }
+
                     int id = this.connector.Authorize(Login, Password);
+
+                    if (id < 0)
+                    {
+                        throw new Exception(_userNotExist);
+                    }
 
                     logoutTimer.Stop();
                     int timeout = GetUserTimeout(id);
