@@ -204,7 +204,16 @@ namespace SupRealClient.ViewModels
                     int id = this.connector.Authorize(Login, Password);
 
                     logoutTimer.Stop();
-                    int timeout = GetUserTimeout(id);
+                    int timeout = 0;
+                    try
+                    {
+                        timeout = GetUserTimeout(id);
+                    }
+                    catch
+                    {
+                        string er = String.Format("Выбранный сервер [{0}] не подключен. Обратитесь к администратору системы.", SelectedHost.Value);
+                        throw new Exception(er);
+                    }
 
 
                     if (timeout > 0)
