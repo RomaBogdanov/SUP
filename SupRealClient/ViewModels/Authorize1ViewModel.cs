@@ -193,9 +193,16 @@ namespace SupRealClient.ViewModels
             {
                 try
                 {
-                    this.connector = ClientConnector.ResetConnector(ParseUri());                  
+                    this.connector = ClientConnector.ResetConnector(ParseUri());
+
+                    // Если пустые логин и пароль, то ошибка "Введите логин и пароль".
+                    if ((Login == String.Empty) || (Password == String.Empty))
+                    {
+                        throw new Exception(_emptyLoginData);
+                    }
 
                     int id = this.connector.Authorize(Login, Password);
+
                     logoutTimer.Stop();
                     int timeout = GetUserTimeout(id);
 
