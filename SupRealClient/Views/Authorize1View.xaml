@@ -113,18 +113,24 @@
                 FontSize="{Binding FontSize}"                  
                 Command="{Binding Path=Enter}"
                 CommandParameter="{Binding ElementName=txtPass}"/>
-            
-            <TextBlock 
+
+            <ScrollViewer Grid.Row="8" Grid.Column="0" Grid.ColumnSpan="2" VerticalScrollBarVisibility="Auto" >
+                <TextBlock FontSize="{Binding FontSize}" TextWrapping="WrapWithOverflow"
+                Foreground="{Binding Path=InfoStyle, Mode=TwoWay}" 
+                Text="{Binding Path=Msg, Mode=TwoWay}"
+                HorizontalAlignment="Left"
+                Style="{StaticResource TextBLockStyle}" />
+            </ScrollViewer>
+            <!--<TextBox 
                 Grid.Row="8" 
                 Grid.Column="0"
                 Grid.ColumnSpan="2" 
-                TextWrapping="WrapWithOverflow"
                 FontSize="{Binding FontSize}" 
                 Foreground="{Binding Path=InfoStyle, Mode=TwoWay}" 
                 Text="{Binding Path=Msg, Mode=TwoWay}"
                 HorizontalAlignment="Left"
                 Style="{StaticResource TextBLockStyle}"/>
-            <!--<Button Grid.Row="7" Grid.Column="1" Margin="2" Content="Отмена" FontSize="20"></Button>-->
+            <Button Grid.Row="7" Grid.Column="1" Margin="2" Content="Отмена" FontSize="20"></Button>-->
         </Grid>
     </Grid>
 </UserControl>

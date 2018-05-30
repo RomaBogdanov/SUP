@@ -20,6 +20,7 @@ namespace SupRealClient.ViewModels
     {
         private string _emptyLoginData = "Неверный логин или пароль. Введите правильные логин и пароль.";
         private string _userNotExist = "Пользователя с таким логином нет в базе.";
+        private string _dbNotExist = "Выбранная база данных [Visitors] не подключена. Обратитесь к администратору системы.";
 
         public event PropertyChangedEventHandler PropertyChanged;
 
@@ -192,23 +193,13 @@ namespace SupRealClient.ViewModels
             {
                 try
                 {
-                    this.connector = ClientConnector.ResetConnector(ParseUri());
-
-                    // Если пустые логин и пароль, то ошибка "Введите логин и пароль".
-                    if ((Login == String.Empty) || (Password == String.Empty))
-                    {
-                        throw new Exception(_emptyLoginData);
-                    }
+                    this.connector = ClientConnector.ResetConnector(ParseUri());                  
 
                     int id = this.connector.Authorize(Login, Password);
-
-                    if (id < 0)
-                    {
-                        throw new Exception(_userNotExist);
-                    }
-
                     logoutTimer.Stop();
                     int timeout = GetUserTimeout(id);
+
+
                     if (timeout > 0)
                     {
                         //InputProvider.GetInputProvider().Init(OnInput);
@@ -292,11 +283,13 @@ namespace SupRealClient.ViewModels
             return user != null ? user.Timeout : -1;
         }
 
+        /// <summary>
+        /// Очистить поля логин и пароль.
+        /// </summary>
         private void ClearEnterData()
         {
             this.Login = "";
-            this.Password = "";
-            
+            this.Password = "";            
         }
 
         private void Invisible()
