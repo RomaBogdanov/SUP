@@ -7,7 +7,8 @@
         mc:Ignorable="d"
         Title="{Binding Path=Caption, Mode=OneTime}"
         Height="470" Width="300" 
-        ResizeMode="NoResize">
+        ResizeMode="NoResize"
+        Loaded="MetroWindow_Loaded">
 
     <mah:MetroWindow.InputBindings>
         <KeyBinding Key="Escape" Command="{Binding Cancel}"/>
@@ -89,6 +90,7 @@
             Style="{StaticResource TextBLockStyle}"/>
         
         <TextBox 
+            x:Name="tbComments"
             Grid.Row="5" 
             Grid.Column="0"
             Grid.ColumnSpan="4" 
@@ -97,7 +99,7 @@
             FontSize="{Binding FontSize}"
             Text="{Binding Path=Comment,Mode=TwoWay}"
             Style="{StaticResource TextBoxStyle}"
-            KeyUp="TextBox_OnKeyUp"/>
+            KeyUp="tbComments_KeyUp"/>
         
         <TextBlock 
             Grid.Row="6" 
@@ -113,11 +115,12 @@
             Grid.Column="0"
             Grid.ColumnSpan="2" 
             Margin="2"
+            IsTabStop="False"
             IsReadOnly="True"
             FontSize="{Binding FontSize}"
             Text="{Binding Path=FullName, Mode=TwoWay}"
             Style="{StaticResource TextBoxStyle}"
-            KeyUp="TextBox_OnKeyUp"/>
+            />
         
         <Button
             Command="{Binding FullNameCommand}"
@@ -135,7 +138,7 @@
             Grid.Row="7"
             Grid.Column="3"
             Content="X"
-            TabIndex="4"
+            IsTabStop="False"
             Margin="2"
             IsEnabled="{Binding FullNameEnabled, Mode=OneWay}"
             Style="{StaticResource ButtonStyle}"/>
@@ -154,6 +157,7 @@
             Grid.Column="0"
             Grid.ColumnSpan="2"
             Margin="2"
+            IsTabStop="False"
             FontSize="{Binding FontSize}"
             IsReadOnly="True"
             Text="{Binding Path=Country, Mode=TwoWay}"
@@ -166,7 +170,7 @@
             Grid.Column="2"
             Content="..."
             Margin="2"
-            TabIndex="5"
+            TabIndex="4"
             IsEnabled="{Binding Path=CountryRegionEnabled, Mode=OneWay}"
             Style="{StaticResource ButtonStyle}"/>
 
@@ -177,7 +181,7 @@
             Grid.Column="3"
             Content="X"
             Margin="2"
-            TabIndex="6"
+            IsTabStop="False"
             IsEnabled="{Binding Path=CountryRegionEnabled, Mode=OneWay}"
             Style="{StaticResource ButtonStyle}"/>
 
@@ -195,6 +199,7 @@
             Grid.Column="0"
             Grid.ColumnSpan="2"
             Margin="2"
+            IsTabStop="False"
             IsReadOnly="True"
             Text="{Binding Path=Region, Mode=TwoWay}"
             FontSize="{Binding FontSize}"
@@ -207,7 +212,7 @@
             Grid.Column="2"
             Content="..."
             Margin="2"
-            TabIndex="7"
+            TabIndex="5"
             IsEnabled="{Binding Path=CountryRegionEnabled, Mode=OneWay}"
             Style="{StaticResource ButtonStyle}"/>
         
@@ -218,17 +223,19 @@
             Grid.Column="3"
             Content="X"
             Margin="2"
-            TabIndex="8"
+            IsTabStop="False"
             IsEnabled="{Binding Path=CountryRegionEnabled, Mode=OneWay}"
             Style="{StaticResource ButtonStyle}"/>
 
         <Button 
+            x:Name="btnOK"
             Grid.Row="13" 
             Grid.Column="0"
             Command="{Binding Path=Ok}"
             Margin="2"
-            TabIndex="9"
-            Style="{StaticResource ButtonStyle}">
+            TabIndex="6"
+            Style="{StaticResource ButtonStyle}"
+            KeyDown="btnOK_KeyDown">
             <Grid Width="140">
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition/>
@@ -252,7 +259,7 @@
             Grid.Column="1" 
             Grid.ColumnSpan="3"
             Margin="2"
-            TabIndex="10"
+            TabIndex="7"
             Command="{Binding Path=Cancel}"
             Style="{StaticResource ButtonStyle}">
             <Grid Width="140">
