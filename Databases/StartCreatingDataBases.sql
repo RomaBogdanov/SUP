@@ -354,6 +354,57 @@ begin
 end
 go
 
+-- Создание vis_key_case
+-- Таблица с описанием штырей. Штырь и пенал - одно и тоже.
+
+if OBJECT_ID('vis_key_case') is not null
+	drop table vis_key_case
+
+create table vis_key_case
+(
+	f_key_case_id int not null,
+	f_inner_code varchar(25), -- внутренний код штыря
+	f_key_holder_num varchar(25), -- номер ключницы
+	f_cell_num int, -- номер ячейки
+	f_descript varchar(200), -- описание
+	f_deleted                      CHAR(1),
+    f_rec_date                     DATE,
+    f_rec_operator                 int
+)
+
+alter table vis_key_case
+	add primary key(f_key_case_id)
+
+if not exists(select * from vis_key_case where f_key_case_id='0')
+begin
+	insert into vis_key_case values ('0', '', '', '', '', 'N', '', '')
+end
+
+-- Создание vis_key_holder
+-- Таблица с описанием ключниц.
+
+if OBJECT_ID('vis_key_holder') is not null
+	drop table vis_key_holder
+
+create table vis_key_holder
+(
+	f_key_holder_id int not null,
+	f_key_holder_num varchar(25), -- номер ключницы
+	f_descript varchar(200), -- описание
+	f_count int, -- количество ячеек в ключнице
+	f_deleted                      CHAR(1),
+    f_rec_date                     DATE,
+    f_rec_operator                 int
+)
+
+alter table vis_key_holder
+	add primary key(f_key_holder_id)
+
+if not exists(select * from vis_key_holder where f_key_holder_id='0')
+begin
+	insert into vis_key_holder values ('0', '', '', '', 'N', '', '')
+end
+
 -- Создание vis_keys
 -- Таблица с описанием ключа. Доработать (?)
 

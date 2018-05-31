@@ -259,6 +259,12 @@
     <Compile Include="Views\Base4Analogs\Base4AccessPointsWindView.xaml.cs">
       <DependentUpon>Base4AccessPointsWindView.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Views\Base4Analogs\Base4KeyCasesWindView.xaml.cs">
+      <DependentUpon>Base4KeyCasesWindView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Base4Analogs\Base4KeyHoldersWindView.xaml.cs">
+      <DependentUpon>Base4KeyHoldersWindView.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Views\Base4Analogs\Base4ZonesWindView.xaml.cs">
       <DependentUpon>Base4ZonesWindView.xaml</DependentUpon>
     </Compile>
@@ -514,6 +520,14 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Views\Base4Analogs\Base4AccessPointsWindView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\Base4Analogs\Base4KeyCasesWindView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\Base4Analogs\Base4KeyHoldersWindView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -941,7 +955,9 @@
       <Generator>TextTemplatingFileGenerator</Generator>
       <LastGenOutput>Base4Analogs.cs</LastGenOutput>
     </Content>
-    <Resource Include="Views\Base4Analogs\Base4Analogs.xml" />
+    <Resource Include="Views\Base4Analogs\Base4Analogs.xml">
+      <SubType>Designer</SubType>
+    </Resource>
     <Content Include="Views\Views.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
       <LastGenOutput>Views.cs</LastGenOutput>

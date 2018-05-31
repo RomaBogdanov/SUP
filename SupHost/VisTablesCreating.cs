@@ -572,4 +572,46 @@ namespace SupHost
 			this.getTableBehavior = new VisEquipmentTableBehavior(); 
 		}
     }
+    /// <summary>
+    /// TableBehavior для Штыри в ключницах
+    /// </summary>
+    partial class VisKeyCasesTableBehavior : VisitorsDBTableBehavior
+    {
+        public VisKeyCasesTableBehavior()
+        {
+            this.StandartSetup("vis_key_case", "f_key_case_id");
+        }
+    }
+
+    /// <summary>
+    /// TableWrapper для Штыри в ключницах
+    /// </summary>
+	partial class VisKeyCasesTableWrapper : AbstractTableWrapper
+    {
+        public VisKeyCasesTableWrapper()
+        { 
+			this.getTableBehavior = new VisKeyCasesTableBehavior(); 
+		}
+    }
+    /// <summary>
+    /// TableBehavior для Ключницы
+    /// </summary>
+    partial class VisKeyHoldersTableBehavior : VisitorsDBTableBehavior
+    {
+        public VisKeyHoldersTableBehavior()
+        {
+            this.StandartSetup("vis_key_holder", "f_key_holder_id");
+        }
+    }
+
+    /// <summary>
+    /// TableWrapper для Ключницы
+    /// </summary>
+	partial class VisKeyHoldersTableWrapper : AbstractTableWrapper
+    {
+        public VisKeyHoldersTableWrapper()
+        { 
+			this.getTableBehavior = new VisKeyHoldersTableBehavior(); 
+		}
+    }
 }

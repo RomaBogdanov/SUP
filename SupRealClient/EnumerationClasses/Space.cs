@@ -86,4 +86,19 @@ namespace SupRealClient.EnumerationClasses
         public int OrgId { get; set; }
         public int VisId { get; set; }
     }
+
+    public class KeyCase : IdEntity
+    {
+        public string InnerCode { get; set; }
+        public string KeyHolder { get; set; }
+        public int CellNum { get; set; }
+        public string Descript { get; set; }
+    }
+
+    public class KeyHolder: IdEntity
+    {
+        public string KeyHolderNum { get; set; }
+        public string Descript { get; set; }
+        public int Count { get; set; }
+    }
 }
