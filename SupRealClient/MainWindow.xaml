@@ -7,7 +7,7 @@
         xmlns:local="clr-namespace:SupRealClient.ViewModels"
         xmlns:mah="http://metro.mahapps.com/winfx/xaml/controls"
         mc:Ignorable="d"
-        Title="Программа учёта посетителей" FontSize="18"
+        Title="Система учёта посетителей" FontSize="18"
         Height="350" Width="525"
         WindowState="Maximized" 
         StateChanged="Window_StateChanged">
