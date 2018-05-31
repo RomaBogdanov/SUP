@@ -187,9 +187,7 @@ namespace SupRealClient.ViewModels
             if (IsUserEnter)
             {
                 var bidsViewModel = new BidsViewModel
-                {
-                    BidsModel = new BidsModel() ,
-                    
+                { BidsModel = new BidsModel()                     
                 };
 
                 var window = new BidsView {DataContext = bidsViewModel};

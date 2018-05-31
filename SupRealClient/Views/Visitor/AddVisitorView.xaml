@@ -14,141 +14,7 @@
     <mah:MetroWindow.Resources>
         <ResourceDictionary>
             <BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter"/>
-            <Style x:Key="DatePickerStyle1" TargetType="{x:Type DatePicker}">
-                <Setter Property="Background" Value="{DynamicResource ControlBackgroundBrush}"/>
-                <Setter Property="BorderBrush" Value="{DynamicResource TextBoxBorderBrush}"/>
-                <Setter Property="BorderThickness" Value="1"/>
-                <Setter Property="CalendarStyle" Value="{DynamicResource MahApps.Metro.Styles.BaseMetroCalendar}"/>
-                <Setter Property="mah:ControlsHelper.FocusBorderBrush" Value="{DynamicResource TextBoxFocusBorderBrush}"/>
-                <Setter Property="mah:ControlsHelper.MouseOverBorderBrush" Value="{DynamicResource TextBoxMouseOverBorderBrush}"/>
-                <Setter Property="mah:TextBoxHelper.ButtonWidth" Value="22"/>
-                <Setter Property="mah:TextBoxHelper.IsMonitoring" Value="True"/>
-                <Setter Property="FontFamily" Value="{DynamicResource ContentFontFamily}"/>
-                <Setter Property="FontSize" Value="{DynamicResource ContentFontSize}"/>
-                <Setter Property="Foreground" Value="{DynamicResource TextBrush}"/>
-                <Setter Property="IsTodayHighlighted" Value="True"/>
-                <Setter Property="MinHeight" Value="26"/>
-                <Setter Property="Padding" Value="2"/>
-                <Setter Property="SelectedDateFormat" Value="Short"/>
-                <Setter Property="SnapsToDevicePixels" Value="True"/>
-                <Setter Property="Template">
-                    <Setter.Value>
-                        <ControlTemplate TargetType="{x:Type DatePicker}">
-                            <Grid x:Name="PART_Root">
-                                <Border x:Name="Base" BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="{TemplateBinding BorderThickness}" Background="{TemplateBinding Background}" SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}"/>
-                                <Grid x:Name="PART_InnerGrid" Margin="{TemplateBinding Padding}">
-                                    <Grid.ColumnDefinitions>
-                                        <ColumnDefinition Width="*"/>
-                                        <ColumnDefinition x:Name="ButtonColumn" Width="Auto"/>
-                                    </Grid.ColumnDefinitions>
-                                    <Grid.RowDefinitions>
-                                        <RowDefinition Height="Auto"/>
-                                        <RowDefinition x:Name="ButtonRow" Height="*"/>
-                                    </Grid.RowDefinitions>
-                                    <Button x:Name="PART_Button" Grid.Column="1" Foreground="{TemplateBinding Foreground}" IsTabStop="False" Grid.RowSpan="2" Style="{DynamicResource ButtonStyle}">
-                                        <ContentControl Content="M34,52H31V38.5C29.66,39.9 28.16,40.78 26.34,41.45V37.76C27.3,37.45 28.34,36.86 29.46,36C30.59,35.15 31.36,34.15 31.78,33H34V52M45,52V48H37V45L45,33H48V45H50V48H48V52H45M45,45V38.26L40.26,45H45M18,57V23H23V20A2,2 0 0,1 25,18H29C30.11,18 31,18.9 31,20V23H45V20A2,2 0 0,1 47,18H51C52.11,18 53,18.9 53,20V23H58V57H18M21,54H55V31H21V54M48.5,20A1.5,1.5 0 0,0 47,21.5V24.5A1.5,1.5 0 0,0 48.5,26H49.5C50.34,26 51,25.33 51,24.5V21.5A1.5,1.5 0 0,0 49.5,20H48.5M26.5,20A1.5,1.5 0 0,0 25,21.5V24.5A1.5,1.5 0 0,0 26.5,26H27.5A1.5,1.5 0 0,0 29,24.5V21.5A1.5,1.5 0 0,0 27.5,20H26.5Z" Height="{TemplateBinding mah:TextBoxHelper.ButtonWidth}" Padding="2" Style="{DynamicResource PathIconContentControlStyle}" Width="{TemplateBinding mah:TextBoxHelper.ButtonWidth}"/>
-                                    </Button>
-                                    <DatePickerTextBox x:Name="PART_TextBox" CaretBrush="{DynamicResource BlackBrush}" Grid.Column="0" Foreground="{TemplateBinding Foreground}" Focusable="{TemplateBinding Focusable}" FontSize="{TemplateBinding FontSize}" HorizontalContentAlignment="{TemplateBinding HorizontalContentAlignment}" Grid.Row="1" SelectionBrush="{DynamicResource HighlightBrush}" VerticalContentAlignment="{TemplateBinding VerticalContentAlignment}" mah:TextBoxHelper.WatermarkTrimming="{Binding (mah:TextBoxHelper.WatermarkTrimming), Mode=OneWay, RelativeSource={RelativeSource TemplatedParent}}" mah:TextBoxHelper.Watermark="{Binding (mah:TextBoxHelper.Watermark), Mode=OneWay, RelativeSource={RelativeSource TemplatedParent}}" mah:TextBoxHelper.WatermarkAlignment="{Binding (mah:TextBoxHelper.WatermarkAlignment), Mode=OneWay, RelativeSource={RelativeSource TemplatedParent}}"/>
-                                    <ContentControl x:Name="PART_FloatingMessageContainer" Grid.Column="0" Grid.Row="0" Style="{DynamicResource FloatingMessageContainerStyle}">
-                                        <ContentControl.Height>
-                                            <MultiBinding Converter="{mah1:MathMultiplyConverter}" UpdateSourceTrigger="Default">
-                                                <Binding ElementName="PART_FloatingMessage" Mode="OneWay" Path="ActualHeight"/>
-                                                <Binding ElementName="PART_FloatingMessageContainer" Mode="OneWay" Path="Opacity"/>
-                                            </MultiBinding>
-                                        </ContentControl.Height>
-                                        <TextBlock x:Name="PART_FloatingMessage" Foreground="{TemplateBinding Foreground}" HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}" Style="{DynamicResource MetroAutoCollapsingTextBlock}" TextAlignment="{TemplateBinding mah:TextBoxHelper.WatermarkAlignment}" Text="{TemplateBinding mah:TextBoxHelper.Watermark}" TextTrimming="{TemplateBinding mah:TextBoxHelper.WatermarkTrimming}" VerticalAlignment="{TemplateBinding VerticalContentAlignment}">
-                                            <TextBlock.RenderTransform>
-                                                <TranslateTransform>
-                                                    <TranslateTransform.Y>
-                                                        <MultiBinding Converter="{mah1:MathSubtractConverter}" UpdateSourceTrigger="Default">
-                                                            <Binding ElementName="PART_FloatingMessage" Mode="OneWay" Path="ActualHeight"/>
-                                                            <Binding ElementName="PART_FloatingMessageContainer" Mode="OneWay" Path="ActualHeight"/>
-                                                        </MultiBinding>
-                                                    </TranslateTransform.Y>
-                                                </TranslateTransform>
-                                            </TextBlock.RenderTransform>
-                                        </TextBlock>
-                                    </ContentControl>
-                                    <Popup x:Name="PART_Popup" AllowsTransparency="True" Grid.Column="0" Placement="Bottom" Grid.Row="1" StaysOpen="False"/>
-                                </Grid>
-                                <Border x:Name="DisabledVisualElement" BorderBrush="{DynamicResource ControlsDisabledBrush}" BorderThickness="{TemplateBinding BorderThickness}" Background="{DynamicResource ControlsDisabledBrush}" IsHitTestVisible="False" Opacity="0" SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}" HorizontalAlignment="Left" Width="342"/>
-                            </Grid>
-                            <ControlTemplate.Triggers>
-                                <Trigger Property="mah:ControlsHelper.IsReadOnly" Value="True">
-                                    <Setter Property="IsEnabled" TargetName="PART_Button" Value="False"/>
-                                    <Setter Property="IsReadOnly" TargetName="PART_TextBox" Value="True"/>
-                                </Trigger>
-                                <Trigger Property="IsMouseOver" Value="True">
-                                    <Setter Property="BorderBrush" TargetName="Base" Value="{Binding (mah:ControlsHelper.MouseOverBorderBrush), RelativeSource={RelativeSource TemplatedParent}}"/>
-                                </Trigger>
-                                <Trigger Property="IsFocused" SourceName="PART_TextBox" Value="True">
-                                    <Setter Property="BorderBrush" TargetName="Base" Value="{Binding (mah:ControlsHelper.FocusBorderBrush), RelativeSource={RelativeSource TemplatedParent}}"/>
-                                    <Setter Property="Foreground" TargetName="PART_FloatingMessage" Value="{DynamicResource AccentColorBrush}"/>
-                                    <Setter Property="Opacity" TargetName="PART_FloatingMessage" Value="1"/>
-                                </Trigger>
-                                <Trigger Property="IsKeyboardFocusWithin" Value="True">
-                                    <Setter Property="BorderBrush" TargetName="Base" Value="{Binding (mah:ControlsHelper.FocusBorderBrush), RelativeSource={RelativeSource TemplatedParent}}"/>
-                                </Trigger>
-                                <Trigger Property="IsEnabled" Value="False">
-                                    <Setter Property="Opacity" TargetName="DisabledVisualElement" Value="0.6"/>
-                                </Trigger>
-                                <Trigger Property="IsMouseOver" SourceName="PART_Button" Value="True">
-                                    <Setter Property="Background" TargetName="PART_Button" Value="{DynamicResource GrayBrush8}"/>
-                                    <Setter Property="Foreground" TargetName="PART_Button" Value="{DynamicResource AccentColorBrush}"/>
-                                </Trigger>
-                                <Trigger Property="IsPressed" SourceName="PART_Button" Value="True">
-                                    <Setter Property="Background" TargetName="PART_Button" Value="{DynamicResource BlackBrush}"/>
-                                    <Setter Property="Foreground" TargetName="PART_Button" Value="{DynamicResource WhiteBrush}"/>
-                                </Trigger>
-                                <MultiDataTrigger>
-                                    <MultiDataTrigger.Conditions>
-                                        <Condition Binding="{Binding IsVisible, RelativeSource={RelativeSource Self}}" Value="True"/>
-                                        <Condition Binding="{Binding (mah:TextBoxHelper.UseFloatingWatermark), RelativeSource={RelativeSource Self}}" Value="True"/>
-                                        <Condition Binding="{Binding (mah:TextBoxHelper.HasText), RelativeSource={RelativeSource Self}}" Value="True"/>
-                                    </MultiDataTrigger.Conditions>
-                                    <MultiDataTrigger.EnterActions>
-                                        <BeginStoryboard>
-                                            <Storyboard>
-                                                <ObjectAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.Visibility)" Storyboard.TargetName="PART_FloatingMessageContainer">
-                                                    <DiscreteObjectKeyFrame KeyTime="0">
-                                                        <DiscreteObjectKeyFrame.Value>
-                                                            <Visibility>Visible</Visibility>
-                                                        </DiscreteObjectKeyFrame.Value>
-                                                    </DiscreteObjectKeyFrame>
-                                                </ObjectAnimationUsingKeyFrames>
-                                                <DoubleAnimation Duration="0:0:0.2" From="0" To="1" Storyboard.TargetProperty="Opacity" Storyboard.TargetName="PART_FloatingMessageContainer">
-                                                    <DoubleAnimation.EasingFunction>
-                                                        <ExponentialEase EasingMode="EaseInOut" Exponent="2"/>
-                                                    </DoubleAnimation.EasingFunction>
-                                                </DoubleAnimation>
-                                            </Storyboard>
-                                        </BeginStoryboard>
-                                    </MultiDataTrigger.EnterActions>
-                                    <MultiDataTrigger.ExitActions>
-                                        <BeginStoryboard>
-                                            <Storyboard>
-                                                <DoubleAnimation Duration="0:0:0.2" From="1" To="0" Storyboard.TargetProperty="Opacity" Storyboard.TargetName="PART_FloatingMessageContainer">
-                                                    <DoubleAnimation.EasingFunction>
-                                                        <ExponentialEase EasingMode="EaseInOut" Exponent="2"/>
-                                                    </DoubleAnimation.EasingFunction>
-                                                </DoubleAnimation>
-                                                <ObjectAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.Visibility)" Storyboard.TargetName="PART_FloatingMessageContainer">
-                                                    <DiscreteObjectKeyFrame KeyTime="0:0:0.2">
-                                                        <DiscreteObjectKeyFrame.Value>
-                                                            <Visibility>Collapsed</Visibility>
-                                                        </DiscreteObjectKeyFrame.Value>
-                                                    </DiscreteObjectKeyFrame>
-                                                </ObjectAnimationUsingKeyFrames>
-                                            </Storyboard>
-                                        </BeginStoryboard>
-                                    </MultiDataTrigger.ExitActions>
-                                </MultiDataTrigger>
-                            </ControlTemplate.Triggers>
-                        </ControlTemplate>
-                    </Setter.Value>
-                </Setter>
-                <Setter Property="Validation.ErrorTemplate" Value="{DynamicResource ValidationErrorTemplate}"/>
-            </Style>
+           
         </ResourceDictionary>
     </mah:MetroWindow.Resources>
 
@@ -497,7 +363,7 @@
                                     Text="Дата"                                       
                                     Height="25"
                                     Margin="2,8"
-                            Style="{DynamicResource DatePickerStyle1}" Grid.ColumnSpan="2"
+                            Style="{DynamicResource DatePickerStyle}" Grid.ColumnSpan="2"
                             >
 
                             <DatePicker.Resources>

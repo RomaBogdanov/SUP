@@ -43,9 +43,8 @@ namespace SupRealClient.ViewModels
         {
             get { return BidsModel?.CurrentSingleOrder; }
             set
-            {   //if (BidsModel != null & BidsModel.CurrentSingleOrder.From == null)
-                { BidsModel.CurrentSingleOrder.From = DateTime.Now; }
-                    if (BidsModel != null)
+            {  
+                 if (BidsModel != null)
                 {   
                     BidsModel.CurrentSingleOrder = value;                    
                     OnPropertyChanged();
