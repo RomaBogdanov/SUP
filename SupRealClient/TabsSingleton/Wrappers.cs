@@ -937,4 +937,64 @@ namespace SupRealClient.TabsSingleton
         }
     }
 
+	/// <summary>
+	/// ??
+	/// </summary>
+	partial class KeyCasesWrapper : TableWrapper
+	{
+		static KeyCasesWrapper currentTable;
+
+        public static KeyCasesWrapper CurrentTable()
+        {
+            if (currentTable == null)
+            {
+                currentTable = new KeyCasesWrapper();
+                wrappers.Add(currentTable);
+            }
+            return currentTable;
+        }
+
+		public override void Dispose()
+        {
+            base.Dispose();
+            currentTable = null;
+        }
+
+        private KeyCasesWrapper() : base()
+        {
+            this.table = connector.GetTable(TableName.VisKeyCases);
+            this.Subscribe();
+        }
+    }
+
+	/// <summary>
+	/// ??
+	/// </summary>
+	partial class KeyHoldersWrapper : TableWrapper
+	{
+		static KeyHoldersWrapper currentTable;
+
+        public static KeyHoldersWrapper CurrentTable()
+        {
+            if (currentTable == null)
+            {
+                currentTable = new KeyHoldersWrapper();
+                wrappers.Add(currentTable);
+            }
+            return currentTable;
+        }
+
+		public override void Dispose()
+        {
+            base.Dispose();
+            currentTable = null;
+        }
+
+        private KeyHoldersWrapper() : base()
+        {
+            this.table = connector.GetTable(TableName.VisKeyHolders);
+            this.Subscribe();
+        }
+    }
+
 }

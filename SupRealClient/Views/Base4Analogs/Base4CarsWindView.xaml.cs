@@ -37,14 +37,26 @@ namespace SupRealClient.Views
             base4.BaseTab.Columns.Add(dataGridTextColumn);
             dataGridTextColumn = new DataGridTextColumn
             {
-                Header = "Номер",
+                Header = "Гос.номер",
                 Binding = new Binding("CarNumber")
+            };
+            base4.BaseTab.Columns.Add(dataGridTextColumn);
+            dataGridTextColumn = new DataGridTextColumn
+            {
+                Header = "Заявитель",
+                Binding = new Binding("VisitorId")
             };
             base4.BaseTab.Columns.Add(dataGridTextColumn);
             dataGridTextColumn = new DataGridTextColumn
             {
                 Header = "Организация",
                 Binding = new Binding("OrgId")
+            };
+            base4.BaseTab.Columns.Add(dataGridTextColumn);
+            dataGridTextColumn = new DataGridTextColumn
+            {
+                Header = "Цвет",
+                Binding = new Binding("Color")
             };
             base4.BaseTab.Columns.Add(dataGridTextColumn);
 

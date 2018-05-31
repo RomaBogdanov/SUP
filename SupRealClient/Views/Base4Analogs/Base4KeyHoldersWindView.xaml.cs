@@ -15,11 +15,11 @@ using System.Windows.Shapes;
 namespace SupRealClient.Views
 {
     /// <summary>
-    /// Логика взаимодействия для Base4DoorsWindView.xaml
+    /// Логика взаимодействия для Base4KeyHolderWindView.xaml
     /// </summary>
-    public partial class Base4DoorsWindView
+    public partial class Base4KeyHoldersWindView
     {
-        public Base4DoorsWindView()
+        public Base4KeyHoldersWindView()
         {
             InitializeComponent();
             base4.tbxSearch.Focus();
@@ -32,7 +32,7 @@ namespace SupRealClient.Views
             DataGridTextColumn dataGridTextColumn = new DataGridTextColumn
             {
                 Header = "Номер",
-                Binding = new Binding("DoorNum")
+                Binding = new Binding("KeyHolderNum")
             };
             base4.BaseTab.Columns.Add(dataGridTextColumn);
             dataGridTextColumn = new DataGridTextColumn
@@ -43,23 +43,10 @@ namespace SupRealClient.Views
             base4.BaseTab.Columns.Add(dataGridTextColumn);
             dataGridTextColumn = new DataGridTextColumn
             {
-                Header = "Внутреннее помещение",
-                Binding = new Binding("SpaceIn")
+                Header = "Колич. ячеек",
+                Binding = new Binding("Count")
             };
             base4.BaseTab.Columns.Add(dataGridTextColumn);
-            dataGridTextColumn = new DataGridTextColumn
-            {
-                Header = "Внешнее помещение",
-                Binding = new Binding("SpaceOut")
-            };
-            base4.BaseTab.Columns.Add(dataGridTextColumn);
-            dataGridTextColumn = new DataGridTextColumn
-            {
-                Header = "Точка доступа",
-                Binding = new Binding("AccessPointId")
-            };
-            base4.BaseTab.Columns.Add(dataGridTextColumn);
-
 
         }
 
