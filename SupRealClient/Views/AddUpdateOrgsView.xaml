@@ -115,7 +115,7 @@
             Grid.Column="0"
             Grid.ColumnSpan="2" 
             Margin="2"
-            TabIndex="4"
+            IsTabStop="False"
             IsReadOnly="True"
             FontSize="{Binding FontSize}"
             Text="{Binding Path=FullName, Mode=TwoWay}"
@@ -157,7 +157,7 @@
             Grid.Column="0"
             Grid.ColumnSpan="2"
             Margin="2"
-            TabIndex="6"
+            IsTabStop="False"
             FontSize="{Binding FontSize}"
             IsReadOnly="True"
             Text="{Binding Path=Country, Mode=TwoWay}"
@@ -170,7 +170,7 @@
             Grid.Column="2"
             Content="..."
             Margin="2"
-            TabIndex="5"
+            TabIndex="4"
             IsEnabled="{Binding Path=CountryRegionEnabled, Mode=OneWay}"
             Style="{StaticResource ButtonStyle}"/>
 
@@ -199,7 +199,7 @@
             Grid.Column="0"
             Grid.ColumnSpan="2"
             Margin="2"
-            TabIndex="8"
+            IsTabStop="False"
             IsReadOnly="True"
             Text="{Binding Path=Region, Mode=TwoWay}"
             FontSize="{Binding FontSize}"
@@ -212,7 +212,7 @@
             Grid.Column="2"
             Content="..."
             Margin="2"
-            TabIndex="7"
+            TabIndex="5"
             IsEnabled="{Binding Path=CountryRegionEnabled, Mode=OneWay}"
             Style="{StaticResource ButtonStyle}"/>
         
@@ -233,7 +233,7 @@
             Grid.Column="0"
             Command="{Binding Path=Ok}"
             Margin="2"
-            TabIndex="9"
+            TabIndex="6"
             Style="{StaticResource ButtonStyle}"
             KeyDown="btnOK_KeyDown">
             <Grid Width="140">
@@ -259,7 +259,7 @@
             Grid.Column="1" 
             Grid.ColumnSpan="3"
             Margin="2"
-            TabIndex="10"
+            TabIndex="7"
             Command="{Binding Path=Cancel}"
             Style="{StaticResource ButtonStyle}">
             <Grid Width="140">
