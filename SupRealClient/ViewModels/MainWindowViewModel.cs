@@ -5,6 +5,7 @@ using System.Windows.Controls;
 using SupClientConnectionLib;
 using SupRealClient.Views;
 using SupRealClient.EnumerationClasses;
+using System;
 
 namespace SupRealClient.ViewModels
 {
@@ -187,7 +188,8 @@ namespace SupRealClient.ViewModels
             {
                 var bidsViewModel = new BidsViewModel
                 {
-                    BidsModel = new BidsModel()
+                    BidsModel = new BidsModel() ,
+                    
                 };
 
                 var window = new BidsView {DataContext = bidsViewModel};

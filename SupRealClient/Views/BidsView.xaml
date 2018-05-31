@@ -4,6 +4,8 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:SupRealClient.Views"
+                     xmlns:wpfx="http://schemas.xceed.com/wpf/xaml/toolkit"    
+       xmlns:gl="clr-namespace:System.Globalization;assembly=mscorlib"
         xmlns:mah="http://metro.mahapps.com/winfx/xaml/controls"
         mc:Ignorable="d"
         Title="Заявки" 
@@ -69,17 +71,39 @@
                             HorizontalAlignment="Left"
                             Style="{StaticResource TextBLockStyle}"/>
 
-                        <TextBox
+                        <!--<TextBox
                             Text="{Binding CurrentSingleOrder.From, Mode=TwoWay}"
                             Grid.Column="1"
-                            Style="{StaticResource TextBoxStyle}"/>
-                        
-                        <Button
+                            Style="{StaticResource TextBoxStyle}"/>-->
+
+                        <DatePicker
+                                   
+                                    Grid.Column="1"
+                                    SelectedDate="{Binding CurrentSingleOrder.From, Mode=TwoWay}"                                   
+                                    Margin="20"
+                            >
+                            <DatePicker.Resources>
+                                
+                                <Style TargetType="{x:Type DatePickerTextBox}">
+                                    
+                                    <Setter Property="Control.Template">
+                                        <Setter.Value>
+                                            <ControlTemplate>
+                                                <wpfx:MaskedTextBox x:Name="PART_TextBox" Mask="00/00/0000" 
+                                    Text="{ Binding Path=SelectedDate,ConverterCulture={x:Static gl:CultureInfo.CurrentCulture}, StringFormat=dd/MM/yyyy, RelativeSource={RelativeSource AncestorType={x:Type DatePicker}}}" />
+                                            </ControlTemplate>
+                                        </Setter.Value>
+                                    </Setter>
+                                </Style>
+                            </DatePicker.Resources>
+                        </DatePicker>
+
+                        <!--<Button
                             Grid.Column="2"
                             Width="25"
                             Height="25"
                             Content="..."
-                            Style="{StaticResource VisitorsSquareButtonStyle}"/>
+                            Style="{StaticResource VisitorsSquareButtonStyle}"/>-->
                     </Grid>
                     
                     <DataGrid
@@ -217,7 +241,8 @@
                             Text="{Binding CurrentTemporaryOrder.RegNumber, Mode=TwoWay}"
                             Grid.Column="1"
                             Style="{StaticResource TextBoxStyle}"/>
-                        
+
+
                         <CheckBox
                             Grid.Column="2"
                             HorizontalAlignment="Center"
@@ -246,35 +271,75 @@
                             Text="От"
                             Style="{StaticResource TextBLockStyle}"/>
 
-                        <TextBox
+                        <!--<TextBox
                             Text="{Binding CurrentTemporaryOrder.From, Mode=TwoWay}"
                             Grid.Column="1"
-                            Style="{StaticResource TextBoxStyle}"/>
+                            Style="{StaticResource TextBoxStyle}"/>-->
+                        <DatePicker
+                                   
+                                    Grid.Column="1"
+                                    SelectedDate="{Binding CurrentTemporaryOrder.From, Mode=TwoWay}"                                   
+                                    Margin="15"
+                            >
+                            <DatePicker.Resources>
 
-                        <Button
+                                <Style TargetType="{x:Type DatePickerTextBox}">
+
+                                    <Setter Property="Control.Template">
+                                        <Setter.Value>
+                                            <ControlTemplate>
+                                                <wpfx:MaskedTextBox x:Name="PART_TextBox" Mask="00/00/0000" 
+                                    Text="{ Binding Path=SelectedDate,ConverterCulture={x:Static gl:CultureInfo.CurrentCulture}, StringFormat=dd/MM/yyyy, RelativeSource={RelativeSource AncestorType={x:Type DatePicker}}}" />
+                                            </ControlTemplate>
+                                        </Setter.Value>
+                                    </Setter>
+                                </Style>
+                            </DatePicker.Resources>
+                        </DatePicker>
+                        <!--<Button
                             Grid.Column="2"
                             Width="25"
                             Height="25"
                             Content="..."
-                            Style="{StaticResource VisitorsSquareButtonStyle}"/>
+                            Style="{StaticResource VisitorsSquareButtonStyle}"/>-->
                         
                         <TextBlock
                             Grid.Column="3"
                             Text="До"
                             Style="{StaticResource TextBLockStyle}"/>
                         
-                        <TextBox
+                        <!--<TextBox
                             Text="{Binding CurrentTemporaryOrder.To, Mode=TwoWay}"
                             Grid.Column="4"
-                            Style="{StaticResource TextBoxStyle}"/>
+                            Style="{StaticResource TextBoxStyle}"/>-->
+                        <DatePicker
+                                   
+                                    Grid.Column="4"
+                                    SelectedDate="{Binding CurrentTemporaryOrder.To, Mode=TwoWay}"                                   
+                                    Margin="15"
+                            >
+                            <DatePicker.Resources>
 
-                        <Button
+                                <Style TargetType="{x:Type DatePickerTextBox}">
+
+                                    <Setter Property="Control.Template">
+                                        <Setter.Value>
+                                            <ControlTemplate>
+                                                <wpfx:MaskedTextBox x:Name="PART_TextBox" Mask="00/00/0000" 
+                                    Text="{ Binding Path=SelectedDate,ConverterCulture={x:Static gl:CultureInfo.CurrentCulture}, StringFormat=dd/MM/yyyy, RelativeSource={RelativeSource AncestorType={x:Type DatePicker}}}" />
+                                            </ControlTemplate>
+                                        </Setter.Value>
+                                    </Setter>
+                                </Style>
+                            </DatePicker.Resources>
+                        </DatePicker>
+                        <!--<Button
                             Grid.Column="5"
                             Width="25"
                             Height="25"
                             HorizontalAlignment="Left"
                             Content="..."
-                            Style="{StaticResource VisitorsSquareButtonStyle}"/>
+                            Style="{StaticResource VisitorsSquareButtonStyle}"/>-->
                     </Grid>
                     
                     <DataGrid
@@ -422,34 +487,74 @@
                             Text="От"
                             Style="{StaticResource TextBLockStyle}"/>
                         
-                        <TextBox
+                        <!--<TextBox
                              Text="{Binding CurrentVirtueOrder.From, Mode=TwoWay}"
                             Grid.Column="1"
-                            Style="{StaticResource TextBoxStyle}"/>
-                        
-                        <Button
+                            Style="{StaticResource TextBoxStyle}"/>-->
+                        <DatePicker
+                                   
+                                    Grid.Column="1"
+                                    SelectedDate="{Binding CurrentVirtueOrder.From, Mode=TwoWay}"                                   
+                                    Margin="25"
+                            >
+                            <DatePicker.Resources>
+
+                                <Style TargetType="{x:Type DatePickerTextBox}">
+
+                                    <Setter Property="Control.Template">
+                                        <Setter.Value>
+                                            <ControlTemplate>
+                                                <wpfx:MaskedTextBox x:Name="PART_TextBox" Mask="00/00/0000" 
+                                    Text="{ Binding Path=SelectedDate,ConverterCulture={x:Static gl:CultureInfo.CurrentCulture}, StringFormat=dd/MM/yyyy, RelativeSource={RelativeSource AncestorType={x:Type DatePicker}}}" />
+                                            </ControlTemplate>
+                                        </Setter.Value>
+                                    </Setter>
+                                </Style>
+                            </DatePicker.Resources>
+                        </DatePicker>
+                        <!--<Button
                             Grid.Column="2"
                             Content="..."
                             Width="25"
                             Height="25"
-                            Style="{StaticResource VisitorsSquareButtonStyle}"/>
+                            Style="{StaticResource VisitorsSquareButtonStyle}"/>-->
                         
                         <TextBlock
                             Grid.Column="3"
                             Text="До"
                             Style="{StaticResource TextBLockStyle}"/>
                         
-                        <TextBox
+                        <!--<TextBox
                              Text="{Binding CurrentVirtueOrder.To, Mode=TwoWay}"
                             Grid.Column="4"
-                            Style="{StaticResource TextBoxStyle}"/>
-                        
-                        <Button
+                            Style="{StaticResource TextBoxStyle}"/>-->
+                        <DatePicker
+                                   
+                                    Grid.Column="4"
+                                    SelectedDate="{Binding CurrentVirtueOrder.To, Mode=TwoWay}"                                   
+                                    Margin="25"
+                            >
+                            <DatePicker.Resources>
+
+                                <Style TargetType="{x:Type DatePickerTextBox}">
+
+                                    <Setter Property="Control.Template">
+                                        <Setter.Value>
+                                            <ControlTemplate>
+                                                <wpfx:MaskedTextBox x:Name="PART_TextBox" Mask="00/00/0000" 
+                                    Text="{ Binding Path=SelectedDate,ConverterCulture={x:Static gl:CultureInfo.CurrentCulture}, StringFormat=dd/MM/yyyy, RelativeSource={RelativeSource AncestorType={x:Type DatePicker}}}" />
+                                            </ControlTemplate>
+                                        </Setter.Value>
+                                    </Setter>
+                                </Style>
+                            </DatePicker.Resources>
+                        </DatePicker>
+                        <!--<Button
                             Grid.Column="5"
                             Content="..."
                             Width="25"
                             Height="25"
-                            Style="{StaticResource VisitorsSquareButtonStyle}"/>
+                            Style="{StaticResource VisitorsSquareButtonStyle}"/>-->
                     </Grid>
                     
                     <Grid

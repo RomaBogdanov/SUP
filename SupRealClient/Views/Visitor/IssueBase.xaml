@@ -5,6 +5,8 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:SupRealClient.Views.Visitor"
         xmlns:mah="http://metro.mahapps.com/winfx/xaml/controls"
+                   xmlns:wpfx="http://schemas.xceed.com/wpf/xaml/toolkit"    
+       xmlns:gl="clr-namespace:System.Globalization;assembly=mscorlib"
         mc:Ignorable="d"
         Title="Основание выдачи" Height="300" Width="400">
 
@@ -107,17 +109,35 @@
                 FontSize="15"
                 Style="{StaticResource TextBLockStyle}"/>
             
-            <DatePicker
+            <!--<DatePicker
                 Grid.Column="1"
                 Text="Выберите дату">
+            </DatePicker>-->
+            <DatePicker
+                                   
+                                    Grid.Column="1"
+                                    SelectedDate="{Binding Path=CurrentItem.AgreeToDate, Mode=TwoWay}"
+                                    IsEnabled="{Binding Path=TextEnable, Mode=TwoWay}"
+                                    Text="Дата">
+                <DatePicker.Resources>
+                    <Style TargetType="{x:Type DatePickerTextBox}">
+                        <Setter Property="Control.Template">
+                            <Setter.Value>
+                                <ControlTemplate>
+                                    <wpfx:MaskedTextBox x:Name="PART_TextBox" Mask="00/00/0000" 
+                                    Text="{ Binding Path=SelectedDate,ConverterCulture={x:Static gl:CultureInfo.CurrentCulture}, StringFormat=dd/MM/yyyy, RelativeSource={RelativeSource AncestorType={x:Type DatePicker}}}" />
+                                </ControlTemplate>
+                            </Setter.Value>
+                        </Setter>
+                    </Style>
+                </DatePicker.Resources>
             </DatePicker>
-
-            <Button
+            <!--<Button
                 Grid.Column="2"
                 Content="..."
                 Width="25"
                 Height="25"
-                Style="{StaticResource ButtonStyle}"/>
+                Style="{StaticResource ButtonStyle}"/>-->
         </Grid>
 
         <Grid
@@ -136,17 +156,36 @@
                 FontSize="15"
                 Style="{StaticResource TextBLockStyle}"/>
 
-            <DatePicker
+            <!--<DatePicker
                 Grid.Column="1"
                 Text="Выберите дату">
+            </DatePicker>-->
+            <DatePicker
+                                   
+                                    Grid.Column="1"
+                                    SelectedDate="{Binding Path=CurrentItem.AgreeToDate, Mode=TwoWay}"
+                                    IsEnabled="{Binding Path=TextEnable, Mode=TwoWay}"
+                                    Text="Дата">
+                <DatePicker.Resources>
+                    <Style TargetType="{x:Type DatePickerTextBox}">
+                        <Setter Property="Control.Template">
+                            <Setter.Value>
+                                <ControlTemplate>
+                                    <wpfx:MaskedTextBox x:Name="PART_TextBox" Mask="00/00/0000" 
+                                    Text="{ Binding Path=SelectedDate,ConverterCulture={x:Static gl:CultureInfo.CurrentCulture}, StringFormat=dd/MM/yyyy, RelativeSource={RelativeSource AncestorType={x:Type DatePicker}}}" />
+                                </ControlTemplate>
+                            </Setter.Value>
+                        </Setter>
+                    </Style>
+                </DatePicker.Resources>
             </DatePicker>
 
-            <Button
+            <!--<Button
                 Grid.Column="2"
                 Content="..."
                 Width="25"
                 Height="25"
-                Style="{StaticResource ButtonStyle}"/>
+                Style="{StaticResource ButtonStyle}"/>-->
         </Grid>
         
         <TextBlock

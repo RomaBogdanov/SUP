@@ -43,10 +43,11 @@ namespace SupRealClient.ViewModels
         {
             get { return BidsModel?.CurrentSingleOrder; }
             set
-            {
-                if (BidsModel != null)
-                {
-                    BidsModel.CurrentSingleOrder = value;
+            {   //if (BidsModel != null & BidsModel.CurrentSingleOrder.From == null)
+                { BidsModel.CurrentSingleOrder.From = DateTime.Now; }
+                    if (BidsModel != null)
+                {   
+                    BidsModel.CurrentSingleOrder = value;                    
                     OnPropertyChanged();
                 }
             }
@@ -252,7 +253,7 @@ namespace SupRealClient.ViewModels
         public ObservableCollection<Order> TemporaryOrdersSet { get; set; }
         public ObservableCollection<Order> VirtueOrdersSet { get; set; }
         public ObservableCollection<Order> OrdersSet { get; set; }
-        public Order CurrentSingleOrder { get; set; }
+        public Order CurrentSingleOrder { get; set; } 
         public Order CurrentTemporaryOrder { get; set; }
         public Order CurrentVirtueOrder
         {

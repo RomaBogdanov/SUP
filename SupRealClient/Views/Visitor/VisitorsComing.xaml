@@ -4,7 +4,10 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:SupRealClient.Views.Visitor"
+        xmlns:sys="clr-namespace:System;assembly=mscorlib"
         xmlns:mah="http://metro.mahapps.com/winfx/xaml/controls"
+        xmlns:wpfx="http://schemas.xceed.com/wpf/xaml/toolkit"    
+        xmlns:gl="clr-namespace:System.Globalization;assembly=mscorlib"
         mc:Ignorable="d"
         Title="Приход посетителя" 
         Height="220" Width="450"
@@ -77,15 +80,51 @@
                 <ColumnDefinition/>
             </Grid.ColumnDefinitions>
 
-            <DatePicker
+            <!--<DatePicker
                 Grid.Column="0"
                 Margin="10"
                 Text="Дата">
+            </DatePicker>-->
+            <DatePicker
+                                   Margin="10"
+                                    Grid.Column="0"
+                                    SelectedDate="{x:Static sys:DateTime.Now}"
+                                   
+                                    Text="Дата">
+                <DatePicker.Resources>
+                    <Style TargetType="{x:Type DatePickerTextBox}">
+                        <Setter Property="Control.Template">
+                            <Setter.Value>
+                                <ControlTemplate>
+                                    <wpfx:MaskedTextBox x:Name="PART_TextBox" Mask="00/00/0000" 
+                                    Text="{ Binding Path=SelectedDate,ConverterCulture={x:Static gl:CultureInfo.CurrentCulture}, StringFormat=dd/MM/yyyy, RelativeSource={RelativeSource AncestorType={x:Type DatePicker}}}" />
+                                </ControlTemplate>
+                            </Setter.Value>
+                        </Setter>
+                    </Style>
+                </DatePicker.Resources>
             </DatePicker>
-
-            <TextBox
+            
+            <mah:TimePicker
+                   Margin="10"
+                   Grid.Column="1"                                  
+                   SelectedTime="{x:Static sys:DateTime.Now}">
+                <mah:TimePicker.Resources>
+                    <Style TargetType="{x:Type DatePickerTextBox}">
+                        <Setter Property="Control.Template">
+                            <Setter.Value>
+                                <ControlTemplate>
+                                    <wpfx:MaskedTextBox x:Name="PART_TextBox" Mask="00:00" 
+                                    Text="{ Binding Path=SelectedTime,ConverterCulture={x:Static gl:CultureInfo.CurrentCulture}, StringFormat=HH:mm, RelativeSource={RelativeSource AncestorType={x:Type mah:TimePicker}}}" />
+                                </ControlTemplate>
+                            </Setter.Value>
+                        </Setter>
+                    </Style>
+                </mah:TimePicker.Resources>
+            </mah:TimePicker>
+            <!--<TextBox
                 Grid.Column="1"
-                Style="{StaticResource TextBoxStyle}"/>
+                Style="{StaticResource TextBoxStyle}"/>-->
         </Grid>
 
         <Button

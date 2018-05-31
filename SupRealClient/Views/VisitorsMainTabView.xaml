@@ -5,6 +5,8 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:SupRealClient.Views"
         xmlns:mah="http://metro.mahapps.com/winfx/xaml/controls"
+                  xmlns:wpfx="http://schemas.xceed.com/wpf/xaml/toolkit"    
+       xmlns:gl="clr-namespace:System.Globalization;assembly=mscorlib"
         mc:Ignorable="d"
         Title="Основная" Height="350" Width="700"
         KeyDown="VisitorsMainTabView_OnKeyDown">
@@ -49,7 +51,7 @@
             Grid.Row="1"
             Grid.Column="1"
             Style="{StaticResource TextBoxStyle}"/>
-        
+
         <TextBlock 
             Grid.Row="2"
             Grid.Column="0"
@@ -71,7 +73,7 @@
             Grid.Row="3"
             Grid.Column="0"
             Grid.ColumnSpan="2">
-                
+
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="0.2*"/>
                 <ColumnDefinition/>
@@ -79,49 +81,70 @@
                 <ColumnDefinition/>
             </Grid.ColumnDefinitions>
 
-                <TextBlock
+            <TextBlock
                     Grid.Column="0"
                     Text="Серия"
                     FontSize="15"
                     Style="{StaticResource TextBLockStyle}"/>
 
-                <TextBox
+            <TextBox
                     Grid.Column="1"
                     Style="{StaticResource TextBoxStyle}"/>
 
-                <TextBlock
+            <TextBlock
                     Grid.Column="2"
                     Text="№"
                     FontSize="15"
                     Style="{StaticResource TextBLockStyle}"/>
 
-                <TextBox
+            <TextBox
                     Grid.Column="3"
                     Style="{StaticResource TextBoxStyle}"/>
-            </Grid>
+        </Grid>
 
-            <TextBlock 
+        <TextBlock 
                 Grid.Row="4"
                 Grid.Column="0"
                 Text="Дата выдачи"
                 HorizontalAlignment="Left"
                 Style="{StaticResource TextBLockStyle}"/>
 
-            <TextBox
+        <!--<TextBox
                 Grid.Row="4"
                 Grid.Column="1"
                 Text=""
                 FontSize="15"
-                Style="{StaticResource TextBoxStyle}"/>
+                Style="{StaticResource TextBoxStyle}"/>-->
+        <DatePicker
+                                   
+                Grid.Row="4"
+                Grid.Column="1"
+                Text=""
+                FontSize="15" Margin="10,10,10,11">
 
-            <TextBlock 
+            <DatePicker.Resources>
+
+                <Style TargetType="{x:Type DatePickerTextBox}">
+
+                    <Setter Property="Control.Template">
+                        <Setter.Value>
+                            <ControlTemplate>
+                                <wpfx:MaskedTextBox x:Name="PART_TextBox" Mask="00/00/0000" 
+                                    Text="{ Binding Path=SelectedDate,ConverterCulture={x:Static gl:CultureInfo.CurrentCulture}, StringFormat=dd/MM/yyyy, RelativeSource={RelativeSource AncestorType={x:Type DatePicker}}}" />
+                            </ControlTemplate>
+                        </Setter.Value>
+                    </Setter>
+                </Style>
+            </DatePicker.Resources>
+        </DatePicker>
+        <TextBlock 
                 Grid.Row="5"
                 Grid.Column="0"
                 Text="Кем выдан"
                 HorizontalAlignment="Left"
                 Style="{StaticResource TextBLockStyle}"/>
 
-            <TextBox
+        <TextBox
                 Grid.Row="5"
                 Grid.Column="1"
                 Text=""
