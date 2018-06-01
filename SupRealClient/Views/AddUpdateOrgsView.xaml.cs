@@ -16,7 +16,7 @@ namespace SupRealClient.Views
         /// <summary>
         /// Двигатель фокуса
         /// </summary>
-        private TraversalRequest _focusMover = new TraversalRequest(FocusNavigationDirection.Next);
+        private TraversalRequest _focusMover = new TraversalRequest(FocusNavigationDirection.Next);        
 
         public AddUpdateOrgsView(IAddUpdateOrgsModel model)
         {
@@ -25,8 +25,7 @@ namespace SupRealClient.Views
             ((AddUpdateOrgsViewModel)DataContext).SetModel(model);
             InitializeComponent();
 
-            AfterInitialize();
-            TypeTextBox.Focus();
+            AfterInitialize();            
         }
 
         /// <summary>
@@ -34,16 +33,40 @@ namespace SupRealClient.Views
         /// </summary>
         public AddUpdateOrgsView()
         {
-            InitializeComponent();
-            TypeTextBox.Focus();
+            InitializeComponent();            
             DataContext = new AddUpdateOrgsViewModel();
         }
-        
+
+        private void MetroWindow_Loaded(object sender, RoutedEventArgs e)
+        {
+            TypeTextBox.Focus();
+        }
+
         private void TextBox_OnKeyUp(object sender, KeyEventArgs e)
         {
             if (e.Key == Key.Enter)
             {
-                ((UIElement) sender).MoveFocus(_focusMover);
+                UIElement elementWithFocus = Keyboard.FocusedElement as UIElement;
+                if (elementWithFocus != null)
+                {
+                    elementWithFocus.MoveFocus(_focusMover);
+                }
+            }
+        }
+
+        private void tbComments_KeyUp(object sender, KeyEventArgs e)
+        {
+            if (e.Key == Key.Enter)
+            {
+                btnOK.Focus();
+            }
+        }
+
+        private void btnOK_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.Key == Key.Enter)
+            {
+                btnOK.Command.Execute(null);
             }
         }
     }
