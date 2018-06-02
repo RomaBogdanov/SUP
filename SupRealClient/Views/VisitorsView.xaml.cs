@@ -15,8 +15,8 @@
                 {
                     this.DataContext = new VisitsViewModel(this);
 
-                    this.Height = (this.DataContext as VisitsViewModel).WinSet.VisitorsHeight;
-                    this.Width = (this.DataContext as VisitsViewModel).WinSet.VisitorsWidth;
+                    this.Height = (this.DataContext as VisitsViewModel).WinSet.Height;
+                    this.Width = (this.DataContext as VisitsViewModel).WinSet.Width;
                 }
             };
         }

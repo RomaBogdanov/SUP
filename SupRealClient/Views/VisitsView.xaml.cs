@@ -244,49 +244,6 @@ namespace SupRealClient.Views
 
         public ChildWinSet WinSet { get; set; }
 
-        public class ChildWinSet : INotifyPropertyChanged
-        {
-            // Формируем размеры окна в зависимости от разрешения монитора.
-            private double screenWidth { get; set; }// = System.Windows.SystemParameters.PrimaryScreenWidth;
-            private double screenHeighth { get; set; }// = System.Windows.SystemParameters.PrimaryScreenHeight;
-            private double sizePercentHeight = 0.9;
-            private double sizePercentWidth = 0.5;
-            //WinSet.VisitorsHeight = screenHeighth* sizePercentHeight;
-            //WinSet.VisitorsWidth = screenWidth* sizePercentWidth;
-
-            private double _height;
-            private double _width;
-
-            public double VisitorsHeight
-            {
-                get { return _height; }
-                set { _height = value; OnPropertyChanged("VisitorsHeight"); }
-            }
-            public double VisitorsWidth
-            {
-                get { return _width; }
-                set { _width = value; OnPropertyChanged("VisitorsWidth"); }
-            }
-            public double VisitorsLeft { get; set; }
-            public double VisitorsTop { get; set; }
-
-            public ChildWinSet()
-            {
-                screenWidth = System.Windows.SystemParameters.PrimaryScreenWidth;
-                screenHeighth = System.Windows.SystemParameters.PrimaryScreenHeight;
-
-                VisitorsHeight = screenHeighth * sizePercentHeight;
-                VisitorsWidth = screenWidth * sizePercentWidth;
-            }
-
-            public event PropertyChangedEventHandler PropertyChanged;
-            public void OnPropertyChanged(string prop = "")
-            {
-                if (PropertyChanged != null)
-                    PropertyChanged(this, new PropertyChangedEventArgs(prop));
-            }
-        }
-
         public VisitsViewModel(IWindow view)
         {
             WinSet = new ChildWinSet(); //GlobalSettings.GetChildWindowSettings();     

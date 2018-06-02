@@ -27,7 +27,7 @@ namespace SupRealClient.Views
         /// </summary>
         public BidsViewModel()
         {
-            Settings = new ChildWinSet();
+            Settings = new ChildWinSet(0.9, 0.4);
         }
 
         public event PropertyChangedEventHandler PropertyChanged;
@@ -38,47 +38,5 @@ namespace SupRealClient.Views
         }
     }
 
-    /// <summary>
-    /// Model для размеров окна.
-    /// </summary>
-    public class ChildWinSet : INotifyPropertyChanged
-    {
-        // Формируем размеры окна в зависимости от разрешения монитора.
-        private double screenWidth { get; set; }
-        private double screenHeighth { get; set; }
-        private double sizePercentHeight = 0.9;
-        private double sizePercentWidth = 0.4;
-
-        private double _height;
-        private double _width;
-
-        public double Height
-        {
-            get { return _height; }
-            set { _height = value; OnPropertyChanged("Height"); }
-        }
-        public double Width
-        {
-            get { return _width; }
-            set { _width = value; OnPropertyChanged("Width"); }
-        }
-        public double Left { get; set; }
-        public double Top { get; set; }
-
-        public ChildWinSet()
-        {
-            screenWidth = System.Windows.SystemParameters.PrimaryScreenWidth;
-            screenHeighth = System.Windows.SystemParameters.PrimaryScreenHeight;
-
-            Height = screenHeighth * sizePercentHeight;
-            Width = screenWidth * sizePercentWidth;
-        }
-
-        public event PropertyChangedEventHandler PropertyChanged;
-        public void OnPropertyChanged(string prop = "")
-        {
-            if (PropertyChanged != null)
-                PropertyChanged(this, new PropertyChangedEventArgs(prop));
-        }
-    }
+    
 }
