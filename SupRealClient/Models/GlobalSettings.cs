@@ -32,11 +32,18 @@ namespace SupRealClient.Models
             FontSize = fontSize;
         }
 
+        /// <summary>
+        /// Размер шрифта.
+        /// </summary>
         private static int FontSize { get; set; } = 15;
 
+        /// <summary>
+        /// Получить размеры дочерних окон.
+        /// </summary>
+        /// <returns></returns>
         public static ChildWindowSettings GetChildWindowSettings()
         {
-            return ChildWindowSettings;
+            return new ChildWindowSettings();
         }
 
         public static void SetChildWindowSettings(ChildWindowSettings settings)

@@ -7,8 +7,8 @@
         xmlns:mah="http://metro.mahapps.com/winfx/xaml/controls"
         mc:Ignorable="d"
         Title="Заявки" 
-        ResizeMode="NoResize"
-        Height="800" Width="1050"
+        ResizeMode="NoResize" WindowStartupLocation="CenterScreen"
+        Height="827.512" Width="1105.5"
         KeyDown="BidsView_OnKeyDown">
 
     <!--ResizeMode="NoResize"-->

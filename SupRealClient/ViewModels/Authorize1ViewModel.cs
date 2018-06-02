@@ -202,11 +202,20 @@ namespace SupRealClient.ViewModels
                     }
 
                     int id = this.connector.Authorize(Login, Password);
+                    if (id == -1)
+                    {
+                        throw new Exception("Такого пользователя нет");
+                    }
+
 
                     logoutTimer.Stop();
                     int timeout = 0;
                     try
                     {
+                        if (id == -1)
+                        {
+                            throw new Exception("Такого пользователя нет");
+                        }
                         timeout = GetUserTimeout(id);
                     }
                     catch
