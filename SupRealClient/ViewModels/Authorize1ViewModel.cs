@@ -19,7 +19,7 @@ namespace SupRealClient.ViewModels
     class Authorize1ViewModel : INotifyPropertyChanged
     {
         private string _emptyLoginData = "Неверный логин или пароль. Введите правильные логин и пароль.";
-        private string _userNotExist = "Пользователя с таким логином нет в базе.";
+        //private string _userNotExist = "Пользователя с таким логином нет в базе.";
         private string _dbNotExist = "Выбранная база данных [Visitors] не подключена. Обратитесь к администратору системы.";
 
         public event PropertyChangedEventHandler PropertyChanged;
@@ -30,7 +30,7 @@ namespace SupRealClient.ViewModels
         private Dictionary<string, string> hosts;
         bool IsAuthorization = false;
         Timer timer;
-        int timerInterval;
+        int timerInterval; // 
         private ClientConnector connector;
         private MainWindowViewModel mainWindowViewModel;
         private string msg = "";
@@ -202,9 +202,10 @@ namespace SupRealClient.ViewModels
                     }
 
                     int id = this.connector.Authorize(Login, Password);
+                    // Случай, если нет пользователя с таким логином и паролем.
                     if (id == -1)
                     {
-                        throw new Exception("Такого пользователя нет");
+                        throw new Exception(_emptyLoginData);
                     }
 
 
@@ -212,10 +213,6 @@ namespace SupRealClient.ViewModels
                     int timeout = 0;
                     try
                     {
-                        if (id == -1)
-                        {
-                            throw new Exception("Такого пользователя нет");
-                        }
                         timeout = GetUserTimeout(id);
                     }
                     catch
