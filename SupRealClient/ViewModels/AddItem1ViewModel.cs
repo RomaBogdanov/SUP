@@ -11,6 +11,8 @@ namespace SupRealClient.ViewModels
         private IAddItem1Model model;
         private string field = "";
 
+        public string Caption { get; private set; }
+
         public string Field
         {
             get { return field; }
@@ -37,6 +39,7 @@ namespace SupRealClient.ViewModels
         public void SetModel(IAddItem1Model addItem1Model)
         {
             this.model = addItem1Model;
+            this.Caption = "Добавление";
             this.Field = model.Data.Field;
             this.Ok = new RelayCommand(arg => this.model.Ok(new FieldData { Field = Field }));
             this.Cancel = new RelayCommand(arg => this.model.Cancel());
