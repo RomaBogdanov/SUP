@@ -43,9 +43,14 @@ namespace SupRealClient.Models
 
         public void Ok(Region data)
         {
-            if (string.IsNullOrEmpty(data.Name))
+            if (data.Name.IsNullOrEmptyOrWhiteSpaces())
             {
                 MessageBox.Show("Заполните поле Название");
+                return;
+            }
+            if (data.Name.IsNullOrEmptyOrWhiteSpaces())
+            {
+                MessageBox.Show("Заполните поле Страна");
                 return;
             }
 

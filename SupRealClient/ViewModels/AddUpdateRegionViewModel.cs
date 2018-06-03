@@ -1,25 +1,27 @@
-﻿using SupRealClient.Models;
-using System.ComponentModel;
+﻿using System.ComponentModel;
+using System.Linq;
+using System.Windows.Data;
 using System.Windows.Input;
 using SupRealClient.EnumerationClasses;
-using System.Windows.Data;
+using SupRealClient.Models;
+using SupRealClient.Utils;
 
 namespace SupRealClient.ViewModels
 {
     public class AddUpdateRegionViewModel : INotifyPropertyChanged
     {
-        public event PropertyChangedEventHandler PropertyChanged;
+        private string country = "";
+        private int countryId;
         private IAddUpdateRegionModel model;
         private string name = "";
-        private int countryId = 0;
-        private string country = "";
+
         public int FontSize => GlobalSettings.GetFontSize();
 
         public string Caption { get; private set; }
 
         public string Name
         {
-            get { return name; }
+            get => name;
             set
             {
                 if (value != null)
@@ -32,7 +34,7 @@ namespace SupRealClient.ViewModels
 
         public string Country
         {
-            get { return country; }
+            get => country;
             set
             {
                 if (value != null)
@@ -48,33 +50,38 @@ namespace SupRealClient.ViewModels
         public ICommand Ok { get; set; }
 
         public ICommand Cancel { get; set; }
-
-        public AddUpdateRegionViewModel()
-        {
-        }
+        public event PropertyChangedEventHandler PropertyChanged;
 
         public void SetModel(IAddUpdateRegionModel model)
         {
             this.model = model;
-            this.Caption = model.Data.Id <= 0 ? "Добавление региона" :
-                "Редактирование региона";
-            this.CountryList =
-                new CollectionView(RegionsHelper.GetCountries(model.Data.Country));
-            this.Name = model.Data.Name;
-            this.countryId = model.Data.CountryId;
-            this.Country = model.Data.Country;
+            var isAdding = model.Data.Id <= 0;
+            Caption = isAdding ? "Добавление региона" : "Редактирование региона";
+            var countries = RegionsHelper.GetCountries().ToList();
+            if (!countries.Any(p => p.EqualsWithoutSpacesAndCase(model.Data.Country)))
+                countries.Add(model.Data.Country);
+            var visibleCountries = countries.Count(p => !p.IsNullOrEmptyOrWhiteSpaces()) > 0
+                ? countries.Where(p => !p.IsNullOrEmptyOrWhiteSpaces())
+                : countries;
 
-            this.Ok = new RelayCommand(arg => this.model.Ok(new Region
+            CountryList = new CollectionView(visibleCountries);
+            Name = model.Data.Name;
+            countryId = model.Data.CountryId;
+            Country = model.Data.Country;
+
+            Ok = new RelayCommand(arg => this.model.Ok(new Region
             {
                 Name = Name,
                 CountryId = countryId,
-                Country = Country,
+                Country = Country
             }));
-            this.Cancel = new RelayCommand(arg => this.model.Cancel());
+            Cancel = new RelayCommand(arg => this.model.Cancel());
         }
 
-        protected virtual void OnPropertyChanged(string propertyName) =>
-            this.PropertyChanged?.Invoke(this,
-            new PropertyChangedEventArgs(propertyName));
+        protected virtual void OnPropertyChanged(string propertyName)
+        {
+            PropertyChanged?.Invoke(this,
+                new PropertyChangedEventArgs(propertyName));
+        }
     }
 }
