@@ -12,6 +12,7 @@ namespace SupRealClient.ViewModels
         private string field = "";
 
         public string Caption { get; private set; }
+        public string InputHeader { get; private set; }
 
         public string Field
         {
@@ -40,6 +41,9 @@ namespace SupRealClient.ViewModels
         {
             this.model = addItem1Model;
             this.Caption = "Добавление";
+            this.InputHeader = addItem1Model is AddItemDocumentsModel ? "Введите документ:" :
+                               addItem1Model is AddItemNationsModel ? "Введите страну:" :
+                               "Введите новое имя:";
             this.Field = model.Data.Field;
             this.Ok = new RelayCommand(arg => this.model.Ok(new FieldData { Field = Field }));
             this.Cancel = new RelayCommand(arg => this.model.Cancel());
