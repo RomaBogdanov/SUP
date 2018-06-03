@@ -716,6 +716,13 @@ begin
 end
 go
 
+-- на данные строки завязан код клиентских приложений, поэтому не удалять и учитывать
+-- при работе
+
+insert into vis_spr_cardstates values ( '1', 'Активен', 'N', '11-июл-2003 14:41:24', '-1')
+insert into vis_spr_cardstates values ( '3', 'Выдан', 'N', '11-июл-2003 14:41:25', '-1')
+insert into vis_spr_cardstates values ( '4', 'Утерян', 'N', '11-июл-2003 14:41:28', '-1')
+insert into vis_spr_cardstates values ( '2', 'Неактивен', 'N', '11-июл-2003 14:41:58', '-1')
 
 -- Создание vis_spr_order_types
 -- TODO: Сделать описание таблицы
@@ -738,6 +745,14 @@ begin
 	insert into vis_spr_order_types values ( '0', '', 'N', '', '')
 end
 go
+
+-- на данные строки завязан код клиентских приложений, поэтому не удалять и учитывать
+-- при работе
+
+insert into vis_spr_order_types values ( '1', 'Разовая', 'N', '11-июл-2003 14:39:56', '-1')
+insert into vis_spr_order_types values ( '2', 'Временная', 'N', '11-июл-2003 14:39:56', '-1')
+insert into vis_spr_order_types values ( '3', 'Бессрочная', 'N', '11-июл-2003 14:39:56', '-1')
+insert into vis_spr_order_types values ( '4', 'На основании', 'N', '11-июл-2003 14:39:57', '-1')
 
 -- Создание vis_visitors
 -- Одна из основных таблиц.

@@ -19,9 +19,9 @@ namespace SupRealClient.EnumerationClasses
         public string RegNumber { get; set; } = "";
         public DateTime From { get; set; }
         public DateTime To { get; set; }
-        public int CatcherId { get; set; } = 0;
-        public string Catcher { get; set; } = "";
-        public string OrderType { get; set; } = "";
+        public int CatcherId { get; set; } = 0; // Id провожающего
+        public string Catcher { get; set; } = ""; // провожающий
+        public string OrderType { get; set; } = ""; // тип заявки
         public string Passes { get; set; } = "";
         public int SignedId { get; set; } = 0; // Id подписывающего лица
         public string Signed { get; set; } = ""; // Полное имя подписывающего

@@ -23,6 +23,14 @@ namespace SupRealClient.ViewModels
             {
                 bidsModel = value;
                 OnPropertyChanged();
+                TemporaryOrdersSet = bidsModel.TemporaryOrdersSet;
+                OrdersSet = bidsModel.OrdersSet;
+                SingleOrdersSet = bidsModel.SingleOrdersSet;
+                VirtueOrdersSet = bidsModel.VirtueOrdersSet;
+                CurrentTemporaryOrder = bidsModel.CurrentTemporaryOrder;
+                CurrentOrder = bidsModel.CurrentOrder;
+                CurrentSingleOrder = bidsModel.CurrentSingleOrder;
+                CurrentVirtueOrder = bidsModel.CurrentVirtueOrder;
             }
         }
 
@@ -130,6 +138,45 @@ namespace SupRealClient.ViewModels
             }
         }
 
+        bool isTempOrder;
+
+        public bool IsTempOrder
+        {
+            get
+            {
+                return isTempOrder;
+            }
+            set
+            {
+                isTempOrder = value;
+                if (isTempOrder)
+                {
+                    BidsModel.OrderType = OrderType.Temp;
+                }
+                OnPropertyChanged();
+            }
+        }
+
+        bool isSingleOrder;
+
+        public bool IsSingleOrder
+        {
+            get
+            {
+                return isSingleOrder;
+            }
+            set
+            {
+                isSingleOrder = value;
+                if (isSingleOrder)
+                {
+                    BidsModel.OrderType = OrderType.Single;
+                }
+
+                OnPropertyChanged();
+            }
+        }
+
         public ICommand BeginCommand { get; set; }
         public ICommand PrevCommand { get; set; }
         public ICommand NextCommand { get; set; }
@@ -162,21 +209,29 @@ namespace SupRealClient.ViewModels
         private void Begin()
         {
             BidsModel.Begin();
-        }
-
-        private void Prev()
-        {
-            BidsModel.Prev();
-        }
-
-        private void Next()
-        {
-            BidsModel.Next();
+            CurrentTemporaryOrder = BidsModel.CurrentTemporaryOrder;
+            CurrentSingleOrder = BidsModel.CurrentSingleOrder;
         }
 
         private void End()
         {
             BidsModel.End();
+            CurrentTemporaryOrder = BidsModel.CurrentTemporaryOrder;
+            CurrentSingleOrder = BidsModel.CurrentSingleOrder;
+        }
+
+        private void Next()
+        {
+            BidsModel.Next();
+            CurrentTemporaryOrder = BidsModel.CurrentTemporaryOrder;
+            CurrentSingleOrder = BidsModel.CurrentSingleOrder;
+        }
+
+        private void Prev()
+        {
+            BidsModel.Prev();
+            CurrentTemporaryOrder = BidsModel.CurrentTemporaryOrder;
+            CurrentSingleOrder = BidsModel.CurrentSingleOrder;
         }
 
         private void Search()
@@ -191,7 +246,8 @@ namespace SupRealClient.ViewModels
 
         private void New()
         {
-            BidsModel.New();
+            //BidsModel.New();
+            BidsModel = new NewBidsModel();
         }
 
         private void Edit()
@@ -206,7 +262,8 @@ namespace SupRealClient.ViewModels
 
         private void Cancel()
         {
-            BidsModel.Cancel();
+            //BidsModel.Cancel();
+            BidsModel = new BidsModel();
         }
 
         private void Further()
@@ -221,6 +278,12 @@ namespace SupRealClient.ViewModels
 
     }
 
+    public enum OrderType
+    {
+        Temp, // временная заявка
+        Single // разовая заявка
+    }
+
     public interface IBidsModel
     {
         ObservableCollection<Order> SingleOrdersSet { get; set; }
@@ -231,6 +294,7 @@ namespace SupRealClient.ViewModels
         Order CurrentTemporaryOrder { get; set; }
         Order CurrentVirtueOrder { get; set; }
         Order CurrentOrder { get; set; }
+        OrderType OrderType { get; set; }
 
         void Begin();
         void Cancel();
@@ -264,15 +328,11 @@ namespace SupRealClient.ViewModels
             get;
             set;
         }
+        public OrderType OrderType { get; set; }
 
         public BidsModel()
         {
             Query();
-        }
-
-        public void Begin()
-        {
-            throw new NotImplementedException();
         }
 
         public void Cancel()
@@ -290,11 +350,6 @@ namespace SupRealClient.ViewModels
             throw new NotImplementedException();
         }
 
-        public void End()
-        {
-            throw new NotImplementedException();
-        }
-
         public void Further()
         {
             throw new NotImplementedException();
@@ -302,20 +357,129 @@ namespace SupRealClient.ViewModels
 
         public void New()
         {
-            throw new NotImplementedException();
+
+        }
+
+        public void Begin()
+        {
+            switch (OrderType)
+            {
+                case OrderType.Temp:
+                {
+                    if (TemporaryOrdersSet.Count > 0)
+                    {
+                        CurrentTemporaryOrder = TemporaryOrdersSet[0];
+                    }
+                    break;
+                }
+                case OrderType.Single:
+                {
+                    if (SingleOrdersSet.Count > 0)
+                    {
+                        CurrentSingleOrder = SingleOrdersSet[0];
+                    }
+
+                    break;
+                }
+
+                default:
+                    throw new Exception("Unexpected Case");
+            }
+        }
+
+        public void End()
+        {
+            switch (OrderType)
+            {
+                case OrderType.Temp:
+                {
+                    if (TemporaryOrdersSet.Count > 0)
+                    {
+                        CurrentTemporaryOrder = TemporaryOrdersSet[
+                            TemporaryOrdersSet.Count - 1];
+                    }
+                    break;
+                }
+                case OrderType.Single:
+                {
+                    if (SingleOrdersSet.Count > 0)
+                    {
+                        CurrentSingleOrder = SingleOrdersSet[
+                            SingleOrdersSet.Count - 1];
+                    }
+                    break;
+                }
+
+                default:
+                    throw new Exception("Unexpected Case");
+            }
+        }
+
+        public void Prev()
+        {
+            switch (OrderType)
+            {
+                case OrderType.Temp:
+                {
+                    if (TemporaryOrdersSet.Count > 0 && TemporaryOrdersSet
+                            .IndexOf(CurrentTemporaryOrder) > 0)
+                    {
+                        CurrentTemporaryOrder = TemporaryOrdersSet[
+                            TemporaryOrdersSet.IndexOf(CurrentTemporaryOrder) - 1];
+                    }
+                    break;
+                }
+                case OrderType.Single:
+                {
+                    if (SingleOrdersSet.Count > 0 &&
+                        SingleOrdersSet.IndexOf(CurrentSingleOrder) > 0)
+                    {
+                        CurrentSingleOrder = SingleOrdersSet[
+                            SingleOrdersSet.IndexOf(CurrentSingleOrder) - 1];
+                    }
+
+                    break;
+                }
+
+                default:
+                    throw new Exception("Unexpected Case");
+            }
         }
 
         public void Next()
         {
-            throw new NotImplementedException();
+            switch (OrderType)
+            {
+                case OrderType.Temp:
+                    {
+                        if (TemporaryOrdersSet.Count > 0 && TemporaryOrdersSet
+                               .IndexOf(CurrentTemporaryOrder) <
+                           TemporaryOrdersSet.Count - 1)
+                        {
+                            CurrentTemporaryOrder = TemporaryOrdersSet[
+                                TemporaryOrdersSet.IndexOf(CurrentTemporaryOrder) + 1];
+                        }
+                        break;
+                    }
+                case OrderType.Single:
+                    {
+                        if (SingleOrdersSet.Count > 0 &&
+                            SingleOrdersSet.IndexOf(CurrentSingleOrder) < 
+                            SingleOrdersSet.Count - 1)
+                        {
+                            CurrentSingleOrder = SingleOrdersSet[
+                                SingleOrdersSet.IndexOf(CurrentSingleOrder) + 1];
+                        }
+
+                        break;
+                    }
+
+                default:
+                    throw new Exception("Unexpected Case");
+            }
         }
 
         public void Ok()
-        {
-            throw new NotImplementedException();
-        }
-
-        public void Prev()
         {
             throw new NotImplementedException();
         }
@@ -388,6 +552,92 @@ namespace SupRealClient.ViewModels
                 CurrentVirtueOrder = VirtueOrdersSet[0];
             }
 
+        }
+    }
+
+    public class NewBidsModel : IBidsModel
+    {
+        public ObservableCollection<Order> SingleOrdersSet { get; set; }
+        public ObservableCollection<Order> TemporaryOrdersSet { get; set; }
+        public ObservableCollection<Order> VirtueOrdersSet { get; set; }
+        public ObservableCollection<Order> OrdersSet { get; set; }
+        public Order CurrentSingleOrder { get; set; }
+        public Order CurrentTemporaryOrder { get; set; }
+        public Order CurrentVirtueOrder { get; set; }
+        public Order CurrentOrder { get; set; }
+        public OrderType OrderType { get; set; }
+
+        public NewBidsModel()
+        {
+            CurrentSingleOrder = new Order();
+            CurrentTemporaryOrder = new Order();
+            CurrentVirtueOrder = new Order();
+            CurrentOrder = new Order();
+
+            SingleOrdersSet = new ObservableCollection<Order> {CurrentSingleOrder};
+            TemporaryOrdersSet = new ObservableCollection<Order> {CurrentTemporaryOrder};
+            VirtueOrdersSet = new ObservableCollection<Order> {CurrentVirtueOrder};
+            OrdersSet = new ObservableCollection<Order> {CurrentOrder};
+        }
+
+        public void Begin()
+        {
+            throw new NotImplementedException();
+        }
+
+        public void Cancel()
+        {
+            throw new NotImplementedException();
+        }
+
+        public void Delay()
+        {
+            throw new NotImplementedException();
+        }
+
+        public void Edit()
+        {
+            throw new NotImplementedException();
+        }
+
+        public void End()
+        {
+            throw new NotImplementedException();
+        }
+
+        public void Further()
+        {
+            throw new NotImplementedException();
+        }
+
+        public void New()
+        {
+            throw new NotImplementedException();
+        }
+
+        public void Next()
+        {
+            throw new NotImplementedException();
+        }
+
+        public void Ok()
+        {
+            throw new NotImplementedException();
+        }
+
+        public void Prev()
+        {
+            throw new NotImplementedException();
+        }
+
+        public void Reload()
+        {
+            throw new NotImplementedException();
+        }
+
+        public void Search()
+        {
+            throw new NotImplementedException();
         }
     }
 }
