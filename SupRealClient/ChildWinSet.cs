@@ -16,7 +16,7 @@ namespace SupRealClient
         private double screenWidth { get; set; }
         private double screenHeighth { get; set; }
         private double sizePercentHeight = 0.9;
-        private double sizePercentWidth = 0.5;
+        private double sizePercentWidth = 0.45;
 
         private double _height;
         private double _width;
