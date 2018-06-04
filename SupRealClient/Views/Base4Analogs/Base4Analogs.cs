@@ -1270,7 +1270,7 @@ namespace SupRealClient.Views
                 ZonesVisibility = Visibility.Hidden,
 				WatchVisibility = Visibility.Hidden,
                 Parent = this,
-                Model = new KeysListModel<EnumerationClasses.RealKey>(),
+                Model = new RealKeysListModel<EnumerationClasses.RealKey>(),
             };
             viewModel.Model.OnClose += Handling_OnClose;
             base4.DataContext = viewModel;
@@ -1599,6 +1599,170 @@ namespace SupRealClient.Views
 				WatchVisibility = Visibility.Hidden,
                 Parent = this,
                 Model = new EquipmentsListModel<EnumerationClasses.Equipment>(),
+            };
+            viewModel.Model.OnClose += Handling_OnClose;
+            base4.DataContext = viewModel;
+
+            CreateColumns();
+        }
+
+        public void CloseWindow(CancelEventArgs e)
+        {
+            if (!IsRealClose)
+            {
+                IsRealClose = true;
+                e.Cancel = true;
+                this.Hide();
+            }
+        }
+
+        public void Unsuscribe()
+        {
+            this.Closing -= this.Window_Closing;
+        }
+
+        private void Window_Closing(object sender, CancelEventArgs e)
+        {
+            ViewManager.Instance.CloseWindow(this, true, e);
+        }
+
+        private void Handling_OnClose(object result)
+        {
+            WindowResult = result;
+            this.Close();
+        }
+
+        private void Window_StateChanged(object sender, EventArgs e)
+        {
+            ViewManager.Instance.SetChildrenState(sender as Window, false);
+        }
+
+        private void Window_Loaded(object sender, RoutedEventArgs e)
+        {
+            SetDefaultColumn();
+        }
+				
+        private void Window_PreviewKeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.Key == Key.Escape)
+            {
+                Close();
+            }
+        }
+    }
+
+    /// <summary>
+    /// Логика взаимодействия для Base4KeyCasesWindView.xaml - базовая часть для всех View
+    /// </summary>
+    public partial class Base4KeyCasesWindView : IWindow
+    {
+        public bool CanMinimize { get; private set; } = true;
+
+        public bool IsRealClose { get; set; } = true;
+
+        public string WindowName { get; private set; } = "Base4KeyCasesWindView";
+
+        public IWindow ParentWindow { get; set; }
+
+        public object WindowResult { get; set; }
+
+        public void AfterInitialize()
+        {
+            this.Closing += Window_Closing;
+            this.StateChanged += Window_StateChanged;
+            this.Loaded += Window_Loaded;
+            this.WindowStartupLocation = WindowStartupLocation.CenterScreen;
+
+            Base4ViewModel<EnumerationClasses.KeyCase> viewModel =
+            new Base4ViewModel<EnumerationClasses.KeyCase>
+            {
+                OkCaption = "OK",
+                ZonesVisibility = Visibility.Hidden,
+				WatchVisibility = Visibility.Hidden,
+                Parent = this,
+                Model = new KeyCasesListModel<EnumerationClasses.KeyCase>(),
+            };
+            viewModel.Model.OnClose += Handling_OnClose;
+            base4.DataContext = viewModel;
+
+            CreateColumns();
+        }
+
+        public void CloseWindow(CancelEventArgs e)
+        {
+            if (!IsRealClose)
+            {
+                IsRealClose = true;
+                e.Cancel = true;
+                this.Hide();
+            }
+        }
+
+        public void Unsuscribe()
+        {
+            this.Closing -= this.Window_Closing;
+        }
+
+        private void Window_Closing(object sender, CancelEventArgs e)
+        {
+            ViewManager.Instance.CloseWindow(this, true, e);
+        }
+
+        private void Handling_OnClose(object result)
+        {
+            WindowResult = result;
+            this.Close();
+        }
+
+        private void Window_StateChanged(object sender, EventArgs e)
+        {
+            ViewManager.Instance.SetChildrenState(sender as Window, false);
+        }
+
+        private void Window_Loaded(object sender, RoutedEventArgs e)
+        {
+            SetDefaultColumn();
+        }
+				
+        private void Window_PreviewKeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.Key == Key.Escape)
+            {
+                Close();
+            }
+        }
+    }
+
+    /// <summary>
+    /// Логика взаимодействия для Base4KeyHoldersWindView.xaml - базовая часть для всех View
+    /// </summary>
+    public partial class Base4KeyHoldersWindView : IWindow
+    {
+        public bool CanMinimize { get; private set; } = true;
+
+        public bool IsRealClose { get; set; } = true;
+
+        public string WindowName { get; private set; } = "Base4KeyHoldersWindView";
+
+        public IWindow ParentWindow { get; set; }
+
+        public object WindowResult { get; set; }
+
+        public void AfterInitialize()
+        {
+            this.Closing += Window_Closing;
+            this.StateChanged += Window_StateChanged;
+            this.Loaded += Window_Loaded;
+            this.WindowStartupLocation = WindowStartupLocation.CenterScreen;
+
+            Base4ViewModel<EnumerationClasses.KeyHolder> viewModel =
+            new Base4ViewModel<EnumerationClasses.KeyHolder>
+            {
+                OkCaption = "OK",
+                ZonesVisibility = Visibility.Hidden,
+				WatchVisibility = Visibility.Hidden,
+                Parent = this,
+                Model = new KeyHoldersListModel<EnumerationClasses.KeyHolder>(),
             };
             viewModel.Model.OnClose += Handling_OnClose;
             base4.DataContext = viewModel;

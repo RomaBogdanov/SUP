@@ -5,13 +5,14 @@ using System.Windows;
 using SupClientConnectionLib;
 using SupRealClient.EnumerationClasses;
 using SupRealClient.TabsSingleton;
+using SupRealClient.Utils;
 
 namespace SupRealClient.Models
 {
     /// <summary>
-    /// Добавление региона - модель
+    ///     Добавление региона - модель
     /// </summary>
-    class AddItemRegionsModel : IAddUpdateRegionModel
+    internal class AddItemRegionsModel : IAddUpdateRegionModel
     {
         public Region Data => new Region();
 
@@ -24,26 +25,32 @@ namespace SupRealClient.Models
 
         public void Ok(Region data)
         {
-            if (string.IsNullOrEmpty(data.Name))
+            if (data.Name.IsNullOrEmptyOrWhiteSpaces())
             {
                 MessageBox.Show("Заполните поле Название");
                 return;
             }
 
+            if (data.Country.IsNullOrEmptyOrWhiteSpaces())
+            {
+                MessageBox.Show("Заполните поле Страна");
+                return;
+            }
+
             data.CountryId = RegionsHelper.AddOrUpdateCountry(data.Country);
 
-            RegionsWrapper regions = RegionsWrapper.CurrentTable();
+            var regions = RegionsWrapper.CurrentTable();
             var rows = (from object row in regions.Table.Rows select row as DataRow).ToList();
 
-            var newRegion =
+            var isNewRegion =
                 rows.SingleOrDefault(
                     r =>
-                        r.Field<string>("f_region_name") == data.Name &&
+                        r.Field<string>("f_region_name").EqualsWithoutSpacesAndCase(data.Name) &&
                         r.Field<int>("f_cntr_id") == data.CountryId) == null;
 
-            if (newRegion)
+            if (isNewRegion)
             {
-                DataRow row = regions.Table.NewRow();
+                var row = regions.Table.NewRow();
                 row["f_region_name"] = data.Name;
                 row["f_cntr_id"] = data.CountryId;
                 row["f_deleted"] = "N";

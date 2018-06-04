@@ -92,6 +92,7 @@ namespace SupClientConnectionLib
                 }
                 catch
                 {
+                    authorizer.Id = -999; // Сюда приходим, если сервер указан неправильно.
                 }
             }
 

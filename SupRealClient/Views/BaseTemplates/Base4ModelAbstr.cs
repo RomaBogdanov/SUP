@@ -668,13 +668,13 @@ namespace SupRealClient.Views
         }
     }
 
-    public class KeysListModel<T> : Base4ModelAbstr<T>
+    public class RealKeysListModel<T> : Base4ModelAbstr<T>
     where T : RealKey, new()
     {
         protected override DataTable Table
         { get { return KeysWrapper.CurrentTable().Table; } }
 
-        public KeysListModel()
+        public RealKeysListModel()
         {
             KeysWrapper.CurrentTable().OnChanged += Query;
             Query();
@@ -858,7 +858,8 @@ namespace SupRealClient.Views
                CarMark = cars.Field<string>("f_car_mark"),
                CarNumber = cars.Field<string>("f_car_number"),
                OrgId = cars.Field<int>("f_org_id"),
-               VisitorId = cars.Field<int>("f_visitor_id")
+               VisitorId = cars.Field<int>("f_visitor_id"),
+               Color = cars.Field<string>("f_color")
            });
         }
 
@@ -922,6 +923,95 @@ namespace SupRealClient.Views
         protected override BaseModelResult GetResult()
         {
             return new BaseModelResult { Id = CurrentItem.Id, Name = CurrentItem.Name };
+        }
+
+        
+    }
+
+    public class KeyCasesListModel<T> : Base4ModelAbstr<T>
+        where T : KeyCase, new()
+    {
+        protected override DataTable Table
+        { get { return KeyCasesWrapper.CurrentTable().Table; } }
+
+        public KeyCasesListModel()
+        {
+            KeyCasesWrapper.CurrentTable().OnChanged += Query;
+            Query();
+            Begin();
+        }
+
+        public override void Add()
+        {
+            throw new NotImplementedException();
+        }
+
+        public override void Update()
+        {
+            throw new NotImplementedException();
+        }
+
+        protected override void DoQuery()
+        {
+            Set = new ObservableCollection<T>(
+from keyCase in Table.AsEnumerable()
+where keyCase.Field<int>("f_key_case_id") != 0
+select new T
+{
+   Id = keyCase.Field<int>("f_key_case_id"),
+   InnerCode = keyCase.Field<string>("f_inner_code"),
+   KeyHolder = keyCase.Field<string>("f_key_holder_num"),
+   CellNum = keyCase.Field<int>("f_cell_num"),
+   Descript = keyCase.Field<string>("f_descript")
+});
+        }
+
+        protected override BaseModelResult GetResult()
+        {
+            return new BaseModelResult { Id = CurrentItem.Id, Name = CurrentItem.InnerCode };
+        }
+    }
+
+    public class KeyHoldersListModel<T> : Base4ModelAbstr<T>
+        where T : KeyHolder, new()
+    {
+        protected override DataTable Table
+        { get { return KeyHoldersWrapper.CurrentTable().Table; } }
+
+        public KeyHoldersListModel()
+        {
+            KeyHoldersWrapper.CurrentTable().OnChanged += Query;
+            Query();
+            Begin();
+        }
+
+        public override void Add()
+        {
+            throw new NotImplementedException();
+        }
+
+        public override void Update()
+        {
+            throw new NotImplementedException();
+        }
+
+        protected override void DoQuery()
+        {
+            Set = new ObservableCollection<T>(
+from keyHolder in Table.AsEnumerable()
+where keyHolder.Field<int>("f_key_holder_id") != 0
+select new T
+{
+    Id = keyHolder.Field<int>("f_key_holder_id"),
+    KeyHolderNum = keyHolder.Field<string>("f_key_holder_num"),
+    Descript = keyHolder.Field<string>("f_descript"),
+    Count = keyHolder.Field<int>("f_count")
+});
+        }
+
+        protected override BaseModelResult GetResult()
+        {
+            return new BaseModelResult { Id = CurrentItem.Id, Name = CurrentItem.KeyHolderNum };
         }
     }
 }

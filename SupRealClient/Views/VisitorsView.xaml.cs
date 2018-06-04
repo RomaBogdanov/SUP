@@ -11,9 +11,12 @@
 
             Loaded += (s, e) =>
             {
-                if (DataContext == null)
+                if (this.DataContext == null)
                 {
-                    DataContext = new VisitsViewModel(this);
+                    this.DataContext = new VisitsViewModel(this);
+
+                    this.Height = (this.DataContext as VisitsViewModel).WinSet.Height;
+                    this.Width = (this.DataContext as VisitsViewModel).WinSet.Width;
                 }
             };
         }

@@ -105,6 +105,10 @@ namespace SupRealClient.ViewModels
                 ViewManager.Instance.OpenWindow("Base4AccessPointsWindView"));
         public ICommand ListKeysClick { get; set; } = new RelayCommand(arg =>
                 ViewManager.Instance.OpenWindow("Base4KeysWindView"));
+        public ICommand ListKeyHoldersClick { get; set; } = new RelayCommand(arg =>
+                ViewManager.Instance.OpenWindow("Base4KeyHoldersWindView"));
+        public ICommand ListKeyCasesClick { get; set; } = new RelayCommand(arg =>
+                 ViewManager.Instance.OpenWindow("Base4KeyCasesWindView"));
         public ICommand ListSchedulesClick { get; set; } = new RelayCommand(arg =>
                 ViewManager.Instance.OpenWindow("Base4SchedulesWindView"));
         public ICommand ListAccessLevelsClick { get; set; } = new RelayCommand(arg =>

@@ -235,11 +235,18 @@ namespace SupRealClient.Views
         public ICommand EditMainDocumentCommand { get; set; }
         public ICommand RemoveMainDocumentCommand { get; set; }
 
-        public ChildWindowSettings WindowSettings { get; set; }
+        private ChildWindowSettings _windowSettings;
+        public ChildWindowSettings WindowSettings
+        {
+            get { return _windowSettings; }
+            set { _windowSettings = value; OnPropertyChanged("WindowSettings"); }
+        }
+
+        public ChildWinSet WinSet { get; set; }
 
         public VisitsViewModel(IWindow view)
         {
-            WindowSettings = GlobalSettings.GetChildWindowSettings();
+            WinSet = new ChildWinSet(); GlobalSettings.GetChildWindowSettings();     
 
             this.view = view;
             Model = new VisitsModel();

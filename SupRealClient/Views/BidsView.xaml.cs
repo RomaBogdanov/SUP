@@ -22,6 +22,9 @@ namespace SupRealClient.Views
         public BidsView()
         {
             InitializeComponent();
+            this.DataContext = new BidsViewModel(); // Контекст данных.
+            this.Height = (this.DataContext as BidsViewModel).Settings.Height;
+            this.Width = (this.DataContext as BidsViewModel).Settings.Width;
         }
 
         private void BidsView_OnKeyDown(object sender, KeyEventArgs e)
@@ -31,5 +34,5 @@ namespace SupRealClient.Views
                 Close();
             }
         }
-    }
+    }    
 }

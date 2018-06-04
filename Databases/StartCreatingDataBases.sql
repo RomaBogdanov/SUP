@@ -225,6 +225,7 @@ create table vis_cars
 	f_car_number varchar(20), -- номер машины
 	f_org_id int, -- номер организации
 	f_visitor_id int, -- номер водителя
+	f_color varchar(25), -- цвет машины
 	f_deleted                      CHAR(1),
     f_rec_date                     DATE,
     f_rec_operator                 int
@@ -235,7 +236,7 @@ add primary key (f_car_id)
 
 if not exists(select * from vis_cars where f_car_id = '0')
 begin
-	insert into vis_cars values ('0', '', '', '', '', 'N', '', '')
+	insert into vis_cars values ('0', '', '', '', '', '', 'N', '', '')
 end
 go
 
@@ -323,7 +324,6 @@ CREATE TABLE vis_doors
 	f_space_in int, -- id внутреннего помещения.
 	f_space_out int, -- id внешнего помещения.
 	f_access_point_id int, -- id точки доступа.
-	f_key_id int, -- id ключа
 	f_deleted                      CHAR(1),
     f_rec_date                     DATE,
     f_rec_operator                 int
@@ -334,38 +334,7 @@ add primary key (f_door_id)
 
 if not exists (select * from vis_doors where f_door_id = '0')
 begin
-	insert into vis_doors values ('0', '', '', '', '', '', '', 'N', '', '')
-end
-go
-
--- Создание vis_equipment
--- Таблица проносимого материального имущества.
-
-if OBJECT_ID('vis_equipment') is not null
-	drop table vis_equipment;
-
-create table vis_equipment
-(
-	f_equip_id int not null,
-	f_equip_name varchar(100), -- наименование мат. имущества
-	f_equip_count int, -- количество проносимых
-	f_equip_num varchar(50), -- инвентарный или серийный номер
-	f_direct varchar(15), -- направление внос, вынос, перемещение
-	f_from date, -- время, с которого разрешено перемещение
-	f_to date, -- время, по которое разрешено перемещение
-	f_org_id int, -- номер организации
-	f_visitor_id int, -- номер посетителя
-	f_deleted                      CHAR(1),
-    f_rec_date                     DATE,
-    f_rec_operator                 int
-)
-
-alter table vis_equipment
-	add primary key(f_equip_id)
-
-if not exists(select * from vis_equipment where f_equip_id='0')
-begin
-	insert into vis_equipment values ('0', '', '', '', '', '', '', '', '', 'N', '', '')
+	insert into vis_doors values ('0', '', '', '', '', '', 'N', '', '')
 end
 go
 
@@ -384,6 +353,57 @@ begin
 	insert into vis_flag values ( '0', 'N')
 end
 go
+
+-- Создание vis_key_case
+-- Таблица с описанием штырей. Штырь и пенал - одно и тоже.
+
+if OBJECT_ID('vis_key_case') is not null
+	drop table vis_key_case
+
+create table vis_key_case
+(
+	f_key_case_id int not null,
+	f_inner_code varchar(25), -- внутренний код штыря
+	f_key_holder_num varchar(25), -- номер ключницы
+	f_cell_num int, -- номер ячейки
+	f_descript varchar(200), -- описание
+	f_deleted                      CHAR(1),
+    f_rec_date                     DATE,
+    f_rec_operator                 int
+)
+
+alter table vis_key_case
+	add primary key(f_key_case_id)
+
+if not exists(select * from vis_key_case where f_key_case_id='0')
+begin
+	insert into vis_key_case values ('0', '', '', '', '', 'N', '', '')
+end
+
+-- Создание vis_key_holder
+-- Таблица с описанием ключниц.
+
+if OBJECT_ID('vis_key_holder') is not null
+	drop table vis_key_holder
+
+create table vis_key_holder
+(
+	f_key_holder_id int not null,
+	f_key_holder_num varchar(25), -- номер ключницы
+	f_descript varchar(200), -- описание
+	f_count int, -- количество ячеек в ключнице
+	f_deleted                      CHAR(1),
+    f_rec_date                     DATE,
+    f_rec_operator                 int
+)
+
+alter table vis_key_holder
+	add primary key(f_key_holder_id)
+
+if not exists(select * from vis_key_holder where f_key_holder_id='0')
+begin
+	insert into vis_key_holder values ('0', '', '', '', 'N', '', '')
+end
 
 -- Создание vis_keys
 -- Таблица с описанием ключа. Доработать (?)
@@ -696,6 +716,13 @@ begin
 end
 go
 
+-- на данные строки завязан код клиентских приложений, поэтому не удалять и учитывать
+-- при работе
+
+insert into vis_spr_cardstates values ( '1', 'Активен', 'N', '11-июл-2003 14:41:24', '-1')
+insert into vis_spr_cardstates values ( '3', 'Выдан', 'N', '11-июл-2003 14:41:25', '-1')
+insert into vis_spr_cardstates values ( '4', 'Утерян', 'N', '11-июл-2003 14:41:28', '-1')
+insert into vis_spr_cardstates values ( '2', 'Неактивен', 'N', '11-июл-2003 14:41:58', '-1')
 
 -- Создание vis_spr_order_types
 -- TODO: Сделать описание таблицы
@@ -718,6 +745,14 @@ begin
 	insert into vis_spr_order_types values ( '0', '', 'N', '', '')
 end
 go
+
+-- на данные строки завязан код клиентских приложений, поэтому не удалять и учитывать
+-- при работе
+
+insert into vis_spr_order_types values ( '1', 'Разовая', 'N', '11-июл-2003 14:39:56', '-1')
+insert into vis_spr_order_types values ( '2', 'Временная', 'N', '11-июл-2003 14:39:56', '-1')
+insert into vis_spr_order_types values ( '3', 'Бессрочная', 'N', '11-июл-2003 14:39:56', '-1')
+insert into vis_spr_order_types values ( '4', 'На основании', 'N', '11-июл-2003 14:39:57', '-1')
 
 -- Создание vis_visitors
 -- Одна из основных таблиц.

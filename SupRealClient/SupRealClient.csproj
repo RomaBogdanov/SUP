@@ -98,6 +98,7 @@
     <Compile Include="Behaviour\InverseBooleanConverterюcs.cs" />
     <Compile Include="Behaviour\SearchValueConverter.cs" />
     <Compile Include="Behaviour\SupDateConverter.cs" />
+    <Compile Include="ChildWinSet.cs" />
     <Compile Include="Common\CommonHelper.cs" />
     <Compile Include="Common\Interfaces\IBase4ViewModel.cs" />
     <Compile Include="EnumerationClasses\Cabinet.cs" />
@@ -178,6 +179,7 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>Wrappers.tt</DependentUpon>
     </Compile>
+    <Compile Include="Utils\StringExtensions.cs" />
     <Compile Include="ViewModels\AddUpdateCardViewModel.cs" />
     <Compile Include="ViewModels\AddUpdateRegionViewModel.cs" />
     <Compile Include="Models\AddUpdateModel\AddUpdateAbstrModel.cs" />
@@ -259,6 +261,12 @@
     <Compile Include="Views\Base4Analogs\Base4AccessPointsWindView.xaml.cs">
       <DependentUpon>Base4AccessPointsWindView.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Views\Base4Analogs\Base4KeyCasesWindView.xaml.cs">
+      <DependentUpon>Base4KeyCasesWindView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Base4Analogs\Base4KeyHoldersWindView.xaml.cs">
+      <DependentUpon>Base4KeyHoldersWindView.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Views\Base4Analogs\Base4ZonesWindView.xaml.cs">
       <DependentUpon>Base4ZonesWindView.xaml</DependentUpon>
     </Compile>
@@ -309,6 +317,7 @@
     <Compile Include="Views\BaseTemplates\Наследники Base4ModelAbstr\OrganizationsListModel.cs" />
     <Compile Include="Views\BaseTemplates\Наследники Base4ModelAbstr\RegionsListModel.cs" />
     <Compile Include="Views\BaseTemplates\Наследники Base4ModelAbstr\VisitorsListModel.cs" />
+    <Compile Include="Views\BidsViewModel.cs" />
     <Compile Include="Views\DocumentImagesView.xaml.cs">
       <DependentUpon>DocumentImagesView.xaml</DependentUpon>
     </Compile>
@@ -514,6 +523,14 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Views\Base4Analogs\Base4AccessPointsWindView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\Base4Analogs\Base4KeyCasesWindView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\Base4Analogs\Base4KeyHoldersWindView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -941,7 +958,9 @@
       <Generator>TextTemplatingFileGenerator</Generator>
       <LastGenOutput>Base4Analogs.cs</LastGenOutput>
     </Content>
-    <Resource Include="Views\Base4Analogs\Base4Analogs.xml" />
+    <Resource Include="Views\Base4Analogs\Base4Analogs.xml">
+      <SubType>Designer</SubType>
+    </Resource>
     <Content Include="Views\Views.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
       <LastGenOutput>Views.cs</LastGenOutput>
