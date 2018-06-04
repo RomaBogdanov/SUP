@@ -179,6 +179,7 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>Wrappers.tt</DependentUpon>
     </Compile>
+    <Compile Include="Utils\StringExtensions.cs" />
     <Compile Include="ViewModels\AddUpdateCardViewModel.cs" />
     <Compile Include="ViewModels\AddUpdateRegionViewModel.cs" />
     <Compile Include="Models\AddUpdateModel\AddUpdateAbstrModel.cs" />
