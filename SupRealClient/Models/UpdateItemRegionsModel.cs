@@ -5,6 +5,7 @@ using SupRealClient.EnumerationClasses;
 using SupRealClient.TabsSingleton;
 using System.Windows;
 using SupRealClient.Common;
+using SupRealClient.Utils;
 
 namespace SupRealClient.Models
 {
