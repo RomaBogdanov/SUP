@@ -22,7 +22,6 @@ namespace SupRealClient.EnumerationClasses
         public int SpaceIn { get; set; }
         public int SpaceOut { get; set; }
         public int AccessPointId { get; set; }
-        public int KeyId { get; set; }
     }
 
     public class Area : IdEntity
@@ -72,7 +71,8 @@ namespace SupRealClient.EnumerationClasses
         public string CarMark { get; set; }
         public string CarNumber { get; set; }
         public int OrgId { get; set; }
-        public int VisitorId { get; set; } // имя водителя
+        public int VisitorId { get; set; } // имя заявителя
+        public string Color { get; set; } // цвет машины
     }
 
     public class Equipment : IdEntity
@@ -85,5 +85,20 @@ namespace SupRealClient.EnumerationClasses
         public DateTime To { get; set; }
         public int OrgId { get; set; }
         public int VisId { get; set; }
+    }
+
+    public class KeyCase : IdEntity
+    {
+        public string InnerCode { get; set; }
+        public string KeyHolder { get; set; }
+        public int CellNum { get; set; }
+        public string Descript { get; set; }
+    }
+
+    public class KeyHolder: IdEntity
+    {
+        public string KeyHolderNum { get; set; }
+        public string Descript { get; set; }
+        public int Count { get; set; }
     }
 }

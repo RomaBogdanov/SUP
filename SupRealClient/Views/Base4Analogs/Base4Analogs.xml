@@ -16,9 +16,11 @@
   <Item Name="Areas" Type="Area" />
   <Item Name="AreasSpaces" Type="AreaSpace" />
   <Item Name="AccessPoints" Type="AccessPoint" />
-  <Item Name="Keys" Type="Key" />
+  <Item Name="Keys" Type="RealKey" />
   <Item Name="Schedules" Type="Schedule" />
   <Item Name="AccessLevels" Type="AccessLevel" />
   <Item Name="Cars" Type="Car" />
   <Item Name="Equipments" Type="Equipment" />
+  <Item Name="KeyCases" Type="KeyCase" />
+  <Item Name="KeyHolders" Type="KeyHolder" />
 </Enum>

@@ -10,6 +10,9 @@ using SupRealClient.Common.Interfaces;
 using SupRealClient.Common;
 using SupRealClient.TabsSingleton;
 using SupRealClient.Models;
+using SupRealClient.Models.AddUpdateModel;
+using SupRealClient.ViewModels.AddUpdateViewModel;
+using SupRealClient.Views.AddUpdateView;
 
 namespace SupRealClient.Views
 {
@@ -510,97 +513,6 @@ namespace SupRealClient.Views
         }
     }
 
-    public class SpacesListModel<T> : Base4ModelAbstr<T>
-        where T : Space, new()
-    {
-        protected override DataTable Table
-        { get { return SpacesWrapper.CurrentTable().Table; } }
-
-        public SpacesListModel()
-        {
-            SpacesWrapper.CurrentTable().OnChanged += Query;
-            Query();
-            Begin();
-        }
-
-        public override void Add()
-        {
-            throw new NotImplementedException();
-        }
-
-        public override void Update()
-        {
-            throw new NotImplementedException();
-        }
-
-        protected override void DoQuery()
-        {
-            Set = new ObservableCollection<T>(
-                from spaces in Table.AsEnumerable()
-                where spaces.Field<int>("f_space_id") != 0
-                select new T
-                {
-                    Id = spaces.Field<int>("f_space_id"),
-                    NumReal = spaces.Field<string>("f_num_real"),
-                    NumBuild = spaces.Field<string>("f_num_build"),
-                    Descript = spaces.Field<string>("f_descript"),
-                    Note = spaces.Field<string>("f_note")
-                });
-        }
-
-        protected override BaseModelResult GetResult()
-        {
-            return new BaseModelResult { Id = CurrentItem.Id, Name = CurrentItem.NumReal };
-
-        }
-    }
-
-    public class DoorsListModel<T> : Base4ModelAbstr<T>
-        where T : Door, new()
-    {
-        protected override DataTable Table
-        { get { return DoorsWrapper.CurrentTable().Table; } }
-
-        public DoorsListModel()
-        {
-            DoorsWrapper.CurrentTable().OnChanged += Query;
-            Query();
-            Begin();
-        }
-
-        public override void Add()
-        {
-            throw new NotImplementedException();
-        }
-
-        public override void Update()
-        {
-            throw new NotImplementedException();
-        }
-
-        protected override void DoQuery()
-        {
-            Set = new ObservableCollection<T>(
-                    from doors in Table.AsEnumerable()
-                    where doors.Field<int>("f_door_id") != 0
-                    select new T
-                    {
-                        Id = doors.Field<int>("f_door_id"),
-                        DoorNum = doors.Field<string>("f_door_num"),
-                        Descript = doors.Field<string>("f_descript"),
-                        SpaceIn = doors.Field<int>("f_space_in"),
-                        SpaceOut = doors.Field<int>("f_space_out"),
-                        AccessPointId = doors.Field<int>("f_access_point_id"),
-                        KeyId = doors.Field<int>("f_key_id")
-                    });
-        }
-
-        protected override BaseModelResult GetResult()
-        {
-            return new BaseModelResult { Id = CurrentItem.Id, Name = CurrentItem.DoorNum };
-        }
-    }
-
     public class AreasListModel<T> : Base4ModelAbstr<T>
         where T : Area, new()
     {
@@ -616,7 +528,16 @@ namespace SupRealClient.Views
 
         public override void Add()
         {
-            throw new NotImplementedException();
+            AddUpdateAbstrModel model = new AddAreaModel();
+            AddUpdateBaseViewModel viewModel = new AddUpdateBaseViewModel
+            {
+                Model = model
+            };
+            AddUpdateAreaWindView view = new AddUpdateAreaWindView();
+            view.DataContext = viewModel;
+            model.OnClose += view.Handling_OnClose;
+            view.ShowDialog();
+            object res = view.WindowResult;
         }
 
         public override void Update()
@@ -658,7 +579,16 @@ namespace SupRealClient.Views
 
         public override void Add()
         {
-            throw new NotImplementedException();
+            AddUpdateAbstrModel model = new AddAreaSpaceModel();
+            AddUpdateBaseViewModel viewModel = new AddUpdateBaseViewModel
+            {
+                Model = model
+            };
+            AddUpdateAreaSpaceWindView view = new AddUpdateAreaSpaceWindView();
+            view.DataContext = viewModel;
+            model.OnClose += view.Handling_OnClose;
+            view.ShowDialog();
+            object res = view.WindowResult;
         }
 
         public override void Update()
@@ -700,7 +630,16 @@ namespace SupRealClient.Views
 
         public override void Add()
         {
-            throw new NotImplementedException();
+            AddUpdateAbstrModel model = new AddAccessPointModel();
+            AddUpdateBaseViewModel viewModel = new AddUpdateBaseViewModel
+            {
+                Model = model
+            };
+            AddUpdateAccessPointWindView view = new AddUpdateAccessPointWindView();
+            view.DataContext = viewModel;
+            model.OnClose += view.Handling_OnClose;
+            view.ShowDialog();
+            object res = view.WindowResult;
         }
 
         public override void Update()
@@ -729,13 +668,13 @@ namespace SupRealClient.Views
         }
     }
 
-    public class KeysListModel<T> : Base4ModelAbstr<T>
+    public class RealKeysListModel<T> : Base4ModelAbstr<T>
     where T : RealKey, new()
     {
         protected override DataTable Table
         { get { return KeysWrapper.CurrentTable().Table; } }
 
-        public KeysListModel()
+        public RealKeysListModel()
         {
             KeysWrapper.CurrentTable().OnChanged += Query;
             Query();
@@ -744,7 +683,16 @@ namespace SupRealClient.Views
 
         public override void Add()
         {
-            throw new NotImplementedException();
+            AddUpdateAbstrModel model = new AddRealKeyModel();
+            AddUpdateBaseViewModel viewModel = new AddUpdateBaseViewModel
+            {
+                Model = model
+            };
+            AddUpdateKeyWindView view = new AddUpdateKeyWindView();
+            view.DataContext = viewModel;
+            model.OnClose += view.Handling_OnClose;
+            view.ShowDialog();
+            object res = view.WindowResult;
         }
 
         public override void Update()
@@ -829,7 +777,16 @@ namespace SupRealClient.Views
 
         public override void Add()
         {
-            throw new NotImplementedException();
+            AddUpdateAbstrModel model = new AddAccessLevelModel();
+            AddUpdateBaseViewModel viewModel = new AddUpdateBaseViewModel
+            {
+                Model = model
+            };
+            AddUpdateAccessLevelWindView view = new AddUpdateAccessLevelWindView();
+            view.DataContext = viewModel;
+            model.OnClose += view.Handling_OnClose;
+            view.ShowDialog();
+            object res = view.WindowResult;
         }
 
         public override void Update()
@@ -873,7 +830,16 @@ namespace SupRealClient.Views
 
         public override void Add()
         {
-            throw new NotImplementedException();
+            AddUpdateAbstrModel model = new AddCarModel();
+            AddUpdateBaseViewModel viewModel = new AddUpdateBaseViewModel
+            {
+                Model = model
+            };
+            AddUpdateCarWindView view = new AddUpdateCarWindView();
+            view.DataContext = viewModel;
+            model.OnClose += view.Handling_OnClose;
+            view.ShowDialog();
+            object res = view.WindowResult;
         }
 
         public override void Update()
@@ -892,7 +858,8 @@ namespace SupRealClient.Views
                CarMark = cars.Field<string>("f_car_mark"),
                CarNumber = cars.Field<string>("f_car_number"),
                OrgId = cars.Field<int>("f_org_id"),
-               VisitorId = cars.Field<int>("f_visitor_id")
+               VisitorId = cars.Field<int>("f_visitor_id"),
+               Color = cars.Field<string>("f_color")
            });
         }
 
@@ -917,7 +884,16 @@ namespace SupRealClient.Views
 
         public override void Add()
         {
-            throw new NotImplementedException();
+            AddUpdateAbstrModel model = new AddEquipmentModel();
+            AddUpdateBaseViewModel viewModel = new AddUpdateBaseViewModel
+            {
+                Model = model
+            };
+            AddUpdateEquipmentWindView view = new AddUpdateEquipmentWindView();
+            view.DataContext = viewModel;
+            model.OnClose += view.Handling_OnClose;
+            view.ShowDialog();
+            object res = view.WindowResult;
         }
 
         public override void Update()
@@ -947,6 +923,95 @@ namespace SupRealClient.Views
         protected override BaseModelResult GetResult()
         {
             return new BaseModelResult { Id = CurrentItem.Id, Name = CurrentItem.Name };
+        }
+
+        
+    }
+
+    public class KeyCasesListModel<T> : Base4ModelAbstr<T>
+        where T : KeyCase, new()
+    {
+        protected override DataTable Table
+        { get { return KeyCasesWrapper.CurrentTable().Table; } }
+
+        public KeyCasesListModel()
+        {
+            KeyCasesWrapper.CurrentTable().OnChanged += Query;
+            Query();
+            Begin();
+        }
+
+        public override void Add()
+        {
+            throw new NotImplementedException();
+        }
+
+        public override void Update()
+        {
+            throw new NotImplementedException();
+        }
+
+        protected override void DoQuery()
+        {
+            Set = new ObservableCollection<T>(
+from keyCase in Table.AsEnumerable()
+where keyCase.Field<int>("f_key_case_id") != 0
+select new T
+{
+   Id = keyCase.Field<int>("f_key_case_id"),
+   InnerCode = keyCase.Field<string>("f_inner_code"),
+   KeyHolder = keyCase.Field<string>("f_key_holder_num"),
+   CellNum = keyCase.Field<int>("f_cell_num"),
+   Descript = keyCase.Field<string>("f_descript")
+});
+        }
+
+        protected override BaseModelResult GetResult()
+        {
+            return new BaseModelResult { Id = CurrentItem.Id, Name = CurrentItem.InnerCode };
+        }
+    }
+
+    public class KeyHoldersListModel<T> : Base4ModelAbstr<T>
+        where T : KeyHolder, new()
+    {
+        protected override DataTable Table
+        { get { return KeyHoldersWrapper.CurrentTable().Table; } }
+
+        public KeyHoldersListModel()
+        {
+            KeyHoldersWrapper.CurrentTable().OnChanged += Query;
+            Query();
+            Begin();
+        }
+
+        public override void Add()
+        {
+            throw new NotImplementedException();
+        }
+
+        public override void Update()
+        {
+            throw new NotImplementedException();
+        }
+
+        protected override void DoQuery()
+        {
+            Set = new ObservableCollection<T>(
+from keyHolder in Table.AsEnumerable()
+where keyHolder.Field<int>("f_key_holder_id") != 0
+select new T
+{
+    Id = keyHolder.Field<int>("f_key_holder_id"),
+    KeyHolderNum = keyHolder.Field<string>("f_key_holder_num"),
+    Descript = keyHolder.Field<string>("f_descript"),
+    Count = keyHolder.Field<int>("f_count")
+});
+        }
+
+        protected override BaseModelResult GetResult()
+        {
+            return new BaseModelResult { Id = CurrentItem.Id, Name = CurrentItem.KeyHolderNum };
         }
     }
 }

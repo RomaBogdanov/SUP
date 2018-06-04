@@ -31,4 +31,6 @@
   <Item Name="AccessLevelWrapper" Type="VisAccessLevel" Comment="??" />
   <Item Name="CarsWrapper" Type="VisCars" Comment="??" />
   <Item Name="EquipmentWrapper" Type="VisEquipment" Comment="??" />
+  <Item Name="KeyCasesWrapper" Type="VisKeyCases" Comment="??" />
+  <Item Name="KeyHoldersWrapper" Type="VisKeyHolders" Comment="??" />
 </Enum>

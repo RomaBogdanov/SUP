@@ -73,15 +73,15 @@
                 Text="Пароль:"
                 HorizontalAlignment="Left"
                 Style="{StaticResource TextBLockStyle}"/>
-            
+
             <PasswordBox 
                 Grid.Row="4" 
                 Grid.Column="0"
                 Grid.ColumnSpan="2" 
-                FontSize="{Binding FontSize}" 
+                FontSize="{Binding FontSize}"
                 Margin="2" 
                 Name="txtPass"/>
-            
+
             <TextBlock 
                 Grid.Row="5" 
                 Grid.Column="0"
@@ -110,20 +110,17 @@
                 Grid.Row="7" 
                 Margin="2" 
                 Content="Ок" 
-                FontSize="{Binding FontSize}" 
-                Command="{Binding Path=Enter}" 
+                FontSize="{Binding FontSize}"                  
+                Command="{Binding Path=Enter}"
                 CommandParameter="{Binding ElementName=txtPass}"/>
-            
-            <TextBlock 
-                Grid.Row="8" 
-                Grid.Column="0"
-                Grid.ColumnSpan="2" 
-                FontSize="{Binding FontSize}" 
+
+            <ScrollViewer Grid.Row="8" Grid.Column="0" Grid.ColumnSpan="2" VerticalScrollBarVisibility="Auto" >
+                <TextBlock FontSize="{Binding FontSize}" TextWrapping="WrapWithOverflow"
                 Foreground="{Binding Path=InfoStyle, Mode=TwoWay}" 
                 Text="{Binding Path=Msg, Mode=TwoWay}"
                 HorizontalAlignment="Left"
-                Style="{StaticResource TextBLockStyle}"/>
-            <!--<Button Grid.Row="7" Grid.Column="1" Margin="2" Content="Отмена" FontSize="20"></Button>-->
+                Style="{StaticResource TextBLockStyle}" />
+            </ScrollViewer>
         </Grid>
     </Grid>
 </UserControl>

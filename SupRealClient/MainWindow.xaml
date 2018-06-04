@@ -7,7 +7,7 @@
         xmlns:local="clr-namespace:SupRealClient.ViewModels"
         xmlns:mah="http://metro.mahapps.com/winfx/xaml/controls"
         mc:Ignorable="d"
-        Title="Программа учёта посетителей" FontSize="18"
+        Title="Система учёта посетителей" FontSize="18"
         Height="350" Width="525"
         WindowState="Maximized" 
         StateChanged="Window_StateChanged">
@@ -98,10 +98,11 @@
                 <MenuItem Header="Области доступа Помещения" Command="{Binding Path=ListAreasSpacesClick}"/>
                 <MenuItem Header="Точки доступа" Command="{Binding Path=ListAccessPointsClick}"/>
                 <MenuItem Header="Ключи" Command="{Binding Path=ListKeysClick}"/>
+                <MenuItem Header="Ключницы" Command="{Binding Path=ListKeyHoldersClick}"/>
+                <MenuItem Header="Штыри" Command="{Binding Path=ListKeyCasesClick}"/>
                 <MenuItem Header="Расписания" Command="{Binding Path=ListSchedulesClick}"/>
                 <MenuItem Header="Уровни доступа" Command="{Binding Path=ListAccessLevelsClick}"/>
-                <MenuItem Header="Машины" Command="{Binding Path=ListCarsClick}"/>
-                <MenuItem Header="Перемещаемое имущество" Command="{Binding Path=ListEquipmentsClick}"/>
+                <MenuItem Header="Автотранспорт" Command="{Binding Path=ListCarsClick}"/>
             </MenuItem>
             <MenuItem Header="Сервис" FontSize="{Binding ElementName=FontSizeLixtBox, Path=SelectedItem.Content}">
                 <MenuItem Header="Очистка базы данных..." IsEnabled="False"/>

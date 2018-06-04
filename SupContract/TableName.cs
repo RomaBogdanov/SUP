@@ -35,6 +35,8 @@
         VisSchedules,
         VisAccessLevel,
         VisCars,
-        VisEquipment
+        VisEquipment,
+        VisKeyCases,
+        VisKeyHolders
     }
 }

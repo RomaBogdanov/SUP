@@ -7,8 +7,8 @@
         xmlns:mah="http://metro.mahapps.com/winfx/xaml/controls"
         mc:Ignorable="d"
         Title="Заявки" 
-        ResizeMode="NoResize"
-        Height="800" Width="1050"
+        ResizeMode="NoResize" WindowStartupLocation="CenterScreen"
+        Height="827.512" Width="1105.5"
         KeyDown="BidsView_OnKeyDown">
 
     <!--ResizeMode="NoResize"-->
@@ -22,7 +22,7 @@
         </Grid.RowDefinitions>
         <mah:MetroAnimatedTabControl
             Grid.Row="0">
-            <mah:MetroTabItem Header="Разовые заявки">
+            <mah:MetroTabItem Header="Разовые заявки" IsSelected="{Binding IsSingleOrder, Mode=TwoWay}">
                 <Grid>
                     <Grid.RowDefinitions>
                         <RowDefinition/>
@@ -189,7 +189,7 @@
                 </Grid>
             </mah:MetroTabItem>
 
-            <mah:MetroTabItem Header="Временные заявки">
+            <mah:MetroTabItem Header="Временные заявки" IsSelected="{Binding IsTempOrder, Mode=TwoWay}">
                 <Grid>
                     <Grid.RowDefinitions>
                         <RowDefinition/>

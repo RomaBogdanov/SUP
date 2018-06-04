@@ -358,6 +358,10 @@ namespace SupRealClient
                     return new Base4AccessPointsWindView();
                 case "Base4KeysWindView":
                     return new Base4KeysWindView();
+                case "Base4KeyCasesWindView":
+                    return new Base4KeyCasesWindView();
+                case "Base4KeyHoldersWindView":
+                    return new Base4KeyHoldersWindView();
                 case "Base4SchedulesWindView":
                     return new Base4SchedulesWindView();
                 case "Base4AccessLevelsWindView":

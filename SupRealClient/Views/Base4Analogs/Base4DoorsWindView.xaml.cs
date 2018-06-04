@@ -59,12 +59,6 @@ namespace SupRealClient.Views
                 Binding = new Binding("AccessPointId")
             };
             base4.BaseTab.Columns.Add(dataGridTextColumn);
-            dataGridTextColumn = new DataGridTextColumn
-            {
-                Header = "Ключ",
-                Binding = new Binding("KeyId")
-            };
-            base4.BaseTab.Columns.Add(dataGridTextColumn);
 
 
         }
