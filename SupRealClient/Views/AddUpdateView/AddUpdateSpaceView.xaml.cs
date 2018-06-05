@@ -46,11 +46,28 @@ namespace SupRealClient.Views
             this.Close();
         }
 
+        private void MetroWindow_Loaded(object sender, RoutedEventArgs e)
+        {
+            tbNumReal.Focus();
+        }
+
         private void TextBox_OnKeyUp(object sender, KeyEventArgs e)
         {
             if (e.Key == Key.Enter)
             {
-                ((UIElement)sender).MoveFocus(_focusMover);
+                UIElement elementWithFocus = Keyboard.FocusedElement as UIElement;
+                if (elementWithFocus != null)
+                {
+                    elementWithFocus.MoveFocus(_focusMover);
+                }
+            }
+        }        
+
+        private void btnOK_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.Key == Key.Enter)
+            {
+                btnOK.Command.Execute(null);
             }
         }
     }
