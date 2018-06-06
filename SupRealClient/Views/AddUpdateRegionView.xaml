@@ -6,8 +6,9 @@
         xmlns:mah="http://metro.mahapps.com/winfx/xaml/controls"
         mc:Ignorable="d"
         Title="{Binding Path=Caption, Mode=OneTime}"
-        Height="250" Width="300" 
-        ResizeMode="NoResize">
+        Height="200" Width="300" 
+        ResizeMode="NoResize"
+        Loaded="MetroWindow_Loaded">
 
     <mah:MetroWindow.InputBindings>
         <KeyBinding Key="Escape" Command="{Binding Cancel}"/>
@@ -15,17 +16,14 @@
 
     <Grid>
         <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="Auto"/>
             <ColumnDefinition Width="1*"/>
-            <ColumnDefinition Width="30"/>
-            <ColumnDefinition Width="30"/>
+            <ColumnDefinition Width="1*"/>            
         </Grid.ColumnDefinitions>
         <Grid.RowDefinitions>
             <RowDefinition Height="30"/>
             <RowDefinition Height="30"/>
             <RowDefinition Height="30"/>
-            <RowDefinition Height="30"/>
-            <RowDefinition Height="30"/>
+            <RowDefinition Height="30"/>            
             <RowDefinition/>
         </Grid.RowDefinitions>
         <TextBlock 
@@ -72,12 +70,14 @@
             KeyUp="TextBox_OnKeyUp" />
 
         <Button 
+            x:Name="btnOK"
             Grid.Row="5" 
             Grid.Column="0"
             Command="{Binding Path=Ok}"
             Margin="2"
-            TabIndex="9"
-            Style="{StaticResource ButtonStyle}">
+            TabIndex="3"
+            Style="{StaticResource ButtonStyle}"
+            KeyDown="btnOK_KeyDown">
             <Grid Width="140">
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition/>
@@ -101,7 +101,7 @@
             Grid.Column="1" 
             Grid.ColumnSpan="3"
             Margin="2"
-            TabIndex="10"
+            TabIndex="4"
             Command="{Binding Path=Cancel}"
             Style="{StaticResource ButtonStyle}">
             <Grid Width="140">

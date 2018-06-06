@@ -6,7 +6,10 @@
         xmlns:local="clr-namespace:SupRealClient.Views"
         xmlns:mah="http://metro.mahapps.com/winfx/xaml/controls"
         mc:Ignorable="d"
-        Title="{Binding Path=Caption, Mode=OneTime}" Height="350" Width="300">
+        Title="Добавление помещения" 
+        Height="320" Width="300"
+        ResizeMode="NoResize"
+        Loaded="MetroWindow_Loaded">
     <Grid>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="1*"/>
@@ -20,8 +23,7 @@
             <RowDefinition Height="30"/>
             <RowDefinition Height="30"/>
             <RowDefinition Height="30"/>
-            <RowDefinition Height="30"/>
-            <RowDefinition Height="30"/>
+            <RowDefinition Height="30"/>            
             <RowDefinition/>
         </Grid.RowDefinitions>
         <TextBlock 
@@ -32,12 +34,13 @@
             Style="{StaticResource TextBLockStyle}"/>
         
         <TextBox 
+            x:Name="tbNumReal"
             Grid.Row="1" 
             Text="{Binding CurrentItem.NumReal, Mode=TwoWay}"
             Grid.Column="0"
             Grid.ColumnSpan="2" 
             Margin="2"
-            TabIndex="2"
+            TabIndex="0"
             FontSize="{Binding FontSize}"
             Style="{StaticResource TextBoxStyle}"
             KeyUp="TextBox_OnKeyUp"/>
@@ -55,7 +58,7 @@
             Grid.Column="0"
             Grid.ColumnSpan="2" 
             Margin="2"
-            TabIndex="2"
+            TabIndex="1"
             FontSize="{Binding FontSize}"
             Text="{Binding Path=CurrentItem.NumBuild, Mode=TwoWay}"
             Style="{StaticResource TextBoxStyle}"
@@ -93,19 +96,21 @@
             Grid.Column="0"
             Grid.ColumnSpan="2" 
             Margin="2"
-            TabIndex="2"
+            TabIndex="3"
             FontSize="{Binding FontSize}"
             Text="{Binding Path=CurrentItem.Note, Mode=TwoWay}"
             Style="{StaticResource TextBoxStyle}"
             KeyUp="TextBox_OnKeyUp"/>
 
         <Button 
+            x:Name="btnOK"
             Grid.Row="9" 
             Grid.Column="0"
             Command="{Binding Path=Ok}"
             Margin="2"
-            TabIndex="9"
-            Style="{StaticResource ButtonStyle}">
+            TabIndex="4"
+            Style="{StaticResource ButtonStyle}"
+            KeyDown="btnOK_KeyDown">
             <Grid Width="140">
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition/>
@@ -129,7 +134,7 @@
             Grid.Column="1" 
             Grid.ColumnSpan="3"
             Margin="2"
-            TabIndex="10"
+            TabIndex="5"
             Command="{Binding Path=Cancel}"
             Style="{StaticResource ButtonStyle}">
             <Grid Width="140">
