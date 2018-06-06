@@ -4,6 +4,8 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:mah="http://metro.mahapps.com/winfx/xaml/controls"
+                 xmlns:wpfx="http://schemas.xceed.com/wpf/xaml/toolkit"
+                 xmlns:gl="clr-namespace:System.Globalization;assembly=mscorlib"
         xmlns:converters="clr-namespace:SupRealClient.Behaviour"
         mc:Ignorable="d"
         Title="{Binding Path=Caption, Mode=OneTime}" 
@@ -200,6 +202,8 @@
                         HorizontalAlignment="Left"
                         Style="{StaticResource TextBLockStyle}"/>
 
+                    
+<!--
                     <DatePicker
                         Grid.Row="11" 
                         Grid.Column="0"
@@ -210,6 +214,30 @@
                         Margin="2"
                         IsEnabled="{Binding Path=Editable, Mode=OneTime}"
                         KeyUp="TextBox_OnKeyUp">
+                    </DatePicker>-->
+
+                    <DatePicker
+                                    Grid.Row="11" 
+                        Grid.Column="0"
+                        Grid.ColumnSpan="2" 
+                        TabIndex="7"
+                        SelectedDate="{Binding Path=Date, Mode=TwoWay}"
+                        Text="Дата"
+                        Margin="2"
+                        IsEnabled="{Binding Path=Editable, Mode=OneTime}"
+                        KeyUp="TextBox_OnKeyUp">
+                        <DatePicker.Resources>
+                            <Style TargetType="{x:Type DatePickerTextBox}">
+                                <Setter Property="Control.Template">
+                                    <Setter.Value>
+                                        <ControlTemplate>
+                                            <wpfx:MaskedTextBox x:Name="PART_TextBox" Mask="00/00/0000" 
+                                    Text="{ Binding Path=SelectedDate,ConverterCulture={x:Static gl:CultureInfo.CurrentCulture}, StringFormat=dd/MM/yyyy, RelativeSource={RelativeSource AncestorType={x:Type DatePicker}}}" />
+                                        </ControlTemplate>
+                                    </Setter.Value>
+                                </Setter>
+                            </Style>
+                        </DatePicker.Resources>
                     </DatePicker>
 
                     <TextBlock 
@@ -220,7 +248,7 @@
                         FontSize="15"
                         HorizontalAlignment="Left"
                         Style="{StaticResource TextBLockStyle}"/>
-
+<!--
                     <DatePicker 
                         Grid.Row="13" 
                         Grid.Column="0"
@@ -231,6 +259,29 @@
                         Margin="2"
                         IsEnabled="{Binding Path=Editable, Mode=OneTime}"
                         KeyUp="TextBox_OnKeyUp">
+                    </DatePicker>-->
+                    <DatePicker
+                                    Grid.Row="13" 
+                        Grid.Column="0"
+                        Grid.ColumnSpan="2" 
+                        TabIndex="8"
+                        Text="Дата до"
+                        SelectedDate="{Binding Path=DateTo, Mode=TwoWay}"
+                        Margin="2"
+                        IsEnabled="{Binding Path=Editable, Mode=OneTime}"
+                        KeyUp="TextBox_OnKeyUp">
+                        <DatePicker.Resources>
+                            <Style TargetType="{x:Type DatePickerTextBox}">
+                                <Setter Property="Control.Template">
+                                    <Setter.Value>
+                                        <ControlTemplate>
+                                            <wpfx:MaskedTextBox x:Name="PART_TextBox" Mask="00/00/0000" 
+                                    Text="{ Binding Path=SelectedDate,ConverterCulture={x:Static gl:CultureInfo.CurrentCulture}, StringFormat=dd/MM/yyyy, RelativeSource={RelativeSource AncestorType={x:Type DatePicker}}}" />
+                                        </ControlTemplate>
+                                    </Setter.Value>
+                                </Setter>
+                            </Style>
+                        </DatePicker.Resources>
                     </DatePicker>
 
                     <TextBlock 
@@ -242,7 +293,7 @@
                         HorizontalAlignment="Left"
                         Style="{StaticResource TextBLockStyle}"/>
 
-                    <DatePicker 
+                    <!--<DatePicker 
                         Grid.Row="15" 
                         Grid.Column="0"
                         Grid.ColumnSpan="2" 
@@ -252,6 +303,29 @@
                         Margin="2"
                         IsEnabled="{Binding Path=Editable, Mode=OneTime}"
                         KeyUp="TextBox_OnKeyUp">
+                    </DatePicker>-->
+                    <DatePicker
+                                    Grid.Row="15" 
+                        Grid.Column="0"
+                        Grid.ColumnSpan="2" 
+                        TabIndex="9"
+                        Text="Дата рождения"
+                        SelectedDate="{Binding Path=BirthDate, Mode=TwoWay}"
+                        Margin="2"
+                        IsEnabled="{Binding Path=Editable, Mode=OneTime}"
+                        KeyUp="TextBox_OnKeyUp">
+                        <DatePicker.Resources>
+                            <Style TargetType="{x:Type DatePickerTextBox}">
+                                <Setter Property="Control.Template">
+                                    <Setter.Value>
+                                        <ControlTemplate>
+                                            <wpfx:MaskedTextBox x:Name="PART_TextBox" Mask="00/00/0000" 
+                                    Text="{ Binding Path=SelectedDate,ConverterCulture={x:Static gl:CultureInfo.CurrentCulture}, StringFormat=dd/MM/yyyy, RelativeSource={RelativeSource AncestorType={x:Type DatePicker}}}" />
+                                        </ControlTemplate>
+                                    </Setter.Value>
+                                </Setter>
+                            </Style>
+                        </DatePicker.Resources>
                     </DatePicker>
 
                     <TextBlock 
