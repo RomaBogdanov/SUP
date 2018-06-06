@@ -47,7 +47,13 @@ namespace SupRealClient.Views
 
         protected override BaseModelResult GetResult()
         {
-            return new BaseModelResult { Id = CurrentItem.Id, Name = CurrentItem.Name };
+            return new VisitorsModelResult
+            {
+                Id = CurrentItem.Id,
+                Name = CurrentItem.FullName,
+                OrganizationId = CurrentItem.OrganizationId,
+                Organization = CurrentItem.Organization
+            };
         }
 
         protected override void DoQuery()
@@ -60,6 +66,7 @@ namespace SupRealClient.Views
                 {
                     Id = visitors.Field<int>("f_visitor_id"),
                     FullName = visitors.Field<string>("f_full_name"),
+                    OrganizationId = visitors.Field<int>("f_org_id"),
                     Organization = (string)OrganizationsWrapper.CurrentTable()
                         .Table.AsEnumerable().FirstOrDefault(arg =>
                         arg.Field<int>("f_org_id") == 

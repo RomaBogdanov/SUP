@@ -9,7 +9,7 @@ namespace SupRealClient.Views
     /// </summary>
     public partial class VisitorsListWindView
     {
-        public VisitorsListWindView()
+        public VisitorsListWindView(Visibility okVisibility)
         {
             InitializeComponent();
             var viewModel = new Base4ViewModel<EnumerationClasses.Visitor>
@@ -22,7 +22,7 @@ namespace SupRealClient.Views
             base4.DataContext = viewModel;
             AfterInitialize();
             ((Base4ViewModel<EnumerationClasses.Visitor>)base4.DataContext)
-                .OkVisibility = Visibility.Hidden;
+                .OkVisibility = okVisibility;
         }
 
         partial void CreateColumns()

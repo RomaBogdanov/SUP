@@ -9,13 +9,13 @@ namespace SupRealClient.Views
     /// </summary>
     public partial class Base4RegionsWindView
     {
-        public Base4RegionsWindView()
+        public Base4RegionsWindView(Visibility visibility)
         {
             InitializeComponent();
             base4.tbxSearch.Focus();
             AfterInitialize();
             ((Base4ViewModel<EnumerationClasses.Region>)base4.DataContext)
-                .OkVisibility = Visibility.Hidden;
+                .OkVisibility = visibility;
             base4.Focus();
         }
 

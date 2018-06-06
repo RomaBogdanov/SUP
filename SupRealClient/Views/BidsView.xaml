@@ -7,7 +7,7 @@
         xmlns:mah="http://metro.mahapps.com/winfx/xaml/controls"
         mc:Ignorable="d"
         Title="Заявки" 
-        ResizeMode="NoResize" WindowStartupLocation="CenterScreen"
+        WindowStartupLocation="CenterScreen"
         Height="827.512" Width="1105.5"
         KeyDown="BidsView_OnKeyDown">
 
@@ -39,6 +39,9 @@
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition Width="130"/>
                             <ColumnDefinition Width="150"/>
+                            <ColumnDefinition Width="130"/>
+                            <ColumnDefinition Width="200"/>
+                            <ColumnDefinition Width="50"/>
                             <ColumnDefinition/>
                         </Grid.ColumnDefinitions>
                         
@@ -52,49 +55,67 @@
                             Text="{Binding CurrentSingleOrder.RegNumber, Mode=TwoWay}"
                             Grid.Column="1"
                             Style="{StaticResource TextBoxStyle}"/>
-                    </Grid>
-
-                    <Grid
-                        Grid.Row="1">
-                        <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="130"/>
-                            <ColumnDefinition Width="200"/>
-                            <ColumnDefinition Width="50"/>
-                            <ColumnDefinition/>
-                        </Grid.ColumnDefinitions>
-
                         <TextBlock
-                            Grid.Column="0"
+                            Grid.Column="2"
                             Text="Дата действия"
                             HorizontalAlignment="Left"
                             Style="{StaticResource TextBLockStyle}"/>
 
                         <TextBox
                             Text="{Binding CurrentSingleOrder.From, Mode=TwoWay}"
-                            Grid.Column="1"
+                            Grid.Column="3"
                             Style="{StaticResource TextBoxStyle}"/>
-                        
+
                         <Button
-                            Grid.Column="2"
+                            Grid.Column="4"
                             Width="25"
                             Height="25"
                             Content="..."
                             Style="{StaticResource VisitorsSquareButtonStyle}"/>
                     </Grid>
+
+                    <Grid
+                        Grid.Row="1">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="130"/>
+                            <ColumnDefinition Width="130"/>
+                            <ColumnDefinition Width="130"/>
+                            <ColumnDefinition/>
+                        </Grid.ColumnDefinitions>
+
+                        <Button
+                            Grid.Column="0"
+                            Margin="10"
+                            Content="Добавить"
+                            Visibility="{Binding AddUpdVisib, Mode=TwoWay}"
+                            Command="{Binding AddPersonCommand}"></Button>
+                        <Button
+                            Grid.Column="1"
+                            Margin="10"
+                            Content="Редактировать"
+                            Visibility="{Binding AddUpdVisib, Mode=TwoWay}"></Button>
+                        <Button
+                            Grid.Column="2"
+                            Margin="10"
+                            Content="Удалить"
+                            Visibility="{Binding AddUpdVisib, Mode=TwoWay}"></Button>
+                        
+                    </Grid>
                     
                     <DataGrid
                         Grid.Row="2"
                         AutoGenerateColumns="False"
-                        CanUserAddRows="False">
+                        CanUserAddRows="{Binding IsCanAddRows, Mode=TwoWay}"
+                        ItemsSource="{Binding Path=CurrentSingleOrder.VisitorsList}">
                         <DataGrid.Columns>
                             <DataGridTextColumn Header="№"/>
-                            <DataGridTextColumn Header="Посетитель" Width="*"/>
-                            <DataGridTextColumn Header="Организация" Width="*"/>
-                            <DataGridTextColumn Header="Принимающее лицо" Width="*"/>
-                            <DataGridTextColumn Header="Время от"/>
-                            <DataGridTextColumn Header="Время до"/>
+                            <DataGridTextColumn Header="Посетитель" Width="*" Binding="{Binding Visitor}"/>
+                            <DataGridTextColumn Header="Организация" Width="*" Binding="{Binding Organization}"/>
+                            <DataGridTextColumn Header="Принимающее лицо" Width="*" Binding="{Binding Catcher}"/>
+                            <DataGridTextColumn Header="Время от" Binding="{Binding From}"/>
+                            <DataGridTextColumn Header="Время до" Binding="{Binding To}"/>
                             <DataGridTextColumn Header="Не активен"/>
-                            <DataGridTextColumn Header="Проходы"/>
+                            <DataGridTextColumn Header="Проходы" Binding="{Binding Passes}"/>
                         </DataGrid.Columns>
                     </DataGrid>
                     
@@ -119,6 +140,7 @@
                             Style="{StaticResource TextBoxStyle}"/>
 
                         <Button
+                            Command="{Binding SignerSingleCommand}"
                             Grid.Column="2"
                             Width="25"
                             Height="25"
@@ -205,6 +227,10 @@
                             <ColumnDefinition Width="130"/>
                             <ColumnDefinition Width="180"/>
                             <ColumnDefinition Width="50"/>
+                            <ColumnDefinition Width="180"/>
+                            <ColumnDefinition Width="100"/>
+                            <ColumnDefinition Width="100"/>
+                            <ColumnDefinition Width="100"/>
                             <ColumnDefinition/>
                         </Grid.ColumnDefinitions>
                         
@@ -228,6 +254,24 @@
                             Text="Бессрочная заявка"
                             HorizontalAlignment="Left"
                             Style="{StaticResource TextBLockStyle}"/>
+
+                        <Button
+                            Grid.Column="4"
+                            Margin="10"
+                            Content="Добавить"
+                            Visibility="{Binding AddUpdVisib, Mode=TwoWay}"
+                            Command="{Binding AddPersonCommand}"></Button>
+                        <Button
+                            Grid.Column="5"
+                            Margin="10"
+                            Content="Редактировать"
+                            Visibility="{Binding AddUpdVisib, Mode=TwoWay}"></Button>
+                        <Button
+                            Grid.Column="6"
+                            Margin="10"
+                            Content="Удалить"
+                            Visibility="{Binding AddUpdVisib, Mode=TwoWay}"></Button>
+
                     </Grid>
 
                     <Grid
@@ -278,13 +322,16 @@
                     </Grid>
                     
                     <DataGrid
-                        Grid.Row="2">
+                        Grid.Row="2"
+                        CanUserAddRows="{Binding IsCanAddRows, Mode=TwoWay}"
+                        AutoGenerateColumns="False"
+                        ItemsSource="{Binding Path=CurrentTemporaryOrder.VisitorsList}">
                         <DataGrid.Columns>
                             <DataGridTextColumn Header="№"/>
-                            <DataGridTextColumn Header="Фамилия И.О." Width="*"/>
-                            <DataGridTextColumn Header="Организация"/>
+                            <DataGridTextColumn Header="Посетитель" Width="*" Binding="{Binding Visitor}"/>
+                            <DataGridTextColumn Header="Организация" Binding="{Binding Organization}"/>
                             <DataGridTextColumn Header="Не активен"/>
-                            <DataGridTextColumn Header="Проходы"/>
+                            <DataGridTextColumn Header="Проходы" Binding="{Binding Passes}"/>
                         </DataGrid.Columns>
                     </DataGrid>
                     
@@ -310,6 +357,7 @@
                             Style="{StaticResource TextBoxStyle}"/>
                         
                         <Button
+                            Command="{Binding SignerTempCommand}"
                             Grid.Column="2"
                             Width="25"
                             Height="25"
@@ -327,6 +375,7 @@
                             Style="{StaticResource TextBoxStyle}"/>
 
                         <Button
+                            Command="{Binding AgreerCommand}"
                             Grid.Column="5"
                             Width="25"
                             Height="25"
