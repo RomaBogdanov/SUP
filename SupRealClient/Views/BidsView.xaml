@@ -69,7 +69,7 @@
                             Text="{Binding CurrentSingleOrder.From, Mode=TwoWay}"
                             Grid.Column="1"
                             Style="{StaticResource TextBoxStyle}"/>-->
-                        <DatePicker Grid.Column="1" SelectedDate="{Binding CurrentSingleOrder.From, Mode=TwoWay}" Height="25" Margin="10,20,10,21">
+                        <DatePicker Grid.Column="3" SelectedDate="{Binding CurrentSingleOrder.From, Mode=TwoWay}" Height="25" Margin="10,20,10,21">
                             <DatePicker.Resources>
                                 <Style TargetType="{x:Type DatePickerTextBox}">
                                     <Setter Property="Control.Template">

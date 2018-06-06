@@ -425,22 +425,22 @@ namespace SupRealClient.ViewModels
 
         public void Cancel()
         {
-            throw new NotImplementedException();
+            //throw new NotImplementedException();
         }
 
         public void Delay()
         {
-            throw new NotImplementedException();
+            //throw new NotImplementedException();
         }
 
         public void Edit()
         {
-            throw new NotImplementedException();
+            //throw new NotImplementedException();
         }
 
         public void Further()
         {
-            throw new NotImplementedException();
+            //throw new NotImplementedException();
         }
 
         public void New()
@@ -569,27 +569,27 @@ namespace SupRealClient.ViewModels
 
         public void Ok()
         {
-            throw new NotImplementedException();
+            //throw new NotImplementedException();
         }
 
         public void Reload()
         {
-            throw new NotImplementedException();
+            //throw new NotImplementedException();
         }
 
         public void Search()
         {
-            throw new NotImplementedException();
+            //throw new NotImplementedException();
         }
 
         public void Agreer()
         {
-            throw new NotImplementedException();
+            //throw new NotImplementedException();
         }
 
         public void SignerSingle()
         {
-            throw new NotImplementedException();
+            //throw new NotImplementedException();
         }
 
         private void Query()
@@ -665,12 +665,12 @@ namespace SupRealClient.ViewModels
 
         public void AddPerson()
         {
-            throw new NotImplementedException();
+            //throw new NotImplementedException();
         }
 
         public void SignerTemp()
         {
-            throw new NotImplementedException();
+            //throw new NotImplementedException();
         }
     }
 
@@ -710,37 +710,37 @@ namespace SupRealClient.ViewModels
 
         public void Begin()
         {
-            throw new NotImplementedException();
+            //throw new NotImplementedException();
         }
 
         public void Cancel()
         {
-            throw new NotImplementedException();
+            //throw new NotImplementedException();
         }
 
         public void Delay()
         {
-            throw new NotImplementedException();
+            //throw new NotImplementedException();
         }
 
         public void Edit()
         {
-            throw new NotImplementedException();
+            //throw new NotImplementedException();
         }
 
         public void End()
         {
-            throw new NotImplementedException();
+            //throw new NotImplementedException();
         }
 
         public void Further()
         {
-            throw new NotImplementedException();
+            //throw new NotImplementedException();
         }
 
         public void New()
         {
-            throw new NotImplementedException();
+            //throw new NotImplementedException();
         }
 
         public void Next()
@@ -750,22 +750,22 @@ namespace SupRealClient.ViewModels
 
         public void Ok()
         {
-            throw new NotImplementedException();
+            //throw new NotImplementedException();
         }
 
         public void Prev()
         {
-            throw new NotImplementedException();
+            //throw new NotImplementedException();
         }
 
         public void Reload()
         {
-            throw new NotImplementedException();
+            //throw new NotImplementedException();
         }
 
         public void Search()
         {
-            throw new NotImplementedException();
+            //throw new NotImplementedException();
         }
 
         public void AddPerson()
