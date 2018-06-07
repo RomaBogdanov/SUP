@@ -36,6 +36,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SupRealClient", "SupRealCli
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AndoverImportTest", "AndoverImportTest\AndoverImportTest.csproj", "{C7E3FD7B-CF75-4D40-994A-A9B535F5BC02}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AndoverExportTest", "AndoverExportTest\AndoverExportTest.csproj", "{68ADBE6D-6D19-413F-8212-13671DA81CA8}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -74,6 +76,10 @@ Global
 		{C7E3FD7B-CF75-4D40-994A-A9B535F5BC02}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{C7E3FD7B-CF75-4D40-994A-A9B535F5BC02}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{C7E3FD7B-CF75-4D40-994A-A9B535F5BC02}.Release|Any CPU.Build.0 = Release|Any CPU
+		{68ADBE6D-6D19-413F-8212-13671DA81CA8}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{68ADBE6D-6D19-413F-8212-13671DA81CA8}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{68ADBE6D-6D19-413F-8212-13671DA81CA8}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{68ADBE6D-6D19-413F-8212-13671DA81CA8}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
