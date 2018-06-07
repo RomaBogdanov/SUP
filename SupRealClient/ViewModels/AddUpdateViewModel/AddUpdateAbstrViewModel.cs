@@ -9,6 +9,8 @@ using System.Windows.Input;
 using SupRealClient.Annotations;
 using SupRealClient.Models.AddUpdateModel;
 using SupRealClient.Common.Interfaces;
+using SupRealClient.EnumerationClasses;
+using SupRealClient.Views;
 
 namespace SupRealClient.ViewModels.AddUpdateViewModel
 {
@@ -105,4 +107,37 @@ namespace SupRealClient.ViewModels.AddUpdateViewModel
 
     public class AddUpdateSpaceViewModel: AddUpdateBaseViewModel
     { }
+
+    public class AddUpdateBidsViewModel : AddUpdateBaseViewModel
+    {
+        public ICommand VisitorName { get; set; }
+
+        public ICommand CatcherName { get; set; }
+
+        public AddUpdateBidsViewModel() : base()
+        {
+            VisitorName = new RelayCommand(arg => VisitorNameCommand());
+            CatcherName = new RelayCommand(arg => CatcherNameCommand());
+        }
+
+        private void VisitorNameCommand()
+        {
+            VisitorsModelResult result = ViewManager.Instance.OpenWindowModal(
+                "VisitorsListWindViewOk", null) as VisitorsModelResult;
+            (CurrentItem as VisitorOnOrder).VisitorId = result.Id;
+            (CurrentItem as VisitorOnOrder).Visitor = result.Name;
+            (CurrentItem as VisitorOnOrder).OrganizationId = result.OrganizationId;
+            (CurrentItem as VisitorOnOrder).Organization = result.Organization;
+            CurrentItem = CurrentItem;
+        }
+
+        private void CatcherNameCommand()
+        {
+            VisitorsModelResult result = ViewManager.Instance.OpenWindowModal(
+                "VisitorsListWindViewOk", null) as VisitorsModelResult;
+            (CurrentItem as VisitorOnOrder).CatcherId = result.Id;
+            (CurrentItem as VisitorOnOrder).Catcher = result.Name;
+            CurrentItem = CurrentItem;
+        }
+    }
 }

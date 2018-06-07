@@ -6,9 +6,13 @@ using System.Threading.Tasks;
 using System.Windows.Input;
 using System.Collections.ObjectModel;
 using System.Data;
+using System.Windows;
 using SupRealClient.EnumerationClasses;
 using SupRealClient.TabsSingleton;
 using SupRealClient.Common;
+using SupRealClient.Models.AddUpdateModel;
+using SupRealClient.ViewModels.AddUpdateViewModel;
+using SupRealClient.Views;
 
 namespace SupRealClient.ViewModels
 {
@@ -31,7 +35,16 @@ namespace SupRealClient.ViewModels
                 CurrentOrder = bidsModel.CurrentOrder;
                 CurrentSingleOrder = bidsModel.CurrentSingleOrder;
                 CurrentVirtueOrder = bidsModel.CurrentVirtueOrder;
+                IsCanAddRows = bidsModel.IsCanAddRows;
+                AddUpdVisib = bidsModel.IsAddUpdVisib;
+                bidsModel.OnRefresh += BidsModel_OnRefresh;
             }
+        }
+
+        private void BidsModel_OnRefresh()
+        {
+            CurrentTemporaryOrder = BidsModel.CurrentTemporaryOrder;
+            CurrentSingleOrder = BidsModel.CurrentSingleOrder;
         }
 
         public ObservableCollection<Order> SingleOrdersSet
@@ -158,6 +171,7 @@ namespace SupRealClient.ViewModels
         }
 
         bool isSingleOrder;
+        
 
         public bool IsSingleOrder
         {
@@ -176,6 +190,33 @@ namespace SupRealClient.ViewModels
                 OnPropertyChanged();
             }
         }
+        
+        public bool IsCanAddRows
+        {
+            get
+            {
+                if (BidsModel == null)
+                {
+                    return false;
+                }
+                return BidsModel.IsCanAddRows;
+            }
+            set
+            {
+                BidsModel.IsCanAddRows = value;
+                OnPropertyChanged();
+            }
+        }
+
+        public Visibility AddUpdVisib
+        {
+            get { return BidsModel.IsAddUpdVisib; }
+            set
+            {
+                BidsModel.IsAddUpdVisib = value;
+                OnPropertyChanged();
+            }
+        }
 
         public ICommand BeginCommand { get; set; }
         public ICommand PrevCommand { get; set; }
@@ -189,6 +230,11 @@ namespace SupRealClient.ViewModels
         public ICommand CancelCommand { get; set; }
         public ICommand FurtherCommand { get; set; }
         public ICommand ReloadCommand { get; set; }
+
+        public ICommand AddPersonCommand { get; set; }
+        public ICommand SignerSingleCommand { get; set; } // посписывающий разовую
+        public ICommand SignerTempCommand { get; set; } // посписывающий временную
+        public  ICommand AgreerCommand { get; set; } // согласующий
 
         public BidsViewModel()
         {
@@ -204,6 +250,30 @@ namespace SupRealClient.ViewModels
             CancelCommand = new RelayCommand(arg => Cancel());
             FurtherCommand = new RelayCommand(arg => Further());
             ReloadCommand = new RelayCommand(arg => Reload());
+            AddPersonCommand = new RelayCommand(arg => AddPerson());
+            SignerSingleCommand = new RelayCommand(arg => SignerSingle());
+            SignerTempCommand = new RelayCommand(arg => SignerTemp());
+            AgreerCommand = new RelayCommand(arg => Agreer());
+        }
+
+        private void Agreer()
+        {
+            BidsModel.Agreer();
+        }
+
+        private void SignerSingle()
+        {
+            BidsModel.SignerSingle();
+        }
+
+        private void SignerTemp()
+        {
+            BidsModel.SignerTemp();
+        }
+
+        private void AddPerson()
+        {
+            BidsModel.AddPerson();
         }
 
         private void Begin()
@@ -248,6 +318,8 @@ namespace SupRealClient.ViewModels
         {
             //BidsModel.New();
             BidsModel = new NewBidsModel();
+            CurrentTemporaryOrder = BidsModel.CurrentTemporaryOrder;
+            CurrentSingleOrder = BidsModel.CurrentSingleOrder;
         }
 
         private void Edit()
@@ -286,6 +358,11 @@ namespace SupRealClient.ViewModels
 
     public interface IBidsModel
     {
+        /// <summary>
+        /// Срабатывает при обновлении данных.
+        /// </summary>
+        event Action OnRefresh;
+
         ObservableCollection<Order> SingleOrdersSet { get; set; }
         ObservableCollection<Order> TemporaryOrdersSet { get; set; }
         ObservableCollection<Order> VirtueOrdersSet { get; set; }
@@ -295,7 +372,10 @@ namespace SupRealClient.ViewModels
         Order CurrentVirtueOrder { get; set; }
         Order CurrentOrder { get; set; }
         OrderType OrderType { get; set; }
+        bool IsCanAddRows { get; set; }
+        Visibility IsAddUpdVisib { get; set; }
 
+        void AddPerson();
         void Begin();
         void Cancel();
         void Delay();
@@ -308,6 +388,9 @@ namespace SupRealClient.ViewModels
         void Prev();
         void Reload();
         void Search();
+        void Agreer();
+        void SignerSingle();
+        void SignerTemp();
     }
 
     public class BidsModel : IBidsModel
@@ -329,30 +412,35 @@ namespace SupRealClient.ViewModels
             set;
         }
         public OrderType OrderType { get; set; }
+        public bool IsCanAddRows { get; set; } = false;
+
+        public Visibility IsAddUpdVisib { get; set; } = Visibility.Hidden;
 
         public BidsModel()
         {
             Query();
         }
 
+        public event Action OnRefresh;
+
         public void Cancel()
         {
-            throw new NotImplementedException();
+            //throw new NotImplementedException();
         }
 
         public void Delay()
         {
-            throw new NotImplementedException();
+            //throw new NotImplementedException();
         }
 
         public void Edit()
         {
-            throw new NotImplementedException();
+            //throw new NotImplementedException();
         }
 
         public void Further()
         {
-            throw new NotImplementedException();
+            //throw new NotImplementedException();
         }
 
         public void New()
@@ -481,25 +569,35 @@ namespace SupRealClient.ViewModels
 
         public void Ok()
         {
-            throw new NotImplementedException();
+            //throw new NotImplementedException();
         }
 
         public void Reload()
         {
-            throw new NotImplementedException();
+            //throw new NotImplementedException();
         }
 
         public void Search()
         {
-            throw new NotImplementedException();
+            //throw new NotImplementedException();
+        }
+
+        public void Agreer()
+        {
+            //throw new NotImplementedException();
+        }
+
+        public void SignerSingle()
+        {
+            //throw new NotImplementedException();
         }
 
         private void Query()
         {
             OrdersSet = new ObservableCollection<Order>(
-                from orders in OrdersWrapper.CurrentTable().Table.AsEnumerable()
+                from orders in OrdersWrapper.CurrentTable().Table.AsEnumerable()/*
                 join elems in OrderElementsWrapper.CurrentTable().Table.AsEnumerable()
-                on orders.Field<int>("f_ord_id") equals elems.Field<int>("f_ord_id")
+                on orders.Field<int>("f_ord_id") equals elems.Field<int>("f_ord_id")*/
                 where orders.Field<int>("f_ord_id") != 0 & orders.Field<int>("f_order_type_id") != 0 &&
                 CommonHelper.NotDeleted(orders)
                 select new Order
@@ -511,11 +609,11 @@ namespace SupRealClient.ViewModels
                         .FirstOrDefault(arg => arg.Field<int>("f_order_type_id") ==
                         orders.Field<int>("f_order_type_id"))["f_order_text"].ToString(),
                     From = orders.Field<DateTime>("f_date_from"),
-                    To = orders.Field<DateTime>("f_date_to"),
+                    To = orders.Field<DateTime>("f_date_to"),/*
                     CatcherId = elems.Field<int>("f_catcher_id"),
                     Catcher = VisitorsWrapper.CurrentTable().Table.AsEnumerable()
                         .FirstOrDefault(arg => arg.Field<int>("f_visitor_id") ==
-                        elems.Field<int>("f_catcher_id"))["f_full_name"].ToString(),
+                        elems.Field<int>("f_catcher_id"))["f_full_name"].ToString(),*/
                     RegNumber = orders.Field<int>("f_reg_number").ToString() + "-" +
                         SprOrderTypesWrapper.CurrentTable().Table.AsEnumerable()
                         .FirstOrDefault(arg => arg.Field<int>("f_order_type_id") ==
@@ -526,12 +624,23 @@ namespace SupRealClient.ViewModels
                         .FirstOrDefault(arg => arg.Field<int>("f_visitor_id") == 
                         orders.Field<int>("f_signed_by"))["f_full_name"].ToString(),
                     AgreeId = orders.Field<int>("f_adjusted_with"),
-                    Note = orders.Field<string>("f_notes"),
+                    Note = orders.Field<string>("f_notes"),/*
                     OrganizationId = (int)VisitorsWrapper.CurrentTable().Table
                         .AsEnumerable().FirstOrDefault(arg => arg.Field<int>
                         ("f_visitor_id") == elems.Field<int>("f_visitor_id"))
                         ["f_org_id"],
-                    Passes = elems.Field<string>("f_passes")
+                    Passes = elems.Field<string>("f_passes"),*/
+                    VisitorsList = new ObservableCollection<VisitorOnOrder>(
+                        from row in OrderElementsWrapper.CurrentTable().Table.AsEnumerable() 
+                        where row.Field<int>("f_ord_id") == orders.Field<int>("f_ord_id")
+                        select new VisitorOnOrder
+                        {
+                            VisitorId = row.Field<int>("f_visitor_id"),
+                            CatcherId = row.Field<int>("f_catcher_id"),
+                            From = row.Field<DateTime>("f_time_from"),
+                            To = row.Field<DateTime>("f_time_to"),
+                            Passes = row.Field<string>("f_passes")
+                        })
                 });
             SingleOrdersSet = new ObservableCollection<Order>(OrdersSet.Where(
                 arg => arg.Type == "Разовая"));
@@ -553,6 +662,16 @@ namespace SupRealClient.ViewModels
             }
 
         }
+
+        public void AddPerson()
+        {
+            //throw new NotImplementedException();
+        }
+
+        public void SignerTemp()
+        {
+            //throw new NotImplementedException();
+        }
     }
 
     public class NewBidsModel : IBidsModel
@@ -566,78 +685,166 @@ namespace SupRealClient.ViewModels
         public Order CurrentVirtueOrder { get; set; }
         public Order CurrentOrder { get; set; }
         public OrderType OrderType { get; set; }
+        public bool IsCanAddRows { get; set; } = true;
+
+        public Visibility IsAddUpdVisib { get; set; } = Visibility.Visible;
 
         public NewBidsModel()
         {
             CurrentSingleOrder = new Order();
             CurrentTemporaryOrder = new Order();
             CurrentVirtueOrder = new Order();
-            CurrentOrder = new Order();
+            CurrentOrder = new Order()
+            {
+                VisitorsList = new ObservableCollection<VisitorOnOrder>()
+            };
 
             SingleOrdersSet = new ObservableCollection<Order> {CurrentSingleOrder};
             TemporaryOrdersSet = new ObservableCollection<Order> {CurrentTemporaryOrder};
             VirtueOrdersSet = new ObservableCollection<Order> {CurrentVirtueOrder};
             OrdersSet = new ObservableCollection<Order> {CurrentOrder};
+            IsAddUpdVisib = Visibility.Visible;
         }
+
+        public event Action OnRefresh;
 
         public void Begin()
         {
-            throw new NotImplementedException();
+            //throw new NotImplementedException();
         }
 
         public void Cancel()
         {
-            throw new NotImplementedException();
+            //throw new NotImplementedException();
         }
 
         public void Delay()
         {
-            throw new NotImplementedException();
+            //throw new NotImplementedException();
         }
 
         public void Edit()
         {
-            throw new NotImplementedException();
+            //throw new NotImplementedException();
         }
 
         public void End()
         {
-            throw new NotImplementedException();
+            //throw new NotImplementedException();
         }
 
         public void Further()
         {
-            throw new NotImplementedException();
+            //throw new NotImplementedException();
         }
 
         public void New()
         {
-            throw new NotImplementedException();
+            //throw new NotImplementedException();
         }
 
         public void Next()
         {
-            throw new NotImplementedException();
+
         }
 
         public void Ok()
         {
-            throw new NotImplementedException();
+            //throw new NotImplementedException();
         }
 
         public void Prev()
         {
-            throw new NotImplementedException();
+            //throw new NotImplementedException();
         }
 
         public void Reload()
         {
-            throw new NotImplementedException();
+            //throw new NotImplementedException();
         }
 
         public void Search()
         {
-            throw new NotImplementedException();
+            //throw new NotImplementedException();
+        }
+
+        public void AddPerson()
+        {
+            switch (OrderType)
+            {
+                case OrderType.Temp:
+                    AddPersonInTempOrder();
+                    break;
+                case OrderType.Single:
+                    AddPersonInSingleOrder();
+                    break;
+                default:
+                    break;
+            }
+        }
+
+        private void AddPersonInSingleOrder()
+        {
+            AddUpdateAbstrModel model = new AddSingleBidModel();
+            AddUpdateBaseViewModel viewModel = new AddUpdateBidsViewModel
+            {
+                Model = model
+            };
+            AddUpdateBidWindView view = new AddUpdateBidWindView();
+            view.DataContext = viewModel;
+            model.OnClose += view.Handling_OnClose;
+            view.ShowDialog();
+            object res = view.WindowResult;
+            if (CurrentSingleOrder.VisitorsList == null)
+                CurrentSingleOrder.VisitorsList = new ObservableCollection<VisitorOnOrder>();
+            CurrentSingleOrder.VisitorsList.Add((VisitorOnOrder) res);
+            OnRefresh?.Invoke();
+        }
+
+        private void AddPersonInTempOrder()
+        {
+            AddUpdateAbstrModel model = new AddSingleBidModel();
+            AddUpdateBaseViewModel viewModel = new AddUpdateBidsViewModel
+            {
+                Model = model
+            };
+            AddUpdateBidWindView view = new AddUpdateBidWindView();
+            view.DataContext = viewModel;
+            model.OnClose += view.Handling_OnClose;
+            view.ShowDialog();
+            object res = view.WindowResult;
+            if (CurrentTemporaryOrder.VisitorsList == null)
+                CurrentTemporaryOrder.VisitorsList = new ObservableCollection<VisitorOnOrder>();
+            CurrentTemporaryOrder.VisitorsList.Add((VisitorOnOrder)res);
+            OnRefresh?.Invoke();
+        }
+
+        public void Agreer()
+        {
+            VisitorsModelResult result = ViewManager.Instance.OpenWindowModal(
+                "VisitorsListWindViewOk", null) as VisitorsModelResult;
+            CurrentTemporaryOrder.AgreeId = result.Id;
+            CurrentTemporaryOrder.Agree = result.Name;
+            OnRefresh?.Invoke();
+        }
+
+        public void SignerSingle()
+        {
+            VisitorsModelResult result = ViewManager.Instance.OpenWindowModal(
+                "VisitorsListWindViewOk", null) as VisitorsModelResult;
+            CurrentSingleOrder.SignedId = result.Id;
+            CurrentSingleOrder.Signed = result.Name;
+            OnRefresh?.Invoke();
+        }
+
+        public void SignerTemp()
+        {
+            VisitorsModelResult result = ViewManager.Instance.OpenWindowModal(
+                "VisitorsListWindViewOk", null) as VisitorsModelResult;
+            CurrentTemporaryOrder.SignedId = result.Id;
+            CurrentTemporaryOrder.Signed = result.Name;
+            OnRefresh?.Invoke();
         }
     }
 }
+

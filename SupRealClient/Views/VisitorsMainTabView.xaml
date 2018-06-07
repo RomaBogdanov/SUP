@@ -3,6 +3,8 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+                 xmlns:wpfx="http://schemas.xceed.com/wpf/xaml/toolkit"
+                 xmlns:gl="clr-namespace:System.Globalization;assembly=mscorlib"
         xmlns:local="clr-namespace:SupRealClient.Views"
         xmlns:mah="http://metro.mahapps.com/winfx/xaml/controls"
         mc:Ignorable="d"
@@ -107,14 +109,32 @@
                 HorizontalAlignment="Left"
                 Style="{StaticResource TextBLockStyle}"/>
 
+        <!--
             <TextBox
                 Grid.Row="4"
                 Grid.Column="1"
                 Text=""
                 FontSize="15"
-                Style="{StaticResource TextBoxStyle}"/>
+                Style="{StaticResource TextBoxStyle}"/>-->
+        <DatePicker Grid.Row="4"
+                Grid.Column="1"
+                Text=""
+                FontSize="15" Margin="10">
+            <DatePicker.Resources>
+                <Style TargetType="{x:Type DatePickerTextBox}">
+                    <Setter Property="Control.Template">
+                        <Setter.Value>
+                            <ControlTemplate>
+                                <wpfx:MaskedTextBox x:Name="PART_TextBox" Mask="00/00/0000" 
+                                    Text="{ Binding Path=SelectedDate,ConverterCulture={x:Static gl:CultureInfo.CurrentCulture}, StringFormat=dd/MM/yyyy, RelativeSource={RelativeSource AncestorType={x:Type DatePicker}}}" />
+                            </ControlTemplate>
+                        </Setter.Value>
+                    </Setter>
+                </Style>
+            </DatePicker.Resources>
+        </DatePicker>
 
-            <TextBlock 
+        <TextBlock 
                 Grid.Row="5"
                 Grid.Column="0"
                 Text="Кем выдан"

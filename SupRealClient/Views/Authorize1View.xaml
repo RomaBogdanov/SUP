@@ -60,7 +60,7 @@
                 Grid.Row="2" 
                 Grid.Column="0"
                 Grid.ColumnSpan="2" 
-                FontSize="{Binding FontSize}" 
+                FontSize="{Binding FontSize}" VerticalContentAlignment="Center"
                 Margin="2" 
                 Text="{Binding Path=Login, Mode=TwoWay}"/>
             
@@ -78,7 +78,7 @@
                 Grid.Row="4" 
                 Grid.Column="0"
                 Grid.ColumnSpan="2" 
-                FontSize="{Binding FontSize}"
+                FontSize="{Binding FontSize}" VerticalContentAlignment="Center"
                 Margin="2" 
                 Name="txtPass"/>
 
