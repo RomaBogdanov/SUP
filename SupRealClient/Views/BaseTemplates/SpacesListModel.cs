@@ -27,7 +27,8 @@ namespace SupRealClient.Views
             AddUpdateAbstrModel model = new AddSpaceModel();
             AddUpdateBaseViewModel viewModel = new AddUpdateBaseViewModel
                 {
-                    Model = model
+                    Model = model,
+                    Title = "Добавление помещения"
                 };
             AddUpdateSpaceView view = new AddUpdateSpaceView();
             view.DataContext = viewModel;

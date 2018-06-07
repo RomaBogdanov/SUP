@@ -22,6 +22,7 @@ namespace SupRealClient.ViewModels.AddUpdateViewModel
         protected AddUpdateAbstrModel model;
         protected string okCaption;
         //protected object currentItem;
+        protected string title;
 
         public IWindow Parent { get; set; }
 
@@ -57,6 +58,16 @@ namespace SupRealClient.ViewModels.AddUpdateViewModel
             set
             {
                 okCaption = value;
+                OnPropertyChanged();
+            }
+        }
+
+        public string Title
+        {
+            get { return title; }
+            set
+            {
+                title = value;
                 OnPropertyChanged();
             }
         }

@@ -16,6 +16,8 @@ namespace SupRealClient.ViewModels
         private int numMAFW;
         private string comment;
 
+        public string Caption { get; private set; }
+
         public int CurdNum
         {
             get { return curdNum; }
@@ -83,6 +85,9 @@ namespace SupRealClient.ViewModels
         public void SetModel(IAddUpdateCardModel addItem1Model)
         {
             this.model = addItem1Model;
+            this.Caption = addItem1Model is AddCardModel ? "Добавление пропуска" :
+                           addItem1Model is UpdateCardModel ? "Редактирование пропуска" :
+                           string.Empty;
             this.CurdNum = model.Data.CurdNum;
             this.CreateDate = model.Data.CreateDate;
             this.NumMAFW = model.Data.NumMAFW;

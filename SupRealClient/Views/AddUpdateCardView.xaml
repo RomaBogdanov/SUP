@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:mah="http://metro.mahapps.com/winfx/xaml/controls"
         mc:Ignorable="d" 
-        Title="Добавление пропуска" 
+        Title="{Binding Path=Caption, Mode=OneTime}" 
         Height="320" Width="350"
         ResizeMode="NoResize" 
         Loaded="MetroWindow_Loaded" >
