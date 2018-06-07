@@ -11,7 +11,6 @@ namespace SupRealClient.Views
     /// </summary>
     public partial class Base2View : UserControl
     {
-        Base1ViewModel viewModel = new Base1ViewModel();
 
         public Base2View()
         {
@@ -58,11 +57,6 @@ namespace SupRealClient.Views
             tbxSearch.Focus();
         }
 
-        private void UserControl_KeyDown(object sender, KeyEventArgs e)
-        {
-
-        }
-
         private void UserControl_PreviewKeyDown(object sender, KeyEventArgs e)
         {
             if (e.Key == Key.Up & !BaseTab.IsKeyboardFocusWithin)
@@ -92,5 +86,10 @@ namespace SupRealClient.Views
                 ((ISuperBaseViewModel)DataContext).End.Execute(null);
             }
         }
+
+        #region Под удаление
+
+
+#endregion
     }
 }

@@ -6,6 +6,8 @@
         xmlns:local="clr-namespace:SupRealClient.Views"
         xmlns:behaviour="clr-namespace:SupRealClient.Behaviour"
         xmlns:mah="http://metro.mahapps.com/winfx/xaml/controls"
+                 xmlns:wpfx="http://schemas.xceed.com/wpf/xaml/toolkit"
+                 xmlns:gl="clr-namespace:System.Globalization;assembly=mscorlib"
         mc:Ignorable="d"
         Title="Подробно" Height="600" Width="400"
         KeyDown="DetailVisitsView_OnKeyDown">
@@ -121,11 +123,26 @@
             Text="Дата выдачи"
             Style="{StaticResource TextBLockDetailStyle}"/>
 
+        <!--
         <TextBox
             Grid.Row="7"
             Grid.Column="1"
             Text="{Binding StartTime}"
-            Style="{StaticResource TextBoxDetailStyle}"/>
+            Style="{StaticResource TextBoxDetailStyle}"/>-->
+        <DatePicker Grid.Row="7" Grid.Column="1" SelectedDate="{Binding StartTime}">
+            <DatePicker.Resources>
+                <Style TargetType="{x:Type DatePickerTextBox}">
+                    <Setter Property="Control.Template">
+                        <Setter.Value>
+                            <ControlTemplate>
+                                <wpfx:MaskedTextBox x:Name="PART_TextBox" Mask="00/00/0000" 
+                                    Text="{ Binding Path=SelectedDate,ConverterCulture={x:Static gl:CultureInfo.CurrentCulture}, StringFormat=dd/MM/yyyy, RelativeSource={RelativeSource AncestorType={x:Type DatePicker}}}" />
+                            </ControlTemplate>
+                        </Setter.Value>
+                    </Setter>
+                </Style>
+            </DatePicker.Resources>
+        </DatePicker>
 
         <TextBlock
             Grid.Row="8"
@@ -133,11 +150,26 @@
             Text="Дата возврата"
             Style="{StaticResource TextBLockDetailStyle}"/>
 
+        <!--
         <TextBox
             Grid.Row="8"
             Grid.Column="1"
             Text="{Binding EndTime}"
-            Style="{StaticResource TextBoxDetailStyle}"/>
+            Style="{StaticResource TextBoxDetailStyle}"/>-->
+        <DatePicker Grid.Row="8" Grid.Column="1" SelectedDate="{Binding EndTime}">
+            <DatePicker.Resources>
+                <Style TargetType="{x:Type DatePickerTextBox}">
+                    <Setter Property="Control.Template">
+                        <Setter.Value>
+                            <ControlTemplate>
+                                <wpfx:MaskedTextBox x:Name="PART_TextBox" Mask="00/00/0000" 
+                                    Text="{ Binding Path=SelectedDate,ConverterCulture={x:Static gl:CultureInfo.CurrentCulture}, StringFormat=dd/MM/yyyy, RelativeSource={RelativeSource AncestorType={x:Type DatePicker}}}" />
+                            </ControlTemplate>
+                        </Setter.Value>
+                    </Setter>
+                </Style>
+            </DatePicker.Resources>
+        </DatePicker>
 
         <TextBlock
             Grid.Row="9"
@@ -145,11 +177,26 @@
             Text="Период с"
             Style="{StaticResource TextBLockDetailStyle}"/>
 
+        <!--
         <TextBox
             Grid.Row="9"
             Grid.Column="1"
             Text="{Binding PeriodFrom}"
-            Style="{StaticResource TextBoxDetailStyle}"/>
+            Style="{StaticResource TextBoxDetailStyle}"/>-->
+        <DatePicker Grid.Row="9" Grid.Column="1" SelectedDate="{Binding PeriodFrom}">
+            <DatePicker.Resources>
+                <Style TargetType="{x:Type DatePickerTextBox}">
+                    <Setter Property="Control.Template">
+                        <Setter.Value>
+                            <ControlTemplate>
+                                <wpfx:MaskedTextBox x:Name="PART_TextBox" Mask="00/00/0000" 
+                                    Text="{ Binding Path=SelectedDate,ConverterCulture={x:Static gl:CultureInfo.CurrentCulture}, StringFormat=dd/MM/yyyy, RelativeSource={RelativeSource AncestorType={x:Type DatePicker}}}" />
+                            </ControlTemplate>
+                        </Setter.Value>
+                    </Setter>
+                </Style>
+            </DatePicker.Resources>
+        </DatePicker>
 
         <TextBlock
             Grid.Row="10"
@@ -157,11 +204,26 @@
             Text="Период по"
             Style="{StaticResource TextBLockDetailStyle}"/>
 
+        <!--
         <TextBox
             Grid.Row="10"
             Grid.Column="1"
             Text="{Binding PeriodTo}"
-            Style="{StaticResource TextBoxDetailStyle}"/>
+            Style="{StaticResource TextBoxDetailStyle}"/>-->
+        <DatePicker Grid.Row="10" Grid.Column="1" SelectedDate="{Binding PeriodTo}">
+            <DatePicker.Resources>
+                <Style TargetType="{x:Type DatePickerTextBox}">
+                    <Setter Property="Control.Template">
+                        <Setter.Value>
+                            <ControlTemplate>
+                                <wpfx:MaskedTextBox x:Name="PART_TextBox" Mask="00/00/0000" 
+                                    Text="{ Binding Path=SelectedDate,ConverterCulture={x:Static gl:CultureInfo.CurrentCulture}, StringFormat=dd/MM/yyyy, RelativeSource={RelativeSource AncestorType={x:Type DatePicker}}}" />
+                            </ControlTemplate>
+                        </Setter.Value>
+                    </Setter>
+                </Style>
+            </DatePicker.Resources>
+        </DatePicker>
 
         <TextBlock
             Grid.Row="11"
@@ -205,11 +267,26 @@
             Text="Дата правки"
             Style="{StaticResource TextBLockDetailStyle}"/>
 
+        <!--
         <TextBox
             Grid.Row="14"
             Grid.Column="1"
             Text="{Binding EditDate}"
-            Style="{StaticResource TextBoxDetailStyle}"/>
+            Style="{StaticResource TextBoxDetailStyle}"/>-->
+        <DatePicker Grid.Row="14" Grid.Column="1" SelectedDate="{Binding EditDate}">
+            <DatePicker.Resources>
+                <Style TargetType="{x:Type DatePickerTextBox}">
+                    <Setter Property="Control.Template">
+                        <Setter.Value>
+                            <ControlTemplate>
+                                <wpfx:MaskedTextBox x:Name="PART_TextBox" Mask="00/00/0000" 
+                                    Text="{ Binding Path=SelectedDate,ConverterCulture={x:Static gl:CultureInfo.CurrentCulture}, StringFormat=dd/MM/yyyy, RelativeSource={RelativeSource AncestorType={x:Type DatePicker}}}" />
+                            </ControlTemplate>
+                        </Setter.Value>
+                    </Setter>
+                </Style>
+            </DatePicker.Resources>
+        </DatePicker>
 
         <TextBlock
             Grid.Row="15"

@@ -159,7 +159,7 @@ namespace SupRealClient
 
         public object OpenRegions(int countryId)
         {
-            var window = new Base4RegionsWindView();
+            var window = new Base4RegionsWindView(Visibility.Visible);
             window.SetCountry(countryId);
             return OpenWindowModal(window);
         }
@@ -322,7 +322,9 @@ namespace SupRealClient
                 case "VisitorsView":
                     return new VisitorsView();
                 case @"VisitorsListWindView":
-                    return new VisitorsListWindView();
+                    return new VisitorsListWindView(Visibility.Hidden);
+                case @"VisitorsListWindViewOk":
+                    return new VisitorsListWindView(Visibility.Visible);
                 case "Base4CabinetsWindView":
                     return new Base4CabinetsWindView(Visibility.Hidden);
                 case "Base4CabinetsWindViewOk":
@@ -341,7 +343,7 @@ namespace SupRealClient
                     return new Base4OrganizationsLargeWindView();
                 //Base4OrganizationsLargeWindView
                 case "Base4RegionsWindView":
-                    return new Base4RegionsWindView();
+                    return new Base4RegionsWindView(Visibility.Hidden);
                 case "Base4BaseOrgsWindView":
                     return new Base4BaseOrgsWindView();
                 case "Base4ChildOrgsWindView":

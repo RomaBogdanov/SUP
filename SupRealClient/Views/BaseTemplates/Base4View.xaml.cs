@@ -65,4 +65,10 @@ namespace SupRealClient.Views
         public int Id { get; set; }
         public string Name { get; set; }
     }
+
+    public class VisitorsModelResult : BaseModelResult
+    {
+        public int OrganizationId { get; set; }
+        public string Organization { get; set; }
+    }
 }

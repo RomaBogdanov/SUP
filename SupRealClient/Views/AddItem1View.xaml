@@ -4,12 +4,22 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:mah="http://metro.mahapps.com/winfx/xaml/controls"
+        xmlns:converters="clr-namespace:SupRealClient.Behaviour"
         mc:Ignorable="d"        
         Title="{Binding Path=Caption, Mode=OneTime}"
-        Height="150" Width="300" 
+        Height="163.786" Width="276.838" 
         ResizeMode="NoResize"
-        Loaded="MetroWindow_Loaded">
-
+        Loaded="MetroWindow_Loaded"
+                 KeyDown="btnOK_KeyDown">
+    <mah:MetroWindow.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="SupResourcesDictionary.xaml" />
+            </ResourceDictionary.MergedDictionaries>
+            <BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter"/>
+            <converters:InverseBooleanConverter x:Key="InverseBooleanConverter"/>
+        </ResourceDictionary>
+    </mah:MetroWindow.Resources>
     <mah:MetroWindow.InputBindings>
         <KeyBinding Key="Escape" Command="{Binding Cancel}"/>
     </mah:MetroWindow.InputBindings>
@@ -22,17 +32,17 @@
         <Grid.RowDefinitions>
             <RowDefinition Height="30"/>
             <RowDefinition Height="30"/>
-            <RowDefinition Height="1*"/>
+            <RowDefinition Height="0.5*"/>
         </Grid.RowDefinitions>
         <TextBlock
             Grid.ColumnSpan="2" 
-            Text="Введите страну:"
+            Text="{Binding Path=InputHeader, Mode=OneTime}"
             FontSize="{Binding FontSize}"
             HorizontalAlignment="Left"
             Style="{StaticResource TextBLockStyle}"/>
-        
+
         <TextBox 
-            x:Name="tbInputCountry"
+            x:Name="tbInputNewItem"
             Grid.ColumnSpan="2" 
             Grid.Row="1" 
             Margin="2"
@@ -48,21 +58,19 @@
             Command="{Binding Path=Ok}"
             Margin="2"
             TabIndex="1"
-            Style="{StaticResource ButtonStyle}" 
-            KeyDown="btnOK_KeyDown"
-            >
-            <Grid Width="140">
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition/>
-                    <ColumnDefinition/>
-                </Grid.ColumnDefinitions>
+            Style="{StaticResource VisitorsSquareButtonStyle}" >
+            <Grid >
+                <Grid.RowDefinitions>
+                    <RowDefinition />
+                    <RowDefinition Height="0.4*"/>
+                </Grid.RowDefinitions>
 
                 <Image 
-                    Grid.Column="0"
+                    Grid.Row="0"
                     Source="../Resources/Принять (2).ico"/>
 
                 <TextBlock
-                    Grid.Column="1"
+                    Grid.Row="1"
                     Text="Ок"
                     FontSize="{Binding FontSize}"
                     Style="{StaticResource TextBLockStyle}"/>
@@ -74,19 +82,19 @@
             Margin="2"
             TabIndex="2"
             Command="{Binding Path=Cancel}"
-            Style="{StaticResource ButtonStyle}">
-            <Grid Width="140">
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition/>
-                    <ColumnDefinition/>
-                </Grid.ColumnDefinitions>
+            Style="{StaticResource VisitorsSquareButtonStyle}">
+            <Grid >
+                <Grid.RowDefinitions>
+                    <RowDefinition/>
+                    <RowDefinition Height="0.4*"/>
+                </Grid.RowDefinitions>
 
                 <Image
-                    Grid.Column="0"
+                    Grid.Row="0"
                     Source="../Resources/Отмена (2).ico"/>
 
                 <TextBlock
-                    Grid.Column="1"
+                    Grid.Row="1"
                     Text="Отмена"
                     FontSize="{Binding FontSize}"
                     Style="{StaticResource TextBLockStyle}"/>
