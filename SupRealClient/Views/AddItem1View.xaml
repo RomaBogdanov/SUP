@@ -36,13 +36,13 @@
         </Grid.RowDefinitions>
         <TextBlock
             Grid.ColumnSpan="2" 
-            Text="Введите страну:"
+            Text="{Binding Path=InputHeader, Mode=OneTime}"
             FontSize="{Binding FontSize}"
             HorizontalAlignment="Left"
             Style="{StaticResource TextBLockStyle}"/>
 
         <TextBox 
-            x:Name="tbInputCountry"
+            x:Name="tbInputNewItem"
             Grid.ColumnSpan="2" 
             Grid.Row="1" 
             Margin="2"

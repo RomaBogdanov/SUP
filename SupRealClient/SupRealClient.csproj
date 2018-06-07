@@ -211,6 +211,9 @@
     <Compile Include="Views\AddUnitView.xaml.cs">
       <DependentUpon>AddUnitView.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Views\AddUpdateBidWindView.xaml.cs">
+      <DependentUpon>AddUpdateBidWindView.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Views\AddUpdateCabinetView.xaml.cs">
       <DependentUpon>AddUpdateCabinetView.xaml</DependentUpon>
     </Compile>
@@ -463,6 +466,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Views\AddUnitView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\AddUpdateBidWindView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

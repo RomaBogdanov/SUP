@@ -22,7 +22,7 @@ namespace SupRealClient.Views
 
         private void MetroWindow_Loaded(object sender, RoutedEventArgs e)
         {
-            tbInputCountry.Focus();
+            tbInputNewItem.Focus();
         }
 
         private void btnOK_KeyDown(object sender, System.Windows.Input.KeyEventArgs e)

@@ -229,4 +229,15 @@ namespace SupRealClient.Models.AddUpdateModel
             EquipmentWrapper.CurrentTable().Table.Rows.Add(row);
         }
     }
+
+    /// <summary>
+    /// Обработчик формы добавления новой разовой заявки.
+    /// </summary>
+    public class AddSingleBidModel : AddUpdateAbstrModel
+    {
+        public AddSingleBidModel()
+        {
+            CurrentItem = new VisitorOnOrder();
+        }
+    }
 }

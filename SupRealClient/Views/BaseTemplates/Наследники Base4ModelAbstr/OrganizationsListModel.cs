@@ -23,14 +23,22 @@ namespace SupRealClient.Views
 
         public override void Add()
         {
-            ViewManager.Instance.AddObject(new AddOrgsModel(), Parent);
+            AddOrgsModel model =new AddOrgsModel();
+            var wind = new AddUpdateOrgsView(model);
+            wind.ShowDialog();
+
+            //ViewManager.Instance.AddObject(new AddOrgsModel(), Parent);
         }
 
         public override void Update()
         {
             if (CurrentItem != null)
             {
-                ViewManager.Instance.UpdateObject(new UpdateOrgsModel(CurrentItem), Parent);
+                UpdateOrgsModel model = new UpdateOrgsModel(CurrentItem);
+                var wind = new AddUpdateOrgsView(model);
+                wind.ShowDialog();
+
+                //ViewManager.Instance.UpdateObject(new UpdateOrgsModel(CurrentItem), Parent);
             }
         }
 
