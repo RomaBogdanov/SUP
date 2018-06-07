@@ -11,8 +11,9 @@ namespace SupRealClient.Views
     /// </summary>
     public partial class Base1View : UserControl
     {
-        
-
+        /// <summary>
+        /// Конструктор по умолчанию.
+        /// </summary>
         public Base1View()
         {
             InitializeComponent();
