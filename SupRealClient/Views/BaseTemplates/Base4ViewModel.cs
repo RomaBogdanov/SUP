@@ -251,13 +251,14 @@ namespace SupRealClient.Views
         public void RemoveCom()
         {
             if (CurrentItem != null &&
-                MessageBox.Show("Вы действительно хотите удалить эту запись?", "Удаление", MessageBoxButton.YesNo, MessageBoxImage.Question) ==
+                MessageBox.Show("Вы действительно хотите удалить эту запись?", 
+                "Удаление", 
+                MessageBoxButton.YesNo, MessageBoxImage.Question) ==
                 MessageBoxResult.Yes)
             {
                 if (this.Model.Remove())
                 {
-                    MessageBox.Show("Не удалось удалить элемент,\n" +
-                        "Возможно, он используется в других элементах");
+                    UpdateCom();
                 }
             }
         }
