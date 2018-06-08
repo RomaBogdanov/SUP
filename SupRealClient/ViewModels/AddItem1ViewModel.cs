@@ -5,12 +5,22 @@ using System.Windows.Input;
 
 namespace SupRealClient.ViewModels
 {
+    /// <summary>
+    /// ViewModel для добавления\редактирования документов, гражданств.
+    /// </summary>
     public class AddItem1ViewModel : INotifyPropertyChanged
     {
+        /// <summary>
+        /// Событие изменения свойства.
+        /// </summary>
         public event PropertyChangedEventHandler PropertyChanged;
+
         private IAddItem1Model model;
         private string field = "";
 
+        /// <summary>
+        /// Заголовок окна.
+        /// </summary>
         public string Caption { get; private set; }
         public string InputHeader { get; private set; }
 
@@ -33,14 +43,26 @@ namespace SupRealClient.ViewModels
         public ICommand Cancel
         { get; set; }
 
-        public AddItem1ViewModel()
+        public AddItem1ViewModel() { }
+
+        /// <summary>
+        /// Задать заголовок окна.
+        /// </summary>
+        /// <param name="addItem1Model"></param>
+        private void SetTitle(IAddItem1Model addItem1Model)
         {
+            this.Caption = addItem1Model is AddItemDocumentsModel ? "Добавление документа" :
+                addItem1Model is UpdateItemDocumentsModel ? "Редактирование документа" :
+                addItem1Model is AddItemNationsModel ? "Добавление" :
+                addItem1Model is UpdateItemNationsModel ? "Редактирование" :
+                string.Empty;
         }
 
         public void SetModel(IAddItem1Model addItem1Model)
         {
             this.model = addItem1Model;
-            this.Caption = "Добавление";
+            SetTitle(this.model); // Заголовок окна.
+            
             this.InputHeader = addItem1Model is AddItemDocumentsModel ? "Введите документ:" :
                                addItem1Model is AddItemNationsModel ? "Введите страну:" :
                                "Введите новое имя:";

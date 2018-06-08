@@ -16,7 +16,7 @@ namespace SupRealClient.Views
             AfterInitialize();
             ((Base4ViewModel<EnumerationClasses.Document>)base4.DataContext)
                 .OkVisibility = okVisibility;
-            base4.btnRemove.Visibility = Visibility.Collapsed;
+            base4.btnRemove.Visibility = Visibility.Collapsed; // Скрываем кнопку "Удалить".
             base4.Focus();
         }
 

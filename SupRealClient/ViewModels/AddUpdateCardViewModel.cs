@@ -82,6 +82,7 @@ namespace SupRealClient.ViewModels
 
         public AddUpdateCardViewModel() { }
 
+
         public void SetModel(IAddUpdateCardModel addItem1Model)
         {
             this.model = addItem1Model;
