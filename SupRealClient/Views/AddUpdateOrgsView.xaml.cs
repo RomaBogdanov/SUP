@@ -52,6 +52,10 @@ namespace SupRealClient.Views
                     elementWithFocus.MoveFocus(_focusMover);
                 }
             }
+            else if (sender is ComboBox && ((ComboBox)sender).Name == "TypeTextBox")
+            {
+                TypeTextBoxTextChanged(sender, e);
+            }
         }
 
         private void tbComments_KeyUp(object sender, KeyEventArgs e)
@@ -69,5 +73,52 @@ namespace SupRealClient.Views
                 btnOK.Command.Execute(null);
             }
         }
-    }
+
+        void TypeTextBoxTextChanged(object sender, KeyEventArgs e)
+        {
+            string tbText = TypeTextBox.Text;
+
+            TypeTextBox.SelectedValue = null;
+            TypeTextBox.Text = tbText;
+            locationEndCursorCB(TypeTextBox);             
+
+            if (!TypeTextBox.IsDropDownOpen)
+                TypeTextBox.IsDropDownOpen = true;
+
+            CollectionView cv = (CollectionView)CollectionViewSource.GetDefaultView(TypeTextBox.ItemsSource);
+
+            //cv.Filter = ((o) =>
+            //{
+            //    if (String.IsNullOrEmpty(tbText)) return true;
+            //    else
+            //    {
+            //        if (o != null && ((string)o).StartsWith(tbText)) return true;
+            //        else return false;
+            //    }
+            //});
+            //cv.Refresh();
+
+
+            foreach (var item in cv)
+            {
+                if (item != null && ((string)item)==(tbText))
+                {
+                    TypeTextBox.SelectedValue = item;
+                    e.Handled = true;
+                    break;
+                }
+            }
+        }
+
+        void locationEndCursorCB(ComboBox cmBox)
+        {
+            var textBox = (cmBox.Template.FindName("PART_EditableTextBox",
+                           cmBox) as TextBox);
+            if (textBox != null)
+            {
+                textBox.Focus();
+                textBox.SelectionStart = textBox.Text.Length;
+            }
+        }
+    } 
 }
