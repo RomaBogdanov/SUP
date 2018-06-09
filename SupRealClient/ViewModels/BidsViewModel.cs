@@ -37,6 +37,7 @@ namespace SupRealClient.ViewModels
                 CurrentVirtueOrder = bidsModel.CurrentVirtueOrder;
                 IsCanAddRows = bidsModel.IsCanAddRows;
                 AddUpdVisib = bidsModel.IsAddUpdVisib;
+                bidsModel.OrderType= CurrentOrderType;
                 bidsModel.OnRefresh += BidsModel_OnRefresh;
             }
         }
@@ -45,6 +46,19 @@ namespace SupRealClient.ViewModels
         {
             CurrentTemporaryOrder = BidsModel.CurrentTemporaryOrder;
             CurrentSingleOrder = BidsModel.CurrentSingleOrder;
+            CurrentSingleOrder.VisitorsList = BidsModel.CurrentSingleOrder.VisitorsList;
+            CurrentTemporaryOrder.VisitorsList = BidsModel.CurrentTemporaryOrder.VisitorsList;
+            //UpdateVisitor = BidsModel.UpdateVisitor;
+        }
+
+        public VisitorOnOrder UpdateVisitor
+        {
+            get { return BidsModel?.UpdateVisitor;}
+            set
+            {
+                BidsModel.UpdateVisitor = value;
+                OnPropertyChanged();
+            }
         }
 
         public ObservableCollection<Order> SingleOrdersSet
@@ -190,6 +204,26 @@ namespace SupRealClient.ViewModels
                 OnPropertyChanged();
             }
         }
+
+        /// <summary>
+        /// Свойство для определения текущей открытой вкладки.
+        /// </summary>
+        private OrderType CurrentOrderType
+        {
+            get
+            {
+                if (IsTempOrder)
+                {
+                    return OrderType.Temp;
+                }
+                else if (IsSingleOrder)
+                {
+                    return OrderType.Single;
+                }
+
+                return OrderType.Single;
+            }
+        }
         
         public bool IsCanAddRows
         {
@@ -232,6 +266,7 @@ namespace SupRealClient.ViewModels
         public ICommand ReloadCommand { get; set; }
 
         public ICommand AddPersonCommand { get; set; }
+        public ICommand UpdatePersonCommand { get; set; }
         public ICommand SignerSingleCommand { get; set; } // посписывающий разовую
         public ICommand SignerTempCommand { get; set; } // посписывающий временную
         public  ICommand AgreerCommand { get; set; } // согласующий
@@ -251,6 +286,7 @@ namespace SupRealClient.ViewModels
             FurtherCommand = new RelayCommand(arg => Further());
             ReloadCommand = new RelayCommand(arg => Reload());
             AddPersonCommand = new RelayCommand(arg => AddPerson());
+            UpdatePersonCommand =new RelayCommand(arg => UpdatePerson());
             SignerSingleCommand = new RelayCommand(arg => SignerSingle());
             SignerTempCommand = new RelayCommand(arg => SignerTemp());
             AgreerCommand = new RelayCommand(arg => Agreer());
@@ -274,6 +310,12 @@ namespace SupRealClient.ViewModels
         private void AddPerson()
         {
             BidsModel.AddPerson();
+        }
+
+        private void UpdatePerson()
+        {
+            BidsModel.UpdatePerson();
+            UpdateVisitor = BidsModel.UpdateVisitor;
         }
 
         private void Begin()
@@ -374,6 +416,7 @@ namespace SupRealClient.ViewModels
         OrderType OrderType { get; set; }
         bool IsCanAddRows { get; set; }
         Visibility IsAddUpdVisib { get; set; }
+        VisitorOnOrder UpdateVisitor { get; set; }
 
         void AddPerson();
         void Begin();
@@ -391,6 +434,7 @@ namespace SupRealClient.ViewModels
         void Agreer();
         void SignerSingle();
         void SignerTemp();
+        void UpdatePerson();
     }
 
     public class BidsModel : IBidsModel
@@ -415,6 +459,7 @@ namespace SupRealClient.ViewModels
         public bool IsCanAddRows { get; set; } = false;
 
         public Visibility IsAddUpdVisib { get; set; } = Visibility.Hidden;
+        public VisitorOnOrder UpdateVisitor { get; set; }
 
         public BidsModel()
         {
@@ -672,6 +717,11 @@ namespace SupRealClient.ViewModels
         {
             //throw new NotImplementedException();
         }
+
+        public void UpdatePerson()
+        {
+            throw new NotImplementedException();
+        }
     }
 
     public class NewBidsModel : IBidsModel
@@ -688,6 +738,7 @@ namespace SupRealClient.ViewModels
         public bool IsCanAddRows { get; set; } = true;
 
         public Visibility IsAddUpdVisib { get; set; } = Visibility.Visible;
+        public VisitorOnOrder UpdateVisitor { get; set; }
 
         public NewBidsModel()
         {
@@ -783,6 +834,24 @@ namespace SupRealClient.ViewModels
             }
         }
 
+        public void UpdatePerson()
+        {
+            AddUpdateAbstrModel model = new UpdateBidModel(UpdateVisitor);
+            AddUpdateBaseViewModel viewModel = new AddUpdateBidsViewModel
+            {
+                Model = model
+            };
+            AddUpdateBidWindView view = new AddUpdateBidWindView();
+            view.DataContext = viewModel;
+            model.OnClose += view.Handling_OnClose;
+            view.ShowDialog();
+            int i = CurrentSingleOrder.VisitorsList.IndexOf(UpdateVisitor);
+            CurrentSingleOrder.VisitorsList[i] = (view.WindowResult as VisitorOnOrder);
+            UpdateVisitor = CurrentSingleOrder.VisitorsList[i];
+            //UpdateVisitor = (VisitorOnOrder)(view.WindowResult as VisitorOnOrder).Clone();
+            OnRefresh?.Invoke();
+        }
+
         private void AddPersonInSingleOrder()
         {
             AddUpdateAbstrModel model = new AddSingleBidModel();
@@ -845,6 +914,7 @@ namespace SupRealClient.ViewModels
             CurrentTemporaryOrder.Signed = result.Name;
             OnRefresh?.Invoke();
         }
+
     }
 }
 

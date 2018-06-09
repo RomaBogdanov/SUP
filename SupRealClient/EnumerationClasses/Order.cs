@@ -5,6 +5,9 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Data;
 using System.Collections.ObjectModel;
+using System.ComponentModel;
+using System.Runtime.CompilerServices;
+using SupRealClient.Annotations;
 using SupRealClient.TabsSingleton;
 
 namespace SupRealClient.EnumerationClasses
@@ -58,7 +61,7 @@ namespace SupRealClient.EnumerationClasses
     /// <summary>
     /// Описание посетителя по заявке.
     /// </summary>
-    public class VisitorOnOrder
+    public class VisitorOnOrder : INotifyPropertyChanged, ICloneable
     {
         private int visitorId;
         private int organizationId;
@@ -77,7 +80,17 @@ namespace SupRealClient.EnumerationClasses
                 OrganizationId = (int)row["f_org_id"];
             }
         }
-        public string Visitor { get; set; }
+
+        private string visitor = "";
+
+        public string Visitor {
+            get { return visitor; }
+            set
+            {
+                visitor = value;
+                OnPropertyChanged();
+            }
+        }
         public int OrganizationId
         {
             get { return organizationId; }
@@ -101,12 +114,67 @@ namespace SupRealClient.EnumerationClasses
                 Catcher = VisitorsWrapper.CurrentTable().Table.AsEnumerable()
                     .FirstOrDefault(arg => arg.Field<int>("f_visitor_id") ==
                                            catcherId)["f_full_name"].ToString();
+                
             }
         } // Id сопровождающего
 
-        public string Catcher { get; set; } = ""; // сопровождающий
-        public DateTime From { get; set; }
-        public DateTime To { get; set; }
-        public string Passes { get; set; } = "";
+        private string catcher = "";
+        public string Catcher
+        {
+            get { return catcher;}
+            set
+            {
+                catcher = value;
+                OnPropertyChanged();
+            }
+        } // сопровождающий
+
+        private DateTime from= DateTime.MinValue;
+        public DateTime From
+        {
+            get { return from;}
+            set
+            {
+                from = value;
+                OnPropertyChanged();
+            }
+        }
+
+        private DateTime to = DateTime.MinValue;
+
+        public DateTime To
+        {
+            get { return to;}
+            set
+            {
+                to = value;
+                OnPropertyChanged();
+            }
+        }
+
+        private string passes = "";
+
+        public string Passes
+        {
+            get { return passes;}
+            set
+            {
+                passes = value;
+                OnPropertyChanged();
+            }
+        }
+
+        public event PropertyChangedEventHandler PropertyChanged;
+
+        [NotifyPropertyChangedInvocator]
+        protected virtual void OnPropertyChanged([CallerMemberName] string propertyName = null)
+        {
+            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
+        }
+
+        public object Clone()
+        {
+            return this.MemberwiseClone();
+        }
     }
 }
