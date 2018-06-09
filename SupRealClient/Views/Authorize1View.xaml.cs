@@ -1,5 +1,7 @@
 ﻿using SupRealClient.ViewModels;
+using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Input;
 
 namespace SupRealClient.Views
 {
@@ -8,6 +10,11 @@ namespace SupRealClient.Views
     /// </summary>
     public partial class Authorize1View : UserControl
     {
+        /// <summary>
+        /// Двигатель фокуса
+        /// </summary>
+        private TraversalRequest _focusMover = new TraversalRequest(FocusNavigationDirection.Next);
+
         public Authorize1View()
         {
             InitializeComponent();
@@ -16,6 +23,31 @@ namespace SupRealClient.Views
         public void Reset()
         {
             (this.DataContext as Authorize1ViewModel).Reset();
+        }
+
+        private void TextBox_KeyUp(object sender, System.Windows.Input.KeyEventArgs e)
+        {
+            if (e.Key == Key.Enter)
+            {
+                UIElement elementWithFocus = Keyboard.FocusedElement as UIElement;
+                if (elementWithFocus != null)
+                {
+                    elementWithFocus.MoveFocus(_focusMover);
+                }
+            }
+        }
+
+        private void Button_KeyDown(object sender, System.Windows.Input.KeyEventArgs e)
+        {
+            if (e.Key == Key.Enter)
+            {
+                btnOK.Command.Execute(null);
+            }
+        }
+
+        private void UserControl_Loaded(object sender, RoutedEventArgs e)
+        {
+            txtLogin.Focus();
         }
     }
 }

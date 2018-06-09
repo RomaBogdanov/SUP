@@ -1,19 +1,25 @@
-﻿<mah:MetroWindow x:Class="SupRealClient.MainWindow"
+﻿<mah:MetroWindow x:Name="window" x:Class="SupRealClient.MainWindow"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
         xmlns:local="clr-namespace:SupRealClient.ViewModels"
-        xmlns:mah="http://metro.mahapps.com/winfx/xaml/controls"
+        xmlns:mah="http://metro.mahapps.com/winfx/xaml/controls"                 
         mc:Ignorable="d"
-        Title="Система учёта посетителей" FontSize="18"
-        Height="350" Width="525"
-        WindowState="Maximized" 
-        StateChanged="Window_StateChanged">
-
-    <!--d:DesignHeight="600" d:DesignWidth="1200"-->
-
+        Title="Система учёта посетителей" FontSize="18" StateChanged="Window_StateChanged" >
+    <mah:MetroWindow.Style>
+        <Style TargetType="mah:MetroWindow">
+            <Style.Triggers>
+                <DataTrigger Binding="{Binding ElementName=aaa, Path=Visibility}" Value="Collapsed">
+                    <Setter Property="WindowState" Value="Normal"/>
+                </DataTrigger>
+                <DataTrigger Binding="{Binding ElementName=aaa, Path=Visibility}" Value="Visible">
+                    <Setter Property="WindowState" Value="Maximized"/>
+                </DataTrigger>
+            </Style.Triggers>
+        </Style>
+    </mah:MetroWindow.Style>
     <mah:MetroWindow.InputBindings>
         <KeyBinding Gesture="Alt+P" Command="{Binding OpenVisitorsCommand}"/>
         <KeyBinding Gesture="Alt+V" Command="{Binding OpenVisitsCommand}"/>
@@ -21,7 +27,6 @@
         <KeyBinding Gesture="Alt+R" Command="{Binding OpenBidsCommand}"/>
         <KeyBinding Gesture="Ctrl+F4" Command="{Binding UserExit}"/>
     </mah:MetroWindow.InputBindings>
-    
     <mah:MetroWindow.RightWindowCommands>
         <mah:WindowCommands>
             <Grid>
@@ -45,7 +50,6 @@
             </Grid>
         </mah:WindowCommands>
     </mah:MetroWindow.RightWindowCommands>
-
     <i:Interaction.Triggers>
         <i:EventTrigger EventName="Closing">
             <i:InvokeCommandAction Command="{Binding Close}"/>
@@ -56,17 +60,17 @@
     </Window.DataContext>
     <Grid>
         <Grid.RowDefinitions>
-            <RowDefinition Height="40"/>
-            <RowDefinition Height="50"/>
+            <RowDefinition Height="35"/>
+            <RowDefinition Height="65"/>
             <RowDefinition Height="*"/>
-            <RowDefinition Height="30"/>
         </Grid.RowDefinitions>
-
         <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="130"/>
-            <ColumnDefinition/>
+            <ColumnDefinition />
+            <ColumnDefinition />
         </Grid.ColumnDefinitions>
-        <Menu Grid.RowSpan="1" Grid.Column="1" Background="White" VerticalAlignment="Center" Visibility="{Binding Path=DataVisibility, Mode=OneWay}">
+
+        <Menu Grid.RowSpan="1" Grid.Column="0" Background="White" VerticalAlignment="Center" Margin="10,2,0,2"
+              Visibility="{Binding Path=DataVisibility, Mode=OneWay}">
             <MenuItem Header="Действия" FontSize="{Binding ElementName=FontSizeLixtBox, Path=SelectedItem.Content}" >
                 <MenuItem Header="Отчёт" IsEnabled="False"/>
                 <MenuItem Header="Сохранить" IsEnabled="False"/>
@@ -126,23 +130,26 @@
             </MenuItem>
         </Menu>
 
-        <Grid
-            Grid.Row="1" 
-            Grid.RowSpan="2"
-            Grid.Column="0"
-            Visibility="{Binding Path=DataVisibility, Mode=OneWay}">
-            <Grid.RowDefinitions>
-                <RowDefinition/>
-                <RowDefinition/>
-                <RowDefinition/>
-                <RowDefinition/>
-                <RowDefinition/>
-                <RowDefinition/>
-                <RowDefinition/>
-                <RowDefinition/>
-            </Grid.RowDefinitions>
+        <StackPanel Grid.Row="0" Grid.Column="1" Orientation="Horizontal" Margin="2" HorizontalAlignment="Right">
+            <TextBox Margin="2" Width="200" FontSize="{Binding ElementName=FontSizeLixtBox, Path=SelectedItem.Content}" 
+                     Text="{Binding Path=AuthorizedUser, Mode=TwoWay}"/>
+            <TextBox Margin="2" Width="200" FontSize="{Binding ElementName=FontSizeLixtBox, Path=SelectedItem.Content}"/>
+        </StackPanel>
+
+        <Grid Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="2" Margin="5,0,5,0" Height="65"
+              Visibility="{Binding Path=DataVisibility, Mode=OneWay}">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition/>
+                <ColumnDefinition/>
+                <ColumnDefinition/>
+                <ColumnDefinition/>
+                <ColumnDefinition/>
+                <ColumnDefinition/>
+                <ColumnDefinition/>
+                <ColumnDefinition/>
+            </Grid.ColumnDefinitions>
             <Button 
-                Grid.Row="0" 
+                Grid.Column="0" 
                 IsEnabled="True" 
                 Style="{DynamicResource SquareButtonStyle}" 
                 FontSize="{Binding ElementName=FontSizeLixtBox, Path=SelectedItem.Content}"
@@ -162,7 +169,7 @@
                 </Grid>
             </Button>
             <Button 
-                Grid.Row="1" 
+                Grid.Column="1" 
                 IsEnabled="True" 
                 Style="{DynamicResource SquareButtonStyle}" 
                 FontSize="{Binding ElementName=FontSizeLixtBox, Path=SelectedItem.Content}"
@@ -182,7 +189,7 @@
                 </Grid>
             </Button>
             <Button 
-                Grid.Row="2" 
+                Grid.Column="2" 
                 IsEnabled="True" 
                 Style="{DynamicResource SquareButtonStyle}" 
                 FontSize="{Binding ElementName=FontSizeLixtBox, Path=SelectedItem.Content}"
@@ -202,7 +209,7 @@
                 </Grid>
             </Button>
             <Button 
-                Grid.Row="3" 
+                Grid.Column="3" 
                 IsEnabled="False" 
                 Style="{DynamicResource SquareButtonStyle}" 
                 FontSize="{Binding ElementName=FontSizeLixtBox, Path=SelectedItem.Content}">
@@ -215,7 +222,7 @@
                     <TextBlock Grid.Row="1" Text="Отчёт"></TextBlock>
                 </Grid>
             </Button>
-            <Button Grid.Row="4" IsEnabled="False" Style="{DynamicResource SquareButtonStyle}" FontSize="{Binding ElementName=FontSizeLixtBox, Path=SelectedItem.Content}">
+            <Button Grid.Column="4" IsEnabled="False" Style="{DynamicResource SquareButtonStyle}" FontSize="{Binding ElementName=FontSizeLixtBox, Path=SelectedItem.Content}">
                 <Grid>
                     <Grid.RowDefinitions>
                         <RowDefinition/>
@@ -225,7 +232,7 @@
                     <TextBlock Grid.Row="1" Text="Сохранить"></TextBlock>
                 </Grid>
             </Button>
-            <Button Grid.Row="5" IsEnabled="False" Style="{DynamicResource SquareButtonStyle}" FontSize="{Binding ElementName=FontSizeLixtBox, Path=SelectedItem.Content}">
+            <Button Grid.Column="5" IsEnabled="False" Style="{DynamicResource SquareButtonStyle}" FontSize="{Binding ElementName=FontSizeLixtBox, Path=SelectedItem.Content}">
                 <Grid>
                     <Grid.RowDefinitions>
                         <RowDefinition/>
@@ -235,7 +242,7 @@
                     <TextBlock Grid.Row="1" Text="Наименование"></TextBlock>
                 </Grid>
             </Button>
-            <Button Grid.Row="6" IsEnabled="False" Style="{DynamicResource SquareButtonStyle}" FontSize="{Binding ElementName=FontSizeLixtBox, Path=SelectedItem.Content}">
+            <Button Grid.Column="6" IsEnabled="False" Style="{DynamicResource SquareButtonStyle}" FontSize="{Binding ElementName=FontSizeLixtBox, Path=SelectedItem.Content}">
                 <Grid>
                     <Grid.RowDefinitions>
                         <RowDefinition/>
@@ -246,7 +253,7 @@
                 </Grid>
             </Button>
             <Button 
-                Grid.Row="7" 
+                Grid.Column="7" 
                 Style="{DynamicResource SquareButtonStyle}" 
                 FontSize="{Binding ElementName=FontSizeLixtBox, Path=SelectedItem.Content}" 
                 Content="Тест"
@@ -269,22 +276,10 @@
         <!--<local:Authorize1View Grid.Row="2"></local:Authorize1View>-->
         <ContentControl 
             x:Name="aaa" 
-            Grid.Row="1" 
-            Grid.RowSpan="2" 
-            Grid.Column="1" 
+            Grid.Row="2" 
             Content="{Binding Path=Control}" 
             Visibility="{Binding Path=LoginVisibility, Mode=OneWay}" 
-            FontSize="{Binding ElementName=FontSizeLixtBox, Path=SelectedItem.Content}"/>
-        
-        <Grid Grid.Row="3"
-              Grid.Column="1">
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="200"/>
-                <ColumnDefinition Width="200"/>
-                <ColumnDefinition Width="*"/>
-            </Grid.ColumnDefinitions>
-            <TextBox Margin="2" Grid.Column="0" FontSize="{Binding ElementName=FontSizeLixtBox, Path=SelectedItem.Content}" Text="{Binding Path=AuthorizedUser, Mode=TwoWay}"></TextBox>
-            <TextBox Margin="2" Grid.Column="1" FontSize="{Binding ElementName=FontSizeLixtBox, Path=SelectedItem.Content}"></TextBox>
-        </Grid>
+            FontSize="{Binding ElementName=FontSizeLixtBox, Path=SelectedItem.Content}" Grid.ColumnSpan="2">
+        </ContentControl>
     </Grid>
 </mah:MetroWindow>

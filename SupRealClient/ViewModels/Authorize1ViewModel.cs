@@ -317,7 +317,7 @@ namespace SupRealClient.ViewModels
         private void Invisible()
         {
             System.Threading.Thread.Sleep(1000);
-            this.mainWindowViewModel.LoginVisibility = Visibility.Hidden;
+            this.mainWindowViewModel.LoginVisibility = Visibility.Collapsed;
         }
 
         private Uri ParseUri()

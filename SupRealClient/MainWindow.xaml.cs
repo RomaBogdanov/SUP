@@ -63,6 +63,7 @@ namespace SupRealClient
             if (window.WindowState == WindowState.Minimized || window.WindowState == WindowState.Normal)
             {
                 ViewManager.Instance.SetChildrenState(sender as Window, true);
+                this.Height = 135;
             }
         }
     }
