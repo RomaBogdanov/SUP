@@ -30,15 +30,23 @@
             <ColumnDefinition Width="1*"/>
             <ColumnDefinition Width="1*"/>
             <ColumnDefinition Width="1*"/>
+            <ColumnDefinition Width="1*"/>
+            <ColumnDefinition Width="1*"/>
+            <ColumnDefinition Width="1*"/>
+            <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width="1*"/>
         </Grid.ColumnDefinitions>
         <Grid.RowDefinitions>
             <RowDefinition Height="1*"/>
             <RowDefinition Height="30"/>
             <RowDefinition Height="30"/>
-            <RowDefinition Height="70"/>
-            <RowDefinition Height="70"/>
+            <RowDefinition Height="50"/>
         </Grid.RowDefinitions>
-        <DataGrid Name="baseTab" Grid.Row="0" Grid.ColumnSpan="5"
+        <DataGrid 
+            Name="baseTab" 
+            Grid.Row="0" 
+            Grid.RowSpan="3" 
+            Grid.ColumnSpan="10"
             ItemsSource="{Binding Path=Set, Mode=TwoWay}" 
             CurrentItem="{Binding Path=CurrentItem, Mode=TwoWay}"
             Focusable="True" 
@@ -50,71 +58,91 @@
             ColumnHeaderStyle="{StaticResource SelectionColumnHeader}"
             KeyDown="BaseTab_OnKeyDown"
             ColumnWidth="*" Style="{StaticResource AzureDataGrid1}"
-            CanUserAddRows="False"> <!-- TODO - вернуть SelectedValue="{Binding Path=SelectedValue, Mode=TwoWay}"  -->
+            CanUserAddRows="False">
+            <!-- TODO - вернуть SelectedValue="{Binding Path=SelectedValue, Mode=TwoWay}"  -->
             <DataGrid.InputBindings>
                 <KeyBinding Key="Delete" Command="{Binding Remove}"/>
                 <MouseBinding
                     MouseAction="RightClick"
                     Command="{Binding RightClickCommand}"/>
-                
+
                 <MouseBinding
                     MouseAction="LeftDoubleClick"
                     Command="{Binding Update}"/>
             </DataGrid.InputBindings>
         </DataGrid>
-        
-        <TextBlock Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="5"
-                   Text="Поиск по полю:" 
-                   Margin="1" 
-                   FontSize="{Binding FontSize}" 
-                   Style="{StaticResource TextBLockStyle}"/>
-        
-        <TextBox Name="tbxSearch" Grid.Row="2" Grid.Column="0" Grid.ColumnSpan="5" Margin="1" 
-                 Text="{Binding Path=SearchingText, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" 
-                 FontSize="{Binding FontSize}" 
-                 Style="{StaticResource TextBoxStyle}"/>
-        
-        <Button Grid.Row="3" Grid.Column="0" Margin="1" 
-                Command="{Binding Path=Begin}" 
-                KeyDown="BaseTab_OnKeyDown" 
-                Style="{StaticResource VisitorsSquareButtonStyle}"
-                ToolTip="Home">
-            <Grid>
-                <Grid.RowDefinitions>
-                    <RowDefinition/>
-                    <RowDefinition Height="0.4*"/>
-                </Grid.RowDefinitions>
-                
-                <Image Grid.Row="0" Source="../../Resources/Начало (2).ico"/>                
-                <TextBlock Grid.Row="1"
-                           Text="Начало"
-                           FontSize="12"
-                           Style="{StaticResource TextBLockStyle}"/>
-            </Grid>
-        </Button>
-        
-        <Button Name="btnUp" Grid.Row="3" Grid.Column="1" Margin="1" 
-                Command="{Binding Path=Prev}" 
-                KeyDown="BaseTab_OnKeyDown"
-                Style="{StaticResource VisitorsSquareButtonStyle}"
-                ToolTip="↑">
-            <Grid>
-                <Grid.RowDefinitions>
-                    <RowDefinition/>
-                    <RowDefinition Height="0.4*"/>
-                </Grid.RowDefinitions>
 
-                <Image Grid.Row="0"
-                    Source="../../Resources/Предыдущий (2).ico"/>
+        <TextBlock 
+            Grid.Row="2" 
+            Grid.Column="0" 
+            Text="Поиск по полю:" 
+            Margin="1" 
+            FontSize="{Binding FontSize}" 
+            Style="{StaticResource TextBLockStyle}"/>
+
+        <TextBox 
+            Name="tbxSearch" 
+            Grid.Row="2" 
+            Grid.Column="1"
+            Grid.ColumnSpan="9" 
+            Margin="1" 
+            Text="{Binding Path=SearchingText, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" 
+            FontSize="{Binding FontSize}" 
+            Style="{StaticResource TextBoxStyle}"/>
+
+        <Button 
+            Grid.Row="3" 
+            Grid.Column="0" 
+            Margin="1" 
+            Command="{Binding Path=Begin}" 
+            KeyDown="BaseTab_OnKeyDown" 
+            Style="{StaticResource ButtonStyle}"
+            ToolTip="Home">
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="30"/>
+                    <ColumnDefinition/>
+                </Grid.ColumnDefinitions>
+
+                <Image
+                    Grid.Column="0"
+                    Source="../../Resources/Начало (2).ico"/>
 
                 <TextBlock
-                    Grid.Row="1"
-                    Text="Пред."
-                    FontSize="12"
+                    Grid.Column="1"
+                    Text="Начало"
+                    FontSize="{Binding FontSize}"
                     Style="{StaticResource TextBLockStyle}"/>
             </Grid>
         </Button>
-        
+
+        <Button 
+            Name="btnUp"
+            Grid.Row="3" 
+            Grid.Column="1" 
+            Margin="1" 
+            Command="{Binding Path=Prev}" 
+            KeyDown="BaseTab_OnKeyDown"
+            Style="{StaticResource ButtonStyle}"
+            ToolTip="↑">
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="30"/>
+                    <ColumnDefinition/>
+                </Grid.ColumnDefinitions>
+
+                <Image
+                    Grid.Column="0"
+                    Source="../../Resources/Предыдущий (2).ico"/>
+
+                <TextBlock
+                    Grid.Column="1"
+                    Text="Пред."
+                    FontSize="{Binding FontSize}"
+                    Style="{StaticResource TextBLockStyle}"/>
+            </Grid>
+        </Button>
+
         <Button 
             Name="btnDown"
             Grid.Row="3" 
@@ -122,169 +150,179 @@
             Margin="1" 
             Command="{Binding Path=Next}" 
             KeyDown="BaseTab_OnKeyDown"
-            Style="{StaticResource VisitorsSquareButtonStyle}"
+            Style="{StaticResource ButtonStyle}"
             ToolTip="↓">
             <Grid>
-                <Grid.RowDefinitions>
-                    <RowDefinition/>
-                    <RowDefinition Height="0.4*"/>
-                </Grid.RowDefinitions>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="30"/>
+                    <ColumnDefinition/>
+                </Grid.ColumnDefinitions>
 
                 <Image
-                    Grid.Row="0"
+                    Grid.Column="0"
                     Source="../../Resources/Следующий (2).ico"/>
 
                 <TextBlock
-                    Grid.Row="1"
+                    Grid.Column="1"
                     Text="След."
-                    FontSize="12"
+                    FontSize="{Binding FontSize}"
                     Style="{StaticResource TextBLockStyle}"/>
             </Grid>
         </Button>
-        
+
         <Button 
             Grid.Row="3" 
             Grid.Column="3"
             Margin="1" 
             Command="{Binding Path=End}" 
             KeyDown="BaseTab_OnKeyDown"
-            Style="{StaticResource VisitorsSquareButtonStyle}"
+            Style="{StaticResource ButtonStyle}"
             ToolTip="End">
             <Grid>
-                <Grid.RowDefinitions>
-                    <RowDefinition/>
-                    <RowDefinition Height="0.4*"/>
-                </Grid.RowDefinitions>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="30"/>
+                    <ColumnDefinition/>
+                </Grid.ColumnDefinitions>
 
                 <Image
-                    Grid.Row="0"
+                    Grid.Column="0"
                     Source="../../Resources/Конец (2).ico"/>
 
                 <TextBlock
-                    Grid.Row="1"
+                    Grid.Column="1"
                     Text="Конец"
-                    FontSize="12"
+                    FontSize="{Binding FontSize}"
                     Style="{StaticResource TextBLockStyle}"/>
             </Grid>
         </Button>
-        
-        <Button Grid.Row="4" Grid.Column="0" Margin="1" 
-                Command="{Binding Path=Add}" 
-                KeyDown="BaseTab_OnKeyDown"
-                Style="{StaticResource VisitorsSquareButtonStyle}"
-                ToolTip="Insert">
-            <Grid>
-                <Grid.RowDefinitions>
-                    <RowDefinition/>
-                    <RowDefinition Height="0.4*"/>
-                </Grid.RowDefinitions>
-                <Image Grid.Row="0" Source="../../Resources/Добавить1 (2).ico"/>
 
-                <TextBlock Grid.Row="1"
-                           Text="Добавить"
-                           FontSize="12"
-                           Style="{StaticResource TextBLockStyle}"/>
+        <Button 
+            Grid.Row="3" 
+            Grid.Column="4" 
+            Margin="1" 
+            Command="{Binding Path=Add}" 
+            KeyDown="BaseTab_OnKeyDown"
+            Style="{StaticResource ButtonStyle}"
+            ToolTip="Insert">
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="30"/>
+                    <ColumnDefinition/>
+                </Grid.ColumnDefinitions>
+
+                <Image
+                    Grid.Column="0"
+                    Source="../../Resources/Добавить1 (2).ico"/>
+
+                <TextBlock
+                    Grid.Column="1"
+                    Text="Добавить"
+                    FontSize="{Binding FontSize}"
+                    Style="{StaticResource TextBLockStyle}"/>
             </Grid>
         </Button>
 
         <Button 
             Name="btnEdit"
-            Grid.Row="4" 
-            Grid.Column="1" 
+            Grid.Row="3" 
+            Grid.Column="5" 
             Margin="1" 
             Command="{Binding Path=Update}" 
             KeyDown="BaseTab_OnKeyDown"
-            Style="{StaticResource VisitorsSquareButtonStyle}"
+            Style="{StaticResource ButtonStyle}"
             ToolTip="Ctrl+D">
             <Grid>
-                <Grid.RowDefinitions>
-                    <RowDefinition/>
-                    <RowDefinition Height="0.4*"/>
-                </Grid.RowDefinitions>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="30"/>
+                    <ColumnDefinition/>
+                </Grid.ColumnDefinitions>
 
                 <Image
-                    Grid.Row="0"
+                    Grid.Column="0"
                     Source="../../Resources/Редактировать (2).ico"/>
 
                 <TextBlock
-                    Grid.Row="1"
+                    Grid.Column="1"
                     Text="Правка"
-                    FontSize="12"
+                    FontSize="{Binding FontSize}"
                     Style="{StaticResource TextBLockStyle}"/>
             </Grid>
         </Button>
-        
+
         <Button 
-            Grid.Row="4" 
-            Grid.Column="2" 
+            Grid.Row="3" 
+            Grid.Column="6" 
             Margin="1"
             Command="{Binding Path=Search}"
             KeyDown="BaseTab_OnKeyDown"
-            Style="{StaticResource VisitorsSquareButtonStyle}"
+            Style="{StaticResource ButtonStyle}"
             ToolTip="Ctrl+F">
             <Grid>
-                <Grid.RowDefinitions>
-                    <RowDefinition/>
-                    <RowDefinition Height="0.4*"/>
-                </Grid.RowDefinitions>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="30"/>
+                    <ColumnDefinition/>
+                </Grid.ColumnDefinitions>
 
                 <Image
-                    Grid.Row="0"
+                    Grid.Column="0"
                     Source="../../Resources/Найти (2).ico"/>
 
                 <TextBlock
-                    Grid.Row="1"
+                    Grid.Column="1"
                     Text="Найти..."
-                    FontSize="12"
+                    FontSize="{Binding FontSize}"
                     Style="{StaticResource TextBLockStyle}"/>
             </Grid>
         </Button>
-        
+
         <Button 
-            Grid.Row="4" 
-            Grid.Column="3" 
+            Grid.Row="3" 
+            Grid.Column="7" 
             Margin="1" 
             Command="{Binding Path=Farther}" 
             IsEnabled="{Binding Path=FartherEnabled}"
             KeyDown="BaseTab_OnKeyDown"
-            Style="{StaticResource VisitorsSquareButtonStyle}">
+            Style="{StaticResource ButtonStyle}">
             <Grid>
-                <Grid.RowDefinitions>
-                    <RowDefinition/>
-                    <RowDefinition Height="0.4*"/>
-                </Grid.RowDefinitions>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="30"/>
+                    <ColumnDefinition/>
+                </Grid.ColumnDefinitions>
 
                 <Image
-                    Grid.Row="0"
+                    Grid.Column="0"
                     Source="../../Resources/Далее.ico"/>
 
                 <TextBlock
-                    Grid.Row="1"
+                    Grid.Column="1"
                     Text="Далее..."
-                    FontSize="12"
+                    FontSize="{Binding FontSize}"
                     Style="{StaticResource TextBLockStyle}"/>
             </Grid>
         </Button>
-        
-        <Button Grid.Row="3" Grid.Column="5" Margin="1" 
-                Command="{Binding Path=Close}" 
-                KeyDown="BaseTab_OnKeyDown"
-                Style="{StaticResource VisitorsSquareButtonStyle}"
-                ToolTip="Esc">
+
+        <Button 
+            Grid.Row="3" 
+            Grid.Column="9" 
+            Margin="1" 
+            Command="{Binding Path=Close}" 
+            KeyDown="BaseTab_OnKeyDown"
+            Style="{StaticResource ButtonStyle}"
+            ToolTip="Esc">
             <Grid>
-                <Grid.RowDefinitions>
-                    <RowDefinition/>
-                    <RowDefinition Height="0.4*"/>
-                </Grid.RowDefinitions>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="30"/>
+                    <ColumnDefinition/>
+                </Grid.ColumnDefinitions>
 
                 <Image
-                    Grid.Row="0"
+                    Grid.Column="0"
                     Source="../../Resources/Отмена (2).ico"/>
 
                 <TextBlock
-                    Grid.Row="1"
+                    Grid.Column="1"
                     Text="Закрыть"
-                    FontSize="12"
+                    FontSize="{Binding FontSize}"
                     Style="{StaticResource TextBLockStyle}"/>
             </Grid>
         </Button>
