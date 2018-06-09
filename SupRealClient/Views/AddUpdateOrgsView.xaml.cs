@@ -39,7 +39,7 @@ namespace SupRealClient.Views
 
         private void MetroWindow_Loaded(object sender, RoutedEventArgs e)
         {
-            TypeTextBox.Focus();
+            TypeTextBox.Focus();           
         }
 
         private void TextBox_OnKeyUp(object sender, KeyEventArgs e)
@@ -55,6 +55,10 @@ namespace SupRealClient.Views
             else if (sender is ComboBox && ((ComboBox)sender).Name == "TypeTextBox")
             {
                 TypeTextBoxTextChanged(sender, e);
+            }
+            else if (sender is ComboBox && ((ComboBox)sender).Name == "NameTextBox")
+            {
+                NameTextBoxTextChanged(sender, e);
             }
         }
 
@@ -74,51 +78,56 @@ namespace SupRealClient.Views
             }
         }
 
+        int selectionStartType;
         void TypeTextBoxTextChanged(object sender, KeyEventArgs e)
         {
-            string tbText = TypeTextBox.Text;
+            if (e.Key == Key.Left || e.Key == Key.Right)
+                return;
+            
+            var textBox = (TypeTextBox.Template.FindName("PART_EditableTextBox",
+                           TypeTextBox) as TextBox);    
 
-            TypeTextBox.SelectedValue = null;
-            TypeTextBox.Text = tbText;
-            locationEndCursorCB(TypeTextBox);             
-
-            if (!TypeTextBox.IsDropDownOpen)
-                TypeTextBox.IsDropDownOpen = true;
-
-            CollectionView cv = (CollectionView)CollectionViewSource.GetDefaultView(TypeTextBox.ItemsSource);
-
-            //cv.Filter = ((o) =>
-            //{
-            //    if (String.IsNullOrEmpty(tbText)) return true;
-            //    else
-            //    {
-            //        if (o != null && ((string)o).StartsWith(tbText)) return true;
-            //        else return false;
-            //    }
-            //});
-            //cv.Refresh();
-
-
-            foreach (var item in cv)
+            if (e.Key != Key.Up && e.Key != Key.Down)
             {
-                if (item != null && ((string)item)==(tbText))
-                {
-                    TypeTextBox.SelectedValue = item;
-                    e.Handled = true;
-                    break;
-                }
+                selectionStartType = textBox.SelectionStart;
+                CollectionView cv = ((AddUpdateOrgsViewModel)DataContext).TypeList;
+                cv.Refresh();
             }
+            else
+                selectionStartType = textBox.Text.Length;
+
+            if (TypeTextBox.Items.Count > 0)            
+                TypeTextBox.IsDropDownOpen = true; 
+            else
+                TypeTextBox.IsDropDownOpen = false;
+
+            textBox.SelectionStart = selectionStartType;            
         }
 
-        void locationEndCursorCB(ComboBox cmBox)
+        int selectionStartName;
+        void NameTextBoxTextChanged(object sender, KeyEventArgs e)
         {
-            var textBox = (cmBox.Template.FindName("PART_EditableTextBox",
-                           cmBox) as TextBox);
-            if (textBox != null)
+            if (e.Key == Key.Left || e.Key == Key.Right)
+                return;
+
+            var textBox = (NameTextBox.Template.FindName("PART_EditableTextBox",
+                           NameTextBox) as TextBox);
+
+            if (e.Key != Key.Up && e.Key != Key.Down)
             {
-                textBox.Focus();
-                textBox.SelectionStart = textBox.Text.Length;
+                selectionStartName = textBox.SelectionStart;
+                CollectionView cv = ((AddUpdateOrgsViewModel)DataContext).DescriptionList;
+                cv.Refresh();
             }
+            else
+                selectionStartName = textBox.Text.Length;
+
+            if (NameTextBox.Items.Count > 0)
+                NameTextBox.IsDropDownOpen = true;
+            else
+                NameTextBox.IsDropDownOpen = false;
+
+            textBox.SelectionStart = selectionStartName;
         }
     } 
 }

@@ -144,15 +144,39 @@ namespace SupRealClient.ViewModels
             
         }
 
+        private bool TypeListFilter(object item)
+        {
+            bool filterOk = false;
+            if (item != null && item is string)
+            {
+                filterOk =((string)item).StartsWith(type);
+            }
+
+            return filterOk;            
+        }
+
+        private bool DescriptionListFilter(object item)
+        {
+            bool filterOk = false;
+            if (item != null && item is string)
+            {
+                filterOk = ((string)item).StartsWith(name);
+            }
+
+            return filterOk;
+        }
+
         public void SetModel(IAddUpdateOrgsModel addItem1Model)
         {
             this.model = addItem1Model;
             this.Caption = model.Data.Id <= 0 ? "Добавление организации" :
                 "Редактирование организации";
-            this.TypeList =
-                new CollectionView(OrganizationsHelper.GetTypes(model.Data.Type));
+            this.TypeList = 
+                (CollectionView)CollectionViewSource.GetDefaultView(OrganizationsHelper.GetTypes(model.Data.Type));
+            this.TypeList.Filter = TypeListFilter;
             this.DescriptionList =
-                new CollectionView(OrganizationsHelper.GetNames(model.Data.Name));
+                (CollectionView)CollectionViewSource.GetDefaultView(OrganizationsHelper.GetNames(model.Data.Name));
+            this.DescriptionList.Filter = DescriptionListFilter;
             this.Type = model.Data.Type;
             this.Name = OrganizationsHelper.TrimName(model.Data.Name);
             this.Comment = model.Data.Comment;
