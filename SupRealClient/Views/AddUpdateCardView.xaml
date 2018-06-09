@@ -4,16 +4,16 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:mah="http://metro.mahapps.com/winfx/xaml/controls"
+        xmlns:wpfx="http://schemas.xceed.com/wpf/xaml/toolkit"  
+        xmlns:gl="clr-namespace:System.Globalization;assembly=mscorlib"
         mc:Ignorable="d" 
         Title="{Binding Path=Caption, Mode=OneTime}" 
-        Height="320" Width="350"
+        Height="320" Width="301.799"
         ResizeMode="NoResize" 
         Loaded="MetroWindow_Loaded" >
-
     <Window.InputBindings>
         <KeyBinding Key="Escape" Command="{Binding Cancel}"/>
     </Window.InputBindings>
-
     <Grid>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="1*"/>
@@ -31,12 +31,11 @@
             <RowDefinition Height="1*"/>
         </Grid.RowDefinitions>
         
-        <TextBlock 
-            Grid.Row="0" Grid.Column="0"                    
-            Text="Пропуск:"                   
-            FontSize="{Binding FontSize}"
-            HorizontalAlignment="Left"
-            Style="{StaticResource TextBLockStyle}"/>
+        <TextBlock Grid.Row="0" Grid.Column="0"                    
+                   Text="Пропуск:"                   
+                   FontSize="{Binding FontSize}"
+                   HorizontalAlignment="Left"
+                   Style="{StaticResource TextBLockStyle}"/>
 
         <TextBlock 
             Grid.Row="0" Grid.Column="1" 
@@ -45,25 +44,29 @@
             HorizontalAlignment="Left"
             Style="{StaticResource TextBLockStyle}"/>
 
-        <TextBox 
-            x:Name="tbCardNum"
-            Grid.Row="1" Grid.Column="0"  
-            Text="{Binding Path=CurdNum, Mode=TwoWay}"
-            Margin="2"
-            TabIndex="0"            
-            FontSize="{Binding FontSize}"            
-            Style="{StaticResource TextBoxStyle}"
-            KeyUp="TextBox_OnKeyUp"/>
+        <TextBox x:Name="tbCardNum" Grid.Row="1" Grid.Column="0"  
+                 Text="{Binding Path=CurdNum, Mode=TwoWay}"
+                 Margin="2"
+                 TabIndex="0"
+                 FontSize="{Binding FontSize}"            
+                 Style="{StaticResource TextBoxStyle}"
+                 KeyUp="TextBox_OnKeyUp"/>
 
-        <TextBox  
-            Grid.Row="1" 
-            Grid.Column="1" 
-            Text="{Binding Path=CreateDate, Mode=TwoWay}"
-            Margin="2"
-            TabIndex="1"            
-            FontSize="{Binding FontSize}"            
-            Style="{StaticResource TextBoxStyle}"
-            KeyUp="TextBox_OnKeyUp"/>
+        <DatePicker Grid.Row="1" Grid.Column="1" Text="Дата" Margin="2"
+                    SelectedDate="{Binding Path=CreateDate, Mode=TwoWay}" >
+            <DatePicker.Resources>
+                <Style TargetType="{x:Type DatePickerTextBox}">
+                    <Setter Property="Control.Template">
+                        <Setter.Value>
+                            <ControlTemplate>
+                                <wpfx:MaskedTextBox x:Name="PART_TextBox" Mask="00/00/0000" 
+                                    Text="{ Binding Path=SelectedDate,ConverterCulture={x:Static gl:CultureInfo.CurrentCulture}, StringFormat=dd/MM/yyyy, RelativeSource={RelativeSource AncestorType={x:Type DatePicker}}}" />
+                            </ControlTemplate>
+                        </Setter.Value>
+                    </Setter>
+                </Style>
+            </DatePicker.Resources>
+        </DatePicker>
 
         <TextBlock 
             Grid.Row="2" Grid.Column="0" 
@@ -118,10 +121,9 @@
             Style="{StaticResource TextBoxStyle}"
             KeyUp="tbComments_KeyUp"/>
 
-        <Grid Grid.Row="8"
-              Grid.Column="0" Grid.ColumnSpan="2" >
+        <Grid Grid.Row="8" Grid.Column="0" Grid.ColumnSpan="2" >
             <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="Auto"/>
+                <ColumnDefinition Width="1*"/>
                 <ColumnDefinition Width="1*"/>
                 <ColumnDefinition Width="1*"/>
             </Grid.ColumnDefinitions>
@@ -131,23 +133,18 @@
                 Command="{Binding Path=ChangeState}"
                 Margin="2"
                 TabIndex="3"
-                Style="{StaticResource ButtonStyle}"
+                Style="{StaticResource VisitorsSquareButtonStyle}"
                 >
                 <Grid>
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="30"/>
-                        <ColumnDefinition/>
-                    </Grid.ColumnDefinitions>
-
-                    <Image 
-                        Grid.Column="0"                    
-                        Source="../Resources/Редактировать (2).ico"/>
-
-                    <TextBlock
-                        Grid.Column="1"
-                        Text="Изменить состояние"
-                        FontSize="{Binding FontSize}"
-                        Style="{StaticResource TextBLockStyle}"/>
+                    <Grid.RowDefinitions>
+                        <RowDefinition />
+                        <RowDefinition Height="0.4*"/>
+                    </Grid.RowDefinitions>
+                    <Image Grid.Row="0" Source="../Resources/Редактировать (2).ico"/>
+                    <TextBlock Grid.Row="1" TextWrapping="WrapWithOverflow"
+                               Text="Изменить состояние"
+                               FontSize="12"
+                               Style="{StaticResource TextBLockStyle}"/>
                 </Grid>
             </Button>
 
@@ -157,49 +154,34 @@
                 Command="{Binding Path=Ok}"
                 Margin="2"
                 TabIndex="3"
-                Style="{StaticResource ButtonStyle}"
+                Style="{StaticResource VisitorsSquareButtonStyle}"
                 KeyDown="btnOK_KeyDown"
                 >
                 <Grid>
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="30"/>
-                        <ColumnDefinition/>
-                    </Grid.ColumnDefinitions>
-
-                    <Image 
-                        Grid.Column="0"
-                        Source="../Resources/Принять (2).ico"/>
-
-                    <TextBlock
-                        Grid.Column="1"
-                        Text="Ок"
-                        FontSize="{Binding FontSize}"
-                        Style="{StaticResource TextBLockStyle}"/>
+                    <Grid.RowDefinitions>
+                        <RowDefinition />
+                        <RowDefinition Height="0.4*"/>
+                    </Grid.RowDefinitions>
+                    <Image Grid.Row="0" Source="../Resources/Принять (2).ico"/>
+                    <TextBlock Grid.Row="1" 
+                               Text="Ок"
+                               FontSize="12"
+                               Style="{StaticResource TextBLockStyle}"/>
                 </Grid>
             </Button>
 
-            <Button  
-                Grid.Column="2"  
-                Command="{Binding Path=Cancel}"
-                Margin="2"
-                TabIndex="4"
-                Style="{StaticResource ButtonStyle}"
-                >
+            <Button Grid.Column="2" Margin="2"  TabIndex="4"
+                     Command="{Binding Path=Cancel}"
+                    Style="{StaticResource VisitorsSquareButtonStyle}" >
                 <Grid>
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="30"/>
-                        <ColumnDefinition/>
-                    </Grid.ColumnDefinitions>
-
-                    <Image
-                        Grid.Column="0"
-                        Source="../Resources/Отмена (2).ico"/>
-
-                    <TextBlock
-                        Grid.Column="1"
-                        Text="Отмена"
-                        FontSize="{Binding FontSize}"
-                        Style="{StaticResource TextBLockStyle}"/>
+                    <Grid.RowDefinitions>
+                        <RowDefinition />
+                        <RowDefinition Height="0.4*"/>
+                    </Grid.RowDefinitions>
+                    <Image Grid.Row="0" Source="../Resources/Отмена (2).ico"/>
+                    <TextBlock Grid.Row="1" Text="Отмена" 
+                               FontSize="12"
+                               Style="{StaticResource TextBLockStyle}"/>
                 </Grid>
             </Button>
 
