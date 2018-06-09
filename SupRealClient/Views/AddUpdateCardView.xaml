@@ -8,7 +8,7 @@
         xmlns:gl="clr-namespace:System.Globalization;assembly=mscorlib"
         mc:Ignorable="d" 
         Title="{Binding Path=Caption, Mode=OneTime}" 
-        Height="320" Width="301.799"
+        Height="332.8" Width="409.799"
         ResizeMode="NoResize" 
         Loaded="MetroWindow_Loaded" >
     <Window.InputBindings>
@@ -137,7 +137,7 @@
                         <RowDefinition Height="0.4*"/>
                     </Grid.RowDefinitions>
                     <Image Grid.Row="0" Source="../Resources/Редактировать (2).ico"/>
-                    <TextBlock Grid.Row="1" TextWrapping="WrapWithOverflow"
+                    <TextBlock Grid.Row="1" 
                                Text="Изменить состояние"
                                FontSize="12"
                                Style="{StaticResource TextBLockStyle}"/>
