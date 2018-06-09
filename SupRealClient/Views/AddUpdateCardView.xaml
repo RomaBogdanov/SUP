@@ -128,13 +128,9 @@
                 <ColumnDefinition Width="1*"/>
             </Grid.ColumnDefinitions>
 
-            <Button  
-                Grid.Column="0"            
-                Command="{Binding Path=ChangeState}"
-                Margin="2"
-                TabIndex="3"
-                Style="{StaticResource VisitorsSquareButtonStyle}"
-                >
+            <Button Grid.Column="0" Margin="2" TabIndex="3"
+                    Command="{Binding Path=ChangeState}"
+                    Style="{StaticResource VisitorsSquareButtonStyle}" >
                 <Grid>
                     <Grid.RowDefinitions>
                         <RowDefinition />
@@ -148,15 +144,10 @@
                 </Grid>
             </Button>
 
-            <Button
-                x:Name="btnOK"
-                Grid.Column="1"  
-                Command="{Binding Path=Ok}"
-                Margin="2"
-                TabIndex="3"
-                Style="{StaticResource VisitorsSquareButtonStyle}"
-                KeyDown="btnOK_KeyDown"
-                >
+            <Button x:Name="btnOK" Grid.Column="1" Margin="2" TabIndex="3"
+                    Command="{Binding Path=Ok}"
+                    Style="{StaticResource VisitorsSquareButtonStyle}"
+                    KeyDown="btnOK_KeyDown" >
                 <Grid>
                     <Grid.RowDefinitions>
                         <RowDefinition />
