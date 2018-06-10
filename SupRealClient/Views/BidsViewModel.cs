@@ -27,7 +27,8 @@ namespace SupRealClient.Views
         /// </summary>
         public BidsViewModel()
         {
-            Settings = new ChildWinSet(0.9, 0.4);
+            Settings = new ChildWinSet() { Top = 130 };
+            Settings.Left = Settings.Width;
         }
 
         public event PropertyChangedEventHandler PropertyChanged;

@@ -9,7 +9,7 @@
         xmlns:mah="http://metro.mahapps.com/winfx/xaml/controls"
         mc:Ignorable="d"
         Title="Заявки" 
-        WindowStartupLocation="CenterScreen"
+                 ResizeMode="NoResize"
         Height="827.512" Width="1105.5"
         KeyDown="BidsView_OnKeyDown">
     
@@ -21,7 +21,7 @@
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition/>
-            <RowDefinition Height="0.25*"/>
+            <RowDefinition Height="0.23*"/>
         </Grid.RowDefinitions>
         <mah:MetroAnimatedTabControl
             Grid.Row="0">
@@ -745,7 +745,7 @@
                         >
                     <Grid.RowDefinitions>
                         <RowDefinition/>
-                        <RowDefinition Height="0.3*"/>
+                        <RowDefinition Height="0.4*"/>
                     </Grid.RowDefinitions>
 
                     <Image
@@ -771,7 +771,7 @@
                         >
                     <Grid.RowDefinitions>
                         <RowDefinition/>
-                        <RowDefinition Height="0.3*"/>
+                        <RowDefinition Height="0.4*"/>
                     </Grid.RowDefinitions>
 
                     <Image
@@ -797,7 +797,7 @@
                         >
                     <Grid.RowDefinitions>
                         <RowDefinition/>
-                        <RowDefinition Height="0.3*"/>
+                        <RowDefinition Height="0.4*"/>
                     </Grid.RowDefinitions>
 
                     <Image
@@ -822,7 +822,7 @@
                 <Grid>
                     <Grid.RowDefinitions>
                         <RowDefinition/>
-                        <RowDefinition Height="0.3*"/>
+                        <RowDefinition Height="0.4*"/>
                     </Grid.RowDefinitions>
 
                     <Image
@@ -848,7 +848,7 @@
                         >
                     <Grid.RowDefinitions>
                         <RowDefinition/>
-                        <RowDefinition Height="0.3*"/>
+                        <RowDefinition Height="0.4*"/>
                     </Grid.RowDefinitions>
 
                     <Image
@@ -873,7 +873,7 @@
                         >
                     <Grid.RowDefinitions>
                         <RowDefinition/>
-                        <RowDefinition Height="0.3*"/>
+                        <RowDefinition Height="0.4*"/>
                     </Grid.RowDefinitions>
 
                     <Image
@@ -898,7 +898,7 @@
                         >
                     <Grid.RowDefinitions>
                         <RowDefinition/>
-                        <RowDefinition Height="0.3*"/>
+                        <RowDefinition Height="0.4*"/>
                     </Grid.RowDefinitions>
 
                     <Image
@@ -924,7 +924,7 @@
                         >
                     <Grid.RowDefinitions>
                         <RowDefinition/>
-                        <RowDefinition Height="0.3*"/>
+                        <RowDefinition Height="0.4*"/>
                     </Grid.RowDefinitions>
 
                     <Image
@@ -949,7 +949,7 @@
                         >
                     <Grid.RowDefinitions>
                         <RowDefinition/>
-                        <RowDefinition Height="0.3*"/>
+                        <RowDefinition Height="0.4*"/>
                     </Grid.RowDefinitions>
 
                     <Image
@@ -975,7 +975,7 @@
                         >
                     <Grid.RowDefinitions>
                         <RowDefinition/>
-                        <RowDefinition Height="0.3*"/>
+                        <RowDefinition Height="0.4*"/>
                     </Grid.RowDefinitions>
 
                     <Image
@@ -1000,7 +1000,7 @@
                         >
                     <Grid.RowDefinitions>
                         <RowDefinition/>
-                        <RowDefinition Height="0.3*"/>
+                        <RowDefinition Height="0.4*"/>
                     </Grid.RowDefinitions>
 
                     <Image
@@ -1025,7 +1025,7 @@
                         >
                     <Grid.RowDefinitions>
                         <RowDefinition/>
-                        <RowDefinition Height="0.3*"/>
+                        <RowDefinition Height="0.4*"/>
                     </Grid.RowDefinitions>
 
                     <Image
