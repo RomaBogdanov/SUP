@@ -133,7 +133,7 @@
 
         <StackPanel Grid.Row="0" Grid.Column="1" Orientation="Horizontal" Margin="2" HorizontalAlignment="Right">
             <TextBox Margin="2" Width="200" FontSize="{Binding ElementName=FontSizeLixtBox, Path=SelectedItem.Content}" 
-                     Text="{Binding Path=AuthorizedUser, Mode=TwoWay}"/>
+                     Text="{Binding Path=AuthorizedUser, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"/>
             <TextBox Margin="2" Width="200" FontSize="{Binding ElementName=FontSizeLixtBox, Path=SelectedItem.Content}"/>
         </StackPanel>
 

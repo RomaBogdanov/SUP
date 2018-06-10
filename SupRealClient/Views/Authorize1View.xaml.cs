@@ -29,11 +29,7 @@ namespace SupRealClient.Views
         {
             if (e.Key == Key.Enter)
             {
-                UIElement elementWithFocus = Keyboard.FocusedElement as UIElement;
-                if (elementWithFocus != null)
-                {
-                    elementWithFocus.MoveFocus(_focusMover);
-                }
+                MoveFocusCursor();
             }
         }
 
@@ -45,9 +41,22 @@ namespace SupRealClient.Views
             }
         }
 
-        private void UserControl_Loaded(object sender, RoutedEventArgs e)
+        private void UserControl_IsVisibleChanged(object sender, DependencyPropertyChangedEventArgs e)
         {
             txtLogin.Focus();
+            MoveFocusCursor();
+        }
+
+        /// <summary>
+        /// Переводит фокус на следующий элемент.
+        /// </summary>
+        private void MoveFocusCursor()
+        {
+            UIElement elementWithFocus = Keyboard.FocusedElement as UIElement;
+            if (elementWithFocus != null)
+            {
+                elementWithFocus.MoveFocus(_focusMover);
+            }
         }
     }
 }

@@ -6,7 +6,7 @@
              xmlns:local="clr-namespace:SupRealClient.ViewModels"
              mc:Ignorable="d" 
              d:DesignHeight="300" d:DesignWidth="300"
-             Loaded="UserControl_Loaded">
+             Loaded="UserControl_Loaded" IsVisibleChanged="UserControl_IsVisibleChanged">
     <UserControl.DataContext>
         <local:Authorize1ViewModel/>
     </UserControl.DataContext>
