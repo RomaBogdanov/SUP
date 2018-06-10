@@ -7,6 +7,7 @@
         xmlns:local="clr-namespace:SupRealClient.ViewModels"
         xmlns:mah="http://metro.mahapps.com/winfx/xaml/controls"                 
         mc:Ignorable="d"
+        ResizeMode="CanMinimize"
         Title="Система учёта посетителей" FontSize="18" StateChanged="Window_StateChanged" >
     <mah:MetroWindow.Style>
         <Style TargetType="mah:MetroWindow">
