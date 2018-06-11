@@ -9,6 +9,6 @@
       Title="Гражданства" Height="600" Width="596" ResizeMode="NoResize"
       PreviewKeyDown="Window_PreviewKeyDown">
     <Grid>
-        <local:Base1View x:Name="base4"></local:Base1View>
+        <local:Base1View x:Name="base4" ></local:Base1View>
     </Grid>
 </mah:MetroWindow>

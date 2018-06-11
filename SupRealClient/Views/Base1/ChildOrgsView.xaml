@@ -8,7 +8,6 @@
         mc:Ignorable="d" Title="Дочерние акционерные общества" Height="600" Width="600"
         PreviewKeyDown="Window_PreviewKeyDown">
     <Grid>
-        <local:Base1View x:Name="base1">
-        </local:Base1View>
+        <!--<local:Base1View x:Name="base1"></local:Base1View>-->
     </Grid>
 </mah:MetroWindow>
