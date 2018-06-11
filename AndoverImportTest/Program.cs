@@ -74,8 +74,8 @@ namespace AndoverImportTest
                             Convert(area.OwnerIdHi) + ", " +
                             Convert(area.OwnerIdLo) + ", " +
                             Convert(area.DeviceIdHi) + ", " +
-                            Convert(area.DeviceIdLo) + ", '" +
-                            Convert(area.TemplateFlag) + "', " +
+                            Convert(area.DeviceIdLo) + ", " +
+                            Convert(area.TemplateFlag) + ", " +
                             Convert(area.TemplateIdHi) + ", " +
                             Convert(area.TemplateIdLo) + ", " +
                             Convert(area.ControllerName) + ", " +
@@ -142,8 +142,8 @@ namespace AndoverImportTest
                             Convert(person.OwnerIdHi) + ", " +
                             Convert(person.OwnerIdLo) + ", " +
                             Convert(person.DeviceIdHi) + ", " +
-                            Convert(person.DeviceIdLo) + ", '" +
-                            Convert(person.TemplateFlag) + "', " +
+                            Convert(person.DeviceIdLo) + ", " +
+                            Convert(person.TemplateFlag) + ", " +
                             Convert(person.TemplateIdHi) + ", " +
                             Convert(person.TemplateIdLo) + ", " +
                             Convert(person.ControllerName) + ", " +
@@ -292,8 +292,8 @@ namespace AndoverImportTest
                             Convert(schedule.OwnerIdHi) + ", " +
                             Convert(schedule.OwnerIdLo) + ", " +
                             Convert(schedule.DeviceIdHi) + ", " +
-                            Convert(schedule.DeviceIdLo) + ", '" +
-                            Convert(schedule.TemplateFlag) + "', " +
+                            Convert(schedule.DeviceIdLo) + ", " +
+                            Convert(schedule.TemplateFlag) + ", " +
                             Convert(schedule.TemplateIdHi) + ", " +
                             Convert(schedule.TemplateIdLo) + ", " +
                             Convert(schedule.ControllerName) + ", " +
@@ -323,8 +323,8 @@ namespace AndoverImportTest
                             Convert(schedule.OccTimePointHi) + ", " +
                             Convert(schedule.OccTimePointLo) + ", " +
                             Convert(schedule.UnOccTimePointHi) + ", " +
-                            Convert(schedule.UnOccTimePointLo) + ", '" +
-                            Convert(schedule.AutosendFlag) + "', " +
+                            Convert(schedule.UnOccTimePointLo) + ", " +
+                            Convert(schedule.AutosendFlag) + ", " +
                             Convert(schedule.AutosendTime) + ", " +
                             Convert(schedule.UnavailableAttributes) + ", " +
                             Convert(schedule.SpecialEventName) + ", " +
@@ -335,6 +335,52 @@ namespace AndoverImportTest
                             Convert(schedule.ApplyMidnightValue) + ", " +
                             Convert(schedule.DefaultMidnightValue) + ", " +
                             Convert(schedule.ClearPastEvents) +
+                            ")";
+                        cmd.ExecuteNonQuery();
+                        Console.WriteLine(cmd.CommandText);
+                    }
+                }
+            }
+
+            var areaLinks = wcfClient.GetAreaLinks();
+
+            using (var connection = new SqlConnection(
+                ConfigurationManager.ConnectionStrings[
+                    "ContinuumCopy"].ConnectionString))
+            {
+                connection.Open();
+
+                using (SqlCommand cmd = connection.CreateCommand())
+                {
+                    cmd.CommandText = "delete from AreaLink";
+                    Console.WriteLine(cmd.CommandText);
+                    cmd.ExecuteNonQuery();
+                }
+                foreach (var areaLink in areaLinks)
+                {
+                    using (SqlCommand cmd = connection.CreateCommand())
+                    {
+                        cmd.CommandText = "insert into AreaLink " +
+                            "(ObjectIdHi, ObjectIdLo, AreaIdHi, AreaIdLo, PersonIdHi, PersonIdLo, " +
+                            "Preload, SchedIdHi, SchedIdLo, State, TimeEntered, DistPending, " +
+                            "DeletePending, DistTime, TemplateFlag, ClearanceLevel" +
+                            ") values (" +
+                            areaLink.ObjectIdHi + ", " +
+                            areaLink.ObjectIdLo + ", " +
+                            areaLink.AreaIdHi + ", " +
+                            areaLink.AreaIdLo + ", " +
+                            areaLink.PersonIdHi + ", " +
+                            areaLink.PersonIdLo + ", " +
+                            Convert(areaLink.Preload) + ", " +
+                            Convert(areaLink.SchedIdHi) + ", " +
+                            Convert(areaLink.SchedIdLo) + ", " +
+                            Convert(areaLink.State) + ", " +
+                            Convert(areaLink.TimeEntered) + ", " +
+                            Convert(areaLink.DistPending) + ", " +
+                            Convert(areaLink.DeletePending) + ", " +
+                            Convert(areaLink.DistTime) + ", " +
+                            Convert(areaLink.TemplateFlag) + ", " +
+                            Convert(areaLink.ClearanceLevel) +
                             ")";
                         cmd.ExecuteNonQuery();
                         Console.WriteLine(cmd.CommandText);
