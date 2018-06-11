@@ -6,13 +6,11 @@
              xmlns:converters="clr-namespace:SupRealClient.Behaviour"
              mc:Ignorable="d" d:DesignHeight="300" d:DesignWidth="300"
              PreviewKeyDown="UserControl_PreviewKeyDown">
-
     <UserControl.InputBindings>
         <KeyBinding Gesture="Ctrl+D" Command="{Binding Update}"/>
         <KeyBinding Gesture="Ctrl+F" Command="{Binding Search}"/>
         <KeyBinding Gesture="Ctrl+G" Command="{Binding Farther}"/>
     </UserControl.InputBindings>
-
    <UserControl.Resources>
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
@@ -103,6 +101,32 @@
         </Button>
 
         <Button 
+            Name="btnRemove"
+            Grid.Row="4" 
+            Grid.Column="1" 
+            Margin="1" 
+            Command="{Binding Path=Remove}" 
+            Style="{StaticResource VisitorsSquareButtonStyle}"
+            ToolTip="Ctrl+D">
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition/>
+                    <RowDefinition Height="0.4*"/>
+                </Grid.RowDefinitions>
+
+                <Image
+                            Grid.Row="0"
+                            Source="../../Resources/NewRemove.png"/>
+
+                <TextBlock
+                            Grid.Row="1"
+                            Text="Удалить"
+                            FontSize="12"
+                            Style="{StaticResource TextBLockStyle}"/>
+            </Grid>
+        </Button>
+
+        <Button 
             Name="btnUpdate"
             Grid.Row="4" 
             Grid.Column="1" 
@@ -127,6 +151,8 @@
                             Style="{StaticResource TextBLockStyle}"/>
             </Grid>
         </Button>
+
+        
 
 
         <Button 
@@ -306,9 +332,9 @@
 
                 <TextBlock
                     Grid.Row="1"
-                    Text="{Binding Path=OkCaption, Mode=OneTime}"
+                    Text="OK"
                     FontSize="{Binding FontSize}"
-                    Style="{StaticResource TextBLockDetailStyle}"/>
+                    Style="{StaticResource TextBLockStyle}"/>
             </Grid>
         </Button>				  
 

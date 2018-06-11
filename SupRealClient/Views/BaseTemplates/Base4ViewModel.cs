@@ -245,16 +245,20 @@ namespace SupRealClient.Views
             this.Model.RightClick();
         }
 
-        private void RemoveCom()
+        /// <summary>
+        /// Команда на удаление. Почему не работает???
+        /// </summary>
+        public void RemoveCom()
         {
             if (CurrentItem != null &&
-                MessageBox.Show("Вы уверены?", "", MessageBoxButton.YesNo) ==
+                MessageBox.Show("Вы действительно хотите удалить эту запись?", 
+                "Удаление", 
+                MessageBoxButton.YesNo, MessageBoxImage.Question) ==
                 MessageBoxResult.Yes)
             {
-                if (!this.Model.Remove())
+                if (this.Model.Remove())
                 {
-                    MessageBox.Show("Не удалось удалить элемент,\n" +
-                        "Возможно, он используется в других элементах");
+                    UpdateCom();
                 }
             }
         }
