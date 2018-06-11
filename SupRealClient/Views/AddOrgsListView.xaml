@@ -28,13 +28,15 @@
             Grid.ColumnSpan="2" 
             ItemsSource="{Binding Path=Organizations}" 
             SelectedItem="{Binding Path=CurrentOrganization, Mode=TwoWay}" 
-            AutoGenerateColumns="False"/>
+            AutoGenerateColumns="False" PreviewKeyDown="Orgs_PreviewKeyDown"/>
         
         <Button 
+            x:Name="btnOK"
             Grid.Row="1" 
             Grid.Column="0" 
             Content="Ок" 
-            Command="{Binding OkCommand}"/>
+            Command="{Binding OkCommand}"
+            KeyDown="btnOK_KeyDown"/>
         
         <Button 
             Grid.Row="1" 
