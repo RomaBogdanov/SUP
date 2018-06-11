@@ -22,6 +22,34 @@ namespace SupRealClient.Models.OrganizationStructure
             }
         }
 
+        public bool IsExpanded
+        {
+            get { return _isExpanded; }
+            set
+            {
+                if (value != _isExpanded)
+                {
+                    _isExpanded = value;
+                    this.OnPropertyChanged("IsExpanded");
+                }
+            }
+        }
+        private bool _isExpanded;
+
+        public bool IsSelected
+        {
+            get { return _isSelected; }
+            set
+            {
+                if (value != _isSelected)
+                {
+                    _isSelected = value;
+                    this.OnPropertyChanged("IsSelected");
+                }
+            }
+        }
+        private bool _isSelected;
+
         public int Id;
 
         public bool Save { get; set; }

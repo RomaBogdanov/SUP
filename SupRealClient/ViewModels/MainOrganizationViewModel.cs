@@ -43,6 +43,7 @@ namespace SupRealClient.ViewModels
                         currentOrg = (int)DepartmentWrapper.CurrentTable().Table
                             .Rows.Find(currentDep)["f_org_id"];
                         currentLevel = CurrentLevel.Department;
+                        ((Department)value).IsExpanded = true;
                     }
                     else if (value.GetType().GetInterface("IOrganization") != null)
                     {
@@ -51,7 +52,8 @@ namespace SupRealClient.ViewModels
                         currentDep = -1;
                         description = ((Organization)value).Description;
                         currentLevel = CurrentLevel.Organization;
-                    }
+                        ((Organization)value).IsExpanded = true;
+                    }                    
                     OnPropertyChanged();
                 }
                 else
@@ -111,6 +113,8 @@ namespace SupRealClient.ViewModels
                 var window = new AddDepartmentView { DataContext = viewModel };
                 viewModel.Model.OnClose += window.Close;
                 window.ShowDialog();
+                if ((Department)_selectedObject !=null)
+                    ((Department)_selectedObject).IsExpanded = true;
             });
             return action;
         }
@@ -142,6 +146,8 @@ namespace SupRealClient.ViewModels
                     var window1 = new AddDepartmentView { DataContext = viewModel1 };
                     viewModel1.Model.OnClose += window1.Close;
                     window1.ShowDialog();
+                    if ((Department)_selectedObject != null)
+                        ((Department)_selectedObject).IsExpanded = true;
                     break;
                 default:
                     break;
@@ -188,10 +194,12 @@ namespace SupRealClient.ViewModels
                             ParentId = department.Field<int>("f_parent_id"),
                             Description = department.Field<string>("f_dep_name"),
                             Items = GetItems(department.Field<int>("f_dep_id"))
-                        })
+                        })                    
                 })
             };
             Organizations.Add(mainOrganization);
+            mainOrganization.IsExpanded = true;
+            checkIsExpandedState();
         }
 
         private ObservableCollection<Department> GetItems(int parentId)
@@ -207,6 +215,54 @@ namespace SupRealClient.ViewModels
                     Description = department.Field<string>("f_dep_name"),
                     Items = GetItems(department.Field<int>("f_dep_id"))
                 });
+        }        
+
+        void checkIsExpandedState()
+        {
+            foreach (var imainOrganization in Organizations)
+            {
+                foreach (var iOrg in imainOrganization.Items)
+                {
+                    if (iOrg.Id == currentOrg)
+                    {                       
+                        imainOrganization.IsExpanded = iOrg.IsExpanded = true;                        
+                    }
+
+                    bool oDepIsExpanded = false;
+                    foreach (var iDep in iOrg.Items)
+                    {
+                        if (iDep.Id == currentDep)
+                        {
+                            iDep.IsSelected = true;
+                            iDep.IsExpanded = oDepIsExpanded = true;
+                            break;
+                        }
+                        CheckExpandedDep(iDep, ref oDepIsExpanded);                        
+                    }
+                    if (oDepIsExpanded)
+                    {
+                        imainOrganization.IsExpanded = iOrg.IsExpanded = true;
+                        return;
+                    }
+                }
+            }     
         }
+
+        void CheckExpandedDep(Department oDep, ref bool oDepIsExpanded)
+        {
+            foreach (var iDep in oDep.Items)
+            {
+                if (iDep.Id == currentDep)
+                {
+                    iDep.IsSelected = true;
+                    iDep.IsExpanded = oDepIsExpanded = true;
+                    break;
+                }
+                CheckExpandedDep(iDep, ref oDepIsExpanded);
+            }
+            if (oDepIsExpanded)
+                oDep.IsExpanded = true;
+        }
+
     }
 }
