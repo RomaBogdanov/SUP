@@ -200,3 +200,24 @@ CREATE TABLE Schedule
 )
 GO
 
+CREATE TABLE [dbo].[AreaLink]
+(
+	[ObjectIdHi] [int] NOT NULL,
+	[ObjectIdLo] [int] NOT NULL,
+	[AreaIdHi] [int] NOT NULL,
+	[AreaIdLo] [int] NOT NULL,
+	[PersonIdHi] [int] NOT NULL,
+	[PersonIdLo] [int] NOT NULL,
+	[Preload] [bit] NULL,
+	[SchedIdHi] [int] NULL,
+	[SchedIdLo] [int] NULL,
+	[State] [smallint] NULL,
+	[TimeEntered] [datetime] NULL,
+	[DistPending] [bit] NULL,
+	[DeletePending] [bit] NULL,
+	[DistTime] [datetime] NULL,
+	[TemplateFlag] [tinyint] NULL,
+	[ClearanceLevel] [tinyint] NULL
+)
+GO
+
