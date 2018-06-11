@@ -45,6 +45,23 @@ namespace SupRealClient.TabsSingleton
             wrappers.Clear();
         }
 
+        /// <summary>
+        /// Добавляет строку в таблицу, при этом дописывает
+        /// обязательные для заполнения поля. Желательно использовать
+        /// данную конструкцию, а не стандарт
+        /// OrdersWrapper.CurrentTable().Table.Rows.Add(row);
+        /// </summary>
+        /// <param name="row"></param>
+        public virtual void AddRow(DataRow row)
+        {
+            if (table != null)
+            {
+                row["f_deleted"] = 'N';
+                row["f_rec_operator"] = Authorizer.AppAuthorizer.Id;
+                table.Rows.Add(row);
+            }
+        }
+
         private void Connector_OnInsert(string tableName, object[] objs)
         {
             if (tableName == table.TableName && !this.table.Rows.Contains(objs[0]))
@@ -133,7 +150,7 @@ namespace SupRealClient.TabsSingleton
                 case DataRowAction.Change:
                     dt = (DataTable)sender;
                     int i = dt.Rows.IndexOf(e.Row);
-                    this.OnChanged();
+                    this.OnChanged?.Invoke();
                     this.Connector.UpdateRow(e.Row.ItemArray, i);
                     break;
                 case DataRowAction.Rollback:
@@ -142,26 +159,31 @@ namespace SupRealClient.TabsSingleton
                     break;
                 case DataRowAction.Add:
                     dt = (DataTable)sender;
+                    // добавляем правильные значения, если нулевое значение.
                     /*if (e.Row != null)
                     {
                         int l = e.Row.ItemArray.Length;
                         for (int p = 0; p < l; p++)
                         {
-                            if (e.Row.Table.Columns[p].DataType == typeof(int))
+                            if (e.Row.Table.Columns[p].DataType == typeof(int)
+                                && e.Row[p].GetType() != typeof(int))
                             {
-                                //e.Row[p] = 0;
+                                e.Row.ItemArray[p] = 0;
                             }
-                            if (e.Row.Table.Columns[p].DataType == typeof(string))
+                            if (e.Row.Table.Columns[p].DataType == typeof(string)
+                                && e.Row[p].GetType() != typeof(string))
                             {
-                                //e.Row[p] = "";
+                                e.Row.ItemArray[p] = "";
                             }
-                            if (e.Row.Table.Columns[p].DataType == typeof(DateTime))
+                            if (e.Row.Table.Columns[p].DataType == typeof(DateTime)
+                                && e.Row[p].GetType() != typeof(DateTime))
                             {
-                                //e.Row[p] = DateTime.MinValue;
+                                e.Row.ItemArray[p] = DateTime.MinValue;
+                                
                             }
                         }
                     }*/
-                    this.OnChanged();
+                    this.OnChanged?.Invoke();
                     this.Connector.InsertRow(e.Row.ItemArray);
                     break;
                 case DataRowAction.ChangeOriginal:

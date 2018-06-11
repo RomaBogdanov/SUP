@@ -117,7 +117,8 @@
                             Grid.Column="2"
                             Margin="10"
                             Content="Удалить"
-                            Visibility="{Binding AddUpdVisib, Mode=TwoWay}">
+                            Visibility="{Binding AddUpdVisib, Mode=TwoWay}"
+                            Command="{Binding DeletePersonCommand}">
                             
                         </Button>
                         
