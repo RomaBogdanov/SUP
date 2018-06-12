@@ -41,11 +41,17 @@
             ItemsSource="{Binding Organizations}"
             Style="{DynamicResource MetroTreeView1}"
             SelectedItemChanged="TreeView_OnSelectedItemChanged">
+            <TreeView.ItemContainerStyle>
+                <Style TargetType="{x:Type TreeViewItem}">
+                    <Setter Property="IsExpanded" Value="{Binding Path=IsExpanded, Mode=TwoWay}"/>
+                    <Setter Property="IsSelected" Value="{Binding Path=IsSelected, Mode=TwoWay}"/>
+                </Style>
+            </TreeView.ItemContainerStyle>
             <TreeView.ItemTemplate>
                 <HierarchicalDataTemplate ItemsSource="{Binding Path=Items}">
                     <TextBlock Text="{Binding Description}"/>
                 </HierarchicalDataTemplate>
-            </TreeView.ItemTemplate>
+            </TreeView.ItemTemplate>            
         </TreeView>
         
         <TextBlock
