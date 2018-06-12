@@ -237,7 +237,7 @@ namespace SupRealClient.Models.AddUpdateModel
     {
         public AddSingleBidModel()
         {
-            CurrentItem = new VisitorOnOrder();
+            CurrentItem = new OrderElement();
         }
     }
 
@@ -246,7 +246,7 @@ namespace SupRealClient.Models.AddUpdateModel
     /// </summary>
     public class UpdateBidModel : AddUpdateAbstrModel
     {
-        public UpdateBidModel(VisitorOnOrder visitor)
+        public UpdateBidModel(OrderElement visitor)
         {
             CurrentItem = visitor.Clone();
         }

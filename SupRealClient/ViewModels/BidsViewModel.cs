@@ -46,12 +46,12 @@ namespace SupRealClient.ViewModels
         {
             CurrentTemporaryOrder = BidsModel.CurrentTemporaryOrder;
             CurrentSingleOrder = BidsModel.CurrentSingleOrder;
-            CurrentSingleOrder.VisitorsList = BidsModel.CurrentSingleOrder.VisitorsList;
-            CurrentTemporaryOrder.VisitorsList = BidsModel.CurrentTemporaryOrder.VisitorsList;
+            CurrentSingleOrder.OrderElements = BidsModel.CurrentSingleOrder.OrderElements;
+            CurrentTemporaryOrder.OrderElements = BidsModel.CurrentTemporaryOrder.OrderElements;
             //UpdateVisitor = BidsModel.UpdateVisitor;
         }
 
-        public VisitorOnOrder UpdateVisitor
+        public OrderElement UpdateVisitor
         {
             get { return BidsModel?.UpdateVisitor;}
             set
@@ -435,7 +435,7 @@ namespace SupRealClient.ViewModels
         OrderType OrderType { get; set; }
         bool IsCanAddRows { get; set; }
         Visibility IsAddUpdVisib { get; set; }
-        VisitorOnOrder UpdateVisitor { get; set; }
+        OrderElement UpdateVisitor { get; set; }
 
         void AddPerson();
         void Begin();
@@ -482,7 +482,7 @@ namespace SupRealClient.ViewModels
         public bool IsCanAddRows { get; set; } = false;
 
         public Visibility IsAddUpdVisib { get; set; } = Visibility.Hidden;
-        public VisitorOnOrder UpdateVisitor { get; set; }
+        public OrderElement UpdateVisitor { get; set; }
 
         public BidsModel()
         {
@@ -698,10 +698,10 @@ namespace SupRealClient.ViewModels
                         ("f_visitor_id") == elems.Field<int>("f_visitor_id"))
                         ["f_org_id"],
                     Passes = elems.Field<string>("f_passes"),*/
-                    VisitorsList = new ObservableCollection<VisitorOnOrder>(
+                    OrderElements = new ObservableCollection<OrderElement>(
                         from row in OrderElementsWrapper.CurrentTable().Table.AsEnumerable() 
                         where row.Field<int>("f_ord_id") == orders.Field<int>("f_ord_id")
-                        select new VisitorOnOrder
+                        select new OrderElement
                         {
                             VisitorId = row.Field<int>("f_visitor_id"),
                             CatcherId = row.Field<int>("f_catcher_id"),
@@ -766,17 +766,17 @@ namespace SupRealClient.ViewModels
         public bool IsCanAddRows { get; set; } = true;
 
         public Visibility IsAddUpdVisib { get; set; } = Visibility.Visible;
-        public VisitorOnOrder UpdateVisitor { get; set; }
+        public OrderElement UpdateVisitor { get; set; }
 
         public NewBidsModel()
         {
             CurrentSingleOrder = new Order();
             CurrentTemporaryOrder = new Order();
             CurrentVirtueOrder = new Order();
-            CurrentOrder = new Order()
-            {
-                VisitorsList = new ObservableCollection<VisitorOnOrder>()
-            };
+            CurrentOrder = new Order();
+            /*{
+                OrderElements = new ObservableCollection<OrderElement>()
+            };*/
 
             SingleOrdersSet = new ObservableCollection<Order> {CurrentSingleOrder};
             TemporaryOrdersSet = new ObservableCollection<Order> {CurrentTemporaryOrder};
@@ -832,7 +832,7 @@ namespace SupRealClient.ViewModels
         /// </summary>
         public void Ok()
         {
-            DataRow row = OrdersWrapper.CurrentTable().Table.NewRow();
+            /*DataRow row = OrdersWrapper.CurrentTable().Table.NewRow();
 
             row["f_reg_number"] = CurrentSingleOrder.RegNumber.Split('-')[0];
             row["f_order_type_id"] = 1; // TODO: сделать правильную реализацию
@@ -844,7 +844,7 @@ namespace SupRealClient.ViewModels
 
             int orderId = (int)row["f_ord_id"];
 
-            foreach (VisitorOnOrder visitorOnOrder in CurrentSingleOrder.VisitorsList)
+            foreach (OrderElement visitorOnOrder in CurrentSingleOrder.OrderElements)
             {
                 row = OrderElementsWrapper.CurrentTable().Table.NewRow();
                 row["f_ord_id"] = orderId;
@@ -855,7 +855,9 @@ namespace SupRealClient.ViewModels
                 row["f_passes"] = visitorOnOrder.Passes;
 
                 OrderElementsWrapper.CurrentTable().Table.Rows.Add(row);
-            }
+            }*/
+            CurrentSingleOrder.TypeId = 1;
+            OrdersWrapper.CurrentTable().AddRow(CurrentSingleOrder);
         }
 
         public void Prev()
@@ -899,16 +901,16 @@ namespace SupRealClient.ViewModels
             view.DataContext = viewModel;
             model.OnClose += view.Handling_OnClose;
             view.ShowDialog();
-            int i = CurrentSingleOrder.VisitorsList.IndexOf(UpdateVisitor);
-            CurrentSingleOrder.VisitorsList[i] = (view.WindowResult as VisitorOnOrder);
-            UpdateVisitor = CurrentSingleOrder.VisitorsList[i];
+            int i = CurrentSingleOrder.OrderElements.IndexOf(UpdateVisitor);
+            CurrentSingleOrder.OrderElements[i] = (view.WindowResult as OrderElement);
+            UpdateVisitor = CurrentSingleOrder.OrderElements[i];
             //UpdateVisitor = (VisitorOnOrder)(view.WindowResult as VisitorOnOrder).Clone();
             OnRefresh?.Invoke();
         }
 
         public void DeletePerson()
         {
-            CurrentSingleOrder.VisitorsList.Remove(UpdateVisitor);
+            CurrentSingleOrder.OrderElements.Remove(UpdateVisitor);
         }
 
         private void AddPersonInSingleOrder()
@@ -923,9 +925,9 @@ namespace SupRealClient.ViewModels
             model.OnClose += view.Handling_OnClose;
             view.ShowDialog();
             object res = view.WindowResult;
-            if (CurrentSingleOrder.VisitorsList == null)
-                CurrentSingleOrder.VisitorsList = new ObservableCollection<VisitorOnOrder>();
-            CurrentSingleOrder.VisitorsList.Add((VisitorOnOrder) res);
+            if (CurrentSingleOrder.OrderElements == null)
+                CurrentSingleOrder.OrderElements = new ObservableCollection<OrderElement>();
+            CurrentSingleOrder.OrderElements.Add((OrderElement) res);
             OnRefresh?.Invoke();
         }
 
@@ -941,9 +943,9 @@ namespace SupRealClient.ViewModels
             model.OnClose += view.Handling_OnClose;
             view.ShowDialog();
             object res = view.WindowResult;
-            if (CurrentTemporaryOrder.VisitorsList == null)
-                CurrentTemporaryOrder.VisitorsList = new ObservableCollection<VisitorOnOrder>();
-            CurrentTemporaryOrder.VisitorsList.Add((VisitorOnOrder)res);
+            if (CurrentTemporaryOrder.OrderElements == null)
+                CurrentTemporaryOrder.OrderElements = new ObservableCollection<OrderElement>();
+            CurrentTemporaryOrder.OrderElements.Add((OrderElement)res);
             OnRefresh?.Invoke();
         }
 

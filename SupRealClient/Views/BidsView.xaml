@@ -130,7 +130,7 @@
                         CanUserAddRows="{Binding IsCanAddRows, Mode=TwoWay}"
                         SelectedItem= "{Binding UpdateVisitor, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                         
-                        ItemsSource="{Binding Path=CurrentSingleOrder.VisitorsList}">
+                        ItemsSource="{Binding Path=CurrentSingleOrder.OrderElements}">
                         <DataGrid.Columns>
                             <DataGridTextColumn Header="№"/>
                             <DataGridTextColumn Header="Посетитель" Width="*" Binding="{Binding Visitor, UpdateSourceTrigger=PropertyChanged}"/>
@@ -380,7 +380,7 @@
                         Grid.Row="2"
                         CanUserAddRows="{Binding IsCanAddRows, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                         AutoGenerateColumns="False"
-                        ItemsSource="{Binding Path=CurrentTemporaryOrder.VisitorsList}">
+                        ItemsSource="{Binding Path=CurrentTemporaryOrder.OrderElements}">
                         <DataGrid.Columns>
                             <DataGridTextColumn Header="№"/>
                             <DataGridTextColumn Header="Посетитель" Width="*" Binding="{Binding Visitor}"/>
