@@ -124,10 +124,10 @@ namespace SupRealClient.ViewModels.AddUpdateViewModel
         {
             VisitorsModelResult result = ViewManager.Instance.OpenWindowModal(
                 "VisitorsListWindViewOk", null) as VisitorsModelResult;
-            (CurrentItem as VisitorOnOrder).VisitorId = result.Id;
-            (CurrentItem as VisitorOnOrder).Visitor = result.Name;
-            (CurrentItem as VisitorOnOrder).OrganizationId = result.OrganizationId;
-            (CurrentItem as VisitorOnOrder).Organization = result.Organization;
+            (CurrentItem as OrderElement).VisitorId = result.Id;
+            (CurrentItem as OrderElement).Visitor = result.Name;
+            (CurrentItem as OrderElement).OrganizationId = result.OrganizationId;
+            (CurrentItem as OrderElement).Organization = result.Organization;
             CurrentItem = CurrentItem;
         }
 
@@ -135,8 +135,8 @@ namespace SupRealClient.ViewModels.AddUpdateViewModel
         {
             VisitorsModelResult result = ViewManager.Instance.OpenWindowModal(
                 "VisitorsListWindViewOk", null) as VisitorsModelResult;
-            (CurrentItem as VisitorOnOrder).CatcherId = result.Id;
-            (CurrentItem as VisitorOnOrder).Catcher = result.Name;
+            (CurrentItem as OrderElement).CatcherId = result.Id;
+            (CurrentItem as OrderElement).Catcher = result.Name;
             CurrentItem = CurrentItem;
         }
     }

@@ -112,31 +112,37 @@
                             Grid.Column="1"
                             Margin="10"
                             Content="Редактировать"
-                            Visibility="{Binding AddUpdVisib, Mode=TwoWay}"></Button>
-                            <Button
+                            Visibility="{Binding AddUpdVisib, Mode=TwoWay}"
+                            Command="{Binding UpdatePersonCommand}"></Button>
+                        <Button
                             Grid.Column="2"
                             Margin="10"
                             Content="Удалить"
-                            Visibility="{Binding AddUpdVisib, Mode=TwoWay}"></Button>
-
-                        </Grid>
-
-                        <DataGrid
+                            Visibility="{Binding AddUpdVisib, Mode=TwoWay}"
+                            Command="{Binding DeletePersonCommand}">
+                            
+                        </Button>
+                        
+                    </Grid>
+                    
+                    <DataGrid
                         Grid.Row="2"
                         AutoGenerateColumns="False"
                         CanUserAddRows="{Binding IsCanAddRows, Mode=TwoWay}"
-                        ItemsSource="{Binding Path=CurrentSingleOrder.VisitorsList}">
-                            <DataGrid.Columns>
-                                <DataGridTextColumn Header="№"/>
-                                <DataGridTextColumn Header="Посетитель" Width="*" Binding="{Binding Visitor}"/>
-                                <DataGridTextColumn Header="Организация" Width="*" Binding="{Binding Organization}"/>
-                                <DataGridTextColumn Header="Принимающее лицо" Width="*" Binding="{Binding Catcher}"/>
-                                <DataGridTextColumn Header="Время от" Binding="{Binding From}"/>
-                                <DataGridTextColumn Header="Время до" Binding="{Binding To}"/>
-                                <DataGridTextColumn Header="Не активен"/>
-                                <DataGridTextColumn Header="Проходы" Binding="{Binding Passes}"/>
-                            </DataGrid.Columns>
-                        </DataGrid>
+                        SelectedItem= "{Binding UpdateVisitor, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                        
+                        ItemsSource="{Binding Path=CurrentSingleOrder.OrderElements}">
+                        <DataGrid.Columns>
+                            <DataGridTextColumn Header="№"/>
+                            <DataGridTextColumn Header="Посетитель" Width="*" Binding="{Binding Visitor, UpdateSourceTrigger=PropertyChanged}"/>
+                            <DataGridTextColumn Header="Организация" Width="*" Binding="{Binding Organization}"/>
+                            <DataGridTextColumn Header="Принимающее лицо" Width="*" Binding="{Binding Catcher, UpdateSourceTrigger=PropertyChanged}"/>
+                            <DataGridTextColumn Header="Время от" Binding="{Binding From}"/>
+                            <DataGridTextColumn Header="Время до" Binding="{Binding To}"/>
+                            <DataGridTextColumn Header="Не активен"/>
+                            <DataGridTextColumn Header="Проходы" Binding="{Binding Passes}"/>
+                        </DataGrid.Columns>
+                    </DataGrid>
 
                         <Grid
                         Grid.Row="3">
@@ -286,8 +292,9 @@
                             Grid.Column="5"
                             Margin="10"
                             Content="Редактировать"
-                            Visibility="{Binding AddUpdVisib, Mode=TwoWay}"></Button>
-                            <Button
+                            Visibility="{Binding AddUpdVisib, Mode=TwoWay}"
+                            Command="{Binding UpdatePersonCommand}"></Button>
+                        <Button
                             Grid.Column="6"
                             Margin="10"
                             Content="Удалить"
@@ -374,17 +381,17 @@
 
                         <DataGrid
                         Grid.Row="2"
-                        CanUserAddRows="{Binding IsCanAddRows, Mode=TwoWay}"
+                        CanUserAddRows="{Binding IsCanAddRows, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                         AutoGenerateColumns="False"
-                        ItemsSource="{Binding Path=CurrentTemporaryOrder.VisitorsList}">
-                            <DataGrid.Columns>
-                                <DataGridTextColumn Header="№"/>
-                                <DataGridTextColumn Header="Посетитель" Width="*" Binding="{Binding Visitor}"/>
-                                <DataGridTextColumn Header="Организация" Binding="{Binding Organization}"/>
-                                <DataGridTextColumn Header="Не активен"/>
-                                <DataGridTextColumn Header="Проходы" Binding="{Binding Passes}"/>
-                            </DataGrid.Columns>
-                        </DataGrid>
+                        ItemsSource="{Binding Path=CurrentTemporaryOrder.OrderElements}">
+                        <DataGrid.Columns>
+                            <DataGridTextColumn Header="№"/>
+                            <DataGridTextColumn Header="Посетитель" Width="*" Binding="{Binding Visitor}"/>
+                            <DataGridTextColumn Header="Организация" Binding="{Binding Organization}"/>
+                            <DataGridTextColumn Header="Не активен"/>
+                            <DataGridTextColumn Header="Проходы" Binding="{Binding Passes}"/>
+                        </DataGrid.Columns>
+                    </DataGrid>
 
                         <Grid
                         Grid.Row="3">
