@@ -136,11 +136,16 @@
             <MenuItem Header="Справка" FontSize="{Binding ElementName=FontSizeLixtBox, Path=SelectedItem.Content}" >
                 <MenuItem Header="Содержание" IsEnabled="False"/>
                 <Separator />
-                <MenuItem Header="О программе..." IsEnabled="False"/>
+                <MenuItem Header="О программе..." IsEnabled="False" />
             </MenuItem>
         </Menu>
 
-              
+        
+        <!-- Версия сборки -->
+        <StackPanel Orientation="Horizontal" Grid.Row="0" Grid.Column="1" HorizontalAlignment="Right" Margin="2,2,15,2">
+            <TextBlock Text="Версия: " Foreground="Gray" FontStyle="Italic"/>
+            <TextBlock Text="{Binding AppVersion}" Foreground="Gray" FontStyle="Italic"/>
+        </StackPanel>
         
         <Grid Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="2" Margin="5"
               Visibility="{Binding Path=DataVisibility, Mode=OneWay}">

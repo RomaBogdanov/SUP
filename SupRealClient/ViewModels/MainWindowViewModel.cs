@@ -5,6 +5,7 @@ using System.Windows.Controls;
 using SupClientConnectionLib;
 using SupRealClient.Views;
 using SupRealClient.EnumerationClasses;
+using System.Reflection;
 
 namespace SupRealClient.ViewModels
 {
@@ -78,6 +79,15 @@ namespace SupRealClient.ViewModels
                 this.userExitOpened = value;
                 OnPropertyChanged("IsUserEnter");
             }
+        }
+
+        private System.Version _appVersion = Assembly.GetExecutingAssembly().GetName().Version;
+        /// <summary>
+        /// Версия сборки.
+        /// </summary>
+        public System.Version AppVersion
+        {
+            get { return _appVersion; }
         }
 
         public ICommand ListOrganizationsClick { get; set; }
