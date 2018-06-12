@@ -33,13 +33,13 @@ namespace SupRealClient
         {
             InitializeComponent();
 
-            Loaded += (s, e) =>
+            /*Loaded += (s, e) =>
             {
                 _height = Height;
                 _width = Width;
 
                 CalculateChildWindow();
-            };
+            };*/
         }
 
         private void CalculateChildWindow()

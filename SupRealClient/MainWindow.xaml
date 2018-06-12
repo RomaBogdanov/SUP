@@ -34,7 +34,7 @@
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="90"/>
                     <ColumnDefinition Width="60"/>
-                    <ColumnDefinition Width="120"/>
+                    <ColumnDefinition />
                 </Grid.ColumnDefinitions>
 
                 <TextBlock Grid.Column="0" Text="Шрифт" FontSize="{Binding ElementName=FontSizeLixtBox, Path=SelectedItem.Content}" VerticalAlignment="Center" Margin="2"/>
@@ -63,7 +63,7 @@
         <Grid.RowDefinitions>
             <RowDefinition Height="35"/>
             <RowDefinition Height="65"/>
-            <RowDefinition Height="*"/>
+            <RowDefinition />
         </Grid.RowDefinitions>
         <Grid.ColumnDefinitions>
             <ColumnDefinition />
@@ -160,14 +160,19 @@
                         Text="Alt+P"
                         FontSize="16"/>
                 </Button.ToolTip>
-                <Grid>
+                <WrapPanel Orientation="Horizontal">
+                    <Image Source="Resources/Посетители.jpg" Height="32"></Image>
+                    <TextBlock Margin="2,0,0,0" Text="Посетители" VerticalAlignment="Center"></TextBlock>
+                </WrapPanel>
+                <!--<Grid>
+                    
                     <Grid.RowDefinitions>
                         <RowDefinition/>
                         <RowDefinition/>
                     </Grid.RowDefinitions>
                     <Image Grid.Row="0" Source="Resources/Посетители.jpg"></Image>
                     <TextBlock Grid.Row="1" Text="Посетители"></TextBlock>
-                </Grid>
+                </Grid>-->
             </Button>
             <Button 
                 Grid.Column="1" 
@@ -180,6 +185,7 @@
                         Text="Alt+O"
                         FontSize="16"/>
                 </Button.ToolTip>
+                <!--
                 <Grid>
                     <Grid.RowDefinitions>
                         <RowDefinition/>
@@ -187,7 +193,11 @@
                     </Grid.RowDefinitions>
                     <Image Grid.Row="0" Source="Resources/Заявки.png"></Image>
                     <TextBlock Grid.Row="1" Text="Заявки"></TextBlock>
-                </Grid>
+                </Grid>-->
+                <WrapPanel Orientation="Horizontal" >
+                    <Image Source="Resources/Заявки.png" Height="32"></Image>
+                    <TextBlock Margin="2,0,0,0" Text="Заявки" VerticalAlignment="Center"></TextBlock>
+                </WrapPanel>
             </Button>
             <Button 
                 Grid.Column="2" 
@@ -200,6 +210,7 @@
                         Text="Alt+V"
                         FontSize="16"/>
                 </Button.ToolTip>
+                <!--
                 <Grid>
                     <Grid.RowDefinitions>
                         <RowDefinition/>
@@ -207,13 +218,18 @@
                     </Grid.RowDefinitions>
                     <Image Grid.Row="0" Source="Resources/Посещения.png"></Image>
                     <TextBlock Grid.Row="1" Text="Посещения"></TextBlock>
-                </Grid>
+                </Grid>-->
+                <WrapPanel Orientation="Horizontal" >
+                    <Image Source="Resources/Посещения.png" Height="32"></Image>
+                    <TextBlock Margin="2,0,0,0" Text="Посещения" VerticalAlignment="Center"></TextBlock>
+                </WrapPanel>
             </Button>
             <Button 
                 Grid.Column="3" 
                 IsEnabled="False" 
                 Style="{DynamicResource SquareButtonStyle}" 
                 FontSize="{Binding ElementName=FontSizeLixtBox, Path=SelectedItem.Content}">
+                <!--
                 <Grid>
                     <Grid.RowDefinitions>
                         <RowDefinition/>
@@ -221,37 +237,53 @@
                     </Grid.RowDefinitions>
                     <Image Grid.Row="0" Source="Resources/Отчёт.png"></Image>
                     <TextBlock Grid.Row="1" Text="Отчёт"></TextBlock>
-                </Grid>
+                </Grid>-->
+                <WrapPanel Orientation="Horizontal" >
+                    <Image Source="Resources/Отчёт.png" Height="32"></Image>
+                    <TextBlock Margin="2,0,0,0" Text="Отчёт" VerticalAlignment="Center"></TextBlock>
+                </WrapPanel>
             </Button>
             <Button Grid.Column="4" IsEnabled="False" Style="{DynamicResource SquareButtonStyle}" FontSize="{Binding ElementName=FontSizeLixtBox, Path=SelectedItem.Content}">
-                <Grid>
+                <!--<Grid>
                     <Grid.RowDefinitions>
                         <RowDefinition/>
                         <RowDefinition/>
                     </Grid.RowDefinitions>
                     <Image Grid.Row="0" Source="Resources/Сохранить.png"></Image>
                     <TextBlock Grid.Row="1" Text="Сохранить"></TextBlock>
-                </Grid>
+                </Grid>-->
+                <WrapPanel Orientation="Horizontal" >
+                    <Image Grid.Row="0" Source="Resources/Сохранить.png" Height="32"></Image>
+                    <TextBlock Margin="2,0,0,0" Grid.Row="1" Text="Сохранить" VerticalAlignment="Center"></TextBlock>
+                </WrapPanel>
             </Button>
             <Button Grid.Column="5" IsEnabled="False" Style="{DynamicResource SquareButtonStyle}" FontSize="{Binding ElementName=FontSizeLixtBox, Path=SelectedItem.Content}">
-                <Grid>
+                <!--<Grid>
                     <Grid.RowDefinitions>
                         <RowDefinition/>
                         <RowDefinition/>
                     </Grid.RowDefinitions>
                     <Image Grid.Row="0" Source="Resources/Наименования.png"></Image>
                     <TextBlock Grid.Row="1" Text="Наименование"></TextBlock>
-                </Grid>
+                </Grid>-->
+                <WrapPanel Orientation="Horizontal" >
+                    <Image Grid.Row="0" Source="Resources/Наименования.png" Height="32"></Image>
+                    <TextBlock Margin="2,0,0,0" Grid.Row="1" Text="Наименование" VerticalAlignment="Center"></TextBlock>
+                </WrapPanel>
             </Button>
             <Button Grid.Column="6" IsEnabled="False" Style="{DynamicResource SquareButtonStyle}" FontSize="{Binding ElementName=FontSizeLixtBox, Path=SelectedItem.Content}">
-                <Grid>
+                <!--<Grid>
                     <Grid.RowDefinitions>
                         <RowDefinition/>
                         <RowDefinition/>
                     </Grid.RowDefinitions>
                     <Image Grid.Row="0" Source="Resources/Регистрация3.jpg"></Image>
                     <TextBlock Grid.Row="1" Text="Регистрация"></TextBlock>
-                </Grid>
+                </Grid>-->
+                <WrapPanel Orientation="Horizontal">
+                    <Image Source="Resources/Регистрация3.jpg" Height="32"></Image>
+                    <TextBlock Margin="2,0,0,0" Text="Регистрация" VerticalAlignment="Center"></TextBlock>
+                </WrapPanel>
             </Button>
             <Button 
                 Grid.Column="7" 
@@ -275,12 +307,13 @@
             <Button DockPanel.Dock="Top" Style="{DynamicResource ButtonStyle}"/>
         </DockPanel>-->
         <!--<local:Authorize1View Grid.Row="2"></local:Authorize1View>-->
-        <ContentControl 
-            x:Name="aaa" 
-            Grid.Row="2" 
-            Content="{Binding Path=Control}" 
-            Visibility="{Binding Path=LoginVisibility, Mode=OneWay}" 
-            FontSize="{Binding ElementName=FontSizeLixtBox, Path=SelectedItem.Content}" Grid.ColumnSpan="2">
+        <ContentControl x:Name="aaa" Grid.Row="2" Grid.ColumnSpan="2" 
+                        Visibility="{Binding Path=LoginVisibility, Mode=OneWay}"
+                        Content="{Binding Path=Control}"             
+                        FontSize="{Binding ElementName=FontSizeLixtBox, Path=SelectedItem.Content}">
         </ContentControl>
+        <StackPanel x:Name="stackPanelLogin" >
+            
+        </StackPanel>
     </Grid>
 </mah:MetroWindow>
