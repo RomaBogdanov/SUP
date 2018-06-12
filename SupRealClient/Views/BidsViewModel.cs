@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.ComponentModel;
 
 namespace SupRealClient.Views
 {
@@ -27,7 +22,8 @@ namespace SupRealClient.Views
         /// </summary>
         public BidsViewModel()
         {
-            Settings = new ChildWinSet(0.9, 0.4);
+            Settings = new ChildWinSet() { Top = 120 };
+            Settings.Left = Settings.Width;
         }
 
         public event PropertyChangedEventHandler PropertyChanged;

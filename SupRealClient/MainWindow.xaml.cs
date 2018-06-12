@@ -33,13 +33,13 @@ namespace SupRealClient
         {
             InitializeComponent();
 
-            Loaded += (s, e) =>
+            /*Loaded += (s, e) =>
             {
                 _height = Height;
                 _width = Width;
 
                 CalculateChildWindow();
-            };
+            };*/
         }
 
         private void CalculateChildWindow()
@@ -63,6 +63,7 @@ namespace SupRealClient
             if (window.WindowState == WindowState.Minimized || window.WindowState == WindowState.Normal)
             {
                 ViewManager.Instance.SetChildrenState(sender as Window, true);
+                this.Height = 120;
             }
         }
     }

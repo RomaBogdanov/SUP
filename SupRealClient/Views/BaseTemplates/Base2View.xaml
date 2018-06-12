@@ -6,15 +6,12 @@
              xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
              xmlns:converters="clr-namespace:SupRealClient.Behaviour"
              mc:Ignorable="d" d:DesignHeight="300" d:DesignWidth="300"
-             PreviewKeyDown="UserControl_PreviewKeyDown">
-    
+             PreviewKeyDown="UserControl_PreviewKeyDown">    
     <UserControl.InputBindings>
-        <KeyBinding Gesture="Ctrl+D" Command="{Binding Update}"/>
-        <KeyBinding Gesture="Ctrl+F" Command="{Binding Search}"/>
-        <KeyBinding Gesture="Ctrl+G" Command="{Binding Farther}"/>
-        
-    </UserControl.InputBindings>
-    
+        <KeyBinding Gesture="Ctrl+D" Command="{Binding Update}"  />
+        <KeyBinding Gesture="Ctrl+F" Command="{Binding Search}"  />
+        <KeyBinding Gesture="Ctrl+G" Command="{Binding Farther}" />        
+    </UserControl.InputBindings>    
     <!--<UserControl.DataContext>
         <local:Organizations1ViewModel />
     </UserControl.DataContext>-->
@@ -26,6 +23,7 @@
         </ResourceDictionary>
     </UserControl.Resources>
     <Grid>
+
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="1*"/>
             <ColumnDefinition Width="1*"/>
@@ -60,19 +58,20 @@
             ColumnHeaderStyle="{StaticResource SelectionColumnHeader}"
             KeyDown="BaseTab_OnKeyDown"
             ColumnWidth="*" Style="{StaticResource AzureDataGrid1}"
-            CanUserAddRows="False"> <!-- TODO - вернуть SelectedValue="{Binding Path=SelectedValue, Mode=TwoWay}"  -->
+            CanUserAddRows="False">
+            <!-- TODO - вернуть SelectedValue="{Binding Path=SelectedValue, Mode=TwoWay}"  -->
             <DataGrid.InputBindings>
                 <KeyBinding Key="Delete" Command="{Binding Remove}"/>
                 <MouseBinding
                     MouseAction="RightClick"
                     Command="{Binding RightClickCommand}"/>
-                
+
                 <MouseBinding
                     MouseAction="LeftDoubleClick"
                     Command="{Binding Update}"/>
             </DataGrid.InputBindings>
         </DataGrid>
-        
+
         <TextBlock 
             Grid.Row="2" 
             Grid.Column="0" 
@@ -80,7 +79,7 @@
             Margin="1" 
             FontSize="{Binding FontSize}" 
             Style="{StaticResource TextBLockStyle}"/>
-        
+
         <TextBox 
             Name="tbxSearch" 
             Grid.Row="2" 
@@ -90,7 +89,7 @@
             Text="{Binding Path=SearchingText, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" 
             FontSize="{Binding FontSize}" 
             Style="{StaticResource TextBoxStyle}"/>
-        
+
         <Button 
             Grid.Row="3" 
             Grid.Column="0" 
@@ -104,11 +103,11 @@
                     <ColumnDefinition Width="30"/>
                     <ColumnDefinition/>
                 </Grid.ColumnDefinitions>
-                
+
                 <Image
                     Grid.Column="0"
                     Source="../../Resources/Начало (2).ico"/>
-                
+
                 <TextBlock
                     Grid.Column="1"
                     Text="Начало"
@@ -116,7 +115,7 @@
                     Style="{StaticResource TextBLockStyle}"/>
             </Grid>
         </Button>
-        
+
         <Button 
             Name="btnUp"
             Grid.Row="3" 
@@ -143,7 +142,7 @@
                     Style="{StaticResource TextBLockStyle}"/>
             </Grid>
         </Button>
-        
+
         <Button 
             Name="btnDown"
             Grid.Row="3" 
@@ -170,7 +169,7 @@
                     Style="{StaticResource TextBLockStyle}"/>
             </Grid>
         </Button>
-        
+
         <Button 
             Grid.Row="3" 
             Grid.Column="3"
@@ -196,7 +195,7 @@
                     Style="{StaticResource TextBLockStyle}"/>
             </Grid>
         </Button>
-        
+
         <Button 
             Grid.Row="3" 
             Grid.Column="4" 
@@ -249,7 +248,7 @@
                     Style="{StaticResource TextBLockStyle}"/>
             </Grid>
         </Button>
-        
+
         <Button 
             Grid.Row="3" 
             Grid.Column="6" 
@@ -275,7 +274,7 @@
                     Style="{StaticResource TextBLockStyle}"/>
             </Grid>
         </Button>
-        
+
         <Button 
             Grid.Row="3" 
             Grid.Column="7" 
@@ -301,7 +300,7 @@
                     Style="{StaticResource TextBLockStyle}"/>
             </Grid>
         </Button>
-        
+
         <Button 
             Grid.Row="3" 
             Grid.Column="9" 

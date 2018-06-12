@@ -17,6 +17,8 @@
 
                     this.Height = (this.DataContext as VisitsViewModel).WinSet.Height;
                     this.Width = (this.DataContext as VisitsViewModel).WinSet.Width;
+                    this.Left = (this.DataContext as VisitsViewModel).WinSet.Left;
+                    this.Top = (this.DataContext as VisitsViewModel).WinSet.Top;
                 }
             };
         }

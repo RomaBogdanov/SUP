@@ -88,8 +88,8 @@ namespace SupRealClient.Views
         }
 
         #region Под удаление
-
-
-#endregion
+        
+        
+        #endregion
     }
 }

@@ -313,7 +313,7 @@
 
 
         <Button 
-            Grid.Row="4" 
+            Grid.Row="3" 
             Grid.Column="4" 
             Margin="1" 
             Command="{Binding Path=Ok}" 
@@ -340,7 +340,7 @@
 
         <!-- Верхняя панель кнопок. -->
         <Button 
-            Grid.Row="3" 
+            Grid.Row="4" 
             Grid.Column="5" 
             Grid.ColumnSpan="2" 
             Margin="1" 

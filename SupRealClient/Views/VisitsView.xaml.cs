@@ -246,7 +246,8 @@ namespace SupRealClient.Views
 
         public VisitsViewModel(IWindow view)
         {
-            WinSet = new ChildWinSet(); GlobalSettings.GetChildWindowSettings();     
+            WinSet = new ChildWinSet() { Left = 0, Top = 120 };
+            //GlobalSettings.GetChildWindowSettings();     
 
             this.view = view;
             Model = new VisitsModel();
