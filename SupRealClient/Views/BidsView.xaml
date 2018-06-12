@@ -48,13 +48,13 @@
                             <ColumnDefinition/>
                         </Grid.ColumnDefinitions>
 
-                        <TextBlock
+                        <TextBlock Margin="2"
                             Grid.Column="0"
                             Text="Номер заявки"
                             HorizontalAlignment="Left"
                             Style="{StaticResource TextBLockStyle}"/>
 
-                        <TextBox
+                        <TextBox Margin="2"
                             Text="{Binding CurrentSingleOrder.RegNumber, Mode=TwoWay}"
                             Grid.Column="1"
                             Style="{StaticResource TextBoxStyle}"/>
@@ -62,14 +62,14 @@
                             Grid.Column="2"
                             Text="Дата действия"
                             HorizontalAlignment="Left"
-                            Style="{StaticResource TextBLockStyle}" Margin="2,22,0,21"/>
+                            Style="{StaticResource TextBLockStyle}"/>
 
 
                         <!--<TextBox
                             Text="{Binding CurrentSingleOrder.From, Mode=TwoWay}"
                             Grid.Column="1"
                             Style="{StaticResource TextBoxStyle}"/>-->
-                        <DatePicker Grid.Column="3" SelectedDate="{Binding CurrentSingleOrder.From, Mode=TwoWay}" Height="25" Margin="10,20,10,21">
+                        <DatePicker Grid.Column="3" SelectedDate="{Binding CurrentSingleOrder.From, Mode=TwoWay}" Height="25" Margin="2">
                             <DatePicker.Resources>
                                 <Style TargetType="{x:Type DatePickerTextBox}">
                                     <Setter Property="Control.Template">
@@ -85,7 +85,7 @@
                         </DatePicker>
 
                         <Button
-                            Grid.Column="4"
+                            Grid.Column="4" Margin="2"
                             Width="25"
                             Height="25"
                             Content="..."
@@ -146,18 +146,18 @@
                             <ColumnDefinition/>
                         </Grid.ColumnDefinitions>
 
-                        <TextBlock
+                        <TextBlock Margin="2"
                             Grid.Column="0"
                             Text="Подписано"
                             HorizontalAlignment="Left"
                             Style="{StaticResource TextBLockStyle}"/>
 
-                        <TextBox
+                        <TextBox Margin="2"
                             Text="{Binding CurrentSingleOrder.Signed, Mode=TwoWay}"
                             Grid.Column="1"
                             Style="{StaticResource TextBoxStyle}"/>
 
-                        <Button
+                        <Button Margin="2"
                             Command="{Binding SignerSingleCommand}"
                             Grid.Column="2"
                             Width="25"
@@ -175,13 +175,13 @@
                             <ColumnDefinition/>
                         </Grid.ColumnDefinitions>
 
-                        <TextBlock
+                        <TextBlock Margin="2"
                             Grid.Column="0"
                             Text="Примечание"
                             HorizontalAlignment="Left"
                             Style="{StaticResource TextBLockStyle}"/>
 
-                        <TextBox
+                        <TextBox Margin="2"
                             Text="{Binding CurrentSingleOrder.Note, Mode=TwoWay}"
                             Grid.Column="1"
                             Grid.ColumnSpan="3"
@@ -257,7 +257,7 @@
                             Text="Номер заявки"
                             Style="{StaticResource TextBLockStyle}"/>
 
-                        <TextBox
+                        <TextBox Margin="2"
                             Text="{Binding CurrentTemporaryOrder.RegNumber, Mode=TwoWay}"
                             Grid.Column="1"
                             Style="{StaticResource TextBoxStyle}"/>
@@ -267,7 +267,7 @@
                             HorizontalAlignment="Center"
                             VerticalAlignment="Center"/>
 
-                        <TextBlock
+                        <TextBlock Margin="2"
                             Grid.Column="3"
                             Text="Бессрочная заявка"
                             HorizontalAlignment="Left"
@@ -303,7 +303,7 @@
                             <ColumnDefinition/>
                         </Grid.ColumnDefinitions>
 
-                        <TextBlock
+                        <TextBlock Margin="2"
                             Grid.Column="0"
                             Text="От"
                             Style="{StaticResource TextBLockStyle}"/>
@@ -328,14 +328,14 @@
                             </DatePicker.Resources>
                         </DatePicker>
 
-                        <Button
+                        <Button Margin="2"
                             Grid.Column="2"
                             Width="25"
                             Height="25"
                             Content="..."
                             Style="{StaticResource VisitorsSquareButtonStyle}"/>
 
-                        <TextBlock
+                        <TextBlock Margin="2"
                             Grid.Column="3"
                             Text="До"
                             Style="{StaticResource TextBLockStyle}"/>
@@ -360,7 +360,7 @@
                             </DatePicker.Resources>
                         </DatePicker>
 
-                        <Button
+                        <Button Margin="2"
                             Grid.Column="5"
                             Width="25"
                             Height="25"
@@ -394,17 +394,17 @@
                             <ColumnDefinition Width="50"/>
                         </Grid.ColumnDefinitions>
 
-                        <TextBlock
+                        <TextBlock Margin="2"
                             Grid.Column="0"
                             Text="Подписано"
                             Style="{StaticResource TextBLockStyle}"/>
 
-                        <TextBox
+                        <TextBox Margin="2"
                             Text="{Binding CurrentTemporaryOrder.Signed, Mode=TwoWay}"
                             Grid.Column="1"
                             Style="{StaticResource TextBoxStyle}"/>
 
-                        <Button
+                        <Button Margin="2"
                             Command="{Binding SignerTempCommand}"
                             Grid.Column="2"
                             Width="25"
@@ -412,17 +412,17 @@
                             Content="..."
                             Style="{StaticResource VisitorsSquareButtonStyle}"/>
 
-                        <TextBlock
+                        <TextBlock Margin="2"
                             Grid.Column="3"
                             Text="Согласовано"
                             Style="{StaticResource TextBLockStyle}"/>
 
-                        <TextBox
+                        <TextBox Margin="2"
                             Text="{Binding CurrentTemporaryOrder.Agree, Mode=TwoWay}"
                             Grid.Column="4"
                             Style="{StaticResource TextBoxStyle}"/>
 
-                        <Button
+                        <Button Margin="2"
                             Command="{Binding AgreerCommand}"
                             Grid.Column="5"
                             Width="25"
@@ -450,12 +450,12 @@
                             Text="Заявка не активна"
                             Style="{StaticResource TextBLockStyle}"/>
 
-                        <TextBlock
+                        <TextBlock Margin="2"
                             Grid.Column="2"
                             Text="Примечание:"
                             Style="{StaticResource TextBLockStyle}"/>
 
-                        <TextBox
+                        <TextBox Margin="2"
                             Text="{Binding CurrentTemporaryOrder.Note, Mode=TwoWay}"
                             Grid.Column="3"
                             Style="{StaticResource TextBoxStyle}"/>

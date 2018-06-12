@@ -32,14 +32,23 @@
         <mah:WindowCommands>
             <Grid>
                 <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="250" />
                     <ColumnDefinition Width="90"/>
                     <ColumnDefinition Width="60"/>
                     <ColumnDefinition />
                 </Grid.ColumnDefinitions>
 
-                <TextBlock Grid.Column="0" Text="Шрифт" FontSize="{Binding ElementName=FontSizeLixtBox, Path=SelectedItem.Content}" VerticalAlignment="Center" Margin="2"/>
+                <StackPanel Grid.Column="0" Orientation="Horizontal" Margin="2" HorizontalAlignment="Right" IsEnabled="False">
+                    <TextBox Margin="2" Width="120" VerticalContentAlignment="Top" Background="Transparent" Padding="0"
+                             FontSize="{Binding ElementName=FontSizeLixtBox, Path=SelectedItem.Content}" 
+                     Text="{Binding Path=AuthorizedUser, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"/>
+                    <TextBox Margin="2" Width="120" VerticalContentAlignment="Top" Background="Transparent" Padding="0"
+                             FontSize="{Binding ElementName=FontSizeLixtBox, Path=SelectedItem.Content}"/>
+                </StackPanel>
 
-                <ComboBox Grid.Column="1" x:Name="FontSizeLixtBox" SelectedIndex="1" Margin="2">
+                <TextBlock Grid.Column="1" Text="Шрифт" FontSize="{Binding ElementName=FontSizeLixtBox, Path=SelectedItem.Content}" VerticalAlignment="Center" Margin="2"/>
+
+                <ComboBox Grid.Column="2" x:Name="FontSizeLixtBox" SelectedIndex="1" Margin="2">
                     <ComboBoxItem Content="12" FontSize="12"/>
                     <ComboBoxItem Content="14" FontSize="14"/>
                     <ComboBoxItem Content="16" FontSize="16"/>
@@ -47,7 +56,7 @@
                     <ComboBoxItem Content="20" FontSize="20"/>
                 </ComboBox>
 
-                <Button Grid.Column="2" Content="Настройки" FontSize="{Binding ElementName=FontSizeLixtBox, Path=SelectedItem.Content}" Margin="2"/>
+                <Button Grid.Column="3" Content="Настройки" FontSize="{Binding ElementName=FontSizeLixtBox, Path=SelectedItem.Content}" Margin="2"/>
             </Grid>
         </mah:WindowCommands>
     </mah:MetroWindow.RightWindowCommands>
@@ -61,7 +70,7 @@
     </Window.DataContext>
     <Grid>
         <Grid.RowDefinitions>
-            <RowDefinition Height="35"/>
+            <RowDefinition Height="32"/>
             <RowDefinition Height="60"/>
             <RowDefinition />
         </Grid.RowDefinitions>
@@ -131,11 +140,7 @@
             </MenuItem>
         </Menu>
 
-        <StackPanel Grid.Row="0" Grid.Column="1" Orientation="Horizontal" Margin="2" HorizontalAlignment="Right" IsEnabled="False">
-            <TextBox Margin="2" Width="200" FontSize="{Binding ElementName=FontSizeLixtBox, Path=SelectedItem.Content}" 
-                     Text="{Binding Path=AuthorizedUser, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"/>
-            <TextBox Margin="2" Width="200" FontSize="{Binding ElementName=FontSizeLixtBox, Path=SelectedItem.Content}"/>
-        </StackPanel>        
+              
         
         <Grid Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="2" Margin="5"
               Visibility="{Binding Path=DataVisibility, Mode=OneWay}">
