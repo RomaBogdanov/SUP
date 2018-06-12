@@ -10,7 +10,7 @@
         mc:Ignorable="d"
         Title="Заявки" 
                  ResizeMode="NoResize"
-        Height="827.512" Width="1105.5"
+        Height="827.512" Width="1077"
         KeyDown="BidsView_OnKeyDown">
     
 
@@ -21,390 +21,393 @@
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition/>
-            <RowDefinition Height="0.225*"/>
+            <RowDefinition Height="150"/>
         </Grid.RowDefinitions>
         <mah:MetroAnimatedTabControl
             Grid.Row="0">
             <mah:MetroTabItem Header="Разовые заявки" IsSelected="{Binding IsSingleOrder, Mode=TwoWay}">
-                <Grid>
-                    <Grid.RowDefinitions>
-                        <RowDefinition/>
-                        <RowDefinition/>
-                        <RowDefinition Height="3*"/>
-                        <RowDefinition/>
-                        <RowDefinition/>
-                        <RowDefinition/>
-                        <RowDefinition/>
-                    </Grid.RowDefinitions>
+                <ScrollViewer VerticalScrollBarVisibility="Auto">
+                    <Grid>
+                        <Grid.RowDefinitions>
+                            <RowDefinition/>
+                            <RowDefinition/>
+                            <RowDefinition Height="3*"/>
+                            <RowDefinition/>
+                            <RowDefinition/>
+                            <RowDefinition/>
+                            <RowDefinition/>
+                        </Grid.RowDefinitions>
 
-                    <Grid
+                        <Grid
                         Grid.Row="0">
-                        <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="130"/>
-                            <ColumnDefinition Width="150"/>
-                            <ColumnDefinition Width="130"/>
-                            <ColumnDefinition Width="200"/>
-                            <ColumnDefinition Width="50"/>
-                            <ColumnDefinition/>
-                        </Grid.ColumnDefinitions>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="130"/>
+                                <ColumnDefinition Width="150"/>
+                                <ColumnDefinition Width="130"/>
+                                <ColumnDefinition Width="200"/>
+                                <ColumnDefinition Width="50"/>
+                                <ColumnDefinition/>
+                            </Grid.ColumnDefinitions>
 
-                        <TextBlock Margin="2"
+                            <TextBlock Margin="2"
                             Grid.Column="0"
                             Text="Номер заявки"
                             HorizontalAlignment="Left"
                             Style="{StaticResource TextBLockStyle}"/>
 
-                        <TextBox Margin="2"
+                            <TextBox Margin="2"
                             Text="{Binding CurrentSingleOrder.RegNumber, Mode=TwoWay}"
                             Grid.Column="1"
                             Style="{StaticResource TextBoxStyle}"/>
-                        <TextBlock
+                            <TextBlock
                             Grid.Column="2"
                             Text="Дата действия"
                             HorizontalAlignment="Left"
                             Style="{StaticResource TextBLockStyle}"/>
 
 
-                        <!--<TextBox
+                            <!--<TextBox
                             Text="{Binding CurrentSingleOrder.From, Mode=TwoWay}"
                             Grid.Column="1"
                             Style="{StaticResource TextBoxStyle}"/>-->
-                        <DatePicker Grid.Column="3" SelectedDate="{Binding CurrentSingleOrder.From, Mode=TwoWay}" Height="25" Margin="2">
-                            <DatePicker.Resources>
-                                <Style TargetType="{x:Type DatePickerTextBox}">
-                                    <Setter Property="Control.Template">
-                                        <Setter.Value>
-                                            <ControlTemplate>
-                                                <wpfx:MaskedTextBox x:Name="PART_TextBox" Mask="00/00/0000" 
+                            <DatePicker Grid.Column="3" SelectedDate="{Binding CurrentSingleOrder.From, Mode=TwoWay}" Height="25" Margin="2">
+                                <DatePicker.Resources>
+                                    <Style TargetType="{x:Type DatePickerTextBox}">
+                                        <Setter Property="Control.Template">
+                                            <Setter.Value>
+                                                <ControlTemplate>
+                                                    <wpfx:MaskedTextBox x:Name="PART_TextBox" Mask="00/00/0000" 
                                     Text="{ Binding Path=SelectedDate,ConverterCulture={x:Static gl:CultureInfo.CurrentCulture}, StringFormat=dd/MM/yyyy, RelativeSource={RelativeSource AncestorType={x:Type DatePicker}}}" />
-                                            </ControlTemplate>
-                                        </Setter.Value>
-                                    </Setter>
-                                </Style>
-                            </DatePicker.Resources>
-                        </DatePicker>
+                                                </ControlTemplate>
+                                            </Setter.Value>
+                                        </Setter>
+                                    </Style>
+                                </DatePicker.Resources>
+                            </DatePicker>
 
-                        <Button
+                            <Button
                             Grid.Column="4" Margin="2"
                             Width="25"
                             Height="25"
                             Content="..."
                             Style="{StaticResource VisitorsSquareButtonStyle}"/>
-                    </Grid>
+                        </Grid>
 
-                    <Grid
+                        <Grid
                         Grid.Row="1">
-                        <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="130"/>
-                            <ColumnDefinition Width="130"/>
-                            <ColumnDefinition Width="130"/>
-                            <ColumnDefinition/>
-                        </Grid.ColumnDefinitions>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="135"/>
+                                <ColumnDefinition Width="135"/>
+                                <ColumnDefinition Width="135"/>
+                                <ColumnDefinition/>
+                            </Grid.ColumnDefinitions>
 
-                        <Button
+                            <Button
                             Grid.Column="0"
                             Margin="10"
                             Content="Добавить"
                             Visibility="{Binding AddUpdVisib, Mode=TwoWay}"
                             Command="{Binding AddPersonCommand}"></Button>
-                        <Button
+                            <Button
                             Grid.Column="1"
                             Margin="10"
                             Content="Редактировать"
                             Visibility="{Binding AddUpdVisib, Mode=TwoWay}"></Button>
-                        <Button
+                            <Button
                             Grid.Column="2"
                             Margin="10"
                             Content="Удалить"
                             Visibility="{Binding AddUpdVisib, Mode=TwoWay}"></Button>
-                        
-                    </Grid>
-                    
-                    <DataGrid
+
+                        </Grid>
+
+                        <DataGrid
                         Grid.Row="2"
                         AutoGenerateColumns="False"
                         CanUserAddRows="{Binding IsCanAddRows, Mode=TwoWay}"
                         ItemsSource="{Binding Path=CurrentSingleOrder.VisitorsList}">
-                        <DataGrid.Columns>
-                            <DataGridTextColumn Header="№"/>
-                            <DataGridTextColumn Header="Посетитель" Width="*" Binding="{Binding Visitor}"/>
-                            <DataGridTextColumn Header="Организация" Width="*" Binding="{Binding Organization}"/>
-                            <DataGridTextColumn Header="Принимающее лицо" Width="*" Binding="{Binding Catcher}"/>
-                            <DataGridTextColumn Header="Время от" Binding="{Binding From}"/>
-                            <DataGridTextColumn Header="Время до" Binding="{Binding To}"/>
-                            <DataGridTextColumn Header="Не активен"/>
-                            <DataGridTextColumn Header="Проходы" Binding="{Binding Passes}"/>
-                        </DataGrid.Columns>
-                    </DataGrid>
+                            <DataGrid.Columns>
+                                <DataGridTextColumn Header="№"/>
+                                <DataGridTextColumn Header="Посетитель" Width="*" Binding="{Binding Visitor}"/>
+                                <DataGridTextColumn Header="Организация" Width="*" Binding="{Binding Organization}"/>
+                                <DataGridTextColumn Header="Принимающее лицо" Width="*" Binding="{Binding Catcher}"/>
+                                <DataGridTextColumn Header="Время от" Binding="{Binding From}"/>
+                                <DataGridTextColumn Header="Время до" Binding="{Binding To}"/>
+                                <DataGridTextColumn Header="Не активен"/>
+                                <DataGridTextColumn Header="Проходы" Binding="{Binding Passes}"/>
+                            </DataGrid.Columns>
+                        </DataGrid>
 
-                    <Grid
+                        <Grid
                         Grid.Row="3">
-                        <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="130"/>
-                            <ColumnDefinition Width="150"/>
-                            <ColumnDefinition Width="50"/>
-                            <ColumnDefinition/>
-                        </Grid.ColumnDefinitions>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="130"/>
+                                <ColumnDefinition Width="150"/>
+                                <ColumnDefinition Width="50"/>
+                                <ColumnDefinition/>
+                            </Grid.ColumnDefinitions>
 
-                        <TextBlock Margin="2"
+                            <TextBlock Margin="2"
                             Grid.Column="0"
                             Text="Подписано"
                             HorizontalAlignment="Left"
                             Style="{StaticResource TextBLockStyle}"/>
 
-                        <TextBox Margin="2"
+                            <TextBox Margin="2"
                             Text="{Binding CurrentSingleOrder.Signed, Mode=TwoWay}"
                             Grid.Column="1"
                             Style="{StaticResource TextBoxStyle}"/>
 
-                        <Button Margin="2"
+                            <Button Margin="2"
                             Command="{Binding SignerSingleCommand}"
                             Grid.Column="2"
                             Width="25"
                             Height="25"
                             Content="..."
                             Style="{StaticResource VisitorsSquareButtonStyle}"/>
-                    </Grid>
+                        </Grid>
 
-                    <Grid
+                        <Grid
                         Grid.Row="4">
-                        <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="130"/>
-                            <ColumnDefinition Width="150"/>
-                            <ColumnDefinition Width="50"/>
-                            <ColumnDefinition/>
-                        </Grid.ColumnDefinitions>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="130"/>
+                                <ColumnDefinition Width="150"/>
+                                <ColumnDefinition Width="50"/>
+                                <ColumnDefinition/>
+                            </Grid.ColumnDefinitions>
 
-                        <TextBlock Margin="2"
+                            <TextBlock Margin="2"
                             Grid.Column="0"
                             Text="Примечание"
                             HorizontalAlignment="Left"
                             Style="{StaticResource TextBLockStyle}"/>
 
-                        <TextBox Margin="2"
+                            <TextBox Margin="2"
                             Text="{Binding CurrentSingleOrder.Note, Mode=TwoWay}"
                             Grid.Column="1"
                             Grid.ColumnSpan="3"
                             Style="{StaticResource TextBoxStyle}"/>
-                    </Grid>
+                        </Grid>
 
-                    <Grid
+                        <Grid
                         Grid.Row="5">
-                        <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="50"/>
-                            <ColumnDefinition/>
-                        </Grid.ColumnDefinitions>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="50"/>
+                                <ColumnDefinition/>
+                            </Grid.ColumnDefinitions>
 
-                        <CheckBox
+                            <CheckBox
                             Grid.Column="0"
                             HorizontalAlignment="Center"
                             VerticalAlignment="Center"/>
 
-                        <TextBlock
+                            <TextBlock
                             Grid.Column="1"
                             Text="Заявка не активна"
                             HorizontalAlignment="Left"
                             Style="{StaticResource TextBLockStyle}"/>
-                    </Grid>
+                        </Grid>
 
-                    <Grid
+                        <Grid
                         Grid.Row="6">
-                        <Grid.ColumnDefinitions>
-                            <ColumnDefinition/>
-                            <ColumnDefinition/>
-                        </Grid.ColumnDefinitions>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition/>
+                                <ColumnDefinition/>
+                            </Grid.ColumnDefinitions>
 
-                        <TextBlock
+                            <TextBlock
                             Grid.Column="0"
                             Text="Оператор 1"
                             HorizontalAlignment="Left"
                             Style="{StaticResource TextBLockStyle}"/>
 
-                        <TextBlock
+                            <TextBlock
                             Grid.Column="1"
                             Text="Изменён ..."
                             HorizontalAlignment="Right"
                             Style="{StaticResource TextBLockStyle}"/>
+                        </Grid>
                     </Grid>
-                </Grid>
+                </ScrollViewer>
             </mah:MetroTabItem>
 
             <mah:MetroTabItem Header="Временные заявки" IsSelected="{Binding IsTempOrder, Mode=TwoWay}">
-                <Grid>
-                    <Grid.RowDefinitions>
-                        <RowDefinition/>
-                        <RowDefinition/>
-                        <RowDefinition Height="6*"/>
-                        <RowDefinition/>
-                        <RowDefinition/>
-                    </Grid.RowDefinitions>
+                <ScrollViewer VerticalScrollBarVisibility="Auto">
+                    <Grid>
+                        <Grid.RowDefinitions>
+                            <RowDefinition/>
+                            <RowDefinition/>
+                            <RowDefinition Height="6*"/>
+                            <RowDefinition/>
+                            <RowDefinition/>
+                        </Grid.RowDefinitions>
 
-                    <Grid
+                        <Grid
                         Grid.Row="0">
-                        <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="130"/>
-                            <ColumnDefinition Width="180"/>
-                            <ColumnDefinition Width="50"/>
-                            <ColumnDefinition Width="180"/>
-                            <ColumnDefinition Width="100"/>
-                            <ColumnDefinition Width="100"/>
-                            <ColumnDefinition Width="100"/>
-                            <ColumnDefinition/>
-                        </Grid.ColumnDefinitions>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="130"/>
+                                <ColumnDefinition Width="180"/>
+                                <ColumnDefinition Width="50"/>
+                                <ColumnDefinition Width="180"/>
+                                <ColumnDefinition Width="100"/>
+                                <ColumnDefinition Width="100"/>
+                                <ColumnDefinition Width="100"/>
+                                <ColumnDefinition/>
+                            </Grid.ColumnDefinitions>
 
-                        <TextBlock
+                            <TextBlock
                             Grid.Column="0"
                             Text="Номер заявки"
                             Style="{StaticResource TextBLockStyle}"/>
 
-                        <TextBox Margin="2"
+                            <TextBox Margin="2"
                             Text="{Binding CurrentTemporaryOrder.RegNumber, Mode=TwoWay}"
                             Grid.Column="1"
                             Style="{StaticResource TextBoxStyle}"/>
 
-                        <CheckBox
+                            <CheckBox
                             Grid.Column="2"
                             HorizontalAlignment="Center"
                             VerticalAlignment="Center"/>
 
-                        <TextBlock Margin="2"
+                            <TextBlock Margin="2"
                             Grid.Column="3"
                             Text="Бессрочная заявка"
                             HorizontalAlignment="Left"
                             Style="{StaticResource TextBLockStyle}"/>
 
-                        <Button
+                            <Button
                             Grid.Column="4"
                             Margin="10"
                             Content="Добавить"
                             Visibility="{Binding AddUpdVisib, Mode=TwoWay}"
                             Command="{Binding AddPersonCommand}"></Button>
-                        <Button
+                            <Button
                             Grid.Column="5"
                             Margin="10"
                             Content="Редактировать"
                             Visibility="{Binding AddUpdVisib, Mode=TwoWay}"></Button>
-                        <Button
+                            <Button
                             Grid.Column="6"
                             Margin="10"
                             Content="Удалить"
                             Visibility="{Binding AddUpdVisib, Mode=TwoWay}"></Button>
 
-                    </Grid>
+                        </Grid>
 
-                    <Grid
+                        <Grid
                         Grid.Row="1">
-                        <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="130"/>
-                            <ColumnDefinition Width="180"/>
-                            <ColumnDefinition Width="50"/>
-                            <ColumnDefinition Width="50"/>
-                            <ColumnDefinition Width="180"/>
-                            <ColumnDefinition/>
-                        </Grid.ColumnDefinitions>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="130"/>
+                                <ColumnDefinition Width="180"/>
+                                <ColumnDefinition Width="50"/>
+                                <ColumnDefinition Width="50"/>
+                                <ColumnDefinition Width="180"/>
+                                <ColumnDefinition/>
+                            </Grid.ColumnDefinitions>
 
-                        <TextBlock Margin="2"
+                            <TextBlock Margin="2"
                             Grid.Column="0"
                             Text="От"
                             Style="{StaticResource TextBLockStyle}"/>
 
-                        <!--
+                            <!--
                         <TextBox
                             Text="{Binding CurrentTemporaryOrder.From, Mode=TwoWay}"
                             Grid.Column="1"
                             Style="{StaticResource TextBoxStyle}"/>-->
-                        <DatePicker Grid.Column="1" SelectedDate="{Binding CurrentTemporaryOrder.From, Mode=TwoWay}" Height="25" Width="160">
-                            <DatePicker.Resources>
-                                <Style TargetType="{x:Type DatePickerTextBox}">
-                                    <Setter Property="Control.Template">
-                                        <Setter.Value>
-                                            <ControlTemplate>
-                                                <wpfx:MaskedTextBox x:Name="PART_TextBox" Mask="00/00/0000" 
+                            <DatePicker Grid.Column="1" SelectedDate="{Binding CurrentTemporaryOrder.From, Mode=TwoWay}" Height="25" Width="160">
+                                <DatePicker.Resources>
+                                    <Style TargetType="{x:Type DatePickerTextBox}">
+                                        <Setter Property="Control.Template">
+                                            <Setter.Value>
+                                                <ControlTemplate>
+                                                    <wpfx:MaskedTextBox x:Name="PART_TextBox" Mask="00/00/0000" 
                                     Text="{ Binding Path=SelectedDate,ConverterCulture={x:Static gl:CultureInfo.CurrentCulture}, StringFormat=dd/MM/yyyy, RelativeSource={RelativeSource AncestorType={x:Type DatePicker}}}" />
-                                            </ControlTemplate>
-                                        </Setter.Value>
-                                    </Setter>
-                                </Style>
-                            </DatePicker.Resources>
-                        </DatePicker>
+                                                </ControlTemplate>
+                                            </Setter.Value>
+                                        </Setter>
+                                    </Style>
+                                </DatePicker.Resources>
+                            </DatePicker>
 
-                        <Button Margin="2"
+                            <Button Margin="2"
                             Grid.Column="2"
                             Width="25"
                             Height="25"
                             Content="..."
                             Style="{StaticResource VisitorsSquareButtonStyle}"/>
 
-                        <TextBlock Margin="2"
+                            <TextBlock Margin="2"
                             Grid.Column="3"
                             Text="До"
                             Style="{StaticResource TextBLockStyle}"/>
 
-                        <!--
+                            <!--
                         <TextBox
                             Text="{Binding CurrentTemporaryOrder.To, Mode=TwoWay}"
                             Grid.Column="4"
                             Style="{StaticResource TextBoxStyle}"/>-->
-                        <DatePicker Grid.Column="4" SelectedDate="{Binding CurrentTemporaryOrder.To, Mode=TwoWay}" Height="25" Width="160">
-                            <DatePicker.Resources>
-                                <Style TargetType="{x:Type DatePickerTextBox}">
-                                    <Setter Property="Control.Template">
-                                        <Setter.Value>
-                                            <ControlTemplate>
-                                                <wpfx:MaskedTextBox x:Name="PART_TextBox" Mask="00/00/0000" 
+                            <DatePicker Grid.Column="4" SelectedDate="{Binding CurrentTemporaryOrder.To, Mode=TwoWay}" Height="25" Width="160">
+                                <DatePicker.Resources>
+                                    <Style TargetType="{x:Type DatePickerTextBox}">
+                                        <Setter Property="Control.Template">
+                                            <Setter.Value>
+                                                <ControlTemplate>
+                                                    <wpfx:MaskedTextBox x:Name="PART_TextBox" Mask="00/00/0000" 
                                     Text="{ Binding Path=SelectedDate,ConverterCulture={x:Static gl:CultureInfo.CurrentCulture}, StringFormat=dd/MM/yyyy, RelativeSource={RelativeSource AncestorType={x:Type DatePicker}}}" />
-                                            </ControlTemplate>
-                                        </Setter.Value>
-                                    </Setter>
-                                </Style>
-                            </DatePicker.Resources>
-                        </DatePicker>
+                                                </ControlTemplate>
+                                            </Setter.Value>
+                                        </Setter>
+                                    </Style>
+                                </DatePicker.Resources>
+                            </DatePicker>
 
-                        <Button Margin="2"
+                            <Button Margin="2"
                             Grid.Column="5"
                             Width="25"
                             Height="25"
                             HorizontalAlignment="Left"
                             Content="..."
                             Style="{StaticResource VisitorsSquareButtonStyle}"/>
-                    </Grid>
+                        </Grid>
 
-                    <DataGrid
+                        <DataGrid
                         Grid.Row="2"
                         CanUserAddRows="{Binding IsCanAddRows, Mode=TwoWay}"
                         AutoGenerateColumns="False"
                         ItemsSource="{Binding Path=CurrentTemporaryOrder.VisitorsList}">
-                        <DataGrid.Columns>
-                            <DataGridTextColumn Header="№"/>
-                            <DataGridTextColumn Header="Посетитель" Width="*" Binding="{Binding Visitor}"/>
-                            <DataGridTextColumn Header="Организация" Binding="{Binding Organization}"/>
-                            <DataGridTextColumn Header="Не активен"/>
-                            <DataGridTextColumn Header="Проходы" Binding="{Binding Passes}"/>
-                        </DataGrid.Columns>
-                    </DataGrid>
+                            <DataGrid.Columns>
+                                <DataGridTextColumn Header="№"/>
+                                <DataGridTextColumn Header="Посетитель" Width="*" Binding="{Binding Visitor}"/>
+                                <DataGridTextColumn Header="Организация" Binding="{Binding Organization}"/>
+                                <DataGridTextColumn Header="Не активен"/>
+                                <DataGridTextColumn Header="Проходы" Binding="{Binding Passes}"/>
+                            </DataGrid.Columns>
+                        </DataGrid>
 
-                    <Grid
+                        <Grid
                         Grid.Row="3">
-                        <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="130"/>
-                            <ColumnDefinition/>
-                            <ColumnDefinition Width="50"/>
-                            <ColumnDefinition Width="130"/>
-                            <ColumnDefinition/>
-                            <ColumnDefinition Width="50"/>
-                        </Grid.ColumnDefinitions>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="130"/>
+                                <ColumnDefinition/>
+                                <ColumnDefinition Width="50"/>
+                                <ColumnDefinition Width="130"/>
+                                <ColumnDefinition/>
+                                <ColumnDefinition Width="50"/>
+                            </Grid.ColumnDefinitions>
 
-                        <TextBlock Margin="2"
+                            <TextBlock Margin="2"
                             Grid.Column="0"
                             Text="Подписано"
                             Style="{StaticResource TextBLockStyle}"/>
 
-                        <TextBox Margin="2"
+                            <TextBox Margin="2"
                             Text="{Binding CurrentTemporaryOrder.Signed, Mode=TwoWay}"
                             Grid.Column="1"
                             Style="{StaticResource TextBoxStyle}"/>
 
-                        <Button Margin="2"
+                            <Button Margin="2"
                             Command="{Binding SignerTempCommand}"
                             Grid.Column="2"
                             Width="25"
@@ -412,55 +415,56 @@
                             Content="..."
                             Style="{StaticResource VisitorsSquareButtonStyle}"/>
 
-                        <TextBlock Margin="2"
+                            <TextBlock Margin="2"
                             Grid.Column="3"
                             Text="Согласовано"
                             Style="{StaticResource TextBLockStyle}"/>
 
-                        <TextBox Margin="2"
+                            <TextBox Margin="2"
                             Text="{Binding CurrentTemporaryOrder.Agree, Mode=TwoWay}"
                             Grid.Column="4"
                             Style="{StaticResource TextBoxStyle}"/>
 
-                        <Button Margin="2"
+                            <Button Margin="2"
                             Command="{Binding AgreerCommand}"
                             Grid.Column="5"
                             Width="25"
                             Height="25"
                             Content="..."
                             Style="{StaticResource VisitorsSquareButtonStyle}"/>
-                    </Grid>
+                        </Grid>
 
-                    <Grid
+                        <Grid
                         Grid.Row="4">
-                        <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="50"/>
-                            <ColumnDefinition Width="180"/>
-                            <ColumnDefinition Width="130"/>
-                            <ColumnDefinition/>
-                        </Grid.ColumnDefinitions>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="50"/>
+                                <ColumnDefinition Width="180"/>
+                                <ColumnDefinition Width="130"/>
+                                <ColumnDefinition/>
+                            </Grid.ColumnDefinitions>
 
-                        <CheckBox
+                            <CheckBox
                             Grid.Column="0"
                             HorizontalAlignment="Center"
                             VerticalAlignment="Center"/>
 
-                        <TextBlock
+                            <TextBlock
                             Grid.Column="1"
                             Text="Заявка не активна"
                             Style="{StaticResource TextBLockStyle}"/>
 
-                        <TextBlock Margin="2"
+                            <TextBlock Margin="2"
                             Grid.Column="2"
                             Text="Примечание:"
                             Style="{StaticResource TextBLockStyle}"/>
 
-                        <TextBox Margin="2"
+                            <TextBox Margin="2"
                             Text="{Binding CurrentTemporaryOrder.Note, Mode=TwoWay}"
                             Grid.Column="3"
                             Style="{StaticResource TextBoxStyle}"/>
+                        </Grid>
                     </Grid>
-                </Grid>
+                </ScrollViewer>
             </mah:MetroTabItem>
 
             <mah:MetroTabItem Header="Заявки на основании">
