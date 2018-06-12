@@ -8,7 +8,7 @@
         xmlns:mah="http://metro.mahapps.com/winfx/xaml/controls"                 
         mc:Ignorable="d"
         ResizeMode="CanMinimize"
-        Title="Система учёта посетителей" FontSize="18" StateChanged="Window_StateChanged" >
+        Title="Система учёта посетителей" FontSize="18" StateChanged="Window_StateChanged" Width="945" >
     <mah:MetroWindow.Style>
         <Style TargetType="mah:MetroWindow">
             <Style.Triggers>
@@ -62,7 +62,7 @@
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="35"/>
-            <RowDefinition Height="65"/>
+            <RowDefinition Height="60"/>
             <RowDefinition />
         </Grid.RowDefinitions>
         <Grid.ColumnDefinitions>
@@ -70,7 +70,7 @@
             <ColumnDefinition />
         </Grid.ColumnDefinitions>
 
-        <Menu Grid.RowSpan="1" Grid.Column="0" Background="White" VerticalAlignment="Center" Margin="10,2,0,2"
+        <Menu Grid.RowSpan="1" Grid.Column="0" Background="White" VerticalAlignment="Center" Margin="10,2,2,2" Padding="0"
               Visibility="{Binding Path=DataVisibility, Mode=OneWay}">
             <MenuItem Header="Действия" FontSize="{Binding ElementName=FontSizeLixtBox, Path=SelectedItem.Content}" >
                 <MenuItem Header="Отчёт" IsEnabled="False"/>
@@ -131,13 +131,13 @@
             </MenuItem>
         </Menu>
 
-        <StackPanel Grid.Row="0" Grid.Column="1" Orientation="Horizontal" Margin="2" HorizontalAlignment="Right">
+        <StackPanel Grid.Row="0" Grid.Column="1" Orientation="Horizontal" Margin="2" HorizontalAlignment="Right" IsEnabled="False">
             <TextBox Margin="2" Width="200" FontSize="{Binding ElementName=FontSizeLixtBox, Path=SelectedItem.Content}" 
                      Text="{Binding Path=AuthorizedUser, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"/>
             <TextBox Margin="2" Width="200" FontSize="{Binding ElementName=FontSizeLixtBox, Path=SelectedItem.Content}"/>
-        </StackPanel>
-
-        <Grid Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="2" Margin="5,0,5,0" Height="65"
+        </StackPanel>        
+        
+        <Grid Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="2" Margin="5"
               Visibility="{Binding Path=DataVisibility, Mode=OneWay}">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition/>
@@ -149,7 +149,7 @@
                 <ColumnDefinition/>
                 <ColumnDefinition/>
             </Grid.ColumnDefinitions>
-            <Button 
+            <Button Margin="3"
                 Grid.Column="0" 
                 IsEnabled="True" 
                 Style="{DynamicResource SquareButtonStyle}" 
@@ -174,7 +174,7 @@
                     <TextBlock Grid.Row="1" Text="Посетители"></TextBlock>
                 </Grid>-->
             </Button>
-            <Button 
+            <Button  Margin="3"
                 Grid.Column="1" 
                 IsEnabled="True" 
                 Style="{DynamicResource SquareButtonStyle}" 
@@ -199,7 +199,7 @@
                     <TextBlock Margin="2,0,0,0" Text="Заявки" VerticalAlignment="Center"></TextBlock>
                 </WrapPanel>
             </Button>
-            <Button 
+            <Button  Margin="3"
                 Grid.Column="2" 
                 IsEnabled="True" 
                 Style="{DynamicResource SquareButtonStyle}" 
@@ -224,7 +224,7 @@
                     <TextBlock Margin="2,0,0,0" Text="Посещения" VerticalAlignment="Center"></TextBlock>
                 </WrapPanel>
             </Button>
-            <Button 
+            <Button  Margin="3"
                 Grid.Column="3" 
                 IsEnabled="False" 
                 Style="{DynamicResource SquareButtonStyle}" 
@@ -243,7 +243,7 @@
                     <TextBlock Margin="2,0,0,0" Text="Отчёт" VerticalAlignment="Center"></TextBlock>
                 </WrapPanel>
             </Button>
-            <Button Grid.Column="4" IsEnabled="False" Style="{DynamicResource SquareButtonStyle}" FontSize="{Binding ElementName=FontSizeLixtBox, Path=SelectedItem.Content}">
+            <Button Grid.Column="4" Margin="3" IsEnabled="False" Style="{DynamicResource SquareButtonStyle}" FontSize="{Binding ElementName=FontSizeLixtBox, Path=SelectedItem.Content}">
                 <!--<Grid>
                     <Grid.RowDefinitions>
                         <RowDefinition/>
@@ -257,7 +257,7 @@
                     <TextBlock Margin="2,0,0,0" Grid.Row="1" Text="Сохранить" VerticalAlignment="Center"></TextBlock>
                 </WrapPanel>
             </Button>
-            <Button Grid.Column="5" IsEnabled="False" Style="{DynamicResource SquareButtonStyle}" FontSize="{Binding ElementName=FontSizeLixtBox, Path=SelectedItem.Content}">
+            <Button Grid.Column="5" Margin="3" IsEnabled="False" Style="{DynamicResource SquareButtonStyle}" FontSize="{Binding ElementName=FontSizeLixtBox, Path=SelectedItem.Content}">
                 <!--<Grid>
                     <Grid.RowDefinitions>
                         <RowDefinition/>
@@ -271,7 +271,7 @@
                     <TextBlock Margin="2,0,0,0" Grid.Row="1" Text="Наименование" VerticalAlignment="Center"></TextBlock>
                 </WrapPanel>
             </Button>
-            <Button Grid.Column="6" IsEnabled="False" Style="{DynamicResource SquareButtonStyle}" FontSize="{Binding ElementName=FontSizeLixtBox, Path=SelectedItem.Content}">
+            <Button Grid.Column="6" Margin="3" IsEnabled="False" Style="{DynamicResource SquareButtonStyle}" FontSize="{Binding ElementName=FontSizeLixtBox, Path=SelectedItem.Content}">
                 <!--<Grid>
                     <Grid.RowDefinitions>
                         <RowDefinition/>
@@ -285,7 +285,7 @@
                     <TextBlock Margin="2,0,0,0" Text="Регистрация" VerticalAlignment="Center"></TextBlock>
                 </WrapPanel>
             </Button>
-            <Button 
+            <Button  Margin="3"
                 Grid.Column="7" 
                 Style="{DynamicResource SquareButtonStyle}" 
                 FontSize="{Binding ElementName=FontSizeLixtBox, Path=SelectedItem.Content}" 
@@ -307,13 +307,11 @@
             <Button DockPanel.Dock="Top" Style="{DynamicResource ButtonStyle}"/>
         </DockPanel>-->
         <!--<local:Authorize1View Grid.Row="2"></local:Authorize1View>-->
+        
         <ContentControl x:Name="aaa" Grid.Row="2" Grid.ColumnSpan="2" 
                         Visibility="{Binding Path=LoginVisibility, Mode=OneWay}"
                         Content="{Binding Path=Control}"             
                         FontSize="{Binding ElementName=FontSizeLixtBox, Path=SelectedItem.Content}">
         </ContentControl>
-        <StackPanel x:Name="stackPanelLogin" >
-            
-        </StackPanel>
     </Grid>
 </mah:MetroWindow>
