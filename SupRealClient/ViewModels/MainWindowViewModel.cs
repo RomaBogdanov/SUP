@@ -126,6 +126,8 @@ namespace SupRealClient.ViewModels
         public ICommand ListEquipmentsClick { get; set; } = new RelayCommand(arg =>
                 ViewManager.Instance.OpenWindow("Base4EquipmentsWindView"));
 
+        public ICommand OpenAboutWindow { get; set; }
+
         public ICommand UserExit { get; set; }
         public ICommand Close { get; set; }
         public ICommand OpenVisitorsCommand { get; set; }
@@ -175,6 +177,17 @@ namespace SupRealClient.ViewModels
             OpenBidsCommand = new RelayCommand(obj => OpenBids());
             OpenVisitsCommand = new RelayCommand(obj => OpenVisits());
             TestCommand = new RelayCommand(obj => TestMethod());
+
+            OpenAboutWindow = new RelayCommand(obj=>OpenAbout());
+        }
+
+        /// <summary>
+        /// Открыть окно "О программе".
+        /// </summary>
+        private void OpenAbout()
+        {
+            Views.AboutWindow aboutWindow = new AboutWindow();
+            aboutWindow.ShowDialog();
         }
 
         protected virtual void OnPropertyChanged(string propertyName) =>

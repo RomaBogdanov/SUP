@@ -136,7 +136,7 @@
             <MenuItem Header="Справка" FontSize="{Binding ElementName=FontSizeLixtBox, Path=SelectedItem.Content}" >
                 <MenuItem Header="Содержание" IsEnabled="False"/>
                 <Separator />
-                <MenuItem Header="О программе..." IsEnabled="False" />
+                <MenuItem Header="О программе..." Command="{Binding Path=OpenAboutWindow}" />
             </MenuItem>
         </Menu>
 
