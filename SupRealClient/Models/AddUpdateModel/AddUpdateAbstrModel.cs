@@ -237,7 +237,19 @@ namespace SupRealClient.Models.AddUpdateModel
     {
         public AddSingleBidModel()
         {
-            CurrentItem = new VisitorOnOrder();
+            CurrentItem = new OrderElement();
         }
+    }
+
+    /// <summary>
+    /// Обработчик формы по редактированию заявки на человека.
+    /// </summary>
+    public class UpdateBidModel : AddUpdateAbstrModel
+    {
+        public UpdateBidModel(OrderElement visitor)
+        {
+            CurrentItem = visitor.Clone();
+        }
+
     }
 }
