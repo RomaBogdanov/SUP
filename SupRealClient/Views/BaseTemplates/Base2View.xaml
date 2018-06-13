@@ -58,8 +58,7 @@
             ColumnHeaderStyle="{StaticResource SelectionColumnHeader}"
             KeyDown="BaseTab_OnKeyDown"
             ColumnWidth="*" Style="{StaticResource AzureDataGrid1}"
-            CanUserAddRows="False" 
-            LoadingRow="baseTab_LoadingRow">
+            CanUserAddRows="False">
             <!-- TODO - вернуть SelectedValue="{Binding Path=SelectedValue, Mode=TwoWay}"  -->
             <DataGrid.InputBindings>
                 <KeyBinding Key="Delete" Command="{Binding Remove}"/>
@@ -198,15 +197,13 @@
         </Button>
 
         <Button 
-            Name="butAdd"
             Grid.Row="3" 
             Grid.Column="4" 
             Margin="1" 
             Command="{Binding Path=Add}" 
             KeyDown="BaseTab_OnKeyDown"
             Style="{StaticResource ButtonStyle}"
-            ToolTip="Insert" 
-            Click="butAdd_Click">
+            ToolTip="Insert">
             <Grid>
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="30"/>
@@ -233,8 +230,7 @@
             Command="{Binding Path=Update}" 
             KeyDown="BaseTab_OnKeyDown"
             Style="{StaticResource ButtonStyle}"
-            ToolTip="Ctrl+D" 
-            Click="btnEdit_Click">
+            ToolTip="Ctrl+D">
             <Grid>
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="30"/>

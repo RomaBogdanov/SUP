@@ -11,16 +11,14 @@ namespace SupRealClient.Views
     /// </summary>
     public partial class Base2View : UserControl
     {
-        int memCountRows;
 
         public Base2View()
         {
             InitializeComponent();
 
-            baseTab.LoadingRow -= baseTab_LoadingRow;
             //DataContext = viewModel;
         }
-        
+
         public void SetViewModel(Base1ModelAbstr model)
         {
             ((Base1ViewModel)DataContext).SetModel(model);
@@ -89,50 +87,9 @@ namespace SupRealClient.Views
             }
         }
 
-        private void baseTab_LoadingRow(object sender, DataGridRowEventArgs e)
-        {
-            if (memCountRows + 1 == baseTab.Items.Count)
-            {
-                baseTab.SelectedItems.Clear();
-                e.Row.IsSelected = true;
-                baseTab.ScrollIntoView(e.Row.Item);
-                baseTab.UpdateLayout();
-                baseTab.ScrollIntoView(e.Row.Item);
-
-                int LodingRowHashCode = e.Row.Item.GetHashCode();
-                int LastRowHashCode = baseTab.Items[baseTab.Items.Count - 1].GetHashCode();
-
-                if (LodingRowHashCode == LastRowHashCode)                                  
-                    baseTab.LoadingRow -= baseTab_LoadingRow;
-
-                //int LodingRowHashCode = e.Row.Item.GetHashCode();
-                //int LastRowHashCode = baseTab.Items[baseTab.Items.Count - 1].GetHashCode();
-
-                //if (LodingRowHashCode == LastRowHashCode)
-                //{
-                //    baseTab.SelectedItems.Clear();
-                //    e.Row.IsSelected = true;
-                //    baseTab.ScrollIntoView(baseTab.Items[baseTab.Items.Count - 1]);
-                //    baseTab.UpdateLayout();
-                //    baseTab.ScrollIntoView(e.Row.Item);
-                //    baseTab.LoadingRow -= baseTab_LoadingRow;
-                //}
-            }
-            else
-            {
-                baseTab.LoadingRow -= baseTab_LoadingRow;
-            }
-        }
-
-        private void butAdd_Click(object sender, System.Windows.RoutedEventArgs e)
-        {
-            memCountRows = baseTab.Items.Count;
-            baseTab.LoadingRow += baseTab_LoadingRow;
-        }
-
-        private void btnEdit_Click(object sender, System.Windows.RoutedEventArgs e)
-        {
-            baseTab.LoadingRow -= baseTab_LoadingRow;
-        }
+        #region Под удаление
+        
+        
+        #endregion
     }
 }
