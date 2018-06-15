@@ -45,7 +45,7 @@
         <DataGrid 
             Name="baseTab" 
             Grid.Row="0" 
-            Grid.RowSpan="3" 
+            Grid.RowSpan="2" 
             Grid.ColumnSpan="10"
             ItemsSource="{Binding Path=Set, Mode=TwoWay}" 
             CurrentItem="{Binding Path=CurrentItem, Mode=TwoWay}"
