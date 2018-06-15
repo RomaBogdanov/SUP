@@ -116,7 +116,14 @@ namespace SupRealClient.ViewModels
         /// </summary>
         private string SetUserTime(int timeOnline)
         {
-            return String.Format("{0} мин.", timeOnline);
+            string result = String.Empty;
+            int hours = 0, minutes = 0;
+            hours = timeOnline / 60;
+            minutes = timeOnline%60;
+
+            result = (hours > 0) ? String.Format("{0} ч. {1} мин.", hours, minutes) :
+                String.Format("{0} мин.", minutes);
+            return result;
         }
 
         public bool IsUserEnter
