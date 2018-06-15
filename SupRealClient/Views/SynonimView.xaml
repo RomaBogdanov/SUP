@@ -34,7 +34,7 @@
             Margin="1" 
             IsReadOnly="True"
             Text="{Binding Path=FullName, Mode=OneWay}" 
-            Background="LightPink"
+            Background="LightGreen"
             FontSize="{Binding FontSize}" Style="{StaticResource TextBoxStyle}"/>
         
         <TextBox 
@@ -45,7 +45,7 @@
             IsReadOnly="True"
             Text="{Binding Path=FirstSynonim, Mode=OneWay}" 
             Visibility="{Binding Path=FirstSynonimVisibility, Mode=OneWay}" 
-            Background="LightGreen"
+            Background="LightPink"
             FontSize="{Binding FontSize}" Style="{StaticResource TextBoxStyle}"/>
 
         <ListBox
