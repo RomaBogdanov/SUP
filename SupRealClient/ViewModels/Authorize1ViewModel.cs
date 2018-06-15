@@ -253,6 +253,7 @@ namespace SupRealClient.ViewModels
                 this.mainWindowViewModel.DataVisibility = Visibility.Visible;
                 new System.Threading.Thread(Invisible).Start();
                 timer.Start();
+                this.mainWindowViewModel.DispatcherTimer.Start(); // Запуск таймера для оператора.
             }
             else
             {
@@ -261,6 +262,7 @@ namespace SupRealClient.ViewModels
                 this.mainWindowViewModel.LoginVisibility = Visibility.Visible;
                 timer.Stop();
                 logoutTimer.Stop();
+                this.mainWindowViewModel.DispatcherTimer.Stop(); // Остановка таймера для оператора.
             }
         }
 
