@@ -34,7 +34,7 @@ namespace SupRealClient.ViewModels
         public AboutWindowViewModel()
         {
             ApplicationName = "SUP";
-            Developer = "ИП Богданов";
+            Developer = "ООО \"Комис\"";
             AppVersion = Assembly.GetExecutingAssembly().GetName().Version;
             WebPage = "http://www.yandex.com";
         }
