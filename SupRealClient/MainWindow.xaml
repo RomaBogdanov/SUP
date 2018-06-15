@@ -41,9 +41,10 @@
                 <StackPanel Grid.Column="0" Orientation="Horizontal" Margin="2" HorizontalAlignment="Right" IsEnabled="False">
                     <TextBox Margin="2" Width="120" VerticalContentAlignment="Top" Background="Transparent" Padding="0"
                              FontSize="{Binding ElementName=FontSizeLixtBox, Path=SelectedItem.Content}" 
-                     Text="{Binding Path=AuthorizedUser, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"/>
+                             Text="{Binding StringFormat=Оператор: {0}, Path=AuthorizedUser}"/>
                     <TextBox Margin="2" Width="120" VerticalContentAlignment="Top" Background="Transparent" Padding="0"
-                             FontSize="{Binding ElementName=FontSizeLixtBox, Path=SelectedItem.Content}"/>
+                             FontSize="{Binding ElementName=FontSizeLixtBox, Path=SelectedItem.Content}"
+                             Text="{Binding StringFormat=Онлайн: {0}, Path=AuthorizedUserOnline, UpdateSourceTrigger=PropertyChanged}"/>
                 </StackPanel>
 
                 <TextBlock Grid.Column="1" Text="Шрифт" FontSize="{Binding ElementName=FontSizeLixtBox, Path=SelectedItem.Content}" VerticalAlignment="Center" Margin="2"/>

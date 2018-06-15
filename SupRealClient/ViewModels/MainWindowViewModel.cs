@@ -6,6 +6,8 @@ using SupClientConnectionLib;
 using SupRealClient.Views;
 using SupRealClient.EnumerationClasses;
 using System.Reflection;
+using System;
+using System.Windows.Threading;
 
 namespace SupRealClient.ViewModels
 {
@@ -14,6 +16,7 @@ namespace SupRealClient.ViewModels
         public event PropertyChangedEventHandler PropertyChanged;
         ContentControl control = ViewManager.AuthorizeView;
         string authorizedUser;
+        private string _authorizedUserOnline; // Время оператора в системе.
         bool userExitOpened = false;
         SetupStorage setupStorage = SetupStorage.Current;
         Visibility loginVisibility = Visibility.Visible;
@@ -58,6 +61,9 @@ namespace SupRealClient.ViewModels
             }
         }
 
+        /// <summary>
+        /// Логин оператора.
+        /// </summary>
         public string AuthorizedUser
         {
             get { return authorizedUser; }
@@ -69,6 +75,48 @@ namespace SupRealClient.ViewModels
                     OnPropertyChanged("AuthorizedUser");
                 }
             }
+        }
+
+        /// <summary>
+        /// Время оператора в сети.
+        /// </summary>
+        public string AuthorizedUserOnline
+        {
+            get { return _authorizedUserOnline; }
+            set
+            {
+                _authorizedUserOnline = value;
+                OnPropertyChanged("AuthorizedUserOnline");
+            }
+        }
+
+        public DispatcherTimer DispatcherTimer = new DispatcherTimer();
+        private int _timeOnline = 0; // Время онлайн в минутах.
+
+        private void dispatcherTimer_Tick(object sender, EventArgs e)
+        {
+            if (!DispatcherTimer.IsEnabled) { _timeOnline = 0; }
+            _timeOnline++; // Прибавляем минуту.
+            AuthorizedUserOnline = SetUserTime(_timeOnline);
+        }
+
+        /// <summary>
+        /// Остановка таймера в случае выхода из системы.
+        /// </summary>
+        private void StopTimer()
+        {
+            DispatcherTimer.Stop();
+            _timeOnline = 0;
+            AuthorizedUserOnline = ""; // Обнуляем время онлайн.
+            AuthorizedUser = ""; // Обнуляем оператора.
+        }
+
+        /// <summary>
+        /// Переводит время в определенный формат.
+        /// </summary>
+        private string SetUserTime(int timeOnline)
+        {
+            return String.Format("{0} мин.", timeOnline);
         }
 
         public bool IsUserEnter
@@ -179,6 +227,11 @@ namespace SupRealClient.ViewModels
             TestCommand = new RelayCommand(obj => TestMethod());
 
             OpenAboutWindow = new RelayCommand(obj=>OpenAbout());
+
+            // Таймер для время онлайн.
+            DispatcherTimer.Tick += dispatcherTimer_Tick;
+            DispatcherTimer.Interval = new TimeSpan(0, 1, 0);
+            AuthorizedUserOnline = SetUserTime(0);
         }
 
         /// <summary>
@@ -243,6 +296,9 @@ namespace SupRealClient.ViewModels
             Control = ViewManager.AuthorizeView;
             LoginVisibility = Visibility.Visible;
             DataVisibility = Visibility.Hidden;
+
+            // Работа с таймером.
+            StopTimer();
         }
 
         private void TestMethod()
