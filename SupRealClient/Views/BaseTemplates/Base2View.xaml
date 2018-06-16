@@ -60,7 +60,8 @@
             ColumnWidth="*" 
             Style="{StaticResource AzureDataGrid1}"
             CanUserAddRows="False" 
-            LoadingRow="baseTab_LoadingRow" SelectionChanged="baseTab_SelectionChanged">
+            SelectionChanged="baseTab_SelectionChanged"
+            LoadingRow="baseTab_LoadingRow">
             <!-- TODO - вернуть SelectedValue="{Binding Path=SelectedValue, Mode=TwoWay}"  -->
             <DataGrid.InputBindings>
                 <KeyBinding Key="Delete" Command="{Binding Remove}"/>

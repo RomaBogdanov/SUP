@@ -11,12 +11,15 @@ namespace SupRealClient.Views
     /// </summary>
     public partial class Base1View : UserControl
     {
+        int memCountRows = 0;
         /// <summary>
         /// Конструктор по умолчанию.
         /// </summary>
         public Base1View()
         {
             InitializeComponent();
+
+            baseTab.SelectionChanged -= baseTab_SelectionChanged;
             //DataContext = viewModel;
         }
 
@@ -32,13 +35,15 @@ namespace SupRealClient.Views
 
         private void UserControl_PreviewKeyDown(object sender, System.Windows.Input.KeyEventArgs e)
         {
-            if (e.Key == Key.Up & !BaseTab.IsKeyboardFocusWithin)
+            if (e.Key == Key.Up)
             {
+                baseTab.SelectionChanged += baseTab_SelectionChanged;
                 btnUp.Command.Execute(null);
                 e.Handled = true;
             }
-            else if (e.Key == Key.Down & !BaseTab.IsKeyboardFocusWithin)
+            else if (e.Key == Key.Down)
             {
+                baseTab.SelectionChanged += baseTab_SelectionChanged;
                 btnDown.Command.Execute(null);
                 e.Handled = true;
             }
@@ -80,5 +85,46 @@ namespace SupRealClient.Views
         }
 
         #endregion
+
+        private void baseTab_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            baseTab.ScrollIntoView(baseTab.CurrentItem);
+            baseTab.UpdateLayout();
+            baseTab.ScrollIntoView(baseTab.CurrentItem);
+
+            baseTab.SelectionChanged -= baseTab_SelectionChanged;
+        }
+
+        private void baseTab_LoadingRow(object sender, DataGridRowEventArgs e)
+        {
+            if (memCountRows + 1 == baseTab.Items.Count)
+            {
+                memCountRows = 0;
+                baseTab.SelectedItems.Clear();
+                baseTab.SelectionChanged += baseTab_SelectionChanged;
+                baseTab.SelectedItem = baseTab.Items[baseTab.Items.Count - 1];
+            }
+        }
+
+        private void BaseTab_OnKeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.Key != Key.Down && e.Key != Key.Up)
+            {
+                SelectSearchBox();
+            }
+        }
+
+        public void SelectSearchBox()
+        {
+            tbxSearch.Focus();
+        }
+
+        private void Button_PreviewMouseLeftButtonDown(object sender, MouseButtonEventArgs e)
+        {
+            if (((Button)sender).Name == "butAdd")
+                memCountRows = baseTab.Items.Count;
+            else
+                baseTab.SelectionChanged += baseTab_SelectionChanged;
+        }
     }
 }
