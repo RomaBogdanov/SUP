@@ -32,17 +32,17 @@
         <mah:WindowCommands>
             <Grid>
                 <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="250" />
+                    <ColumnDefinition Width="380" />
                     <ColumnDefinition Width="90"/>
                     <ColumnDefinition Width="60"/>
                     <ColumnDefinition />
                 </Grid.ColumnDefinitions>
 
                 <StackPanel Grid.Column="0" Orientation="Horizontal" Margin="2" HorizontalAlignment="Right" IsEnabled="False">
-                    <TextBox Margin="2" Width="120" VerticalContentAlignment="Top" Background="Transparent" Padding="0"
+                    <TextBox Margin="2" Background="Transparent" Padding="0" VerticalContentAlignment="Top" Width="220"
                              FontSize="{Binding ElementName=FontSizeLixtBox, Path=SelectedItem.Content}" 
                              Text="{Binding StringFormat=Оператор: {0}, Path=AuthorizedUser}"/>
-                    <TextBox Margin="2" Width="120" VerticalContentAlignment="Top" Background="Transparent" Padding="0"
+                    <TextBox Margin="2"  Background="Transparent" VerticalContentAlignment="Top" Width="140"
                              FontSize="{Binding ElementName=FontSizeLixtBox, Path=SelectedItem.Content}"
                              Text="{Binding StringFormat=Онлайн: {0}, Path=AuthorizedUserOnline, UpdateSourceTrigger=PropertyChanged}"/>
                 </StackPanel>
@@ -57,7 +57,7 @@
                     <ComboBoxItem Content="20" FontSize="20"/>
                 </ComboBox>
 
-                <Button Grid.Column="3" Content="Настройки" FontSize="{Binding ElementName=FontSizeLixtBox, Path=SelectedItem.Content}" Margin="2"/>
+                <Button Grid.Column="3" Content="Настройки" Padding="0" FontSize="{Binding ElementName=FontSizeLixtBox, Path=SelectedItem.Content}" Margin="2"/>
             </Grid>
         </mah:WindowCommands>
     </mah:MetroWindow.RightWindowCommands>
@@ -319,7 +319,7 @@
         </DockPanel>-->
         <!--<local:Authorize1View Grid.Row="2"></local:Authorize1View>-->
         
-        <ContentControl x:Name="aaa" Grid.Row="2" Grid.ColumnSpan="2" 
+        <ContentControl x:Name="aaa" Grid.Row="2" Grid.ColumnSpan="2" TabIndex="0"
                         Visibility="{Binding Path=LoginVisibility, Mode=OneWay}"
                         Content="{Binding Path=Control}"             
                         FontSize="{Binding ElementName=FontSizeLixtBox, Path=SelectedItem.Content}">
