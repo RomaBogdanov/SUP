@@ -8,8 +8,10 @@ using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Runtime.CompilerServices;
 using System.Collections.Specialized;
+using System.Text.RegularExpressions;
 using SupRealClient.Annotations;
 using SupRealClient.TabsSingleton;
+using SupRealClient.Common;
 
 namespace SupRealClient.EnumerationClasses
 {
@@ -55,29 +57,82 @@ namespace SupRealClient.EnumerationClasses
                 default:
                     throw new Exception("Unexpected Case");
             }
-            /*if (e.Action == NotifyCollectionChangedAction.Add)
-            {
-                foreach (var item in e.NewItems)
-                {
-                    ((OrderElement) item).OrderId = Id;
-                }
-            }*/
         }
 
         private int organizationId;
         private int agreeId;
-
+        /// <summary>
+        /// Номер заявки.
+        /// </summary>
         public int Number { get; set; } = 0;
+        /// <summary>
+        /// Номер типа заявки.
+        /// </summary>
         public int TypeId { get; set; } = 0;
-        public string Type { get; set; } = "";
-        public string RegNumber { get; set; } = "";
+
+        /// <summary>
+        /// Название типа заявки.
+        /// </summary>
+        public string Type
+        {
+            get
+            {
+                return SprOrderTypesWrapper.CurrentTable().Table.AsEnumerable()
+                    .FirstOrDefault(arg => arg.Field<int>("f_order_type_id") ==
+                    TypeId)["f_order_text"].ToString();
+            }
+            set { }
+        }
+
+        /// <summary>
+        /// Выводимый пользователю и показываемый ему номер заявки.
+        /// </summary>
+        public string RegNumber
+        {
+            get
+            {
+                if (Type.Length == 0)
+                {
+                    return Number.ToString();
+                }
+
+                return Number + "-" + Type[0];
+            }
+            set
+            {
+                string num = Regex.Match(value, (@"^\d*")).Value;
+                if (num != "") Number = Convert.ToInt32(num);
+
+            }
+        }
+        /// <summary>
+        /// Дата подачи заявки.
+        /// </summary>
+        public DateTime OrderDate { get; set; }
         public DateTime From { get; set; }
         public DateTime To { get; set; }
+        
         public int CatcherId { get; set; } = 0; // Id провожающего
         public string Catcher { get; set; } = ""; // провожающий
+        
         public string OrderType { get; set; } = ""; // тип заявки
         public string Passes { get; set; } = "";
-        public int SignedId { get; set; } = 0; // Id подписывающего лица
+
+        private int signedId;
+        /// <summary>
+        /// Id подписывающего лица
+        /// </summary>
+        public int SignedId
+        {
+            get { return signedId;}
+            set
+            {
+                signedId = value;
+                Signed = VisitorsWrapper.CurrentTable().Table.AsEnumerable()
+                    .FirstOrDefault(arg => arg.Field<int>("f_visitor_id") ==
+                    signedId)["f_full_name"].ToString();
+            }
+        }
         public string Signed { get; set; } = ""; // Полное имя подписывающего
         public int AgreeId // Id согласовавшего
         {
@@ -105,6 +160,11 @@ namespace SupRealClient.EnumerationClasses
             }
         }
         public string Organization { get; set; } = "";
+        /// <summary>
+        /// Показывает, что заявка не активна.
+        /// </summary>
+        public bool IsDisable { get; set; }
+
         /// <summary>
         /// Список привязанных к заявке посетителей.
         /// </summary>
@@ -231,6 +291,11 @@ namespace SupRealClient.EnumerationClasses
                 OnPropertyChanged();
             }
         }
+
+        /// <summary>
+        /// Показывает, что элемент не активен.
+        /// </summary>
+        public bool IsDisable { get; set; }
 
         public bool IsDeleted { get; set; }
 

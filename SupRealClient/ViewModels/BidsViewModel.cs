@@ -662,54 +662,8 @@ namespace SupRealClient.ViewModels
 
         private void Query()
         {
-            OrdersSet = new ObservableCollection<Order>(
-                from orders in OrdersWrapper.CurrentTable().Table.AsEnumerable()/*
-                join elems in OrderElementsWrapper.CurrentTable().Table.AsEnumerable()
-                on orders.Field<int>("f_ord_id") equals elems.Field<int>("f_ord_id")*/
-                where orders.Field<int>("f_ord_id") != 0 & orders.Field<int>("f_order_type_id") != 0 &&
-                CommonHelper.NotDeleted(orders)
-                select new Order
-                {
-                    Id = orders.Field<int>("f_ord_id"),
-                    Number = orders.Field<int>("f_reg_number"),
-                    TypeId = orders.Field<int>("f_order_type_id"),
-                    Type = SprOrderTypesWrapper.CurrentTable().Table.AsEnumerable()
-                        .FirstOrDefault(arg => arg.Field<int>("f_order_type_id") ==
-                        orders.Field<int>("f_order_type_id"))["f_order_text"].ToString(),
-                    From = orders.Field<DateTime>("f_date_from"),
-                    To = orders.Field<DateTime>("f_date_to"),/*
-                    CatcherId = elems.Field<int>("f_catcher_id"),
-                    Catcher = VisitorsWrapper.CurrentTable().Table.AsEnumerable()
-                        .FirstOrDefault(arg => arg.Field<int>("f_visitor_id") ==
-                        elems.Field<int>("f_catcher_id"))["f_full_name"].ToString(),*/
-                    RegNumber = orders.Field<int>("f_reg_number").ToString() + "-" +
-                        SprOrderTypesWrapper.CurrentTable().Table.AsEnumerable()
-                        .FirstOrDefault(arg => arg.Field<int>("f_order_type_id") ==
-                        orders.Field<int>("f_order_type_id"))["f_order_text"]
-                        .ToString().Substring(0, 1),
-                    SignedId = orders.Field<int>("f_signed_by"),
-                    Signed = VisitorsWrapper.CurrentTable().Table.AsEnumerable()
-                        .FirstOrDefault(arg => arg.Field<int>("f_visitor_id") == 
-                        orders.Field<int>("f_signed_by"))["f_full_name"].ToString(),
-                    AgreeId = orders.Field<int>("f_adjusted_with"),
-                    Note = orders.Field<string>("f_notes"),/*
-                    OrganizationId = (int)VisitorsWrapper.CurrentTable().Table
-                        .AsEnumerable().FirstOrDefault(arg => arg.Field<int>
-                        ("f_visitor_id") == elems.Field<int>("f_visitor_id"))
-                        ["f_org_id"],
-                    Passes = elems.Field<string>("f_passes"),*/
-                    OrderElements = new ObservableCollection<OrderElement>(
-                        from row in OrderElementsWrapper.CurrentTable().Table.AsEnumerable() 
-                        where row.Field<int>("f_ord_id") == orders.Field<int>("f_ord_id")
-                        select new OrderElement
-                        {
-                            VisitorId = row.Field<int>("f_visitor_id"),
-                            CatcherId = row.Field<int>("f_catcher_id"),
-                            From = row.Field<DateTime>("f_time_from"),
-                            To = row.Field<DateTime>("f_time_to"),
-                            Passes = row.Field<string>("f_passes")
-                        })
-                });
+            OrdersSet = (ObservableCollection<Order>) OrdersWrapper.CurrentTable().StandartQuery();
+
             SingleOrdersSet = new ObservableCollection<Order>(OrdersSet.Where(
                 arg => arg.Type == "Разовая"));
             if (SingleOrdersSet.Count > 0)
@@ -832,31 +786,9 @@ namespace SupRealClient.ViewModels
         /// </summary>
         public void Ok()
         {
-            /*DataRow row = OrdersWrapper.CurrentTable().Table.NewRow();
-
-            row["f_reg_number"] = CurrentSingleOrder.RegNumber.Split('-')[0];
-            row["f_order_type_id"] = 1; // TODO: сделать правильную реализацию
-            row["f_date_from"] = CurrentSingleOrder.From;
-            row["f_signed_by"] = 0; //CurrentSingleOrder.SignedId // TODO: сделать правильную реализацию
-            row["f_notes"] = CurrentSingleOrder.Note;
-
-            OrdersWrapper.CurrentTable().Table.Rows.Add(row);
-
-            int orderId = (int)row["f_ord_id"];
-
-            foreach (OrderElement visitorOnOrder in CurrentSingleOrder.OrderElements)
-            {
-                row = OrderElementsWrapper.CurrentTable().Table.NewRow();
-                row["f_ord_id"] = orderId;
-                row["f_visitor_id"] = visitorOnOrder.VisitorId;
-                row["f_catcher_id"] = visitorOnOrder.CatcherId;
-                row["f_time_from"] = visitorOnOrder.From;
-                row["f_time_to"] = visitorOnOrder.To;
-                row["f_passes"] = visitorOnOrder.Passes;
-
-                OrderElementsWrapper.CurrentTable().Table.Rows.Add(row);
-            }*/
             CurrentSingleOrder.TypeId = 1;
+            CurrentSingleOrder.To = CurrentSingleOrder.From;
+            CurrentSingleOrder.OrderDate= DateTime.Now;
             OrdersWrapper.CurrentTable().AddRow(CurrentSingleOrder);
         }
 
@@ -925,6 +857,7 @@ namespace SupRealClient.ViewModels
             model.OnClose += view.Handling_OnClose;
             view.ShowDialog();
             object res = view.WindowResult;
+            if (res==null)return;
             if (CurrentSingleOrder.OrderElements == null)
                 CurrentSingleOrder.OrderElements = new ObservableCollection<OrderElement>();
             CurrentSingleOrder.OrderElements.Add((OrderElement) res);
