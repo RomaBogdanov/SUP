@@ -57,8 +57,10 @@
             CurrentColumn="{Binding Path=CurrentColumn, Mode=TwoWay}"
             ColumnHeaderStyle="{StaticResource SelectionColumnHeader}"
             KeyDown="BaseTab_OnKeyDown"
-            ColumnWidth="*" Style="{StaticResource AzureDataGrid1}"
-            CanUserAddRows="False">
+            ColumnWidth="*" 
+            Style="{StaticResource AzureDataGrid1}"
+            CanUserAddRows="False" 
+            LoadingRow="baseTab_LoadingRow">
             <!-- TODO - вернуть SelectedValue="{Binding Path=SelectedValue, Mode=TwoWay}"  -->
             <DataGrid.InputBindings>
                 <KeyBinding Key="Delete" Command="{Binding Remove}"/>

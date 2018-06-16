@@ -3,6 +3,8 @@ using SupRealClient.ViewModels;
 using System.Windows.Controls;
 using System.Windows.Input;
 using SupRealClient.Common.Interfaces;
+using SupRealClient.EnumerationClasses;
+using System.Windows.Media;
 
 namespace SupRealClient.Views
 {
@@ -87,9 +89,31 @@ namespace SupRealClient.Views
             }
         }
 
-        #region Под удаление
-        
-        
-        #endregion
+        private void baseTab_LoadingRow(object sender, DataGridRowEventArgs e)
+        {            
+            DataGridRow oRow = e.Row;
+            var item = oRow.Item;
+            if (item is Organization)
+            {
+                if (IsOrgHasSynonim(item as Organization))
+                    oRow.Background = Brushes.LightGreen;
+                else if (oRow.GetIndex() % 2 == 0)
+                    oRow.Background = Brushes.White;
+                else
+                    oRow.Background = Brushes.AliceBlue;
+            }
+        }
+
+        bool IsOrgHasSynonim(Organization org)
+        {            
+            if (org.FullName == string.Empty)
+                foreach (var item in baseTab.ItemsSource)
+                {
+                    if ((item as Organization).FullName == org.Type + @" " + org.Name)
+                        return true;
+                }
+
+            return false;
+        }
     }
 }

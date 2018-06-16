@@ -27,7 +27,7 @@
         </Grid.RowDefinitions>
 
         <ListBox
-            Grid.Row="0"
+            Grid.Row="1"
             Grid.ColumnSpan="3"
             ItemsSource="{Binding Path=Orgs}"
             SelectedIndex="{Binding Path=SelectedOrg}" />
