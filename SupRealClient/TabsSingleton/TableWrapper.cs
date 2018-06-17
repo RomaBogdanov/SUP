@@ -158,7 +158,7 @@ namespace SupRealClient.TabsSingleton
                     }
                     row.ItemArray = objs;
                     table.AcceptChanges();
-                    this.OnChanged();
+                    this.OnChanged?.Invoke();
                 }
             }
         }
@@ -322,6 +322,8 @@ namespace SupRealClient.TabsSingleton
                               CommonHelper.NotDeleted(row)
                         select new OrderElement
                         {
+                            Id = row.Field<int>("f_oe_id"),
+                            OrderId = row.Field<int>("f_ord_id"),
                             VisitorId = row.Field<int>("f_visitor_id"),
                             CatcherId = row.Field<int>("f_catcher_id"),
                             From = row.Field<DateTime>("f_time_from"),
@@ -370,7 +372,7 @@ namespace SupRealClient.TabsSingleton
             row["f_time_from"] = orderElement.From;
             row["f_time_to"] = orderElement.To;
             row["f_passes"] = orderElement.Passes;
-            row["f_disabled"] = "N"; // todo: пока непонятно. Возможно, указывает на неактивность
+            row["f_disabled"] = orderElement.IsDisable ? "Y" : "N";
             row["f_not_remaind"] = "N";//todo: разобраться
             row["f_full_role"] = "N";//todo: разобраться
             row["f_other_org"] = "";//todo: разобраться

@@ -374,6 +374,9 @@ namespace SupRealClient.ViewModels
             BidsModel.Delay();
         }
 
+        /// <summary>
+        /// Создание новой заявки
+        /// </summary>
         private void New()
         {
             //BidsModel.New();
@@ -382,9 +385,15 @@ namespace SupRealClient.ViewModels
             CurrentSingleOrder = BidsModel.CurrentSingleOrder;
         }
 
+        /// <summary>
+        /// Редактирование заявки.
+        /// </summary>
         private void Edit()
         {
-            BidsModel.Edit();
+            //BidsModel.Edit();
+            BidsModel = new EditBidsModel(CurrentSingleOrder,
+                CurrentTemporaryOrder, CurrentVirtueOrder, CurrentOrder);
+
         }
 
         private void Ok()
@@ -719,7 +728,7 @@ namespace SupRealClient.ViewModels
         public OrderType OrderType { get; set; }
         public bool IsCanAddRows { get; set; } = true;
 
-        public Visibility IsAddUpdVisib { get; set; } = Visibility.Visible;
+        public Visibility IsAddUpdVisib { get; set; }// = Visibility.Visible;
         public OrderElement UpdateVisitor { get; set; }
 
         public NewBidsModel()
@@ -728,9 +737,6 @@ namespace SupRealClient.ViewModels
             CurrentTemporaryOrder = new Order();
             CurrentVirtueOrder = new Order();
             CurrentOrder = new Order();
-            /*{
-                OrderElements = new ObservableCollection<OrderElement>()
-            };*/
 
             SingleOrdersSet = new ObservableCollection<Order> {CurrentSingleOrder};
             TemporaryOrdersSet = new ObservableCollection<Order> {CurrentTemporaryOrder};
@@ -906,6 +912,202 @@ namespace SupRealClient.ViewModels
                 "VisitorsListWindViewOk", null) as VisitorsModelResult;
             CurrentTemporaryOrder.SignedId = result.Id;
             CurrentTemporaryOrder.Signed = result.Name;
+            OnRefresh?.Invoke();
+        }
+    }
+
+    public class EditBidsModel : IBidsModel
+    {
+        public ObservableCollection<Order> SingleOrdersSet { get; set; }
+        public ObservableCollection<Order> TemporaryOrdersSet { get; set; }
+        public ObservableCollection<Order> VirtueOrdersSet { get; set; }
+        public ObservableCollection<Order> OrdersSet { get; set; }
+        public Order CurrentSingleOrder { get; set; }
+        public Order CurrentTemporaryOrder { get; set; }
+        public Order CurrentVirtueOrder { get; set; }
+        public Order CurrentOrder { get; set; }
+        public OrderType OrderType { get; set; }
+        public bool IsCanAddRows { get; set; } = true;
+
+        public Visibility IsAddUpdVisib { get; set; }// = Visibility.Visible;
+        public OrderElement UpdateVisitor { get; set; }
+
+        public EditBidsModel(Order singleOrder, Order temporaryOrder, 
+            Order virtueOrder, Order order)
+        {
+            CurrentSingleOrder = singleOrder;
+            CurrentTemporaryOrder = temporaryOrder;
+            CurrentVirtueOrder = virtueOrder;
+            CurrentOrder = order;
+
+            SingleOrdersSet = new ObservableCollection<Order> { CurrentSingleOrder };
+            TemporaryOrdersSet = new ObservableCollection<Order> { CurrentTemporaryOrder };
+            VirtueOrdersSet = new ObservableCollection<Order> { CurrentVirtueOrder };
+            OrdersSet = new ObservableCollection<Order> { CurrentOrder };
+            IsAddUpdVisib = Visibility.Visible;
+        }
+
+        public event Action OnRefresh;
+
+        public void Agreer()
+        {
+            VisitorsModelResult result = ViewManager.Instance.OpenWindowModal(
+                "VisitorsListWindViewOk", null) as VisitorsModelResult;
+            CurrentTemporaryOrder.AgreeId = result.Id;
+            CurrentTemporaryOrder.Agree = result.Name;
+            OnRefresh?.Invoke();
+        }
+
+        public void Begin()
+        {
+            throw new NotImplementedException();
+        }
+
+        public void Cancel()
+        {
+            throw new NotImplementedException();
+        }
+
+        public void Delay()
+        {
+            throw new NotImplementedException();
+        }
+
+        public void Edit()
+        {
+            throw new NotImplementedException();
+        }
+
+        public void End()
+        {
+            throw new NotImplementedException();
+        }
+
+        public void Further()
+        {
+            throw new NotImplementedException();
+        }
+
+        public void New()
+        {
+            throw new NotImplementedException();
+        }
+
+        public void Next()
+        {
+            throw new NotImplementedException();
+        }
+
+        public void Ok()
+        {
+            OrdersWrapper.CurrentTable().UpdateRow(CurrentSingleOrder);
+        }
+
+        public void Prev()
+        {
+            throw new NotImplementedException();
+        }
+
+        public void Reload()
+        {
+            throw new NotImplementedException();
+        }
+
+        public void Search()
+        {
+            throw new NotImplementedException();
+        }
+
+        public void SignerSingle()
+        {
+            VisitorsModelResult result = ViewManager.Instance.OpenWindowModal(
+                "VisitorsListWindViewOk", null) as VisitorsModelResult;
+            CurrentSingleOrder.SignedId = result.Id;
+            CurrentSingleOrder.Signed = result.Name;
+            OnRefresh?.Invoke();
+        }
+
+        public void SignerTemp()
+        {
+            VisitorsModelResult result = ViewManager.Instance.OpenWindowModal(
+                "VisitorsListWindViewOk", null) as VisitorsModelResult;
+            CurrentTemporaryOrder.SignedId = result.Id;
+            CurrentTemporaryOrder.Signed = result.Name;
+            OnRefresh?.Invoke();
+        }
+
+        public void AddPerson()
+        {
+            switch (OrderType)
+            {
+                case OrderType.Temp:
+                    AddPersonInTempOrder();
+                    break;
+                case OrderType.Single:
+                    AddPersonInSingleOrder();
+                    break;
+                default:
+                    break;
+            }
+        }
+
+        public void UpdatePerson()
+        {
+            AddUpdateAbstrModel model = new UpdateBidModel(UpdateVisitor);
+            AddUpdateBaseViewModel viewModel = new AddUpdateBidsViewModel
+            {
+                Model = model
+            };
+            AddUpdateBidWindView view = new AddUpdateBidWindView();
+            view.DataContext = viewModel;
+            model.OnClose += view.Handling_OnClose;
+            view.ShowDialog();
+            int i = CurrentSingleOrder.OrderElements.IndexOf(UpdateVisitor);
+            CurrentSingleOrder.OrderElements[i] = (view.WindowResult as OrderElement);
+            UpdateVisitor = CurrentSingleOrder.OrderElements[i];
+            //UpdateVisitor = (VisitorOnOrder)(view.WindowResult as VisitorOnOrder).Clone();
+            OnRefresh?.Invoke();
+        }
+
+        public void DeletePerson()
+        {
+            CurrentSingleOrder.OrderElements.Remove(UpdateVisitor);
+        }
+
+        private void AddPersonInSingleOrder()
+        {
+            AddUpdateAbstrModel model = new AddSingleBidModel();
+            AddUpdateBaseViewModel viewModel = new AddUpdateBidsViewModel
+            {
+                Model = model
+            };
+            AddUpdateBidWindView view = new AddUpdateBidWindView();
+            view.DataContext = viewModel;
+            model.OnClose += view.Handling_OnClose;
+            view.ShowDialog();
+            object res = view.WindowResult;
+            if (res == null) return;
+            if (CurrentSingleOrder.OrderElements == null)
+                CurrentSingleOrder.OrderElements = new ObservableCollection<OrderElement>();
+            CurrentSingleOrder.OrderElements.Add((OrderElement)res);
+            OnRefresh?.Invoke();
+        }
+
+        private void AddPersonInTempOrder()
+        {
+            AddUpdateAbstrModel model = new AddSingleBidModel();
+            AddUpdateBaseViewModel viewModel = new AddUpdateBidsViewModel
+            {
+                Model = model
+            };
+            AddUpdateBidWindView view = new AddUpdateBidWindView();
+            view.DataContext = viewModel;
+            model.OnClose += view.Handling_OnClose;
+            view.ShowDialog();
+            object res = view.WindowResult;
+            if (CurrentTemporaryOrder.OrderElements == null)
+                CurrentTemporaryOrder.OrderElements = new ObservableCollection<OrderElement>();
+            CurrentTemporaryOrder.OrderElements.Add((OrderElement)res);
             OnRefresh?.Invoke();
         }
 
