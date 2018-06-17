@@ -142,7 +142,7 @@
                             <DataGridTextColumn Header="Принимающее лицо" Width="*" Binding="{Binding Catcher, UpdateSourceTrigger=PropertyChanged}"/>
                             <DataGridTextColumn Header="Время от" Binding="{Binding From}"/>
                             <DataGridTextColumn Header="Время до" Binding="{Binding To}"/>
-                            <DataGridTextColumn Header="Не активен"/>
+                            <DataGridCheckBoxColumn Header="Не активен" Binding="{Binding IsDisable}"/>
                             <DataGridTextColumn Header="Проходы" Binding="{Binding Passes}"/>
                         </DataGrid.Columns>
                     </DataGrid>
@@ -205,8 +205,11 @@
                                 <ColumnDefinition/>
                             </Grid.ColumnDefinitions>
 
-                            <CheckBox Content="Заявка неактивна" Grid.Column="0" HorizontalAlignment="Left" VerticalAlignment="Center"
-                                      Margin="2" FontSize="18"/>
+                            <CheckBox
+                            IsChecked="{Binding CurrentSingleOrder.IsDisable, Mode=TwoWay}"
+                            Grid.Column="0"
+                            HorizontalAlignment="Left"
+                            VerticalAlignment="Center" Margin="2" FontSize="18"/>
 
                             <!--
                             <TextBlock

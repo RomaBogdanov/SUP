@@ -5,6 +5,7 @@ using System.Data;
 using System.Linq;
 using System.Security.AccessControl;
 using SupClientConnectionLib;
+using SupRealClient.Common;
 using SupRealClient.EnumerationClasses;
 
 namespace SupRealClient.TabsSingleton
@@ -86,7 +87,7 @@ namespace SupRealClient.TabsSingleton
         /// таблице.
         /// </summary>
         /// <returns></returns>
-        public virtual ObservableCollection<IdEntity> StandartQuery()
+        public virtual object StandartQuery()
         {
             return null;
         }
@@ -157,7 +158,7 @@ namespace SupRealClient.TabsSingleton
                     }
                     row.ItemArray = objs;
                     table.AcceptChanges();
-                    this.OnChanged();
+                    this.OnChanged?.Invoke();
                 }
             }
         }
@@ -214,30 +215,6 @@ namespace SupRealClient.TabsSingleton
                     break;
                 case DataRowAction.Add:
                     dt = (DataTable)sender;
-                    // добавляем правильные значения, если нулевое значение.
-                    /*if (e.Row != null)
-                    {
-                        int l = e.Row.ItemArray.Length;
-                        for (int p = 0; p < l; p++)
-                        {
-                            if (e.Row.Table.Columns[p].DataType == typeof(int)
-                                && e.Row[p].GetType() != typeof(int))
-                            {
-                                e.Row.ItemArray[p] = 0;
-                            }
-                            if (e.Row.Table.Columns[p].DataType == typeof(string)
-                                && e.Row[p].GetType() != typeof(string))
-                            {
-                                e.Row.ItemArray[p] = "";
-                            }
-                            if (e.Row.Table.Columns[p].DataType == typeof(DateTime)
-                                && e.Row[p].GetType() != typeof(DateTime))
-                            {
-                                e.Row.ItemArray[p] = DateTime.MinValue;
-                                
-                            }
-                        }
-                    }*/
                     this.OnChanged?.Invoke();
                     this.Connector.InsertRow(e.Row.ItemArray);
                     break;
@@ -262,13 +239,13 @@ namespace SupRealClient.TabsSingleton
             order.Id = (int)row["f_ord_id"];
             row["f_reg_number"] = order.Number;
             row["f_order_type_id"] = order.TypeId;
-            row["f_ord_date"] = DateTime.MinValue; //todo: доработать
+            row["f_ord_date"] = order.OrderDate;
             row["f_date_from"] = order.From;
             row["f_date_to"] = order.To;
             row["f_signed_by"] = order.SignedId;
             row["f_adjusted_with"] = order.AgreeId;
             row["f_notes"] = order.Note;
-            row["f_disabled"] = "N"; // todo: судя по всему, поле показывает, что заявка неактивна.
+            row["f_disabled"] = order.IsDisable ? "Y" : "N";
             row["f_temp_posted"] = ""; // todo: непонятное поле
             AddRow(row);
             foreach (OrderElement orderElement in order.OrderElements)
@@ -316,6 +293,47 @@ namespace SupRealClient.TabsSingleton
             }
 
         }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <returns>возвращает перечисление вида: ObservableCollection&lt;Order&gt;</returns>
+        public override object StandartQuery()
+        {
+            ObservableCollection<Order> orders = new ObservableCollection<Order>(
+                from ords in OrdersWrapper.CurrentTable().Table.AsEnumerable()
+                where ords.Field<int>("f_ord_id") != 0 & ords.Field<int>("f_order_type_id") != 0 &&
+                      CommonHelper.NotDeleted(ords)
+                select new Order
+                {
+                    Id = ords.Field<int>("f_ord_id"),
+                    Number = ords.Field<int>("f_reg_number"),
+                    TypeId = ords.Field<int>("f_order_type_id"),
+                    OrderDate = ords.Field<DateTime>("f_ord_date"),
+                    From = ords.Field<DateTime>("f_date_from"),
+                    To = ords.Field<DateTime>("f_date_to"),
+                    SignedId = ords.Field<int>("f_signed_by"),
+                    AgreeId = ords.Field<int>("f_adjusted_with"),
+                    Note = ords.Field<string>("f_notes"),
+                    IsDisable = ords.Field<string>("f_disabled").ToUpper() == "Y" ? true : false,
+                    OrderElements = new ObservableCollection<OrderElement>(
+                        from row in OrderElementsWrapper.CurrentTable().Table.AsEnumerable()
+                        where row.Field<int>("f_ord_id") == ords.Field<int>("f_ord_id") &&
+                              CommonHelper.NotDeleted(row)
+                        select new OrderElement
+                        {
+                            Id = row.Field<int>("f_oe_id"),
+                            OrderId = row.Field<int>("f_ord_id"),
+                            VisitorId = row.Field<int>("f_visitor_id"),
+                            CatcherId = row.Field<int>("f_catcher_id"),
+                            From = row.Field<DateTime>("f_time_from"),
+                            To = row.Field<DateTime>("f_time_to"),
+                            IsDisable = row.Field<string>("f_disabled").ToUpper() == "Y" ? true : false,
+                            Passes = row.Field<string>("f_passes")
+                        })
+                });
+            return orders;
+        }
     }
 
     partial class OrderElementsWrapper
@@ -332,7 +350,7 @@ namespace SupRealClient.TabsSingleton
             row["f_time_from"] = orderElement.From; 
             row["f_time_to"] = orderElement.To;
             row["f_passes"] = orderElement.Passes;
-            row["f_disabled"] = "N"; // todo: пока непонятно. Возможно, указывает на неактивность
+            row["f_disabled"] = orderElement.IsDisable ? "Y" : "N";
             row["f_not_remaind"] = "N";//todo: разобраться
             row["f_full_role"] = "N";//todo: разобраться
             row["f_other_org"] = "";//todo: разобраться
@@ -354,7 +372,7 @@ namespace SupRealClient.TabsSingleton
             row["f_time_from"] = orderElement.From;
             row["f_time_to"] = orderElement.To;
             row["f_passes"] = orderElement.Passes;
-            row["f_disabled"] = "N"; // todo: пока непонятно. Возможно, указывает на неактивность
+            row["f_disabled"] = orderElement.IsDisable ? "Y" : "N";
             row["f_not_remaind"] = "N";//todo: разобраться
             row["f_full_role"] = "N";//todo: разобраться
             row["f_other_org"] = "";//todo: разобраться
