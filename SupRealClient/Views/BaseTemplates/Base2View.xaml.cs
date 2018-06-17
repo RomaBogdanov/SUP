@@ -5,6 +5,8 @@ using System.Windows.Input;
 using SupRealClient.Common.Interfaces;
 using SupRealClient.EnumerationClasses;
 using System.Windows.Media;
+using System.ComponentModel;
+using System.Windows;
 
 namespace SupRealClient.Views
 {
@@ -92,6 +94,20 @@ namespace SupRealClient.Views
                 ((ISuperBaseViewModel)DataContext).End.Execute(null);
             }
         }
+
+        private void UserControl_IsVisibleChanged(object sender, System.Windows.DependencyPropertyChangedEventArgs e)
+        {
+            Window parentWindow = Window.GetWindow(this);
+            if (parentWindow.Visibility == System.Windows.Visibility.Hidden)
+            {
+                tbxSearch.Text = string.Empty;
+                baseTab.SelectedItems?.Clear();
+
+                if (baseTab.ItemsSource is System.Collections.ObjectModel.ObservableCollection<Organization>)
+                    SortDataGrid(baseTab, 1, ListSortDirection.Ascending);
+            }
+        }
+
         private void Button_PreviewMouseLeftButtonDown(object sender, MouseButtonEventArgs e)
         {
             if (((Button)sender).Name == "butAdd")
@@ -143,5 +159,35 @@ namespace SupRealClient.Views
 
             baseTab.SelectionChanged -= baseTab_SelectionChanged;
         }
+
+        private void baseTab_Loaded(object sender, System.Windows.RoutedEventArgs e)
+        {
+            if (baseTab.ItemsSource is System.Collections.ObjectModel.ObservableCollection<Organization>)
+                SortDataGrid(baseTab, 1, ListSortDirection.Ascending);
+        }
+
+        static void SortDataGrid(DataGrid dataGrid, int columnIndex = 0, ListSortDirection sortDirection = ListSortDirection.Ascending)
+        {
+            var column = dataGrid.Columns[columnIndex];
+
+            // Clear current sort descriptions
+            dataGrid.Items.SortDescriptions.Clear();
+
+            // Add the new sort description
+            dataGrid.Items.SortDescriptions.Add(new SortDescription(column.SortMemberPath, sortDirection));
+
+            // Apply sort
+            foreach (var col in dataGrid.Columns)
+            {
+                col.SortDirection = null;
+            }
+            column.SortDirection = sortDirection;
+
+            if (dataGrid.Items.Count > 0)
+                dataGrid.SelectedItem = dataGrid.Items[0];
+
+            // Refresh items to display sort
+            dataGrid.Items.Refresh();
+        }                
     }
 }
