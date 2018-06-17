@@ -57,8 +57,11 @@
             CurrentColumn="{Binding Path=CurrentColumn, Mode=TwoWay}"
             ColumnHeaderStyle="{StaticResource SelectionColumnHeader}"
             KeyDown="BaseTab_OnKeyDown"
-            ColumnWidth="*" Style="{StaticResource AzureDataGrid1}"
-            CanUserAddRows="False">
+            ColumnWidth="*" 
+            Style="{StaticResource AzureDataGrid1}"
+            CanUserAddRows="False" 
+            SelectionChanged="baseTab_SelectionChanged"
+            LoadingRow="baseTab_LoadingRow">
             <!-- TODO - вернуть SelectedValue="{Binding Path=SelectedValue, Mode=TwoWay}"  -->
             <DataGrid.InputBindings>
                 <KeyBinding Key="Delete" Command="{Binding Remove}"/>
@@ -97,7 +100,8 @@
             Command="{Binding Path=Begin}" 
             KeyDown="BaseTab_OnKeyDown" 
             Style="{StaticResource ButtonStyle}"
-            ToolTip="Home">
+            ToolTip="Home" 
+            PreviewMouseLeftButtonDown="Button_PreviewMouseLeftButtonDown">
             <Grid>
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="30"/>
@@ -124,7 +128,8 @@
             Command="{Binding Path=Prev}" 
             KeyDown="BaseTab_OnKeyDown"
             Style="{StaticResource ButtonStyle}"
-            ToolTip="↑">
+            ToolTip="↑"
+            PreviewMouseLeftButtonDown="Button_PreviewMouseLeftButtonDown">
             <Grid>
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="30"/>
@@ -151,7 +156,8 @@
             Command="{Binding Path=Next}" 
             KeyDown="BaseTab_OnKeyDown"
             Style="{StaticResource ButtonStyle}"
-            ToolTip="↓">
+            ToolTip="↓"
+            PreviewMouseLeftButtonDown="Button_PreviewMouseLeftButtonDown">
             <Grid>
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="30"/>
@@ -177,7 +183,8 @@
             Command="{Binding Path=End}" 
             KeyDown="BaseTab_OnKeyDown"
             Style="{StaticResource ButtonStyle}"
-            ToolTip="End">
+            ToolTip="End"
+            PreviewMouseLeftButtonDown="Button_PreviewMouseLeftButtonDown">
             <Grid>
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="30"/>
@@ -197,13 +204,15 @@
         </Button>
 
         <Button 
+            Name="butAdd"
             Grid.Row="3" 
             Grid.Column="4" 
             Margin="1" 
             Command="{Binding Path=Add}" 
             KeyDown="BaseTab_OnKeyDown"
             Style="{StaticResource ButtonStyle}"
-            ToolTip="Insert">
+            ToolTip="Insert"
+            PreviewMouseLeftButtonDown="Button_PreviewMouseLeftButtonDown">
             <Grid>
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="30"/>
