@@ -272,6 +272,26 @@ namespace SupRealClient.ViewModels
         public ICommand SignerTempCommand { get; set; } // посписывающий временную
         public  ICommand AgreerCommand { get; set; } // согласующий
 
+        private bool _textEnable = false;
+        /// <summary>
+        /// Доступность редактирования полей.
+        /// </summary>
+        public bool TextEnable
+        {
+            get { return _textEnable; }
+            set { _textEnable = value; OnPropertyChanged("TextEnable"); }
+        }
+
+        private bool _cceptButtonEnable = false;
+        /// <summary>
+        /// Доступность кнопок Применить и Отмена.
+        /// </summary>
+        public bool AcceptButtonEnable
+        {
+            get { return _cceptButtonEnable; }
+            set { _cceptButtonEnable = value; OnPropertyChanged("AcceptButtonEnable"); }
+        }
+
         public BidsViewModel()
         {
             BeginCommand = new RelayCommand(arg => Begin());
@@ -294,6 +314,9 @@ namespace SupRealClient.ViewModels
             SignerSingleCommand = new RelayCommand(arg => SignerSingle());
             SignerTempCommand = new RelayCommand(arg => SignerTemp());
             AgreerCommand = new RelayCommand(arg => Agreer());
+
+            TextEnable = false; // При открытии окна поля недоступны.
+            AcceptButtonEnable = false; // При открытии кнопки применить и отмена недоступны.
         }
 
         private void Agreer()
@@ -383,6 +406,9 @@ namespace SupRealClient.ViewModels
             BidsModel = new NewBidsModel();
             CurrentTemporaryOrder = BidsModel.CurrentTemporaryOrder;
             CurrentSingleOrder = BidsModel.CurrentSingleOrder;
+
+            TextEnable = true; // При открытии окна поля недоступны.
+            AcceptButtonEnable = true; // При открытии кнопки применить и отмена недоступны.
         }
 
         /// <summary>
@@ -406,6 +432,9 @@ namespace SupRealClient.ViewModels
         {
             //BidsModel.Cancel();
             BidsModel = new BidsModel();
+
+            TextEnable = false; // При открытии окна поля недоступны.
+            AcceptButtonEnable = false; // При открытии кнопки применить и отмена недоступны.
         }
 
         private void Further()
@@ -743,6 +772,7 @@ namespace SupRealClient.ViewModels
             VirtueOrdersSet = new ObservableCollection<Order> {CurrentVirtueOrder};
             OrdersSet = new ObservableCollection<Order> {CurrentOrder};
             IsAddUpdVisib = Visibility.Visible;
+
         }
 
         public event Action OnRefresh;

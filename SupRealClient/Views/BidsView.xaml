@@ -56,7 +56,8 @@
                             Style="{StaticResource TextBLockStyle}"/>
 
                             <TextBox Margin="2"
-                            Text="{Binding CurrentSingleOrder.RegNumber, Mode=TwoWay}"
+                                     Text="{Binding CurrentSingleOrder.RegNumber, Mode=TwoWay}"
+                                     IsEnabled="{Binding TextEnable, UpdateSourceTrigger=PropertyChanged}"
                             Grid.Column="1"
                             Style="{StaticResource TextBoxStyle}"/>
                             <TextBlock
@@ -70,7 +71,8 @@
                             Text="{Binding CurrentSingleOrder.From, Mode=TwoWay}"
                             Grid.Column="1"
                             Style="{StaticResource TextBoxStyle}"/>-->
-                            <DatePicker Grid.Column="3" SelectedDate="{Binding CurrentSingleOrder.From, Mode=TwoWay}" Height="25" Margin="2">
+                            <DatePicker Grid.Column="3" SelectedDate="{Binding CurrentSingleOrder.From, Mode=TwoWay}" Height="25" Margin="2"
+                                        IsEnabled="{Binding TextEnable, UpdateSourceTrigger=PropertyChanged}">
                                 <DatePicker.Resources>
                                     <Style TargetType="{x:Type DatePickerTextBox}">
                                         <Setter Property="Control.Template">
@@ -85,12 +87,13 @@
                                 </DatePicker.Resources>
                             </DatePicker>
 
+                            <!--
                             <Button
                             Grid.Column="4" Margin="2"
                             Width="25"
                             Height="25"
                             Content="..."
-                            Style="{StaticResource VisitorsSquareButtonStyle}"/>
+                            Style="{StaticResource VisitorsSquareButtonStyle}"/>-->
                         </Grid>
 
                         <Grid
@@ -159,7 +162,7 @@
                             HorizontalAlignment="Left"
                             Style="{StaticResource TextBLockStyle}"/>
 
-                            <TextBox Margin="2"
+                            <TextBox Margin="2" IsEnabled="{Binding TextEnable, UpdateSourceTrigger=PropertyChanged}"
                             Text="{Binding CurrentSingleOrder.Signed, Mode=TwoWay}"
                             Grid.Column="1"
                             Style="{StaticResource TextBoxStyle}"/>
@@ -188,7 +191,7 @@
                             HorizontalAlignment="Left"
                             Style="{StaticResource TextBLockStyle}"/>
 
-                            <TextBox Margin="2"
+                            <TextBox Margin="2" IsEnabled="{Binding TextEnable, UpdateSourceTrigger=PropertyChanged}"
                             Text="{Binding CurrentSingleOrder.Note, Mode=TwoWay}"
                             Grid.Column="1"
                             Grid.ColumnSpan="3"
@@ -198,21 +201,22 @@
                         <Grid
                         Grid.Row="5">
                             <Grid.ColumnDefinitions>
-                                <ColumnDefinition Width="50"/>
+                                <ColumnDefinition />
                                 <ColumnDefinition/>
                             </Grid.ColumnDefinitions>
 
                             <CheckBox
                             IsChecked="{Binding CurrentSingleOrder.IsDisable, Mode=TwoWay}"
                             Grid.Column="0"
-                            HorizontalAlignment="Center"
-                            VerticalAlignment="Center"/>
+                            HorizontalAlignment="Left"
+                            VerticalAlignment="Center" Margin="2" FontSize="18"/>
 
+                            <!--
                             <TextBlock
                             Grid.Column="1"
                             Text="Заявка не активна"
                             HorizontalAlignment="Left"
-                            Style="{StaticResource TextBLockStyle}"/>
+                            Style="{StaticResource TextBLockStyle}"/>-->
                         </Grid>
 
                         <Grid
@@ -951,8 +955,7 @@
                 </Grid>
             </Button>
 
-            <Button
-                Command="{Binding OkCommand}"
+            <Button Command="{Binding OkCommand}" IsEnabled="{Binding AcceptButtonEnable, UpdateSourceTrigger=PropertyChanged}"
                     Grid.Row="1"
                     Grid.Column="2"
                     Margin="2"
@@ -977,7 +980,7 @@
             </Button>
 
             <Button
-                Command="{Binding CancelCommand}"
+                Command="{Binding CancelCommand}" IsEnabled="{Binding AcceptButtonEnable, UpdateSourceTrigger=PropertyChanged}"
                     Grid.Row="1"
                     Grid.Column="3"
                     Margin="2"
