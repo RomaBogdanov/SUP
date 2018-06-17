@@ -188,13 +188,21 @@ namespace SupRealClient.Views
             {
                 return false;
             }
+
             string path = GetColumns()[CurrentColumn.SortMemberPath];
-            for (int i = 0; i < Rows.Length; i++)
-            {
-                object obj = Rows[i].Field<object>(path);
+
+            var sortedRows = Rows.OrderByDescending(itemArray => itemArray[path]).ToArray();
+            if (CurrentColumn.SortDirection == System.ComponentModel.ListSortDirection.Ascending)                
+                sortedRows = sortedRows.Reverse().ToArray();
+
+            for (int i = 0; i < sortedRows.Count(); i++)
+            {               
+                object obj = sortedRows.ElementAt(i).Field<object>(path);
                 if (CommonHelper.IsSearchConditionMatch(obj.ToString(), pattern))
                 {
-                    searchResult.Add(GetId(i));
+                    object idRow = sortedRows.ElementAt(i).ItemArray[0];
+                    if (idRow is int)
+                        searchResult.Add((int)idRow);
                 }
             }
             SetAt(searchResult.Begin());

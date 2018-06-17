@@ -21,7 +21,7 @@ namespace SupRealClient.Views
         {
             InitializeComponent();
 
-            baseTab.SelectionChanged -= baseTab_SelectionChanged;
+            baseTab.SelectionChanged -= baseTab_SelectionChanged;            
             //DataContext = viewModel;
         }
 
@@ -102,9 +102,12 @@ namespace SupRealClient.Views
             {
                 tbxSearch.Text = string.Empty;
                 baseTab.SelectedItems?.Clear();
+                baseTab.SelectionChanged += baseTab_SelectionChanged;
 
                 if (baseTab.ItemsSource is System.Collections.ObjectModel.ObservableCollection<Organization>)
                     SortDataGrid(baseTab, 1, ListSortDirection.Ascending);
+                else if (baseTab.Columns.Count > 0)
+                    SortDataGrid(baseTab, 0, ListSortDirection.Ascending);
             }
         }
 
@@ -153,18 +156,24 @@ namespace SupRealClient.Views
 
         private void baseTab_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
+            baseTabCurrentItemScrollIntoView();
+            baseTab.SelectionChanged -= baseTab_SelectionChanged;
+        }
+
+        void baseTabCurrentItemScrollIntoView()
+        {
             baseTab.ScrollIntoView(baseTab.CurrentItem);
             baseTab.UpdateLayout();
             baseTab.ScrollIntoView(baseTab.CurrentItem);
-
-            baseTab.SelectionChanged -= baseTab_SelectionChanged;
         }
 
         private void baseTab_Loaded(object sender, System.Windows.RoutedEventArgs e)
         {
             if (baseTab.ItemsSource is System.Collections.ObjectModel.ObservableCollection<Organization>)
                 SortDataGrid(baseTab, 1, ListSortDirection.Ascending);
-        }
+            else if (baseTab.Columns.Count > 0)
+                SortDataGrid(baseTab, 0, ListSortDirection.Ascending);
+        } 
 
         static void SortDataGrid(DataGrid dataGrid, int columnIndex = 0, ListSortDirection sortDirection = ListSortDirection.Ascending)
         {
@@ -186,8 +195,10 @@ namespace SupRealClient.Views
             if (dataGrid.Items.Count > 0)
                 dataGrid.SelectedItem = dataGrid.Items[0];
 
+            dataGrid.CurrentColumn = dataGrid.Columns[columnIndex];
+
             // Refresh items to display sort
             dataGrid.Items.Refresh();
-        }                
+        }        
     }
 }

@@ -143,6 +143,9 @@ namespace SupRealClient.Views
                 {
                     Model.CurrentColumn = value;
                     OnPropertyChanged();
+                    //if (!string.IsNullOrEmpty(SearchingText))
+                    //    FartherEnabled = Model?.Searching(
+                    //        SearchingText.ToUpper()) ?? false;
                 }
             }
         }

@@ -55,15 +55,15 @@
             SelectedItem="{Binding Path=CurrentItem, Mode=TwoWay}" 
             converters:DataGridTextSearch.SearchValue="{Binding ElementName=tbxSearch, Path=Text, UpdateSourceTrigger=PropertyChanged}"
             SelectedIndex="{Binding Path=SelectedIndex, Mode=TwoWay}"
-            CurrentColumn="{Binding Path=CurrentColumn, Mode=TwoWay}"
+            CurrentColumn="{Binding Path=CurrentColumn, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
             ColumnHeaderStyle="{StaticResource SelectionColumnHeader}"
-            KeyDown="BaseTab_OnKeyDown"
-            ColumnWidth="*" 
             Style="{StaticResource AzureDataGrid1}"
+            KeyDown="BaseTab_OnKeyDown"
+            ColumnWidth="*"            
             CanUserAddRows="False" 
             SelectionChanged="baseTab_SelectionChanged"
             LoadingRow="baseTab_LoadingRow" 
-            Loaded="baseTab_Loaded">
+            Loaded="baseTab_Loaded">            
             <!-- TODO - вернуть SelectedValue="{Binding Path=SelectedValue, Mode=TwoWay}"  -->
             <DataGrid.InputBindings>
                 <KeyBinding Key="Delete" Command="{Binding Remove}"/>
@@ -293,7 +293,8 @@
             Command="{Binding Path=Farther}" 
             IsEnabled="{Binding Path=FartherEnabled}"
             KeyDown="BaseTab_OnKeyDown"
-            Style="{StaticResource ButtonStyle}">
+            Style="{StaticResource ButtonStyle}"
+            PreviewMouseLeftButtonDown="Button_PreviewMouseLeftButtonDown">
             <Grid>
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="30"/>
