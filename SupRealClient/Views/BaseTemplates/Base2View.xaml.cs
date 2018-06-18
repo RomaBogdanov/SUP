@@ -7,6 +7,7 @@ using SupRealClient.EnumerationClasses;
 using System.Windows.Media;
 using System.ComponentModel;
 using System.Windows;
+using System.Windows.Controls.Primitives;
 
 namespace SupRealClient.Views
 {
@@ -16,12 +17,14 @@ namespace SupRealClient.Views
     public partial class Base2View : UserControl
     {
         int memCountRows = 0;
+        DataGridColumnHeader headerCliked = null;
 
         public Base2View()
         {
             InitializeComponent();
 
-            baseTab.SelectionChanged -= baseTab_SelectionChanged;            
+            baseTab.SelectionChanged -= baseTab_SelectionChanged;   
+            
             //DataContext = viewModel;
         }
 
@@ -31,16 +34,7 @@ namespace SupRealClient.Views
             InitializeComponent();
             tbxSearch.Focus();
         }
-
-        public DataGrid BaseTab
-        {
-            get { return baseTab; }
-            set
-            {
-                baseTab = value;
-                baseTab.Focus();
-            }
-        }
+               
 
         public void SetDefaultColumn()
         {
@@ -199,6 +193,55 @@ namespace SupRealClient.Views
 
             // Refresh items to display sort
             dataGrid.Items.Refresh();
-        }        
+        }
+
+        private void dgColumnHeader_PreviewMouseLeftButtonUp(object sender, MouseButtonEventArgs e)
+        {
+            headerCliked = sender as DataGridColumnHeader;           
+        }
+
+        private void baseTab_Sorted(object sender, RoutedEventArgs e)
+        {
+            if (headerCliked != null)
+            {
+                baseTab.CurrentColumn = headerCliked.Column;
+
+                if (!string.IsNullOrEmpty(tbxSearch.Text))
+                {
+                    tbxSearch.Text = tbxSearch.Text;
+                    baseTabCurrentItemScrollIntoView();
+                }
+
+                headerCliked = null;
+            }
+        }
+    }
+
+    public class CustomDataGrid : DataGrid
+    {
+        // Create a custom routed event by first registering a RoutedEventID
+        // This event uses the bubbling routing strategy
+        public static readonly RoutedEvent SortedEvent = EventManager.RegisterRoutedEvent(
+            "Sorted", RoutingStrategy.Bubble, typeof(RoutedEventHandler), typeof(CustomDataGrid));
+
+        // Provide CLR accessors for the event
+        public event RoutedEventHandler Sorted
+        {
+            add { AddHandler(SortedEvent, value); }
+            remove { RemoveHandler(SortedEvent, value); }
+        }
+
+        // This method raises the Sorted event
+        void RaiseSortedEvent()
+        {
+            RoutedEventArgs newEventArgs = new RoutedEventArgs(CustomDataGrid.SortedEvent);
+            RaiseEvent(newEventArgs);
+        }
+
+        protected override void OnSorting(DataGridSortingEventArgs eventArgs)
+        {
+            base.OnSorting(eventArgs);
+            RaiseSortedEvent();
+        }
     }
 }
