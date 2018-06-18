@@ -8,6 +8,7 @@ using SupRealClient.EnumerationClasses;
 using System.Reflection;
 using System;
 using System.Windows.Threading;
+using System.Diagnostics;
 
 namespace SupRealClient.ViewModels
 {
@@ -310,7 +311,7 @@ namespace SupRealClient.ViewModels
 
         private void TestMethod()
         {
-            IBaseListModel<Organization> model = 
+            /*IBaseListModel<Organization> model = 
                 new OrgsSample<Organization>();
 
             BaseListViewModel<Organization> viewModel = 
@@ -318,7 +319,8 @@ namespace SupRealClient.ViewModels
             viewModel.Model = model;
             var window = new TestView { DataContext = viewModel };
 
-            window.ShowDialog();
+            window.ShowDialog();*/
+            Process.Start("AndoverPersonsManager.exe");
         }
 
         private void ExitApp()

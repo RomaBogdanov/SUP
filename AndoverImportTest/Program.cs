@@ -44,6 +44,242 @@ namespace AndoverImportTest
                 new EndpointAddress("http://localhost:7001/AndoverHost"));
             IAndoverService wcfClient = myChannelFactory.CreateChannel();
 
+            var containers = wcfClient.GetContainers();
+
+            using (var connection = new SqlConnection(
+                ConfigurationManager.ConnectionStrings[
+                    "ContinuumCopy"].ConnectionString))
+            {
+                connection.Open();
+
+                using (SqlCommand cmd = connection.CreateCommand())
+                {
+                    cmd.CommandText = "delete from Container";
+                    Console.WriteLine(cmd.CommandText);
+                    cmd.ExecuteNonQuery();
+                }
+                foreach (var container in containers)
+                {
+                    using (SqlCommand cmd = connection.CreateCommand())
+                    {
+                        cmd.CommandText = "insert into Container " +
+                            "(ObjectIdHi, ObjectIdLo, uiName, OwnerIdHi, OwnerIdLo, " +
+                            "DeviceIdHi, DeviceIdLo, TemplateFlag, TemplateIdHi, TemplateIdLo, " +
+                            "ControllerName, AlarmGraphicPage, " +
+                            "ContainerType, DefaultControllerIdHi, DefaultControllerIdLo, " +
+                            "ContainerCreateRuleIdHi, ContainerCreateRuleIdLo, VideoLayoutIdHi, VideoLayoutIdLo, " +
+                            "InfCameraPoint1, InfCameraPoint2, InfCameraPoint3, InfCameraPoint4, " +
+                            "InfCameraPoint5, InfCameraPoint6, InfCameraPoint7, InfCameraPoint8, " +
+                            "InfCameraPoint9, InfCameraPoint10, InfCameraPoint11, InfCameraPoint12, " +
+                            "InfCameraPoint13, InfCameraPoint14, InfCameraPoint15, InfCameraPoint16" +
+                            ") values (" +
+                            container.ObjectIdHi + ", " +
+                            container.ObjectIdLo + ", " +
+                            Convert(container.UiName) + ", " +
+                            Convert(container.OwnerIdHi) + ", " +
+                            Convert(container.OwnerIdLo) + ", " +
+                            Convert(container.DeviceIdHi) + ", " +
+                            Convert(container.DeviceIdLo) + ", " +
+                            Convert(container.TemplateFlag) + ", " +
+                            Convert(container.TemplateIdHi) + ", " +
+                            Convert(container.TemplateIdLo) + ", " +
+                            Convert(container.ControllerName) + ", " +
+                            Convert(container.AlarmGraphicPage) + ", " +
+                            Convert(container.ContainerType) + ", " +
+                            Convert(container.DefaultControllerIdHi) + ", " +
+                            Convert(container.DefaultControllerIdLo) + ", " +
+                            Convert(container.ContainerCreateRuleIdHi) + ", " +
+                            Convert(container.ContainerCreateRuleIdLo) + ", " +
+                            Convert(container.VideoLayoutIdHi) + ", " +
+                            Convert(container.VideoLayoutIdLo) + ", " +
+                            Convert(container.InfCameraPoint1) + ", " +
+                            Convert(container.InfCameraPoint2) + ", " +
+                            Convert(container.InfCameraPoint3) + ", " +
+                            Convert(container.InfCameraPoint4) + ", " +
+                            Convert(container.InfCameraPoint5) + ", " +
+                            Convert(container.InfCameraPoint6) + ", " +
+                            Convert(container.InfCameraPoint7) + ", " +
+                            Convert(container.InfCameraPoint8) + ", " +
+                            Convert(container.InfCameraPoint9) + ", " +
+                            Convert(container.InfCameraPoint10) + ", " +
+                            Convert(container.InfCameraPoint11) + ", " +
+                            Convert(container.InfCameraPoint12) + ", " +
+                            Convert(container.InfCameraPoint13) + ", " +
+                            Convert(container.InfCameraPoint14) + ", " +
+                            Convert(container.InfCameraPoint15) + ", " +
+                            Convert(container.InfCameraPoint16) +
+                            ")";
+                        cmd.ExecuteNonQuery();
+                        Console.WriteLine(cmd.CommandText);
+                    }
+                }
+            }
+
+            var devices = wcfClient.GetDevices();
+
+            using (var connection = new SqlConnection(
+                ConfigurationManager.ConnectionStrings[
+                    "ContinuumCopy"].ConnectionString))
+            {
+                connection.Open();
+
+                using (SqlCommand cmd = connection.CreateCommand())
+                {
+                    cmd.CommandText = "delete from Device";
+                    Console.WriteLine(cmd.CommandText);
+                    cmd.ExecuteNonQuery();
+                }
+                foreach (var device in devices)
+                {
+                    using (SqlCommand cmd = connection.CreateCommand())
+                    {
+                        cmd.CommandText = "insert into Device " +
+                            "(ObjectIdHi, ObjectIdLo, uiName, OwnerIdHi, OwnerIdLo, " +
+                            "DeviceIdHi, DeviceIdLo, TemplateFlag, TemplateIdHi, TemplateIdLo, " +
+                            "ControllerName, AlarmGraphicPage, Description, APDUSegTimeout, " +
+                            "TimeSyncRecipients, APDUTimeout, ApplSoftVer, FirmRev, Location, " +
+                            "UTCOffset, VendorId, VendorName, SystemStatus, ModelName, " +
+                            "ProtoVer, ProtoRevision, DatabaseRevision, ProtoConfClass, " +
+                            "ProtServSup, ProtObjSup, MaxAPDU, SegSupport, DaylightSav, " +
+                            "NumAPDURet, ContainerType, CommStatus, IAmBCInterval, IAmBCScope, " +
+                            "IAmRemNetwork, RemDeviceList, RemInfDevList, DefaultFolderHi, DefaultFolderLo, " +
+                            "ProbeTime, Homepage, MaxResponseTime, NetworkId, DefaultRouter, " +
+                            "IPAddress, SubnetMask, PrimaryAccessServer, SecondaryAccessServer, " +
+                            "ScheduleADL, CommandlinePrompt, BadgeFormatFolder, DefaultBadgeFormat, " +
+                            "DefaultReportViewer, IncrementReportFile, AlarmViewerMaxEntries, AccessEventViewerMaxEntries, " +
+                            "PEWizardFolder, AlarmPrinterPath, SuppressFormFeeds, DefaultImageCropping, " +
+                            "AlarmEmailFormatFile, AlarmPagerFormatFile, AlarmPrinterFormatFile, " +
+                            "AcknowledgeEmailFormatFile, AcknowledgePagerFormatFile, AcknowledgePrinterFormatFile, " +
+                            "OperatorTextAlarmAck, PPBackgroundsFolder, PPGraphicsFolder, PPGraphicsLibraryFolder, " +
+                            "ViewAlwaysOnTop, MainMenuFile, BACnetDevice, BACnetNetworkNumber, BACnetMacAddress, " +
+                            "UrlGraphicsImgFiles, UrlGraphicsBckFiles, UrlGraphicsFiles, UrlWDNServicePort, UrlWDNServerName, " +
+                            "BACnetWorkstation, EnableLANDistribution, EnableRASDistribution, ExtLogLANEnable, ExtLogRASEnable, " +
+                            "MaxSegmentsAccepted, IsBBMD, BBMDIPAddress, BBMDPortNumber, BBMDTimeToLive, " +
+                            "MaxInfoFrames, BacnetMaxMaster, MaxAsyncRequests, RequestInterval, " +
+                            "WPPContinuousPRate, SerialNum, VirtualDevice, BackupFailureTimeout, " +
+                            "LastRestoreTime, LastBackupTime, LastRestoredFilePath, ProbeType, PPActivePollingRate, " +
+                            "PPInactivePollingRate, UsePersonnelManager, VideoMonitor, ProcessVideoEvents, ProcessVideoAlarmPoints" +
+                            ") values (" +
+                            //112
+                            device.ObjectIdHi + ", " +
+                            device.ObjectIdLo + ", " +
+                            Convert(device.UiName) + ", " +
+                            Convert(device.OwnerIdHi) + ", " +
+                            Convert(device.OwnerIdLo) + ", " +
+                            Convert(device.DeviceIdHi) + ", " +
+                            Convert(device.DeviceIdLo) + ", " +
+                            Convert(device.TemplateFlag) + ", " +
+                            Convert(device.TemplateIdHi) + ", " +
+                            Convert(device.TemplateIdLo) + ", " +
+                            Convert(device.ControllerName) + ", " +
+                            Convert(device.AlarmGraphicPage) + ", " +
+                            Convert(device.Description) + ", " +
+                            Convert(device.APDUSegTimeout) + ", " +
+                            Convert(device.TimeSyncRecipients) + ", " +
+                            Convert(device.APDUTimeout) + ", " +
+                            Convert(device.ApplSoftVer) + ", " +
+                            Convert(device.FirmRev) + ", " +
+                            Convert(device.Location) + ", " +
+                            Convert(device.UTCOffset) + ", " +
+                            Convert(device.VendorId) + ", " +
+                            Convert(device.VendorName) + ", " +
+                            Convert(device.SystemStatus) + ", " +
+                            Convert(device.ModelName) + ", " +
+                            Convert(device.ProtoVer) + ", " +
+                            Convert(device.ProtoRevision) + ", " +
+                            Convert(device.DatabaseRevision) + ", " +
+                            Convert(device.ProtoConfClass) + ", " +
+                            Convert(device.ProtServSup) + ", " +
+                            Convert(device.ProtObjSup) + ", " +
+                            Convert(device.MaxAPDU) + ", " +
+                            Convert(device.SegSupport) + ", " +
+                            Convert(device.DaylightSav) + ", " +
+                            Convert(device.NumAPDURet) + ", " +
+                            Convert(device.ContainerType) + ", " +
+                            Convert(device.CommStatus) + ", " +
+                            Convert(device.IAmBCInterval) + ", " +
+                            Convert(device.IAmBCScope) + ", " +
+                            Convert(device.IAmRemNetwork) + ", " +
+                            Convert(device.RemDeviceList) + ", " +
+                            Convert(device.RemInfDevList) + ", " +
+                            Convert(device.DefaultFolderHi) + ", " +
+                            Convert(device.DefaultFolderLo) + ", " +
+                            Convert(device.ProbeTime) + ", " +
+                            Convert(device.Homepage) + ", " +
+                            Convert(device.MaxResponseTime) + ", " +
+                            Convert(device.NetworkId) + ", " +
+                            Convert(device.DefaultRouter) + ", " +
+                            Convert(device.IPAddress) + ", " +
+                            Convert(device.SubnetMask) + ", " +
+                            Convert(device.PrimaryAccessServer) + ", " +
+                            Convert(device.SecondaryAccessServer) + ", " +
+                            Convert(device.ScheduleADL) + ", " +
+                            Convert(device.CommandlinePrompt) + ", " +
+                            Convert(device.BadgeFormatFolder) + ", " +
+                            Convert(device.DefaultBadgeFormat) + ", " +
+                            Convert(device.DefaultReportViewer) + ", " +
+                            Convert(device.IncrementReportFile) + ", " +
+                            Convert(device.AlarmViewerMaxEntries) + ", " +
+                            Convert(device.AccessEventViewerMaxEntries) + ", " +
+                            Convert(device.PEWizardFolder) + ", " +
+                            Convert(device.AlarmPrinterPath) + ", " +
+                            Convert(device.SuppressFormFeeds) + ", " +
+                            Convert(device.DefaultImageCropping) + ", " +
+                            Convert(device.AlarmEmailFormatFile) + ", " +
+                            Convert(device.AlarmPagerFormatFile) + ", " +
+                            Convert(device.AlarmPrinterFormatFile) + ", " +
+                            Convert(device.AcknowledgeEmailFormatFile) + ", " +
+                            Convert(device.AcknowledgePagerFormatFile) + ", " +
+                            Convert(device.AcknowledgePrinterFormatFile) + ", " +
+                            Convert(device.OperatorTextAlarmAck) + ", " +
+                            Convert(device.PPBackgroundsFolder) + ", " +
+                            Convert(device.PPGraphicsFolder) + ", " +
+                            Convert(device.PPGraphicsLibraryFolder) + ", " +
+                            Convert(device.ViewAlwaysOnTop) + ", " +
+                            Convert(device.MainMenuFile) + ", " +
+                            Convert(device.BACnetDevice) + ", " +
+                            Convert(device.BACnetNetworkNumber) + ", " +
+                            Convert(device.BACnetMacAddress) + ", " +
+                            Convert(device.UrlGraphicsImgFiles) + ", " +
+                            Convert(device.UrlGraphicsBckFiles) + ", " +
+                            Convert(device.UrlGraphicsFiles) + ", " +
+                            Convert(device.UrlWDNServicePort) + ", " +
+                            Convert(device.UrlWDNServerName) + ", " +
+                            Convert(device.BACnetWorkstation) + ", " +
+                            Convert(device.EnableLANDistribution) + ", " +
+                            Convert(device.EnableRASDistribution) + ", " +
+                            Convert(device.ExtLogLANEnable) + ", " +
+                            Convert(device.ExtLogRASEnable) + ", " +
+                            Convert(device.MaxSegmentsAccepted) + ", " +
+                            Convert(device.IsBBMD) + ", " +
+                            Convert(device.BBMDIPAddress) + ", " +
+                            Convert(device.BBMDPortNumber) + ", " +
+                            Convert(device.BBMDTimeToLive) + ", " +
+                            Convert(device.MaxInfoFrames) + ", " +
+                            Convert(device.BacnetMaxMaster) + ", " +
+                            Convert(device.MaxAsyncRequests) + ", " +
+                            Convert(device.RequestInterval) + ", " +
+                            Convert(device.WPPContinuousPRate) + ", " +
+                            Convert(device.SerialNum) + ", " +
+                            Convert(device.VirtualDevice) + ", " +
+                            Convert(device.BackupFailureTimeout) + ", " +
+                            Convert(device.LastRestoreTime) + ", " +
+                            Convert(device.LastBackupTime) + ", " +
+                            Convert(device.LastRestoredFilePath) + ", " +
+                            Convert(device.ProbeType) + ", " +
+                            Convert(device.PPActivePollingRate) + ", " +
+                            Convert(device.PPInactivePollingRate) + ", " +
+                            Convert(device.UsePersonnelManager) + ", " +
+                            Convert(device.VideoMonitor) + ", " +
+                            Convert(device.ProcessVideoEvents) + ", " +
+                            Convert(device.ProcessVideoAlarmPoints) +
+                            ")";
+                        cmd.ExecuteNonQuery();
+                        Console.WriteLine(cmd.CommandText);
+                    }
+                }
+            }
+
             var areas = wcfClient.GetAreas();
 
             using (var connection = new SqlConnection(
@@ -381,6 +617,231 @@ namespace AndoverImportTest
                             Convert(areaLink.DistTime) + ", " +
                             Convert(areaLink.TemplateFlag) + ", " +
                             Convert(areaLink.ClearanceLevel) +
+                            ")";
+                        cmd.ExecuteNonQuery();
+                        Console.WriteLine(cmd.CommandText);
+                    }
+                }
+            }
+
+            var doors = wcfClient.GetDoors();
+
+            using (var connection = new SqlConnection(
+                ConfigurationManager.ConnectionStrings[
+                    "ContinuumCopy"].ConnectionString))
+            {
+                connection.Open();
+
+                using (SqlCommand cmd = connection.CreateCommand())
+                {
+                    cmd.CommandText = "delete from Door";
+                    Console.WriteLine(cmd.CommandText);
+                    cmd.ExecuteNonQuery();
+                }
+                foreach (var door in doors)
+                {
+                    using (SqlCommand cmd = connection.CreateCommand())
+                    {
+                        cmd.CommandText = "insert into Door " +
+                            "(ObjectIdHi, ObjectIdLo, uiName, OwnerIdHi, OwnerIdLo, " +
+                            "DeviceIdHi, DeviceIdLo, TemplateFlag, TemplateIdHi, TemplateIdLo, " +
+                            "ControllerName, AlarmGraphicPage, ADADoorAjarTime, ADAOutputTime, " +
+                            "ADAChannel, AlarmChannel, AlarmRelayTime, ArmCode, " +
+                            "BondChannel, BondType, BondSensor, CardFormats, CardFormats2, " +
+                            "Description, DoorAjarTime, DoorChannel, DoorScheduleHi, DoorScheduleLo, " +
+                            "DoorStrikeTime, DoorSwitchChan, DoorSwitchType, " +
+                            "EntryAntiPassTim, EntryAreaHi, EntryAreaLo, EntryIOU, EntryChannel, " +
+                            "EntryEntEgr, EntryEntrAntiPas,  EntryEntrEntEgr, EntryEntrRvrsCrd, " +
+                            "EntryKyPdChan, EntryNoCommMode, EntryNoDataMode, EntryNoReEntry, " +
+                            "EntryNormMode, EntryPinDuress, EntryRvrsCrdDur, EntryScheduleHi, " +
+                            "EntryScheduleLo, EntryZone, SvEntryZone, " +
+                            "ExitAntiPassTim, ExitAreaHi, ExitAreaLo, ExitIOU, ExitChannel, " +
+                            "ExitEntEgr, ExitEntrAntiPas,  ExitEntrEntEgr, ExitEntrRvrsCrd, " +
+                            "ExitKyPdChan, ExitNoCommMode, ExitNoDataMode, ExitNoReEntry, " +
+                            "ExitNormMode, ExitPinDuress, ExitRequestChan, " +
+                            "ExitRequestType, ExitRvrsCrdDur, ExitScheduleHi, " +
+                            "ExitScheduleLo, ExitZone, SvExitZone, " +
+                            "Export, GeneralCode, Invert, LastDepEntrdPntHi, LastDepEntrdPntLo, LastDepExitdPntHi, LastDepExitdPntLo, " +
+                            "OpenOnExitReqst, Port, RecordValNoEntryHist, RecordDrAjarHist, RecordExitRqHist, " +
+                            "RecordForcedHist, RecordInValHist, RecordValHist, RelockOnClose, " +
+                            "Site1, Site2, Site3, Site4, State, " +
+                            "UnlockScheduleHi, UnlockScheduleLo, OperatingMode, AlarmValue, " +
+                            "ADAExitRqstChan, ADAExitRqstType, ADAInputChan, ADAInputType, " +
+                            "InfRefPoint1, InfRefPoint2, InfRefPoint3, InfRefPoint4, " +
+                            "DbEntryZone, DbExitZone, ForcedEntryDelay, VideoLayoutIdHi, VideoLayoutIdLo, " +
+                            "InfCameraPoint1, InfCameraPoint2, InfCameraPoint3, InfCameraPoint4, " +
+                            "InfCameraPoint5, InfCameraPoint6, InfCameraPoint7, InfCameraPoint8, " +
+                            "InfCameraPoint9, InfCameraPoint10, InfCameraPoint11, InfCameraPoint12, " +
+                            "InfCameraPoint13, InfCameraPoint14, InfCameraPoint15, InfCameraPoint16, " +
+                            "ForceLock" +
+                            ") values (" +
+                            door.ObjectIdHi + ", " +
+                            door.ObjectIdLo + ", " +
+                            Convert(door.UiName) + ", " +
+                            Convert(door.OwnerIdHi) + ", " +
+                            Convert(door.OwnerIdLo) + ", " +
+                            Convert(door.DeviceIdHi) + ", " +
+                            Convert(door.DeviceIdLo) + ", " +
+                            Convert(door.TemplateFlag) + ", " +
+                            Convert(door.TemplateIdHi) + ", " +
+                            Convert(door.TemplateIdLo) + ", " +
+                            Convert(door.ControllerName) + ", " +
+                            Convert(door.AlarmGraphicPage) + ", " +
+                            Convert(door.ADADoorAjarTime) + ", " +
+                            Convert(door.ADAOutputTime) + ", " +
+                            Convert(door.ADAChannel) + ", " +
+                            Convert(door.AlarmChannel) + ", " +
+                            Convert(door.AlarmRelayTime) + ", " +
+                            Convert(door.ArmCode) + ", " +
+                            Convert(door.BondChannel) + ", " +
+                            Convert(door.BondType) + ", " +
+                            Convert(door.BondSensor) + ", " +
+                            Convert(door.CardFormats) + ", " +
+                            Convert(door.CardFormats2) + ", " +
+                            Convert(door.Description) + ", " +
+                            Convert(door.DoorAjarTime) + ", " +
+                            Convert(door.DoorChannel) + ", " +
+                            Convert(door.DoorScheduleHi) + ", " +
+                            Convert(door.DoorScheduleLo) + ", " +
+                            Convert(door.DoorStrikeTime) + ", " +
+                            Convert(door.DoorSwitchChan) + ", " +
+                            Convert(door.DoorSwitchType) + ", " +
+                            Convert(door.EntryAntiPassTim) + ", " +
+                            Convert(door.EntryAreaHi) + ", " +
+                            Convert(door.EntryAreaLo) + ", " +
+                            Convert(door.EntryIOU) + ", " +
+                            Convert(door.EntryChannel) + ", " +
+                            Convert(door.EntryEntEgr) + ", " +
+                            Convert(door.EntryEntrAntiPas) + ", " +
+                            Convert(door.EntryEntrEntEgr) + ", " +
+                            Convert(door.EntryEntrRvrsCrd) + ", " +
+                            Convert(door.EntryKyPdChan) + ", " +
+                            Convert(door.EntryNoCommMode) + ", " +
+                            Convert(door.EntryNoDataMode) + ", " +
+                            Convert(door.EntryNoReEntry) + ", " +
+                            Convert(door.EntryNormMode) + ", " +
+                            Convert(door.EntryPinDuress) + ", " +
+                            Convert(door.EntryRvrsCrdDur) + ", " +
+                            Convert(door.EntryScheduleHi) + ", " +
+                            Convert(door.EntryScheduleLo) + ", " +
+                            Convert(door.EntryZone) + ", " +
+                            Convert(door.SvEntryZone) + ", " +
+                            Convert(door.ExitAntiPassTim) + ", " +
+                            Convert(door.ExitAreaHi) + ", " +
+                            Convert(door.ExitAreaLo) + ", " +
+                            Convert(door.ExitIOU) + ", " +
+                            Convert(door.ExitChannel) + ", " +
+                            Convert(door.ExitEntEgr) + ", " +
+                            Convert(door.ExitEntrAntiPas) + ", " +
+                            Convert(door.ExitEntrEntEgr) + ", " +
+                            Convert(door.ExitEntrRvrsCrd) + ", " +
+                            Convert(door.ExitKyPdChan) + ", " +
+                            Convert(door.ExitNoCommMode) + ", " +
+                            Convert(door.ExitNoDataMode) + ", " +
+                            Convert(door.ExitNoReEntry) + ", " +
+                            Convert(door.ExitNormMode) + ", " +
+                            Convert(door.ExitPinDuress) + ", " +
+                            Convert(door.ExitRequestChan) + ", " +
+                            Convert(door.ExitRequestType) + ", " +
+                            Convert(door.ExitRvrsCrdDur) + ", " +
+                            Convert(door.ExitScheduleHi) + ", " +
+                            Convert(door.ExitScheduleLo) + ", " +
+                            Convert(door.ExitZone) + ", " +
+                            Convert(door.SvExitZone) + ", " +
+                            Convert(door.Export) + ", " +
+                            Convert(door.GeneralCode) + ", " +
+                            Convert(door.Invert) + ", " +
+                            Convert(door.LastDepEntrdPntHi) + ", " +
+                            Convert(door.LastDepEntrdPntLo) + ", " +
+                            Convert(door.LastDepExitdPntHi) + ", " +
+                            Convert(door.LastDepExitdPntLo) + ", " +
+                            Convert(door.OpenOnExitReqst) + ", " +
+                            Convert(door.Port) + ", " +
+                            Convert(door.RecordValNoEntryHist) + ", " +
+                            Convert(door.RecordDrAjarHist) + ", " +
+                            Convert(door.RecordExitRqHist) + ", " +
+                            Convert(door.RecordForcedHist) + ", " +
+                            Convert(door.RecordInValHist) + ", " +
+                            Convert(door.RecordValHist) + ", " +
+                            Convert(door.RelockOnClose) + ", " +
+                            Convert(door.Site1) + ", " +
+                            Convert(door.Site2) + ", " +
+                            Convert(door.Site3) + ", " +
+                            Convert(door.Site4) + ", " +
+                            Convert(door.State) + ", " +
+                            Convert(door.UnlockScheduleHi) + ", " +
+                            Convert(door.UnlockScheduleLo) + ", " +
+                            Convert(door.OperatingMode) + ", " +
+                            Convert(door.AlarmValue) + ", " +
+                            Convert(door.ADAExitRqstChan) + ", " +
+                            Convert(door.ADAExitRqstType) + ", " +
+                            Convert(door.ADAInputChan) + ", " +
+                            Convert(door.ADAInputType) + ", " +
+                            Convert(door.InfRefPoint1) + ", " +
+                            Convert(door.InfRefPoint2) + ", " +
+                            Convert(door.InfRefPoint3) + ", " +
+                            Convert(door.InfRefPoint4) + ", " +
+                            Convert(door.DbEntryZone) + ", " +
+                            Convert(door.DbExitZone) + ", " +
+                            Convert(door.ForcedEntryDelay) + ", " +
+                            Convert(door.VideoLayoutIdHi) + ", " +
+                            Convert(door.VideoLayoutIdLo) + ", " +
+                            Convert(door.InfCameraPoint1) + ", " +
+                            Convert(door.InfCameraPoint2) + ", " +
+                            Convert(door.InfCameraPoint3) + ", " +
+                            Convert(door.InfCameraPoint4) + ", " +
+                            Convert(door.InfCameraPoint5) + ", " +
+                            Convert(door.InfCameraPoint6) + ", " +
+                            Convert(door.InfCameraPoint7) + ", " +
+                            Convert(door.InfCameraPoint8) + ", " +
+                            Convert(door.InfCameraPoint9) + ", " +
+                            Convert(door.InfCameraPoint10) + ", " +
+                            Convert(door.InfCameraPoint11) + ", " +
+                            Convert(door.InfCameraPoint12) + ", " +
+                            Convert(door.InfCameraPoint13) + ", " +
+                            Convert(door.InfCameraPoint14) + ", " +
+                            Convert(door.InfCameraPoint15) + ", " +
+                            Convert(door.InfCameraPoint16) + ", " +
+                            Convert(door.ForceLock) +
+                            ")";
+                        cmd.ExecuteNonQuery();
+                        Console.WriteLine(cmd.CommandText);
+                    }
+                }
+            }
+
+            var doorLists = wcfClient.GetDoorLists();
+
+            using (var connection = new SqlConnection(
+                ConfigurationManager.ConnectionStrings[
+                    "ContinuumCopy"].ConnectionString))
+            {
+                connection.Open();
+
+                using (SqlCommand cmd = connection.CreateCommand())
+                {
+                    cmd.CommandText = "delete from DoorList";
+                    Console.WriteLine(cmd.CommandText);
+                    cmd.ExecuteNonQuery();
+                }
+                foreach (var doorList in doorLists)
+                {
+                    using (SqlCommand cmd = connection.CreateCommand())
+                    {
+                        cmd.CommandText = "insert into DoorList " +
+                            "(ObjectIdHi, ObjectIdLo, DoorIdHi, DoorIdLo, AreaIdHi, AreaIdLo, " +
+                            "DeviceIdHi, DeviceIdLo, NetworkIdHi, NetworkIdLo" +
+                            ") values (" +
+                            doorList.ObjectIdHi + ", " +
+                            doorList.ObjectIdLo + ", " +
+                            doorList.DoorIdHi + ", " +
+                            doorList.DoorIdLo + ", " +
+                            doorList.AreaIdHi + ", " +
+                            doorList.AreaIdLo + ", " +
+                            Convert(doorList.DeviceIdHi) + ", " +
+                            Convert(doorList.DeviceIdLo) + ", " +
+                            Convert(doorList.NetworkIdHi) + ", " +
+                            Convert(doorList.NetworkIdLo) +
                             ")";
                         cmd.ExecuteNonQuery();
                         Console.WriteLine(cmd.CommandText);

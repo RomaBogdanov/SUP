@@ -986,6 +986,10 @@
     </Content>
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\AndoverPersonsManager\AndoverPersonsManager.csproj">
+      <Project>{1709f48a-5f83-40b9-9274-2531cd5cd896}</Project>
+      <Name>AndoverPersonsManager</Name>
+    </ProjectReference>
     <ProjectReference Include="..\SupClientConnectionLib\SupClientConnectionLib.csproj">
       <Project>{82871529-5311-44ba-96a8-adbe27300d03}</Project>
       <Name>SupClientConnectionLib</Name>
