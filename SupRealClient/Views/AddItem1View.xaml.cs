@@ -32,5 +32,13 @@ namespace SupRealClient.Views
                 btnOK.Command.Execute(null);
             }
         }
+
+        private void tbInputNewItem_KeyUp(object sender, KeyEventArgs e)
+        {
+            if (e.Key == Key.Enter)
+            {
+                btnOK.Focus();
+            }
+        }
     }
 }

@@ -62,6 +62,24 @@ namespace SupRealClient.Views
         {
             this.Close();
         }
+
+        private void btnOK_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.Key == Key.Enter)
+            {
+                btnOK.Command.Execute(null);
+            }
+        }
+
+        private void Orgs_PreviewKeyDown(object sender, KeyEventArgs e)
+        {
+            var uiElement = e.OriginalSource as UIElement;
+            if (e.Key == Key.Enter && uiElement != null)
+            {
+                e.Handled = true;
+                uiElement.MoveFocus(new TraversalRequest(FocusNavigationDirection.Next));
+            }
+        }
     }
 
     public class AddOrgsListViewModel : ViewModelBase

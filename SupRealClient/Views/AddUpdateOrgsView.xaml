@@ -129,6 +129,7 @@
             />
         
         <Button
+            Name="butFullName"
             Command="{Binding FullNameCommand}"
             Grid.Row="7"
             Grid.Column="2"

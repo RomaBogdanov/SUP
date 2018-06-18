@@ -5,6 +5,7 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Data;
 using System.Windows.Input;
+using System.Windows.Media;
 
 namespace SupRealClient.Views
 {
@@ -16,15 +17,15 @@ namespace SupRealClient.Views
         /// <summary>
         /// Двигатель фокуса
         /// </summary>
-        private TraversalRequest _focusMover = new TraversalRequest(FocusNavigationDirection.Next);        
-
+        private TraversalRequest _focusMover = new TraversalRequest(FocusNavigationDirection.Next);
+        
         public AddUpdateOrgsView(IAddUpdateOrgsModel model)
         {
             model.OnClose += Handling_OnClose;
             DataContext = new AddUpdateOrgsViewModel();
             ((AddUpdateOrgsViewModel)DataContext).SetModel(model);
             InitializeComponent();
-
+            
             AfterInitialize();            
         }
 
@@ -39,7 +40,10 @@ namespace SupRealClient.Views
 
         private void MetroWindow_Loaded(object sender, RoutedEventArgs e)
         {
-            TypeTextBox.Focus();           
+            TypeTextBox.Focus();
+
+            if (!butFullName.IsEnabled)
+                 this.Background = Brushes.LightGreen;
         }
 
         private void TextBox_OnKeyUp(object sender, KeyEventArgs e)
@@ -128,6 +132,6 @@ namespace SupRealClient.Views
                 NameTextBox.IsDropDownOpen = false;
 
             textBox.SelectionStart = selectionStartName;
-        }
+        }        
     } 
 }

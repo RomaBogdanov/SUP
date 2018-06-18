@@ -23,11 +23,14 @@ namespace SupRealClient.Views
             InitializeComponent();
 
             AfterInitialize();
+
+            if (model is AddCardModel)
+                dpDate.SelectedDate = System.DateTime.Today;
         }
 
         private void MetroWindow_Loaded(object sender, RoutedEventArgs e)
         {
-            tbCardNum.Focus();
+            tbCardNum.Focus();            
         }
 
         private void TextBox_OnKeyUp(object sender, KeyEventArgs e)
