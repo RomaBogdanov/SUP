@@ -1,6 +1,7 @@
 ﻿using AndoverLib;
 using System;
 using System.Collections.Generic;
+using System.Configuration;
 using System.ServiceModel;
 using System.Windows.Forms;
 using System.Xml;
@@ -33,7 +34,7 @@ namespace AndoverPersonsManager
             };
             var myChannelFactory = new ChannelFactory<IAndoverService>(
                 binding,
-                new EndpointAddress("http://localhost:7001/AndoverHost"));
+                new EndpointAddress(ConfigurationManager.AppSettings["Endpoint"]));
             IAndoverService wcfClient = myChannelFactory.CreateChannel();
 
             _programData.Containers = wcfClient.GetContainers();

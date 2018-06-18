@@ -1,6 +1,7 @@
 ﻿using AndoverLib;
 using System;
 using System.Collections.Generic;
+using System.Configuration;
 using System.Linq;
 using System.ServiceModel;
 using System.Threading;
@@ -138,7 +139,7 @@ namespace AndoverPersonsManager
             };
             var myChannelFactory = new ChannelFactory<IAndoverService>(
                 binding,
-                new EndpointAddress("http://localhost:7001/AndoverHost"));
+                new EndpointAddress(ConfigurationManager.AppSettings["Endpoint"]));
             IAndoverService wcfClient = myChannelFactory.CreateChannel();
            
             bool result = wcfClient.ExportPersonsDmp(info);
