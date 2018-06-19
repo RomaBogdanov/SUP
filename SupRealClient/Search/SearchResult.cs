@@ -38,10 +38,13 @@ namespace SupRealClient.Search
 		{
 			if (indexes.Any())
 			{
-				if (current < indexes.Count - 1)
-				{
-					current++;
-				}
+                if (current < indexes.Count - 1)
+                {
+                    current++;
+                }
+                else
+                    current = 0;
+
 				return indexes[current];
 			}
 
