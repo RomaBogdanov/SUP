@@ -19,7 +19,8 @@ namespace SupRealClient.EnumerationClasses
     {
         public Order()
         {
-            OrderElements.CollectionChanged += OrderElements_CollectionChanged;
+            OrderElements = new ObservableCollection<OrderElement>();
+            
             OnChangeId += Order_OnChangeId;
         }
 
@@ -38,6 +39,7 @@ namespace SupRealClient.EnumerationClasses
                 case NotifyCollectionChangedAction.Add:
                     foreach (var item in e.NewItems)
                     {
+                        ((OrderElement) item).OrderId = Id;
                         AddedOrderElements.Add((OrderElement)item);
                     }
                     break;
@@ -165,11 +167,21 @@ namespace SupRealClient.EnumerationClasses
         /// </summary>
         public bool IsDisable { get; set; }
 
+        private ObservableCollection<OrderElement> orderElements;
+
         /// <summary>
         /// Список привязанных к заявке посетителей.
         /// </summary>
-        public ObservableCollection<OrderElement> OrderElements { get; set; } =
-            new ObservableCollection<OrderElement>();
+        public ObservableCollection<OrderElement> OrderElements
+        {
+            get { return orderElements;}
+            set
+            {
+                orderElements = value;
+                orderElements.CollectionChanged += OrderElements_CollectionChanged;
+            }
+        }/* =
+            new ObservableCollection<OrderElement>();*/
 
         /// <summary>
         /// Список элементов под удаление.
@@ -186,6 +198,7 @@ namespace SupRealClient.EnumerationClasses
     /// </summary>
     public class OrderElement : IdEntity, INotifyPropertyChanged, ICloneable
     {
+        private int orderId;
         private int visitorId;
         private int organizationId;
         private int catcherId;
@@ -193,7 +206,23 @@ namespace SupRealClient.EnumerationClasses
         /// <summary>
         /// Уникальный номер заявки
         /// </summary>
-        public int OrderId { get; set; } = 0;
+        public int OrderId
+        {
+            get { return orderId;}
+            set
+            {
+                orderId = value;
+                DataRow row = OrdersWrapper.CurrentTable().Table.Rows.Find(orderId);
+                string type = SprOrderTypesWrapper.CurrentTable().Table.AsEnumerable()
+                    .FirstOrDefault(arg => arg.Field<int>("f_order_type_id") ==
+                    (int)row["f_order_type_id"])["f_order_text"].ToString();
+                int number = row.Field<int>("f_reg_number");
+                type = type.Length > 0 ? type : " ";
+                Order = number.ToString() + type[0];
+            }
+        }
+
+        public string Order { get; set; }
 
         public int VisitorId
         {
@@ -297,7 +326,7 @@ namespace SupRealClient.EnumerationClasses
         /// </summary>
         public bool IsDisable { get; set; }
 
-        public bool IsDeleted { get; set; }
+        //public bool IsDeleted { get; set; }
 
         public event PropertyChangedEventHandler PropertyChanged;
 

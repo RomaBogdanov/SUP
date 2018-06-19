@@ -8,6 +8,7 @@ using SupRealClient.EnumerationClasses;
 using System.Reflection;
 using System;
 using System.Windows.Threading;
+using SupRealClient.Models;
 using System.Diagnostics;
 
 namespace SupRealClient.ViewModels

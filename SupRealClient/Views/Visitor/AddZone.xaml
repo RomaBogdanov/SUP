@@ -33,12 +33,14 @@
         <DataGrid
             Grid.Row="1"
             Grid.Column="0"
-            Grid.ColumnSpan="3">
+            Grid.ColumnSpan="3"
+            ItemsSource="{Binding Path=Set, Mode=TwoWay}"
+            AutoGenerateColumns="False">
             <DataGrid.Columns>
-                <DataGridCheckBoxColumn Header="Выдача" Binding="{Binding }"/>
-                <DataGridTextColumn Header="Номер" Binding="{Binding }"/>
-                <DataGridTextColumn Header="Действует" Binding="{Binding }"/>
-                <DataGridTextColumn Header="Принимающее лицо" Binding="{Binding }" Width="*"/>
+                <DataGridCheckBoxColumn Header="Выдача"/>
+                <DataGridTextColumn Header="Номер" Binding="{Binding Path=RegNumber, Mode=TwoWay}"/>
+                <DataGridTextColumn Header="Действует до" Binding="{Binding Path=To }"/>
+                <DataGridTextColumn Header="Принимающее лицо" Binding="{Binding Path=Catcher}" Width="*"/>
             </DataGrid.Columns>
         </DataGrid>
 
@@ -46,7 +48,8 @@
             Grid.Row="2"
             Grid.Column="1"
             Margin="5"
-            Style="{StaticResource ButtonStyle}">
+            Style="{StaticResource ButtonStyle}"
+            Command="{Binding Path=Add}">
             <Grid>
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="40"/>

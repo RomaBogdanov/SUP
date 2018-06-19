@@ -279,14 +279,20 @@ namespace SupRealClient.TabsSingleton
             // todo: добавление элементов заявки
             foreach (OrderElement item in order.AddedOrderElements)
             {
+                //item.OrderId = order.Id;
                 OrderElementsWrapper.CurrentTable().AddRow(item);
             }
             // todo: удаление элементов заявки
             order.DeletedOrderElements.Select(arg => arg.IsDeleted = true);
+            foreach (var item in order.DeletedOrderElements)
+            {
+                OrderElementsWrapper.CurrentTable().UpdateRow(item);
+            }
             // todo: редактирование элементов заявки
             foreach (var item in order.OrderElements)
             {
-                if (!order.AddedOrderElements.Contains(item))
+                if (!(order.AddedOrderElements.Contains(item) || 
+                      order.DeletedOrderElements.Contains(item)))
                 {
                     OrderElementsWrapper.CurrentTable().UpdateRow(item);
                 }
@@ -378,6 +384,27 @@ namespace SupRealClient.TabsSingleton
             row["f_other_org"] = "";//todo: разобраться
             StandartCols(row, orderElement);
             row.EndEdit();
+        }
+
+        public override object StandartQuery()
+        {
+            ObservableCollection<OrderElement> orderElements = 
+                new ObservableCollection<OrderElement>(
+                    from ordEls in OrderElementsWrapper.CurrentTable().Table.AsEnumerable() 
+                    where  ordEls.Field<int>("f_ord_id") != 0 && CommonHelper.NotDeleted(ordEls)
+                    select new OrderElement
+                    {
+                        Id = ordEls.Field<int>("f_oe_id"),
+                        OrderId = ordEls.Field<int>("f_ord_id"),
+                        VisitorId = ordEls.Field<int>("f_visitor_id"),
+                        CatcherId = ordEls.Field<int>("f_catcher_id"),
+                        From = ordEls.Field<DateTime>("f_time_from"),
+                        To = ordEls.Field<DateTime>("f_time_to"),
+                        IsDisable = ordEls.Field<string>("f_disabled").ToUpper() == "Y" ? true : false,
+                        Passes = ordEls.Field<string>("f_passes")
+                    });
+
+            return orderElements;
         }
     }
 }

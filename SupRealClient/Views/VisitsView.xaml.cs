@@ -414,8 +414,15 @@ namespace SupRealClient.Views
 
         private void Extradite()
         {
-            var window = new AddZone();
-
+            Base4ViewModel<Order> viewModel =
+                new Base4ViewModel<Order>
+                {
+                    Model = new AddZoneModel(CurrentItem.Orders)
+                };
+            var window = new AddZone
+            {
+                DataContext = viewModel
+            };
             window.ShowDialog();
         }
 
