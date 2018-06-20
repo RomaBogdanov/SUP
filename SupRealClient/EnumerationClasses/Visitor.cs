@@ -1,16 +1,35 @@
 ﻿using System;
 using System.Collections.ObjectModel;
+using System.Data;
+using System.Linq;
+using SupRealClient.Models;
+using SupRealClient.TabsSingleton;
 
 namespace SupRealClient.EnumerationClasses
 {
     public class Visitor : IdEntity, ICloneable
     {
+        private int organizationId;
+
         public string FullName { get; set; }
         public string Family { get; set; }
         public string Name { get; set; }
         public string Patronymic { get; set; }
         public string BirthDate { get; set; }
-        public int OrganizationId { get; set; }
+
+        public int OrganizationId
+        {
+            get { return organizationId;}
+            set
+            {
+                organizationId = value;
+                /*DataRow row = OrganizationsWrapper.CurrentTable()
+                    .Table.AsEnumerable().FirstOrDefault(arg =>
+                        arg.Field<int>("f_org_id") ==
+                        organizationId);*/ //["f_org_name"]; //["f_full_org_name"];;
+                Organization = OrganizationsHelper.GenerateFullName(organizationId, true);
+            }
+        }
         public string Organization { get; set; }
         public string Comment { get; set; }
         public bool IsAccessDenied { get; set; }

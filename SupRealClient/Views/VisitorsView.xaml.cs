@@ -5,7 +5,7 @@
     /// </summary>
     public partial class VisitorsView
     {
-        public VisitorsView()
+        public VisitorsView(bool isNew = false)
         {
             InitializeComponent();
 
@@ -13,7 +13,7 @@
             {
                 if (this.DataContext == null)
                 {
-                    this.DataContext = new VisitsViewModel(this);
+                    this.DataContext = new VisitsViewModel(this, true);
 
                     this.Height = (this.DataContext as VisitsViewModel).WinSet.Height;
                     this.Width = (this.DataContext as VisitsViewModel).WinSet.Width;

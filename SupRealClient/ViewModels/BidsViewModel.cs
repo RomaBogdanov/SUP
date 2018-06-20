@@ -4,6 +4,7 @@ using System.Threading.Tasks;
 using System.Windows.Input;
 using System.Collections.ObjectModel;
 using System.Data;
+using System.Linq;
 using System.Windows;
 using SupRealClient.EnumerationClasses;
 using SupRealClient.Common;
@@ -284,7 +285,22 @@ namespace SupRealClient.ViewModels
         public bool AcceptButtonEnable
         {
             get { return _cceptButtonEnable; }
-            set { _cceptButtonEnable = value; OnPropertyChanged("AcceptButtonEnable"); }
+            set {
+                _cceptButtonEnable = value;
+                NavigateButtonEnable = !value;
+                OnPropertyChanged(); }
+        }
+
+        /// <summary>
+        /// Доступность кнопок нижнего ряда, кроме кнопок Применить, Отмена.
+        /// </summary>
+        public bool NavigateButtonEnable
+        {
+            get { return !_cceptButtonEnable; }
+            set
+            {
+                OnPropertyChanged();
+            }
         }
 
         public BidsViewModel()
@@ -398,7 +414,7 @@ namespace SupRealClient.ViewModels
         private void New()
         {
             //BidsModel.New();
-            BidsModel = new NewBidsModel();
+            BidsModel = new NewBidsModel(CurrentOrderType);
             CurrentTemporaryOrder = BidsModel.CurrentTemporaryOrder;
             CurrentSingleOrder = BidsModel.CurrentSingleOrder;
 
@@ -422,7 +438,11 @@ namespace SupRealClient.ViewModels
         private void Ok()
         {
             BidsModel.Ok();
+            int id = BidsModel.CurrentSingleOrder.Id;
             BidsModel = new BidsModel();
+            CurrentSingleOrder = SingleOrdersSet.FirstOrDefault(arg => arg.Id == id);
+            TextEnable = false;
+            AcceptButtonEnable = false;
         }
 
         private void Cancel()

@@ -22,7 +22,7 @@ namespace SupRealClient.Models
         private void Query()
         {
             OrdersSet = (ObservableCollection<Order>) OrdersWrapper.CurrentTable().StandartQuery();
-
+            maxOrderNumber = OrdersSet.Count > 0 ? OrdersSet.Max(arg => arg.Number) : 0;
             SingleOrdersSet = new ObservableCollection<Order>(OrdersSet.Where(
                 arg => arg.Type == "Разовая"));
             if (SingleOrdersSet.Count > 0)

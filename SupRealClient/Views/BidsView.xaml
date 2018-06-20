@@ -57,7 +57,7 @@
 
                             <TextBox Margin="2"
                                      Text="{Binding CurrentSingleOrder.RegNumber, Mode=TwoWay}"
-                                     IsEnabled="{Binding TextEnable, UpdateSourceTrigger=PropertyChanged}"
+                                     IsEnabled="False"
                             Grid.Column="1"
                             Style="{StaticResource TextBoxStyle}"/>
                             <TextBlock
@@ -752,6 +752,7 @@
 
             <Button
                 Command="{Binding BeginCommand}"
+                IsEnabled="{Binding NavigateButtonEnable, UpdateSourceTrigger=PropertyChanged}"
                     Grid.Row="0"
                     Grid.Column="0"
                     Margin="2"
@@ -778,6 +779,7 @@
 
             <Button
                 Command="{Binding PrevCommand}"
+                IsEnabled="{Binding NavigateButtonEnable, UpdateSourceTrigger=PropertyChanged}"
                     Grid.Row="0"
                     Grid.Column="1"
                     Margin="2"
@@ -804,6 +806,7 @@
 
             <Button
                 Command="{Binding NextCommand}"
+                IsEnabled="{Binding NavigateButtonEnable, UpdateSourceTrigger=PropertyChanged}"
                     Grid.Row="0"
                     Grid.Column="2"
                     Margin="2"
@@ -830,6 +833,7 @@
 
             <Button
                 Command="{Binding EndCommand}"
+                IsEnabled="{Binding NavigateButtonEnable, UpdateSourceTrigger=PropertyChanged}"
                     Grid.Row="0"
                     Grid.Column="3"
                     Margin="2"
@@ -855,6 +859,7 @@
 
             <Button
                 Command="{Binding SearchCommand}"
+                IsEnabled="{Binding NavigateButtonEnable, UpdateSourceTrigger=PropertyChanged}"
                     Grid.Row="1"
                     Grid.Column="4"
                     Margin="2"
@@ -881,6 +886,7 @@
 
             <Button
                 Command="{Binding DelayCommand}"
+                IsEnabled="{Binding NavigateButtonEnable, UpdateSourceTrigger=PropertyChanged}"
                     Grid.Row="0"
                     Grid.Column="5"
                     Margin="2"
@@ -906,6 +912,7 @@
 
             <Button
                 Command="{Binding NewCommand}"
+                IsEnabled="{Binding NavigateButtonEnable, UpdateSourceTrigger=PropertyChanged}"
                     Grid.Row="1"
                     Grid.Column="0"
                     Margin="2"
@@ -931,6 +938,7 @@
 
             <Button
                 Command="{Binding EditCommand}"
+                IsEnabled="{Binding NavigateButtonEnable, UpdateSourceTrigger=PropertyChanged}"
                     Grid.Row="1"
                     Grid.Column="1"
                     Margin="2"
@@ -1007,6 +1015,7 @@
 
             <Button
                 Command="{Binding FurtherCommand}"
+                IsEnabled="{Binding NavigateButtonEnable, UpdateSourceTrigger=PropertyChanged}"
                     Grid.Row="0"
                     Grid.Column="4"
                     Margin="2"
@@ -1032,6 +1041,7 @@
 
             <Button
                 Command="{Binding ReloadCommand}"
+                IsEnabled="{Binding NavigateButtonEnable, UpdateSourceTrigger=PropertyChanged}"
                     Grid.Row="1"
                     Grid.Column="5"
                     Margin="2"

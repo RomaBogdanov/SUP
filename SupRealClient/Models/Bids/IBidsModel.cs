@@ -60,6 +60,12 @@ namespace SupRealClient.Models
 
     public abstract class BidsModelBase : IBidsModel
     {
+        /// <summary>
+        /// Данное поле необходимо для храниния информации о максимальном номере
+        /// заявки, которая есть сейчас, чтобы создавать новую.
+        /// </summary>
+        protected static int maxOrderNumber;
+
         public ObservableCollection<Order> SingleOrdersSet { get; set; }
         public ObservableCollection<Order> TemporaryOrdersSet { get; set; }
         public ObservableCollection<Order> VirtueOrdersSet { get; set; }

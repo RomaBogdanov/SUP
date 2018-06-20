@@ -321,6 +321,8 @@ namespace SupRealClient
                     return new BaseOrgsView();
                 case "VisitorsView":
                     return new VisitorsView();
+                case "VisitorsViewNew":
+                    return new VisitorsView(true);
                 case @"VisitorsListWindView":
                     return new VisitorsListWindView(Visibility.Hidden);
                 case @"VisitorsListWindViewOk":
