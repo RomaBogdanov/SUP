@@ -168,6 +168,7 @@
                             Style="{StaticResource TextBoxStyle}"/>
 
                             <Button Margin="2"
+                                    IsEnabled="{Binding TextEnable, UpdateSourceTrigger=PropertyChanged}"
                             Command="{Binding SignerCommand}"
                             Grid.Column="2"
                             Width="25"
