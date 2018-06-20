@@ -266,11 +266,10 @@
                             HorizontalAlignment="Left"
                             Style="{StaticResource TextBLockStyle}"/>
 
-                            <TextBlock
-                            Grid.Column="1"
-                            Text="Изменён ..."
-                            HorizontalAlignment="Right"
-                            Style="{StaticResource TextBLockStyle}"/>
+                            <TextBox Grid.Column="1" HorizontalAlignment="Right" IsEnabled="False" Width="160"
+                                       Text="{Binding CurrentSingleOrder.From, UpdateSourceTrigger=PropertyChanged, StringFormat=dd/MM/yyyy HH:mm}"
+                                       Style="{StaticResource TextBoxStyle}"/>
+                            
                         </Grid>
                     </Grid>
                 </ScrollViewer>
