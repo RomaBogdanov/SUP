@@ -212,13 +212,16 @@ namespace SupRealClient.EnumerationClasses
             set
             {
                 orderId = value;
-                DataRow row = OrdersWrapper.CurrentTable().Table.Rows.Find(orderId);
+                // todo: пока неактуальный код, но без необходимости не удалять.
+                // todo: создавался для использования из под формы посетители, но пока вроде
+                // todo: функционал реализуется средствами формы.
+                /*DataRow row = OrdersWrapper.CurrentTable().Table.Rows.Find(orderId);
                 string type = SprOrderTypesWrapper.CurrentTable().Table.AsEnumerable()
                     .FirstOrDefault(arg => arg.Field<int>("f_order_type_id") ==
                     (int)row["f_order_type_id"])["f_order_text"].ToString();
                 int number = row.Field<int>("f_reg_number");
                 type = type.Length > 0 ? type : " ";
-                Order = number.ToString() + type[0];
+                Order = number.ToString() + type[0];*/
             }
         }
 
