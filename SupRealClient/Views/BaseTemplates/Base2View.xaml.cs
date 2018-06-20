@@ -215,6 +215,11 @@ namespace SupRealClient.Views
                 headerCliked = null;
             }
         }
+
+        private void tbxSearch_TextChanged(object sender, TextChangedEventArgs e)
+        {
+            baseTabCurrentItemScrollIntoView();
+        }
     }
 
     public class CustomDataGrid : DataGrid
