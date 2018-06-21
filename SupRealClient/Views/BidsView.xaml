@@ -266,7 +266,7 @@
 
                             <TextBlock Grid.Column="1" HorizontalAlignment="Right" IsEnabled="False" Width="160"
                                        Text="{Binding CurrentSingleOrder.From, UpdateSourceTrigger=PropertyChanged, StringFormat=dd/MM/yyyy HH:mm}"
-                                       Style="{StaticResource TextBlockStyle}"/>
+                                       Style="{StaticResource TextBLockStyle}"/>
                             
                         </Grid>
                     </Grid>

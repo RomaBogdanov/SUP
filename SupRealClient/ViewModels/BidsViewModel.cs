@@ -303,8 +303,18 @@ namespace SupRealClient.ViewModels
             }
         }
 
+        /// <summary>
+        /// Настройки положения и размера окна.
+        /// </summary>
+        public ChildWinSet WinSet { get; set; }
+
         public BidsViewModel()
         {
+            // Задать размеры и положение формы.
+            WinSet = new ChildWinSet() { Left = 0, Top = 120 };
+            WinSet.Left = WinSet.Width;
+
+            // Инициализация команд.
             BeginCommand = new RelayCommand(arg => Begin());
             PrevCommand = new RelayCommand(arg => Prev());
             NextCommand = new RelayCommand(arg => Next());
