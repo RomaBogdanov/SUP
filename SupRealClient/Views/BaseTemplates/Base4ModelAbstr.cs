@@ -183,31 +183,40 @@ namespace SupRealClient.Views
         public virtual bool Searching(string pattern)
         {
             searchResult = new SearchResult();
-            if (CurrentColumn == null || string.IsNullOrEmpty(pattern) ||
-                !GetColumns().ContainsKey(CurrentColumn.SortMemberPath))
+            if (CurrentColumn == null || string.IsNullOrEmpty(pattern))
             {
                 return false;
             }
 
-            string path = GetColumns()[CurrentColumn.SortMemberPath];
-
-            var sortedRows = Rows.OrderByDescending(itemArray => itemArray[path]).ToArray();
-            if (CurrentColumn.SortDirection == System.ComponentModel.ListSortDirection.Ascending)                
+            var sortedRows = Set.OrderByDescending(itemArray => itemArray.GetType().GetProperty(CurrentColumn.SortMemberPath)).ToArray();
+            if (CurrentColumn.SortDirection == System.ComponentModel.ListSortDirection.Ascending)
                 sortedRows = sortedRows.Reverse().ToArray();
 
-            for (int i = 0; i < sortedRows.Count(); i++)
-            {               
-                object obj = sortedRows.ElementAt(i).Field<object>(path);
-                if (CommonHelper.IsSearchConditionMatch(obj.ToString(), pattern))
+            for (int i = 0; i < Set.Count(); i++)
+            {
+                object obj = GetPropValue(Set.ElementAt(i), CurrentColumn.SortMemberPath);
+                if (obj != null && CommonHelper.IsSearchConditionMatch(obj.ToString(), pattern))
                 {
-                    object idRow = sortedRows.ElementAt(i).ItemArray[0];
+                    object idRow = GetPropValue(Set.ElementAt(i), @"Id");
                     if (idRow is int)
                         searchResult.Add((int)idRow);
                 }
-            }
+            }            
             SetAt(searchResult.Begin());
 
             return searchResult.Any();
+        }
+
+        static object GetPropValue(object src, string propName)
+        {
+            object oVal = null;
+            try
+            {
+                oVal = src.GetType().GetProperty(propName).GetValue(src, null);
+            }
+            catch { }
+
+            return oVal;
         }
 
         protected abstract DataTable Table { get; }
