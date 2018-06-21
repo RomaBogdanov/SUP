@@ -11,7 +11,13 @@
         Title="Заявки" 
                  ResizeMode="NoResize"
         Height="827.512" Width="1077"
-        KeyDown="BidsView_OnKeyDown">
+                 Initialized="MetroWindow_Initialized"
+                 
+        
+                 Closing="Window_Closing">
+    <mah:MetroWindow.InputBindings>
+        <KeyBinding Key="Escape" Command="{Binding CancelCommand}"/>
+    </mah:MetroWindow.InputBindings>
     
 
     <!--ResizeMode="NoResize"-->

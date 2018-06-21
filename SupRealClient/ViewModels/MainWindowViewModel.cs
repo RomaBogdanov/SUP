@@ -267,7 +267,7 @@ namespace SupRealClient.ViewModels
         {
             if (IsUserEnter)
             {
-                var bidsViewModel = new BidsViewModel
+                /*var bidsViewModel = new BidsViewModel
                 {
                     BidsModel = new BidsModel()
                 };
@@ -276,7 +276,8 @@ namespace SupRealClient.ViewModels
                 window.Show();
 
                 var dc = (BidsViewModel) window.DataContext;
-                dc.ToString();
+                dc.ToString();*/
+                ViewManager.Instance.OpenWindow("BidsView");
             }
         }
 
