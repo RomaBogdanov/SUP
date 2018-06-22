@@ -328,7 +328,6 @@
     <Compile Include="Views\BaseTemplates\Наследники Base4ModelAbstr\OrganizationsListModel.cs" />
     <Compile Include="Views\BaseTemplates\Наследники Base4ModelAbstr\RegionsListModel.cs" />
     <Compile Include="Views\BaseTemplates\Наследники Base4ModelAbstr\VisitorsListModel.cs" />
-    <Compile Include="Views\BidsViewModel.cs" />
     <Compile Include="Views\DocumentImagesView.xaml.cs">
       <DependentUpon>DocumentImagesView.xaml</DependentUpon>
     </Compile>
