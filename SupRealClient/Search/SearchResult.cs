@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
+using System.Windows;
 
 namespace SupRealClient.Search
 {
@@ -43,9 +44,15 @@ namespace SupRealClient.Search
                     current++;
                 }
                 else
-                    current = 0;
+                {
+                    if (MessageBox.Show("Поиск завершен. Перейти на первый результат поиска?",
+                                        "Поиск по полю",
+                                        MessageBoxButton.YesNo, MessageBoxImage.Information) == MessageBoxResult.Yes)
+                        current = 0;
 
-				return indexes[current];
+                }
+
+                return indexes[current];
 			}
 
 			return -1;
@@ -53,7 +60,7 @@ namespace SupRealClient.Search
 
         public bool Any()
         {
-            return indexes.Count > 0;
+            return indexes.Count > 1;
         }
 	}
 }

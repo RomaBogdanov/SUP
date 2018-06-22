@@ -4,8 +4,10 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:converters="clr-namespace:SupRealClient.Behaviour"
+             xmlns:local="clr-namespace:SupRealClient.Views"
              mc:Ignorable="d" d:DesignHeight="300" d:DesignWidth="300"
-             PreviewKeyDown="UserControl_PreviewKeyDown">
+             PreviewKeyDown="UserControl_PreviewKeyDown" 
+             IsVisibleChanged="UserControl_IsVisibleChanged">
 
     <UserControl.InputBindings>
         <KeyBinding Gesture="Ctrl+D" Command="{Binding Update}"/>
@@ -36,8 +38,8 @@
             <RowDefinition Height="40"/>
             <RowDefinition Height="50"/>
         </Grid.RowDefinitions>
-        <DataGrid 
-            Name="baseTab" 
+        <local:CustomDataGrid 
+            x:Name="baseTab" 
 			ColumnWidth="*"
             Focusable="True" 
             AutoGenerateColumns="False" 
@@ -51,15 +53,21 @@
             SelectedIndex="{Binding Path=SelectedIndex, Mode=TwoWay}"
 	        SelectedValue="{Binding Path=SelectedValue, Mode=TwoWay}"	
             CurrentColumn="{Binding Path=CurrentColumn, Mode=TwoWay}" 
-            Style="{StaticResource AzureDataGrid1}"
-            ColumnHeaderStyle="{StaticResource SelectionColumnHeader}"
+            Style="{StaticResource AzureDataGrid1}"         
             SelectionChanged="baseTab_SelectionChanged"
             LoadingRow="baseTab_LoadingRow"
-            KeyDown="BaseTab_OnKeyDown">
+            KeyDown="BaseTab_OnKeyDown" 
+            Loaded="baseTab_Loaded" 
+            Sorted="baseTab_Sorted">
             <DataGrid.InputBindings>
                 <KeyBinding Key="Delete" Command="{Binding Remove}"/>
             </DataGrid.InputBindings>
-        </DataGrid>
+            <DataGrid.ColumnHeaderStyle>
+                <Style TargetType="DataGridColumnHeader" BasedOn="{StaticResource SelectionColumnHeader}">
+                    <EventSetter Event="PreviewMouseLeftButtonUp" Handler="dgColumnHeader_PreviewMouseLeftButtonUp"></EventSetter>
+                </Style>
+            </DataGrid.ColumnHeaderStyle>
+        </local:CustomDataGrid>
         <TextBlock 
             Grid.Row="1" 
             Grid.Column="0"
@@ -73,7 +81,7 @@
             Grid.Column="0"
             Grid.ColumnSpan="6" 
             Margin="1" 
-            Text="{Binding Path=SearchingText, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
+            Text="{Binding Path=SearchingText, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" TextChanged="tbxSearch_TextChanged"/>
 
         <Button 
             Name="butAdd"
