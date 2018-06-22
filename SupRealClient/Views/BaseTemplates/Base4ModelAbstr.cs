@@ -523,6 +523,16 @@ namespace SupRealClient.Views
         }
     }
 
+    public class CardsActiveListModel<T> : CardsListModel<T>
+        where T : Card, new()
+    {
+        protected override void DoQuery()
+        {
+            base.DoQuery();
+            Set = new ObservableCollection<T>(Set.Where(arg => arg.State.ToUpper() == "АКТИВЕН"));
+        }
+    }
+
     public class AreasListModel<T> : Base4ModelAbstr<T>
         where T : Area, new()
     {

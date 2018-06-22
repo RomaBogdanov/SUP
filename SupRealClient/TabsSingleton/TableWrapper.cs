@@ -234,7 +234,7 @@ namespace SupRealClient.TabsSingleton
         {
             Order order = obj as Order;
             if (order == null) return;
-            base.AddRow(obj);
+            //base.AddRow(obj);
             DataRow row = this.table.NewRow();
             order.Id = (int)row["f_ord_id"];
             row["f_reg_number"] = order.Number;
@@ -405,6 +405,25 @@ namespace SupRealClient.TabsSingleton
                     });
 
             return orderElements;
+        }
+    }
+
+    partial class CardsWrapper
+    {
+        public override void AddRow<T>(T obj)
+        {
+            Card card = obj as Card;
+            if (card==null) return;
+            DataRow row = CurrentTable().Table.NewRow();
+            row["f_card_num"] = card.CurdNum;
+            row["f_create_date"] = card.CreateDate;
+            row["f_state_id"] = 1;
+            row["f_card_text"] = card.NumMAFW;
+            row["f_comment"] = card.Comment;
+            row["f_lost_date"] = DateTime.MinValue;
+            row["f_last_visit_id"] = 0;
+            StandartCols(row);
+            CurrentTable().Table.Rows.Add(row);
         }
     }
 }
