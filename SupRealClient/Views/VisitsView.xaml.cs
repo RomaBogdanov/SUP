@@ -298,6 +298,7 @@ namespace SupRealClient.Views
 
         /// <summary>
         /// Конструктор с возможностью загрузки нового посетителя.
+        /// todo: скорее всего, под удаление.
         /// </summary>
         /// <param name="view"></param>
         /// <param name="isNew"></param>
@@ -619,7 +620,7 @@ namespace SupRealClient.Views
     public interface IVisitsModel
     {
         event ModelPropertyChanged OnModelPropertyChanged;
-
+        event Action<object> OnClose;
         string PhotoSource { get; }
         string Signature { get; }
 
@@ -653,6 +654,7 @@ namespace SupRealClient.Views
     public abstract class BaseVisitsModel : IVisitsModel
     {
         public event ModelPropertyChanged OnModelPropertyChanged;
+        public virtual event Action<object> OnClose;
 
         private EnumerationClasses.Visitor currentItem;
         protected VisitorsEnableOrVisible visitorsEnable;
@@ -1385,6 +1387,8 @@ namespace SupRealClient.Views
 
     public class NewVisitsModel : BaseVisitsModel
     {
+        public override event Action<object> OnClose;
+
         public override bool TextEnable
         {
             get { return true; }
@@ -1483,7 +1487,7 @@ namespace SupRealClient.Views
             VisitorsWrapper.CurrentTable().Table.Rows.Add(row);
 
             SaveAdditionalData((int)row["f_visitor_id"]);
-
+            OnClose?.Invoke(CurrentItem);
             return true;
         }
     }
