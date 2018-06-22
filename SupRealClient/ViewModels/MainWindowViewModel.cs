@@ -8,6 +8,7 @@ using SupRealClient.EnumerationClasses;
 using System.Reflection;
 using System;
 using System.Windows.Threading;
+using SupRealClient.Models;
 using System.Diagnostics;
 
 namespace SupRealClient.ViewModels
@@ -266,7 +267,7 @@ namespace SupRealClient.ViewModels
         {
             if (IsUserEnter)
             {
-                var bidsViewModel = new BidsViewModel
+                /*var bidsViewModel = new BidsViewModel
                 {
                     BidsModel = new BidsModel()
                 };
@@ -275,7 +276,8 @@ namespace SupRealClient.ViewModels
                 window.Show();
 
                 var dc = (BidsViewModel) window.DataContext;
-                dc.ToString();
+                dc.ToString();*/
+                ViewManager.Instance.OpenWindow("BidsView");
             }
         }
 

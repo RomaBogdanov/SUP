@@ -23,4 +23,5 @@
   <Item Name="FullNameView" />
   <Item Name="AddUpdateRegionView" />
   <Item Name="SynonimView" />
+  <Item Name="BidsView" />
 </Enum>

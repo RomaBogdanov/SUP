@@ -153,7 +153,7 @@ namespace SupClientConnectionLib
             bool b;
             lock (this.tableService)
             {
-                b = this.tableService.UpdateRow(compositeType, numRow, rowValues,
+                b = this.tableService.UpdateRow(compositeType, numRow, rowValues ,
                     authorizer.GetInfo());
             }
             return b;

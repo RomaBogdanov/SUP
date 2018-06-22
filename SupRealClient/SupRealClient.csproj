@@ -185,9 +185,13 @@
     <Compile Include="ViewModels\AddUpdateRegionViewModel.cs" />
     <Compile Include="Models\AddUpdateModel\AddUpdateAbstrModel.cs" />
     <Compile Include="ViewModels\AddUpdateViewModel\AddUpdateAbstrViewModel.cs" />
+    <Compile Include="Models\Bids\IBidsModel.cs" />
+    <Compile Include="Models\Bids\BidsModel.cs" />
+    <Compile Include="Models\Bids\EditBidsModel.cs" />
     <Compile Include="ViewModels\ListsViewModel\BaseListViewModel.cs" />
     <Compile Include="ViewModels\DocumentImagesViewModel.cs" />
     <Compile Include="ViewModels\FullNameViewModel.cs" />
+    <Compile Include="Models\Bids\NewBidsModel.cs" />
     <Compile Include="ViewModels\SynonimViewModel.cs" />
     <Compile Include="ViewModels\VisitorsDocumentViewModel.cs" />
     <Compile Include="ViewModels\Base3ViewModel.cs" />
@@ -324,7 +328,6 @@
     <Compile Include="Views\BaseTemplates\Наследники Base4ModelAbstr\OrganizationsListModel.cs" />
     <Compile Include="Views\BaseTemplates\Наследники Base4ModelAbstr\RegionsListModel.cs" />
     <Compile Include="Views\BaseTemplates\Наследники Base4ModelAbstr\VisitorsListModel.cs" />
-    <Compile Include="Views\BidsViewModel.cs" />
     <Compile Include="Views\DocumentImagesView.xaml.cs">
       <DependentUpon>DocumentImagesView.xaml</DependentUpon>
     </Compile>

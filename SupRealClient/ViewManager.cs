@@ -321,6 +321,8 @@ namespace SupRealClient
                     return new BaseOrgsView();
                 case "VisitorsView":
                     return new VisitorsView();
+                case "VisitorsViewNew":
+                    return new VisitorsView(true);
                 case @"VisitorsListWindView":
                     return new VisitorsListWindView(Visibility.Hidden);
                 case @"VisitorsListWindViewOk":
@@ -372,6 +374,8 @@ namespace SupRealClient
                     return new Base4CarsWindView();
                 case "Base4EquipmentsWindView":
                     return new Base4EquipmentsWindView();
+                case "BidsView":
+                    return new BidsView(); // Окно "Заявки".
                 default:
                     break;
             }

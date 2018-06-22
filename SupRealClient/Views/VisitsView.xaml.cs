@@ -296,6 +296,19 @@ namespace SupRealClient.Views
             RemoveMainDocumentCommand = new RelayCommand(arg => RemoveMainDocument());
         }
 
+        /// <summary>
+        /// Конструктор с возможностью загрузки нового посетителя.
+        /// </summary>
+        /// <param name="view"></param>
+        /// <param name="isNew"></param>
+        public VisitsViewModel(IWindow view, bool isNew) : this(view)
+        {
+            if (isNew)
+            {
+                this.New();
+            }
+        }
+
         private void CabinetsList()
         {
             var result = ViewManager.Instance.OpenWindowModal(
@@ -414,8 +427,15 @@ namespace SupRealClient.Views
 
         private void Extradite()
         {
-            var window = new AddZone();
-
+            Base4ViewModel<Order> viewModel =
+                new Base4ViewModel<Order>
+                {
+                    Model = new AddZoneModel(CurrentItem.Orders)
+                };
+            var window = new AddZone
+            {
+                DataContext = viewModel
+            };
             window.ShowDialog();
         }
 
@@ -1134,8 +1154,8 @@ namespace SupRealClient.Views
                     Family = visitors.Field<string>("f_family"),
                     Name = visitors.Field<string>("f_fst_name"),
                     Patronymic = visitors.Field<string>("f_sec_name"),
-                    Organization = OrganizationsHelper.
-                        GenerateFullName(visitors.Field<int>("f_org_id"), true),
+                    /*Organization = OrganizationsHelper.
+                        GenerateFullName(visitors.Field<int>("f_org_id"), true),*/
                     Comment = visitors.Field<string>("f_vr_text"),
                     IsAccessDenied = CommonHelper.StringToBool(visitors.Field<string>(
                         "f_persona_non_grata")),
@@ -1439,7 +1459,7 @@ namespace SupRealClient.Views
             row["f_personal_data_agreement"] =
                 CommonHelper.BoolToString(CurrentItem.IsAgree);
             row["f_personal_data_last_date"] = CurrentItem.AgreeToDate;
-
+            row["f_birth_date"] = Convert.ToDateTime(CurrentItem.BirthDate);
             row["f_phones"] = CurrentItem.Telephone ?? "";
             row["f_cntr_id"] = CurrentItem.NationId >= 0 ?
                 CurrentItem.NationId : 0;

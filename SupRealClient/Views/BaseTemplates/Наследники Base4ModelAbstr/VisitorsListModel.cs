@@ -21,8 +21,9 @@ namespace SupRealClient.Views
 
         public override void Add()
         {
-            Visitor.AddVisitorView wind = new Visitor.AddVisitorView();
-            wind.Show();
+            //Visitor.AddVisitorView wind = new Visitor.AddVisitorView();
+            //wind.Show();
+            ViewManager.Instance.OpenWindow("VisitorsViewNew");
         }
 
         public override void Farther()
@@ -67,10 +68,6 @@ namespace SupRealClient.Views
                     Id = visitors.Field<int>("f_visitor_id"),
                     FullName = visitors.Field<string>("f_full_name"),
                     OrganizationId = visitors.Field<int>("f_org_id"),
-                    Organization = (string)OrganizationsWrapper.CurrentTable()
-                        .Table.AsEnumerable().FirstOrDefault(arg =>
-                        arg.Field<int>("f_org_id") == 
-                        visitors.Field<int>("f_org_id"))["f_full_org_name"],
                     Comment = visitors.Field<string>("f_vr_text")
                 }
                 );

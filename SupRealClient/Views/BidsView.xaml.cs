@@ -1,4 +1,5 @@
-﻿using System;
+﻿using SupRealClient.Common.Interfaces;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
@@ -22,20 +23,16 @@ namespace SupRealClient.Views
     {
         public BidsView()
         {
-            InitializeComponent();
-            this.DataContext = new BidsViewModel(); // Контекст данных.
-            this.Height = (this.DataContext as BidsViewModel).Settings.Height;
-            this.Width = (this.DataContext as BidsViewModel).Settings.Width;
-            this.Left = (this.DataContext as BidsViewModel).Settings.Left;
-            this.Top = (this.DataContext as BidsViewModel).Settings.Top;
-        }
+            InitializeComponent();            
+        }        
 
-        private void BidsView_OnKeyDown(object sender, KeyEventArgs e)
+        private void MetroWindow_Initialized(object sender, EventArgs e)
         {
-            if (e.Key == Key.Escape)
-            {
-                Close();
-            }
+            this.DataContext = new ViewModels.BidsViewModel() { BidsModel = new Models.BidsModel() }; // Контекст данных.
+            this.Height = (this.DataContext as ViewModels.BidsViewModel).WinSet.Height;
+            this.Width = (this.DataContext as ViewModels.BidsViewModel).WinSet.Width;
+            this.Left = (this.DataContext as ViewModels.BidsViewModel).WinSet.Left;
+            this.Top = (this.DataContext as ViewModels.BidsViewModel).WinSet.Top;
         }
     }    
 }
