@@ -29,12 +29,7 @@ namespace SupRealClient.Views
 
         public DataGrid BaseTab
         {
-            get { return baseTab; }
-            //set
-            //{
-            //    baseTab = value;
-            //    baseTab.Focus();
-            //}
+            get { return baseTab; }           
         }
 
         private void UserControl_PreviewKeyDown(object sender, System.Windows.Input.KeyEventArgs e)
@@ -138,9 +133,12 @@ namespace SupRealClient.Views
 
         void baseTabCurrentItemScrollIntoView()
         {
-            baseTab.ScrollIntoView(baseTab.CurrentItem);
-            baseTab.UpdateLayout();
-            baseTab.ScrollIntoView(baseTab.CurrentItem);
+            if (baseTab.CurrentItem != null)
+            {
+                baseTab.ScrollIntoView(baseTab.CurrentItem);
+                baseTab.UpdateLayout();
+                baseTab.ScrollIntoView(baseTab.CurrentItem);
+            }
         }
 
         private void baseTab_Loaded(object sender, RoutedEventArgs e)

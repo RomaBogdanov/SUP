@@ -56,9 +56,10 @@
                   SelectionChanged="baseTab_SelectionChanged"
                   LoadingRow="baseTab_LoadingRow"
                   KeyDown="BaseTab_OnKeyDown" 
-                  Loaded="baseTab_Loaded" Sorted="baseTab_Sorted">
+                  Loaded="baseTab_Loaded" 
+                  Sorted="baseTab_Sorted">
             <DataGrid.ColumnHeaderStyle>
-                <Style TargetType="DataGridColumnHeader" BasedOn="{StaticResource SelectionColumnHeader}">
+                <Style TargetType="DataGridColumnHeader">
                     <EventSetter Event="PreviewMouseLeftButtonUp" Handler="dgColumnHeader_PreviewMouseLeftButtonUp"></EventSetter>
                 </Style>
             </DataGrid.ColumnHeaderStyle>

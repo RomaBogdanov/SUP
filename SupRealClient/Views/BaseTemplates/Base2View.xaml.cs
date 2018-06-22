@@ -156,9 +156,12 @@ namespace SupRealClient.Views
 
         void baseTabCurrentItemScrollIntoView()
         {
-            baseTab.ScrollIntoView(baseTab.CurrentItem);
-            baseTab.UpdateLayout();
-            baseTab.ScrollIntoView(baseTab.CurrentItem);
+            if (baseTab.CurrentItem != null)
+            {
+                baseTab.ScrollIntoView(baseTab.CurrentItem);
+                baseTab.UpdateLayout();
+                baseTab.ScrollIntoView(baseTab.CurrentItem);
+            }
         }
 
         private void baseTab_Loaded(object sender, System.Windows.RoutedEventArgs e)
