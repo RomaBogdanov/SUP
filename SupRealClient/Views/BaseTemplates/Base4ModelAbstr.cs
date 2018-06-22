@@ -188,16 +188,16 @@ namespace SupRealClient.Views
                 return false;
             }
 
-            var sortedRows = Set.OrderByDescending(itemArray => itemArray.GetType().GetProperty(CurrentColumn.SortMemberPath)).ToArray();
+            var sortedRows = Set.OrderByDescending(o => GetPropValue(o, CurrentColumn.SortMemberPath)).ToArray();
             if (CurrentColumn.SortDirection == System.ComponentModel.ListSortDirection.Ascending)
                 sortedRows = sortedRows.Reverse().ToArray();
 
-            for (int i = 0; i < Set.Count(); i++)
+            for (int i = 0; i < sortedRows.Count(); i++)
             {
-                object obj = GetPropValue(Set.ElementAt(i), CurrentColumn.SortMemberPath);
+                object obj = GetPropValue(sortedRows.ElementAt(i), CurrentColumn.SortMemberPath);
                 if (obj != null && CommonHelper.IsSearchConditionMatch(obj.ToString(), pattern))
                 {
-                    object idRow = GetPropValue(Set.ElementAt(i), @"Id");
+                    object idRow = GetPropValue(sortedRows.ElementAt(i), @"Id");
                     if (idRow is int)
                         searchResult.Add((int)idRow);
                 }
