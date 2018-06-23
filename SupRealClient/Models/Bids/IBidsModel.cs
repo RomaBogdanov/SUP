@@ -30,7 +30,7 @@ namespace SupRealClient.Models
         Visibility IsAddUpdVisib { get; set; }
         OrderElement UpdateVisitor { get; set; }
 
-        void AddPerson();
+        void AddPerson(Window parentWindow = null);
 
 
         /// <summary>
@@ -278,15 +278,15 @@ namespace SupRealClient.Models
         /// <summary>
         /// Обработка нажатия кнопок добавления нового человека в заявку.
         /// </summary>
-        public void AddPerson()
+        public void AddPerson(Window parentWindow = null)
         {
             switch (OrderType)
             {
                 case OrderType.Temp:
-                    AddPersonInTempOrder();
+                    AddPersonInTempOrder(parentWindow);
                     break;
                 case OrderType.Single:
-                    AddPersonInSingleOrder();
+                    AddPersonInSingleOrder(parentWindow);
                     break;
                 default:
                     break;
@@ -376,14 +376,17 @@ namespace SupRealClient.Models
         /// <summary>
         /// Процедура обрабатывающая добавление персоны в разовой заявке.
         /// </summary>
-        protected void AddPersonInSingleOrder()
+        protected void AddPersonInSingleOrder(Window parentWindow = null)
         {
             AddUpdateAbstrModel model = new AddSingleBidModel();
             AddUpdateBaseViewModel viewModel = new AddUpdateBidsViewModel
             {
-                Model = model
+                Model = model,
+                Parent = (Common.Interfaces.IWindow)parentWindow
             };
             AddUpdateBidWindView view = new AddUpdateBidWindView();
+            view.Title = "Добавить посетителя";
+            view.Owner = parentWindow;
             view.DataContext = viewModel;
             model.OnClose += view.Handling_OnClose;
             view.ShowDialog();
@@ -398,7 +401,7 @@ namespace SupRealClient.Models
         /// <summary>
         /// Процедура обрабатывающая добавление персоны во временной заявке.
         /// </summary>
-        protected void AddPersonInTempOrder()
+        protected void AddPersonInTempOrder(Window parentWindow = null)
         {
             AddUpdateAbstrModel model = new AddSingleBidModel();
             AddUpdateBaseViewModel viewModel = new AddUpdateBidsViewModel
@@ -406,6 +409,8 @@ namespace SupRealClient.Models
                 Model = model
             };
             AddUpdateBidWindView view = new AddUpdateBidWindView();
+            view.Title = "Добавить посетителя";
+            view.Owner = parentWindow;
             view.DataContext = viewModel;
             model.OnClose += view.Handling_OnClose;
             view.ShowDialog();

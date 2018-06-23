@@ -31,6 +31,9 @@ namespace SupRealClient.ViewModels
         }
 
         private bool _isEnabled = false;
+        /// <summary>
+        /// Доступность вкладок TabControl.
+        /// </summary>
         public bool IsEnabled
         {
             get { return _isEnabled; }
@@ -363,7 +366,13 @@ namespace SupRealClient.ViewModels
 
             TextEnable = false; // При открытии окна поля недоступны.
             AcceptButtonEnable = false; // При открытии кнопки применить и отмена недоступны.
+            IsEnabled = true;
         }
+
+        /// <summary>
+        /// Родительское окно.
+        /// </summary>
+        public Window ParentWindow { get; set; }
 
         private void Agreer()
         {
