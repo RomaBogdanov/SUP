@@ -156,9 +156,12 @@ namespace SupRealClient.Views
 
         void baseTabCurrentItemScrollIntoView()
         {
-            baseTab.ScrollIntoView(baseTab.CurrentItem);
-            baseTab.UpdateLayout();
-            baseTab.ScrollIntoView(baseTab.CurrentItem);
+            if (baseTab.CurrentItem != null)
+            {
+                baseTab.ScrollIntoView(baseTab.CurrentItem);
+                baseTab.UpdateLayout();
+                baseTab.ScrollIntoView(baseTab.CurrentItem);
+            }
         }
 
         private void baseTab_Loaded(object sender, System.Windows.RoutedEventArgs e)
@@ -214,6 +217,11 @@ namespace SupRealClient.Views
 
                 headerCliked = null;
             }
+        }
+
+        private void tbxSearch_TextChanged(object sender, TextChangedEventArgs e)
+        {
+            baseTabCurrentItemScrollIntoView();
         }
     }
 

@@ -100,7 +100,7 @@
             Margin="1" 
             Text="{Binding Path=SearchingText, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" 
             FontSize="{Binding FontSize}" 
-            Style="{StaticResource TextBoxStyle}"/>
+            Style="{StaticResource TextBoxStyle}" TextChanged="tbxSearch_TextChanged"/>
 
         <Button 
             Grid.Row="3" 
