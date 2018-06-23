@@ -16,6 +16,31 @@ namespace SupRealClient.ViewModels
     {
         IBidsModel bidsModel;
 
+        private string _maxOrderNumber;
+        /// <summary>
+        /// Максимальный номер ордера.
+        /// </summary>
+        public string MaxOrderNumber
+        {
+            get { return _maxOrderNumber; }
+            set
+            {
+                _maxOrderNumber = value;
+                OnPropertyChanged("MaxOrderNumber");
+            }
+        }
+
+        private bool _isEnabled = false;
+        public bool IsEnabled
+        {
+            get { return _isEnabled; }
+            set
+            {
+                _isEnabled = value;
+                OnPropertyChanged("IsEnabled");
+            }
+        }
+
         public IBidsModel BidsModel
         {
             get { return bidsModel; }
@@ -430,6 +455,10 @@ namespace SupRealClient.ViewModels
 
             TextEnable = true; // При открытии окна поля недоступны.
             AcceptButtonEnable = true; // При открытии кнопки применить и отмена недоступны.
+
+            // Максимальный номер ордера.
+            MaxOrderNumber = string.Format("{0}-P", OrdersSet.OrderByDescending(a => a.Number).First().Number);
+            IsEnabled = false;
         }
 
         /// <summary>
@@ -462,6 +491,8 @@ namespace SupRealClient.ViewModels
 
             TextEnable = false; // При открытии окна поля недоступны.
             AcceptButtonEnable = false; // При открытии кнопки применить и отмена недоступны.
+            MaxOrderNumber = string.Empty;
+            IsEnabled = true;
         }
 
         private void Further()
