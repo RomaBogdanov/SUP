@@ -32,7 +32,7 @@ namespace SupRealClient.Views
 
         public override void Farther()
         {
-            System.Windows.Forms.MessageBox.Show("Farther");
+            SetAt(searchResult.Next());
         }
 
         public override void Search()
