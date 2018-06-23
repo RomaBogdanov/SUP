@@ -5,6 +5,8 @@ using System.Windows.Controls;
 using System.Collections.ObjectModel;
 using SupRealClient.EnumerationClasses;
 using System.Data;
+using System.Windows.Forms;
+using SupClientConnectionLib;
 using SupRealClient.Search;
 using SupRealClient.Common.Interfaces;
 using SupRealClient.Common;
@@ -116,7 +118,7 @@ namespace SupRealClient.Views
             ViewManager.Instance.Search(this, Parent);
         }
         public abstract void Update();
-        public void Ok()
+        public virtual void Ok()
         {
             OnClose?.Invoke(GetResult());
         }
@@ -526,6 +528,59 @@ namespace SupRealClient.Views
     public class CardsActiveListModel<T> : CardsListModel<T>
         where T : Card, new()
     {
+        private int visitorId;
+        private ObservableCollection<Order> orders;
+
+        public CardsActiveListModel(int visitorId, ObservableCollection<Order> orders) : base()
+        {
+            this.visitorId = visitorId;
+            this.orders = orders;
+        }
+
+        public override void Ok()
+        {
+            //base.Ok();
+            // todo: обязательно просмотреть ситуацию стандартного использования данной кнопки.
+            //MessageBox.Show("Test");
+            CardsWrapper cards = CardsWrapper.CurrentTable();
+            DataRow row = cards.Table.Rows.Find(CurrentItem.Id);
+            row.BeginEdit();
+            row["f_rec_operator"] = Authorizer.AppAuthorizer.Id;
+            row["f_rec_date"] = DateTime.Now;
+            row["f_state_id"] = 3;
+            row.EndEdit();
+
+            // todo: Добавляем карту и персону в список визитов. Всё под рефакторинг!!!
+            DataRow row1 = VisitsWrapper.CurrentTable().Table.NewRow();
+            row1["f_card_id"] = CurrentItem.Id;
+            row1["f_visitor_id"] = visitorId; //todo: проставить id визитёра
+            row1["f_time_out"] = DateTime.Now; //todo: пока непонятно, что за дата
+            row1["f_time_in"] = DateTime.Now; //todo: пока непонятно, что за дата
+            row1["f_visit_text"] = "текст"; //todo: пока непонятно, что за текст
+            row1["f_date_from"] = DateTime.Now; //todo: пока непонятно, что за дата
+            row1["f_date_to"] = DateTime.Now; //todo: пока непонятно, что за дата
+            row1["f_order_id"] = 1; //todo: номер заявки, проставить, хотя тут непонятно, потому что карта может выставляться по нескольким заявкам.
+            row1["f_rec_date"] = DateTime.Now;
+            row1["f_rec_operator"] = Authorizer.AppAuthorizer.Id;
+            row1["f_reason"] = "резон"; //todo: пока непонятно, что с полем делать
+            row1["f_rec_operator_back"] = 0; //todo: скорее всего, оператор принявший карту обратно
+            row1["f_rec_date_back"] = DateTime.MinValue; //todo: скорее всего, время возврата карты обратно
+            row1["f_card_status"] = 3; // текущий статус карты
+            row1["f_eff_zonen_text"] = "хм"; //todo: вообще непонятно
+            VisitsWrapper.CurrentTable().Table.Rows.Add(row1);
+            Close();
+            /*CardsWrapper cards = CardsWrapper.CurrentTable();
+            DataRow row = cards.Table.Rows.Find(card.Id);
+            row.BeginEdit();
+            row["f_card_num"] = data.CurdNum;
+            row["f_card_text"] = data.NumMAFW;
+            row["f_comment"] = data.Comment;
+            row["f_rec_operator"] = Authorizer.AppAuthorizer.Id;
+            row["f_rec_date"] = data.CreateDate;
+            row.EndEdit();
+            Cancel();*/
+        }
+
         protected override void DoQuery()
         {
             base.DoQuery();

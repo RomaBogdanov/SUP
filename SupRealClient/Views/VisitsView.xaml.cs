@@ -431,7 +431,7 @@ namespace SupRealClient.Views
             Base4ViewModel<Order> viewModel =
                 new Base4ViewModel<Order>
                 {
-                    Model = new AddZoneModel(CurrentItem.Orders)
+                    Model = new AddZoneModel(CurrentItem.Orders, CurrentItem.Id)
                 };
             var window = new AddZone
             {

@@ -320,7 +320,7 @@
             </Grid>
         </Button>
 
-        <!--<Button 
+        <Button 
             Grid.Row="3" 
             Grid.Column="8" 
             Margin="1" 
@@ -345,7 +345,7 @@
                     FontSize="{Binding FontSize}"
                     Style="{StaticResource TextBLockStyle}"/>
             </Grid>
-        </Button>-->
+        </Button>
 
         <Button 
             Grid.Row="3" 
