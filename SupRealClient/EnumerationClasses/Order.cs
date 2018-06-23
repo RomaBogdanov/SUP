@@ -166,6 +166,13 @@ namespace SupRealClient.EnumerationClasses
         /// Показывает, что заявка не активна.
         /// </summary>
         public bool IsDisable { get; set; }
+        /// <summary>
+        /// Специализированое свойство предназначенное для того, чтобы помещать,
+        /// что эту заявку надо выбрать. Изначально вставлено, чтобы удобно было
+        /// работать с назначениями заявок, на которые надо ориентироваться при
+        /// выдаче пропуска.
+        /// </summary>
+        public bool IsChecked { get; set; }
 
         private ObservableCollection<OrderElement> orderElements;
 

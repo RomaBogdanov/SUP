@@ -183,6 +183,7 @@ namespace SupRealClient.Views
                     _model.OnModelPropertyChanged -= OnPropertyChanged;
                 }
                 _model = value;
+                Set = _model.Set;
                 _model.Parent = Parent;
                 _model.OnModelPropertyChanged += OnPropertyChanged;
                 OnPropertyChanged();

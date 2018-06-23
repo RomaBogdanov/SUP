@@ -59,11 +59,11 @@ namespace SupRealClient.Views.Visitor
 
     public class AddZoneModel : Base4ModelAbstr<Order>
     {
-        //private int visitorId;
+        private int visitorId;
 
-        public AddZoneModel(ObservableCollection<Order> orders)
+        public AddZoneModel(ObservableCollection<Order> orders, int visitorId)
         {
-            //visitorId = visitor_id;
+            this.visitorId = visitorId;
             //Query();
             Set = orders;
         }
@@ -75,7 +75,15 @@ namespace SupRealClient.Views.Visitor
 
         public override void Add()
         {
-            ViewManager.Instance.OpenWindow("Base4CardsWindView", null);
+            //ViewManager.Instance.OpenWindow("Base4CardsWindView", null);
+            // todo: попытка обойти ограничение нашей реализации фабрики
+            // todo: связанное с тем, что нужно текущей форме задать другой
+            // todo: Model, по хорошему, надо придумать стандартный механизм.
+            Base4CardsWindView wind = new Base4CardsWindView();
+            ((Base4ViewModel<Card>) wind.base4.DataContext).Model = 
+                new CardsActiveListModel<Card>(visitorId, 
+                new ObservableCollection<Order>(Set.Where(arg => arg.IsChecked)));
+            wind.Show();
         }
 
         public override void Update()
