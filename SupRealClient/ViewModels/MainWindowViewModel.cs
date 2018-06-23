@@ -346,7 +346,17 @@ namespace SupRealClient.ViewModels
         private void AndoverImport()
         {
             ClientConnector clientConnector = ClientConnector.CurrentConnector;
-            clientConnector.ImportFromAndover();
+            if (clientConnector.ImportFromAndover())
+            {
+                MessageBox.Show("Из Andover были загружены данные для следующих таблиц:\n" +
+                    "Точки доступа, Области доступа, Пропуска, Расписания", "",
+                    MessageBoxButton.OK, MessageBoxImage.Information);
+            }
+            else
+            {
+                MessageBox.Show("Загрузка из Andover не удалась!", "Ошибка",
+                    MessageBoxButton.OK, MessageBoxImage.Error);
+            }
         }
     }
 }

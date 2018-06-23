@@ -55,7 +55,8 @@ namespace SupRealClient.EnumerationClasses
 
     public class Schedule : IdEntity
     {
-        // Неверно совершенно. Переделать.
+        public string Name { get; set; }
+        public string Descript { get; set; }
     }
 
     public class AccessLevel : IdEntity

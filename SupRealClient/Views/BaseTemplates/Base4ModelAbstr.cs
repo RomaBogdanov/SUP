@@ -478,7 +478,7 @@ namespace SupRealClient.Views
                 from c in cardsWrapper.Table.AsEnumerable()
                 from v in visitsWrapper.Table.AsEnumerable()
                 from p in visitorsWrapper.Table.AsEnumerable()
-                where c.Field<int>("f_card_id") != 0 &
+                where c.Field<int>("f_card_id") != 0 &&
                 CommonHelper.NotDeleted(c) &
                 c.Field<int>("f_card_id") == v.Field<int>("f_card_id") &
                 v.Field<int>("f_visitor_id") == p.Field<int>("f_visitor_id") &
@@ -494,6 +494,8 @@ namespace SupRealClient.Views
                 from c in cardsWrapper.Table.AsEnumerable()
                 join s in sprCardstatesWrapper.Table.AsEnumerable()
                 on c.Field<int>("f_state_id") equals s.Field<int>("f_state_id")
+                where c.Field<int>("f_card_id") != 0 &&
+                CommonHelper.NotDeleted(c)
                 select new T
                 {
                     Id = c.Field<int>("f_card_id"),
@@ -558,14 +560,15 @@ namespace SupRealClient.Views
         protected override void DoQuery()
         {
             Set = new ObservableCollection<T>(
-        from areas in Table.AsEnumerable()
-        where areas.Field<int>("f_area_id") != 0
-        select new T
-        {
-            Id = areas.Field<int>("f_area_id"),
-            Name = areas.Field<string>("f_area_name"),
-            Descript = areas.Field<string>("f_area_descript")
-        });
+                from areas in Table.AsEnumerable()
+                where areas.Field<int>("f_area_id") != 0 &&
+                CommonHelper.NotDeleted(areas)
+                select new T
+                {
+                    Id = areas.Field<int>("f_area_id"),
+                    Name = areas.Field<string>("f_area_name"),
+                    Descript = areas.Field<string>("f_area_descript")
+                });
         }
 
         protected override BaseModelResult GetResult()
@@ -660,16 +663,17 @@ namespace SupRealClient.Views
         protected override void DoQuery()
         {
             Set = new ObservableCollection<T>(
-           from accpnt in Table.AsEnumerable()
-           where accpnt.Field<int>("f_access_point_id") != 0
-           select new T
-           {
-               Id = accpnt.Field<int>("f_access_point_id"),
-               Name = accpnt.Field<string>("f_access_point_name"),
-               Descript = accpnt.Field<string>("f_access_point_description"),
-               SpaceIn = accpnt.Field<string>("f_access_point_space_in"),
-               SpaceOut = accpnt.Field<string>("f_access_point_space_out")
-           });
+                from accpnt in Table.AsEnumerable()
+                where accpnt.Field<int>("f_access_point_id") != 0 &&
+                CommonHelper.NotDeleted(accpnt)
+                select new T
+                {
+                    Id = accpnt.Field<int>("f_access_point_id"),
+                    Name = accpnt.Field<string>("f_access_point_name"),
+                    Descript = accpnt.Field<string>("f_access_point_description"),
+                    SpaceIn = accpnt.Field<string>("f_access_point_space_in"),
+                    SpaceOut = accpnt.Field<string>("f_access_point_space_out")
+                });
         }
 
         protected override BaseModelResult GetResult()
@@ -754,16 +758,16 @@ namespace SupRealClient.Views
 
         protected override void DoQuery()
         {
-            // TODO: непонятно
-            /*Set = new ObservableCollection<T>(
-           from arsp in Table.AsEnumerable()
-           where arsp.Field<int>("f_area_space_id") != 0
-           select new T
-           {
-               Id = arsp.Field<int>("f_area_space_id"),
-               AreaId = arsp.Field<int>("f_area_id"),
-               SpaceId = arsp.Field<int>("f_space_id")
-           });*/
+            Set = new ObservableCollection<T>(
+                from schd in Table.AsEnumerable()
+                where schd.Field<int>("f_schedule_id") != 0 &&
+                CommonHelper.NotDeleted(schd)
+                select new T
+                {
+                    Id = schd.Field<int>("f_schedule_id"),
+                    Name = schd.Field<string>("f_schedule_name"),
+                    Descript = schd.Field<string>("f_schedule_description")
+                });
         }
 
         protected override BaseModelResult GetResult()

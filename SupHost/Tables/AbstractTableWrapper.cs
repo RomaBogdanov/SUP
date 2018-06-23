@@ -116,7 +116,10 @@ namespace SupHost
                 }
             }
             this.getTableBehavior.UpdateRow();
-            this.OnUpdateRow(this.table.TableName, numRow, values);
+            if (this.OnUpdateRow != null)
+            {
+                this.OnUpdateRow(this.table.TableName, numRow, values);
+            }
             LogMessage(
                 $"В таблице {this.table.TableName} отредактирована строка", info);
             return true;

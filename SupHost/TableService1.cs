@@ -7,6 +7,7 @@ using System.Threading;
 using SupHost.Data;
 using System;
 using System.Collections.Generic;
+using SupHost.Andover;
 
 namespace SupHost
 {
@@ -265,7 +266,8 @@ namespace SupHost
         {
             logger.Debug($"Импорт данных из Andover", info);
 
-            return true;
+            var andoverManager = new AndoverManager(info);
+            return andoverManager.Import();
         }
     }
 }
