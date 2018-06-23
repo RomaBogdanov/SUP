@@ -260,5 +260,12 @@ namespace SupHost
             }
             return true;
         }
+
+        public bool ImportFromAndover(OperationInfo info)
+        {
+            logger.Debug($"Импорт данных из Andover", info);
+
+            return true;
+        }
     }
 }

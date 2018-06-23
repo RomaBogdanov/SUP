@@ -98,6 +98,13 @@ namespace SupContract
         /// <returns></returns>
         [OperationContract]
         bool ExitAuthorize(OperationInfo info);
+
+        /// <summary>
+        /// Загрузить данные из Andover
+        /// </summary>
+        /// <param name="info"></param>
+        [OperationContract]
+        bool ImportFromAndover(OperationInfo info);
     }
 
     // Используйте контракт данных, как показано на следующем примере, чтобы добавить сложные типы к сервисным операциям.
