@@ -473,7 +473,10 @@ namespace SupRealClient.Views
         {
             if (Model is NewVisitsModel)
             {
-                Model = new VisitsModel();
+                if (view.ParentWindow is SupRealClient.Views.VisitorsListWindView)
+                    view.CloseWindow(new CancelEventArgs());
+                else
+                    Model = new VisitsModel();
             }
             else if (Model is EditVisitsModel)
             {

@@ -27,7 +27,7 @@ namespace SupRealClient.Views
             /*VisitorsView.Instance.Show();
             VisitorsView.Instance.NewVisitor();*/
             //object res = ViewManager.Instance.OpenWindowModal("VisitorsView");
-            ViewManager.Instance.OpenWindow("VisitorsView");
+            ViewManager.Instance.OpenWindow("VisitorsView", this.Parent);
         }
 
         public override void Farther()
