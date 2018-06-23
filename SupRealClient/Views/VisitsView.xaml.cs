@@ -466,14 +466,22 @@ namespace SupRealClient.Views
         private void Ok()
         {
             if (Model.Ok())
-                Model = new VisitsModel();
+            {
+                if (view.ParentWindow is VisitorsListWindView)
+                    view.CloseWindow(new CancelEventArgs());
+                else
+                    Model = new VisitsModel();
+            }                
         }
 
         private void Cancel()
         {
             if (Model is NewVisitsModel)
             {
-                Model = new VisitsModel();
+                if (view.ParentWindow is SupRealClient.Views.VisitorsListWindView)
+                    view.CloseWindow(new CancelEventArgs());
+                else
+                    Model = new VisitsModel();
             }
             else if (Model is EditVisitsModel)
             {

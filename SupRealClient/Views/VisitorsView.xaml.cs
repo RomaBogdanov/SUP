@@ -1,4 +1,5 @@
 ﻿using SupRealClient.Common.Interfaces;
+using System.Windows;
 
 namespace SupRealClient.Views
 {
@@ -37,6 +38,8 @@ namespace SupRealClient.Views
                     this.Left = (this.DataContext as VisitsViewModel).WinSet.Left;
                     this.Top = (this.DataContext as VisitsViewModel).WinSet.Top;
 
+                    parentWindowChecking();
+
                     //(this.DataContext as VisitsViewModel).Model.OnClose += Handling_OnClose;
                 }
             };
@@ -45,6 +48,23 @@ namespace SupRealClient.Views
         public void NewVisitor()
         {
             ((VisitsViewModel)this.DataContext).Model= new NewVisitsModel();
+        }
+
+        private void MetroWindow_IsVisibleChanged(object sender, System.Windows.DependencyPropertyChangedEventArgs e)
+        {            
+            parentWindowChecking();            
+        }
+
+        void parentWindowChecking()
+        {
+            if (this.ParentWindow is SupRealClient.Views.VisitorsListWindView)
+            {
+                if (this.Visibility == Visibility.Visible)
+                    (this.DataContext as VisitsViewModel)?.NewCommand.Execute(null);
+
+                if (this.Visibility == Visibility.Hidden)
+                    this.DataContext = new VisitsViewModel(this);
+            }
         }
     }
 }
