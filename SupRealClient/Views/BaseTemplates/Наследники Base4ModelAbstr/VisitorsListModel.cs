@@ -43,8 +43,8 @@ namespace SupRealClient.Views
         public override void Update()
         {
             if (CurrentItem != null)
-            {
-                System.Windows.Forms.MessageBox.Show("Update");
+            { 
+                ViewManager.Instance.OpenWindow("VisitorsView", this.Parent);
             }
         }
 

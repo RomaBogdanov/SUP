@@ -122,7 +122,8 @@
             Command="{Binding Path=Update}" 
             Style="{StaticResource ButtonStyle}"
             ToolTip="Ctrl+D"
-            KeyDown="BaseTab_OnKeyDown">
+            KeyDown="BaseTab_OnKeyDown" 
+            PreviewMouseLeftButtonDown="btnUpdate_PreviewMouseLeftButtonDown">
             <Grid>
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="30"/>

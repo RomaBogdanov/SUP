@@ -15,6 +15,8 @@ namespace SupRealClient.Views
         int memCountRows = 0;
         DataGridColumnHeader headerCliked = null;
 
+        public bool modeEdit { get; set; }
+
         public Base4View()
         {
             InitializeComponent();
@@ -177,6 +179,11 @@ namespace SupRealClient.Views
         private void tbxSearch_TextChanged(object sender, TextChangedEventArgs e)
         {
             baseTabCurrentItemScrollIntoView();
+        }
+
+        private void btnUpdate_PreviewMouseLeftButtonDown(object sender, MouseButtonEventArgs e)
+        {
+            modeEdit = true;
         }
     }
 
