@@ -10,6 +10,7 @@ using System;
 using System.Windows.Threading;
 using SupRealClient.Models;
 using System.Diagnostics;
+using SupRealClient.Andover;
 
 namespace SupRealClient.ViewModels
 {
@@ -325,7 +326,8 @@ namespace SupRealClient.ViewModels
             var window = new TestView { DataContext = viewModel };
 
             window.ShowDialog();*/
-            Process.Start("AndoverPersonsManager.exe");
+            var window = new AndoverTestView();
+            window.ShowDialog();
         }
 
         private void ExitApp()

@@ -105,6 +105,13 @@ namespace SupContract
         /// <param name="info"></param>
         [OperationContract]
         bool ImportFromAndover(OperationInfo info);
+
+        /// <summary>
+        /// Выгрузить данные в Andover
+        /// </summary>
+        /// <param name="info"></param>
+        [OperationContract]
+        bool ExportToAndover(AndoverExportData data, OperationInfo info);
     }
 
     // Используйте контракт данных, как показано на следующем примере, чтобы добавить сложные типы к сервисным операциям.
@@ -166,6 +173,35 @@ namespace SupContract
         {
             get { return machine; }
             set { machine = value; }
+        }
+    }
+
+    [DataContract]
+    public class AndoverExportData
+    {
+        string card;
+        List<string> doors;
+        List<string> schedules;
+
+        [DataMember]
+        public string Card
+        {
+            get { return card; }
+            set { card = value; }
+        }
+
+        [DataMember]
+        public List<string> Doors
+        {
+            get { return doors; }
+            set { doors = value; }
+        }
+
+        [DataMember]
+        public List<string> Schedules
+        {
+            get { return schedules; }
+            set { schedules = value; }
         }
     }
 }
