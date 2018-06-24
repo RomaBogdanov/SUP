@@ -455,7 +455,7 @@ namespace SupRealClient.Views
         private void Find()
         {
             var result = ViewManager.Instance.OpenWindowModal(
-                "VisitorsListWindView", view) as BaseModelResult;
+                @"VisitorsListWindViewOk", view) as BaseModelResult;
             if (result == null)
             {
                 return;
