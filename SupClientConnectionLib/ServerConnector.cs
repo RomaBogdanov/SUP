@@ -121,6 +121,11 @@ namespace SupClientConnectionLib
             return this.tableService.ImportFromAndover(authorizer.GetInfo());
         }
 
+        public bool ExportToAndover(AndoverExportData data)
+        {
+            return this.tableService.ExportToAndover(data, authorizer.GetInfo());
+        }
+
         public DataTable GetTable(TableName tableName)
         {
             this.compositeType.TableName = tableName;

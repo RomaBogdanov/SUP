@@ -269,5 +269,13 @@ namespace SupHost
             var andoverManager = new AndoverManager(info);
             return andoverManager.Import();
         }
+
+        public bool ExportToAndover(AndoverExportData data, OperationInfo info)
+        {
+            logger.Debug($"Экспорт данных в Andover", info);
+
+            var andoverManager = new AndoverManager(info);
+            return andoverManager.Export(data);
+        }
     }
 }

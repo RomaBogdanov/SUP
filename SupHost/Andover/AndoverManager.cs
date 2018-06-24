@@ -38,6 +38,26 @@ namespace SupHost.Andover
             }
         }
 
+        public bool Export(AndoverExportData data)
+        {
+            try
+            {
+                return ExportData(data);
+            }
+            catch (Exception ex)
+            {
+                try
+                {
+                    AndoverConnector.CurrentConnector.ResetConnection();
+                }
+                catch (Exception)
+                {
+                }
+                logger.ErrorMessage(ex.Message + ex.StackTrace);
+                return false;
+            }
+        }
+
         private bool ImportData()
         {
             AndoverConnector connector = AndoverConnector.CurrentConnector;
@@ -182,7 +202,7 @@ namespace SupHost.Andover
                     door.EntryAreaHi.Value : 0;
                 int spaceInIdLo = door.EntryAreaLo.HasValue ?
                     door.EntryAreaLo.Value : 0;
-                
+
                 int spaceOutIdHi = door.ExitAreaHi.HasValue ?
                     door.ExitAreaHi.Value : 0;
                 int spaceOutIdLo = door.ExitAreaLo.HasValue ?
@@ -373,6 +393,84 @@ namespace SupHost.Andover
             }
 
             return true;
+        }
+
+        private bool ExportData(AndoverExportData data)
+        {
+            AndoverConnector connector = AndoverConnector.CurrentConnector;
+
+            VisCardsTableWrapper cardsTableWrapper =
+               (VisCardsTableWrapper)VisAreasTableWrapper.GetTableWrapper(
+                   TableName.VisCards);
+
+            DataRow card = null;
+            foreach (DataRow row in cardsTableWrapper.GetTable().Rows)
+            {
+                if ((string)row["f_card_name"] == data.Card)
+                {
+                    card = row;
+                    break;
+                }
+            }
+            if (card == null)
+            {
+                return false;
+            }
+
+            var areaList = new List<DataRow>();
+            if (data.Doors.Any())
+            {
+                VisAccessPointsTableWrapper doorsTableWrapper =
+                    (VisAccessPointsTableWrapper)VisAreasTableWrapper.GetTableWrapper(
+                        TableName.VisAccessPoints);
+
+                var doorList = new List<DataRow>();
+                foreach (DataRow row in doorsTableWrapper.GetTable().Rows)
+                {
+                    if (data.Doors.Contains((string)row["f_access_point_name"]))
+                    {
+                        doorList.Add(row);
+                    }
+                }
+                if (doorList.Any())
+                {
+                    VisAreasTableWrapper areasTableWrapper =
+                        (VisAreasTableWrapper)VisAreasTableWrapper.GetTableWrapper(
+                            TableName.VisAreas);
+                    foreach (DataRow row in areasTableWrapper.GetTable().Rows)
+                    {
+                        DataRow r = doorList.Find(d =>
+                            (int)d["f_access_point_space_in_id_hi"] ==
+                            (int)row["f_object_id_hi"] &&
+                            (int)d["f_access_point_space_in_id_lo"] ==
+                            (int)row["f_object_id_lo"] ||
+                            (int)d["f_access_point_space_out_id_hi"] ==
+                            (int)row["f_object_id_hi"] &&
+                            (int)d["f_access_point_space_out_id_lo"] ==
+                            (int)row["f_object_id_lo"]);
+                        if (r != null)
+                        {
+                            areaList.Add(row);
+                        }
+                    }
+                }
+            }
+
+            var schedulesList = new List<DataRow>(); // TODO
+
+            var info = new PersonInfo
+            {
+                UiName = (string)card["f_card_name"],
+                Path = (string)card["f_card_path"],
+                Alias = (string)card["f_card_controller"],
+                Areas = areaList.Select(a =>
+                    (string)a["f_area_path"] + (string)a["f_area_name"]).ToList(),
+                Schedules = schedulesList.Select(a =>
+                    (string)a["f_schedule_name"]).ToList(),
+            };
+            bool result = connector.AndoverService.ExportPersonDmp(info);
+
+            return result;
         }
     }
 }
