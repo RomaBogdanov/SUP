@@ -116,6 +116,11 @@ namespace SupClientConnectionLib
             return this.tableService.ExitAuthorize(authorizer.GetInfo());
         }
 
+        public bool ImportFromAndover()
+        {
+            return this.tableService.ImportFromAndover(authorizer.GetInfo());
+        }
+
         public DataTable GetTable(TableName tableName)
         {
             this.compositeType.TableName = tableName;
@@ -227,7 +232,9 @@ namespace SupClientConnectionLib
                 {
                     MaxArrayLength = 2147483647,
                     MaxStringContentLength = 2147483647
-                }
+                },
+                ReceiveTimeout = TimeSpan.FromMinutes(5),
+                SendTimeout = TimeSpan.FromMinutes(5)
             };
             var myChannelFactory = new DuplexChannelFactory<ITableService>(
                 instanceContext, binding, new EndpointAddress(ClientConnector.uri));
