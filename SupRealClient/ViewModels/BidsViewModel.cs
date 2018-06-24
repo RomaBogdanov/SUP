@@ -16,20 +16,6 @@ namespace SupRealClient.ViewModels
     {
         IBidsModel bidsModel;
 
-        private string _maxOrderNumber;
-        /// <summary>
-        /// Максимальный номер ордера.
-        /// </summary>
-        public string MaxOrderNumber
-        {
-            get { return _maxOrderNumber; }
-            set
-            {
-                _maxOrderNumber = value;
-                OnPropertyChanged("MaxOrderNumber");
-            }
-        }
-
         private bool _isEnabled = false;
         /// <summary>
         /// Доступность вкладок TabControl.
@@ -357,7 +343,7 @@ namespace SupRealClient.ViewModels
             ReloadCommand = new RelayCommand(arg => Reload());
 
             AddPersonCommand = new RelayCommand(arg => AddPerson());
-            UpdatePersonCommand =new RelayCommand(arg => UpdatePerson());
+            UpdatePersonCommand = new RelayCommand(arg => UpdatePerson());
             DeletePersonCommand = new RelayCommand(arg => DeletePerson());
 
             SignerCommand = new RelayCommand(arg => Signer());
@@ -368,11 +354,6 @@ namespace SupRealClient.ViewModels
             AcceptButtonEnable = false; // При открытии кнопки применить и отмена недоступны.
             IsEnabled = true;
         }
-
-        /// <summary>
-        /// Родительское окно.
-        /// </summary>
-        public Window ParentWindow { get; set; }
 
         private void Agreer()
         {
@@ -464,9 +445,6 @@ namespace SupRealClient.ViewModels
 
             TextEnable = true; // При открытии окна поля недоступны.
             AcceptButtonEnable = true; // При открытии кнопки применить и отмена недоступны.
-
-            // Максимальный номер ордера.
-            MaxOrderNumber = string.Format("{0}-P", OrdersSet.OrderByDescending(a => a.Number).First().Number);
             IsEnabled = false;
         }
 
@@ -500,7 +478,6 @@ namespace SupRealClient.ViewModels
 
             TextEnable = false; // При открытии окна поля недоступны.
             AcceptButtonEnable = false; // При открытии кнопки применить и отмена недоступны.
-            MaxOrderNumber = string.Empty;
             IsEnabled = true;
         }
 

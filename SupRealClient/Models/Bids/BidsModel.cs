@@ -15,8 +15,7 @@ namespace SupRealClient.Models
 
         public BidsModel()
         {
-            //IsAddUpdVisib = Visibility.Hidden;
-            IsAddUpdVisib = Visibility.Collapsed; // Для свертывания кнопок.
+            IsAddUpdVisib = Visibility.Hidden;
             Query();
         }
 
