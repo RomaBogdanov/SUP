@@ -9,10 +9,11 @@
         xmlns:gl="clr-namespace:System.Globalization;assembly=mscorlib"
         mc:Ignorable="d"
         Title="Посетители" 
-                 ResizeMode="NoResize"
+        ResizeMode="NoResize"
         Height="700" 
         Width="700"        
-        Closing="Window_Closing">
+        Closing="Window_Closing" 
+        IsVisibleChanged="MetroWindow_IsVisibleChanged">
 
     <!--ResizeMode="NoResize"-->
     <!--Height="{Binding WindowSettings.VisitorsHeight}" 

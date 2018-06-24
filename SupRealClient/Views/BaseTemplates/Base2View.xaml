@@ -100,7 +100,7 @@
             Margin="1" 
             Text="{Binding Path=SearchingText, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" 
             FontSize="{Binding FontSize}" 
-            Style="{StaticResource TextBoxStyle}"/>
+            Style="{StaticResource TextBoxStyle}" TextChanged="tbxSearch_TextChanged"/>
 
         <Button 
             Grid.Row="3" 
@@ -315,6 +315,33 @@
                 <TextBlock
                     Grid.Column="1"
                     Text="Далее..."
+                    FontSize="{Binding FontSize}"
+                    Style="{StaticResource TextBLockStyle}"/>
+            </Grid>
+        </Button>
+
+        <Button 
+            Grid.Row="3" 
+            Grid.Column="8" 
+            Margin="1" 
+            Command="{Binding Path=Ok}" 
+            Visibility="{Binding Path=OkVisibility, Mode=OneTime}" 
+            KeyDown="BaseTab_OnKeyDown"
+            Style="{StaticResource ButtonStyle}"
+            PreviewMouseLeftButtonDown="Button_PreviewMouseLeftButtonDown">
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="30"/>
+                    <ColumnDefinition/>
+                </Grid.ColumnDefinitions>
+
+                <Image
+                    Grid.Column="0"
+                    Source="../../Resources/Принять (2).ico"/>
+
+                <TextBlock
+                    Grid.Column="1"
+                    Text="ОК"
                     FontSize="{Binding FontSize}"
                     Style="{StaticResource TextBLockStyle}"/>
             </Grid>
