@@ -178,43 +178,29 @@ namespace SupHost.Andover
             DateTime date = DateTime.Now;
             foreach (var door in doors)
             {
-                int spaceInIdHi = 0;
-                int spaceInIdLo = 0;
-                string spaceIn = "";
-                int spaceOutIdHi = 0;
-                int spaceOutIdLo = 0;
-                string spaceOut = "";
+                int spaceInIdHi = door.EntryAreaHi.HasValue ?
+                    door.EntryAreaHi.Value : 0;
+                int spaceInIdLo = door.EntryAreaLo.HasValue ?
+                    door.EntryAreaLo.Value : 0;
+                
+                int spaceOutIdHi = door.ExitAreaHi.HasValue ?
+                    door.ExitAreaHi.Value : 0;
+                int spaceOutIdLo = door.ExitAreaLo.HasValue ?
+                    door.ExitAreaLo.Value : 0;
 
-                if (door.EntryAreaHi.HasValue && door.EntryAreaHi.Value != 0 ||
-                    door.EntryAreaLo.HasValue && door.EntryAreaLo.Value != 0)
+                if (spaceInIdHi == 0 && spaceInIdLo == 0 ||
+                    spaceOutIdHi == 0 && spaceOutIdLo == 0)
                 {
-                    foreach (var area in areas)
-                    {
-                        if (area.ObjectIdHi == door.EntryAreaHi.Value &&
-                            area.ObjectIdLo == door.EntryAreaLo.Value)
-                        {
-                            spaceInIdHi = area.ObjectIdHi;
-                            spaceInIdLo = area.ObjectIdLo;
-                            spaceIn = area.UiName;
-                            break;
-                        }
-                    }
+                    continue;
                 }
-                if (door.ExitAreaHi.HasValue && door.ExitAreaHi.Value != 0 ||
-                    door.ExitAreaLo.HasValue && door.ExitAreaLo.Value != 0)
-                {
-                    foreach (var area in areas)
-                    {
-                        if (area.ObjectIdHi == door.ExitAreaHi.Value &&
-                            area.ObjectIdLo == door.ExitAreaLo.Value)
-                        {
-                            spaceOutIdHi = area.ObjectIdHi;
-                            spaceOutIdLo = area.ObjectIdLo;
-                            spaceOut = area.UiName;
-                            break;
-                        }
-                    }
-                }
+
+                Area areaIn = areas.FirstOrDefault(a =>
+                    a.ObjectIdHi == spaceInIdHi && a.ObjectIdLo == spaceInIdLo);
+                string spaceIn = areaIn != null ? areaIn.UiName : "";
+
+                Area areaOut = areas.FirstOrDefault(a =>
+                    a.ObjectIdHi == spaceOutIdHi && a.ObjectIdLo == spaceOutIdLo);
+                string spaceOut = areaOut != null ? areaOut.UiName : "";
 
                 bool update = false;
                 DataRow row = null;
