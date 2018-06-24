@@ -6,6 +6,7 @@ using SupRealClient.Common.Interfaces;
 using System.Windows.Controls.Primitives;
 using System.Windows;
 using System.ComponentModel;
+using SupRealClient.EnumerationClasses;
 
 namespace SupRealClient.Views
 {
@@ -73,7 +74,9 @@ namespace SupRealClient.Views
                 baseTab.SelectedItems?.Clear();
                 baseTab.SelectionChanged += baseTab_SelectionChanged;
 
-                if (baseTab.Columns.Count > 0)
+                if (baseTab.ItemsSource is System.Collections.ObjectModel.ObservableCollection<Organization>)
+                    SortDataGrid(baseTab, 1, ListSortDirection.Ascending);
+                else if (baseTab.Columns.Count > 0)
                     SortDataGrid(baseTab, 0, ListSortDirection.Ascending);
             }
         }
@@ -143,7 +146,9 @@ namespace SupRealClient.Views
 
         private void baseTab_Loaded(object sender, RoutedEventArgs e)
         {
-            if (baseTab.Columns.Count > 0)
+            if (baseTab.ItemsSource is System.Collections.ObjectModel.ObservableCollection<Organization>)
+                SortDataGrid(baseTab, 1, ListSortDirection.Ascending);
+            else if (baseTab.Columns.Count > 0)
                 SortDataGrid(baseTab, 0, ListSortDirection.Ascending);
         }
 
