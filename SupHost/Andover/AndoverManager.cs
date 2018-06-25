@@ -18,6 +18,27 @@ namespace SupHost.Andover
             this.info = info;
         }
 
+        public bool Ping()
+        {
+            try
+            {
+                AndoverConnector connector = AndoverConnector.CurrentConnector;
+                return connector.AndoverService.Ping() == "OK";
+            }
+            catch (Exception ex)
+            {
+                try
+                {
+                    AndoverConnector.CurrentConnector.ResetConnection();
+                }
+                catch (Exception)
+                {
+                }
+                logger.ErrorMessage(ex.Message + ex.StackTrace);
+                return false;
+            }
+        }
+
         public bool Import()
         {
             try
