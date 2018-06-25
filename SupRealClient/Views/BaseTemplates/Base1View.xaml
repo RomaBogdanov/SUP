@@ -340,6 +340,7 @@
 
 
         <Button 
+            x:Name="btnOk"
             Grid.Row="3" 
             Grid.Column="4" 
             Margin="1" 

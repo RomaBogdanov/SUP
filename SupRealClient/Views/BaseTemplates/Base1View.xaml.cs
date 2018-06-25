@@ -63,6 +63,14 @@ namespace SupRealClient.Views
             {
                 ((ISuperBaseViewModel)DataContext).End.Execute(null);
             }
+            else if (e.Key == Key.Space)
+            {
+                if (btnOk.Visibility == Visibility.Visible && btnOk.IsEnabled)
+                {
+                    btnOk.Command?.Execute(null);
+                    e.Handled = true;
+                }
+            }
         }
 
         private void UserControl_IsVisibleChanged(object sender, System.Windows.DependencyPropertyChangedEventArgs e)
