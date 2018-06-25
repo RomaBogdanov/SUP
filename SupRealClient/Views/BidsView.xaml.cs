@@ -23,10 +23,9 @@ namespace SupRealClient.Views
     {
         public BidsView()
         {
-            InitializeComponent();            
-        }        
-
-        public List<TabControlItems> ListTabs { get; set; }
+            InitializeComponent();
+            comboMenu.SelectionChanged += ComboBox_SelectionChanged; // Подписываемся на событие выбора вкладки.
+        }
 
         private void MetroWindow_Initialized(object sender, EventArgs e)
         {
@@ -35,26 +34,11 @@ namespace SupRealClient.Views
             this.Width = (this.DataContext as ViewModels.BidsViewModel).WinSet.Width;
             this.Left = (this.DataContext as ViewModels.BidsViewModel).WinSet.Left;
             this.Top = (this.DataContext as ViewModels.BidsViewModel).WinSet.Top;
-
-            ListTabs = new List<TabControlItems>();
-            ListTabs.Add(new TabControlItems() { ID = 1, Name = "Разовые заявки" });
-            ListTabs.Add(new TabControlItems() { ID = 2, Name = "Временные заявки" });
-            ListTabs.Add(new TabControlItems() { ID = 3, Name = "Заявки на основании" });
-            ListTabs.Add(new TabControlItems() { ID = 4, Name = "Список заявок" });
-
-            //listBoxTabs.ItemsSource = ListTabs;
         }
 
-        private void btnTabSelect_Click(object sender, RoutedEventArgs e)
+        private void ComboBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            object clickedButton = (sender as Button).Tag;
-            mainTabControl.SelectedIndex = int.Parse(clickedButton.ToString());
+            mainTabControl.SelectedIndex = comboMenu.SelectedIndex;
         }
-    }
-
-    public class TabControlItems
-    {
-        public int ID { get; set; }
-        public string Name { get; set; }
     }
 }
