@@ -16,6 +16,20 @@ namespace SupRealClient.ViewModels
     {
         IBidsModel bidsModel;
 
+        private bool _isEnabled = false;
+        /// <summary>
+        /// Доступность вкладок TabControl.
+        /// </summary>
+        public bool IsEnabled
+        {
+            get { return _isEnabled; }
+            set
+            {
+                _isEnabled = value;
+                OnPropertyChanged("IsEnabled");
+            }
+        }
+
         public IBidsModel BidsModel
         {
             get { return bidsModel; }
@@ -329,7 +343,7 @@ namespace SupRealClient.ViewModels
             ReloadCommand = new RelayCommand(arg => Reload());
 
             AddPersonCommand = new RelayCommand(arg => AddPerson());
-            UpdatePersonCommand =new RelayCommand(arg => UpdatePerson());
+            UpdatePersonCommand = new RelayCommand(arg => UpdatePerson());
             DeletePersonCommand = new RelayCommand(arg => DeletePerson());
 
             SignerCommand = new RelayCommand(arg => Signer());
@@ -338,6 +352,7 @@ namespace SupRealClient.ViewModels
 
             TextEnable = false; // При открытии окна поля недоступны.
             AcceptButtonEnable = false; // При открытии кнопки применить и отмена недоступны.
+            IsEnabled = true;
         }
 
         private void Agreer()
@@ -430,6 +445,7 @@ namespace SupRealClient.ViewModels
 
             TextEnable = true; // При открытии окна поля недоступны.
             AcceptButtonEnable = true; // При открытии кнопки применить и отмена недоступны.
+            IsEnabled = false;
         }
 
         /// <summary>
@@ -462,6 +478,7 @@ namespace SupRealClient.ViewModels
 
             TextEnable = false; // При открытии окна поля недоступны.
             AcceptButtonEnable = false; // При открытии кнопки применить и отмена недоступны.
+            IsEnabled = true;
         }
 
         private void Further()

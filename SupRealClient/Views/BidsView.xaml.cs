@@ -23,8 +23,9 @@ namespace SupRealClient.Views
     {
         public BidsView()
         {
-            InitializeComponent();            
-        }        
+            InitializeComponent();
+            comboMenu.SelectionChanged += ComboBox_SelectionChanged; // Подписываемся на событие выбора вкладки.
+        }
 
         private void MetroWindow_Initialized(object sender, EventArgs e)
         {
@@ -34,5 +35,10 @@ namespace SupRealClient.Views
             this.Left = (this.DataContext as ViewModels.BidsViewModel).WinSet.Left;
             this.Top = (this.DataContext as ViewModels.BidsViewModel).WinSet.Top;
         }
-    }    
+
+        private void ComboBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            mainTabControl.SelectedIndex = comboMenu.SelectedIndex;
+        }
+    }
 }
