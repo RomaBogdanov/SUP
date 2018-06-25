@@ -264,7 +264,7 @@ namespace SupHost
 
         public bool ImportFromAndover(OperationInfo info)
         {
-            logger.Debug($"Импорт данных из Andover", info);
+            logger.Info($"Импорт данных из Andover", info);
 
             var andoverManager = new AndoverManager(info);
             return andoverManager.Import();
@@ -272,7 +272,7 @@ namespace SupHost
 
         public bool ExportToAndover(AndoverExportData data, OperationInfo info)
         {
-            logger.Debug($"Экспорт данных в Andover", info);
+            logger.Info($"Экспорт данных в Andover", info);
 
             var andoverManager = new AndoverManager(info);
             return andoverManager.Export(data);

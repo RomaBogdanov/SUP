@@ -208,7 +208,7 @@ namespace SupHost.Andover
                 int spaceOutIdLo = door.ExitAreaLo.HasValue ?
                     door.ExitAreaLo.Value : 0;
 
-                if (spaceInIdHi == 0 && spaceInIdLo == 0 ||
+                if (spaceInIdHi == 0 && spaceInIdLo == 0 &&
                     spaceOutIdHi == 0 && spaceOutIdLo == 0)
                 {
                     continue;
@@ -439,6 +439,10 @@ namespace SupHost.Andover
                             TableName.VisAreas);
                     foreach (DataRow row in areasTableWrapper.GetTable().Rows)
                     {
+                        if ((int)row["f_area_id"] == 0)
+                        {
+                            continue;
+                        }
                         DataRow r = doorList.Find(d =>
                             (int)d["f_access_point_space_in_id_hi"] ==
                             (int)row["f_object_id_hi"] &&
