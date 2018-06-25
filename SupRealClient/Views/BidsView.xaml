@@ -10,27 +10,46 @@
         mc:Ignorable="d"
         Title="Заявки" 
                  ResizeMode="NoResize"
-        Height="827.512" Width="1077"
-                 Initialized="MetroWindow_Initialized"
-                 
-        
+                 Height="827.512" Width="1077"
+                 Initialized="MetroWindow_Initialized"       
                  Closing="Window_Closing">
     <mah:MetroWindow.InputBindings>
         <KeyBinding Key="Escape" Command="{Binding CancelCommand}"/>
     </mah:MetroWindow.InputBindings>
-    
-
     <!--ResizeMode="NoResize"-->
     <!--Height="{Binding WindowSettings.BidsHeight}" 
         Width="{Binding WindowSettings.BidsWidth}"-->
-
     <Grid>
         <Grid.RowDefinitions>
+            <RowDefinition Height="100"/>
             <RowDefinition/>
             <RowDefinition Height="150"/>
         </Grid.RowDefinitions>
-        <mah:MetroAnimatedTabControl Grid.Row="0">
-            <mah:MetroTabItem Header="Разовые заявки" IsSelected="{Binding IsSingleOrder, Mode=TwoWay}" IsEnabled="{Binding IsEnabled, UpdateSourceTrigger=PropertyChanged}">
+        <!-- Для задачи SUP-262 -->
+        <ScrollViewer HorizontalScrollBarVisibility="Visible" VerticalScrollBarVisibility="Disabled" Grid.Row="0" Background="AliceBlue">
+            <StackPanel Orientation="Horizontal">
+                <Button Name="btnTabSelect" Content="Разовые заявки" Margin="5" Tag="0" Click="btnTabSelect_Click" />
+                <Button Content="Временные заявки" Margin="5" Tag="1" Click="btnTabSelect_Click" />
+                <Button Content="Заявки на основании" Margin="5" Tag="2" Click="btnTabSelect_Click" />
+                <Button Content="Список заявок" Margin="5" Tag="3" Click="btnTabSelect_Click" />
+                <Button Content="Разовые заявки" Margin="5"/>
+                <Button Content="Временные заявки" Margin="5" />
+                <Button Content="Заявки на основании" Margin="5" />
+                <Button Content="Список заявок" Margin="5" />
+                <Button Content="Разовые заявки" Margin="5"/>
+                <Button Content="Временные заявки" Margin="5" />
+                <Button Content="Заявки на основании" Margin="5" />
+                <Button Content="Список заявок" Margin="5" />
+                <Button Content="Разовые заявки" Margin="5"/>
+                <Button Content="Временные заявки" Margin="5" />
+                <Button Content="Заявки на основании" Margin="5" />
+                <Button Content="Список заявок" Margin="5" />
+            </StackPanel>
+        </ScrollViewer>
+
+        <!-- Это было ранее. -->
+        <mah:MetroAnimatedTabControl x:Name="mainTabControl" Grid.Row="1">
+            <mah:MetroTabItem Tag="0" IsSelected="{Binding IsSingleOrder, Mode=TwoWay}" IsEnabled="{Binding IsEnabled, UpdateSourceTrigger=PropertyChanged}">
                 <ScrollViewer VerticalScrollBarVisibility="Auto">
                     <Grid>
                         <Grid.RowDefinitions>
@@ -247,7 +266,7 @@
                 </ScrollViewer>
             </mah:MetroTabItem>
 
-            <mah:MetroTabItem Header="Временные заявки" IsSelected="{Binding IsTempOrder, Mode=TwoWay}" IsEnabled="{Binding IsEnabled, UpdateSourceTrigger=PropertyChanged}">
+            <mah:MetroTabItem Tag="1" IsSelected="{Binding IsTempOrder, Mode=TwoWay}" IsEnabled="{Binding IsEnabled, UpdateSourceTrigger=PropertyChanged}">
                 <ScrollViewer VerticalScrollBarVisibility="Auto">
                     <Grid>
                         <Grid.RowDefinitions>
@@ -484,7 +503,7 @@
                 </ScrollViewer>
             </mah:MetroTabItem>
 
-            <mah:MetroTabItem Header="Заявки на основании" IsEnabled="{Binding IsEnabled, UpdateSourceTrigger=PropertyChanged}">
+            <mah:MetroTabItem Tag="2" IsEnabled="{Binding IsEnabled, UpdateSourceTrigger=PropertyChanged}">
                 <Grid>
                     <Grid.RowDefinitions>
                         <RowDefinition/>
@@ -719,7 +738,7 @@
                 </Grid>
             </mah:MetroTabItem>
 
-            <mah:MetroTabItem Header="Список заявок" IsEnabled="{Binding IsEnabled, UpdateSourceTrigger=PropertyChanged}">
+            <mah:MetroTabItem Tag="3" IsEnabled="{Binding IsEnabled, UpdateSourceTrigger=PropertyChanged}">
                 <DataGrid ItemsSource="{Binding Path=OrdersSet}" AutoGenerateColumns="False">
                     <DataGrid.Columns>
                         <DataGridTextColumn Header="№ заявки" Binding="{Binding RegNumber}"/>
@@ -739,7 +758,7 @@
             </mah:MetroTabItem>
         </mah:MetroAnimatedTabControl>
 
-        <Grid Grid.Row="1">
+        <Grid Grid.Row="2">
             <Grid.RowDefinitions>
                 <RowDefinition/>
                 <RowDefinition/>
