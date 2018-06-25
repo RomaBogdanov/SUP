@@ -322,6 +322,33 @@
 
         <Button 
             Grid.Row="3" 
+            Grid.Column="8" 
+            Margin="1" 
+            Command="{Binding Path=Ok}" 
+            Visibility="{Binding Path=OkVisibility, Mode=OneTime}" 
+            KeyDown="BaseTab_OnKeyDown"
+            Style="{StaticResource ButtonStyle}"
+            PreviewMouseLeftButtonDown="Button_PreviewMouseLeftButtonDown">
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="30"/>
+                    <ColumnDefinition/>
+                </Grid.ColumnDefinitions>
+
+                <Image
+                    Grid.Column="0"
+                    Source="../../Resources/Принять (2).ico"/>
+
+                <TextBlock
+                    Grid.Column="1"
+                    Text="ОК"
+                    FontSize="{Binding FontSize}"
+                    Style="{StaticResource TextBLockStyle}"/>
+            </Grid>
+        </Button>
+
+        <Button 
+            Grid.Row="3" 
             Grid.Column="9" 
             Margin="1" 
             Command="{Binding Path=Close}" 

@@ -50,9 +50,13 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="AndoverLib">
+      <HintPath>..\3rdPart\AndoverLib.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.configuration" />
     <Reference Include="System.Core" />
+    <Reference Include="System.Runtime.Serialization" />
     <Reference Include="System.ServiceModel" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
@@ -63,6 +67,8 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Accounts.cs" />
+    <Compile Include="Andover\AndoverConnector.cs" />
+    <Compile Include="Andover\AndoverManager.cs" />
     <Compile Include="Connectors\ConnectionToDataBaseSetup.cs" />
     <Compile Include="Connectors\Connector.cs" />
     <Compile Include="Data\UserData.cs" />

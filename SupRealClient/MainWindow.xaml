@@ -122,6 +122,7 @@
                 <MenuItem Header="Очистка базы данных..." IsEnabled="False"/>
                 <MenuItem Header="Настройки..." IsEnabled="False"/>
                 <MenuItem Header="Логи" IsEnabled="True" Command="{Binding Path=LogsClick}"/>
+                <MenuItem Header="Загрузить из Andover" IsEnabled="True" Command="{Binding Path=AndoverImportClick}"/>
             </MenuItem>
             <MenuItem Header="Окно" >
                 <MenuItem Header="Посетители" IsEnabled="False"/>

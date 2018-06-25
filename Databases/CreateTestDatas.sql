@@ -57,10 +57,10 @@ insert into vis_cabinets_zones_2 values ( '2', '22', '127')
 insert into vis_cabinets_zones_2 values ( '1', '42', '98')
 
 -- Заполнение таблицы vis_cards
-delete vis_cards where f_card_id <> '0'
-insert into vis_cards values ( '1', '3', '1', '', 'N', '29-сен-2017 12:54:01', '22', '20-июл-2017 11:12:13', '', '1', '1')
-insert into vis_cards values ( '2', '1', '2', '', 'N', '20-июл-2017 11:12:31', '2', '20-июл-2017 11:12:26', '', '2', '2')
-insert into vis_cards values ( '3', '1', '3', '', 'N', '29-сен-2017 12:51:50', '22', '20-июл-2017 11:12:33', '', '3', '3')
+--delete vis_cards where f_card_id <> '0'
+--insert into vis_cards values ( '1', '3', '1', '', 'N', '29-сен-2017 12:54:01', '22', '20-июл-2017 11:12:13', '', '1', '1')
+--insert into vis_cards values ( '2', '1', '2', '', 'N', '20-июл-2017 11:12:31', '2', '20-июл-2017 11:12:26', '', '2', '2')
+--insert into vis_cards values ( '3', '1', '3', '', 'N', '29-сен-2017 12:51:50', '22', '20-июл-2017 11:12:33', '', '3', '3')
 
 -- Заполнение таблицы vis_countries
 delete vis_countries where f_cntr_id <> '0'

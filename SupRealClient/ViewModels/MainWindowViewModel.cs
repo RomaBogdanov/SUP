@@ -10,6 +10,7 @@ using System;
 using System.Windows.Threading;
 using SupRealClient.Models;
 using System.Diagnostics;
+using SupRealClient.Andover;
 
 namespace SupRealClient.ViewModels
 {
@@ -153,6 +154,7 @@ namespace SupRealClient.ViewModels
         public ICommand ListCardsClick { get; set; }        
         public ICommand ListRegionsClick { get; set; }
         public ICommand LogsClick { get; set; }
+        public ICommand AndoverImportClick { get; set; }
         public ICommand ListBaseOrgsStructClick { get; set; }
         public ICommand ListChildOrgs { get; set; }
         public ICommand ListBaseOrgs { get; set; }
@@ -229,6 +231,8 @@ namespace SupRealClient.ViewModels
             UserExit = new RelayCommand(arg => UserExitProc());
             setupStorage.ChangeUserExit += arg => IsUserEnter = !arg;
             Close = new RelayCommand(arg => ExitApp());
+
+            AndoverImportClick = new RelayCommand(arg => AndoverImport());
 
             OpenVisitorsCommand = new RelayCommand(obj => OpenVisitors());
             OpenBidsCommand = new RelayCommand(obj => OpenBids());
@@ -322,7 +326,8 @@ namespace SupRealClient.ViewModels
             var window = new TestView { DataContext = viewModel };
 
             window.ShowDialog();*/
-            Process.Start("AndoverPersonsManager.exe");
+            var window = new AndoverTestView();
+            window.ShowDialog();
         }
 
         private void ExitApp()
@@ -337,6 +342,22 @@ namespace SupRealClient.ViewModels
             }
             catch
             {
+            }
+        }
+
+        private void AndoverImport()
+        {
+            ClientConnector clientConnector = ClientConnector.CurrentConnector;
+            if (clientConnector.ImportFromAndover())
+            {
+                MessageBox.Show("Из Andover были загружены данные для следующих таблиц:\n" +
+                    "Точки доступа, Области доступа, Пропуска, Расписания", "",
+                    MessageBoxButton.OK, MessageBoxImage.Information);
+            }
+            else
+            {
+                MessageBox.Show("Загрузка из Andover не удалась!", "Ошибка",
+                    MessageBoxButton.OK, MessageBoxImage.Error);
             }
         }
     }

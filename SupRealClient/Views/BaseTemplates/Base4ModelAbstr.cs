@@ -5,6 +5,8 @@ using System.Windows.Controls;
 using System.Collections.ObjectModel;
 using SupRealClient.EnumerationClasses;
 using System.Data;
+using System.Windows.Forms;
+using SupClientConnectionLib;
 using SupRealClient.Search;
 using SupRealClient.Common.Interfaces;
 using SupRealClient.Common;
@@ -116,7 +118,7 @@ namespace SupRealClient.Views
             ViewManager.Instance.Search(this, Parent);
         }
         public abstract void Update();
-        public void Ok()
+        public virtual void Ok()
         {
             OnClose?.Invoke(GetResult());
         }
@@ -487,7 +489,7 @@ namespace SupRealClient.Views
                 from c in cardsWrapper.Table.AsEnumerable()
                 from v in visitsWrapper.Table.AsEnumerable()
                 from p in visitorsWrapper.Table.AsEnumerable()
-                where c.Field<int>("f_card_id") != 0 &
+                where c.Field<int>("f_card_id") != 0 &&
                 CommonHelper.NotDeleted(c) &
                 c.Field<int>("f_card_id") == v.Field<int>("f_card_id") &
                 v.Field<int>("f_visitor_id") == p.Field<int>("f_visitor_id") &
@@ -503,6 +505,8 @@ namespace SupRealClient.Views
                 from c in cardsWrapper.Table.AsEnumerable()
                 join s in sprCardstatesWrapper.Table.AsEnumerable()
                 on c.Field<int>("f_state_id") equals s.Field<int>("f_state_id")
+                where c.Field<int>("f_card_id") != 0 &&
+                CommonHelper.NotDeleted(c)
                 select new T
                 {
                     Id = c.Field<int>("f_card_id"),
@@ -529,6 +533,69 @@ namespace SupRealClient.Views
         {
             public int IdCard { get; set; }
             public string PersonName { get; set; }
+        }
+    }
+
+    public class CardsActiveListModel<T> : CardsListModel<T>
+        where T : Card, new()
+    {
+        private int visitorId;
+        private ObservableCollection<Order> orders;
+
+        public CardsActiveListModel(int visitorId, ObservableCollection<Order> orders) : base()
+        {
+            this.visitorId = visitorId;
+            this.orders = orders;
+        }
+
+        public override void Ok()
+        {
+            //base.Ok();
+            // todo: обязательно просмотреть ситуацию стандартного использования данной кнопки.
+            //MessageBox.Show("Test");
+            CardsWrapper cards = CardsWrapper.CurrentTable();
+            DataRow row = cards.Table.Rows.Find(CurrentItem.Id);
+            row.BeginEdit();
+            row["f_rec_operator"] = Authorizer.AppAuthorizer.Id;
+            row["f_rec_date"] = DateTime.Now;
+            row["f_state_id"] = 3;
+            row.EndEdit();
+
+            // todo: Добавляем карту и персону в список визитов. Всё под рефакторинг!!!
+            DataRow row1 = VisitsWrapper.CurrentTable().Table.NewRow();
+            row1["f_card_id"] = CurrentItem.Id;
+            row1["f_visitor_id"] = visitorId; //todo: проставить id визитёра
+            row1["f_time_out"] = DateTime.Now; //todo: пока непонятно, что за дата
+            row1["f_time_in"] = DateTime.Now; //todo: пока непонятно, что за дата
+            row1["f_visit_text"] = "текст"; //todo: пока непонятно, что за текст
+            row1["f_date_from"] = DateTime.Now; //todo: пока непонятно, что за дата
+            row1["f_date_to"] = DateTime.Now; //todo: пока непонятно, что за дата
+            row1["f_order_id"] = 1; //todo: номер заявки, проставить, хотя тут непонятно, потому что карта может выставляться по нескольким заявкам.
+            row1["f_rec_date"] = DateTime.Now;
+            row1["f_rec_operator"] = Authorizer.AppAuthorizer.Id;
+            row1["f_reason"] = "резон"; //todo: пока непонятно, что с полем делать
+            row1["f_rec_operator_back"] = 0; //todo: скорее всего, оператор принявший карту обратно
+            row1["f_rec_date_back"] = DateTime.MinValue; //todo: скорее всего, время возврата карты обратно
+            row1["f_card_status"] = 3; // текущий статус карты
+            row1["f_eff_zonen_text"] = "хм"; //todo: вообще непонятно
+            VisitsWrapper.CurrentTable().Table.Rows.Add(row1);
+            Close();
+            /*CardsWrapper cards = CardsWrapper.CurrentTable();
+            DataRow row = cards.Table.Rows.Find(card.Id);
+            row.BeginEdit();
+            row["f_card_num"] = data.CurdNum;
+            row["f_card_text"] = data.NumMAFW;
+            row["f_comment"] = data.Comment;
+            row["f_rec_operator"] = Authorizer.AppAuthorizer.Id;
+            row["f_rec_date"] = data.CreateDate;
+            row.EndEdit();
+            Cancel();*/
+        }
+
+        protected override void DoQuery()
+        {
+            base.DoQuery();
+            Set = new ObservableCollection<T>(Set.Where(arg => arg.State.ToUpper() == "АКТИВЕН"));
         }
     }
 
@@ -567,14 +634,15 @@ namespace SupRealClient.Views
         protected override void DoQuery()
         {
             Set = new ObservableCollection<T>(
-        from areas in Table.AsEnumerable()
-        where areas.Field<int>("f_area_id") != 0
-        select new T
-        {
-            Id = areas.Field<int>("f_area_id"),
-            Name = areas.Field<string>("f_area_name"),
-            Descript = areas.Field<string>("f_area_descript")
-        });
+                from areas in Table.AsEnumerable()
+                where areas.Field<int>("f_area_id") != 0 &&
+                CommonHelper.NotDeleted(areas)
+                select new T
+                {
+                    Id = areas.Field<int>("f_area_id"),
+                    Name = areas.Field<string>("f_area_name"),
+                    Descript = areas.Field<string>("f_area_descript")
+                });
         }
 
         protected override BaseModelResult GetResult()
@@ -669,16 +737,17 @@ namespace SupRealClient.Views
         protected override void DoQuery()
         {
             Set = new ObservableCollection<T>(
-           from accpnt in Table.AsEnumerable()
-           where accpnt.Field<int>("f_access_point_id") != 0
-           select new T
-           {
-               Id = accpnt.Field<int>("f_access_point_id"),
-               Name = accpnt.Field<string>("f_access_point_name"),
-               Descript = accpnt.Field<string>("f_access_point_description"),
-               SpaceIn = accpnt.Field<string>("f_access_point_space_in"),
-               SpaceOut = accpnt.Field<string>("f_access_point_space_out")
-           });
+                from accpnt in Table.AsEnumerable()
+                where accpnt.Field<int>("f_access_point_id") != 0 &&
+                CommonHelper.NotDeleted(accpnt)
+                select new T
+                {
+                    Id = accpnt.Field<int>("f_access_point_id"),
+                    Name = accpnt.Field<string>("f_access_point_name"),
+                    Descript = accpnt.Field<string>("f_access_point_description"),
+                    SpaceIn = accpnt.Field<string>("f_access_point_space_in"),
+                    SpaceOut = accpnt.Field<string>("f_access_point_space_out")
+                });
         }
 
         protected override BaseModelResult GetResult()
@@ -763,16 +832,16 @@ namespace SupRealClient.Views
 
         protected override void DoQuery()
         {
-            // TODO: непонятно
-            /*Set = new ObservableCollection<T>(
-           from arsp in Table.AsEnumerable()
-           where arsp.Field<int>("f_area_space_id") != 0
-           select new T
-           {
-               Id = arsp.Field<int>("f_area_space_id"),
-               AreaId = arsp.Field<int>("f_area_id"),
-               SpaceId = arsp.Field<int>("f_space_id")
-           });*/
+            Set = new ObservableCollection<T>(
+                from schd in Table.AsEnumerable()
+                where schd.Field<int>("f_schedule_id") != 0 &&
+                CommonHelper.NotDeleted(schd)
+                select new T
+                {
+                    Id = schd.Field<int>("f_schedule_id"),
+                    Name = schd.Field<string>("f_schedule_name"),
+                    Descript = schd.Field<string>("f_schedule_description")
+                });
         }
 
         protected override BaseModelResult GetResult()

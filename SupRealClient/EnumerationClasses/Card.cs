@@ -4,6 +4,7 @@ namespace SupRealClient.EnumerationClasses
 {
     public class Card : IdEntity
     {
+        public string Name { get; set; }
         public int CurdNum { get; set; }
         public DateTime CreateDate { get; set; }
         public int NumMAFW { get; set; }
