@@ -15,6 +15,8 @@ namespace SupRealClient.Views
         int memCountRows = 0;
         DataGridColumnHeader headerCliked = null;
 
+        public bool modeEdit { get; set; }
+
         public Base4View()
         {
             InitializeComponent();
@@ -56,6 +58,14 @@ namespace SupRealClient.Views
             else if (e.Key == Key.End)
             {
                 ((ISuperBaseViewModel)DataContext).End.Execute(null);
+            }
+            else if (e.Key == Key.Space)
+            {
+                if (btnOk.Visibility == Visibility.Visible && btnOk.IsEnabled)
+                {
+                    btnOk.Command?.Execute(null);
+                    e.Handled = true;
+                }
             }
         }
 
@@ -177,6 +187,11 @@ namespace SupRealClient.Views
         private void tbxSearch_TextChanged(object sender, TextChangedEventArgs e)
         {
             baseTabCurrentItemScrollIntoView();
+        }
+
+        private void btnUpdate_PreviewMouseLeftButtonDown(object sender, MouseButtonEventArgs e)
+        {
+            modeEdit = true;
         }
     }
 
