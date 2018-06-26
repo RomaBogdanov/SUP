@@ -4,10 +4,12 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:wpfx="http://schemas.xceed.com/wpf/xaml/toolkit"
+        xmlns:gl="clr-namespace:System.Globalization;assembly=mscorlib"
         xmlns:local="clr-namespace:SupRealClient.Views"
         mc:Ignorable="d"
         ResizeMode="NoResize"
-        Title="Заявка" Height="430" Width="300" 
+        Title="Заявка" Height="470" Width="300" 
         WindowStartupLocation="CenterOwner" KeyboardNavigation.DirectionalNavigation="Cycle">
     <Grid>
         <Grid.ColumnDefinitions>
@@ -30,35 +32,88 @@
             <RowDefinition/>
             <RowDefinition/>
             <RowDefinition/>
-            <RowDefinition/>
+            <RowDefinition Height="2*"/>
         </Grid.RowDefinitions>
 
         <Label Grid.Row="0" Content="Посетитель" Grid.ColumnSpan="2"></Label>
-        <TextBox Grid.Row="1" Grid.ColumnSpan="2" IsEnabled="False" Text="{Binding CurrentItem.Visitor, Mode=TwoWay}"></TextBox>
-        <Button TabIndex="0" Grid.Row="1" Grid.Column="2" Content="..." Command="{Binding VisitorName}"></Button>
-        <Button TabIndex="1" Grid.Row="1" Grid.Column="3" Content="x"></Button>
-        
-        <Label Grid.Row="2" Content="Организация" Grid.ColumnSpan="2"></Label>
-        <TextBox Grid.Row="3" Grid.ColumnSpan="4" IsEnabled="False" Text="{Binding CurrentItem.Organization, Mode=TwoWay}"></TextBox>
-        
-        <Label Grid.Row="4" Content="Принимающее лицо" Grid.ColumnSpan="2"></Label>
-        <TextBox Grid.Row="5" Grid.ColumnSpan="2" IsEnabled="False" Text="{Binding CurrentItem.Catcher, Mode=TwoWay}"></TextBox>
-        <Button TabIndex="2" Grid.Row="5" Grid.Column="2" Content="..." Command="{Binding CatcherName}"></Button>
-        <Button TabIndex="3" Grid.Row="5" Grid.Column="3" Content="x"></Button>
-        
-        <Label Grid.Row="6" Content="Время от.." Grid.ColumnSpan="2"></Label>
-        <TextBox TabIndex="4" Grid.Row="7" Grid.ColumnSpan="4" Text="{Binding CurrentItem.From, Mode=TwoWay}"></TextBox>
-        
-        <Label Grid.Row="8" Content="Время до.." Grid.ColumnSpan="2"></Label>
-        <TextBox TabIndex="5" Grid.Row="9" Grid.ColumnSpan="4" Text="{Binding CurrentItem.To, Mode=TwoWay}"></TextBox>
-        
-        <Label Grid.Row="10" Content="Проходы" Grid.ColumnSpan="2"></Label>
-        <TextBox TabIndex="6" Grid.Row="11" Grid.ColumnSpan="4" Text="{Binding CurrentItem.Passes, Mode=TwoWay}"></TextBox>
-        
-        <Label Grid.Row="12" Content="Не активен"></Label>
-        <CheckBox TabIndex="7" Grid.Row="12" Grid.Column="3" IsChecked="{Binding CurrentItem.IsDisable}"></CheckBox>
+        <TextBox Grid.Row="1" Grid.ColumnSpan="2" IsEnabled="False" Text="{Binding CurrentItem.Visitor, Mode=TwoWay}" Style="{StaticResource TextBoxStyle}" Margin="2"></TextBox>
+        <Button TabIndex="0" Grid.Row="1" Grid.Column="2" Content="..." Command="{Binding VisitorName}" Style="{StaticResource ButtonStyle}"></Button>
+        <Button TabIndex="1" Grid.Row="1" Grid.Column="3" Content="x" Style="{StaticResource ButtonStyle}"></Button>
 
-        <Button TabIndex="8" Grid.Row="13" Content="Ok" Command="{Binding Ok}"></Button>
-        <Button TabIndex="9" Grid.Row="13" Grid.Column="1" Grid.ColumnSpan="3" Content="Отмена" Command="{Binding Cancel, Mode=TwoWay}"></Button>
+        <Label Grid.Row="2" Content="Организация" Grid.ColumnSpan="2"></Label>
+        <TextBox Grid.Row="3" Grid.ColumnSpan="4" IsEnabled="False" Text="{Binding CurrentItem.Organization, Mode=TwoWay}"  Style="{StaticResource TextBoxStyle}" Margin="2"></TextBox>
+
+        <Label Grid.Row="4" Content="Принимающее лицо" Grid.ColumnSpan="2"></Label>
+        <TextBox Grid.Row="5" Grid.ColumnSpan="2" IsEnabled="False" Text="{Binding CurrentItem.Catcher, Mode=TwoWay}" Style="{StaticResource TextBoxStyle}" Margin="2"></TextBox>
+        <Button TabIndex="2" Grid.Row="5" Grid.Column="2" Content="..." Command="{Binding CatcherName}" Style="{StaticResource ButtonStyle}"></Button>
+        <Button TabIndex="3" Grid.Row="5" Grid.Column="3" Content="x" Style="{StaticResource ButtonStyle}"></Button>
+
+        <Label Grid.Row="6" Content="Время от.." Grid.ColumnSpan="2"></Label>
+        <!--<TextBox TabIndex="4" Grid.Row="7" Grid.ColumnSpan="4" Text="{Binding CurrentItem.From, Mode=TwoWay}"></TextBox>-->
+        <DatePicker TabIndex="4" Grid.Row="7" Grid.ColumnSpan="4" SelectedDate="{Binding CurrentItem.From, Mode=TwoWay}" Height="25" Margin="2">
+            <DatePicker.Resources>
+                <Style TargetType="{x:Type DatePickerTextBox}">
+                    <Setter Property="Control.Template">
+                        <Setter.Value>
+                            <ControlTemplate>
+                                <wpfx:MaskedTextBox x:Name="PART_TextBox" Mask="00/00/0000 00:00" 
+                                    Text="{ Binding Path=SelectedDate,ConverterCulture={x:Static gl:CultureInfo.CurrentCulture}, StringFormat=dd/MM/yyyy HH:mm, RelativeSource={RelativeSource AncestorType={x:Type DatePicker}}}" />
+                            </ControlTemplate>
+                        </Setter.Value>
+                    </Setter>
+                </Style>
+            </DatePicker.Resources>
+        </DatePicker>
+
+        <Label Grid.Row="8" Content="Время до.." Grid.ColumnSpan="2"></Label>
+        <!--<TextBox TabIndex="5" Grid.Row="9" Grid.ColumnSpan="4" Text="{Binding CurrentItem.To, Mode=TwoWay}"></TextBox>-->
+        <DatePicker TabIndex="5" Grid.Row="9" Grid.ColumnSpan="4" SelectedDate="{Binding CurrentItem.To, Mode=TwoWay}" Height="25" Margin="2">
+            <DatePicker.Resources>
+                <Style TargetType="{x:Type DatePickerTextBox}">
+                    <Setter Property="Control.Template">
+                        <Setter.Value>
+                            <ControlTemplate>
+                                <wpfx:MaskedTextBox x:Name="PART_TextBox" Mask="00/00/0000 00:00" 
+                                    Text="{ Binding Path=SelectedDate,ConverterCulture={x:Static gl:CultureInfo.CurrentCulture}, StringFormat=dd/MM/yyyy HH:mm, RelativeSource={RelativeSource AncestorType={x:Type DatePicker}}}" />
+                            </ControlTemplate>
+                        </Setter.Value>
+                    </Setter>
+                </Style>
+            </DatePicker.Resources>
+        </DatePicker>
+
+        <Label Grid.Row="10" Content="Проходы" Grid.ColumnSpan="2"></Label>
+        <TextBox IsEnabled="False" Grid.Row="11" Grid.ColumnSpan="2" Text="{Binding CurrentItem.Passes, Mode=TwoWay}" Style="{StaticResource TextBoxStyle}" Margin="2"></TextBox>
+        <Button TabIndex="6" Grid.Row="11" Grid.Column="2" Content="..." Style="{StaticResource ButtonStyle}"></Button>
+        <Button TabIndex="7" Grid.Row="11" Grid.Column="3" Content="x" Style="{StaticResource ButtonStyle}"></Button>
+
+        <Label Grid.Row="12" Content="Не активен"></Label>
+        <CheckBox TabIndex="8" Grid.Row="12" Grid.Column="3" IsChecked="{Binding CurrentItem.IsDisable}"></CheckBox>
+
+        <Button TabIndex="9" Grid.Row="13"
+                Command="{Binding Ok}"
+                Style="{StaticResource ButtonStyle}">
+            <Grid Width="140">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition/>
+                    <ColumnDefinition/>
+                </Grid.ColumnDefinitions>
+                <Image Grid.Column="0" Source="../Resources/Принять (2).ico" />
+                <TextBlock Grid.Column="1" Text="Ок" FontSize="{Binding FontSize}" Style="{StaticResource TextBLockStyle}"/>
+            </Grid>
+        </Button>
+
+        <Button TabIndex="10" Grid.Row="13" Grid.Column="1" Grid.ColumnSpan="3"
+                Command="{Binding Cancel, Mode=TwoWay}"
+                Style="{StaticResource ButtonStyle}">
+            <Grid Width="140">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition/>
+                    <ColumnDefinition/>
+                </Grid.ColumnDefinitions>
+                <Image Grid.Column="0" Source="../Resources/Отмена (2).ico"/>
+                <TextBlock Grid.Column="1" Text="Отмена" FontSize="{Binding FontSize}" Style="{StaticResource TextBLockStyle}"/>
+            </Grid>
+        </Button>
     </Grid>
 </mah:MetroWindow>
