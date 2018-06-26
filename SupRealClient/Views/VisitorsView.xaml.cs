@@ -55,6 +55,11 @@ namespace SupRealClient.Views
             parentWindowChecking();            
         }
 
+        private void MetroWindow_Activated(object sender, System.EventArgs e)
+        {
+            parentWindowChecking();
+        }
+
         void parentWindowChecking()
         {
             if (this.DataContext != null && this.ParentWindow is SupRealClient.Views.VisitorsListWindView)
@@ -75,7 +80,7 @@ namespace SupRealClient.Views
                             
                         (this.ParentWindow as SupRealClient.Views.VisitorsListWindView).base4.modeEdit = false;
                     }
-                    else
+                    else if (butNew.IsEnabled)
                         (this.DataContext as VisitsViewModel).NewCommand.Execute(null);
                 }
                     
@@ -83,6 +88,6 @@ namespace SupRealClient.Views
                 if (this.Visibility == Visibility.Hidden)
                     this.DataContext = new VisitsViewModel(this);
             }
-        }
+        }       
     }
 }

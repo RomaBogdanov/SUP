@@ -190,7 +190,9 @@ namespace SupRealClient.Views
                 return false;
             }
 
-            var sortedRows = Set.OrderByDescending(o => GetPropValue(o, CurrentColumn.SortMemberPath)).ToArray();
+            var sortedRows = Set.ToArray();
+            if (CurrentColumn.SortDirection != null)
+                sortedRows = Set.OrderByDescending(o => GetPropValue(o, CurrentColumn.SortMemberPath)).ToArray();
             if (CurrentColumn.SortDirection == System.ComponentModel.ListSortDirection.Ascending)
                 sortedRows = sortedRows.Reverse().ToArray();
 
