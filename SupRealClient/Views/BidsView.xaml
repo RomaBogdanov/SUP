@@ -38,7 +38,7 @@
                         Style="{StaticResource VisitorsSquareButtonStyle}"/>
             </StackPanel>
         </ScrollViewer>-->
-        <ComboBox Name="comboMenu" Grid.Row="0" SelectedIndex="0" Padding="0" FontSize="16"  
+        <ComboBox Name="comboMenu" Grid.Row="0" SelectedIndex="0" Padding="0" FontSize="16"
                   Style="{StaticResource MetroComboBox1}"
                   IsEnabled="{Binding IsEnabled, UpdateSourceTrigger=PropertyChanged}">
             <ComboBoxItem Content="Разовые заявки" Tag="0" />
@@ -233,17 +233,13 @@
                                 <ColumnDefinition/>
                             </Grid.ColumnDefinitions>
 
-                            <CheckBox
-                            IsChecked="{Binding CurrentSingleOrder.IsDisable, Mode=TwoWay}"
-                            Grid.Column="0"
-                            HorizontalAlignment="Left"
-                            VerticalAlignment="Center" Margin="2" FontSize="18"/>
+                            <CheckBox Grid.Column="0" HorizontalAlignment="Left" VerticalAlignment="Center" Margin="2" FontSize="18"
+                                      IsChecked="{Binding CurrentSingleOrder.IsDisable, Mode=TwoWay}"
+                                      IsEnabled="{Binding TextEnable, UpdateSourceTrigger=PropertyChanged}" />
 
-                            <TextBlock
-                            Grid.Column="1"
-                            Text="Заявка не активна"
-                            HorizontalAlignment="Left"
-                            Style="{StaticResource TextBLockStyle}"/>
+                            <TextBlock Grid.Column="1" HorizontalAlignment="Left"
+                                       Text="Заявка не активна" 
+                                       Style="{StaticResource TextBLockStyle}"/>
                         </Grid>
 
                         <Grid Grid.Row="5">
