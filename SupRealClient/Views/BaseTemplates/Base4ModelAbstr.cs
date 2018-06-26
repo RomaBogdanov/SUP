@@ -141,12 +141,20 @@ namespace SupRealClient.Views
         {
             int oldIndex = SelectedIndex;
 
+            int memCount = -1;
+            if (Set != null)
+                memCount = Set.Count - 1;
+
             DoQuery();
 
-            if (oldIndex >= 0 && oldIndex < Set.Count - 1)
+            if (oldIndex >= 0 && oldIndex < Set.Count - 1 && memCount == Set.Count - 1)
             {
                 SelectedIndex = oldIndex;
                 CurrentItem = Set[SelectedIndex];
+            }
+            else if (memCount != Set.Count - 1)
+            {
+                CurrentItem = Set[Set.Count - 1];
             }
             else if (Set.Count > 0)
             {
