@@ -19,9 +19,7 @@ namespace SupRealClient.Views
 
         public Base4View()
         {
-            InitializeComponent();
-
-            baseTab.SelectionChanged -= baseTab_SelectionChanged;
+            InitializeComponent();            
         }
 
         public DataGrid BaseTab
@@ -32,14 +30,12 @@ namespace SupRealClient.Views
         private void UserControl_PreviewKeyDown(object sender, KeyEventArgs e)
         {
             if (e.Key == Key.Up)
-            {
-                baseTab.SelectionChanged += baseTab_SelectionChanged;
+            {                
                 btnUp.Command.Execute(null);
                 e.Handled = true;
             }
             else if (e.Key == Key.Down)
             {
-                baseTab.SelectionChanged += baseTab_SelectionChanged;
                 btnDown.Command.Execute(null);
                 e.Handled = true;
             }
@@ -72,7 +68,6 @@ namespace SupRealClient.Views
         private void baseTab_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             baseTabCurrentItemScrollIntoView();
-            baseTab.SelectionChanged -= baseTab_SelectionChanged;
         }
 
         void baseTabCurrentItemScrollIntoView()
@@ -88,9 +83,7 @@ namespace SupRealClient.Views
         private void Button_PreviewMouseLeftButtonDown(object sender, MouseButtonEventArgs e)
         {
             if (((Button)sender).Name == "butAdd")
-                memCountRows = baseTab.Items.Count;
-            else
-                baseTab.SelectionChanged += baseTab_SelectionChanged;
+                memCountRows = baseTab.Items.Count;           
         }
 
         private void baseTab_LoadingRow(object sender, DataGridRowEventArgs e)
@@ -99,7 +92,6 @@ namespace SupRealClient.Views
             {
                 memCountRows = 0;
                 baseTab.SelectedItems.Clear();
-                baseTab.SelectionChanged += baseTab_SelectionChanged;
                 baseTab.SelectedItem = baseTab.Items[baseTab.Items.Count - 1];
             }
         }
@@ -124,7 +116,6 @@ namespace SupRealClient.Views
             {
                 tbxSearch.Text = string.Empty;
                 baseTab.SelectedItems?.Clear();
-                baseTab.SelectionChanged += baseTab_SelectionChanged;
 
                 if (baseTab.Columns.Count > 0)
                     SortDataGrid(baseTab, 0, ListSortDirection.Ascending);

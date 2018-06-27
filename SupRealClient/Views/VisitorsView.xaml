@@ -1125,6 +1125,7 @@
             </Button>
 
             <Button
+                    x:Name="butEdit"
                     Command="{Binding EditCommand}"
                     Grid.Row="1"
                     Grid.Column="1"

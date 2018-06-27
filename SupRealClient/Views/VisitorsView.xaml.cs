@@ -69,7 +69,7 @@ namespace SupRealClient.Views
                     if ((this.ParentWindow as SupRealClient.Views.VisitorsListWindView).base4.modeEdit)
                     {
                         object currentItem = (this.ParentWindow as SupRealClient.Views.VisitorsListWindView).base4.baseTab.CurrentItem;
-                        if (currentItem is EnumerationClasses.Visitor)
+                        if (currentItem is EnumerationClasses.Visitor && butEdit.IsEnabled)
                         {
                             int IdSel = (currentItem as EnumerationClasses.Visitor).Id;
                             // -2, т.к Id начинается с 1, и далее вызываем команду некст, т.е. это еще +1
