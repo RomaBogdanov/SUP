@@ -11,6 +11,7 @@ using SupRealClient.Models.AddUpdateModel;
 using SupRealClient.Common.Interfaces;
 using SupRealClient.EnumerationClasses;
 using SupRealClient.Views;
+using SupRealClient.Models;
 
 namespace SupRealClient.ViewModels.AddUpdateViewModel
 {

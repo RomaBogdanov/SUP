@@ -22,16 +22,22 @@ namespace SupRealClient.Views
     /// </summary>
     public partial class AddUpdateBidWindView
     {
+        public object WindowResult { get; set; }
+
         public AddUpdateBidWindView()
         {
             InitializeComponent();
-        }
-        public object WindowResult { get; set; }
+        }        
 
         public void Handling_OnClose(object result)
         {
             WindowResult = result;
             this.Close();
+        }
+
+        private void MetroWindow_Loaded(object sender, RoutedEventArgs e)
+        {
+            btnSelectBid.Focus();
         }
     }
 
