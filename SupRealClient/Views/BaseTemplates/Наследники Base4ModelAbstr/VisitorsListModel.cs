@@ -83,9 +83,12 @@ namespace SupRealClient.Views
         {
             return new Dictionary<string, string>
             {
-                { "f_full_name", "ФИО" },
-                //{ "f_org_name", "Название организации" },
-                { "f_vr_text", "Примечание" },
+                //{ "f_full_name", "ФИО" },
+                ////{ "f_org_name", "Название организации" },
+                //{ "f_vr_text", "Примечание" },
+                { "FullName", "ФИО" },
+                { "Organization", "Название организации" },
+                { "Comment", "Примечание" },
             };
         }
 
