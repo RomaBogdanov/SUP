@@ -7,6 +7,7 @@ using SupRealClient.TabsSingleton;
 using SupRealClient.Models.AddUpdateModel;
 using SupRealClient.ViewModels.AddUpdateViewModel;
 using SupRealClient.Views.AddUpdateView;
+using System.Collections.Generic;
 
 namespace SupRealClient.Views
 {
@@ -61,6 +62,18 @@ namespace SupRealClient.Views
         protected override BaseModelResult GetResult()
         {
             return new BaseModelResult { Id = CurrentItem.Id, Name = CurrentItem.DoorNum };
+        }
+
+        public override IDictionary<string, string> GetFields()
+        {
+            return new Dictionary<string, string>
+            {
+                { "DoorNum", "Номер" },
+                { "Descript", "Описание" },
+                { "SpaceIn", "Внутреннее помещение" },
+                { "SpaceOut", "Внешнее помещение" },
+                { "AccessPointId", "Точка доступа" }
+            };
         }
     }
 }

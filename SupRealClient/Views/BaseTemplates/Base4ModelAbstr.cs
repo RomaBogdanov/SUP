@@ -395,8 +395,8 @@ namespace SupRealClient.Views
         {
             return new Dictionary<string, string>
             {
-                { "f_org_type", "Тип" },
-                { "f_full_org_name", "Основное название" }
+                { "Type", "Тип" },
+                { "Name", "Название" }
             };
         }
     }
@@ -460,8 +460,8 @@ namespace SupRealClient.Views
         {
             return new Dictionary<string, string>
             {
-                { "f_org_type", "Тип" },
-                { "f_full_org_name", "Основное название" }
+                { "Type", "Тип" },
+                { "Name", "Название" }
             };
         }
     }
@@ -544,6 +544,21 @@ namespace SupRealClient.Views
         protected override BaseModelResult GetResult()
         {
             return new BaseModelResult { Id = CurrentItem.Id, Name = CurrentItem.ReceiversName };
+        }
+
+        public override IDictionary<string, string> GetFields()
+        {
+            return new Dictionary<string, string>
+            {
+                { "CurdNum", "Пропуск" },
+                { "CreateDate", "Занесён в БД" },
+                { "NumMAFW", "№ MAFW" },
+                { "Comment", "Примечание" },
+                { "State", "Состояние" },
+                { "ReceiversName", "Кому выдан" },
+                { "Lost", "Утерян" },
+                { "ChangeDate", "Изменён" },
+            };
         }
 
         public class CardsPersons
@@ -666,6 +681,15 @@ namespace SupRealClient.Views
         {
             return new BaseModelResult { Id = CurrentItem.Id, Name = CurrentItem.Name };
         }
+
+        public override IDictionary<string, string> GetFields()
+        {
+            return new Dictionary<string, string>
+            {
+                { "Name", "Название" },
+                { "Descript", "Описание" }
+            };
+        }
     }
 
     public class AreaSpacesListModel<T> : Base4ModelAbstr<T>
@@ -716,6 +740,15 @@ namespace SupRealClient.Views
         protected override BaseModelResult GetResult()
         {
             return new BaseModelResult { Id = CurrentItem.Id, Name = CurrentItem.Id.ToString() };
+        }
+
+        public override IDictionary<string, string> GetFields()
+        {
+            return new Dictionary<string, string>
+            {
+                { "AreaId", "Область доступа" },
+                { "SpaceId", "Помещение" }
+            };
         }
     }
 
@@ -771,6 +804,17 @@ namespace SupRealClient.Views
         {
             return new BaseModelResult { Id = CurrentItem.Id, Name = CurrentItem.Name };
         }
+
+        public override IDictionary<string, string> GetFields()
+        {
+            return new Dictionary<string, string>
+            {
+                { "Name", "Название" },
+                { "Descript", "Описание" },
+                { "SpaceIn", "Внутреннее помещение" },
+                { "SpaceOut", "Внешнее помещение" }
+            };
+        }
     }
 
     public class RealKeysListModel<T> : Base4ModelAbstr<T>
@@ -822,6 +866,18 @@ namespace SupRealClient.Views
         {
             return new BaseModelResult { Id = CurrentItem.Id, Name = CurrentItem.Name };
         }
+
+        public override IDictionary<string, string> GetFields()
+        {
+            return new Dictionary<string, string>
+            {
+                { "Name", "Название" },
+                { "Descript", "Описание" },
+                { "DoorId", "Дверь" },
+                { "KeyHolderId", "Ключница" },
+                { "KeyCaseId", "Пенал" }
+            };
+        }
     }
 
     public class SchedulesListModel<T> : Base4ModelAbstr<T>
@@ -864,6 +920,15 @@ namespace SupRealClient.Views
         protected override BaseModelResult GetResult()
         {
             throw new NotImplementedException();
+        }
+
+        public override IDictionary<string, string> GetFields()
+        {
+            return new Dictionary<string, string>
+            {
+                { "Name", "Название" },
+                { "Descript", "Описание" }
+            };
         }
     }
 
@@ -918,6 +983,17 @@ namespace SupRealClient.Views
         {
             return new BaseModelResult { Id = CurrentItem.Id, Name = CurrentItem.Id.ToString() };
         }
+
+        public override IDictionary<string, string> GetFields()
+        {
+            return new Dictionary<string, string>
+            {
+                { "AreaId", "Область доступа" },
+                { "Name", "Название" },
+                { "ScheduleId", "Расписание" },
+                { "AccessLevelNote", "Описание уровня доступа" }
+            };
+        }
     }
 
     public class CarsListModel<T> : Base4ModelAbstr<T>
@@ -971,6 +1047,18 @@ namespace SupRealClient.Views
         protected override BaseModelResult GetResult()
         {
             return new BaseModelResult { Id = CurrentItem.Id, Name = CurrentItem.CarMark };
+        }
+
+        public override IDictionary<string, string> GetFields()
+        {
+            return new Dictionary<string, string>
+            {
+                { "CarMark", "Марка" },
+                { "CarNumber", "Гос.номер" },
+                { "VisitorId", "Заявитель" },
+                { "OrgId", "Организация" },
+                { "Color", "Цвет" }
+            };
         }
     }
 

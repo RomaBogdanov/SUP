@@ -82,10 +82,7 @@ namespace SupRealClient.Views
         public override IDictionary<string, string> GetFields()
         {
             return new Dictionary<string, string>
-            {
-                //{ "f_full_name", "ФИО" },
-                ////{ "f_org_name", "Название организации" },
-                //{ "f_vr_text", "Примечание" },
+            {                
                 { "FullName", "ФИО" },
                 { "Organization", "Организация" },
                 { "Comment", "Примечание" },

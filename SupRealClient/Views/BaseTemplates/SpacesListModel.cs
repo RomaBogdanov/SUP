@@ -6,6 +6,7 @@ using System.Data;
 using SupRealClient.TabsSingleton;
 using SupRealClient.Models.AddUpdateModel;
 using SupRealClient.ViewModels.AddUpdateViewModel;
+using System.Collections.Generic;
 
 namespace SupRealClient.Views
 {
@@ -61,6 +62,17 @@ namespace SupRealClient.Views
         {
             return new BaseModelResult { Id = CurrentItem.Id, Name = CurrentItem.NumReal };
 
+        }
+
+        public override IDictionary<string, string> GetFields()
+        {
+            return new Dictionary<string, string>
+            {
+                { "NumReal", "Реальный номер" },
+                { "NumBuild", "Строительный номер" },
+                { "Descript", "Описание" },
+                { "Note", "Примечание" }
+            };
         }
     }
 }
