@@ -37,6 +37,7 @@
         VisCars,
         VisEquipment,
         VisKeyCases,
-        VisKeyHolders
+        VisKeyHolders,
+        VisAreaOrderElement
     }
 }

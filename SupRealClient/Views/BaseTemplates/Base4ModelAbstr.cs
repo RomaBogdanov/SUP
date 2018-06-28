@@ -1099,7 +1099,11 @@ select new T
 
         protected override BaseModelResult GetResult()
         {
-            return new BaseModelResult { Id = CurrentItem.Id, Name = CurrentItem.KeyHolderNum };
+            return new BaseModelResult
+            {
+                Id = CurrentItem.Id,
+                Name = CurrentItem.KeyHolderNum
+            };
         }
     }
 }

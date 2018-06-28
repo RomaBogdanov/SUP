@@ -361,6 +361,12 @@ namespace SupRealClient.TabsSingleton
             row["f_full_role"] = "N";//todo: разобраться
             row["f_other_org"] = "";//todo: разобраться
             AddRow(row);
+            foreach (Area relAreas in orderElement.Areas)
+            {
+                AreaOrderElement aoe = new AreaOrderElement {OrderElementId = 
+                    (int)row["f_oe_id"], AreaId = relAreas.Id};
+                AreaOrderElementWrapper.CurrentTable().AddRow(aoe);
+            }
         }
 
         public override void UpdateRow<T>(T obj)
@@ -423,6 +429,24 @@ namespace SupRealClient.TabsSingleton
             row["f_lost_date"] = DateTime.MinValue;
             row["f_last_visit_id"] = 0;
             StandartCols(row);
+            CurrentTable().Table.Rows.Add(row);
+        }
+    }
+
+    partial class AreaOrderElementWrapper
+    {
+        public override void AddRow<T>(T obj)
+        {
+            AreaOrderElement aoe = obj as AreaOrderElement;
+            if (aoe == null)
+            {
+                return;
+            }
+
+            DataRow row = CurrentTable().Table.NewRow();
+            row["f_oe_id"] = aoe.OrderElementId;
+            row["f_area_id"] = aoe.AreaId;
+            // todo: возможно, надо добавить новых столбцов.
             CurrentTable().Table.Rows.Add(row);
         }
     }

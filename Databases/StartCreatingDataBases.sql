@@ -108,6 +108,28 @@ begin
 end
 go
 
+-- Создание vis_areas_order_elements
+-- Таблица соотношения между заявками и областями доступа.
+
+if OBJECT_ID('vis_areas_order_elements') is not null
+	drop table vis_areas_order_elements;
+
+create table vis_areas_order_elements
+(
+	f_area_order_element_id int not null,
+	f_oe_id int, -- id элемента заявки
+	f_area_id int -- id помещения
+)
+
+alter table vis_areas_order_elements
+	add primary key (f_area_order_element_id)
+
+if not exists(select * from vis_areas_order_elements where f_area_order_element_id='0')
+begin
+	insert into vis_areas_order_elements values ('0','0','0')
+end
+go
+
 -- Создание vis_areas_spaces
 -- Таблица соотношения между "областями доступа" и "помещениями". 
 
