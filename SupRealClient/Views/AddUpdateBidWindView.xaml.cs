@@ -20,8 +20,13 @@ namespace SupRealClient.Views
     /// <summary>
     /// Логика взаимодействия для AddUpdateBidWindView.xaml
     /// </summary>
-    public partial class AddUpdateBidWindView : Window
+    public partial class AddUpdateBidWindView 
     {
+        /// <summary>
+        /// Двигатель фокуса
+        /// </summary>
+        private TraversalRequest _focusMover = new TraversalRequest(FocusNavigationDirection.Next);
+
         public AddUpdateBidWindView()
         {
             InitializeComponent();
@@ -32,6 +37,50 @@ namespace SupRealClient.Views
         {
             WindowResult = result;
             this.Close();
+        }
+
+        private void MetroWindow_Loaded(object sender, RoutedEventArgs e)
+        {
+            butVisitorName.Focus();
+        }
+
+        private void butVisitorName_PreviewKeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.Key == Key.Enter)
+            {
+                butCatcherName.Focus();
+                e.Handled = true;
+            }
+        }
+
+        private void butCatcherName_PreviewKeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.Key == Key.Enter)
+            {
+                tbTimeFrom.Focus();
+                e.Handled = true;
+            }
+        }
+
+      
+        private void TextBox_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.Key == Key.Enter)
+            {
+                UIElement elementWithFocus = Keyboard.FocusedElement as UIElement;
+                if (elementWithFocus != null)
+                {
+                    elementWithFocus.MoveFocus(_focusMover);                    
+                }
+            }
+        }
+
+        private void btnOK_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.Key == Key.Enter)
+            {
+                btnOK.Command.Execute(null);
+            }
         }
     }
 
