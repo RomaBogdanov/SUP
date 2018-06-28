@@ -15,6 +15,7 @@ using SupRealClient.Models;
 using SupRealClient.Models.AddUpdateModel;
 using SupRealClient.ViewModels.AddUpdateViewModel;
 using SupRealClient.Views.AddUpdateView;
+using System.Collections;
 
 namespace SupRealClient.Views
 {
@@ -198,22 +199,28 @@ namespace SupRealClient.Views
                 return false;
             }
 
-            var sortedRows = Set.ToArray();
-            if (CurrentColumn.SortDirection != null)
-                sortedRows = Set.OrderByDescending(o => GetPropValue(o, CurrentColumn.SortMemberPath)).ToArray();
-            if (CurrentColumn.SortDirection == System.ComponentModel.ListSortDirection.Ascending)
-                sortedRows = sortedRows.Reverse().ToArray();
+            System.ComponentModel.ICollectionView iSource = System.Windows.Data.CollectionViewSource.GetDefaultView(Set);
+            object sortedRows = iSource.GetType()
+                            .GetProperty(@"InternalList", System.Reflection.BindingFlags.NonPublic | System.Reflection.BindingFlags.Instance)?
+                            .GetValue(iSource, null);
 
-            for (int i = 0; i < sortedRows.Count(); i++)
+            if (sortedRows != null)
             {
-                object obj = GetPropValue(sortedRows.ElementAt(i), CurrentColumn.SortMemberPath);
-                if (obj != null && CommonHelper.IsSearchConditionMatch(obj.ToString(), pattern))
+                IEnumerable enumerable = sortedRows as IEnumerable;
+                if (enumerable != null)
                 {
-                    object idRow = GetPropValue(sortedRows.ElementAt(i), @"Id");
-                    if (idRow is int)
-                        searchResult.Add((int)idRow);
+                    foreach (object element in enumerable)
+                    {
+                        object obj = element.GetType().GetProperty(CurrentColumn.SortMemberPath)?.GetValue(element, null);
+                        if (obj != null && CommonHelper.IsSearchConditionMatch(obj.ToString(), pattern))
+                        {
+                            object idRow = element.GetType().GetProperty(@"Id")?.GetValue(element, null);
+                            if (idRow is int)
+                                searchResult.Add((int)idRow);
+                        }                     
+                    }
                 }
-            }            
+            }          
             SetAt(searchResult.Begin());
 
             return searchResult.Any();

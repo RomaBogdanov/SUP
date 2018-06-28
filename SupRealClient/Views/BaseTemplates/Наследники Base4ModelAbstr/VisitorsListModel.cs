@@ -87,7 +87,7 @@ namespace SupRealClient.Views
                 ////{ "f_org_name", "Название организации" },
                 //{ "f_vr_text", "Примечание" },
                 { "FullName", "ФИО" },
-                { "Organization", "Название организации" },
+                { "Organization", "Организация" },
                 { "Comment", "Примечание" },
             };
         }

@@ -34,26 +34,34 @@ namespace SupRealClient.Models
 				context.SetStrategy(CompareStrategyFactory.Create(searchData.Register,
                     searchData.Equal, searchData.StartWith, searchData.Contains));
 
-                object set = searchHelper.GetType().GetProperty(@"Set")?.GetValue(searchHelper, null);
-                if (set != null)
+                object oSet = searchHelper.GetType().GetProperty(@"Set")?.GetValue(searchHelper, null);
+                if (oSet != null)
                 {
-                    IEnumerable enumerable = set as IEnumerable;
-                    if (enumerable != null)
+                    System.ComponentModel.ICollectionView iSource = System.Windows.Data.CollectionViewSource.GetDefaultView(oSet);
+                    object sortedRows = iSource.GetType()
+                                    .GetProperty(@"InternalList", System.Reflection.BindingFlags.NonPublic | System.Reflection.BindingFlags.Instance)?
+                                    .GetValue(iSource, null);
+
+                    if (sortedRows != null)
                     {
-                        foreach (object element in enumerable)
-                        {                            
-                            object obj = element.GetType().GetProperty(searchData.Field)?.GetValue(element, null);
-                            if (obj != null && context.Execute(obj, searchData.Text))
+                        IEnumerable enumerable = sortedRows as IEnumerable;
+                        if (enumerable != null)
+                        {
+                            foreach (object element in enumerable)
                             {
-                                object id = element.GetType().GetProperty(@"Id")?.GetValue(element, null);
-                                if (id is int)
+                                object obj = element.GetType().GetProperty(searchData.Field)?.GetValue(element, null);
+                                if (obj != null && context.Execute(obj, searchData.Text))
                                 {
-                                    findResult = true;
-                                    result.Add((int)id);
-                                }                                    
+                                    object id = element.GetType().GetProperty(@"Id")?.GetValue(element, null);
+                                    if (id is int)
+                                    {
+                                        findResult = true;
+                                        result.Add((int)id);
+                                    }
+                                }
                             }
                         }
-                    }
+                    }                       
                 }
 
     //            var table = searchHelper.Rows;
