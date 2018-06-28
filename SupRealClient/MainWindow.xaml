@@ -71,7 +71,7 @@
     </Window.DataContext>
     <Grid>
         <Grid.RowDefinitions>
-            <RowDefinition Height="32"/>
+            <RowDefinition Height="45"/>
             <RowDefinition Height="60"/>
             <RowDefinition Height="*"/>
         </Grid.RowDefinitions>
@@ -80,7 +80,7 @@
             <ColumnDefinition />
         </Grid.ColumnDefinitions>
 
-        <Menu Grid.RowSpan="1" Grid.Column="0" Background="White" VerticalAlignment="Center" Margin="10,2,2,2" Padding="0"
+        <Menu Grid.RowSpan="1" Grid.Column="0" Background="White" VerticalAlignment="Center" Margin="10,5" Padding="0"
               FontSize="{Binding ElementName=FontSizeLixtBox, Path=SelectedItem.Content}"
               Visibility="{Binding Path=DataVisibility, Mode=OneWay}">
             <MenuItem Header="Действия" >
@@ -149,7 +149,7 @@
             <TextBlock Text="Версия: " Foreground="Gray" FontStyle="Italic"/>
             <TextBlock Text="{Binding AppVersion}" Foreground="Gray" FontStyle="Italic"/>
         </StackPanel>-->
-        
+
         <Grid Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="2" Margin="5"
               Visibility="{Binding Path=DataVisibility, Mode=OneWay}">
             <Grid.ColumnDefinitions>
@@ -163,22 +163,19 @@
                 <ColumnDefinition/>
             </Grid.ColumnDefinitions>
             <Button Margin="3"
-                Grid.Column="0" 
+                Grid.Column="0"
                 IsEnabled="True" 
                 Style="{DynamicResource SquareButtonStyle}" 
                 FontSize="{Binding ElementName=FontSizeLixtBox, Path=SelectedItem.Content}"
                 Command="{Binding OpenVisitorsCommand}">
                 <Button.ToolTip>
-                    <TextBlock 
-                        Text="Alt+P"
-                        FontSize="16"/>
+                    <TextBlock Text="Alt+P" FontSize="16"/>
                 </Button.ToolTip>
-                <WrapPanel Orientation="Horizontal">
+                <WrapPanel Orientation="Horizontal" HorizontalAlignment="Stretch">
                     <Image Source="Resources/Посетители.jpg" Height="32"></Image>
-                    <TextBlock Margin="2,0,0,0" Text="Посетители" VerticalAlignment="Center"></TextBlock>
+                    <TextBlock Padding="0" Margin="0,0,0,0" Text="Посетители" VerticalAlignment="Center" HorizontalAlignment="Left"></TextBlock>
                 </WrapPanel>
-                <!--<Grid>
-                    
+                <!--<Grid>                    
                     <Grid.RowDefinitions>
                         <RowDefinition/>
                         <RowDefinition/>
@@ -305,6 +302,7 @@
                 Content="Тест"
                 Command="{Binding TestCommand}"/>
         </Grid>
+        
         <!--<DockPanel 
             Grid.Row="1" 
             Grid.RowSpan="3"

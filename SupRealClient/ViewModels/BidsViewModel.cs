@@ -325,7 +325,7 @@ namespace SupRealClient.ViewModels
         public BidsViewModel()
         {
             // Задать размеры и положение формы.
-            WinSet = new ChildWinSet() { Left = 0, Top = 120 };
+            WinSet = new ChildWinSet() { Left = 0 };
             WinSet.Left = WinSet.Width;
 
             // Инициализация команд.
