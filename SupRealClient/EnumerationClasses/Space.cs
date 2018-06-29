@@ -24,10 +24,19 @@ namespace SupRealClient.EnumerationClasses
         public int AccessPointId { get; set; }
     }
 
+    /// <summary>
+    /// Описание области доступа.
+    /// </summary>
     public class Area : IdEntity
     {
         public string Name { get; set; }
         public string Descript { get; set; }
+    }
+
+    public class AreaOrderElement : IdEntity
+    {
+        public int OrderElementId { get; set; }
+        public int AreaId { get; set; }
     }
 
     public class AreaSpace : IdEntity
@@ -42,6 +51,12 @@ namespace SupRealClient.EnumerationClasses
         public string Descript { get; set; }
         public string SpaceIn { get; set; }
         public string SpaceOut { get; set; }
+    }
+
+    public class CardArea : IdEntity
+    {
+        public int CardId { get; set; }
+        public int AreaId { get; set; }
     }
 
     public class RealKey : IdEntity

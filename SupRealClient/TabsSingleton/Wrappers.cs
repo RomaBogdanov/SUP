@@ -997,4 +997,64 @@ namespace SupRealClient.TabsSingleton
         }
     }
 
+	/// <summary>
+	/// ??
+	/// </summary>
+	partial class AreaOrderElementWrapper : TableWrapper
+	{
+		static AreaOrderElementWrapper currentTable;
+
+        public static AreaOrderElementWrapper CurrentTable()
+        {
+            if (currentTable == null)
+            {
+                currentTable = new AreaOrderElementWrapper();
+                wrappers.Add(currentTable);
+            }
+            return currentTable;
+        }
+
+		public override void Dispose()
+        {
+            base.Dispose();
+            currentTable = null;
+        }
+
+        private AreaOrderElementWrapper() : base()
+        {
+            this.table = connector.GetTable(TableName.VisAreaOrderElement);
+            this.Subscribe();
+        }
+    }
+
+	/// <summary>
+	/// ??
+	/// </summary>
+	partial class CardAreaWrapper : TableWrapper
+	{
+		static CardAreaWrapper currentTable;
+
+        public static CardAreaWrapper CurrentTable()
+        {
+            if (currentTable == null)
+            {
+                currentTable = new CardAreaWrapper();
+                wrappers.Add(currentTable);
+            }
+            return currentTable;
+        }
+
+		public override void Dispose()
+        {
+            base.Dispose();
+            currentTable = null;
+        }
+
+        private CardAreaWrapper() : base()
+        {
+            this.table = connector.GetTable(TableName.VisCardArea);
+            this.Subscribe();
+        }
+    }
+
 }

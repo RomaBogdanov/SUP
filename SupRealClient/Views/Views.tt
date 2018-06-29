@@ -83,12 +83,12 @@ namespace SupRealClient.Views
             ViewManager.Instance.CloseWindow(this, true, e);
         }
 
-        private void Handling_OnClose()
+        public void Handling_OnClose()
         {
             this.Close();
         }
 
-        private void Handling_OnClose(object result = null)
+        public void Handling_OnClose(object result = null)
         {
             WindowResult = result;
             this.Close();

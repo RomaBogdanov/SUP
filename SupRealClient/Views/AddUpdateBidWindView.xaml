@@ -84,7 +84,7 @@
 
         <Label Grid.Row="10" Content="Проходы" Grid.ColumnSpan="2"></Label>
         <TextBox IsEnabled="False" Grid.Row="11" Grid.ColumnSpan="2" Text="{Binding CurrentItem.Passes, Mode=TwoWay}" Style="{StaticResource TextBoxStyle}" Margin="2"></TextBox>
-        <Button TabIndex="6" Grid.Row="11" Grid.Column="2" Content="..." Style="{StaticResource ButtonStyle}"></Button>
+        <Button TabIndex="6" Grid.Row="11" Grid.Column="2" Content="..." Style="{StaticResource ButtonStyle}" Command="{Binding UpdateZones}"></Button>
         <Button TabIndex="7" Grid.Row="11" Grid.Column="3" Content="x" Style="{StaticResource ButtonStyle}"></Button>
 
         <Label Grid.Row="12" Content="Не активен"></Label>
