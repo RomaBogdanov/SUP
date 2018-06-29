@@ -32,32 +32,21 @@
         <mah:WindowCommands>
             <Grid>
                 <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="380" />
                     <ColumnDefinition Width="90"/>
                     <ColumnDefinition Width="60"/>
                     <ColumnDefinition />
                 </Grid.ColumnDefinitions>
 
-                <StackPanel Grid.Column="0" Orientation="Horizontal" Margin="2" HorizontalAlignment="Right" IsEnabled="False">
-                    <TextBox Margin="2" Background="Transparent" Padding="0" VerticalContentAlignment="Top" Width="220"
-                             FontSize="{Binding ElementName=FontSizeLixtBox, Path=SelectedItem.Content}" 
-                             Text="{Binding StringFormat=Оператор: {0}, Path=AuthorizedUser}"/>
-                    <TextBox Margin="2"  Background="Transparent" VerticalContentAlignment="Top" Width="140"
-                             FontSize="{Binding ElementName=FontSizeLixtBox, Path=SelectedItem.Content}"
-                             Text="{Binding StringFormat=Онлайн: {0}, Path=AuthorizedUserOnline, UpdateSourceTrigger=PropertyChanged}"/>
-                </StackPanel>
+                <TextBlock Grid.Column="0" Text="Шрифт" FontSize="{Binding ElementName=FontSizeLixtBox, Path=SelectedItem.Content}" VerticalAlignment="Center" Margin="2"/>
 
-                <TextBlock Grid.Column="1" Text="Шрифт" FontSize="{Binding ElementName=FontSizeLixtBox, Path=SelectedItem.Content}" VerticalAlignment="Center" Margin="2"/>
-
-                <ComboBox Grid.Column="2" x:Name="FontSizeLixtBox" SelectedIndex="1" Margin="2">
+                <ComboBox Grid.Column="1" x:Name="FontSizeLixtBox" SelectedIndex="1" Margin="2">
                     <ComboBoxItem Content="12" FontSize="12"/>
                     <ComboBoxItem Content="14" FontSize="14"/>
                     <ComboBoxItem Content="16" FontSize="16"/>
                     <ComboBoxItem Content="18" FontSize="18"/>
-                    <ComboBoxItem Content="20" FontSize="20"/>
                 </ComboBox>
 
-                <Button Grid.Column="3" Content="Настройки" Padding="0" FontSize="{Binding ElementName=FontSizeLixtBox, Path=SelectedItem.Content}" Margin="2"/>
+                <Button Grid.Column="2" Content="Настройки" Padding="0" FontSize="{Binding ElementName=FontSizeLixtBox, Path=SelectedItem.Content}" Margin="2"/>
             </Grid>
         </mah:WindowCommands>
     </mah:MetroWindow.RightWindowCommands>
@@ -143,6 +132,16 @@
             </MenuItem>
         </Menu>
 
+        <Grid Grid.Row="0" Grid.Column="1" Visibility="{Binding Path=DataVisibility, Mode=OneWay}">
+            <StackPanel VerticalAlignment="Center" HorizontalAlignment="Right" Margin="0,0,20,0">
+                <TextBlock Background="Transparent" Padding="0" Width="Auto"
+                             FontSize="{Binding ElementName=FontSizeLixtBox, Path=SelectedItem.Content}" 
+                             Text="{Binding StringFormat=Оператор: {0}, Path=AuthorizedUser}"/>
+                <TextBlock Margin="0,0,0,0"  Background="Transparent" Width="Auto"
+                             FontSize="{Binding ElementName=FontSizeLixtBox, Path=SelectedItem.Content}"
+                             Text="{Binding StringFormat=Онлайн: {0}, Path=AuthorizedUserOnline, UpdateSourceTrigger=PropertyChanged}"/>
+            </StackPanel>            
+        </Grid>
         
         <!-- Версия сборки 
         <StackPanel Orientation="Horizontal" Grid.Row="0" Grid.Column="1" HorizontalAlignment="Right" Margin="2,2,15,2">
@@ -166,138 +165,96 @@
                 Grid.Column="0"
                 IsEnabled="True" 
                 Style="{DynamicResource SquareButtonStyle}" 
+                HorizontalContentAlignment="Left"
                 FontSize="{Binding ElementName=FontSizeLixtBox, Path=SelectedItem.Content}"
                 Command="{Binding OpenVisitorsCommand}">
                 <Button.ToolTip>
-                    <TextBlock Text="Alt+P" FontSize="16"/>
+                    <TextBlock Text="Посетители (Alt+P)" FontSize="16"/>
                 </Button.ToolTip>
-                <WrapPanel Orientation="Horizontal" HorizontalAlignment="Stretch">
-                    <Image Source="Resources/Посетители.jpg" Height="32"></Image>
-                    <TextBlock Padding="0" Margin="0,0,0,0" Text="Посетители" VerticalAlignment="Center" HorizontalAlignment="Left"></TextBlock>
-                </WrapPanel>
-                <!--<Grid>                    
-                    <Grid.RowDefinitions>
-                        <RowDefinition/>
-                        <RowDefinition/>
-                    </Grid.RowDefinitions>
-                    <Image Grid.Row="0" Source="Resources/Посетители.jpg"></Image>
-                    <TextBlock Grid.Row="1" Text="Посетители"></TextBlock>
-                </Grid>-->
+                <Button.Content>
+                    <Grid HorizontalAlignment="Left">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="0.5*" />
+                            <ColumnDefinition />
+                        </Grid.ColumnDefinitions>
+                        <Image Source="Resources/Посетители.jpg" Height="32" Grid.Column="0" HorizontalAlignment="Left"></Image>
+                        <TextBlock Padding="0" Margin="0,0,0,0" Text="Посетители" VerticalAlignment="Center" HorizontalAlignment="Left" Grid.Column="1" ></TextBlock>
+                    </Grid>
+                </Button.Content>
             </Button>
             <Button  Margin="3"
-                Grid.Column="1" 
+                Grid.Column="1"
                 IsEnabled="True" 
                 Style="{DynamicResource SquareButtonStyle}" 
+                HorizontalContentAlignment="Left"
                 FontSize="{Binding ElementName=FontSizeLixtBox, Path=SelectedItem.Content}"
                 Command="{Binding OpenBidsCommand}">
                 <Button.ToolTip>
-                    <TextBlock 
-                        Text="Alt+O"
-                        FontSize="16"/>
+                    <TextBlock Text="Заявки (Alt+O)" FontSize="16"/>
                 </Button.ToolTip>
-                <!--
-                <Grid>
-                    <Grid.RowDefinitions>
-                        <RowDefinition/>
-                        <RowDefinition/>
-                    </Grid.RowDefinitions>
-                    <Image Grid.Row="0" Source="Resources/Заявки.png"></Image>
-                    <TextBlock Grid.Row="1" Text="Заявки"></TextBlock>
-                </Grid>-->
-                <WrapPanel Orientation="Horizontal" >
-                    <Image Source="Resources/Заявки.png" Height="32"></Image>
-                    <TextBlock Margin="2,0,0,0" Text="Заявки" VerticalAlignment="Center"></TextBlock>
-                </WrapPanel>
+                <Grid HorizontalAlignment="Left">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="0.5*"/>
+                        <ColumnDefinition />
+                    </Grid.ColumnDefinitions>
+                    <Image Source="Resources/Заявки.png" Height="32" Grid.Column="0" HorizontalAlignment="Left"></Image>
+                    <TextBlock Margin="2,0,0,0" Text="Заявки" VerticalAlignment="Center" Grid.Column="1" HorizontalAlignment="Left"></TextBlock>
+                </Grid>
             </Button>
             <Button  Margin="3"
                 Grid.Column="2" 
                 IsEnabled="True" 
                 Style="{DynamicResource SquareButtonStyle}" 
+                HorizontalContentAlignment="Left"
                 FontSize="{Binding ElementName=FontSizeLixtBox, Path=SelectedItem.Content}"
                 Command="{Binding OpenVisitsCommand}">
                 <Button.ToolTip>
-                    <TextBlock 
-                        Text="Alt+V"
-                        FontSize="16"/>
+                    <TextBlock Text="Посещения (Alt+V)" FontSize="16"/>
                 </Button.ToolTip>
-                <!--
-                <Grid>
-                    <Grid.RowDefinitions>
-                        <RowDefinition/>
-                        <RowDefinition/>
-                    </Grid.RowDefinitions>
-                    <Image Grid.Row="0" Source="Resources/Посещения.png"></Image>
-                    <TextBlock Grid.Row="1" Text="Посещения"></TextBlock>
-                </Grid>-->
-                <WrapPanel Orientation="Horizontal" >
+                <StackPanel Orientation="Horizontal" HorizontalAlignment="Left" >
                     <Image Source="Resources/Посещения.png" Height="32"></Image>
-                    <TextBlock Margin="2,0,0,0" Text="Посещения" VerticalAlignment="Center"></TextBlock>
-                </WrapPanel>
+                    <TextBlock Margin="2,0,0,0" Text="Посещения" VerticalAlignment="Center" HorizontalAlignment="Left"></TextBlock>
+                </StackPanel>
             </Button>
             <Button  Margin="3"
                 Grid.Column="3" 
                 IsEnabled="False" 
                 Style="{DynamicResource SquareButtonStyle}" 
+                HorizontalContentAlignment="Left"
                 FontSize="{Binding ElementName=FontSizeLixtBox, Path=SelectedItem.Content}">
-                <!--
-                <Grid>
-                    <Grid.RowDefinitions>
-                        <RowDefinition/>
-                        <RowDefinition/>
-                    </Grid.RowDefinitions>
-                    <Image Grid.Row="0" Source="Resources/Отчёт.png"></Image>
-                    <TextBlock Grid.Row="1" Text="Отчёт"></TextBlock>
-                </Grid>-->
-                <WrapPanel Orientation="Horizontal" >
+                <Button.ToolTip>
+                    <TextBlock Text="Отчет" FontSize="16"/>
+                </Button.ToolTip>
+                <StackPanel Orientation="Horizontal" HorizontalAlignment="Left">
                     <Image Source="Resources/Отчёт.png" Height="32"></Image>
-                    <TextBlock Margin="2,0,0,0" Text="Отчёт" VerticalAlignment="Center"></TextBlock>
-                </WrapPanel>
+                    <TextBlock Margin="2,0,0,0" Text="Отчёт" VerticalAlignment="Center" HorizontalAlignment="Left"></TextBlock>
+                </StackPanel>
             </Button>
-            <Button Grid.Column="4" Margin="3" IsEnabled="False" Style="{DynamicResource SquareButtonStyle}" FontSize="{Binding ElementName=FontSizeLixtBox, Path=SelectedItem.Content}">
-                <!--<Grid>
-                    <Grid.RowDefinitions>
-                        <RowDefinition/>
-                        <RowDefinition/>
-                    </Grid.RowDefinitions>
-                    <Image Grid.Row="0" Source="Resources/Сохранить.png"></Image>
-                    <TextBlock Grid.Row="1" Text="Сохранить"></TextBlock>
-                </Grid>-->
-                <WrapPanel Orientation="Horizontal" >
-                    <Image Grid.Row="0" Source="Resources/Сохранить.png" Height="32"></Image>
+            <Button Grid.Column="4" Margin="3" IsEnabled="False" Style="{DynamicResource SquareButtonStyle}"
+                HorizontalContentAlignment="Left" FontSize="{Binding ElementName=FontSizeLixtBox, Path=SelectedItem.Content}">
+                <StackPanel Orientation="Horizontal" >
+                    <Image Grid.Row="0" Source="Resources/Сохранить.png" Height="32" HorizontalAlignment="Left"></Image>
                     <TextBlock Margin="2,0,0,0" Grid.Row="1" Text="Сохранить" VerticalAlignment="Center"></TextBlock>
-                </WrapPanel>
+                </StackPanel>
             </Button>
-            <Button Grid.Column="5" Margin="3" IsEnabled="False" Style="{DynamicResource SquareButtonStyle}" FontSize="{Binding ElementName=FontSizeLixtBox, Path=SelectedItem.Content}">
-                <!--<Grid>
-                    <Grid.RowDefinitions>
-                        <RowDefinition/>
-                        <RowDefinition/>
-                    </Grid.RowDefinitions>
-                    <Image Grid.Row="0" Source="Resources/Наименования.png"></Image>
-                    <TextBlock Grid.Row="1" Text="Наименование"></TextBlock>
-                </Grid>-->
-                <WrapPanel Orientation="Horizontal" >
+            <Button Grid.Column="5" Margin="3" IsEnabled="False" Style="{DynamicResource SquareButtonStyle}"
+                HorizontalContentAlignment="Left" FontSize="{Binding ElementName=FontSizeLixtBox, Path=SelectedItem.Content}">
+                <StackPanel Orientation="Horizontal" HorizontalAlignment="Left">
                     <Image Grid.Row="0" Source="Resources/Наименования.png" Height="32"></Image>
                     <TextBlock Margin="2,0,0,0" Grid.Row="1" Text="Наименование" VerticalAlignment="Center"></TextBlock>
-                </WrapPanel>
+                </StackPanel>
             </Button>
-            <Button Grid.Column="6" Margin="3" IsEnabled="False" Style="{DynamicResource SquareButtonStyle}" FontSize="{Binding ElementName=FontSizeLixtBox, Path=SelectedItem.Content}">
-                <!--<Grid>
-                    <Grid.RowDefinitions>
-                        <RowDefinition/>
-                        <RowDefinition/>
-                    </Grid.RowDefinitions>
-                    <Image Grid.Row="0" Source="Resources/Регистрация3.jpg"></Image>
-                    <TextBlock Grid.Row="1" Text="Регистрация"></TextBlock>
-                </Grid>-->
-                <WrapPanel Orientation="Horizontal">
+            <Button Grid.Column="6" Margin="3" IsEnabled="False" Style="{DynamicResource SquareButtonStyle}"
+                HorizontalContentAlignment="Left" FontSize="{Binding ElementName=FontSizeLixtBox, Path=SelectedItem.Content}">
+                <StackPanel Orientation="Horizontal" HorizontalAlignment="Left">
                     <Image Source="Resources/Регистрация3.jpg" Height="32"></Image>
                     <TextBlock Margin="2,0,0,0" Text="Регистрация" VerticalAlignment="Center"></TextBlock>
-                </WrapPanel>
+                </StackPanel>
             </Button>
             <Button  Margin="3"
                 Grid.Column="7" 
                 Style="{DynamicResource SquareButtonStyle}" 
+                HorizontalContentAlignment="Center"
                 FontSize="{Binding ElementName=FontSizeLixtBox, Path=SelectedItem.Content}" 
                 Content="Тест"
                 Command="{Binding TestCommand}"/>
