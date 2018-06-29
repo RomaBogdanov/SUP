@@ -38,6 +38,7 @@
         VisEquipment,
         VisKeyCases,
         VisKeyHolders,
-        VisAreaOrderElement
+        VisAreaOrderElement,
+        VisCardArea
     }
 }

@@ -635,4 +635,25 @@ namespace SupHost
 			this.getTableBehavior = new VisAreaOrderElementTableBehavior(); 
 		}
     }
+    /// <summary>
+    /// TableBehavior для Связь между картой и областью
+    /// </summary>
+    partial class VisCardAreaTableBehavior : VisitorsDBTableBehavior
+    {
+        public VisCardAreaTableBehavior()
+        {
+            this.StandartSetup("vis_card_area", "f_ca_id");
+        }
+    }
+
+    /// <summary>
+    /// TableWrapper для Связь между картой и областью
+    /// </summary>
+	partial class VisCardAreaTableWrapper : AbstractTableWrapper
+    {
+        public VisCardAreaTableWrapper()
+        { 
+			this.getTableBehavior = new VisCardAreaTableBehavior(); 
+		}
+    }
 }

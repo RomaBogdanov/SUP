@@ -53,6 +53,12 @@ namespace SupRealClient.EnumerationClasses
         public string SpaceOut { get; set; }
     }
 
+    public class CardArea : IdEntity
+    {
+        public int CardId { get; set; }
+        public int AreaId { get; set; }
+    }
+
     public class RealKey : IdEntity
     {
         public string Name { get; set; }

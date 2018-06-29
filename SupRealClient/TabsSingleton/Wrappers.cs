@@ -1027,4 +1027,34 @@ namespace SupRealClient.TabsSingleton
         }
     }
 
+	/// <summary>
+	/// ??
+	/// </summary>
+	partial class CardAreaWrapper : TableWrapper
+	{
+		static CardAreaWrapper currentTable;
+
+        public static CardAreaWrapper CurrentTable()
+        {
+            if (currentTable == null)
+            {
+                currentTable = new CardAreaWrapper();
+                wrappers.Add(currentTable);
+            }
+            return currentTable;
+        }
+
+		public override void Dispose()
+        {
+            base.Dispose();
+            currentTable = null;
+        }
+
+        private CardAreaWrapper() : base()
+        {
+            this.table = connector.GetTable(TableName.VisCardArea);
+            this.Subscribe();
+        }
+    }
+
 }

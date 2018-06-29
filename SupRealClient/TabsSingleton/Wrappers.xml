@@ -34,4 +34,5 @@
   <Item Name="KeyCasesWrapper" Type="VisKeyCases" Comment="??" />
   <Item Name="KeyHoldersWrapper" Type="VisKeyHolders" Comment="??" />
   <Item Name="AreaOrderElementWrapper" Type="VisAreaOrderElement" Comment="??" />
+  <Item Name="CardAreaWrapper" Type="VisCardArea" Comment="??" />
 </Enum>

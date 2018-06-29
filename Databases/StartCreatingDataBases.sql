@@ -118,7 +118,10 @@ create table vis_areas_order_elements
 (
 	f_area_order_element_id int not null,
 	f_oe_id int, -- id элемента заявки
-	f_area_id int -- id помещения
+	f_area_id int, -- id помещения
+	f_deleted                      CHAR(1),
+    f_rec_date                     DATE,
+    f_rec_operator                 int,
 )
 
 alter table vis_areas_order_elements
@@ -126,7 +129,7 @@ alter table vis_areas_order_elements
 
 if not exists(select * from vis_areas_order_elements where f_area_order_element_id='0')
 begin
-	insert into vis_areas_order_elements values ('0','0','0')
+	insert into vis_areas_order_elements values ('0','0','0','N','','')
 end
 go
 
@@ -252,6 +255,31 @@ ADD PRIMARY KEY (f_card_id)
 if not exists(select * from vis_cards where f_card_id = '0')
 begin
 	insert into vis_cards values ( '0', '0', '', '', '0', 'N', '', '0', '', '', '', '0', '0', '0', '', '', '')
+end
+go
+
+-- Создание vis_card_area
+-- Таблица связи между картами доступа и областями доступа
+
+if object_id('vis_card_area') is not null
+	drop table vis_card_area;
+
+create table vis_card_area
+(
+	f_ca_id int not null,
+	f_card_id int, -- id карты
+	f_area_id int, -- id области доступа
+	f_deleted                      CHAR(1),
+    f_rec_date                     DATE,
+    f_rec_operator                 int
+)
+
+alter table vis_card_area
+add primary key (f_ca_id)
+
+if not exists(select * from vis_card_area where f_ca_id = '0')
+begin
+	insert into vis_card_area values ('0', '0', '0', 'N', '', '')
 end
 go
 
