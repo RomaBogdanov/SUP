@@ -325,6 +325,7 @@
         </Button>
         
         <Button 
+            x:Name="btnOk"
             Grid.Row="3" 
             Grid.Column="5" 
             Margin="1" 

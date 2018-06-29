@@ -614,4 +614,46 @@ namespace SupHost
 			this.getTableBehavior = new VisKeyHoldersTableBehavior(); 
 		}
     }
+    /// <summary>
+    /// TableBehavior для Связь между областью и заявкой
+    /// </summary>
+    partial class VisAreaOrderElementTableBehavior : VisitorsDBTableBehavior
+    {
+        public VisAreaOrderElementTableBehavior()
+        {
+            this.StandartSetup("vis_areas_order_elements", "f_area_order_element_id");
+        }
+    }
+
+    /// <summary>
+    /// TableWrapper для Связь между областью и заявкой
+    /// </summary>
+	partial class VisAreaOrderElementTableWrapper : AbstractTableWrapper
+    {
+        public VisAreaOrderElementTableWrapper()
+        { 
+			this.getTableBehavior = new VisAreaOrderElementTableBehavior(); 
+		}
+    }
+    /// <summary>
+    /// TableBehavior для Связь между картой и областью
+    /// </summary>
+    partial class VisCardAreaTableBehavior : VisitorsDBTableBehavior
+    {
+        public VisCardAreaTableBehavior()
+        {
+            this.StandartSetup("vis_card_area", "f_ca_id");
+        }
+    }
+
+    /// <summary>
+    /// TableWrapper для Связь между картой и областью
+    /// </summary>
+	partial class VisCardAreaTableWrapper : AbstractTableWrapper
+    {
+        public VisCardAreaTableWrapper()
+        { 
+			this.getTableBehavior = new VisCardAreaTableBehavior(); 
+		}
+    }
 }

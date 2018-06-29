@@ -350,5 +350,14 @@ namespace SupRealClient.EnumerationClasses
         {
             return this.MemberwiseClone();
         }
+
+        public ObservableCollection<Area> Areas { get; set; } = 
+            new ObservableCollection<Area>();
+
+        public ObservableCollection<Area> AddedAreas { get; set; } =
+            new ObservableCollection<Area>();
+
+        public ObservableCollection<Area> DeletedAreas { get; set; } =
+            new ObservableCollection<Area>();
     }
 }

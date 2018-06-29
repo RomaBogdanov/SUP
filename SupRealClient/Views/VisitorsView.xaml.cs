@@ -57,10 +57,28 @@ namespace SupRealClient.Views
 
         void parentWindowChecking()
         {
-            if (this.ParentWindow is SupRealClient.Views.VisitorsListWindView)
+            if (this.DataContext != null && this.ParentWindow is SupRealClient.Views.VisitorsListWindView)
             {
                 if (this.Visibility == Visibility.Visible)
-                    (this.DataContext as VisitsViewModel)?.NewCommand.Execute(null);
+                {                    
+                    if ((this.ParentWindow as SupRealClient.Views.VisitorsListWindView).base4.modeEdit)
+                    {
+                        object currentItem = (this.ParentWindow as SupRealClient.Views.VisitorsListWindView).base4.baseTab.CurrentItem;
+                        if (currentItem is EnumerationClasses.Visitor)
+                        {
+                            int IdSel = (currentItem as EnumerationClasses.Visitor).Id;
+                            // -2, т.к Id начинается с 1, и далее вызываем команду некст, т.е. это еще +1
+                            (((VisitsViewModel)this.DataContext).Model as VisitsModel).selectedIndex = IdSel - 2;
+                            (this.DataContext as VisitsViewModel).NextCommand.Execute(null);
+                            (this.DataContext as VisitsViewModel).EditCommand.Execute(null);                            
+                        }
+                            
+                        (this.ParentWindow as SupRealClient.Views.VisitorsListWindView).base4.modeEdit = false;
+                    }
+                    else
+                        (this.DataContext as VisitsViewModel).NewCommand.Execute(null);
+                }
+                    
 
                 if (this.Visibility == Visibility.Hidden)
                     this.DataContext = new VisitsViewModel(this);

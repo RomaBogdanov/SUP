@@ -7,6 +7,7 @@ using SupRealClient.EnumerationClasses;
 using System.Data;
 using System.Windows.Forms;
 using SupClientConnectionLib;
+using SupRealClient.Andover;
 using SupRealClient.Search;
 using SupRealClient.Common.Interfaces;
 using SupRealClient.Common;
@@ -579,7 +580,57 @@ namespace SupRealClient.Views
             row1["f_card_status"] = 3; // текущий статус карты
             row1["f_eff_zonen_text"] = "хм"; //todo: вообще непонятно
             VisitsWrapper.CurrentTable().Table.Rows.Add(row1);
+
+            List<CardArea> list = new List<CardArea>();
+
+            // создаём связь: карта - зоны доступа
+            foreach (var order in orders)
+            {
+                var ordels = order.OrderElements.Where(arg => arg.VisitorId == visitorId);
+                foreach (var orderElement in ordels)
+                {
+                    foreach (var orderElementArea in orderElement.Areas)
+                    {
+                        list.Add(new CardArea
+                        {
+                            AreaId = orderElementArea.Id,
+                            CardId = (int)row["f_card_id"]
+                        }); 
+                    }
+                }
+            }
+            list.ForEach(arg =>
+            {
+                DataRow r = CardAreaWrapper.CurrentTable().Table.NewRow();
+                r["f_card_id"] = arg.CardId;
+                r["f_area_id"] = arg.AreaId;
+                r["f_deleted"] = "N";
+                r["f_rec_date"] = DateTime.Now;
+                r["f_rec_operator"] = Authorizer.AppAuthorizer.Id;
+                CardAreaWrapper.CurrentTable().Table.Rows.Add(r);
+            });
+
             Close();
+            /*
+            // работа с Андовер
+            ObservableCollection<Card> set;
+            ObservableCollection<AndoverTestViewModel.AccessPointEx> zones;
+
+            zones = new ObservableCollection<AndoverTestViewModel.AccessPointEx>(
+                from accpnt in AccessPointsWrapper.CurrentTable().Table.AsEnumerable()
+                where accpnt.Field<int>("f_access_point_id") != 0 &&
+                      CommonHelper.NotDeleted(accpnt)
+                select new AndoverTestViewModel.AccessPointEx
+                {
+                    Id = accpnt.Field<int>("f_access_point_id"),
+                    Name = accpnt.Field<string>("f_access_point_name"),
+                    Descript = accpnt.Field<string>("f_access_point_description"),
+                    SpaceIn = accpnt.Field<string>("f_access_point_space_in"),
+                    SpaceOut = accpnt.Field<string>("f_access_point_space_out"),
+                    Path = accpnt.Field<string>("f_access_point_path"),
+                });*/
+            
+
             /*CardsWrapper cards = CardsWrapper.CurrentTable();
             DataRow row = cards.Table.Rows.Find(card.Id);
             row.BeginEdit();
@@ -1099,7 +1150,11 @@ select new T
 
         protected override BaseModelResult GetResult()
         {
-            return new BaseModelResult { Id = CurrentItem.Id, Name = CurrentItem.KeyHolderNum };
+            return new BaseModelResult
+            {
+                Id = CurrentItem.Id,
+                Name = CurrentItem.KeyHolderNum
+            };
         }
     }
 }
