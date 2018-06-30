@@ -57,20 +57,21 @@ namespace SupRealClient.Views
         {
             if (e.Key == Key.Enter)
             {
-                tbTimeFrom.Focus();
+                dpTimeFrom.Focus();
                 e.Handled = true;
             }
         }
 
       
-        private void TextBox_KeyDown(object sender, KeyEventArgs e)
+        private void UIdef_KeyDown(object sender, KeyEventArgs e)
         {
             if (e.Key == Key.Enter)
             {
                 UIElement elementWithFocus = Keyboard.FocusedElement as UIElement;
                 if (elementWithFocus != null)
                 {
-                    elementWithFocus.MoveFocus(_focusMover);                    
+                    elementWithFocus.MoveFocus(_focusMover);
+                    e.Handled = true;
                 }
             }
         }
@@ -80,6 +81,15 @@ namespace SupRealClient.Views
             if (e.Key == Key.Enter)
             {
                 btnOK.Command.Execute(null);
+            }
+        }
+
+        private void butPassesName_PreviewKeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.Key == Key.Enter)
+            {
+                cbIsDisable.Focus();
+                e.Handled = true;
             }
         }
     }
