@@ -15,7 +15,7 @@ namespace SupRealClient
         // Формируем размеры окна в зависимости от разрешения монитора.
         private double screenWidth { get; set; }
         private double screenHeighth { get; set; }
-        private double sizePercentHeight = 0.8;
+        private double sizePercentHeight = 0.78;
         private double sizePercentWidth = 0.5;
 
         private double _height;
@@ -32,7 +32,7 @@ namespace SupRealClient
             set { _width = value; OnPropertyChanged("Width"); }
         }
         public double Left { get; set; }
-        public double Top { get; set; }
+        public double Top { get; set; } = 140;
 
         public ChildWinSet()
         {
