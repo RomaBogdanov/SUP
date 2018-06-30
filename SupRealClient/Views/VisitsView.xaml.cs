@@ -235,6 +235,8 @@ namespace SupRealClient.Views
         public ICommand EditMainDocumentCommand { get; set; }
         public ICommand RemoveMainDocumentCommand { get; set; }
 
+        public ICommand RefreshCommand { get; set; }
+
         private ChildWindowSettings _windowSettings;
         public ChildWindowSettings WindowSettings
         {
@@ -294,6 +296,13 @@ namespace SupRealClient.Views
             AddMainDocumentCommand = new RelayCommand(arg => AddMainDocument());
             EditMainDocumentCommand = new RelayCommand(arg => EditMainDocument());
             RemoveMainDocumentCommand = new RelayCommand(arg => RemoveMainDocument());
+
+            RefreshCommand = new RelayCommand(arg => Refresh());
+        }
+
+        private void Refresh()
+        {
+            Model = new VisitsModel();
         }
 
         /// <summary>
@@ -1321,7 +1330,7 @@ namespace SupRealClient.Views
                     where visit.Field<int>("f_visitor_id") == Set[index].Id
                     select new Card2
                     {
-                        Card = card.Field<string>("f_card_text"),
+                        Card = card.Field<string>("f_card_name"),
                         From = visit.Field<DateTime>("f_date_from"),
                         To = visit.Field<DateTime>("f_date_to"),
                         Change = visit.Field<DateTime>("f_rec_date"),
