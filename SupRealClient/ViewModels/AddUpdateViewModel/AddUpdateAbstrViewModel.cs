@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -11,6 +12,7 @@ using SupRealClient.Models.AddUpdateModel;
 using SupRealClient.Common.Interfaces;
 using SupRealClient.EnumerationClasses;
 using SupRealClient.Views;
+using SupRealClient.Views.Visitor;
 
 namespace SupRealClient.ViewModels.AddUpdateViewModel
 {
@@ -114,10 +116,13 @@ namespace SupRealClient.ViewModels.AddUpdateViewModel
 
         public ICommand CatcherName { get; set; }
 
+        public ICommand UpdateZones { get; set; }
+
         public AddUpdateBidsViewModel() : base()
         {
             VisitorName = new RelayCommand(arg => VisitorNameCommand());
             CatcherName = new RelayCommand(arg => CatcherNameCommand());
+            UpdateZones = new RelayCommand(arg => UpdateZonesCommand());
         }
 
         private void VisitorNameCommand()
@@ -138,6 +143,98 @@ namespace SupRealClient.ViewModels.AddUpdateViewModel
             (CurrentItem as OrderElement).CatcherId = result.Id;
             (CurrentItem as OrderElement).Catcher = result.Name;
             CurrentItem = CurrentItem;
+        }
+
+        private void UpdateZonesCommand()
+        {
+            // todo: переделать нормально
+            AddUpdateAbstrModel zonesModel = new AddUpdateZonesToBidModel(
+                (CurrentItem as OrderElement).Areas);
+            AddUpdateBaseViewModel viewModel = new AddUpdateZonesToBidViewModel
+            {
+                Model = zonesModel
+            };
+            AssigningZonesView wind = new AssigningZonesView
+            {
+                DataContext = viewModel
+            };
+            viewModel.Model.OnClose += wind.Handling_OnClose;
+            wind.ShowDialog();
+            if (wind.WindowResult as ObservableCollection<Area> == null)
+            {
+                return;
+            }
+            (CurrentItem as OrderElement).Areas = wind.WindowResult as 
+                ObservableCollection<Area>;
+            string st = "";
+            foreach (var area in wind.WindowResult as ObservableCollection<Area>)
+            {
+                st += area.Name + ", ";
+            }
+
+            (CurrentItem as OrderElement).Passes = st.Remove(st.Length - 2);
+        }
+    }
+
+    public class AddUpdateZonesToBidViewModel : AddUpdateBaseViewModel
+    {
+        private ObservableCollection<Area> setAllZones;
+        private ObservableCollection<Area> setAppointZones;
+
+        public ObservableCollection<Area> SetAllZones
+        {
+            get { return ((AddUpdateZonesToBidModel)this.Model).SetAllZones; }
+            set
+            {
+                ((AddUpdateZonesToBidModel)this.Model).SetAllZones = value;
+                OnPropertyChanged();
+            }
+        }
+
+        public ObservableCollection<Area> SetAppointZones
+        {
+            get { return ((AddUpdateZonesToBidModel)this.Model).SetAppointZones; }
+            set
+            {
+                ((AddUpdateZonesToBidModel)this.Model).SetAppointZones = value;
+                OnPropertyChanged();
+            }
+        }
+
+        public Area CurrentAppointZone
+        {
+            get { return ((AddUpdateZonesToBidModel)this.Model).CurrentAppointZone; }
+            set
+            {
+                ((AddUpdateZonesToBidModel) this.Model).CurrentAppointZone = value;
+                OnPropertyChanged();
+            }
+        }
+
+        /// <summary>
+        /// Отработка кнопки перевода в список назначенных зон
+        /// </summary>
+        public ICommand ToAppointZones { get; set; }
+
+        /// <summary>
+        /// Отработка кнопки перевода в список всех зон
+        /// </summary>
+        public ICommand ToAllZones { get; set; }
+
+        public AddUpdateZonesToBidViewModel() : base()
+        {
+            ToAppointZones = new RelayCommand(arg => ToAppointZonesCommand());
+            ToAllZones = new RelayCommand(arg => ToAllZonesCommand());
+        }
+
+        private void ToAppointZonesCommand()
+        {
+            CurrentItem = ((AddUpdateZonesToBidModel) this.Model).ToAppointZones();
+        }
+
+        private void ToAllZonesCommand()
+        {
+            CurrentAppointZone = ((AddUpdateZonesToBidModel) this.Model).ToAllZonesCommand();
         }
     }
 }

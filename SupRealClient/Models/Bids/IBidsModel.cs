@@ -384,6 +384,7 @@ namespace SupRealClient.Models
                 Model = model
             };
             AddUpdateBidWindView view = new AddUpdateBidWindView();
+            view.Title = "Добавить посетителя";
             view.DataContext = viewModel;
             model.OnClose += view.Handling_OnClose;
             view.ShowDialog();
@@ -406,6 +407,7 @@ namespace SupRealClient.Models
                 Model = model
             };
             AddUpdateBidWindView view = new AddUpdateBidWindView();
+            view.Title = "Добавить посетителя";
             view.DataContext = viewModel;
             model.OnClose += view.Handling_OnClose;
             view.ShowDialog();
