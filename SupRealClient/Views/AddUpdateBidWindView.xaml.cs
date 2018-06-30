@@ -20,7 +20,7 @@ namespace SupRealClient.Views
     /// <summary>
     /// Логика взаимодействия для AddUpdateBidWindView.xaml
     /// </summary>
-    public partial class AddUpdateBidWindView : Window
+    public partial class AddUpdateBidWindView
     {
         public AddUpdateBidWindView()
         {

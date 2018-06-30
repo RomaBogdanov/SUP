@@ -1,5 +1,8 @@
 ﻿using System;
+using System.Collections.ObjectModel;
 using System.Data;
+using System.Linq;
+using System.Windows.Forms;
 using SupRealClient.Common.Interfaces;
 using SupRealClient.Views;
 using SupRealClient.EnumerationClasses;
@@ -15,8 +18,8 @@ namespace SupRealClient.Models.AddUpdateModel
     /// </summary>
     public abstract class AddUpdateAbstrModel
     {
-        public event ModelPropertyChanged OnModelPropertyChanged;
-        public event Action<object> OnClose;
+        public virtual event ModelPropertyChanged OnModelPropertyChanged;
+        public virtual event Action<object> OnClose;
         public virtual object CurrentItem { get; set; }
         
         //public object Result { get; set; }
@@ -34,6 +37,9 @@ namespace SupRealClient.Models.AddUpdateModel
 
         public IWindow Parent { get; internal set; }
 
+        /// <summary>
+        /// Действия, происходящие при нажатии Ок
+        /// </summary>
         protected virtual void SaveResult() { }
     }
 
@@ -96,6 +102,11 @@ namespace SupRealClient.Models.AddUpdateModel
             row["f_deleted"] = "N";
             row["f_rec_date"] = DateTime.Now;
             row["f_rec_operator"] = Authorizer.AppAuthorizer.Id;
+            row["f_object_id_hi"] = 0;
+            row["f_object_id_lo"] = 0;
+            row["f_area_controller"] = "";
+            row["f_area_path"] = "";
+            row["f_area_data"] = "";
             AreasWrapper.CurrentTable().Table.Rows.Add(row);
         }
     }
@@ -250,6 +261,116 @@ namespace SupRealClient.Models.AddUpdateModel
         {
             CurrentItem = visitor.Clone();
         }
+    }
 
+    /// <summary>
+    /// Обработчик формы для добавления редактирования зон в заявку.
+    /// </summary>
+    public class AddUpdateZonesToBidModel : AddUpdateAbstrModel
+    {
+
+        public override event Action<object> OnClose;
+
+        private ObservableCollection<Area> setAllZones;
+        private ObservableCollection<Area> setAppointZones;
+        private Area currentAppointZone;
+
+        public ObservableCollection<Area> SetAllZones
+        {
+            get { return setAllZones;}
+            set { setAllZones = value; }
+        }
+
+        public ObservableCollection<Area> SetAppointZones
+        {
+            get { return setAppointZones; }
+            set { setAppointZones = value; }
+        }
+
+        public Area CurrentAppointZone
+        {
+            get { return currentAppointZone; }
+            set { currentAppointZone = value; }
+        }
+
+        public Area ToAppointZones()
+        {
+            if (CurrentItem != null)
+            {
+                int i = setAllZones.IndexOf((Area) CurrentItem);
+                SetAppointZones.Add((Area) CurrentItem);
+                SetAllZones.Remove((Area) CurrentItem);
+                if (SetAllZones.Count > i)
+                {
+                    CurrentItem = SetAllZones[i];
+                }
+                else if (SetAllZones.Count == 0)
+                {
+                    CurrentItem = null;
+                }
+                else
+                {
+                    CurrentItem = SetAllZones[i - 1];
+                }
+            }
+
+            return (Area)CurrentItem;
+        }
+
+        public Area ToAllZonesCommand()
+        {
+
+            if (CurrentAppointZone != null)
+            {
+                int i = SetAppointZones.IndexOf(CurrentAppointZone);
+                SetAllZones.Add(CurrentAppointZone);
+                SetAppointZones.Remove(CurrentAppointZone);
+                if (SetAppointZones.Count > i)
+                {
+                    CurrentAppointZone = SetAppointZones[i];
+                }
+                else if (SetAppointZones.Count == 0)
+                {
+                    CurrentAppointZone = null;
+                }
+                else
+                {
+                    CurrentAppointZone = SetAppointZones[i - 1];
+                }
+            }
+
+            return CurrentAppointZone;
+        }
+
+        public AddUpdateZonesToBidModel(ObservableCollection<Area> setAppointZones)
+        {
+            SetAppointZones = setAppointZones ?? new ObservableCollection<Area>();
+            Query();
+        }
+
+        private void Query()
+        {
+            
+            SetAllZones = new ObservableCollection<Area>(
+                from areas in AreasWrapper.CurrentTable().Table.AsEnumerable()
+                where areas.Field<int>("f_area_id") != 0 && 
+                      SetAppointZones.Where(
+                      arg => arg.Id == areas.Field<int>("f_area_id")).Count()==0
+                select new Area
+                {
+                    Id = areas.Field<int>("f_area_id"),
+                    Name = areas.Field<string>("f_area_name"),
+                    Descript = areas.Field<string>("f_area_descript")
+                });
+            //SetAppointZones = new ObservableCollection<Area>();
+            
+            CurrentItem = SetAllZones.Count > 0 ? SetAllZones[0] : null;
+            CurrentAppointZone = SetAppointZones.Count > 0 ? SetAppointZones[0] : null;
+        }
+
+        public override void Ok()
+        {
+            OnClose?.Invoke(SetAppointZones);
+        }
     }
 }

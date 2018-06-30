@@ -455,7 +455,7 @@ namespace SupRealClient.Views
         private void Find()
         {
             var result = ViewManager.Instance.OpenWindowModal(
-                "VisitorsListWindView", view) as BaseModelResult;
+                @"VisitorsListWindViewOk", view) as BaseModelResult;
             if (result == null)
             {
                 return;
@@ -485,7 +485,10 @@ namespace SupRealClient.Views
             }
             else if (Model is EditVisitsModel)
             {
-                Model = new VisitsModel(Set, ((EditVisitsModel)Model).OldVisitor);
+                if (view.ParentWindow is SupRealClient.Views.VisitorsListWindView)
+                    view.CloseWindow(new CancelEventArgs());
+                else
+                    Model = new VisitsModel(Set, ((EditVisitsModel)Model).OldVisitor);
             }
         }
 
@@ -1103,7 +1106,7 @@ namespace SupRealClient.Views
 
     public class VisitsModel : BaseVisitsModel
     {
-        private int selectedIndex;
+        public int selectedIndex { get; set; }
 
         public override bool TextEnable
         {

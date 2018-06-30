@@ -3,6 +3,7 @@ using System.Collections.ObjectModel;
 using SupRealClient.TabsSingleton;
 using System.Data;
 using SupRealClient.Common;
+using System.Collections.Generic;
 
 namespace SupRealClient.Views
 {
@@ -35,16 +36,12 @@ namespace SupRealClient.Views
             SetAt(searchResult.Next());
         }
 
-        public override void Search()
-        {
-            System.Windows.Forms.MessageBox.Show("Search");
-        }
-
+        
         public override void Update()
         {
             if (CurrentItem != null)
-            {
-                System.Windows.Forms.MessageBox.Show("Update");
+            { 
+                ViewManager.Instance.OpenWindow("VisitorsView", this.Parent);
             }
         }
 
@@ -80,6 +77,16 @@ namespace SupRealClient.Views
         public override long GetId(int index)
         {
             return Rows[index].Field<int>("f_visitor_id");
+        }
+
+        public override IDictionary<string, string> GetFields()
+        {
+            return new Dictionary<string, string>
+            {
+                { "f_full_name", "ФИО" },
+                //{ "f_org_name", "Название организации" },
+                { "f_vr_text", "Примечание" },
+            };
         }
 
         protected override DataTable Table
