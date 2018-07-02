@@ -1244,7 +1244,8 @@
                     IsEnabled="{Binding Path=VisitorsEnable.RefreshButtonEnable, Mode=TwoWay}"
                     Visibility="{Binding Path=VisitorsVisible.RefreshButtonEnable, 
                     Converter={StaticResource BooleanToVisibilityConverter}}"
-                    Style="{StaticResource VisitorsSquareButtonStyle}">
+                    Style="{StaticResource VisitorsSquareButtonStyle}"
+                    Command="{Binding RefreshCommand}">
                 <Grid>
                     <Grid.RowDefinitions>
                         <RowDefinition/>
