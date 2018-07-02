@@ -1176,8 +1176,9 @@ namespace SupRealClient.Views
                     Family = visitors.Field<string>("f_family"),
                     Name = visitors.Field<string>("f_fst_name"),
                     Patronymic = visitors.Field<string>("f_sec_name"),
-                    /*Organization = OrganizationsHelper.
-                        GenerateFullName(visitors.Field<int>("f_org_id"), true),*/
+                    OrganizationId = visitors.Field<int>("f_org_id"),
+                    Organization = OrganizationsHelper.
+                                   GenerateFullName(visitors.Field<int>("f_org_id"), true),
                     Comment = visitors.Field<string>("f_vr_text"),
                     IsAccessDenied = CommonHelper.StringToBool(visitors.Field<string>(
                         "f_persona_non_grata")),
