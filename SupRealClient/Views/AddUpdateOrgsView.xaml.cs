@@ -100,10 +100,7 @@ namespace SupRealClient.Views
             else
                 selectionStartType = textBox.Text.Length;
 
-            if (TypeTextBox.Items.Count > 0)            
-                TypeTextBox.IsDropDownOpen = true; 
-            else
-                TypeTextBox.IsDropDownOpen = false;
+            TypeTextBox.IsDropDownOpen = false;
 
             textBox.SelectionStart = selectionStartType;            
         }
