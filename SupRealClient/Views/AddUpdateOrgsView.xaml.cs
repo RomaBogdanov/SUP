@@ -123,10 +123,7 @@ namespace SupRealClient.Views
             else
                 selectionStartName = textBox.Text.Length;
 
-            if (NameTextBox.Items.Count > 0)
-                NameTextBox.IsDropDownOpen = true;
-            else
-                NameTextBox.IsDropDownOpen = false;
+            NameTextBox.IsDropDownOpen = false;
 
             textBox.SelectionStart = selectionStartName;
         }        
