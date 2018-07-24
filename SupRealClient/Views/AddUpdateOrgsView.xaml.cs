@@ -111,7 +111,7 @@ namespace SupRealClient.Views
         int selectionStartName;
         void NameTextBoxTextChanged(object sender, KeyEventArgs e)
         {
-            if (e.Key == Key.Left || e.Key == Key.Right)
+            if (e.Key == Key.Left || e.Key == Key.Right || e.Key == Key.Escape)
                 return;
 
             var textBox = (NameTextBox.Template.FindName("PART_EditableTextBox",
