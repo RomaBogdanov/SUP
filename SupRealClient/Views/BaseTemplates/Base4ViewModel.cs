@@ -248,7 +248,11 @@ namespace SupRealClient.Views
             this.Model.Next();
             Reset();
         }
-        private void OkCom() { this.Model.Ok(); }
+        private void OkCom()
+        {
+            if (OkVisibility == Visibility.Visible)
+                this.Model.Ok();
+        }
         private void CloseCom() { this.Model.Close(); }
         private void ZonesCom() { this.Model.Zones(); }
         private void WatchCom() { this.Model.Watch(); }

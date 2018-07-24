@@ -775,6 +775,7 @@ namespace SupRealClient.Views
             new Base4ViewModel<EnumerationClasses.Organization>
             {
                 OkCaption = "OK",
+                OkVisibility = Visibility.Hidden,
                 ZonesVisibility = Visibility.Hidden,
 				WatchVisibility = Visibility.Hidden,
                 Parent = this,

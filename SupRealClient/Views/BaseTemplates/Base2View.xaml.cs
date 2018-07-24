@@ -69,7 +69,7 @@ namespace SupRealClient.Views
                 btnDown.Command.Execute(null);
                 e.Handled = true;
             }
-            else if (e.Key == Key.Enter)
+            else if (e.Key == Key.Enter && Keyboard.Modifiers != ModifierKeys.Control)
             {
                 btnEdit.Command.Execute(null);
             }
