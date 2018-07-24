@@ -781,6 +781,7 @@ namespace SupRealClient.Views
                 Model = new OrganizationsListModel<EnumerationClasses.Organization>(),
             };
             viewModel.Model.OnClose += Handling_OnClose;
+            viewModel.ScrollIntoViewNewItem = base4.ScrollIntoViewNewItem;
             base4.DataContext = viewModel;
 
             CreateColumns();

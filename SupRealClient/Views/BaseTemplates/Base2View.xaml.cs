@@ -16,18 +16,16 @@ namespace SupRealClient.Views
     /// </summary>
     public partial class Base2View : UserControl
     {
-        int memCountRows = 0;
         DataGridColumnHeader headerCliked = null;
 
         public Base2View()
         {
             InitializeComponent();
 
-            baseTab.SelectionChanged -= baseTab_SelectionChanged;   
-            
+            baseTab.SelectionChanged -= baseTab_SelectionChanged;            
             //DataContext = viewModel;
         }
-
+        
         public void SetViewModel(Base1ModelAbstr model)
         {
             ((Base1ViewModel)DataContext).SetModel(model);
@@ -107,10 +105,7 @@ namespace SupRealClient.Views
 
         private void Button_PreviewMouseLeftButtonDown(object sender, MouseButtonEventArgs e)
         {
-            if (((Button)sender).Name == "butAdd")
-                memCountRows = baseTab.Items.Count;
-            else
-                baseTab.SelectionChanged += baseTab_SelectionChanged;
+            baseTab.SelectionChanged += baseTab_SelectionChanged;
         }
 
         private void baseTab_LoadingRow(object sender, DataGridRowEventArgs e)
@@ -126,14 +121,6 @@ namespace SupRealClient.Views
                 else
                     oRow.Background = Brushes.AliceBlue;
             }
-
-            if (memCountRows + 1 == baseTab.Items.Count)
-            {
-                memCountRows = 0;
-                baseTab.SelectedItems.Clear();
-                baseTab.SelectionChanged += baseTab_SelectionChanged;
-                baseTab.SelectedItem = baseTab.Items[baseTab.Items.Count - 1];
-            }
         }
 
         bool IsOrgHasSynonim(Organization org)
@@ -148,10 +135,22 @@ namespace SupRealClient.Views
             return false;
         }
 
+        public void ScrollIntoViewNewItem()
+        {
+            if (baseTab.Items.Count > 0)
+            {
+                var row = baseTab.Items[baseTab.Items.Count - 1];
+                if (row == null)
+                    return;
+
+                baseTab.ScrollIntoView(row);
+            }           
+        }
+
         private void baseTab_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             baseTabCurrentItemScrollIntoView();
-            baseTab.SelectionChanged -= baseTab_SelectionChanged;
+            baseTab.SelectionChanged -= baseTab_SelectionChanged;           
         }
 
         void baseTabCurrentItemScrollIntoView()

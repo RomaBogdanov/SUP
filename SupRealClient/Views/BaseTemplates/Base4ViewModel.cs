@@ -216,7 +216,15 @@ namespace SupRealClient.Views
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
 
-        private void AddCom() { this.Model.Add(); }
+        public delegate void ScrollIntoViewDelegateSignature();
+        public ScrollIntoViewDelegateSignature ScrollIntoViewNewItem { get; set; }
+
+        private void AddCom()
+        {
+            this.Model.Add();
+            if (ScrollIntoViewNewItem != null && SelectedIndex == Set.Count - 1)
+                ScrollIntoViewNewItem();
+        }
         private void UpdateCom() { this.Model.Update(); }
         private void SearchCom() { this.Model.Search(); }
         private void FartherCom() { this.Model.Farther(); }
