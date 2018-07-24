@@ -85,6 +85,10 @@ namespace SupRealClient.Views
             {
                 ((ISuperBaseViewModel)DataContext).End.Execute(null);
             }
+            else if (e.Key == Key.G && Keyboard.Modifiers == ModifierKeys.Control)
+            {
+                baseTab.SelectionChanged += baseTab_SelectionChanged;
+            }
         }
 
         private void UserControl_IsVisibleChanged(object sender, System.Windows.DependencyPropertyChangedEventArgs e)
