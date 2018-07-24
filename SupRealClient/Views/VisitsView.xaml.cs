@@ -235,6 +235,8 @@ namespace SupRealClient.Views
         public ICommand EditMainDocumentCommand { get; set; }
         public ICommand RemoveMainDocumentCommand { get; set; }
 
+        public ICommand RefreshCommand { get; set; }
+
         private ChildWindowSettings _windowSettings;
         public ChildWindowSettings WindowSettings
         {
@@ -246,7 +248,7 @@ namespace SupRealClient.Views
 
         public VisitsViewModel(IWindow view)
         {
-            WinSet = new ChildWinSet() { Left = 0, Top = 120 };
+            WinSet = new ChildWinSet() { Left = 0 };
             //GlobalSettings.GetChildWindowSettings();     
 
             this.view = view;
@@ -294,6 +296,13 @@ namespace SupRealClient.Views
             AddMainDocumentCommand = new RelayCommand(arg => AddMainDocument());
             EditMainDocumentCommand = new RelayCommand(arg => EditMainDocument());
             RemoveMainDocumentCommand = new RelayCommand(arg => RemoveMainDocument());
+
+            RefreshCommand = new RelayCommand(arg => Refresh());
+        }
+
+        private void Refresh()
+        {
+            Model = new VisitsModel();
         }
 
         /// <summary>
@@ -1167,8 +1176,9 @@ namespace SupRealClient.Views
                     Family = visitors.Field<string>("f_family"),
                     Name = visitors.Field<string>("f_fst_name"),
                     Patronymic = visitors.Field<string>("f_sec_name"),
-                    /*Organization = OrganizationsHelper.
-                        GenerateFullName(visitors.Field<int>("f_org_id"), true),*/
+                    OrganizationId = visitors.Field<int>("f_org_id"),
+                    Organization = OrganizationsHelper.
+                                   GenerateFullName(visitors.Field<int>("f_org_id"), true),
                     Comment = visitors.Field<string>("f_vr_text"),
                     IsAccessDenied = CommonHelper.StringToBool(visitors.Field<string>(
                         "f_persona_non_grata")),
@@ -1321,7 +1331,7 @@ namespace SupRealClient.Views
                     where visit.Field<int>("f_visitor_id") == Set[index].Id
                     select new Card2
                     {
-                        Card = card.Field<string>("f_card_text"),
+                        Card = card.Field<string>("f_card_name"),
                         From = visit.Field<DateTime>("f_date_from"),
                         To = visit.Field<DateTime>("f_date_to"),
                         Change = visit.Field<DateTime>("f_rec_date"),

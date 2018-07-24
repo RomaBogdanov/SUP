@@ -55,6 +55,11 @@ namespace SupRealClient.Views
             parentWindowChecking();            
         }
 
+        private void MetroWindow_Activated(object sender, System.EventArgs e)
+        {
+            parentWindowChecking();
+        }
+
         void parentWindowChecking()
         {
             if (this.DataContext != null && this.ParentWindow is SupRealClient.Views.VisitorsListWindView)
@@ -64,7 +69,7 @@ namespace SupRealClient.Views
                     if ((this.ParentWindow as SupRealClient.Views.VisitorsListWindView).base4.modeEdit)
                     {
                         object currentItem = (this.ParentWindow as SupRealClient.Views.VisitorsListWindView).base4.baseTab.CurrentItem;
-                        if (currentItem is EnumerationClasses.Visitor)
+                        if (currentItem is EnumerationClasses.Visitor && butEdit.IsEnabled)
                         {
                             int IdSel = (currentItem as EnumerationClasses.Visitor).Id;
                             // -2, т.к Id начинается с 1, и далее вызываем команду некст, т.е. это еще +1
@@ -75,7 +80,7 @@ namespace SupRealClient.Views
                             
                         (this.ParentWindow as SupRealClient.Views.VisitorsListWindView).base4.modeEdit = false;
                     }
-                    else
+                    else if (butNew.IsEnabled)
                         (this.DataContext as VisitsViewModel).NewCommand.Execute(null);
                 }
                     
@@ -83,6 +88,6 @@ namespace SupRealClient.Views
                 if (this.Visibility == Visibility.Hidden)
                     this.DataContext = new VisitsViewModel(this);
             }
-        }
+        }       
     }
 }

@@ -92,7 +92,8 @@ namespace SupRealClient.Views
         {
             return new Dictionary<string, string>()
             {
-                { "f_region_name", "Название" }
+                { "Name", "Название" },
+                { "Country", "Страна" }
             };
         }
 

@@ -22,16 +22,76 @@ namespace SupRealClient.Views
     /// </summary>
     public partial class AddUpdateBidWindView
     {
+        /// <summary>
+        /// Двигатель фокуса
+        /// </summary>
+        private TraversalRequest _focusMover = new TraversalRequest(FocusNavigationDirection.Next);
+
+        public object WindowResult { get; set; }
+
         public AddUpdateBidWindView()
         {
             InitializeComponent();
-        }
-        public object WindowResult { get; set; }
+        }        
 
         public void Handling_OnClose(object result)
         {
             WindowResult = result;
             this.Close();
+        }
+
+        private void MetroWindow_Loaded(object sender, RoutedEventArgs e)
+        {
+            btnSelectBid.Focus();
+        }
+
+        private void btnSelectBid_PreviewKeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.Key == Key.Enter)
+            {
+                btnSelectCatcher.Focus();
+                e.Handled = true;
+            }
+        }
+
+        private void btnSelectCatcher_PreviewKeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.Key == Key.Enter)
+            {
+                dpTimeFrom.Focus();
+                e.Handled = true;
+            }
+        }
+
+
+        private void UIdef_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.Key == Key.Enter)
+            {
+                UIElement elementWithFocus = Keyboard.FocusedElement as UIElement;
+                if (elementWithFocus != null)
+                {
+                    elementWithFocus.MoveFocus(_focusMover);
+                    e.Handled = true;
+                }
+            }
+        }
+
+        private void btnSelectPass_PreviewKeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.Key == Key.Enter)
+            {
+                checkDisable.Focus();
+                e.Handled = true;
+            }
+        }
+
+        private void btnOK_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.Key == Key.Enter)
+            {
+                btnOK.Command.Execute(null);
+            }
         }
     }
 

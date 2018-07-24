@@ -13,7 +13,8 @@
         Height="700" 
         Width="700"        
         Closing="Window_Closing" 
-        IsVisibleChanged="MetroWindow_IsVisibleChanged">
+        IsVisibleChanged="MetroWindow_IsVisibleChanged" 
+        Activated="MetroWindow_Activated">
 
     <!--ResizeMode="NoResize"-->
     <!--Height="{Binding WindowSettings.VisitorsHeight}" 
@@ -1096,6 +1097,7 @@
 
             <!--Второй ряд-->
             <Button
+                    x:Name="butNew"
                     Command="{Binding NewCommand}"
                     Grid.Row="1"
                     Grid.Column="0"
@@ -1123,6 +1125,7 @@
             </Button>
 
             <Button
+                    x:Name="butEdit"
                     Command="{Binding EditCommand}"
                     Grid.Row="1"
                     Grid.Column="1"
@@ -1241,7 +1244,8 @@
                     IsEnabled="{Binding Path=VisitorsEnable.RefreshButtonEnable, Mode=TwoWay}"
                     Visibility="{Binding Path=VisitorsVisible.RefreshButtonEnable, 
                     Converter={StaticResource BooleanToVisibilityConverter}}"
-                    Style="{StaticResource VisitorsSquareButtonStyle}">
+                    Style="{StaticResource VisitorsSquareButtonStyle}"
+                    Command="{Binding RefreshCommand}">
                 <Grid>
                     <Grid.RowDefinitions>
                         <RowDefinition/>

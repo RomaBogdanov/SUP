@@ -77,7 +77,7 @@ namespace SupRealClient.Views
         {
             return new Dictionary<string, string>()
             {
-                { "f_doc_name", "Название" }
+                { "DocName", "Название" }
             };
         }
 
