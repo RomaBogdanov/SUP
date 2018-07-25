@@ -88,9 +88,12 @@ namespace SupRealClient.Views
                     ((ISuperBaseViewModel)DataContext).End.Execute(null);
                 }
             }            
-            else if (Keyboard.Modifiers == ModifierKeys.Control && e.Key == Key.G)
+            else if (Keyboard.Modifiers == ModifierKeys.Control)
             {
-                baseTab.SelectionChanged += baseTab_SelectionChanged;
+                if (e.Key == Key.G)
+                {
+                    baseTab.SelectionChanged += baseTab_SelectionChanged;
+                }                    
             }
         }
 
@@ -134,10 +137,8 @@ namespace SupRealClient.Views
                 else
                     oRow.Background = Brushes.GreenYellow;                
             }
-            else if (oRow.GetIndex() % 2 == 0)
-                oRow.Background = Brushes.White;
             else
-                oRow.Background = Brushes.AliceBlue;
+                oRow.Background = Brushes.White;            
         }
 
         bool IsOrgHasSynonim(Organization org)
