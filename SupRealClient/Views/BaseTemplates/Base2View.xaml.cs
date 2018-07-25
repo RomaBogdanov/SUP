@@ -57,35 +57,38 @@ namespace SupRealClient.Views
 
         private void UserControl_PreviewKeyDown(object sender, KeyEventArgs e)
         {
-            if (e.Key == Key.Up)
-            {               
-                baseTab.SelectionChanged += baseTab_SelectionChanged;
-                btnUp.Command.Execute(null);
-                e.Handled = true;
-            }
-            else if (e.Key == Key.Down)
+            if (Keyboard.Modifiers == ModifierKeys.None)
             {
-                baseTab.SelectionChanged += baseTab_SelectionChanged;
-                btnDown.Command.Execute(null);
-                e.Handled = true;
-            }
-            else if (e.Key == Key.Enter && Keyboard.Modifiers != ModifierKeys.Control)
-            {
-                btnEdit.Command.Execute(null);
-            }
-            else if (e.Key == Key.Insert)
-            {
-                ((ISuperBaseViewModel)DataContext).Add.Execute(null);
-            }
-            else if (e.Key == Key.Home)
-            {
-                ((ISuperBaseViewModel)DataContext).Begin.Execute(null);
-            }
-            else if (e.Key == Key.End)
-            {
-                ((ISuperBaseViewModel)DataContext).End.Execute(null);
-            }
-            else if (e.Key == Key.G && Keyboard.Modifiers == ModifierKeys.Control)
+                if (e.Key == Key.Up)
+                {
+                    baseTab.SelectionChanged += baseTab_SelectionChanged;
+                    btnUp.Command.Execute(null);
+                    e.Handled = true;
+                }
+                else if (e.Key == Key.Down)
+                {
+                    baseTab.SelectionChanged += baseTab_SelectionChanged;
+                    btnDown.Command.Execute(null);
+                    e.Handled = true;
+                }
+                else if (e.Key == Key.Enter)
+                {
+                    btnEdit.Command.Execute(null);
+                }
+                else if (e.Key == Key.Insert)
+                {
+                    ((ISuperBaseViewModel)DataContext).Add.Execute(null);
+                }
+                else if (e.Key == Key.Home)
+                {
+                    ((ISuperBaseViewModel)DataContext).Begin.Execute(null);
+                }
+                else if (e.Key == Key.End)
+                {
+                    ((ISuperBaseViewModel)DataContext).End.Execute(null);
+                }
+            }            
+            else if (Keyboard.Modifiers == ModifierKeys.Control && e.Key == Key.G)
             {
                 baseTab.SelectionChanged += baseTab_SelectionChanged;
             }
@@ -116,25 +119,34 @@ namespace SupRealClient.Views
         {            
             DataGridRow oRow = e.Row;
             var item = oRow.Item;
+
             if (item is Organization)
+                RowColorOrganizationTable(oRow);
+        }
+
+        void RowColorOrganizationTable(DataGridRow oRow)
+        {
+            Organization oOrg = oRow.Item as Organization;            
+            if (oOrg?.FullName == string.Empty)
             {
-                if (IsOrgHasSynonim(item as Organization))
+                if (IsOrgHasSynonim(oOrg))
                     oRow.Background = Brushes.LightGreen;
-                else if (oRow.GetIndex() % 2 == 0)
-                    oRow.Background = Brushes.White;
                 else
-                    oRow.Background = Brushes.AliceBlue;
+                    oRow.Background = Brushes.GreenYellow;                
             }
+            else if (oRow.GetIndex() % 2 == 0)
+                oRow.Background = Brushes.White;
+            else
+                oRow.Background = Brushes.AliceBlue;
         }
 
         bool IsOrgHasSynonim(Organization org)
-        {            
-            if (org.FullName == string.Empty)
-                foreach (var item in baseTab.ItemsSource)
-                {
-                    if ((item as Organization).FullName == org.Type + @" " + org.Name)
-                        return true;
-                }
+        {
+            foreach (var item in baseTab.ItemsSource)
+            {
+                if ((item as Organization)?.FullName == org.Type + @" " + org.Name)
+                    return true;
+            }
 
             return false;
         }
