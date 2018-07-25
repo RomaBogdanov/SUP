@@ -6,6 +6,8 @@ using SupRealClient.Models.OrganizationStructure;
 using SupRealClient.Views;
 using SupRealClient.TabsSingleton;
 using System.Data;
+using SupRealClient.Common;
+using System.Collections.Generic;
 
 namespace SupRealClient.ViewModels
 {
@@ -17,6 +19,8 @@ namespace SupRealClient.ViewModels
         int parentDep;
         CurrentLevel currentLevel = CurrentLevel.None;
         string description = "";
+        private string searchingText;
+        private List<ModelBase> searchResult = new List<ModelBase>();
 
         System.Collections.Generic.List<Organization> memOrgs = new System.Collections.Generic.List<Organization>();
         System.Collections.Generic.List<Department> memDeps = new System.Collections.Generic.List<Department>();
@@ -27,6 +31,17 @@ namespace SupRealClient.ViewModels
             None,
             Organization,
             Department
+        }
+
+        public string SearchingText
+        {
+            get { return this.searchingText; }
+            set
+            {
+                this.searchingText = value;
+                OnPropertyChanged("SearchingText");
+                Searching(this.searchingText.ToUpper());
+            }
         }
 
         public object SelectedObject
@@ -98,10 +113,31 @@ namespace SupRealClient.ViewModels
             OrganizationsWrapper.CurrentTable().OnChanged += Query;
             DepartmentWrapper.CurrentTable().OnChanged += Query;
             Query();
-            AddDepartmentCommand = new RelayCommand(AddDepartment());
+            AddDepartmentCommand = new RelayCommand(AddDepartment(), (parameter) => DepartmentEnabled);
             EditCommand = new RelayCommand(Edit());
             OkCommand = new RelayCommand(Ok());
             //CancelCommand = new RelayCommand(Cancel());
+        }
+
+        public void Next()
+        {
+            if (searchResult == null || !searchResult.Any())
+            {
+                return;
+            }
+
+            int idx = searchResult.IndexOf(SelectedObject as ModelBase);
+            if (idx < searchResult.Count - 1)
+            {
+                idx++;
+            }
+            else
+            {
+                idx = 0;
+            }
+            SelectedObject = searchResult[idx];
+            //searchResult[idx].IsExpanded = true;
+            searchResult[idx].IsSelected = true;
         }
 
         private Action<object> AddDepartment()
@@ -217,7 +253,60 @@ namespace SupRealClient.ViewModels
                     Description = department.Field<string>("f_dep_name"),
                     Items = GetItems(department.Field<int>("f_dep_id"))
                 });
-        }        
+        }
+
+        private bool Searching(string pattern)
+        {
+            searchResult = new List<ModelBase>();
+            foreach (var mainOrganization in Organizations)
+            {
+                mainOrganization.IsExpanded = true;
+                foreach (var org in mainOrganization.Items)
+                {
+                    Searching(org, pattern);
+                }
+            }
+            if (searchResult.Any())
+            {
+                SelectedObject = searchResult[0];
+                //searchResult[0].IsExpanded = true;
+                searchResult[0].IsSelected = true;
+            }
+            else
+            {
+                SelectedObject = null;
+            }
+
+            return searchResult.Any();
+        }
+
+        private void Searching(Organization org, string pattern)
+        {
+            org.IsExpanded = true;
+            if (CommonHelper.IsSearchConditionMatch(org.Description, pattern))
+            {
+                searchResult.Add(org);
+            }
+
+            foreach (var child in org.Items)
+            {
+                Searching(child, pattern);
+            }
+        }
+
+        private void Searching(Department dep, string pattern)
+        {
+            dep.IsExpanded = true;
+            if (CommonHelper.IsSearchConditionMatch(dep.Description, pattern))
+            {
+                searchResult.Add(dep);
+            }
+
+            foreach (var child in dep.Items)
+            {
+                Searching(child, pattern);
+            }
+        }
 
         void checkIsExpandedState()
         {

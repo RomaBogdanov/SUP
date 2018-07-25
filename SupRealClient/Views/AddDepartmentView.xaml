@@ -8,6 +8,7 @@
         mc:Ignorable="d"
         Title="Новое подразделение" Height="150" Width="400"
         ResizeMode="NoResize"
+        WindowStartupLocation="CenterScreen"
         Icon="../Resources/Добавить.ico">
     
     <mah:MetroWindow.InputBindings>
