@@ -85,7 +85,7 @@ namespace SupRealClient.Views
         int selectionStartType;
         void TypeTextBoxTextChanged(object sender, KeyEventArgs e)
         {
-            if (e.Key == Key.Left || e.Key == Key.Right)
+            if (e.Key == Key.Left || e.Key == Key.Right || e.Key == Key.Escape)
                 return;
             
             var textBox = (TypeTextBox.Template.FindName("PART_EditableTextBox",
@@ -100,8 +100,8 @@ namespace SupRealClient.Views
             else
                 selectionStartType = textBox.Text.Length;
 
-            if (TypeTextBox.Items.Count > 0)            
-                TypeTextBox.IsDropDownOpen = true; 
+            if (TypeTextBox.Items.Count > 0)
+                TypeTextBox.IsDropDownOpen = true;
             else
                 TypeTextBox.IsDropDownOpen = false;
 
@@ -111,7 +111,7 @@ namespace SupRealClient.Views
         int selectionStartName;
         void NameTextBoxTextChanged(object sender, KeyEventArgs e)
         {
-            if (e.Key == Key.Left || e.Key == Key.Right)
+            if (e.Key == Key.Left || e.Key == Key.Right || e.Key == Key.Escape)
                 return;
 
             var textBox = (NameTextBox.Template.FindName("PART_EditableTextBox",

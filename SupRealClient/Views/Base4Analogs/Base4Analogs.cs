@@ -775,12 +775,14 @@ namespace SupRealClient.Views
             new Base4ViewModel<EnumerationClasses.Organization>
             {
                 OkCaption = "OK",
+                OkVisibility = Visibility.Hidden,
                 ZonesVisibility = Visibility.Hidden,
 				WatchVisibility = Visibility.Hidden,
                 Parent = this,
                 Model = new OrganizationsListModel<EnumerationClasses.Organization>(),
             };
             viewModel.Model.OnClose += Handling_OnClose;
+            viewModel.ScrollIntoViewNewItem = base4.ScrollIntoViewNewItem;
             base4.DataContext = viewModel;
 
             CreateColumns();

@@ -50,6 +50,8 @@ namespace SupRealClient.ViewModels
         private string searchingText;
         private bool fartherEnabled;
 
+        public delegate void ScrollIntoViewDelegateSignature();
+        public ScrollIntoViewDelegateSignature ScrollIntoViewCurrentItem { get; set; }
         private SearchResult searchResult = new SearchResult();
 
         public ObservableCollection<Organization> Orgs
@@ -142,8 +144,7 @@ namespace SupRealClient.ViewModels
             }
             for (int i = 0; i < Orgs.Count; i++)
             {
-                if (CommonHelper.IsSearchConditionMatch(
-                    Orgs[i].ToString(), pattern))
+                if (Orgs[i].ToString().ToUpper().Contains(pattern.ToUpper())) 
                 {
                     searchResult.Add(Orgs[i].Id);
                 }
@@ -155,7 +156,7 @@ namespace SupRealClient.ViewModels
 
         private void Farther()
         {
-            SetAt(searchResult.Next());
+            SetAt(searchResult.Next());            
         }
 
         private void SetAt(long id)
@@ -165,6 +166,7 @@ namespace SupRealClient.ViewModels
                 if (Orgs[i].Id == id)
                 {
                     SelectedOrg = i;
+                    ScrollIntoViewCurrentItem?.Invoke();
                     break;
                 }
             }

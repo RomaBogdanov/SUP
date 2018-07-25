@@ -438,6 +438,8 @@ namespace SupRealClient.ViewModels
         /// </summary>
         private void New()
         {
+            _selectedOrder = BidsModel.CurrentSingleOrder; // Запомнить разовую заявку перед добавлением новой.
+
             //BidsModel.New();
             BidsModel = new NewBidsModel(CurrentOrderType);
             CurrentTemporaryOrder = BidsModel.CurrentTemporaryOrder;
@@ -471,10 +473,18 @@ namespace SupRealClient.ViewModels
             AcceptButtonEnable = false;
         }
 
+        /// <summary>
+        /// Выбранная разовая заявка перед добавлением новой.
+        /// </summary>
+        private Order _selectedOrder;
+
         private void Cancel()
         {
             //BidsModel.Cancel();
             BidsModel = new BidsModel();
+
+            // Выберем разовую заявку до добавления.
+            CurrentSingleOrder = SingleOrdersSet[SingleOrdersSet.ToList().FindIndex(x => x.Id == _selectedOrder.Id)];
 
             TextEnable = false; // При открытии окна поля недоступны.
             AcceptButtonEnable = false; // При открытии кнопки применить и отмена недоступны.
