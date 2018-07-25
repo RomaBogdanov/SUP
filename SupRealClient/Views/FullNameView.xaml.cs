@@ -18,6 +18,8 @@ namespace SupRealClient.Views
             // селектируем первую организацию
             if (viewModel.Orgs.Count > 0)
                 viewModel.SelectedOrg = 0;
+            // ScrollIntoViewCurrentItem для кнопки Далее
+            viewModel.ScrollIntoViewCurrentItem = ScrollIntoViewCurrentItem;
 
             DataContext = viewModel;
             InitializeComponent();
@@ -43,11 +45,13 @@ namespace SupRealClient.Views
 
                 if (e.Key == Key.Up && vm.SelectedOrg - 1 >= 0)
                 {                    
-                    vm.SelectedOrg--; 
+                    vm.SelectedOrg--;
+                    lbOrgs.ScrollIntoView(vm.Orgs[vm.SelectedOrg]);
                 }
                 if (e.Key == Key.Down && vm.SelectedOrg + 1 <= vm.Orgs.Count - 1)
                 {                 
                     vm.SelectedOrg++;
+                    lbOrgs.ScrollIntoView(vm.Orgs[vm.SelectedOrg]);
                 }
             }
         }
@@ -60,6 +64,18 @@ namespace SupRealClient.Views
         private void MetroWindow_MouseUp(object sender, MouseButtonEventArgs e)
         {
             tbxSearch.Focus();
+        }
+
+        private void Row_DoubleClick(object sender, MouseButtonEventArgs e)
+        {
+            btnOK.Command?.Execute(null);
+        }
+
+        void ScrollIntoViewCurrentItem()
+        {
+            FullNameViewModel vm = DataContext as FullNameViewModel;
+            if (vm != null && vm.Orgs.Count>0)
+                lbOrgs.ScrollIntoView(vm.Orgs[vm.SelectedOrg]);
         }
     }
 }
