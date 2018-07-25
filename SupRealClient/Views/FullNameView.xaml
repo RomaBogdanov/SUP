@@ -7,7 +7,10 @@
         mc:Ignorable="d"
         Title="Организации" 
         Height="500" Width="500" 
-        ResizeMode="NoResize">
+        ResizeMode="NoResize" 
+        PreviewKeyDown="MetroWindow_PreviewKeyDown" 
+        KeyUp="MetroWindow_KeyUp" 
+        MouseUp="MetroWindow_MouseUp">
 
     <mah:MetroWindow.InputBindings>
         <KeyBinding Key="Escape" Command="{Binding Cancel}"/>
@@ -27,10 +30,11 @@
         </Grid.RowDefinitions>
 
         <ListBox
+            Name="lbOrgs"
             Grid.Row="1"
             Grid.ColumnSpan="3"
             ItemsSource="{Binding Path=Orgs}"
-            SelectedIndex="{Binding Path=SelectedOrg}" />
+            SelectedIndex="{Binding Path=SelectedOrg}"/>
 
         <TextBox 
             Name="tbxSearch" 
