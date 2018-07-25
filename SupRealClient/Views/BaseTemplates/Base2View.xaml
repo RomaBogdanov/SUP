@@ -12,7 +12,8 @@
     <UserControl.InputBindings>
         <KeyBinding Gesture="Ctrl+D" Command="{Binding Update}"  />
         <KeyBinding Gesture="Ctrl+F" Command="{Binding Search}"  />
-        <KeyBinding Gesture="Ctrl+G" Command="{Binding Farther}" />        
+        <KeyBinding Gesture="Ctrl+G" Command="{Binding Farther}" />
+        <KeyBinding Gesture="Ctrl+Enter" Command="{Binding Ok}" />
     </UserControl.InputBindings>    
     <!--<UserControl.DataContext>
         <local:Organizations1ViewModel />

@@ -16,18 +16,16 @@ namespace SupRealClient.Views
     /// </summary>
     public partial class Base2View : UserControl
     {
-        int memCountRows = 0;
         DataGridColumnHeader headerCliked = null;
 
         public Base2View()
         {
             InitializeComponent();
 
-            baseTab.SelectionChanged -= baseTab_SelectionChanged;   
-            
+            baseTab.SelectionChanged -= baseTab_SelectionChanged;            
             //DataContext = viewModel;
         }
-
+        
         public void SetViewModel(Base1ModelAbstr model)
         {
             ((Base1ViewModel)DataContext).SetModel(model);
@@ -59,33 +57,43 @@ namespace SupRealClient.Views
 
         private void UserControl_PreviewKeyDown(object sender, KeyEventArgs e)
         {
-            if (e.Key == Key.Up)
-            {               
-                baseTab.SelectionChanged += baseTab_SelectionChanged;
-                btnUp.Command.Execute(null);
-                e.Handled = true;
-            }
-            else if (e.Key == Key.Down)
+            if (Keyboard.Modifiers == ModifierKeys.None)
             {
-                baseTab.SelectionChanged += baseTab_SelectionChanged;
-                btnDown.Command.Execute(null);
-                e.Handled = true;
-            }
-            else if (e.Key == Key.Enter)
+                if (e.Key == Key.Up)
+                {
+                    baseTab.SelectionChanged += baseTab_SelectionChanged;
+                    btnUp.Command.Execute(null);
+                    e.Handled = true;
+                }
+                else if (e.Key == Key.Down)
+                {
+                    baseTab.SelectionChanged += baseTab_SelectionChanged;
+                    btnDown.Command.Execute(null);
+                    e.Handled = true;
+                }
+                else if (e.Key == Key.Enter)
+                {
+                    btnEdit.Command.Execute(null);
+                }
+                else if (e.Key == Key.Insert)
+                {
+                    ((ISuperBaseViewModel)DataContext).Add.Execute(null);
+                }
+                else if (e.Key == Key.Home)
+                {
+                    ((ISuperBaseViewModel)DataContext).Begin.Execute(null);
+                }
+                else if (e.Key == Key.End)
+                {
+                    ((ISuperBaseViewModel)DataContext).End.Execute(null);
+                }
+            }            
+            else if (Keyboard.Modifiers == ModifierKeys.Control)
             {
-                btnEdit.Command.Execute(null);
-            }
-            else if (e.Key == Key.Insert)
-            {
-                ((ISuperBaseViewModel)DataContext).Add.Execute(null);
-            }
-            else if (e.Key == Key.Home)
-            {
-                ((ISuperBaseViewModel)DataContext).Begin.Execute(null);
-            }
-            else if (e.Key == Key.End)
-            {
-                ((ISuperBaseViewModel)DataContext).End.Execute(null);
+                if (e.Key == Key.G)
+                {
+                    baseTab.SelectionChanged += baseTab_SelectionChanged;
+                }                    
             }
         }
 
@@ -107,51 +115,59 @@ namespace SupRealClient.Views
 
         private void Button_PreviewMouseLeftButtonDown(object sender, MouseButtonEventArgs e)
         {
-            if (((Button)sender).Name == "butAdd")
-                memCountRows = baseTab.Items.Count;
-            else
-                baseTab.SelectionChanged += baseTab_SelectionChanged;
+            baseTab.SelectionChanged += baseTab_SelectionChanged;
         }
 
         private void baseTab_LoadingRow(object sender, DataGridRowEventArgs e)
         {            
             DataGridRow oRow = e.Row;
             var item = oRow.Item;
-            if (item is Organization)
-            {
-                if (IsOrgHasSynonim(item as Organization))
-                    oRow.Background = Brushes.LightGreen;
-                else if (oRow.GetIndex() % 2 == 0)
-                    oRow.Background = Brushes.White;
-                else
-                    oRow.Background = Brushes.AliceBlue;
-            }
 
-            if (memCountRows + 1 == baseTab.Items.Count)
+            if (item is Organization)
+                RowColorOrganizationTable(oRow);
+        }
+
+        void RowColorOrganizationTable(DataGridRow oRow)
+        {
+            Organization oOrg = oRow.Item as Organization;            
+            if (oOrg?.FullName == string.Empty)
             {
-                memCountRows = 0;
-                baseTab.SelectedItems.Clear();
-                baseTab.SelectionChanged += baseTab_SelectionChanged;
-                baseTab.SelectedItem = baseTab.Items[baseTab.Items.Count - 1];
+                if (IsOrgHasSynonim(oOrg))
+                    oRow.Background = Brushes.LightGreen;
+                else
+                    oRow.Background = Brushes.GreenYellow;                
             }
+            else
+                oRow.Background = Brushes.White;            
         }
 
         bool IsOrgHasSynonim(Organization org)
-        {            
-            if (org.FullName == string.Empty)
-                foreach (var item in baseTab.ItemsSource)
-                {
-                    if ((item as Organization).FullName == org.Type + @" " + org.Name)
-                        return true;
-                }
+        {
+            foreach (var item in baseTab.ItemsSource)
+            {
+                if ((item as Organization)?.FullName == org.Type + @" " + org.Name)
+                    return true;
+            }
 
             return false;
+        }
+
+        public void ScrollIntoViewNewItem()
+        {
+            if (baseTab.Items.Count > 0)
+            {
+                var row = baseTab.Items[baseTab.Items.Count - 1];
+                if (row == null)
+                    return;
+
+                baseTab.ScrollIntoView(row);
+            }           
         }
 
         private void baseTab_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             baseTabCurrentItemScrollIntoView();
-            baseTab.SelectionChanged -= baseTab_SelectionChanged;
+            baseTab.SelectionChanged -= baseTab_SelectionChanged;           
         }
 
         void baseTabCurrentItemScrollIntoView()
