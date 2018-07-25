@@ -11,12 +11,14 @@
 
     <mah:MetroWindow.InputBindings>
         <KeyBinding Key="Escape" Command="{Binding OkCommand}"/>
+        <KeyBinding Key="Insert" Command="{Binding AddDepartmentCommand}"/>
+        <KeyBinding Gesture="Ctrl+D" Command="{Binding EditCommand}"/>
     </mah:MetroWindow.InputBindings>
 
     <mah:MetroWindow.DataContext>
         <viewModels:MainOrganizationViewModel/>
     </mah:MetroWindow.DataContext>
-    
+
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="4*"/>
@@ -34,6 +36,7 @@
         </Grid.ColumnDefinitions>
         
         <TreeView
+            x:Name="treeView"
             Grid.Row="0"
             Grid.Column="0"
             Grid.ColumnSpan="5"
@@ -45,11 +48,12 @@
                 <Style TargetType="{x:Type TreeViewItem}">
                     <Setter Property="IsExpanded" Value="{Binding Path=IsExpanded, Mode=TwoWay}"/>
                     <Setter Property="IsSelected" Value="{Binding Path=IsSelected, Mode=TwoWay}"/>
+                    <EventSetter Event="Selected" Handler="TreeViewSelectedItemChanged" />
                 </Style>
             </TreeView.ItemContainerStyle>
             <TreeView.ItemTemplate>
                 <HierarchicalDataTemplate ItemsSource="{Binding Path=Items}">
-                    <TextBlock Text="{Binding Description}"/>
+                    <TextBlock Text="{Binding Description}" Background="{Binding Background}"/>
                 </HierarchicalDataTemplate>
             </TreeView.ItemTemplate>            
         </TreeView>
@@ -62,10 +66,13 @@
             Margin="5,0,5,0"/>
         
         <TextBox
+            x:Name="tbSearch"
             Grid.Row="2"
             Grid.Column="0"
             Grid.ColumnSpan="5"
-            Margin="5"/>
+            Margin="5"
+            Text="{Binding Path=SearchingText, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+            PreviewKeyDown="tbSearch_PreviewKeyDown"/>
 
         <Button
             Grid.Row="3"

@@ -12,14 +12,26 @@ namespace SupRealClient
         { get; set; }
 
         public RelayCommand(Action<object> action)
-        { this.ExecuteDelegate = action; }
+        {
+            this.ExecuteDelegate = action;
+            this.CanExecuteDelegate = null;
+        }
 
-        public event EventHandler CanExecuteChanged;
+        public RelayCommand(Action<object> action, Predicate<object> canExecute)
+        {
+            this.ExecuteDelegate = action;
+            this.CanExecuteDelegate = canExecute;
+        }
+
+        public event EventHandler CanExecuteChanged
+        {
+            add { CommandManager.RequerySuggested += value; }
+            remove { CommandManager.RequerySuggested -= value; }
+        }
 
         public bool CanExecute(object parameter)
         {
-            this.CanExecuteDelegate?.Invoke(parameter);
-            return true;
+            return this.CanExecuteDelegate == null ? true : this.CanExecuteDelegate.Invoke(parameter);
         }
 
         public void Execute(object parameter)

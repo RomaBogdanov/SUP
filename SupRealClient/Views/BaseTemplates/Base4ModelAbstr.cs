@@ -352,7 +352,7 @@ namespace SupRealClient.Views
 
         public override void Add()
         {
-            AddBaseOrgsListModel model = new AddBaseOrgsListModel();
+            AddBaseOrgsListModel model = new AddBaseOrgsListModel(null);
             var wind = new AddOrgsListView(model);
             
             wind.ShowDialog();
@@ -419,7 +419,7 @@ namespace SupRealClient.Views
 
         public override void Add()
         {
-            var wind = new AddOrgsListView(new AddChildOrgsListModel());
+            var wind = new AddOrgsListView(new AddChildOrgsListModel(null));
             wind.ShowDialog();
         }
 
