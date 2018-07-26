@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Data;
+using System.Linq;
 using System.Windows;
 using SupClientConnectionLib;
 using SupRealClient.Common;
@@ -69,27 +70,22 @@ namespace SupRealClient.Models
                 return;
             }
 
-            OrganizationsWrapper organizations = OrganizationsWrapper.CurrentTable(); // Получаем таблицу организаций.     
+            OrganizationsWrapper organizations =
+                 OrganizationsWrapper.CurrentTable();
 
-            bool isOrganizationExist = false; // Организация существует.
-            foreach (DataRow org in organizations.Table.Rows)
-            {
-                if (org.Field<string>("f_org_type") == data.Type &&
-                    org.Field<string>("f_org_name") == OrganizationsHelper.TrimName(data.Name) &&
-                    org.Field<string>("f_comment") == OrganizationsHelper.TrimName(data.Comment.Trim(' ')) &&
-                    org.Field<int>("f_cntr_id") == data.CountryId &&
-                    org.Field<int>("f_region_id") == data.RegionId)
-                {
-                    isOrganizationExist = true;
-                }
-            }
+            var rows = (from object row in organizations.Table.Rows select row as DataRow).ToList();
 
-            if (isOrganizationExist)
-            {
-                MessageBox.Show("Такая организация уже записана!");
-            }
-            else
-            {
+            var IsNotExistOrganization =
+                rows.SingleOrDefault(
+                    r =>
+                        r.Field<string>("f_org_type") == data.Type &&
+                        r.Field<string>("f_org_name") ==
+                            OrganizationsHelper.TrimName(data.Name) &&
+                        r.Field<int>("f_cntr_id") == data.CountryId &&
+                        r.Field<int>("f_region_id") == data.RegionId) == null;
+
+            if (IsNotExistOrganization)
+            {                
                 DataRow row = organizations.Table.Rows.Find(organization.Id);
                 row.BeginEdit();
                 row["f_org_type"] = data.Type;
@@ -115,6 +111,10 @@ namespace SupRealClient.Models
                     row2.EndEdit();
                 }
                 Cancel();
+            }
+            else
+            {
+                MessageBox.Show("Такая организация уже записана!");
             }
         }
     }

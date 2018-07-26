@@ -128,7 +128,7 @@ namespace SupRealClient.Views
             {
                 if (Model != null && value != null)
                 {
-                    Model.CurrentItem = value;
+                    Model.CurrentItem = value;                    
                     OnPropertyChanged();
                 }
             }
@@ -143,9 +143,6 @@ namespace SupRealClient.Views
                 {
                     Model.CurrentColumn = value;
                     OnPropertyChanged();
-                    //if (!string.IsNullOrEmpty(SearchingText))
-                    //    FartherEnabled = Model?.Searching(
-                    //        SearchingText.ToUpper()) ?? false;
                 }
             }
         }
@@ -217,17 +214,27 @@ namespace SupRealClient.Views
         }
 
         public delegate void ScrollIntoViewDelegateSignature();
-        public ScrollIntoViewDelegateSignature ScrollIntoViewNewItem { get; set; }
+        public ScrollIntoViewDelegateSignature ScrollIntoViewCurrentItem { get; set; }
 
         private void AddCom()
         {
             this.Model.Add();
-            if (ScrollIntoViewNewItem != null && SelectedIndex == Set.Count - 1)
-                ScrollIntoViewNewItem();
+            ScrollIntoViewCurrentItem?.Invoke();
         }
-        private void UpdateCom() { this.Model.Update(); }
-        private void SearchCom() { this.Model.Search(); }
-        private void FartherCom() { this.Model.Farther(); }
+        private void UpdateCom()
+        {
+            this.Model.Update();
+        }
+        private void SearchCom()
+        {
+            this.Model.Search();
+            ScrollIntoViewCurrentItem?.Invoke();
+        }
+        private void FartherCom()
+        {
+            this.Model.Farther();
+            ScrollIntoViewCurrentItem?.Invoke();
+        }
         private void BeginCom()
         {
             this.Model.Begin();
@@ -283,6 +290,7 @@ namespace SupRealClient.Views
         {
             SelectedIndex = Model.SelectedIndex;
             CurrentItem = Model.CurrentItem;
+            ScrollIntoViewCurrentItem?.Invoke();
         }
     }
 }
