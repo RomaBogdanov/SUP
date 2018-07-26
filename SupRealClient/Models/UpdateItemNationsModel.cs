@@ -1,9 +1,11 @@
 ﻿using System;
 using System.Data;
+using System.Linq;
 using SupClientConnectionLib;
 using SupRealClient.EnumerationClasses;
 using SupRealClient.Common.Data;
 using SupRealClient.TabsSingleton;
+using System.Windows;
 
 namespace SupRealClient.Models
 {
@@ -33,6 +35,14 @@ namespace SupRealClient.Models
             CountriesWrapper countries = CountriesWrapper.CurrentTable();
             if (data.Field != "")
             {
+                if (countries.Table.AsEnumerable().FirstOrDefault(x => 
+                    x["f_cntr_name"].ToString() == data.Field.ToString() &&
+                    (int)x["f_cntr_id"] != nation.Id) != null)
+                {
+                    MessageBox.Show("Такая организация уже записана!");
+                    return;
+                }
+
                 DataRow dataRow = countries.Table.Rows.Find(nation.Id);
                 dataRow.BeginEdit();
                 dataRow["f_cntr_name"] = data.Field;
