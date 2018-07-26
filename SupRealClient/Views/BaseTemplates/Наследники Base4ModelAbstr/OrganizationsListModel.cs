@@ -44,7 +44,11 @@ namespace SupRealClient.Views
 
         public override void RightClick()
         {
-            ViewManager.Instance.OpenSynonims(CurrentItem);
+            int? res = ViewManager.Instance.OpenSynonims(CurrentItem);
+            if (res.HasValue)
+            {
+                SetAt(res.Value);
+            }
         }
 
         #endregion

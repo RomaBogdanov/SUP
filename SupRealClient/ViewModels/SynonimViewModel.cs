@@ -16,7 +16,8 @@ namespace SupRealClient.ViewModels
         private string fullName = "";
         private string firstSynonim = "";
         private Visibility firstSynonimVisibility = Visibility.Collapsed;
-        private List<string> synonims = new List<string>();
+        private Dictionary<int, string> synonims = new Dictionary<int, string>();
+        private KeyValuePair<int, string>? selectedSynonim;
 
         public string FullName
         {
@@ -48,7 +49,7 @@ namespace SupRealClient.ViewModels
             }
         }
 
-        public List<string> Synonims
+        public Dictionary<int, string> Synonims
         {
             get { return synonims; }
             set
@@ -61,7 +62,20 @@ namespace SupRealClient.ViewModels
             }
         }
 
+        public KeyValuePair<int, string>? SelectedSynonim
+        {
+            get { return selectedSynonim; }
+            set
+            {
+                selectedSynonim = value;
+                OnPropertyChanged("SelectedSynonim");
+            }
+        }
+
         public ICommand Cancel { get; set; }
+        public ICommand FullNameDoubleClickCommand { get; set; }
+        public ICommand FirstSynonimDoubleClickCommand { get; set; }
+        public ICommand SynonimsDoubleClickCommand { get; set; }
 
         public SynonimViewModel(Organization org)
         {
@@ -75,6 +89,9 @@ namespace SupRealClient.ViewModels
                 Synonims = result.Value;
             }
             this.Cancel = new RelayCommand(arg => OnCancel());
+            this.FullNameDoubleClickCommand = new RelayCommand(arg => OnOk(org.SynId));
+            this.FirstSynonimDoubleClickCommand = new RelayCommand(arg => OnOk(null));
+            this.SynonimsDoubleClickCommand = new RelayCommand(arg => SynonimsDoubleClick());
         }
 
         protected virtual void OnPropertyChanged(string propertyName) =>
@@ -84,6 +101,19 @@ namespace SupRealClient.ViewModels
         private void OnCancel()
         {
             OnClose?.Invoke(null);
+        }
+
+        private void OnOk(int? id)
+        {
+            OnClose?.Invoke(id);
+        }
+
+        private void SynonimsDoubleClick()
+        {
+            if (SelectedSynonim != null)
+            {
+                OnOk(SelectedSynonim.Value.Key);
+            }
         }
     }
 }

@@ -12,6 +12,7 @@
         Icon="../Resources/Добавить.ico">
     
     <mah:MetroWindow.InputBindings>
+        <KeyBinding Key="Return" Command="{Binding OkCommand}"/>
         <KeyBinding Key="Escape" Command="{Binding CancelCommand}"/>
     </mah:MetroWindow.InputBindings>
     
@@ -38,6 +39,7 @@
             Text="Введите имя нового подразделения"/>
         
         <TextBox
+            x:Name="tbName"
             Grid.Row="1"
             Grid.Column="0"
             Grid.ColumnSpan="4"
@@ -45,7 +47,7 @@
             VerticalAlignment="Center"
             Margin="5"
             PreviewKeyUp="UIElement_OnPreviewKeyUp"
-            Text="{Binding Description, Mode=TwoWay}"/>
+            Text="{Binding Description, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
         
         <Button
             Grid.Row="2"

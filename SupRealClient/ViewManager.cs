@@ -164,10 +164,11 @@ namespace SupRealClient
             return OpenWindowModal(window);
         }
 
-        public void OpenSynonims(Organization organization)
+        public int? OpenSynonims(Organization organization)
         {
             var window = new SynonimView(organization);
             window.ShowDialog();
+            return window.WindowResult as int?;
         }
 
         /// <summary>
