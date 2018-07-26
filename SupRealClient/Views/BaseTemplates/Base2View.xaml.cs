@@ -152,11 +152,11 @@ namespace SupRealClient.Views
             return false;
         }
 
-        public void ScrollIntoViewNewItem()
+        public void ScrollIntoViewCurrentItem()
         {
             if (baseTab.Items.Count > 0)
             {
-                var row = baseTab.Items[baseTab.Items.Count - 1];
+                var row = baseTab.CurrentItem;
                 if (row == null)
                     return;
 
