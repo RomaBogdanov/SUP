@@ -4,6 +4,7 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:mah="http://metro.mahapps.com/winfx/xaml/controls"
+        xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"  
         mc:Ignorable="d"
         Title="Синонимы" 
         Height="500" Width="500" 
@@ -35,8 +36,14 @@
             IsReadOnly="True"
             Text="{Binding Path=FullName, Mode=OneWay}" 
             Background="LightGreen"
-            FontSize="{Binding FontSize}" Style="{StaticResource TextBoxStyle}"/>
-        
+            FontSize="{Binding FontSize}" Style="{StaticResource TextBoxStyle}">
+            <i:Interaction.Triggers>
+                <i:EventTrigger EventName="MouseDoubleClick">
+                    <i:InvokeCommandAction Command="{Binding FullNameDoubleClickCommand}" />
+                </i:EventTrigger>
+            </i:Interaction.Triggers>
+        </TextBox>
+
         <TextBox 
             Grid.Row="1" 
             Grid.Column="0"
@@ -46,12 +53,30 @@
             Text="{Binding Path=FirstSynonim, Mode=OneWay}" 
             Visibility="{Binding Path=FirstSynonimVisibility, Mode=OneWay}" 
             Background="LightPink"
-            FontSize="{Binding FontSize}" Style="{StaticResource TextBoxStyle}"/>
+            FontSize="{Binding FontSize}" Style="{StaticResource TextBoxStyle}">
+            <i:Interaction.Triggers>
+                <i:EventTrigger EventName="MouseDoubleClick">
+                    <i:InvokeCommandAction Command="{Binding FirstSynonimDoubleClickCommand}" />
+                </i:EventTrigger>
+            </i:Interaction.Triggers>
+        </TextBox>
 
         <ListBox
             Grid.Row="2"
             Grid.ColumnSpan="3"
-            ItemsSource="{Binding Path=Synonims}" />
+            ItemsSource="{Binding Path=Synonims}"
+            SelectedItem="{Binding Path=SelectedSynonim}">
+            <ListBox.ItemTemplate>
+                <DataTemplate>
+                    <TextBlock Text="{Binding Value}"/>
+                </DataTemplate>
+            </ListBox.ItemTemplate>
+            <i:Interaction.Triggers>
+                <i:EventTrigger EventName="MouseDoubleClick">
+                    <i:InvokeCommandAction Command="{Binding SynonimsDoubleClickCommand}"/>
+                </i:EventTrigger>
+            </i:Interaction.Triggers>
+        </ListBox>
 
         <Button 
             Grid.Row="4" 
