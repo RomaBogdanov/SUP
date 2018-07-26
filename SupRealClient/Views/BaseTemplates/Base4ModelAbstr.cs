@@ -383,7 +383,19 @@ namespace SupRealClient.Views
                         orgs.Field<int>("f_org_id")),
                     Name = OrganizationsHelper.UntrimName(
                         orgs.Field<string>("f_org_name")),
-                    Comment = orgs.Field<string>("f_comment")
+                    Comment = orgs.Field<string>("f_comment"),
+                    CountryId = orgs.Field<int>("f_cntr_id"),
+                    Country = orgs.Field<int>("f_cntr_id") == 0 ?
+                        "" : CountriesWrapper.CurrentTable()
+                        .Table.AsEnumerable().FirstOrDefault(
+                        arg => arg.Field<int>("f_cntr_id") ==
+                        orgs.Field<int>("f_cntr_id"))["f_cntr_name"].ToString(),
+                    RegionId = orgs.Field<int>("f_region_id"),
+                    Region = orgs.Field<int>("f_region_id") == 0 ?
+                        "" : RegionsWrapper.CurrentTable()
+                        .Table.AsEnumerable().FirstOrDefault(
+                        arg => arg.Field<int>("f_region_id") ==
+                        orgs.Field<int>("f_region_id"))["f_region_name"].ToString()
                 });
         }
 
@@ -448,7 +460,19 @@ namespace SupRealClient.Views
                         orgs.Field<int>("f_org_id")),
                     Name = OrganizationsHelper.UntrimName(
                         orgs.Field<string>("f_org_name")),
-                    Comment = orgs.Field<string>("f_comment")
+                    Comment = orgs.Field<string>("f_comment"),
+                    CountryId = orgs.Field<int>("f_cntr_id"),
+                    Country = orgs.Field<int>("f_cntr_id") == 0 ?
+                        "" : CountriesWrapper.CurrentTable()
+                        .Table.AsEnumerable().FirstOrDefault(
+                        arg => arg.Field<int>("f_cntr_id") ==
+                        orgs.Field<int>("f_cntr_id"))["f_cntr_name"].ToString(),
+                    RegionId = orgs.Field<int>("f_region_id"),
+                    Region = orgs.Field<int>("f_region_id") == 0 ?
+                        "" : RegionsWrapper.CurrentTable()
+                        .Table.AsEnumerable().FirstOrDefault(
+                        arg => arg.Field<int>("f_region_id") ==
+                        orgs.Field<int>("f_region_id"))["f_region_name"].ToString()
                 });
         }
 
