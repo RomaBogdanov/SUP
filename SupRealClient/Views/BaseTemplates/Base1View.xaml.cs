@@ -37,42 +37,45 @@ namespace SupRealClient.Views
 
         private void UserControl_PreviewKeyDown(object sender, System.Windows.Input.KeyEventArgs e)
         {
-            if (e.Key == Key.Up)
+            if (Keyboard.Modifiers == ModifierKeys.None)
             {
-                baseTab.SelectionChanged += baseTab_SelectionChanged;
-                btnUp.Command.Execute(null);
-                e.Handled = true;
-            }
-            else if (e.Key == Key.Down)
-            {
-                baseTab.SelectionChanged += baseTab_SelectionChanged;
-                btnDown.Command.Execute(null);
-                e.Handled = true;
-            }
-            else if (e.Key == Key.Enter)
-            {
-                btnUpdate.Command.Execute(null);
-            }
-            else if (e.Key == Key.Insert)
-            {
-                ((ISuperBaseViewModel)DataContext).Add.Execute(null);
-            }
-            else if (e.Key == Key.Home)
-            {
-                ((ISuperBaseViewModel)DataContext).Begin.Execute(null);
-            }
-            else if (e.Key == Key.End)
-            {
-                ((ISuperBaseViewModel)DataContext).End.Execute(null);
-            }
-            else if (e.Key == Key.Space)
-            {
-                if (btnOk.Visibility == Visibility.Visible && btnOk.IsEnabled)
+                if (e.Key == Key.Up)
                 {
-                    btnOk.Command?.Execute(null);
+                    baseTab.SelectionChanged += baseTab_SelectionChanged;
+                    btnUp.Command.Execute(null);
                     e.Handled = true;
                 }
-            }
+                else if (e.Key == Key.Down)
+                {
+                    baseTab.SelectionChanged += baseTab_SelectionChanged;
+                    btnDown.Command.Execute(null);
+                    e.Handled = true;
+                }
+                else if (e.Key == Key.Enter)
+                {
+                    btnUpdate.Command.Execute(null);
+                }
+                else if (e.Key == Key.Insert)
+                {
+                    ((ISuperBaseViewModel)DataContext).Add.Execute(null);
+                }
+                else if (e.Key == Key.Home)
+                {
+                    ((ISuperBaseViewModel)DataContext).Begin.Execute(null);
+                }
+                else if (e.Key == Key.End)
+                {
+                    ((ISuperBaseViewModel)DataContext).End.Execute(null);
+                }
+                else if (e.Key == Key.Space)
+                {
+                    if (btnOk.Visibility == Visibility.Visible && btnOk.IsEnabled)
+                    {
+                        btnOk.Command?.Execute(null);
+                        e.Handled = true;
+                    }
+                }
+            }            
         }
 
         private void UserControl_IsVisibleChanged(object sender, System.Windows.DependencyPropertyChangedEventArgs e)
@@ -190,7 +193,7 @@ namespace SupRealClient.Views
 
         private void BaseTab_OnKeyDown(object sender, KeyEventArgs e)
         {
-            if (e.Key != Key.Down && e.Key != Key.Up)
+            if (e.Key != Key.Down && e.Key != Key.Up && Keyboard.Modifiers == ModifierKeys.None)
             {
                 SelectSearchBox();
             }
