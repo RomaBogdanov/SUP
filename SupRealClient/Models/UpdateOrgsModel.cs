@@ -76,7 +76,7 @@ namespace SupRealClient.Models
             var rows = (from object row in organizations.Table.Rows select row as DataRow).ToList();
 
             var IsNotExistOrganization =
-                rows.SingleOrDefault(
+                rows.FirstOrDefault(
                     r =>
                         r.Field<string>("f_org_type") == data.Type &&
                         r.Field<string>("f_org_name") ==
