@@ -95,6 +95,13 @@ namespace SupRealClient.Views
         {
             if (baseTab.ItemsSource is System.Collections.ObjectModel.ObservableCollection<Organization>)
                 SortDataGrid(baseTab, 1, ListSortDirection.Ascending);
+            else if (baseTab.ItemsSource is ObservableCollection<Nation>)
+            {
+                var nationSource = baseTab.ItemsSource as ObservableCollection<Nation>;
+                var onlyRus = nationSource.Where(o => o.CountryName.ToUpper() == @"РОССИЯ");
+                var withoutRus = nationSource.Where(o => o.CountryName.ToUpper() != @"РОССИЯ").OrderBy(o => o.CountryName);
+                baseTab.ItemsSource = new ObservableCollection<Nation>(onlyRus.Union(withoutRus));
+            }
             else if (baseTab.ItemsSource is ObservableCollection<Document>)
             {
                 var docSource = baseTab.ItemsSource as ObservableCollection<Document>;
@@ -106,7 +113,7 @@ namespace SupRealClient.Views
                 SortDataGrid(baseTab, 0, ListSortDirection.Ascending);
 
             if (baseTab.Items.Count > 0)
-                baseTab.SelectedItem = baseTab.Items[0];
+                baseTab.SelectedItem = baseTab.Items[0];          
         }
 
         static void SortDataGrid(DataGrid dataGrid, int columnIndex = 0, ListSortDirection sortDirection = ListSortDirection.Ascending)

@@ -65,6 +65,7 @@ namespace SupRealClient.ViewModels
             
             this.InputHeader = addItem1Model is AddItemDocumentsModel ? "Введите документ:" :
                                addItem1Model is AddItemNationsModel ? "Введите страну:" :
+                               addItem1Model is UpdateItemNationsModel ? "Отредактировать страну:" :
                                "Введите новое имя:";
             this.Field = model.Data.Field;
             this.Ok = new RelayCommand(arg => this.model.Ok(new FieldData { Field = Field }));
