@@ -302,6 +302,7 @@
             IsEnabled="{Binding Path=FartherEnabled}"
             KeyDown="BaseTab_OnKeyDown"
             Style="{StaticResource ButtonStyle}"
+            ToolTip="Ctrl+G"
             PreviewMouseLeftButtonDown="Button_PreviewMouseLeftButtonDown">
             <Grid>
                 <Grid.ColumnDefinitions>
