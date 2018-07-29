@@ -7,6 +7,8 @@ using System.Windows.Controls.Primitives;
 using System.Windows;
 using System.ComponentModel;
 using SupRealClient.EnumerationClasses;
+using System.Collections.ObjectModel;
+using System.Linq;
 
 namespace SupRealClient.Views
 {
@@ -35,42 +37,45 @@ namespace SupRealClient.Views
 
         private void UserControl_PreviewKeyDown(object sender, System.Windows.Input.KeyEventArgs e)
         {
-            if (e.Key == Key.Up)
+            if (Keyboard.Modifiers == ModifierKeys.None)
             {
-                baseTab.SelectionChanged += baseTab_SelectionChanged;
-                btnUp.Command.Execute(null);
-                e.Handled = true;
-            }
-            else if (e.Key == Key.Down)
-            {
-                baseTab.SelectionChanged += baseTab_SelectionChanged;
-                btnDown.Command.Execute(null);
-                e.Handled = true;
-            }
-            else if (e.Key == Key.Enter)
-            {
-                btnUpdate.Command.Execute(null);
-            }
-            else if (e.Key == Key.Insert)
-            {
-                ((ISuperBaseViewModel)DataContext).Add.Execute(null);
-            }
-            else if (e.Key == Key.Home)
-            {
-                ((ISuperBaseViewModel)DataContext).Begin.Execute(null);
-            }
-            else if (e.Key == Key.End)
-            {
-                ((ISuperBaseViewModel)DataContext).End.Execute(null);
-            }
-            else if (e.Key == Key.Space)
-            {
-                if (btnOk.Visibility == Visibility.Visible && btnOk.IsEnabled)
+                if (e.Key == Key.Up)
                 {
-                    btnOk.Command?.Execute(null);
+                    baseTab.SelectionChanged += baseTab_SelectionChanged;
+                    btnUp.Command.Execute(null);
                     e.Handled = true;
                 }
-            }
+                else if (e.Key == Key.Down)
+                {
+                    baseTab.SelectionChanged += baseTab_SelectionChanged;
+                    btnDown.Command.Execute(null);
+                    e.Handled = true;
+                }
+                else if (e.Key == Key.Enter)
+                {
+                    btnUpdate.Command.Execute(null);
+                }
+                else if (e.Key == Key.Insert)
+                {
+                    ((ISuperBaseViewModel)DataContext).Add.Execute(null);
+                }
+                else if (e.Key == Key.Home)
+                {
+                    ((ISuperBaseViewModel)DataContext).Begin.Execute(null);
+                }
+                else if (e.Key == Key.End)
+                {
+                    ((ISuperBaseViewModel)DataContext).End.Execute(null);
+                }
+                else if (e.Key == Key.Space)
+                {
+                    if (btnOk.Visibility == Visibility.Visible && btnOk.IsEnabled)
+                    {
+                        btnOk.Command?.Execute(null);
+                        e.Handled = true;
+                    }
+                }
+            }            
         }
 
         private void UserControl_IsVisibleChanged(object sender, System.Windows.DependencyPropertyChangedEventArgs e)
@@ -82,11 +87,26 @@ namespace SupRealClient.Views
                 baseTab.SelectedItems?.Clear();
                 baseTab.SelectionChanged += baseTab_SelectionChanged;
 
-                if (baseTab.ItemsSource is System.Collections.ObjectModel.ObservableCollection<Organization>)
-                    SortDataGrid(baseTab, 1, ListSortDirection.Ascending);
-                else if (baseTab.Columns.Count > 0)
-                    SortDataGrid(baseTab, 0, ListSortDirection.Ascending);
+                SortItemsSource();
             }
+        }
+
+        void SortItemsSource()
+        {
+            if (baseTab.ItemsSource is System.Collections.ObjectModel.ObservableCollection<Organization>)
+                SortDataGrid(baseTab, 1, ListSortDirection.Ascending);
+            else if (baseTab.ItemsSource is ObservableCollection<Document>)
+            {
+                var docSource = baseTab.ItemsSource as ObservableCollection<Document>;
+                var onlyPass = docSource.Where(o => o.DocName.ToUpper() == @"ПАСПОРТ");
+                var withoutPass = docSource.Where(o => o.DocName.ToUpper() != @"ПАСПОРТ").OrderBy(o => o.DocName);
+                baseTab.ItemsSource = new ObservableCollection<Document>(onlyPass.Union(withoutPass));
+            }
+            else if (baseTab.Columns.Count > 0)
+                SortDataGrid(baseTab, 0, ListSortDirection.Ascending);
+
+            if (baseTab.Items.Count > 0)
+                baseTab.SelectedItem = baseTab.Items[0];
         }
 
         static void SortDataGrid(DataGrid dataGrid, int columnIndex = 0, ListSortDirection sortDirection = ListSortDirection.Ascending)
@@ -105,10 +125,7 @@ namespace SupRealClient.Views
                 col.SortDirection = null;
             }
             column.SortDirection = sortDirection;
-
-            if (dataGrid.Items.Count > 0)
-                dataGrid.SelectedItem = dataGrid.Items[0];
-
+            
             dataGrid.CurrentColumn = dataGrid.Columns[columnIndex];
 
             // Refresh items to display sort
@@ -142,6 +159,18 @@ namespace SupRealClient.Views
             baseTab.SelectionChanged -= baseTab_SelectionChanged;
         }
 
+        public void ScrollIntoViewCurrentItem()
+        {
+            if (baseTab.Items.Count > 0)
+            {
+                var row = baseTab.CurrentItem;
+                if (row == null)
+                    return;
+
+                baseTab.ScrollIntoView(row);
+            }
+        }
+
         void baseTabCurrentItemScrollIntoView()
         {
             if (baseTab.CurrentItem != null)
@@ -154,26 +183,17 @@ namespace SupRealClient.Views
 
         private void baseTab_Loaded(object sender, RoutedEventArgs e)
         {
-            if (baseTab.ItemsSource is System.Collections.ObjectModel.ObservableCollection<Organization>)
-                SortDataGrid(baseTab, 1, ListSortDirection.Ascending);
-            else if (baseTab.Columns.Count > 0)
-                SortDataGrid(baseTab, 0, ListSortDirection.Ascending);
+            SortItemsSource();
         }
 
         private void baseTab_LoadingRow(object sender, DataGridRowEventArgs e)
         {
-            if (memCountRows + 1 == baseTab.Items.Count)
-            {
-                memCountRows = 0;
-                baseTab.SelectedItems.Clear();
-                baseTab.SelectionChanged += baseTab_SelectionChanged;
-                baseTab.SelectedItem = baseTab.Items[baseTab.Items.Count - 1];
-            }
+            
         }
 
         private void BaseTab_OnKeyDown(object sender, KeyEventArgs e)
         {
-            if (e.Key != Key.Down && e.Key != Key.Up)
+            if (e.Key != Key.Down && e.Key != Key.Up && Keyboard.Modifiers == ModifierKeys.None)
             {
                 SelectSearchBox();
             }
@@ -186,10 +206,7 @@ namespace SupRealClient.Views
 
         private void Button_PreviewMouseLeftButtonDown(object sender, MouseButtonEventArgs e)
         {
-            if (((Button)sender).Name == "butAdd")
-                memCountRows = baseTab.Items.Count;
-            else
-                baseTab.SelectionChanged += baseTab_SelectionChanged;
+            baseTab.SelectionChanged += baseTab_SelectionChanged;
         }
 
         private void dgColumnHeader_PreviewMouseLeftButtonUp(object sender, MouseButtonEventArgs e)

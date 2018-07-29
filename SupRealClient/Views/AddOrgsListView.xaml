@@ -12,6 +12,7 @@
     <mah:MetroWindow.InputBindings>
         <KeyBinding Gesture="Ctrl+G" Command="{Binding Farther}"/>
         <KeyBinding Key="Return" Command="{Binding Ok}"/>
+        <KeyBinding Key="Esc" Command="{Binding Close}"></KeyBinding>
     </mah:MetroWindow.InputBindings>
     <mah:MetroWindow.Resources>
         <ResourceDictionary>

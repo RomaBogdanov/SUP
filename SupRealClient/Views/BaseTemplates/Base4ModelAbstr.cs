@@ -155,11 +155,11 @@ namespace SupRealClient.Views
                 CurrentItem = Set[SelectedIndex];
             }
             else if (memCount != Set.Count - 1)
-            {
+            {                
                 CurrentItem = Set[Set.Count - 1];
             }
             else if (Set.Count > 0)
-            {
+            {                
                 CurrentItem = Set[0];
             }
             OnModelPropertyChanged?.Invoke("CurrentItem");
@@ -201,7 +201,7 @@ namespace SupRealClient.Views
             }
 
             System.ComponentModel.ICollectionView iSource = System.Windows.Data.CollectionViewSource.GetDefaultView(Set);
-            object sortedRows = iSource.GetType()
+            object sortedRows = iSource?.GetType()
                             .GetProperty(@"InternalList", System.Reflection.BindingFlags.NonPublic | System.Reflection.BindingFlags.Instance)?
                             .GetValue(iSource, null);
 

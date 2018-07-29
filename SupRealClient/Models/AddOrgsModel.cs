@@ -60,7 +60,6 @@ namespace SupRealClient.Models
                         r.Field<string>("f_org_type") == data.Type &&
                         r.Field<string>("f_org_name") ==
                             OrganizationsHelper.TrimName(data.Name) &&
-                        r.Field<string>("f_comment") == OrganizationsHelper.TrimName(data.Comment.Trim(' ')) &&
                         r.Field<int>("f_cntr_id") == data.CountryId &&
                         r.Field<int>("f_region_id") == data.RegionId) == null;
 
