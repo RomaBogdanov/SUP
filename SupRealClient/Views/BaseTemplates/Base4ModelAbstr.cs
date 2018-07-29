@@ -649,8 +649,10 @@ namespace SupRealClient.Views
                     {
                         list.Add(new CardArea
                         {
-                            AreaId = orderElementArea.Id,
-                            CardId = (int)row["f_card_id"]
+                            AreaIdHi = orderElementArea.ObjectIdHi,
+                            AreaIdLo = orderElementArea.ObjectIdLo,
+                            CardIdHi = (int)row["f_card_id_hi"],
+                            CardIdLo = (int)row["f_card_id_lo"]
                         }); 
                     }
                 }
@@ -658,8 +660,10 @@ namespace SupRealClient.Views
             list.ForEach(arg =>
             {
                 DataRow r = CardAreaWrapper.CurrentTable().Table.NewRow();
-                r["f_card_id"] = arg.CardId;
-                r["f_area_id"] = arg.AreaId;
+                r["f_card_id_hi"] = arg.CardIdHi;
+                r["f_card_id_lo"] = arg.CardIdLo;
+                r["f_area_id_hi"] = arg.AreaIdHi;
+                r["f_area_id_lo"] = arg.AreaIdLo;
                 r["f_deleted"] = "N";
                 r["f_rec_date"] = DateTime.Now;
                 r["f_rec_operator"] = Authorizer.AppAuthorizer.Id;
@@ -807,7 +811,8 @@ namespace SupRealClient.Views
            select new T
            {
                Id = arsp.Field<int>("f_area_space_id"),
-               AreaId = arsp.Field<int>("f_area_id"),
+               AreaIdHi = arsp.Field<int>("f_area_id_hi"),
+               AreaIdLo = arsp.Field<int>("f_area_id_lo"),
                SpaceId = arsp.Field<int>("f_space_id")
            });
         }
@@ -1048,8 +1053,10 @@ namespace SupRealClient.Views
            {
                Id = acclev.Field<int>("f_access_level_id"),
                Name = acclev.Field<string>("f_level_name"),
-               AreaId = acclev.Field<int>("f_area_id"),
-               ScheduleId = acclev.Field<int>("f_schedule_id"),
+               AreaIdHi = acclev.Field<int>("f_area_id_hi"),
+               AreaIdLo = acclev.Field<int>("f_area_id_lo"),
+               ScheduleIdHi = acclev.Field<int>("f_schedule_id_hi"),
+               ScheduleIdLo = acclev.Field<int>("f_schedule_id_lo"),
                AccessLevelNote = acclev.Field<string>("f_access_level_note")
            });
         }

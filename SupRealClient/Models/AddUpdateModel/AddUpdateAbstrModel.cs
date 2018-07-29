@@ -79,7 +79,8 @@ namespace SupRealClient.Models.AddUpdateModel
             row["f_descript"] = ((Door)CurrentItem).Descript;
             row["f_space_in"] = ((Door)CurrentItem).SpaceIn;
             row["f_space_out"] = ((Door)CurrentItem).SpaceOut;
-            row["f_access_point_id"] = ((Door)CurrentItem).AccessPointId;
+            row["f_access_point_id_hi"] = ((Door)CurrentItem).AccessPointIdHi;
+            row["f_access_point_id_lo"] = ((Door)CurrentItem).AccessPointIdLo;
             row["f_deleted"] = "N";
             row["f_rec_date"] = DateTime.Now;
             row["f_rec_operator"] = Authorizer.AppAuthorizer.Id;
@@ -121,7 +122,8 @@ namespace SupRealClient.Models.AddUpdateModel
         protected override void SaveResult()
         {
             DataRow row = AreasSpacesWrapper.CurrentTable().Table.NewRow();
-            row["f_area_id"] = ((AreaSpace)CurrentItem).AreaId;
+            row["f_area_id_hi"] = ((AreaSpace)CurrentItem).AreaIdHi;
+            row["f_area_id_lo"] = ((AreaSpace)CurrentItem).AreaIdLo;
             row["f_space_id"] = ((AreaSpace)CurrentItem).SpaceId;
             row["f_deleted"] = "N";
             row["f_rec_date"] = DateTime.Now;
@@ -183,9 +185,11 @@ namespace SupRealClient.Models.AddUpdateModel
         protected override void SaveResult()
         {
             DataRow row = AccessLevelWrapper.CurrentTable().Table.NewRow();
-            row["f_area_id"] = ((AccessLevel)CurrentItem).AreaId;
+            row["f_area_id_hi"] = ((AccessLevel)CurrentItem).AreaIdHi;
+            row["f_area_id_lo"] = ((AccessLevel)CurrentItem).AreaIdLo;
             row["f_level_name"] = ((AccessLevel)CurrentItem).Name;
-            row["f_schedule_id"] = ((AccessLevel)CurrentItem).ScheduleId;
+            row["f_schedule_id_hi"] = ((AccessLevel)CurrentItem).ScheduleIdHi;
+            row["f_schedule_id_lo"] = ((AccessLevel)CurrentItem).ScheduleIdLo;
             row["f_access_level_note"] = ((AccessLevel)CurrentItem).AccessLevelNote;
             row["f_deleted"] = "N";
             row["f_rec_date"] = DateTime.Now;

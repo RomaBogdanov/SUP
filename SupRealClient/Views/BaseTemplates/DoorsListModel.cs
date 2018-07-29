@@ -55,7 +55,8 @@ namespace SupRealClient.Views
                         Descript = doors.Field<string>("f_descript"),
                         SpaceIn = doors.Field<int>("f_space_in"),
                         SpaceOut = doors.Field<int>("f_space_out"),
-                        AccessPointId = doors.Field<int>("f_access_point_id")
+                        AccessPointIdHi = doors.Field<int>("f_access_point_id_hi"),
+                        AccessPointIdLo = doors.Field<int>("f_access_point_id_lo")
                     });
         }
 
