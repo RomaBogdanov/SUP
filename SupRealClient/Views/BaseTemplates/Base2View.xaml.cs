@@ -8,6 +8,8 @@ using System.Windows.Media;
 using System.ComponentModel;
 using System.Windows;
 using System.Windows.Controls.Primitives;
+using System.Windows.Data;
+using System.Collections.ObjectModel;
 
 namespace SupRealClient.Views
 {
@@ -106,7 +108,7 @@ namespace SupRealClient.Views
                 baseTab.SelectedItems?.Clear();
                 baseTab.SelectionChanged += baseTab_SelectionChanged;
 
-                if (baseTab.ItemsSource is System.Collections.ObjectModel.ObservableCollection<Organization>)
+                if ((baseTab.ItemsSource as ListCollectionView).SourceCollection is ObservableCollection<Organization>)
                     SortDataGrid(baseTab, 1, ListSortDirection.Ascending);
                 else if (baseTab.Columns.Count > 0)
                     SortDataGrid(baseTab, 0, ListSortDirection.Ascending);
@@ -182,13 +184,13 @@ namespace SupRealClient.Views
 
         private void baseTab_Loaded(object sender, System.Windows.RoutedEventArgs e)
         {
-            if (baseTab.ItemsSource is System.Collections.ObjectModel.ObservableCollection<Organization>)
+            if ((baseTab.ItemsSource as ListCollectionView)?.SourceCollection is ObservableCollection<Organization>)
                 SortDataGrid(baseTab, 1, ListSortDirection.Ascending);
             else if (baseTab.Columns.Count > 0)
                 SortDataGrid(baseTab, 0, ListSortDirection.Ascending);
         } 
 
-        static void SortDataGrid(DataGrid dataGrid, int columnIndex = 0, ListSortDirection sortDirection = ListSortDirection.Ascending)
+        void SortDataGrid(DataGrid dataGrid, int columnIndex = 0, ListSortDirection sortDirection = ListSortDirection.Ascending)
         {
             var column = dataGrid.Columns[columnIndex];
 
@@ -208,8 +210,7 @@ namespace SupRealClient.Views
             if (dataGrid.Items.Count > 0)
                 dataGrid.SelectedItem = dataGrid.Items[0];
 
-            dataGrid.CurrentColumn = dataGrid.Columns[columnIndex];
-
+            dataGrid.CurrentColumn = dataGrid.Columns[columnIndex];            
             // Refresh items to display sort
             dataGrid.Items.Refresh();
         }

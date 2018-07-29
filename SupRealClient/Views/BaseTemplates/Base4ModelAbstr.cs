@@ -17,6 +17,8 @@ using SupRealClient.Models.AddUpdateModel;
 using SupRealClient.ViewModels.AddUpdateViewModel;
 using SupRealClient.Views.AddUpdateView;
 using System.Collections;
+using System.Windows.Data;
+using System.ComponentModel;
 
 namespace SupRealClient.Views
 {
@@ -41,6 +43,25 @@ namespace SupRealClient.Views
             {
                 set = value;
                 OnModelPropertyChanged?.Invoke("Set");
+                OnModelPropertyChanged?.Invoke("CollectionView");
+            }
+        }
+
+        private CollectionView _collectionView = null;
+        public virtual CollectionView CollectionView
+        {
+            get
+            {
+                _collectionView = (CollectionView)CollectionViewSource.GetDefaultView(Set);
+                if (_collectionView != null && CurrentColumn != null)
+                {
+                    ListSortDirection oSortDirection = ListSortDirection.Ascending;
+                    if (CurrentColumn.SortDirection != null)
+                        oSortDirection = (ListSortDirection)CurrentColumn.SortDirection;
+                    _collectionView.SortDescriptions.Clear();
+                    _collectionView.SortDescriptions.Add(new SortDescription(CurrentColumn.SortMemberPath, oSortDirection));                    
+                }
+                return _collectionView;
             }
         }
 
@@ -58,10 +79,12 @@ namespace SupRealClient.Views
 
         public virtual void Begin()
         {
-            if (Set.Count > 0)
+            if (CollectionView.Count > 0)
             {
-                SelectedIndex = 0;
-                CurrentItem = Set[SelectedIndex];
+                if (CollectionView.MoveCurrentToFirst())
+                {
+                    CurrentItem = (T)CollectionView.CurrentItem;                   
+                }
             }
             else
             {
@@ -70,10 +93,12 @@ namespace SupRealClient.Views
         }
         public virtual void End()
         {
-            if (Set.Count > 0)
+            if (CollectionView.Count > 0)
             {
-                SelectedIndex = Set.Count - 1;
-                CurrentItem = Set[SelectedIndex];
+                if (CollectionView.MoveCurrentToLast())
+                {
+                    CurrentItem = (T)CollectionView.CurrentItem;
+                }
             }
             else
             {
@@ -82,12 +107,14 @@ namespace SupRealClient.Views
         }
         public virtual void Prev()
         {
-            if (Set.Count > 0)
+            if (CollectionView.Count > 0)
             {
                 if (SelectedIndex > 0)
                 {
-                    SelectedIndex--;
-                    CurrentItem = Set[SelectedIndex];
+                    if (CollectionView.MoveCurrentTo(SelectedIndex--))
+                    {
+                        CurrentItem = (T)CollectionView.CurrentItem;
+                    }
                 }
             }
             else
@@ -97,12 +124,14 @@ namespace SupRealClient.Views
         }
         public virtual void Next()
         {
-            if (Set.Count > 0)
+            if (CollectionView.Count > 0)
             {
-                if (SelectedIndex < Set.Count - 1)
+                if (SelectedIndex < CollectionView.Count - 1)
                 {
-                    SelectedIndex++;
-                    CurrentItem = Set[SelectedIndex];
+                    if (CollectionView.MoveCurrentTo(SelectedIndex++))
+                    {
+                        CurrentItem = (T)CollectionView.CurrentItem;
+                    }
                 }
             }
             else
@@ -141,26 +170,33 @@ namespace SupRealClient.Views
 
         protected void Query()
         {
+            ListSortDirection? memSort = CurrentColumn?.SortDirection ?? ListSortDirection.Ascending;
             int oldIndex = SelectedIndex;
 
             int memCount = -1;
-            if (Set != null)
-                memCount = Set.Count - 1;
+            if (CollectionView != null)
+                memCount = CollectionView.Count - 1;
 
             DoQuery();
 
-            if (oldIndex >= 0 && oldIndex < Set.Count - 1 && memCount == Set.Count - 1)
+            if (CurrentColumn != null)
+            {
+                CurrentColumn.SortDirection = memSort;
+            }
+
+            if (oldIndex >= 0 && oldIndex < CollectionView.Count - 1 && memCount == CollectionView.Count - 1)
             {
                 SelectedIndex = oldIndex;
-                CurrentItem = Set[SelectedIndex];
+                CurrentItem = (T)CollectionView.GetItemAt(SelectedIndex);
             }
-            else if (memCount != Set.Count - 1)
-            {                
-                CurrentItem = Set[Set.Count - 1];
+            else if (memCount != CollectionView.Count - 1)
+            {               
+                if (CollectionView.MoveCurrentTo(Set[Set.Count - 1]))
+                    CurrentItem = (T)CollectionView.CurrentItem;
             }
-            else if (Set.Count > 0)
+            else if (CollectionView.Count > 0)
             {                
-                CurrentItem = Set[0];
+                CurrentItem = (T)CollectionView.GetItemAt(0);
             }
             OnModelPropertyChanged?.Invoke("CurrentItem");
         }
@@ -185,9 +221,12 @@ namespace SupRealClient.Views
             {
                 if ((Set.ElementAt(i) as IdEntity).Id == id)
                 {
-                    CurrentItem = Set.ElementAt(i);
-                    OnModelPropertyChanged?.Invoke("CurrentItem");
-                    break;
+                    if (CollectionView.MoveCurrentTo(Set.ElementAt(i)))
+                    {
+                        CurrentItem = (T)CollectionView.CurrentItem;                       
+                        OnModelPropertyChanged?.Invoke("CurrentItem");
+                        break;
+                    }
                 }
             }
         }

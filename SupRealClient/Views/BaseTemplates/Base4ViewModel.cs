@@ -7,6 +7,7 @@ using SupRealClient.Annotations;
 using SupRealClient.Common.Interfaces;
 using SupRealClient.Models;
 using System.Windows;
+using System.Windows.Data;
 
 namespace SupRealClient.Views
 {
@@ -139,7 +140,7 @@ namespace SupRealClient.Views
             get { return Model != null ? Model.CurrentColumn : null; }
             set
             {
-                if (Model != null && value != null)
+                if (Model != null && value != null && value.SortDirection != null)
                 {
                     Model.CurrentColumn = value;
                     OnPropertyChanged();
@@ -154,7 +155,13 @@ namespace SupRealClient.Views
             {
                 if (Model != null) Model.Set = value;
                 OnPropertyChanged();
+                OnPropertyChanged("CollectionView");
             }
+        }
+
+        public CollectionView CollectionView
+        {
+            get { return Model?.CollectionView; }
         }
 
         public int SelectedIndex
@@ -224,6 +231,8 @@ namespace SupRealClient.Views
         private void UpdateCom()
         {
             this.Model.Update();
+            ScrollIntoViewCurrentItem?.Invoke();
+            //OnPropertyChanged("CollectionView");            
         }
         private void SearchCom()
         {
