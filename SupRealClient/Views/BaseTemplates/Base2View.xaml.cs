@@ -108,7 +108,7 @@ namespace SupRealClient.Views
                 baseTab.SelectedItems?.Clear();
                 baseTab.SelectionChanged += baseTab_SelectionChanged;
 
-                if ((baseTab.ItemsSource as ListCollectionView).SourceCollection is ObservableCollection<Organization>)
+                if (baseTab.ItemsSource is System.Collections.ObjectModel.ObservableCollection<Organization>)
                     SortDataGrid(baseTab, 1, ListSortDirection.Ascending);
                 else if (baseTab.Columns.Count > 0)
                     SortDataGrid(baseTab, 0, ListSortDirection.Ascending);
@@ -184,7 +184,7 @@ namespace SupRealClient.Views
 
         private void baseTab_Loaded(object sender, System.Windows.RoutedEventArgs e)
         {
-            if ((baseTab.ItemsSource as ListCollectionView)?.SourceCollection is ObservableCollection<Organization>)
+            if (baseTab.ItemsSource is System.Collections.ObjectModel.ObservableCollection<Organization>)
                 SortDataGrid(baseTab, 1, ListSortDirection.Ascending);
             else if (baseTab.Columns.Count > 0)
                 SortDataGrid(baseTab, 0, ListSortDirection.Ascending);

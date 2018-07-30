@@ -288,9 +288,16 @@ namespace SupRealClient.Views
                 MessageBoxButton.YesNo, MessageBoxImage.Question) ==
                 MessageBoxResult.Yes)
             {
-                if (this.Model.Remove())
+                int memIndexSel = SelectedIndex;
+                this.Model.Remove();
+
+                int countItem = CollectionView.Count;
+                if (countItem > 0)
                 {
-                    UpdateCom();
+                    if (memIndexSel < countItem)
+                        SelectedIndex = memIndexSel;
+                    else
+                        SelectedIndex = countItem - 1;
                 }
             }
         }

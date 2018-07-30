@@ -50,7 +50,7 @@
             Grid.Row="0" 
             Grid.RowSpan="2" 
             Grid.ColumnSpan="10"
-            ItemsSource="{Binding Path=CollectionView}" 
+            ItemsSource="{Binding Path=Set, Mode=TwoWay}" 
             CurrentItem="{Binding Path=CurrentItem, Mode=TwoWay}"
             Focusable="True" 
             FontSize="{Binding FontSize}"

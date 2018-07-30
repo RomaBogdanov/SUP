@@ -5,6 +5,7 @@ using SupRealClient.TabsSingleton;
 using SupRealClient.EnumerationClasses;
 using System.Data;
 using SupRealClient.Common;
+using System.Windows;
 
 namespace SupRealClient.Views
 {
@@ -38,6 +39,7 @@ namespace SupRealClient.Views
                  CommonHelper.NotDeleted(vis)
                  select vis).Any())
             {
+                MessageBox.Show("Кабинет невозможно удалить, т.к. он связана с посетителями!");
                 return false;
             }
 
@@ -45,6 +47,7 @@ namespace SupRealClient.Views
                  where cz.Field<int>("f_cabinet_id") == currentItem.Id
                  select cz).Any())
             {
+                MessageBox.Show("Кабинет невозможно удалить, т.к. он связана с посетителями!");
                 return false;
             }
 
