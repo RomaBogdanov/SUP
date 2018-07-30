@@ -77,10 +77,17 @@ namespace SupRealClient.EnumerationClasses
 
     public class AccessPoint : IdEntity
     {
+        public int ObjectIdHi { get; set; }
+        public int ObjectIdLo { get; set; }
         public string Name { get; set; }
         public string Descript { get; set; }
         public string SpaceIn { get; set; }
         public string SpaceOut { get; set; }
+
+        public object Clone()
+        {
+            return this.MemberwiseClone();
+        }
     }
 
     public class CardArea : IdEntity

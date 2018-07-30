@@ -489,6 +489,27 @@ namespace SupHost
 		}
     }
     /// <summary>
+    /// TableBehavior для Точки доступа (дополнительная информация)
+    /// </summary>
+    partial class VisAccessPointsExtTableBehavior : VisitorsDBTableBehavior
+    {
+        public VisAccessPointsExtTableBehavior()
+        {
+            this.StandartSetup("vis_access_points_ext", "f_access_point_id");
+        }
+    }
+
+    /// <summary>
+    /// TableWrapper для Точки доступа (дополнительная информация)
+    /// </summary>
+	partial class VisAccessPointsExtTableWrapper : AbstractTableWrapper
+    {
+        public VisAccessPointsExtTableWrapper()
+        { 
+			this.getTableBehavior = new VisAccessPointsExtTableBehavior(); 
+		}
+    }
+    /// <summary>
     /// TableBehavior для ключи привязанные к дверям
     /// </summary>
     partial class VisKeysTableBehavior : VisitorsDBTableBehavior

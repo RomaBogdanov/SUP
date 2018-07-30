@@ -32,6 +32,7 @@
         VisAreasExt,
         VisAreasSpaces,
         VisAccessPoints,
+        VisAccessPointsExt,
         VisKeys,
         VisSchedules,
         VisSchedulesExt,

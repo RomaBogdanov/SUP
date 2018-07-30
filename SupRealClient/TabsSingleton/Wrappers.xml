@@ -27,6 +27,7 @@
   <Item Name="AreasExtWrapper" Type="VisAreasExt" Comment="??" />
   <Item Name="AreasSpacesWrapper" Type="VisAreasSpaces" Comment="??" />
   <Item Name="AccessPointsWrapper" Type="VisAccessPoints" Comment="??" />
+  <Item Name="AccessPointsExtWrapper" Type="VisAccessPointsExt" Comment="??" />
   <Item Name="KeysWrapper" Type="VisKeys" Comment="??" />
   <Item Name="SchedulesWrapper" Type="VisSchedules" Comment="??" />
   <Item Name="SchedulesExtWrapper" Type="VisSchedulesExt" Comment="??" />

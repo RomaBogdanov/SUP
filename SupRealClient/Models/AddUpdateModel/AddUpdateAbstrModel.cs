@@ -214,24 +214,46 @@ namespace SupRealClient.Models.AddUpdateModel
         }
     }
 
-    public class AddAccessPointModel : AddUpdateAbstrModel
+    public class UpdateAccessPointModel : AddUpdateAbstrModel
     {
-        public AddAccessPointModel()
+        public UpdateAccessPointModel(AccessPoint accessPoint)
         {
-            CurrentItem = new AccessPoint();
+            CurrentItem = accessPoint.Clone();
         }
 
         protected override void SaveResult()
         {
-            DataRow row = AccessPointsWrapper.CurrentTable().Table.NewRow();
-            row["f_access_point_name"] = ((AccessPoint)CurrentItem).Name;
-            row["f_access_point_description"] = ((AccessPoint)CurrentItem).Descript;
-            row["f_access_point_space_in"] = ((AccessPoint)CurrentItem).SpaceIn;
-            row["f_access_point_space_out"] = ((AccessPoint)CurrentItem).SpaceOut;
-            row["f_deleted"] = "N";
-            row["f_rec_date"] = DateTime.Now;
-            row["f_rec_operator"] = Authorizer.AppAuthorizer.Id;
-            AccessPointsWrapper.CurrentTable().Table.Rows.Add(row);
+            DataRow mainRow = AccessPointsWrapper.CurrentTable().Table.Rows.Find(((IdEntity)CurrentItem).Id);
+
+            DataRow row = null;
+            foreach (DataRow r in AccessPointsExtWrapper.CurrentTable().Table.Rows)
+            {
+                if (mainRow.Field<int>("f_object_id_hi") == r.Field<int>("f_object_id_hi") &&
+                    mainRow.Field<int>("f_object_id_lo") == r.Field<int>("f_object_id_lo"))
+                {
+                    row = r;
+                    break;
+                }
+            }
+            if (row == null)
+            {
+                row = AccessPointsExtWrapper.CurrentTable().Table.NewRow();
+                row["f_object_id_hi"] = ((AccessPoint)CurrentItem).ObjectIdHi;
+                row["f_object_id_lo"] = ((AccessPoint)CurrentItem).ObjectIdLo;
+                row["f_description"] = ((AccessPoint)CurrentItem).Descript;
+                AccessPointsExtWrapper.CurrentTable().Table.Rows.Add(row);
+            }
+            else
+            {
+                row.BeginEdit();
+                row["f_description"] = ((AccessPoint)CurrentItem).Descript;
+                row.EndEdit();
+            }
+
+            mainRow.BeginEdit();
+            mainRow["f_rec_date"] = DateTime.Now;
+            mainRow["f_rec_operator"] = Authorizer.AppAuthorizer.Id;
+            mainRow.EndEdit();
         }
     }
 

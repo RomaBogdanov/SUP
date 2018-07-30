@@ -887,7 +887,16 @@ namespace SupRealClient.Views
 
         public override void Add()
         {
-            AddUpdateAbstrModel model = new AddAccessPointModel();
+            if (MessageBox.Show(
+                "Данные будут выгружены из Andover. Старые данные будут удалены. Продолжить?",
+                "Внимание", MessageBoxButtons.YesNo) == DialogResult.Yes)
+            {
+            }
+        }
+
+        public override void Update()
+        {
+            AddUpdateAbstrModel model = new UpdateAccessPointModel(CurrentItem);
             AddUpdateBaseViewModel viewModel = new AddUpdateBaseViewModel
             {
                 Model = model
@@ -899,13 +908,18 @@ namespace SupRealClient.Views
             object res = view.WindowResult;
         }
 
-        public override void Update()
-        {
-            throw new NotImplementedException();
-        }
-
         protected override void DoQuery()
         {
+            var descriptions = new List<T>(
+                from accpntext in AccessPointsExtWrapper.CurrentTable().Table.AsEnumerable()
+                where !string.IsNullOrEmpty(accpntext.Field<string>("f_description"))
+                select new T
+                {
+                    ObjectIdHi = accpntext.Field<int>("f_object_id_hi"),
+                    ObjectIdLo = accpntext.Field<int>("f_object_id_lo"),
+                    Descript = accpntext.Field<string>("f_description")
+                });
+
             Set = new ObservableCollection<T>(
                 from accpnt in Table.AsEnumerable()
                 where accpnt.Field<int>("f_access_point_id") != 0 &&
@@ -914,10 +928,22 @@ namespace SupRealClient.Views
                 {
                     Id = accpnt.Field<int>("f_access_point_id"),
                     Name = accpnt.Field<string>("f_access_point_name"),
-                    Descript = accpnt.Field<string>("f_access_point_description"),
                     SpaceIn = accpnt.Field<string>("f_access_point_space_in"),
-                    SpaceOut = accpnt.Field<string>("f_access_point_space_out")
+                    SpaceOut = accpnt.Field<string>("f_access_point_space_out"),
+                    ObjectIdHi = accpnt.Field<int>("f_object_id_hi"),
+                    ObjectIdLo = accpnt.Field<int>("f_object_id_lo"),
+                    Descript = null
                 });
+
+            foreach (var desc in descriptions)
+            {
+                var row = Set.FirstOrDefault(r => r.ObjectIdHi == desc.ObjectIdHi &&
+                    r.ObjectIdLo == desc.ObjectIdLo);
+                if (row != null)
+                {
+                    row.Descript = desc.Descript;
+                }
+            }
         }
 
         protected override BaseModelResult GetResult()

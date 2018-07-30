@@ -29,77 +29,24 @@ begin
 	insert into vis_access_level values ('0', '', '', '', '', '', '', 'N', '', '')
 end
 
-/*
--- Создание vis_access_points
--- Таблица с информацией по сущности "точка доступа". Точка доступа привязана к сущности "дверь",
--- а может быть не привязана. Точка доступа двунаправлена, т.е. возможен однонаправленный проход.
+-- Создание vis_access_points_ext
+-- Таблица с информацией по сущности "точки доступа". Дополнительные данные.
 
-if OBJECT_ID('vis_access_points') is not null
-	drop table vis_access_points
+if OBJECT_ID('vis_access_points_ext') is not null
+	drop table vis_access_points_ext
 
-create table vis_access_points
+create table vis_access_points_ext
 (
 	f_access_point_id              int not null,
-	f_access_point_name            varchar(128),
-	f_access_point_description     varchar(200),
-	f_access_point_space_in_id_hi  int,
-	f_access_point_space_in_id_lo  int,
-	f_access_point_space_out_id_hi int,
-	f_access_point_space_out_id_lo int,
-	f_access_point_space_in        varchar(128), -- ? метка по внутреннему помещению. Пока непонятно, что привязывать.
-	f_access_point_space_out       varchar(128), -- ? метка по внешнему помещению. Пока непонятно, что привязывать.
-	f_deleted                      CHAR(1),
-    f_rec_date                     DATE,
-    f_rec_operator                 int,
     f_object_id_hi                 int,
     f_object_id_lo                 int,
-	f_access_point_controller      varchar(16),
-	f_access_point_path            varchar(MAX),
-	f_access_point_data            varchar(MAX)   -- Здесь можно будет сохранять сериализованный объект из Andover
+	f_description                  varchar(MAX)
 )
 
-alter table vis_access_points
+alter table vis_access_points_ext
 	add primary key(f_access_point_id)
 
-if not exists(select * from vis_access_points where f_access_point_id='0')
-begin
-	insert into vis_access_points values ('0', '', '', 0, 0, 0, 0, '', '', 'N', '', '', '0', '0', '', '', '')
-end
-go
-*/
-
-/*
--- Создание vis_areas
--- Таблица с информацией по сущности "области доступа". Аналог таблиц связанных с zones
-
-if OBJECT_ID('vis_areas') is not null
-	drop table vis_areas;
-
-create table vis_areas
-(
-	f_area_id                      int not null,
-	f_area_name                    varchar(128),
-	f_area_descript                varchar(200),
-	f_deleted                      CHAR(1),
-    f_rec_date                     DATE,
-    f_rec_operator                 int,
-    f_object_id_hi                 int,
-    f_object_id_lo                 int,
-	f_area_controller              varchar(16),
-	f_area_path                    varchar(MAX),
-	f_area_data                    varchar(MAX)   -- Здесь можно будет сохранять сериализованный объект из Andover
-)
-
-alter table vis_areas
-	add primary key (f_area_id)
-
-if not exists(select * from vis_areas where f_area_id='0')
-begin
-	insert into vis_areas values ('0', '', '', 'N', '', '', '0', '0', '', '', '')
-end
-go
-*/
-
+	
 -- Создание vis_areas_ext
 -- Таблица с информацией по сущности "области доступа". Дополнительные данные.
 
@@ -199,7 +146,6 @@ end
 go
 
 
-
 -- Создание vis_doors
 -- Таблица описания сущности "дверь". "Дверь" - разделитель между "Помещениями", 
 -- у которого есть или обыкновенный ключ или электронный.
@@ -230,39 +176,9 @@ begin
 end
 go
 
-/*
--- Создание vis_schedules
-
-if OBJECT_ID('vis_schedules') is not null
-	drop table vis_schedules
-
-create table vis_schedules
-(
-	f_schedule_id                  int not null,
-    f_schedule_name                VARCHAR(128),
-	f_schedule_description         varchar(200),
-    f_deleted                      CHAR(1),
-    f_rec_date                     DATE,
-    f_rec_operator                 int,
-    f_object_id_hi                 int,
-    f_object_id_lo                 int,
-    f_schedule_controller          varchar(16),
-    f_schedule_path                varchar(MAX),
-    f_schedule_data                varchar(MAX)   -- Здесь можно будет сохранять сериализованный объект из Andover
-)
-
-alter table vis_schedules
-	add primary key (f_schedule_id)
-
-if not exists (select * from vis_schedules where f_schedule_id='0')
-begin
-	insert into vis_schedules values('0', '', '', 'N', '', '0', '0', '0', '', '', '')
-end
-go
-*/
-
 
 -- Создание vis_schedules_ext
+-- Таблица с информацией по сущности "расписания". Дополнительные данные.
 
 if OBJECT_ID('vis_schedules_ext') is not null
 	drop table vis_schedules_ext
@@ -279,33 +195,3 @@ alter table vis_schedules_ext
 	add primary key (f_schedule_id)
 go
 
-
--- Создание vis_space
--- Таблица списка помещений. Под помещением понимается область ограниченная
--- "дверями" (см. таблицу vis_doors). Пришла на смену сущности "кабинеты".
-
-/*
-if OBJECT_ID('vis_spaces') is not null
-	drop table vis_spaces
-
-CREATE TABLE vis_spaces
-	(
-	f_space_id int not null,
-	f_num_real varchar(50), --номер помещения дан в текстовом виде для большего обобщения, в теории будет эквивалентем названию помещения
-	f_num_build varchar(50), --номер помещения дан в текстовом виде для большего обобщения, в теории будет эквивалентем названию помещения на этапе строительства
-	f_descript varchar(200), -- описание помещения
-	f_note varchar(200), -- примечание по помещению
-	f_deleted                      CHAR(1),
-    f_rec_date                     DATE,
-    f_rec_operator                 int
-	)
-
-ALTER TABLE vis_spaces
-ADD PRIMARY KEY (f_space_id)
-
-if not exists (select * from vis_spaces where f_space_id='0')
-begin
-	insert into vis_spaces values ('0', '', '', '', '', 'N', '', '')
-end
-go
-*/

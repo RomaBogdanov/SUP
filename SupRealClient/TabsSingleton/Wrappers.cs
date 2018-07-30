@@ -820,6 +820,36 @@ namespace SupRealClient.TabsSingleton
 	/// <summary>
 	/// ??
 	/// </summary>
+	partial class AccessPointsExtWrapper : TableWrapper
+	{
+		static AccessPointsExtWrapper currentTable;
+
+        public static AccessPointsExtWrapper CurrentTable()
+        {
+            if (currentTable == null)
+            {
+                currentTable = new AccessPointsExtWrapper();
+                wrappers.Add(currentTable);
+            }
+            return currentTable;
+        }
+
+		public override void Dispose()
+        {
+            base.Dispose();
+            currentTable = null;
+        }
+
+        private AccessPointsExtWrapper() : base()
+        {
+            this.table = connector.GetTable(TableName.VisAccessPointsExt);
+            this.Subscribe();
+        }
+    }
+
+	/// <summary>
+	/// ??
+	/// </summary>
 	partial class KeysWrapper : TableWrapper
 	{
 		static KeysWrapper currentTable;
