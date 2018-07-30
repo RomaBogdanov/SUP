@@ -34,6 +34,7 @@
             Grid.ColumnSpan="2" 
             Margin="2"
             TabIndex="2"
+            IsReadOnly="True"
             FontSize="{Binding FontSize}"
             Style="{StaticResource TextBoxStyle}"
             KeyUp="TextBox_OnKeyUp"/>

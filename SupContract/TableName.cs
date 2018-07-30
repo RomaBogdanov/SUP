@@ -29,6 +29,7 @@
         VisSpaces,
         VisDoors,
         VisAreas,
+        VisAreasExt,
         VisAreasSpaces,
         VisAccessPoints,
         VisKeys,

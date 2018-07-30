@@ -725,7 +725,16 @@ namespace SupRealClient.Views
 
         public override void Add()
         {
-            AddUpdateAbstrModel model = new AddAreaModel();
+            if (MessageBox.Show(
+                "Данные будут выгружены из Andover. Старые данные будут удалены. Продолжить?",
+                "Внимание", MessageBoxButtons.YesNo) == DialogResult.Yes)
+            {
+            }
+        }
+
+        public override void Update()
+        {
+            AddUpdateAbstrModel model = new UpdateAreaModel(CurrentItem);
             AddUpdateBaseViewModel viewModel = new AddUpdateBaseViewModel
             {
                 Model = model
@@ -737,13 +746,18 @@ namespace SupRealClient.Views
             object res = view.WindowResult;
         }
 
-        public override void Update()
-        {
-            throw new NotImplementedException();
-        }
-
         protected override void DoQuery()
         {
+            var descriptions = new List<T>(
+                from areasext in AreasExtWrapper.CurrentTable().Table.AsEnumerable()
+                where !string.IsNullOrEmpty(areasext.Field<string>("f_description"))
+                select new T
+                {
+                    ObjectIdHi = areasext.Field<int>("f_object_id_hi"),
+                    ObjectIdLo = areasext.Field<int>("f_object_id_lo"),
+                    Descript = areasext.Field<string>("f_description")
+                });
+
             Set = new ObservableCollection<T>(
                 from areas in Table.AsEnumerable()
                 where areas.Field<int>("f_area_id") != 0 &&
@@ -752,8 +766,20 @@ namespace SupRealClient.Views
                 {
                     Id = areas.Field<int>("f_area_id"),
                     Name = areas.Field<string>("f_area_name"),
-                    Descript = areas.Field<string>("f_area_descript")
+                    ObjectIdHi = areas.Field<int>("f_object_id_hi"),
+                    ObjectIdLo = areas.Field<int>("f_object_id_lo"),
+                    Descript = null
                 });
+
+            foreach (var desc in descriptions)
+            {
+                var row = Set.FirstOrDefault(r => r.ObjectIdHi == desc.ObjectIdHi &&
+                    r.ObjectIdLo == desc.ObjectIdLo);
+                if (row != null)
+                {
+                    row.Descript = desc.Descript;
+                }
+            }
         }
 
         protected override BaseModelResult GetResult()

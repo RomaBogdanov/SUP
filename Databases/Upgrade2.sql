@@ -100,6 +100,23 @@ end
 go
 */
 
+-- Создание vis_areas_ext
+-- Таблица с информацией по сущности "области доступа". Дополнительные данные.
+
+if OBJECT_ID('vis_areas_ext') is not null
+	drop table vis_areas_ext;
+
+create table vis_areas_ext
+(
+    f_area_id                      int not null,
+    f_object_id_hi                 int,
+    f_object_id_lo                 int,
+	f_description                  varchar(MAX)
+)
+
+alter table vis_areas_ext
+	add primary key (f_area_id)
+go
 
 -- Создание vis_areas_order_elements
 -- Таблица соотношения между заявками и областями доступа.

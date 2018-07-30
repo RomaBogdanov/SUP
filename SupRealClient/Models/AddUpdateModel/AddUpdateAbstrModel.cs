@@ -131,27 +131,46 @@ namespace SupRealClient.Models.AddUpdateModel
         }
     }
 
-    public class AddAreaModel : AddUpdateAbstrModel
+    public class UpdateAreaModel : AddUpdateAbstrModel
     {
-        public AddAreaModel()
+        public UpdateAreaModel(Area area)
         {
-            CurrentItem = new Area();
+            CurrentItem = area.Clone();
         }
 
         protected override void SaveResult()
         {
-            DataRow row = AreasWrapper.CurrentTable().Table.NewRow();
-            row["f_area_name"] = ((Area)CurrentItem).Name;
-            row["f_area_descript"] = ((Area)CurrentItem).Descript;
-            row["f_deleted"] = "N";
-            row["f_rec_date"] = DateTime.Now;
-            row["f_rec_operator"] = Authorizer.AppAuthorizer.Id;
-            row["f_object_id_hi"] = 0;
-            row["f_object_id_lo"] = 0;
-            row["f_area_controller"] = "";
-            row["f_area_path"] = "";
-            row["f_area_data"] = "";
-            AreasWrapper.CurrentTable().Table.Rows.Add(row);
+            DataRow mainRow = AreasWrapper.CurrentTable().Table.Rows.Find(((IdEntity)CurrentItem).Id);
+
+            DataRow row = null;
+            foreach (DataRow r in AreasExtWrapper.CurrentTable().Table.Rows)
+            {
+                if (mainRow.Field<int>("f_object_id_hi") == r.Field<int>("f_object_id_hi") &&
+                    mainRow.Field<int>("f_object_id_lo") == r.Field<int>("f_object_id_lo"))
+                {
+                    row = r;
+                    break;
+                }
+            }
+            if (row == null)
+            {
+                row = AreasExtWrapper.CurrentTable().Table.NewRow();
+                row["f_object_id_hi"] = ((Area)CurrentItem).ObjectIdHi;
+                row["f_object_id_lo"] = ((Area)CurrentItem).ObjectIdLo;
+                row["f_description"] = ((Area)CurrentItem).Descript;
+                AreasExtWrapper.CurrentTable().Table.Rows.Add(row);
+            }
+            else
+            {
+                row.BeginEdit();
+                row["f_description"] = ((Area)CurrentItem).Descript;
+                row.EndEdit();
+            }
+
+            mainRow.BeginEdit();
+            mainRow["f_rec_date"] = DateTime.Now;
+            mainRow["f_rec_operator"] = Authorizer.AppAuthorizer.Id;
+            mainRow.EndEdit();
         }
     }
 

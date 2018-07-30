@@ -20,6 +20,7 @@
   <Item Name="VisSpaces" TabName="vis_spaces" ColId="f_space_id" Comment="Таблица помещений" />
   <Item Name="VisDoors" TabName="vis_doors" ColId="f_door_id" Comment="Список сущностей двери" />
   <Item Name="VisAreas" TabName="vis_areas" ColId="f_area_id" Comment="Области доступа" />
+  <Item Name="VisAreasExt" TabName="vis_areas_ext" ColId="f_area_id" Comment="Области доступа (дополнительная информация)" />
   <Item Name="VisAreasSpaces" TabName="vis_areas_spaces" ColId="f_area_space_id" Comment="Соотношение помещений областей доступа" />
   <Item Name="VisAccessPoints" TabName="vis_access_points" ColId="f_access_point_id" Comment="Точки доступа" />
   <Item Name="VisKeys" TabName="vis_keys" ColId="f_key_id" Comment="ключи привязанные к дверям" />

@@ -426,6 +426,27 @@ namespace SupHost
 		}
     }
     /// <summary>
+    /// TableBehavior для Области доступа (дополнительная информация)
+    /// </summary>
+    partial class VisAreasExtTableBehavior : VisitorsDBTableBehavior
+    {
+        public VisAreasExtTableBehavior()
+        {
+            this.StandartSetup("vis_areas_ext", "f_area_id");
+        }
+    }
+
+    /// <summary>
+    /// TableWrapper для Области доступа (дополнительная информация)
+    /// </summary>
+	partial class VisAreasExtTableWrapper : AbstractTableWrapper
+    {
+        public VisAreasExtTableWrapper()
+        { 
+			this.getTableBehavior = new VisAreasExtTableBehavior(); 
+		}
+    }
+    /// <summary>
     /// TableBehavior для Соотношение помещений областей доступа
     /// </summary>
     partial class VisAreasSpacesTableBehavior : VisitorsDBTableBehavior

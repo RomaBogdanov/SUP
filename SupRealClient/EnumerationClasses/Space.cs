@@ -47,6 +47,11 @@ namespace SupRealClient.EnumerationClasses
         public int ObjectIdLo { get; set; }
         public string Name { get; set; }
         public string Descript { get; set; }
+
+        public object Clone()
+        {
+            return this.MemberwiseClone();
+        }
     }
 
     public class AreaOrderElement : IdEntity

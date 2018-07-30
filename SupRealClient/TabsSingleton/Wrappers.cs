@@ -730,6 +730,36 @@ namespace SupRealClient.TabsSingleton
 	/// <summary>
 	/// ??
 	/// </summary>
+	partial class AreasExtWrapper : TableWrapper
+	{
+		static AreasExtWrapper currentTable;
+
+        public static AreasExtWrapper CurrentTable()
+        {
+            if (currentTable == null)
+            {
+                currentTable = new AreasExtWrapper();
+                wrappers.Add(currentTable);
+            }
+            return currentTable;
+        }
+
+		public override void Dispose()
+        {
+            base.Dispose();
+            currentTable = null;
+        }
+
+        private AreasExtWrapper() : base()
+        {
+            this.table = connector.GetTable(TableName.VisAreasExt);
+            this.Subscribe();
+        }
+    }
+
+	/// <summary>
+	/// ??
+	/// </summary>
 	partial class AreasSpacesWrapper : TableWrapper
 	{
 		static AreasSpacesWrapper currentTable;

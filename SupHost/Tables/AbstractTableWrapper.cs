@@ -49,6 +49,7 @@ namespace SupHost
                 {TableName.VisSpaces.ToString(), new VisSpacesTableWrapper()},
                 {TableName.VisDoors.ToString(), new VisDoorsTableWrapper()},
                 {TableName.VisAreas.ToString(), new VisAreasTableWrapper()},
+                {TableName.VisAreasExt.ToString(), new VisAreasExtTableWrapper()},
                 {TableName.VisAreasSpaces.ToString(), new VisAreasSpacesTableWrapper()},
                 {TableName.VisAccessPoints.ToString(), new VisAccessPointsTableWrapper()},
                 {TableName.VisKeys.ToString(), new VisKeysTableWrapper()},
