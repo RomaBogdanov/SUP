@@ -351,4 +351,99 @@ namespace SupRealClient.ViewModels.AddUpdateViewModel
             }
         }
     }
+
+    public class AddUpdateAccessLevelViewModel : AddUpdateBaseViewModel
+    {
+        public ICommand AreaCommand { get; set; }
+        public ICommand ScheduleCommand { get; set; }
+
+        public ICommand ClearCommand { get; set; }
+
+        public AddUpdateAccessLevelViewModel() : base()
+        {
+            AreaCommand = new RelayCommand(arg => AreaList());
+            ScheduleCommand = new RelayCommand(arg => ScheduleList());
+
+            ClearCommand = new RelayCommand(arg => Clear(arg as string));
+        }
+
+        public string Area
+        {
+            get { return ((AccessLevel)Model.CurrentItem).Area; }
+            set
+            {
+                ((AccessLevel)Model.CurrentItem).Area = value;
+                OnPropertyChanged("Area");
+            }
+        }
+
+        public string Schedule
+        {
+            get { return ((AccessLevel)Model.CurrentItem).Schedule; }
+            set
+            {
+                ((AccessLevel)Model.CurrentItem).Schedule = value;
+                OnPropertyChanged("Schedule");
+            }
+        }
+
+        private void AreaList()
+        {
+            var result = ViewManager.Instance.OpenWindowModal("Base4AreasWindView") as BaseModelResult;
+
+            if (result == null)
+            {
+                return;
+            }
+
+            DataRow row = AreasWrapper.CurrentTable().Table.Rows.Find(result.Id);
+            if (row == null)
+            {
+                return;
+            }
+
+            ((AccessLevel)Model.CurrentItem).AreaIdHi = row.Field<int>("f_object_id_hi");
+            ((AccessLevel)Model.CurrentItem).AreaIdLo = row.Field<int>("f_object_id_lo");
+            Area = result.Name;
+        }
+
+        private void ScheduleList()
+        {
+            var result = ViewManager.Instance.OpenWindowModal("Base4SchedulesWindView") as BaseModelResult;
+
+            if (result == null)
+            {
+                return;
+            }
+
+            DataRow row = SchedulesWrapper.CurrentTable().Table.Rows.Find(result.Id);
+            if (row == null)
+            {
+                return;
+            }
+
+            ((AccessLevel)Model.CurrentItem).ScheduleIdHi = row.Field<int>("f_object_id_hi");
+            ((AccessLevel)Model.CurrentItem).ScheduleIdLo = row.Field<int>("f_object_id_lo");
+            Schedule = result.Name;
+        }
+
+        private void Clear(string field)
+        {
+            switch (field)
+            {
+                case "Area":
+                    ((AccessLevel)Model.CurrentItem).AreaIdHi = 0;
+                    ((AccessLevel)Model.CurrentItem).AreaIdLo = 0;
+                    Area = "";
+                    break;
+                case "Schedule":
+                    ((AccessLevel)Model.CurrentItem).ScheduleIdHi = 0;
+                    ((AccessLevel)Model.CurrentItem).ScheduleIdLo = 0;
+                    Schedule = "";
+                    break;
+                default:
+                    return;
+            }
+        }
+    }
 }

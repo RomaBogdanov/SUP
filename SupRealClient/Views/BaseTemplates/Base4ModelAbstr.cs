@@ -999,7 +999,7 @@ namespace SupRealClient.Views
 
         protected override BaseModelResult GetResult()
         {
-            throw new NotImplementedException();
+            return new BaseModelResult { Id = CurrentItem.Id, Name = CurrentItem.Name };
         }
 
         public override IDictionary<string, string> GetFields()
@@ -1028,7 +1028,7 @@ namespace SupRealClient.Views
         public override void Add()
         {
             AddUpdateAbstrModel model = new AddAccessLevelModel();
-            AddUpdateBaseViewModel viewModel = new AddUpdateBaseViewModel
+            AddUpdateBaseViewModel viewModel = new AddUpdateAccessLevelViewModel
             {
                 Model = model
             };
@@ -1041,7 +1041,16 @@ namespace SupRealClient.Views
 
         public override void Update()
         {
-            throw new NotImplementedException();
+            AddUpdateAbstrModel model = new UpdateAccessLevelModel(CurrentItem);
+            AddUpdateBaseViewModel viewModel = new AddUpdateAccessLevelViewModel
+            {
+                Model = model
+            };
+            AddUpdateAccessLevelWindView view = new AddUpdateAccessLevelWindView();
+            view.DataContext = viewModel;
+            model.OnClose += view.Handling_OnClose;
+            view.ShowDialog();
+            object res = view.WindowResult;
         }
 
         protected override void DoQuery()
@@ -1055,8 +1064,26 @@ namespace SupRealClient.Views
                Name = acclev.Field<string>("f_level_name"),
                AreaIdHi = acclev.Field<int>("f_area_id_hi"),
                AreaIdLo = acclev.Field<int>("f_area_id_lo"),
+               Area = (acclev.Field<int>("f_area_id_hi") == 0 &&
+                    acclev.Field<int>("f_area_id_lo") == 0) ?
+                    "" : AreasWrapper.CurrentTable()
+                    .Table.AsEnumerable().FirstOrDefault(
+                    arg => arg.Field<int>("f_object_id_hi") ==
+                    acclev.Field<int>("f_area_id_hi") &&
+                    arg.Field<int>("f_object_id_lo") ==
+                    acclev.Field<int>("f_area_id_lo")
+                    )["f_area_name"].ToString(),
                ScheduleIdHi = acclev.Field<int>("f_schedule_id_hi"),
                ScheduleIdLo = acclev.Field<int>("f_schedule_id_lo"),
+               Schedule = (acclev.Field<int>("f_schedule_id_hi") == 0 &&
+                    acclev.Field<int>("f_schedule_id_lo") == 0) ?
+                    "" : SchedulesWrapper.CurrentTable()
+                    .Table.AsEnumerable().FirstOrDefault(
+                    arg => arg.Field<int>("f_object_id_hi") ==
+                    acclev.Field<int>("f_schedule_id_hi") &&
+                    arg.Field<int>("f_object_id_lo") ==
+                    acclev.Field<int>("f_schedule_id_lo")
+                    )["f_schedule_name"].ToString(),
                AccessLevelNote = acclev.Field<string>("f_access_level_note")
            });
         }
@@ -1070,9 +1097,7 @@ namespace SupRealClient.Views
         {
             return new Dictionary<string, string>
             {
-                { "AreaId", "Область доступа" },
                 { "Name", "Название" },
-                { "ScheduleId", "Расписание" },
                 { "AccessLevelNote", "Описание уровня доступа" }
             };
         }

@@ -98,10 +98,17 @@ namespace SupRealClient.EnumerationClasses
     {
         public int AreaIdHi { get; set; }
         public int AreaIdLo { get; set; }
+        public string Area { get; set; }
         public string Name { get; set; }
         public int ScheduleIdHi { get; set; }
         public int ScheduleIdLo { get; set; }
+        public string Schedule { get; set; }
         public string AccessLevelNote { get; set; }
+
+        public object Clone()
+        {
+            return this.MemberwiseClone();
+        }
     }
 
     public class Car : IdEntity

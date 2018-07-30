@@ -82,7 +82,6 @@ namespace SupRealClient.Models.AddUpdateModel
             row["f_rec_date"] = DateTime.Now;
             row["f_rec_operator"] = Authorizer.AppAuthorizer.Id;
             row.EndEdit();
-            Cancel();
         }
     }
 
@@ -129,7 +128,6 @@ namespace SupRealClient.Models.AddUpdateModel
             row["f_rec_date"] = DateTime.Now;
             row["f_rec_operator"] = Authorizer.AppAuthorizer.Id;
             row.EndEdit();
-            Cancel();
         }
     }
 
@@ -240,6 +238,28 @@ namespace SupRealClient.Models.AddUpdateModel
             row["f_rec_date"] = DateTime.Now;
             row["f_rec_operator"] = Authorizer.AppAuthorizer.Id;
             AccessLevelWrapper.CurrentTable().Table.Rows.Add(row);
+        }
+    }
+
+    public class UpdateAccessLevelModel : AddUpdateAbstrModel
+    {
+        public UpdateAccessLevelModel(AccessLevel accessLevel)
+        {
+            CurrentItem = accessLevel.Clone();
+        }
+
+        protected override void SaveResult()
+        {
+            DataRow row = AccessLevelWrapper.CurrentTable().Table.Rows.Find(((IdEntity)CurrentItem).Id);
+            row.BeginEdit();
+            row["f_area_id_hi"] = ((AccessLevel)CurrentItem).AreaIdHi;
+            row["f_area_id_lo"] = ((AccessLevel)CurrentItem).AreaIdLo;
+            row["f_level_name"] = ((AccessLevel)CurrentItem).Name;
+            row["f_schedule_id_hi"] = ((AccessLevel)CurrentItem).ScheduleIdHi;
+            row["f_schedule_id_lo"] = ((AccessLevel)CurrentItem).ScheduleIdLo;
+            row["f_access_level_note"] = ((AccessLevel)CurrentItem).AccessLevelNote;
+            row["f_rec_date"] = DateTime.Now;
+            row.EndEdit();
         }
     }
 
