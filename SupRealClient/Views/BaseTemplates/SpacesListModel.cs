@@ -40,7 +40,17 @@ namespace SupRealClient.Views
 
         public override void Update()
         {
-            throw new NotImplementedException();
+            AddUpdateAbstrModel model = new UpdateSpaceModel(CurrentItem);
+            AddUpdateBaseViewModel viewModel = new AddUpdateBaseViewModel
+            {
+                Model = model,
+                Title = "Редактирование помещения"
+            };
+            AddUpdateSpaceView view = new AddUpdateSpaceView();
+            view.DataContext = viewModel;
+            model.OnClose += view.Handling_OnClose;
+            view.ShowDialog();
+            object res = view.WindowResult;
         }
 
         protected override void DoQuery()

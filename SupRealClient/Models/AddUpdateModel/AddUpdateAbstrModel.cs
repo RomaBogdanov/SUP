@@ -2,7 +2,6 @@
 using System.Collections.ObjectModel;
 using System.Data;
 using System.Linq;
-using System.Windows.Forms;
 using SupRealClient.Common.Interfaces;
 using SupRealClient.Views;
 using SupRealClient.EnumerationClasses;
@@ -62,6 +61,28 @@ namespace SupRealClient.Models.AddUpdateModel
             row["f_rec_date"] = DateTime.Now;
             row["f_rec_operator"] = Authorizer.AppAuthorizer.Id;
             SpacesWrapper.CurrentTable().Table.Rows.Add(row);
+        }
+    }
+
+    public class UpdateSpaceModel : AddUpdateAbstrModel
+    {
+        public UpdateSpaceModel(Space space)
+        {
+            CurrentItem = space.Clone();
+        }
+
+        protected override void SaveResult()
+        {
+            DataRow row = SpacesWrapper.CurrentTable().Table.Rows.Find(((Space)CurrentItem).Id);
+            row.BeginEdit();
+            row["f_num_real"] = ((Space)CurrentItem).NumReal;
+            row["f_num_build"] = ((Space)CurrentItem).NumBuild;
+            row["f_descript"] = ((Space)CurrentItem).Descript;
+            row["f_note"] = ((Space)CurrentItem).Note;
+            row["f_rec_date"] = DateTime.Now;
+            row["f_rec_operator"] = Authorizer.AppAuthorizer.Id;
+            row.EndEdit();
+            Cancel();
         }
     }
 

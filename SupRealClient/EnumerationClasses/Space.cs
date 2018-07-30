@@ -13,6 +13,11 @@ namespace SupRealClient.EnumerationClasses
         public string Descript { get; set; }
         public string Note { get; set; }
 
+        public object Clone()
+        {
+            return this.MemberwiseClone();
+        }
+
     }
 
     public class Door : IdEntity
