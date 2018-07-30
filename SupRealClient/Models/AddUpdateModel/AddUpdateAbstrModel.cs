@@ -175,6 +175,26 @@ namespace SupRealClient.Models.AddUpdateModel
         }
     }
 
+    public class UpdateAreaSpaceModel : AddUpdateAbstrModel
+    {
+        public UpdateAreaSpaceModel(AreaSpace areaSpace)
+        {
+            CurrentItem = areaSpace.Clone();
+        }
+
+        protected override void SaveResult()
+        {
+            DataRow row = AreasSpacesWrapper.CurrentTable().Table.Rows.Find(((IdEntity)CurrentItem).Id);
+            row.BeginEdit();
+            row["f_area_id_hi"] = ((AreaSpace)CurrentItem).AreaIdHi;
+            row["f_area_id_lo"] = ((AreaSpace)CurrentItem).AreaIdLo;
+            row["f_space_id"] = ((AreaSpace)CurrentItem).SpaceId;
+            row["f_rec_date"] = DateTime.Now;
+            row["f_rec_operator"] = Authorizer.AppAuthorizer.Id;
+            row.EndEdit();
+        }
+    }
+
     public class AddAccessPointModel : AddUpdateAbstrModel
     {
         public AddAccessPointModel()

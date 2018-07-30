@@ -787,7 +787,7 @@ namespace SupRealClient.Views
         public override void Add()
         {
             AddUpdateAbstrModel model = new AddAreaSpaceModel();
-            AddUpdateBaseViewModel viewModel = new AddUpdateBaseViewModel
+            AddUpdateBaseViewModel viewModel = new AddUpdateAreaSpaceViewModel
             {
                 Model = model
             };
@@ -800,7 +800,16 @@ namespace SupRealClient.Views
 
         public override void Update()
         {
-            throw new NotImplementedException();
+            AddUpdateAbstrModel model = new UpdateAreaSpaceModel(CurrentItem);
+            AddUpdateBaseViewModel viewModel = new AddUpdateAreaSpaceViewModel
+            {
+                Model = model
+            };
+            AddUpdateAreaSpaceWindView view = new AddUpdateAreaSpaceWindView();
+            view.DataContext = viewModel;
+            model.OnClose += view.Handling_OnClose;
+            view.ShowDialog();
+            object res = view.WindowResult;
         }
 
         protected override void DoQuery()
@@ -813,22 +822,27 @@ namespace SupRealClient.Views
                Id = arsp.Field<int>("f_area_space_id"),
                AreaIdHi = arsp.Field<int>("f_area_id_hi"),
                AreaIdLo = arsp.Field<int>("f_area_id_lo"),
-               SpaceId = arsp.Field<int>("f_space_id")
+               Area = (arsp.Field<int>("f_area_id_hi") == 0 &&
+                    arsp.Field<int>("f_area_id_lo") == 0) ?
+                    "" : AreasWrapper.CurrentTable()
+                    .Table.AsEnumerable().FirstOrDefault(
+                    arg => arg.Field<int>("f_object_id_hi") ==
+                    arsp.Field<int>("f_area_id_hi") &&
+                    arg.Field<int>("f_object_id_lo") ==
+                    arsp.Field<int>("f_area_id_lo")
+                    )["f_area_name"].ToString(),
+               SpaceId = arsp.Field<int>("f_space_id"),
+               Space = arsp.Field<int>("f_space_id") == 0 ?
+                    "" : SpacesWrapper.CurrentTable()
+                    .Table.AsEnumerable().FirstOrDefault(
+                    arg => arg.Field<int>("f_space_id") ==
+                    arsp.Field<int>("f_space_id"))["f_num_real"].ToString(),
            });
         }
 
         protected override BaseModelResult GetResult()
         {
             return new BaseModelResult { Id = CurrentItem.Id, Name = CurrentItem.Id.ToString() };
-        }
-
-        public override IDictionary<string, string> GetFields()
-        {
-            return new Dictionary<string, string>
-            {
-                { "AreaId", "Область доступа" },
-                { "SpaceId", "Помещение" }
-            };
         }
     }
 
