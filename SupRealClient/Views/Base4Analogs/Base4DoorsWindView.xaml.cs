@@ -56,7 +56,7 @@ namespace SupRealClient.Views
             dataGridTextColumn = new DataGridTextColumn
             {
                 Header = "Точка доступа",
-                Binding = new Binding("AccessPointId")
+                Binding = new Binding("AccessPoint")
             };
             base4.BaseTab.Columns.Add(dataGridTextColumn);
 

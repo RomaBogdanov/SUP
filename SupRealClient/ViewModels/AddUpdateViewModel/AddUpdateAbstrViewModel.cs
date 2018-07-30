@@ -14,6 +14,8 @@ using SupRealClient.EnumerationClasses;
 using SupRealClient.Views;
 using SupRealClient.Models;
 using SupRealClient.Views.Visitor;
+using SupRealClient.TabsSingleton;
+using System.Data;
 
 namespace SupRealClient.ViewModels.AddUpdateViewModel
 {
@@ -236,6 +238,117 @@ namespace SupRealClient.ViewModels.AddUpdateViewModel
         private void ToAllZonesCommand()
         {
             CurrentAppointZone = ((AddUpdateZonesToBidModel) this.Model).ToAllZonesCommand();
+        }
+    }
+
+    public class AddUpdateDoorViewModel : AddUpdateBaseViewModel
+    {
+        public ICommand SpaceInCommand { get; set; }
+        public ICommand SpaceOutCommand { get; set; }
+        public ICommand AccessPointCommand { get; set; }
+
+        public ICommand ClearCommand { get; set; }
+
+        public AddUpdateDoorViewModel() : base()
+        {
+            SpaceInCommand = new RelayCommand(arg => SpaceList("in"));
+            SpaceOutCommand = new RelayCommand(arg => SpaceList("out"));
+            AccessPointCommand = new RelayCommand(arg => AccessPointList());
+
+            ClearCommand = new RelayCommand(arg => Clear(arg as string));
+        }
+
+        public string SpaceIn
+        {
+            get { return ((Door)Model.CurrentItem).SpaceIn; }
+            set
+            {
+                ((Door)Model.CurrentItem).SpaceIn = value;
+                OnPropertyChanged("SpaceIn");
+            }
+        }
+
+        public string SpaceOut
+        {
+            get { return ((Door)Model.CurrentItem).SpaceOut; }
+            set
+            {
+                ((Door)Model.CurrentItem).SpaceOut = value;
+                OnPropertyChanged("SpaceOut");
+            }
+        }
+
+        public string AccessPoint
+        {
+            get { return ((Door)Model.CurrentItem).AccessPoint; }
+            set
+            {
+                ((Door)Model.CurrentItem).AccessPoint = value;
+                OnPropertyChanged("AccessPoint");
+            }
+        }
+
+        private void SpaceList(string direction)
+        {
+            var result = ViewManager.Instance.OpenWindowModal("Base4SpacesWindView") as BaseModelResult;
+
+            if (result == null)
+            {
+                return;
+            }
+
+            if (direction == "in")
+            {
+                ((Door)Model.CurrentItem).SpaceInId = result.Id <= 0 ? 0 : result.Id;
+                SpaceIn = result.Name;
+            }
+            else
+            {
+                ((Door)Model.CurrentItem).SpaceOutId = result.Id <= 0 ? 0 : result.Id;
+                SpaceOut = result.Name;
+            }
+        }
+
+        private void AccessPointList()
+        {
+            var result = ViewManager.Instance.OpenWindowModal("Base4AccessPointsWindView") as BaseModelResult;
+
+            if (result == null)
+            {
+                return;
+            }
+
+            DataRow row = AccessPointsWrapper.CurrentTable().Table.Rows.Find(result.Id);
+            if (row == null)
+            {
+                return;
+            }
+
+            ((Door)Model.CurrentItem).AccessPointIdHi = row.Field<int>("f_object_id_hi");
+            ((Door)Model.CurrentItem).AccessPointIdLo = row.Field<int>("f_object_id_lo");
+            AccessPoint = result.Name;
+        }
+
+        private void Clear(string field)
+        {
+            switch (field)
+            {
+                case "SpaceIn":
+                    ((Door)Model.CurrentItem).SpaceInId = 0;
+                    SpaceIn = "";
+                    break;
+                case "SpaceOut":
+                    ((Door)Model.CurrentItem).SpaceOutId = 0;
+                    SpaceOut = "";
+                    break;
+                case "AccessPoint":
+                    ((Door)Model.CurrentItem).AccessPointIdHi = 0;
+                    ((Door)Model.CurrentItem).AccessPointIdLo = 0;
+                    AccessPoint = "";
+                    break;
+                default:
+                    return;
+            }
         }
     }
 }

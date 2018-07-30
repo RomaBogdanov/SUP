@@ -24,10 +24,18 @@ namespace SupRealClient.EnumerationClasses
     {
         public string DoorNum { get; set; }
         public string Descript { get; set; }
-        public int SpaceIn { get; set; }
-        public int SpaceOut { get; set; }
+        public int SpaceInId { get; set; }
+        public string SpaceIn { get; set; }
+        public int SpaceOutId { get; set; }
+        public string SpaceOut { get; set; }
         public int AccessPointIdHi { get; set; }
         public int AccessPointIdLo { get; set; }
+        public string AccessPoint { get; set; }
+
+        public object Clone()
+        {
+            return this.MemberwiseClone();
+        }
     }
 
     /// <summary>

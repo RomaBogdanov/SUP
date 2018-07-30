@@ -73,7 +73,7 @@ namespace SupRealClient.Models.AddUpdateModel
 
         protected override void SaveResult()
         {
-            DataRow row = SpacesWrapper.CurrentTable().Table.Rows.Find(((Space)CurrentItem).Id);
+            DataRow row = SpacesWrapper.CurrentTable().Table.Rows.Find(((IdEntity)CurrentItem).Id);
             row.BeginEdit();
             row["f_num_real"] = ((Space)CurrentItem).NumReal;
             row["f_num_build"] = ((Space)CurrentItem).NumBuild;
@@ -98,14 +98,38 @@ namespace SupRealClient.Models.AddUpdateModel
             DataRow row = DoorsWrapper.CurrentTable().Table.NewRow();
             row["f_door_num"] = ((Door)CurrentItem).DoorNum;
             row["f_descript"] = ((Door)CurrentItem).Descript;
-            row["f_space_in"] = ((Door)CurrentItem).SpaceIn;
-            row["f_space_out"] = ((Door)CurrentItem).SpaceOut;
+            row["f_space_in"] = ((Door)CurrentItem).SpaceInId;
+            row["f_space_out"] = ((Door)CurrentItem).SpaceOutId;
             row["f_access_point_id_hi"] = ((Door)CurrentItem).AccessPointIdHi;
             row["f_access_point_id_lo"] = ((Door)CurrentItem).AccessPointIdLo;
             row["f_deleted"] = "N";
             row["f_rec_date"] = DateTime.Now;
             row["f_rec_operator"] = Authorizer.AppAuthorizer.Id;
             DoorsWrapper.CurrentTable().Table.Rows.Add(row);
+        }
+    }
+
+    public class UpdateDoorModel : AddUpdateAbstrModel
+    {
+        public UpdateDoorModel(Door door)
+        {
+            CurrentItem = door.Clone();
+        }
+
+        protected override void SaveResult()
+        {
+            DataRow row = DoorsWrapper.CurrentTable().Table.Rows.Find(((IdEntity)CurrentItem).Id);
+            row.BeginEdit();
+            row["f_door_num"] = ((Door)CurrentItem).DoorNum;
+            row["f_descript"] = ((Door)CurrentItem).Descript;
+            row["f_space_in"] = ((Door)CurrentItem).SpaceInId;
+            row["f_space_out"] = ((Door)CurrentItem).SpaceOutId;
+            row["f_access_point_id_hi"] = ((Door)CurrentItem).AccessPointIdHi;
+            row["f_access_point_id_lo"] = ((Door)CurrentItem).AccessPointIdLo;
+            row["f_rec_date"] = DateTime.Now;
+            row["f_rec_operator"] = Authorizer.AppAuthorizer.Id;
+            row.EndEdit();
+            Cancel();
         }
     }
 

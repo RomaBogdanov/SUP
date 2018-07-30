@@ -27,7 +27,7 @@ namespace SupRealClient.Views
         public override void Add()
         {
             AddUpdateAbstrModel model = new AddDoorModel();
-            AddUpdateBaseViewModel viewModel = new AddUpdateBaseViewModel
+            AddUpdateBaseViewModel viewModel = new AddUpdateDoorViewModel
             {
                 Model = model
             };
@@ -40,7 +40,16 @@ namespace SupRealClient.Views
 
         public override void Update()
         {
-            throw new NotImplementedException();
+            AddUpdateAbstrModel model = new UpdateDoorModel(CurrentItem);
+            AddUpdateBaseViewModel viewModel = new AddUpdateDoorViewModel
+            {
+                Model = model
+            };
+            AddUpdateDoorWindView view = new AddUpdateDoorWindView();
+            view.DataContext = viewModel;
+            model.OnClose += view.Handling_OnClose;
+            view.ShowDialog();
+            object res = view.WindowResult;
         }
 
         protected override void DoQuery()
@@ -53,10 +62,29 @@ namespace SupRealClient.Views
                         Id = doors.Field<int>("f_door_id"),
                         DoorNum = doors.Field<string>("f_door_num"),
                         Descript = doors.Field<string>("f_descript"),
-                        SpaceIn = doors.Field<int>("f_space_in"),
-                        SpaceOut = doors.Field<int>("f_space_out"),
+                        SpaceInId = doors.Field<int>("f_space_in"),
+                        SpaceIn = doors.Field<int>("f_space_in") == 0 ?
+                            "" : SpacesWrapper.CurrentTable()
+                            .Table.AsEnumerable().FirstOrDefault(
+                            arg => arg.Field<int>("f_space_id") ==
+                            doors.Field<int>("f_space_in"))["f_num_real"].ToString(),
+                        SpaceOutId = doors.Field<int>("f_space_out"),
+                        SpaceOut = doors.Field<int>("f_space_out") == 0 ?
+                            "" : SpacesWrapper.CurrentTable()
+                            .Table.AsEnumerable().FirstOrDefault(
+                            arg => arg.Field<int>("f_space_id") ==
+                            doors.Field<int>("f_space_out"))["f_num_real"].ToString(),
                         AccessPointIdHi = doors.Field<int>("f_access_point_id_hi"),
-                        AccessPointIdLo = doors.Field<int>("f_access_point_id_lo")
+                        AccessPointIdLo = doors.Field<int>("f_access_point_id_lo"),
+                        AccessPoint = (doors.Field<int>("f_access_point_id_hi") == 0 &&
+                            doors.Field<int>("f_access_point_id_lo") == 0) ?
+                            "" : AccessPointsWrapper.CurrentTable()
+                            .Table.AsEnumerable().FirstOrDefault(
+                            arg => arg.Field<int>("f_object_id_hi") ==
+                            doors.Field<int>("f_access_point_id_hi") &&
+                            arg.Field<int>("f_object_id_lo") ==
+                            doors.Field<int>("f_access_point_id_lo")
+                            )["f_access_point_name"].ToString(),
                     });
         }
 
@@ -71,9 +99,6 @@ namespace SupRealClient.Views
             {
                 { "DoorNum", "Номер" },
                 { "Descript", "Описание" },
-                { "SpaceIn", "Внутреннее помещение" },
-                { "SpaceOut", "Внешнее помещение" },
-                { "AccessPointId", "Точка доступа" }
             };
         }
     }
