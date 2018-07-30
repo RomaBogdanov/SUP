@@ -102,8 +102,15 @@ namespace SupRealClient.EnumerationClasses
 
     public class Schedule : IdEntity
     {
+        public int ObjectIdHi { get; set; }
+        public int ObjectIdLo { get; set; }
         public string Name { get; set; }
         public string Descript { get; set; }
+
+        public object Clone()
+        {
+            return this.MemberwiseClone();
+        }
     }
 
     public class AccessLevel : IdEntity

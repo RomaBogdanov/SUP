@@ -29,6 +29,7 @@
   <Item Name="AccessPointsWrapper" Type="VisAccessPoints" Comment="??" />
   <Item Name="KeysWrapper" Type="VisKeys" Comment="??" />
   <Item Name="SchedulesWrapper" Type="VisSchedules" Comment="??" />
+  <Item Name="SchedulesExtWrapper" Type="VisSchedulesExt" Comment="??" />
   <Item Name="AccessLevelWrapper" Type="VisAccessLevel" Comment="??" />
   <Item Name="CarsWrapper" Type="VisCars" Comment="??" />
   <Item Name="EquipmentWrapper" Type="VisEquipment" Comment="??" />

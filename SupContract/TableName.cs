@@ -34,6 +34,7 @@
         VisAccessPoints,
         VisKeys,
         VisSchedules,
+        VisSchedulesExt,
         VisAccessLevel,
         VisCars,
         VisEquipment,

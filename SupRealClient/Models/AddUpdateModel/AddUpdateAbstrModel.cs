@@ -349,6 +349,49 @@ namespace SupRealClient.Models.AddUpdateModel
         }
     }
 
+    public class UpdateScheduleModel : AddUpdateAbstrModel
+    {
+        public UpdateScheduleModel(Schedule schedule)
+        {
+            CurrentItem = schedule.Clone();
+        }
+
+        protected override void SaveResult()
+        {
+            DataRow mainRow = SchedulesWrapper.CurrentTable().Table.Rows.Find(((IdEntity)CurrentItem).Id);
+
+            DataRow row = null;
+            foreach (DataRow r in SchedulesExtWrapper.CurrentTable().Table.Rows)
+            {
+                if (mainRow.Field<int>("f_object_id_hi") == r.Field<int>("f_object_id_hi") &&
+                    mainRow.Field<int>("f_object_id_lo") == r.Field<int>("f_object_id_lo"))
+                {
+                    row = r;
+                    break;
+                }
+            }
+            if (row == null)
+            {
+                row = SchedulesExtWrapper.CurrentTable().Table.NewRow();
+                row["f_object_id_hi"] = ((Schedule)CurrentItem).ObjectIdHi;
+                row["f_object_id_lo"] = ((Schedule)CurrentItem).ObjectIdLo;
+                row["f_description"] = ((Schedule)CurrentItem).Descript;
+                SchedulesExtWrapper.CurrentTable().Table.Rows.Add(row);
+            }
+            else
+            {
+                row.BeginEdit();
+                row["f_description"] = ((Schedule)CurrentItem).Descript;
+                row.EndEdit();
+            }
+
+            mainRow.BeginEdit();
+            mainRow["f_rec_date"] = DateTime.Now;
+            mainRow["f_rec_operator"] = Authorizer.AppAuthorizer.Id;
+            mainRow.EndEdit();
+        }
+    }
+
     /// <summary>
     /// Обработчик формы добавления новой разовой заявки.
     /// </summary>

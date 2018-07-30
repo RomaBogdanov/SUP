@@ -260,6 +260,26 @@ begin
 end
 go
 */
+
+
+-- Создание vis_schedules_ext
+
+if OBJECT_ID('vis_schedules_ext') is not null
+	drop table vis_schedules_ext
+
+create table vis_schedules_ext
+(
+	f_schedule_id                  int not null,
+    f_object_id_hi                 int,
+    f_object_id_lo                 int,
+    f_description                  varchar(MAX)
+)
+
+alter table vis_schedules_ext
+	add primary key (f_schedule_id)
+go
+
+
 -- Создание vis_space
 -- Таблица списка помещений. Под помещением понимается область ограниченная
 -- "дверями" (см. таблицу vis_doors). Пришла на смену сущности "кабинеты".

@@ -880,6 +880,36 @@ namespace SupRealClient.TabsSingleton
 	/// <summary>
 	/// ??
 	/// </summary>
+	partial class SchedulesExtWrapper : TableWrapper
+	{
+		static SchedulesExtWrapper currentTable;
+
+        public static SchedulesExtWrapper CurrentTable()
+        {
+            if (currentTable == null)
+            {
+                currentTable = new SchedulesExtWrapper();
+                wrappers.Add(currentTable);
+            }
+            return currentTable;
+        }
+
+		public override void Dispose()
+        {
+            base.Dispose();
+            currentTable = null;
+        }
+
+        private SchedulesExtWrapper() : base()
+        {
+            this.table = connector.GetTable(TableName.VisSchedulesExt);
+            this.Subscribe();
+        }
+    }
+
+	/// <summary>
+	/// ??
+	/// </summary>
 	partial class AccessLevelWrapper : TableWrapper
 	{
 		static AccessLevelWrapper currentTable;

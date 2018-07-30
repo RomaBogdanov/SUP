@@ -1015,16 +1015,39 @@ namespace SupRealClient.Views
 
         public override void Add()
         {
-            throw new NotImplementedException();
+            if (MessageBox.Show(
+                "Данные будут выгружены из Andover. Старые данные будут удалены. Продолжить?",
+                "Внимание", MessageBoxButtons.YesNo) == DialogResult.Yes)
+            {
+            }
         }
 
         public override void Update()
         {
-            throw new NotImplementedException();
+            AddUpdateAbstrModel model = new UpdateScheduleModel(CurrentItem);
+            AddUpdateBaseViewModel viewModel = new AddUpdateBaseViewModel
+            {
+                Model = model
+            };
+            AddUpdateScheduleWindView view = new AddUpdateScheduleWindView();
+            view.DataContext = viewModel;
+            model.OnClose += view.Handling_OnClose;
+            view.ShowDialog();
+            object res = view.WindowResult;
         }
 
         protected override void DoQuery()
         {
+            var descriptions = new List<T>(
+                from schdext in SchedulesExtWrapper.CurrentTable().Table.AsEnumerable()
+                where !string.IsNullOrEmpty(schdext.Field<string>("f_description"))
+                select new T
+                {
+                    ObjectIdHi = schdext.Field<int>("f_object_id_hi"),
+                    ObjectIdLo = schdext.Field<int>("f_object_id_lo"),
+                    Descript = schdext.Field<string>("f_description")
+                });
+
             Set = new ObservableCollection<T>(
                 from schd in Table.AsEnumerable()
                 where schd.Field<int>("f_schedule_id") != 0 &&
@@ -1033,8 +1056,20 @@ namespace SupRealClient.Views
                 {
                     Id = schd.Field<int>("f_schedule_id"),
                     Name = schd.Field<string>("f_schedule_name"),
-                    Descript = schd.Field<string>("f_schedule_description")
+                    ObjectIdHi = schd.Field<int>("f_object_id_hi"),
+                    ObjectIdLo = schd.Field<int>("f_object_id_lo"),
+                    Descript = null
                 });
+
+            foreach (var desc in descriptions)
+            {
+                var row = Set.FirstOrDefault(r => r.ObjectIdHi == desc.ObjectIdHi &&
+                    r.ObjectIdLo == desc.ObjectIdLo);
+                if (row != null)
+                {
+                    row.Descript = desc.Descript;
+                }
+            }
         }
 
         protected override BaseModelResult GetResult()

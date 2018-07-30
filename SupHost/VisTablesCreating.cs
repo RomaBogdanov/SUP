@@ -531,6 +531,27 @@ namespace SupHost
 		}
     }
     /// <summary>
+    /// TableBehavior для Расписания (дополнительная информация)
+    /// </summary>
+    partial class VisSchedulesExtTableBehavior : VisitorsDBTableBehavior
+    {
+        public VisSchedulesExtTableBehavior()
+        {
+            this.StandartSetup("vis_schedules_ext", "f_schedule_id");
+        }
+    }
+
+    /// <summary>
+    /// TableWrapper для Расписания (дополнительная информация)
+    /// </summary>
+	partial class VisSchedulesExtTableWrapper : AbstractTableWrapper
+    {
+        public VisSchedulesExtTableWrapper()
+        { 
+			this.getTableBehavior = new VisSchedulesExtTableBehavior(); 
+		}
+    }
+    /// <summary>
     /// TableBehavior для Связь между расписаниями и уровнями доступа
     /// </summary>
     partial class VisAccessLevelTableBehavior : VisitorsDBTableBehavior

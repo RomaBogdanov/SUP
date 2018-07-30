@@ -25,6 +25,7 @@
   <Item Name="VisAccessPoints" TabName="vis_access_points" ColId="f_access_point_id" Comment="Точки доступа" />
   <Item Name="VisKeys" TabName="vis_keys" ColId="f_key_id" Comment="ключи привязанные к дверям" />
   <Item Name="VisSchedules" TabName="vis_schedules" ColId="f_schedule_id" Comment="Расписания" />
+  <Item Name="VisSchedulesExt" TabName="vis_schedules_ext" ColId="f_schedule_id" Comment="Расписания (дополнительная информация)" />
   <Item Name="VisAccessLevel" TabName="vis_access_level" ColId="f_access_level_id" Comment="Связь между расписаниями и уровнями доступа" />
   <Item Name="VisCars" TabName="vis_cars" ColId="f_car_id" Comment="Машины проезжающие на территорию" />
   <Item Name="VisEquipment" TabName="vis_equipment" ColId="f_equip_id" Comment="Проносимое имущество" />
