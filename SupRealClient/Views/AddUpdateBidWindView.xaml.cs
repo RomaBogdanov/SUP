@@ -49,10 +49,19 @@ namespace SupRealClient.Views
         {
             if (e.Key == Key.Enter)
             {
-                btnSelectCatcher.Focus();
+	            btnSelectOrganization.Focus();
                 e.Handled = true;
             }
         }
+
+	    private void btnSelectOrganization_PreviewKeyDown(object sender, KeyEventArgs e)
+	    {
+		    if (e.Key == Key.Enter)
+		    {
+			    btnSelectCatcher.Focus();
+			    e.Handled = true;
+		    }
+		}
 
         private void btnSelectCatcher_PreviewKeyDown(object sender, KeyEventArgs e)
         {
@@ -62,7 +71,6 @@ namespace SupRealClient.Views
                 e.Handled = true;
             }
         }
-
 
         private void UIdef_KeyDown(object sender, KeyEventArgs e)
         {

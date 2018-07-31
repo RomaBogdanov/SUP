@@ -48,7 +48,13 @@
         <Button TabIndex="1" Grid.Row="1" Grid.Column="3" Content="x" Style="{StaticResource ButtonStyle}"></Button>
 
         <TextBlock Grid.Row="2" Text="Организация" Grid.ColumnSpan="2" Style="{StaticResource TextBLockStyle}" HorizontalAlignment="Left"></TextBlock>
-        <TextBox Grid.Row="3" Grid.ColumnSpan="4" IsEnabled="False" Text="{Binding CurrentItem.Organization, Mode=TwoWay}"  Style="{StaticResource TextBoxStyle}" Margin="2"></TextBox>
+        <TextBox Grid.Row="3" Grid.ColumnSpan="2" IsEnabled="False" Text="{Binding CurrentItem.Organization, Mode=TwoWay}"  Style="{StaticResource TextBoxStyle}" Margin="2"></TextBox>
+        <Button Name="btnSelectOrganization" TabIndex="2" Grid.Row="3" Grid.Column="2" Content="..." 
+                Command="{Binding OrganizationName}" 
+                Style="{StaticResource ButtonStyle}"
+                PreviewKeyDown="btnSelectOrganization_PreviewKeyDown">
+        </Button>
+        <Button TabIndex="3" Grid.Row="3" Grid.Column="3" Content="x" Style="{StaticResource ButtonStyle}"></Button>
 
         <TextBlock Grid.Row="4" Text="Принимающее лицо" Grid.ColumnSpan="2" Style="{StaticResource TextBLockStyle}" HorizontalAlignment="Left"></TextBlock>
         <TextBox Name="txtCatcher" Grid.Row="5" Grid.ColumnSpan="2" IsEnabled="False" Text="{Binding CurrentItem.Catcher, Mode=TwoWay}" Style="{StaticResource TextBoxStyle}" Margin="2"></TextBox>

@@ -115,6 +115,8 @@ namespace SupRealClient.ViewModels.AddUpdateViewModel
     {
         public ICommand VisitorName { get; set; }
 
+		public ICommand OrganizationName { get; set; }
+
         public ICommand CatcherName { get; set; }
 
         public ICommand UpdateZones { get; set; }
@@ -122,6 +124,7 @@ namespace SupRealClient.ViewModels.AddUpdateViewModel
         public AddUpdateBidsViewModel() : base()
         {
             VisitorName = new RelayCommand(arg => VisitorNameCommand());
+			OrganizationName = new RelayCommand(arg => OrganizationNameCommand());
             CatcherName = new RelayCommand(arg => CatcherNameCommand());
             UpdateZones = new RelayCommand(arg => UpdateZonesCommand());
         }
@@ -130,6 +133,10 @@ namespace SupRealClient.ViewModels.AddUpdateViewModel
         {
             VisitorsModelResult result = ViewManager.Instance.OpenWindowModal(
                 "VisitorsListWindViewOk", null) as VisitorsModelResult;
+	        if (result == null)
+	        {
+		        return;
+	        }
             (CurrentItem as OrderElement).VisitorId = result.Id;
             (CurrentItem as OrderElement).Visitor = result.Name;
             (CurrentItem as OrderElement).OrganizationId = result.OrganizationId;
@@ -137,10 +144,26 @@ namespace SupRealClient.ViewModels.AddUpdateViewModel
             CurrentItem = CurrentItem;
         }
 
+	    private void OrganizationNameCommand()
+	    {
+		    BaseModelResult result = ViewManager.Instance.OpenWindowModal(
+				"Base4OrganizationsWindView", null) as BaseModelResult;
+		    if (result == null)
+		    {
+			    return;
+		    }
+		    (CurrentItem as OrderElement).OrganizationId = result.Id;
+		    CurrentItem = CurrentItem;
+		}
+
         private void CatcherNameCommand()
         {
             VisitorsModelResult result = ViewManager.Instance.OpenWindowModal(
                 "VisitorsListWindViewOk", null) as VisitorsModelResult;
+	        if (result == null)
+	        {
+				return;
+	        }
             (CurrentItem as OrderElement).CatcherId = result.Id;
             (CurrentItem as OrderElement).Catcher = result.Name;
             CurrentItem = CurrentItem;
