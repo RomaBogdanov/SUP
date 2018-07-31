@@ -65,6 +65,9 @@ namespace SupRealClient.Views
             }
         }
 
+        public delegate void ScrollIntoViewDelegateSignature();
+        public virtual ScrollIntoViewDelegateSignature ScrollIntoViewCurrentItem { get; set; }
+
         public virtual T CurrentItem
         {
             get { return currentItem; }
@@ -79,12 +82,10 @@ namespace SupRealClient.Views
 
         public virtual void Begin()
         {
-            if (CollectionView.Count > 0)
+            if (Set.Count > 0)
             {
-                if (CollectionView.MoveCurrentToFirst())
-                {
-                    CurrentItem = (T)CollectionView.CurrentItem;                   
-                }
+                SelectedIndex = 0;
+                CurrentItem = Set[SelectedIndex];
             }
             else
             {
@@ -93,12 +94,10 @@ namespace SupRealClient.Views
         }
         public virtual void End()
         {
-            if (CollectionView.Count > 0)
+            if (Set.Count > 0)
             {
-                if (CollectionView.MoveCurrentToLast())
-                {
-                    CurrentItem = (T)CollectionView.CurrentItem;
-                }
+                SelectedIndex = Set.Count - 1;
+                CurrentItem = Set[SelectedIndex];
             }
             else
             {
@@ -106,15 +105,13 @@ namespace SupRealClient.Views
             }
         }
         public virtual void Prev()
-        {
-            if (CollectionView.Count > 0)
+        {            
+            if (Set.Count > 0)
             {
                 if (SelectedIndex > 0)
                 {
-                    if (CollectionView.MoveCurrentTo(SelectedIndex--))
-                    {
-                        CurrentItem = (T)CollectionView.CurrentItem;
-                    }
+                    SelectedIndex--;
+                    CurrentItem = Set[SelectedIndex];
                 }
             }
             else
@@ -124,14 +121,13 @@ namespace SupRealClient.Views
         }
         public virtual void Next()
         {
-            if (CollectionView.Count > 0)
+            if (Set.Count > 0)
             {
-                if (SelectedIndex < CollectionView.Count - 1)
+                if (SelectedIndex < Set.Count - 1)
                 {
-                    if (CollectionView.MoveCurrentTo(SelectedIndex++))
-                    {
-                        CurrentItem = (T)CollectionView.CurrentItem;
-                    }
+                    SelectedIndex++;
+                    CurrentItem = Set[SelectedIndex];
+
                 }
             }
             else
@@ -221,9 +217,12 @@ namespace SupRealClient.Views
             {
                 if ((Set.ElementAt(i) as IdEntity).Id == id)
                 {
+                    //CurrentItem = Set.ElementAt(i);
+                    //OnModelPropertyChanged?.Invoke("CurrentItem");
+                    //break;
                     if (CollectionView.MoveCurrentTo(Set.ElementAt(i)))
                     {
-                        CurrentItem = (T)CollectionView.CurrentItem;                       
+                        CurrentItem = (T)CollectionView.CurrentItem;
                         OnModelPropertyChanged?.Invoke("CurrentItem");
                         break;
                     }

@@ -221,7 +221,7 @@ namespace SupRealClient.Views
         }
 
         public delegate void ScrollIntoViewDelegateSignature();
-        public ScrollIntoViewDelegateSignature ScrollIntoViewCurrentItem { get; set; }
+        public virtual ScrollIntoViewDelegateSignature ScrollIntoViewCurrentItem { get; set; }
 
         private void AddCom()
         {
@@ -231,13 +231,11 @@ namespace SupRealClient.Views
         private void UpdateCom()
         {
             this.Model.Update();
-            ScrollIntoViewCurrentItem?.Invoke();
-            //OnPropertyChanged("CollectionView");            
+            ScrollIntoViewCurrentItem?.Invoke();          
         }
         private void SearchCom()
         {
             this.Model.Search();
-            ScrollIntoViewCurrentItem?.Invoke();
         }
         private void FartherCom()
         {

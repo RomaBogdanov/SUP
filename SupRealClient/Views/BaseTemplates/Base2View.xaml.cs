@@ -126,7 +126,7 @@ namespace SupRealClient.Views
             var item = oRow.Item;
 
             if (item is Organization)
-                RowColorOrganizationTable(oRow);
+                RowColorOrganizationTable(oRow);            
         }
 
         void RowColorOrganizationTable(DataGridRow oRow)
@@ -162,6 +162,8 @@ namespace SupRealClient.Views
                 if (row == null)
                     return;
 
+                baseTab.ScrollIntoView(row);
+                baseTab.UpdateLayout();
                 baseTab.ScrollIntoView(row);
             }           
         }

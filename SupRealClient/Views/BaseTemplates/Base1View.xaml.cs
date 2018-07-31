@@ -175,6 +175,8 @@ namespace SupRealClient.Views
                     return;
 
                 baseTab.ScrollIntoView(row);
+                baseTab.UpdateLayout();
+                baseTab.ScrollIntoView(row);
             }
         }
 
