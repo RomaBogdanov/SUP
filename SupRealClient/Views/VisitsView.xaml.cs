@@ -57,8 +57,10 @@ namespace SupRealClient.Views
         private IWindow view;
         private int selectedMainDocument = -1;
         private int selectedDocument = -1;
+	    private const string _nameDocument_PhotoImageType = "Личная фотография";
+	    private const string _nameDocument_SignatureImageType = "Личная подпись";
 
-        public CollectionView PositionList { get; private set; }
+		public CollectionView PositionList { get; private set; }
 
         public IVisitsModel Model
         {
@@ -282,10 +284,10 @@ namespace SupRealClient.Views
             EditCommand = new RelayCommand(arg => Edit());
             FindCommand = new RelayCommand(arg => Find());
 
-            AddImageSourceCommand = new RelayCommand(arg => AddImageSource(ImageType.Photo));
-            RemoveImageSourceCommand= new RelayCommand(arg => RemoveImageSource(ImageType.Photo));
-            AddSignatureCommand = new RelayCommand(arg => AddImageSource(ImageType.Signature));
-            RemoveSignatureCommand = new RelayCommand(arg => RemoveImageSource(ImageType.Signature));
+            AddImageSourceCommand = new RelayCommand(arg => AddImageSource(ImageType.Photo, _nameDocument_PhotoImageType));
+            RemoveImageSourceCommand= new RelayCommand(arg => RemoveImageSource(ImageType.Photo, _nameDocument_PhotoImageType));
+            AddSignatureCommand = new RelayCommand(arg => AddImageSource(ImageType.Signature, _nameDocument_SignatureImageType));
+            RemoveSignatureCommand = new RelayCommand(arg => RemoveImageSource(ImageType.Signature, _nameDocument_SignatureImageType));
 
             OpenDocumentCommand = new RelayCommand(arg => OpenDocument());
             AddDocumentCommand = new RelayCommand(arg => AddDocument());
@@ -501,19 +503,21 @@ namespace SupRealClient.Views
             }
         }
 
-        private void AddImageSource(ImageType imageType)
+        private void AddImageSource(ImageType imageType, string name)
         {
             var dlg = new OpenFileDialog();
             if (dlg.ShowDialog() == DialogResult.OK)
             {
                 Model.AddImageSource(dlg.FileName, imageType);
+	            AddImageToDocuments(name, dlg.FileName);
             }
         }
 
-        private void RemoveImageSource(ImageType imageType)
+        private void RemoveImageSource(ImageType imageType, string name)
         {
             Model.RemoveImageSource(imageType);
-        }
+	        RemoveImageToDocuments(name);
+		}
 
         private void OpenDocument()
         {
@@ -568,7 +572,22 @@ namespace SupRealClient.Views
             {
                 return;
             }
-            Model.RemoveDocument(SelectedDocument);
+
+	        VisitorsDocument deleteItem = CurrentItem?.Documents?[SelectedDocument];
+	        Model.RemoveDocument(SelectedDocument);
+			if (deleteItem != null)
+	        {
+		        switch (deleteItem.Name)
+		        {
+					case _nameDocument_PhotoImageType:
+						RemoveImageSource(ImageType.Photo, _nameDocument_PhotoImageType);
+						break;
+					case _nameDocument_SignatureImageType:
+						RemoveImageSource(ImageType.Signature, _nameDocument_SignatureImageType);
+						break;
+				}
+			}
+
         }
 
         private void OpenMainDocument()
@@ -628,7 +647,33 @@ namespace SupRealClient.Views
             Model.RemoveMainDocument(SelectedMainDocument);
         }
 
-        public event PropertyChangedEventHandler PropertyChanged;
+	    private void AddImageToDocuments(string name,  string fileName)
+	    {
+		    RemoveImageToDocuments(name);
+
+			Guid id = ImagesHelper.LoadImage(fileName);
+			VisitorsDocument visitorsDocument = new VisitorsDocument()
+			{
+				Name = name,
+				TypeId = 0,
+				Images = new List<Guid>() {id},
+				IsChanged = true
+			};
+
+			CurrentItem.Documents.Add(visitorsDocument);
+		}
+
+	    private void RemoveImageToDocuments(string name)
+		{
+			if (CurrentItem?.Documents?.Count <= 0)
+			{
+				return;
+			}
+			VisitorsDocument deleteItem = CurrentItem?.Documents?.FirstOrDefault(item => item.Name == name);
+		    CurrentItem?.Documents?.Remove(deleteItem);
+	    }
+
+		public event PropertyChangedEventHandler PropertyChanged;
 
         [NotifyPropertyChangedInvocator]
         protected virtual void OnPropertyChanged([CallerMemberName] string propertyName = null)

@@ -8,6 +8,8 @@ using System.Linq;
 using System;
 using System.Collections.Generic;
 using System.Data;
+using System.Windows;
+using SupRealClient.Views;
 
 namespace SupRealClient.ViewModels
 {
@@ -20,8 +22,14 @@ namespace SupRealClient.ViewModels
             new ObservableCollection<string>();
         private List<Guid> imageCache = new List<Guid>();
         private int selectedImage = -1;
+	    private bool _conditionButton_SaveChanges = false;
+	    private bool _conditionButton_OpenDocument = false;
+	    private object _selectedItem=null;
 
-        public string Caption { get; private set; }
+
+
+
+		public string Caption { get; private set; }
 
         public ObservableCollection<string> Images
         {
@@ -46,6 +54,9 @@ namespace SupRealClient.ViewModels
                     name = value;
                     OnPropertyChanged("Name");
                 }
+
+	            Change_Condition_SaveChangesButton();
+
             }
         }
 
@@ -56,16 +67,50 @@ namespace SupRealClient.ViewModels
             {
                 selectedImage = value;
                 OnPropertyChanged("SelectedImage");
+	            Change_Condition_OpenDocumentButton();
+
             }
         }
 
-        public ICommand AddImageCommand { get; set; }
+	    public object SelectedItem
+	    {
+		    get { return _selectedItem; }
+		    set
+		    {
+			    _selectedItem = value;
+			    OnPropertyChanged("SelectedItem");
+		    }
+	    }
+
+		public bool ConditionButton_SaveChanges
+	    {
+		    get { return _conditionButton_SaveChanges; }
+		    set
+		    {
+			    _conditionButton_SaveChanges = value;
+				OnPropertyChanged(nameof(ConditionButton_SaveChanges));
+		    }
+		}
+
+	    public bool ConditionButton_OpenDocument
+	    {
+		    get { return _conditionButton_OpenDocument; }
+		    set
+		    {
+			    _conditionButton_OpenDocument = value;
+			    OnPropertyChanged(nameof(ConditionButton_OpenDocument));
+		    }
+	    }
+
+		public ICommand AddImageCommand { get; set; }
         public ICommand RemoveImageCommand { get; set; }
 
         public ICommand Ok { get; set; }
         public ICommand Cancel { get; set; }
 
-        public VisitorsDocumentViewModel()
+	    public ICommand OpenDocumentCommand { get; set; }
+
+		public VisitorsDocumentViewModel()
         {
         }
 
@@ -98,7 +143,10 @@ namespace SupRealClient.ViewModels
 
             AddImageCommand = new RelayCommand(arg => AddImage());
             RemoveImageCommand = new RelayCommand(arg => RemoveImage());
-        }
+
+	        OpenDocumentCommand=new RelayCommand(arg => OpenDocument());
+
+		}
 
         protected virtual void OnPropertyChanged(string propertyName) =>
             this.PropertyChanged?.Invoke(this,
@@ -125,5 +173,27 @@ namespace SupRealClient.ViewModels
             Images.RemoveAt(selected);
             imageCache.RemoveAt(selected);
         }
-    }
+
+	    private void OpenDocument()
+	    {
+		    if (SelectedImage >= 0 && SelectedImage< images.Count)
+		    {
+			    DocumentImageView documentImageView = new DocumentImageView(false);
+			    documentImageView.ResizeMode = ResizeMode.NoResize;
+			    documentImageView.DocumentImage = images[SelectedImage];
+			    documentImageView.ShowDialog();
+		    }
+	    }
+
+	    private void Change_Condition_SaveChangesButton()
+	    {
+		    ConditionButton_SaveChanges=(!string.IsNullOrEmpty(Name) && !string.IsNullOrWhiteSpace(Name));
+		}
+
+	    private void Change_Condition_OpenDocumentButton()
+	    {
+			ConditionButton_OpenDocument = (SelectedImage >= 0 && images.Count>0);
+	    }
+
+	}
 }

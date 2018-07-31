@@ -835,7 +835,7 @@
 
                         <TextBlock
                             Grid.Row="0"
-                            Text="Удостоверения личности"
+                            Text="Привязанные сканы"
                             FontSize="15"
                             Style="{StaticResource TextBLockStyle}"/>
 
