@@ -27,6 +27,8 @@ namespace SupRealClient.Views
         public event ModelPropertyChanged OnModelPropertyChanged;
         public event Action<object> OnClose;
 
+        public Action ScrollCurrentItem { get; set; }
+
         public IWindow Parent { get; set; }
 
         protected ObservableCollection<T> set;
@@ -224,6 +226,7 @@ namespace SupRealClient.Views
                     {
                         CurrentItem = (T)CollectionView.CurrentItem;
                         OnModelPropertyChanged?.Invoke("CurrentItem");
+                        ScrollCurrentItem?.Invoke();
                         break;
                     }
                 }

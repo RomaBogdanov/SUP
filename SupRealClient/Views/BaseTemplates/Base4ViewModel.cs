@@ -220,18 +220,28 @@ namespace SupRealClient.Views
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
 
-        public delegate void ScrollIntoViewDelegateSignature();
-        public virtual ScrollIntoViewDelegateSignature ScrollIntoViewCurrentItem { get; set; }
+        public System.Action ScrollCurrentItem
+        {
+            get { return Model != null ? Model.ScrollCurrentItem : null; }
+            set
+            {
+                if (Model != null && value != null)
+                {
+                    Model.ScrollCurrentItem = value;                 
+                }
+            }
+        }
+
 
         private void AddCom()
         {
             this.Model.Add();
-            ScrollIntoViewCurrentItem?.Invoke();
+            ScrollCurrentItem?.Invoke();
         }
         private void UpdateCom()
         {
             this.Model.Update();
-            ScrollIntoViewCurrentItem?.Invoke();          
+            ScrollCurrentItem?.Invoke();
         }
         private void SearchCom()
         {
@@ -240,7 +250,7 @@ namespace SupRealClient.Views
         private void FartherCom()
         {
             this.Model.Farther();
-            ScrollIntoViewCurrentItem?.Invoke();
+            ScrollCurrentItem?.Invoke();
         }
         private void BeginCom()
         {
@@ -304,7 +314,7 @@ namespace SupRealClient.Views
         {
             SelectedIndex = Model.SelectedIndex;
             CurrentItem = Model.CurrentItem;
-            ScrollIntoViewCurrentItem?.Invoke();
+            ScrollCurrentItem?.Invoke();
         }
     }
 }

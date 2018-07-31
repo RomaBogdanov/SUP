@@ -11,6 +11,8 @@ namespace SupRealClient.Views
         event ModelPropertyChanged OnModelPropertyChanged;
         event Action<object> OnClose;
 
+        Action ScrollCurrentItem { get; set; }
+
         ObservableCollection<T> Set { get; set; }
         CollectionView CollectionView { get; }
         T CurrentItem { get; set; }
