@@ -1,8 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Data;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
@@ -11,7 +8,6 @@ using System.Collections.Specialized;
 using System.Text.RegularExpressions;
 using SupRealClient.Annotations;
 using SupRealClient.TabsSingleton;
-using SupRealClient.Common;
 
 namespace SupRealClient.EnumerationClasses
 {
@@ -220,8 +216,8 @@ namespace SupRealClient.EnumerationClasses
             {
                 orderId = value;
                 // todo: пока неактуальный код, но без необходимости не удалять.
-                // todo: создавался для использования из под формы посетители, но пока вроде
-                // todo: функционал реализуется средствами формы.
+                //		создавался для использования из под формы посетители, но пока вроде
+                //		функционал реализуется средствами формы.
                 /*DataRow row = OrdersWrapper.CurrentTable().Table.Rows.Find(orderId);
                 string type = SprOrderTypesWrapper.CurrentTable().Table.AsEnumerable()
                     .FirstOrDefault(arg => arg.Field<int>("f_order_type_id") ==
@@ -234,6 +230,9 @@ namespace SupRealClient.EnumerationClasses
 
         public string Order { get; set; }
 
+		/// <summary>
+		/// Посетитель по id. Автоматически задает свойство полного имени посетителя.
+		/// </summary>
         public int VisitorId
         {
             get { return visitorId;}
@@ -244,20 +243,27 @@ namespace SupRealClient.EnumerationClasses
                     .AsEnumerable().FirstOrDefault(arg =>
                         arg.Field<int>("f_visitor_id") == visitorId);
                 Visitor = row["f_full_name"].ToString();
-                OrganizationId = (int)row["f_org_id"];
+	            VisitorMainPosition = row["f_job"].ToString();
             }
         }
 
         private string visitor = "";
 
+		/// <summary>
+		/// Полное имя посетителя
+		/// </summary>
         public string Visitor {
             get { return visitor; }
-            set
+            private set
             {
                 visitor = value;
                 OnPropertyChanged();
             }
         }
+
+		/// <summary>
+		/// Организация по id. Автоматически задает свойство названия организации
+		/// </summary>
         public int OrganizationId
         {
             get { return organizationId; }
@@ -270,10 +276,34 @@ namespace SupRealClient.EnumerationClasses
                     .ToString();
             }
         }
-        public string Organization { get; set; } = "";
 
-	    public string Position { get; set; } = "";
+		/// <summary>
+		/// Название организации
+		/// </summary>
+        public string Organization { get; private set; } = "";
 
+		/// <summary>
+		/// Основная должность сотрудника
+		/// </summary>
+	    public string VisitorMainPosition { get; set; } = "";
+
+	    private string position = "";
+
+		/// <summary>
+		/// Должность сотрудника в заявке
+		/// </summary>
+	    public string Position {
+		    get => position;
+		    set
+		    {
+			    position = value;
+				OnPropertyChanged();
+		    }
+	    }
+
+		/// <summary>
+		/// Сопровождающий по id. Автоматически задает полное имя сопровождающего
+		/// </summary>
         public int CatcherId
         {
             get { return catcherId; }
@@ -283,11 +313,14 @@ namespace SupRealClient.EnumerationClasses
                 Catcher = VisitorsWrapper.CurrentTable().Table.AsEnumerable()
                     .FirstOrDefault(arg => arg.Field<int>("f_visitor_id") ==
                                            catcherId)["f_full_name"].ToString();
-                
             }
-        } // Id сопровождающего
+        } 
 
         private string catcher = "";
+
+		/// <summary>
+		/// Полное имя сопровождающего
+		/// </summary>
         public string Catcher
         {
             get { return catcher;}
@@ -296,9 +329,9 @@ namespace SupRealClient.EnumerationClasses
                 catcher = value;
                 OnPropertyChanged();
             }
-        } // сопровождающий
+        } 
 
-        private DateTime from= DateTime.MinValue;
+        private DateTime from = DateTime.MinValue;
         public DateTime From
         {
             get { return from;}
@@ -337,8 +370,6 @@ namespace SupRealClient.EnumerationClasses
         /// Показывает, что элемент не активен.
         /// </summary>
         public bool IsDisable { get; set; }
-
-        //public bool IsDeleted { get; set; }
 
         public event PropertyChangedEventHandler PropertyChanged;
 
