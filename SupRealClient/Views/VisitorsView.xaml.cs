@@ -45,7 +45,7 @@ namespace SupRealClient.Views
             };
         }
 
-        public void NewVisitor()
+		public void NewVisitor()
         {
             ((VisitsViewModel)this.DataContext).Model= new NewVisitsModel();
         }

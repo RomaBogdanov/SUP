@@ -17,6 +17,7 @@ using SupRealClient.Common.Interfaces;
 using SupRealClient.EnumerationClasses;
 using SupRealClient.Models;
 using SupRealClient.TabsSingleton;
+using SupRealClient.ViewModels;
 using SupRealClient.Views.Visitor;
 using KeyEventArgs = System.Windows.Input.KeyEventArgs;
 
@@ -590,8 +591,10 @@ namespace SupRealClient.Views
         {
             var window = new VisitorsDocumentView(
                 new VisitorsDocumentModel(null));
-            window.ShowDialog();
-            var document = window.WindowResult as VisitorsDocument;
+			window._TestingNameVisitorsDocument += TestingNameVisitorsDocument;
+			window.ShowDialog();
+	        window._TestingNameVisitorsDocument -= TestingNameVisitorsDocument;
+			var document = window.WindowResult as VisitorsDocument;
            
             if (document == null)
             {
@@ -601,7 +604,9 @@ namespace SupRealClient.Views
             Model.AddDocument(document);
         }
 
-        private void EditDocument()
+
+
+		private void EditDocument()
         {
             if (SelectedDocument < 0)
             {
@@ -760,7 +765,52 @@ namespace SupRealClient.Views
 			}
 		}
 
-	    public event PropertyChangedEventHandler PropertyChanged;
+		#region Realization events
+
+	    private void TestingNameVisitorsDocument(object sender, CancelEventArgs e)
+	    {
+		    if (sender is VisitorsDocumentViewModel)
+		    {
+			    VisitorsDocumentViewModel visitorsDocumentViewModel = sender as VisitorsDocumentViewModel;
+
+			    if (visitorsDocumentViewModel.Name == _nameDocument_PhotoImageType)
+			    {
+				    e.Cancel = false;
+				    if (PhotoSource!="")
+					    MessageBox.Show("Документ с названием " +"\"" + visitorsDocumentViewModel.Name + "\"" + " уже имеется");
+					else
+					    MessageBox.Show("Документ с названием " + "\"" + visitorsDocumentViewModel.Name + "\"" + " невозможно добавить, так как данное название используется только для документа, содержащий личную фотографию");
+					return;
+			    }
+
+			    if (visitorsDocumentViewModel.Name == _nameDocument_SignatureImageType)
+			    {
+				    e.Cancel = false;
+				    if (Signature != "")
+					    MessageBox.Show("Документ с названием " + "\"" + visitorsDocumentViewModel.Name + "\"" + " уже имеется");
+				    else
+					    MessageBox.Show("Документ с названием " + "\"" + visitorsDocumentViewModel.Name + "\"" + " невозможно добавить, так как данное название используется только для документа, содержащий скан личной подписи");
+					return;
+			    }
+
+			    VisitorsDocument findingItem =
+				    CurrentItem?.Documents?.FirstOrDefault(item => item.Name == visitorsDocumentViewModel.Name);
+			    if (findingItem != null)
+			    {
+				    e.Cancel = false;
+				    MessageBox.Show("Документ с названием " + "\"" + visitorsDocumentViewModel.Name + "\"" + " уже имеется");
+			    }
+
+
+
+		    }
+
+
+	    }
+
+		#endregion
+
+		public event PropertyChangedEventHandler PropertyChanged;
 
         [NotifyPropertyChangedInvocator]
         protected virtual void OnPropertyChanged([CallerMemberName] string propertyName = null)
@@ -978,7 +1028,14 @@ namespace SupRealClient.Views
                 MessageBox.Show("Не все поля заполнены корректно!");
                 return false;
             }
-            if (!CurrentItem.IsNotFormular &
+
+
+	        if (!CurrentItem.IsAgree)
+	        {
+		        MessageBox.Show("Нет согласия на обработку персональных данных!");
+		        return false;
+	        }
+			if (!CurrentItem.IsNotFormular &
                 (string.IsNullOrEmpty(CurrentItem.Telephone) ||
                 string.IsNullOrEmpty(CurrentItem.Nation) ||
                 !CurrentItem.MainDocuments.Any()))

@@ -9,6 +9,7 @@ using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Windows;
+using SupRealClient.Handlers;
 using SupRealClient.Views;
 
 namespace SupRealClient.ViewModels
@@ -25,6 +26,8 @@ namespace SupRealClient.ViewModels
 	    private bool _conditionButton_SaveChanges = false;
 	    private bool _conditionButton_OpenDocument = false;
 	    private object _selectedItem=null;
+
+	    public event VisitorsDocumentTestingNameHandler _TestingNameVisitorsDocument;
 
 
 
@@ -131,15 +134,27 @@ namespace SupRealClient.ViewModels
             Images = new ObservableCollection<string>(imageCache.Select(i =>
                 ImagesHelper.GetImagePath(i)));
 
-            this.Ok = new RelayCommand(arg => this.model.Ok(
-                new VisitorsDocument
-                {
-                    Name = Name,
-                    TypeId = 0,
-                    Images = imageCache,
-                    IsChanged = true
-                }));
-            this.Cancel = new RelayCommand(arg => this.model.Cancel());
+            this.Ok = new RelayCommand(arg =>
+            {
+	            System.ComponentModel.CancelEventArgs cancelEventArgs = new System.ComponentModel.CancelEventArgs(true);
+	            _TestingNameVisitorsDocument?.Invoke(this, cancelEventArgs);
+
+	            if (cancelEventArgs.Cancel)
+	            {
+		            this.model.Ok(
+			            new VisitorsDocument
+			            {
+				            Name = Name,
+				            TypeId = 0,
+				            Images = imageCache,
+				            IsChanged = true
+			            });
+	            }
+            });
+            this.Cancel = new RelayCommand(arg =>
+            {
+		            this.model.Cancel();
+            });
 
             AddImageCommand = new RelayCommand(arg => AddImage());
             RemoveImageCommand = new RelayCommand(arg => RemoveImage());
