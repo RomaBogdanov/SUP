@@ -255,6 +255,8 @@
                                 <DataGridTextColumn Binding="{Binding To}" Header="Время до" />
                                 <DataGridCheckBoxColumn Binding="{Binding IsDisable}" Header="Не активен" />
                                 <DataGridTextColumn Binding="{Binding Passes}" Header="Проходы" />
+                                <DataGridCheckBoxColumn Binding="{Binding IsBlock}" Header="Заблокирован" />
+                                <DataGridTextColumn Binding="{Binding BlockingNote}" Header="Примечание по блокировке" />
                             </DataGrid.Columns>
                         </DataGrid>
 
@@ -579,8 +581,16 @@
                                     Binding="{Binding Visitor}"
                                     Header="Посетитель" />
                                 <DataGridTextColumn Binding="{Binding Organization}" Header="Организация" />
-                                <DataGridTextColumn Header="Не активен" />
+                                <DataGridTextColumn Binding="{Binding Organization}" Header="Должность посетителя" />
+                                <DataGridTextColumn Width="*" Binding="{Binding Catcher}">
+                                    <DataGridTextColumn.Header>
+                                        <TextBlock Text="Принимающее лицо посетителя" TextWrapping="Wrap" />
+                                    </DataGridTextColumn.Header>
+                                </DataGridTextColumn>
+                                <DataGridCheckBoxColumn Header="Не активен" />
                                 <DataGridTextColumn Binding="{Binding Passes}" Header="Проходы" />
+                                <DataGridCheckBoxColumn Binding="{Binding IsBlock}" Header="Заблокирован" />
+                                <DataGridTextColumn Binding="{Binding BlockingNote}" Header="Примечание по блокировке" />
                             </DataGrid.Columns>
                         </DataGrid>
 

@@ -321,8 +321,19 @@ namespace SupRealClient.EnumerationClasses
                 OnPropertyChanged();
             }
         }
+	    private DateTime recDate = DateTime.MinValue;
 
-        private string passes = "";
+	    public DateTime RecDate
+	    {
+		    get { return recDate; }
+		    set
+		    {
+			    recDate = value;
+			    OnPropertyChanged();
+		    }
+	    }
+
+	    private string passes = "";
 
         public string Passes
         {
@@ -341,7 +352,18 @@ namespace SupRealClient.EnumerationClasses
 
         //public bool IsDeleted { get; set; }
 
-        public event PropertyChangedEventHandler PropertyChanged;
+	    public bool IsBlock { get; set; }
+	    private string blockingNote;
+	    public string BlockingNote
+	    {
+		    get { return blockingNote; }
+		    set
+		    {
+			    blockingNote = value;
+			    OnPropertyChanged();
+		    }
+	    }
+		public event PropertyChangedEventHandler PropertyChanged;
 
         [NotifyPropertyChangedInvocator]
         protected virtual void OnPropertyChanged([CallerMemberName] string propertyName = null)

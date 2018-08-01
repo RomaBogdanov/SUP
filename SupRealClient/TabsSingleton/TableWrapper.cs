@@ -334,6 +334,7 @@ namespace SupRealClient.TabsSingleton
                             CatcherId = row.Field<int>("f_catcher_id"),
                             From = row.Field<DateTime>("f_time_from"),
                             To = row.Field<DateTime>("f_time_to"),
+                            RecDate = row.Field<DateTime>("f_rec_date"),
                             IsDisable = row.Field<string>("f_disabled").ToUpper() == "Y" ? true : false,
                             Passes = row.Field<string>("f_passes")
                         })
@@ -357,6 +358,7 @@ namespace SupRealClient.TabsSingleton
             row["f_time_to"] = orderElement.To;
             row["f_passes"] = orderElement.Passes;
             row["f_disabled"] = orderElement.IsDisable ? "Y" : "N";
+            row["f_rec_date"] = orderElement.RecDate;
             row["f_not_remaind"] = "N";//todo: разобраться
             row["f_full_role"] = "N";//todo: разобраться
             row["f_other_org"] = "";//todo: разобраться
@@ -385,6 +387,7 @@ namespace SupRealClient.TabsSingleton
             row["f_time_to"] = orderElement.To;
             row["f_passes"] = orderElement.Passes;
             row["f_disabled"] = orderElement.IsDisable ? "Y" : "N";
+            row["f_rec_date"] = orderElement.RecDate;
             row["f_not_remaind"] = "N";//todo: разобраться
             row["f_full_role"] = "N";//todo: разобраться
             row["f_other_org"] = "";//todo: разобраться
@@ -406,6 +409,7 @@ namespace SupRealClient.TabsSingleton
                         CatcherId = ordEls.Field<int>("f_catcher_id"),
                         From = ordEls.Field<DateTime>("f_time_from"),
                         To = ordEls.Field<DateTime>("f_time_to"),
+			    RecDate = ordEls.Field<DateTime>("f_rec_date"),
                         IsDisable = ordEls.Field<string>("f_disabled").ToUpper() == "Y" ? true : false,
                         Passes = ordEls.Field<string>("f_passes")
                     });
