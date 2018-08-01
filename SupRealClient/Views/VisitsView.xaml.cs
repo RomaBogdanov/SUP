@@ -6,9 +6,13 @@ using System.Data;
 using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Text;
+using System.Windows;
 using System.Windows.Data;
 using System.Windows.Forms;
 using System.Windows.Input;
+using System.Windows.Threading;
+using MahApps.Metro.Controls;
+using RegulaLib;
 using SupClientConnectionLib;
 using SupContract;
 using SupRealClient.Annotations;
@@ -19,6 +23,7 @@ using SupRealClient.Models;
 using SupRealClient.TabsSingleton;
 using SupRealClient.Views.Visitor;
 using KeyEventArgs = System.Windows.Input.KeyEventArgs;
+using MessageBox = System.Windows.Forms.MessageBox;
 
 namespace SupRealClient.Views
 {
@@ -236,82 +241,193 @@ namespace SupRealClient.Views
         public ICommand RemoveMainDocumentCommand { get; set; }
 
         public ICommand RefreshCommand { get; set; }
-
-        private ChildWindowSettings _windowSettings;
+		
+	private ChildWindowSettings _windowSettings;
         public ChildWindowSettings WindowSettings
         {
             get { return _windowSettings; }
             set { _windowSettings = value; OnPropertyChanged("WindowSettings"); }
         }
 
-        public ChildWinSet WinSet { get; set; }
+	    /// <summary>
+	    /// Сканер документов.
+	    /// </summary>
+	    private readonly CDocumentScaner _documentScaner = CDocumentScaner.GetInstance();
 
-        public VisitsViewModel(IWindow view)
+		public ChildWinSet WinSet { get; set; }
+
+	    public VisitsViewModel(IWindow view)
+	    {
+		    WinSet = new ChildWinSet() {Left = 0};
+		    //GlobalSettings.GetChildWindowSettings();     
+
+		    this.view = view;
+		    Model = new VisitsModel();
+
+		    this.PositionList =
+			    new CollectionView(Model.CurrentItem != null
+				    ? VisitorsHelper.GetPositions(
+					    Model.CurrentItem.Position)
+				    : new List<string>());
+
+		    OnPropertyChanged("PhotoSource");
+		    OnPropertyChanged("Signature");
+
+		    BeginCommand = new RelayCommand(arg => Begin());
+		    PrevCommand = new RelayCommand(arg => Prev());
+		    NextCommand = new RelayCommand(arg => Next());
+		    EndCommand = new RelayCommand(arg => End());
+		    NewCommand = new RelayCommand(arg => New());
+		    OrganizationCommand = new RelayCommand(arg => OrganizationsList());
+		    CountryCommand = new RelayCommand(arg => CountyList());
+		    CabinetsCommand = new RelayCommand(arg => CabinetsList());
+		    DepartmentsCommand = new RelayCommand(arg => DepartmentsList());
+
+		    ClearCommand = new RelayCommand(arg => Clear(arg as string));
+
+		    ExtraditeCommand = new RelayCommand(obj => Extradite());
+		    ReturnCommand = new RelayCommand(obj => Return());
+
+		    OkCommand = new RelayCommand(arg => Ok());
+		    CancelCommand = new RelayCommand(arg => Cancel());
+		    EditCommand = new RelayCommand(arg => Edit());
+		    FindCommand = new RelayCommand(arg => Find());
+
+		    AddImageSourceCommand = new RelayCommand(arg => AddImageSource(ImageType.Photo));
+		    RemoveImageSourceCommand = new RelayCommand(arg => RemoveImageSource(ImageType.Photo));
+		    AddSignatureCommand = new RelayCommand(arg => AddImageSource(ImageType.Signature));
+		    RemoveSignatureCommand = new RelayCommand(arg => RemoveImageSource(ImageType.Signature));
+
+		    OpenDocumentCommand = new RelayCommand(arg => OpenDocument());
+		    AddDocumentCommand = new RelayCommand(arg => AddDocument());
+		    EditDocumentCommand = new RelayCommand(arg => EditDocument());
+		    RemoveDocumentCommand = new RelayCommand(arg => RemoveDocument());
+
+		    OpenMainDocumentCommand = new RelayCommand(arg => OpenMainDocument());
+		    AddMainDocumentCommand = new RelayCommand(arg => AddMainDocument());
+		    EditMainDocumentCommand = new RelayCommand(arg => EditMainDocument());
+		    RemoveMainDocumentCommand = new RelayCommand(arg => RemoveMainDocument());
+
+		    RefreshCommand = new RelayCommand(arg => Refresh());
+
+		    _documentScaner.ScanFinished += Scaner_ScanFinished;
+	    }
+
+	    ~VisitsViewModel()
+	    {
+		    _documentScaner.ScanFinished -= Scaner_ScanFinished;
+		    _documentScaner.Dispose();
+	    }
+
+	    private void Refresh()
         {
-            WinSet = new ChildWinSet() { Left = 0 };
-            //GlobalSettings.GetChildWindowSettings();     
-
-            this.view = view;
             Model = new VisitsModel();
-
-            this.PositionList =
-                new CollectionView(Model.CurrentItem != null ?
-                VisitorsHelper.GetPositions(
-                Model.CurrentItem.Position) : new List<string>());
-
-            OnPropertyChanged("PhotoSource");
-            OnPropertyChanged("Signature");
-
-            BeginCommand = new RelayCommand(arg => Begin());
-            PrevCommand = new RelayCommand(arg => Prev());
-            NextCommand = new RelayCommand(arg => Next());
-            EndCommand = new RelayCommand(arg => End());
-            NewCommand = new RelayCommand(arg => New());
-            OrganizationCommand = new RelayCommand(arg => OrganizationsList());
-            CountryCommand = new RelayCommand(arg => CountyList());
-            CabinetsCommand = new RelayCommand(arg => CabinetsList());
-            DepartmentsCommand = new RelayCommand(arg => DepartmentsList());
-
-            ClearCommand = new RelayCommand(arg => Clear(arg as string));
-
-            ExtraditeCommand = new RelayCommand(obj => Extradite());
-            ReturnCommand = new RelayCommand(obj => Return());
-
-            OkCommand = new RelayCommand(arg => Ok());
-            CancelCommand = new RelayCommand(arg => Cancel());
-            EditCommand = new RelayCommand(arg => Edit());
-            FindCommand = new RelayCommand(arg => Find());
-
-            AddImageSourceCommand = new RelayCommand(arg => AddImageSource(ImageType.Photo));
-            RemoveImageSourceCommand= new RelayCommand(arg => RemoveImageSource(ImageType.Photo));
-            AddSignatureCommand = new RelayCommand(arg => AddImageSource(ImageType.Signature));
-            RemoveSignatureCommand = new RelayCommand(arg => RemoveImageSource(ImageType.Signature));
-
-            OpenDocumentCommand = new RelayCommand(arg => OpenDocument());
-            AddDocumentCommand = new RelayCommand(arg => AddDocument());
-            EditDocumentCommand = new RelayCommand(arg => EditDocument());
-            RemoveDocumentCommand = new RelayCommand(arg => RemoveDocument());
-
-            OpenMainDocumentCommand = new RelayCommand(arg => OpenMainDocument());
-            AddMainDocumentCommand = new RelayCommand(arg => AddMainDocument());
-            EditMainDocumentCommand = new RelayCommand(arg => EditMainDocument());
-            RemoveMainDocumentCommand = new RelayCommand(arg => RemoveMainDocument());
-
-            RefreshCommand = new RelayCommand(arg => Refresh());
         }
 
-        private void Refresh()
-        {
-            Model = new VisitsModel();
-        }
+	    /// <summary>
+	    /// Завершение сканирования.
+	    /// </summary>
+	    /// <param name="sender"></param>
+	    /// <param name="e"></param>
+	    private void Scaner_ScanFinished(object sender, RegulaLib.Events.ScanFinishedEventArgs e)
+	    {
+		    if (model.ButtonEnable && CurrentItem != null)
+		    {
+			    RegulaView regulaView = null;
+			    (view as Window).Invoke(() =>
+			    {
+				    regulaView = new RegulaView(e.Person);
+				    regulaView?.ShowDialog();
+			    });
+			    
+			   
+			    if (regulaView?.Result??false)
+			    {
+				    FillCurrentItemFieldsFromScan(e.Person);
+				    AddMainDocumentFromScan(e.Person);
 
-        /// <summary>
-        /// Конструктор с возможностью загрузки нового посетителя.
-        /// todo: скорее всего, под удаление.
-        /// </summary>
-        /// <param name="view"></param>
-        /// <param name="isNew"></param>
-        public VisitsViewModel(IWindow view, bool isNew) : this(view)
+				    OnPropertyChanged(nameof(CurrentItem));
+			    }
+		    }
+	    }
+
+	    /// <summary>
+	    /// Добавление отсканированного документа.
+	    /// </summary>
+	    /// <param name="person"></param>
+	    private void AddMainDocumentFromScan(CPerson person)
+	    {
+		    var document = new VisitorsMainDocument
+		    {
+			    Type = person.DocumentClassCode?.Value,
+			    Num = person.DocumentNumber?.Value,
+			    Date = CurrentItem.DocDate
+		    };
+
+		    try
+		    {
+			    document.DateTo = DateTime.Parse(person.DocumentDateOfExpiry?.Value);
+		    }
+		    catch (Exception)
+		    {
+			    //
+		    }
+
+		    //проверка на наличие документа в списке документов CurrentItem
+		    var isContains = false;
+		    for (var index = 0; index < CurrentItem.MainDocuments.Count; index++)
+		    {
+			    if (string.Equals(CurrentItem.MainDocuments[index].Num.Trim(), document.Num.Trim()))
+			    {
+				    isContains = true;
+				    (view as Window)?.Invoke(() => { CurrentItem.MainDocuments[index] = document; });
+			    }
+		    }
+
+		    if (!isContains)
+		    {
+			    (view as Window)?.Invoke(() => { Model.AddMainDocument(document); });
+		    }
+	    }
+
+
+	    /// <summary>
+	    /// Заполнение полей CurrentItem из скана документа.
+	    /// </summary> 
+	    /// <param name="person"></param>
+	    private void FillCurrentItemFieldsFromScan(CPerson person)
+	    {
+		    CurrentItem.Name = person.Name?.Value;
+		    CurrentItem.Family = person.Surname?.Value;
+		    CurrentItem.Patronymic = person.Patronymic?.Value;
+		    CurrentItem.FullName = person.SurnmameAndName?.Value;
+		    CurrentItem.BirthDate = person.DateOfBirth?.Value;
+		    CurrentItem.DocType = person.DocumentClassCode?.Value;
+		    CurrentItem.DocNum = person.DocumentNumber?.Value;
+		    CurrentItem.DocPlace = person.DocumentDeliveryPlace?.Value;
+
+		    if (person.DocumentDeliveryDate?.Value != null)
+		    {
+			    try
+			    {
+				    CurrentItem.DocDate = DateTime.Parse(person.DocumentDeliveryDate?.Value);
+			    }
+			    catch (FormatException)
+			    {
+				    //
+			    }
+		    }
+	    }
+
+
+
+	    /// <summary>
+		/// Конструктор с возможностью загрузки нового посетителя.
+		/// todo: скорее всего, под удаление.
+		/// </summary>
+		/// <param name="view"></param>
+		/// <param name="isNew"></param>
+		public VisitsViewModel(IWindow view, bool isNew) : this(view)
         {
             if (isNew)
             {
@@ -430,12 +546,14 @@ namespace SupRealClient.Views
             CurrentItem = Model.End();
         }
 
+
         private void New()
         {
             Model = new NewVisitsModel();
         }
 
-        private void Extradite()
+
+	    private void Extradite()
         {
             Base4ViewModel<Order> viewModel =
                 new Base4ViewModel<Order>
@@ -480,28 +598,28 @@ namespace SupRealClient.Views
                     view.CloseWindow(new CancelEventArgs());
                 else
                     Model = new VisitsModel();
-            }                
-        }
-
-        private void Cancel()
-        {
-            if (Model is NewVisitsModel)
-            {
-                if (view.ParentWindow is SupRealClient.Views.VisitorsListWindView)
-                    view.CloseWindow(new CancelEventArgs());
-                else
-                    Model = new VisitsModel();
-            }
-            else if (Model is EditVisitsModel)
-            {
-                if (view.ParentWindow is SupRealClient.Views.VisitorsListWindView)
-                    view.CloseWindow(new CancelEventArgs());
-                else
-                    Model = new VisitsModel(Set, ((EditVisitsModel)Model).OldVisitor);
             }
         }
 
-        private void AddImageSource(ImageType imageType)
+	    private void Cancel()
+	    {
+		    if (Model is NewVisitsModel)
+		    {
+			    if (view.ParentWindow is SupRealClient.Views.VisitorsListWindView)
+				    view.CloseWindow(new CancelEventArgs());
+			    else
+				    Model = new VisitsModel();
+		    }
+		    else if (Model is EditVisitsModel)
+		    {
+			    if (view.ParentWindow is SupRealClient.Views.VisitorsListWindView)
+				    view.CloseWindow(new CancelEventArgs());
+			    else
+				    Model = new VisitsModel(Set, ((EditVisitsModel) Model).OldVisitor);
+		    }
+	    }
+
+	    private void AddImageSource(ImageType imageType)
         {
             var dlg = new OpenFileDialog();
             if (dlg.ShowDialog() == DialogResult.OK)
@@ -599,7 +717,7 @@ namespace SupRealClient.Views
             Model.AddMainDocument(document);
         }
 
-        private void EditMainDocument()
+		private void EditMainDocument()
         {
             if (SelectedMainDocument < 0)
             {
@@ -817,7 +935,7 @@ namespace SupRealClient.Views
 
         public void AddMainDocument(VisitorsMainDocument document)
         {
-            CurrentItem.MainDocuments.Add(document);
+		CurrentItem.MainDocuments.Add(document);
             isMainDocumentsChanged = true;
             document.IsChanged = true;
         }
@@ -1535,29 +1653,29 @@ namespace SupRealClient.Views
             set { }
         }
 
-        public EditVisitsModel(ObservableCollection<EnumerationClasses.Visitor> set, 
-            EnumerationClasses.Visitor visitor)
-        {
-            visitorsEnable =
-            new VisitorsEnableOrVisible
-            {
-                StartButtonEnable = false,
-                PreviousButtonEnable = false,
-                NextButtonEnable = false,
-                EndButtonEnable = false,
-                ExtraditeButtonEnable = false,
-                ReturnButtonEnable = false,
-                NewButtonEnable = false,
-                EditButtonEnable = false,
-                SearchButtonEnable = false,
-                RefreshButtonEnable = false
-            };
-            Set = set;
-            CurrentItem = (EnumerationClasses.Visitor)visitor.Clone();
-            OldVisitor = visitor;
-        }
+	    public EditVisitsModel(ObservableCollection<EnumerationClasses.Visitor> set,
+		    EnumerationClasses.Visitor visitor)
+	    {
+		    visitorsEnable =
+			    new VisitorsEnableOrVisible
+			    {
+				    StartButtonEnable = false,
+				    PreviousButtonEnable = false,
+				    NextButtonEnable = false,
+				    EndButtonEnable = false,
+				    ExtraditeButtonEnable = false,
+				    ReturnButtonEnable = false,
+				    NewButtonEnable = false,
+				    EditButtonEnable = false,
+				    SearchButtonEnable = false,
+				    RefreshButtonEnable = false
+			    };
+		    Set = set;
+		    CurrentItem = (EnumerationClasses.Visitor) visitor?.Clone();
+		    OldVisitor = visitor;
+	    }
 
-        public override bool Ok()
+	    public override bool Ok()
         {
             if (!Validate())
             {
