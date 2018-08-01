@@ -113,6 +113,9 @@ namespace SupRealClient.EnumerationClasses
         public DateTime OrderDate { get; set; }
         public DateTime From { get; set; }
         public DateTime To { get; set; }
+		
+        public DateTime EditingDatetime { get; set; }
+	public DateTime CreatingDatetime { get; set; }
         
         public int CatcherId { get; set; } = 0; // Id провожающего
         public string Catcher { get; set; } = ""; // провожающий
