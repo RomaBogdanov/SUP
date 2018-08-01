@@ -206,6 +206,16 @@ namespace SupRealClient.EnumerationClasses
         private int organizationId;
         private int catcherId;
 
+	    private const int DefaultFromHour = 9;
+	    private const int DefaultToHour = 18;
+
+	    public OrderElement()
+	    {
+			DateTime nowDateTime = DateTime.Now;
+			From = new DateTime(nowDateTime.Year,nowDateTime.Month,nowDateTime.Day,DefaultFromHour, 00, 00);
+		    To = new DateTime(nowDateTime.Year, nowDateTime.Month, nowDateTime.Day, DefaultToHour, 00, 00);
+		}
+
         /// <summary>
         /// Уникальный номер заявки
         /// </summary>
@@ -226,7 +236,7 @@ namespace SupRealClient.EnumerationClasses
                 type = type.Length > 0 ? type : " ";
                 Order = number.ToString() + type[0];*/
             }
-        }
+		}
 
         public string Order { get; set; }
 
@@ -253,8 +263,8 @@ namespace SupRealClient.EnumerationClasses
 		/// Полное имя посетителя
 		/// </summary>
         public string Visitor {
-            get { return visitor; }
-            private set
+            get => visitor;
+			private set
             {
                 visitor = value;
                 OnPropertyChanged();
@@ -264,12 +274,12 @@ namespace SupRealClient.EnumerationClasses
 		/// <summary>
 		/// Организация по id. Автоматически задает свойство названия организации
 		/// </summary>
-        public int OrganizationId
+        public int? OrganizationId
         {
-            get { return organizationId; }
-            set
+            get => organizationId;
+			set
             {
-                organizationId = value;
+	            organizationId = value ?? 0;
                 Organization = OrganizationsWrapper.CurrentTable().Table
                     .AsEnumerable().FirstOrDefault(arg =>
                         arg.Field<int>("f_org_id") == organizationId)["f_org_name"]
@@ -341,18 +351,55 @@ namespace SupRealClient.EnumerationClasses
                 OnPropertyChanged();
             }
         }
+	    public DateTime FromDate
+	    {
+		    get => From.Date;
+		    set
+		    {
+			    From = new DateTime(value.Year, value.Month, value.Day, From.Hour, From.Minute, From.Second);
+			    OnPropertyChanged();
+			}
+	    }
+	    public TimeSpan FromTime
+	    {
+		    get => From.TimeOfDay;
+		    set
+		    {
+			    From = new DateTime(From.Year,From.Month,From.Day,value.Hours,value.Minutes,value.Seconds);
+				OnPropertyChanged();
+		    }
+	    }
+
 
         private DateTime to = DateTime.MinValue;
 
         public DateTime To
         {
-            get { return to;}
-            set
+            get => to;
+	        set
             {
                 to = value;
                 OnPropertyChanged();
             }
         }
+	    public DateTime ToDate
+	    {
+		    get => To.Date;
+		    set
+		    {
+			    To = new DateTime(value.Year, value.Month, value.Day, To.Hour, To.Minute, To.Second);
+			    OnPropertyChanged();
+			}
+	    }
+	    public TimeSpan ToTime
+	    {
+		    get => To.TimeOfDay;
+		    set
+		    {
+				To = new DateTime(To.Year,To.Month,To.Day,value.Hours,value.Minutes,value.Seconds);
+				OnPropertyChanged();
+		    }
+	    }
 
         private string passes = "";
 

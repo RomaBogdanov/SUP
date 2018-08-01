@@ -69,17 +69,19 @@
         <Button TabIndex="3" Grid.Row="7" Grid.Column="3" Content="x" Style="{StaticResource ButtonStyle}"></Button>
 
         <TextBlock Grid.Row="8" Text="Время от.." Grid.ColumnSpan="2" Style="{StaticResource TextBLockStyle}" HorizontalAlignment="Left"></TextBlock>
-        <!--<TextBox TabIndex="4" Grid.Row="9" Grid.ColumnSpan="4" Text="{Binding CurrentItem.From, Mode=TwoWay}"></TextBox>-->
-        <DatePicker Name="dpTimeFrom" TabIndex="4" Grid.Row="9" Grid.ColumnSpan="4" 
-                    SelectedDate="{Binding CurrentItem.From, Mode=TwoWay}" Height="25" Margin="2"
-                    PreviewKeyDown="UIdef_KeyDown">
+        <mah:TimePicker Name="dpTimeFrom" TabIndex="3" Grid.Row="9" Grid.ColumnSpan="1" Height="25" Margin="2"
+                        SelectedTime="{Binding CurrentItem.FromTime, Mode=TwoWay}">
+        </mah:TimePicker>
+        <DatePicker Name="dpDateFrom" TabIndex="4" Grid.Row="9" Grid.ColumnSpan="3" Grid.Column="1"
+                    SelectedDate="{Binding CurrentItem.FromDate, Mode=TwoWay}" Height="25" Margin="2"
+                    PreviewKeyDown="UIdef_KeyDown" IsEnabled="False">
             <DatePicker.Resources>
                 <Style TargetType="{x:Type DatePickerTextBox}">
                     <Setter Property="Control.Template">
                         <Setter.Value>
                             <ControlTemplate>
-                                <wpfx:MaskedTextBox x:Name="PART_TextBox" Mask="00/00/0000 00:00" 
-                                    Text="{ Binding Path=SelectedDate,ConverterCulture={x:Static gl:CultureInfo.CurrentCulture}, StringFormat=dd/MM/yyyy HH:mm, RelativeSource={RelativeSource AncestorType={x:Type DatePicker}}}" />
+                                <wpfx:MaskedTextBox x:Name="PART_TextBox" Mask="00/00/0000" 
+                                    Text="{ Binding Path=SelectedDate,ConverterCulture={x:Static gl:CultureInfo.CurrentCulture}, StringFormat=dd/MM/yyyy, RelativeSource={RelativeSource AncestorType={x:Type DatePicker}}}" />
                             </ControlTemplate>
                         </Setter.Value>
                     </Setter>
@@ -88,17 +90,19 @@
         </DatePicker>
 
         <TextBlock Grid.Row="10" Text="Время до.." Grid.ColumnSpan="2" Style="{StaticResource TextBLockStyle}" HorizontalAlignment="Left"></TextBlock>
-        <!--<TextBox TabIndex="5" Grid.Row="11" Grid.ColumnSpan="4" Text="{Binding CurrentItem.To, Mode=TwoWay}"></TextBox>-->
-        <DatePicker Name="dpTimeTo" TabIndex="5" Grid.Row="11" Grid.ColumnSpan="4" 
-                    SelectedDate="{Binding CurrentItem.To, Mode=TwoWay}" Height="25" Margin="2"
-                    PreviewKeyDown="UIdef_KeyDown">
+        <mah:TimePicker Name="dpTimeTo" TabIndex="3" Grid.Row="11" Grid.ColumnSpan="1" Height="25" Margin="2"
+                        SelectedTime="{Binding CurrentItem.ToTime, Mode=TwoWay}">
+        </mah:TimePicker>
+        <DatePicker Name="dpDateTo" TabIndex="5" Grid.Row="11" Grid.ColumnSpan="3"  Grid.Column="1"
+                    SelectedDate="{Binding CurrentItem.ToDate, Mode=TwoWay}" Height="25" Margin="2"
+                    PreviewKeyDown="UIdef_KeyDown" IsEnabled="False">
             <DatePicker.Resources>
                 <Style TargetType="{x:Type DatePickerTextBox}">
                     <Setter Property="Control.Template">
                         <Setter.Value>
                             <ControlTemplate>
-                                <wpfx:MaskedTextBox x:Name="PART_TextBox" Mask="00/00/0000 00:00" 
-                                    Text="{ Binding Path=SelectedDate,ConverterCulture={x:Static gl:CultureInfo.CurrentCulture}, StringFormat=dd/MM/yyyy HH:mm, RelativeSource={RelativeSource AncestorType={x:Type DatePicker}}}" />
+                                <wpfx:MaskedTextBox x:Name="PART_TextBox" Mask="00/00/0000" 
+                                    Text="{ Binding Path=SelectedDate,ConverterCulture={x:Static gl:CultureInfo.CurrentCulture}, StringFormat=dd/MM/yyyy, RelativeSource={RelativeSource AncestorType={x:Type DatePicker}}}" />
                             </ControlTemplate>
                         </Setter.Value>
                     </Setter>

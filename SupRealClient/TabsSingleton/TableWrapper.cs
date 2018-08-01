@@ -328,15 +328,17 @@ namespace SupRealClient.TabsSingleton
                               CommonHelper.NotDeleted(row)
                         select new OrderElement
                         {
-                            Id = row.Field<int>("f_oe_id"),
-                            OrderId = row.Field<int>("f_ord_id"),
-                            VisitorId = row.Field<int>("f_visitor_id"),
-                            CatcherId = row.Field<int>("f_catcher_id"),
-                            From = row.Field<DateTime>("f_time_from"),
-                            To = row.Field<DateTime>("f_time_to"),
-                            IsDisable = row.Field<string>("f_disabled").ToUpper() == "Y" ? true : false,
-                            Passes = row.Field<string>("f_passes")
-                        })
+							Id = row.Field<int>("f_oe_id"),
+	                        OrderId = row.Field<int>("f_ord_id"),
+	                        VisitorId = row.Field<int>("f_visitor_id"),
+	                        OrganizationId = row.Field<int?>("f_org_id"),
+	                        Position = row.Field<string>("f_position"),
+	                        CatcherId = row.Field<int>("f_catcher_id"),
+	                        From = row.Field<DateTime>("f_time_from"),
+	                        To = row.Field<DateTime>("f_time_to"),
+	                        IsDisable = row.Field<string>("f_disabled").ToUpper() == "Y" ? true : false,
+	                        Passes = row.Field<string>("f_passes")
+						})
                 });
             return orders;
         }
@@ -390,7 +392,9 @@ namespace SupRealClient.TabsSingleton
             row["f_not_remaind"] = "N";//todo: разобраться
             row["f_full_role"] = "N";//todo: разобраться
             row["f_other_org"] = "";//todo: разобраться
-            StandartCols(row, orderElement);
+	        row["f_org_id"] = orderElement.OrganizationId;
+	        row["f_position"] = orderElement.Position;
+			StandartCols(row, orderElement);
             row.EndEdit();
         }
 
@@ -405,6 +409,8 @@ namespace SupRealClient.TabsSingleton
                         Id = ordEls.Field<int>("f_oe_id"),
                         OrderId = ordEls.Field<int>("f_ord_id"),
                         VisitorId = ordEls.Field<int>("f_visitor_id"),
+						OrganizationId = ordEls.Field<int>("f_org_id"),
+						Position = ordEls.Field<string>("f_position"),
                         CatcherId = ordEls.Field<int>("f_catcher_id"),
                         From = ordEls.Field<DateTime>("f_time_from"),
                         To = ordEls.Field<DateTime>("f_time_to"),

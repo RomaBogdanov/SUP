@@ -67,7 +67,7 @@ namespace SupRealClient.Views
         {
             if (e.Key == Key.Enter)
             {
-                dpTimeFrom.Focus();
+                dpDateFrom.Focus();
                 e.Handled = true;
             }
         }
