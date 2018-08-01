@@ -1,4 +1,5 @@
-﻿using System.Windows.Input;
+﻿using System;
+using System.Windows.Input;
 using System.Collections.ObjectModel;
 using System.Linq;
 using System.Windows;
@@ -9,7 +10,7 @@ namespace SupRealClient.ViewModels
 {
 	public class BidsViewModel : ViewModelBase
 	{
-		IBidsModel bidsModel;
+		private IBidsModel bidsModel;
 
 		private bool _isEnabled = false;
 
@@ -171,7 +172,7 @@ namespace SupRealClient.ViewModels
 			}
 		}
 
-		bool isTempOrder;
+		private bool isTempOrder;
 
 		public bool IsTempOrder
 		{
@@ -188,7 +189,7 @@ namespace SupRealClient.ViewModels
 			}
 		}
 
-		bool isSingleOrder;
+		private bool isSingleOrder;
 
 
 		public bool IsSingleOrder
@@ -437,18 +438,20 @@ namespace SupRealClient.ViewModels
 		/// </summary>
 		private void New()
 		{
-			_selectedOrder = BidsModel.CurrentSingleOrder; // Запомнить разовую заявку перед добавлением новой.
-
 			//BidsModel.New();
 			BidsModel = new NewBidsModel(CurrentOrderType);
+			
 			CurrentTemporaryOrder = BidsModel.CurrentTemporaryOrder;
 			CurrentSingleOrder = BidsModel.CurrentSingleOrder;
+
+			SetCurrentSelectedOrder();
+
 
 			TextEnable = true; // При открытии окна поля недоступны.
 			AcceptButtonEnable = true; // При открытии кнопки применить и отмена недоступны.
 			IsEnabled = false;
 		}
-
+		
 		/// <summary>
 		/// Редактирование заявки.
 		/// </summary>
@@ -457,6 +460,8 @@ namespace SupRealClient.ViewModels
 			//BidsModel.Edit();
 			BidsModel = new EditBidsModel(CurrentSingleOrder,
 				CurrentTemporaryOrder, CurrentVirtueOrder, CurrentOrder);
+
+			SetCurrentSelectedOrder();
 
 			TextEnable = true; // При открытии окна поля недоступны.
 			AcceptButtonEnable = true; // При открытии кнопки применить и отмена недоступны.
@@ -467,15 +472,31 @@ namespace SupRealClient.ViewModels
 			BidsModel.Ok();
 			int id = BidsModel.CurrentSingleOrder.Id;
 			BidsModel = new BidsModel();
-			CurrentSingleOrder = SingleOrdersSet.FirstOrDefault(arg => arg.Id == id);
+			CurrentTemporaryOrder = TemporaryOrdersSet.FirstOrDefault(x => x.Id == CurrentSelectedOrder.Id);
+			CurrentSingleOrder = SingleOrdersSet.FirstOrDefault(x => x.Id == CurrentSelectedOrder.Id);
 			TextEnable = false;
 			AcceptButtonEnable = false;
 		}
 
+		private void SetCurrentSelectedOrder()
+		{
+			switch (CurrentOrderType)
+			{
+				case OrderType.Temp:
+					CurrentSelectedOrder = BidsModel.CurrentTemporaryOrder; // Запомнить временную заявку перед добавлением новой.
+					break;
+				case OrderType.Single:
+					CurrentSelectedOrder = BidsModel.CurrentSingleOrder; // Запомнить разовую заявку перед добавлением новой.
+					break;
+				default:
+					throw new ArgumentOutOfRangeException();
+			}
+		}
+
 		/// <summary>
-		/// Выбранная разовая заявка перед добавлением новой.
+		/// Выбранная заявка перед добавлением новой. Может быть тип "Временная", "Разовая"
 		/// </summary>
-		private Order _selectedOrder;
+		private Order CurrentSelectedOrder { get; set; }
 
 		private void Cancel()
 		{
@@ -483,7 +504,8 @@ namespace SupRealClient.ViewModels
 			BidsModel = new BidsModel();
 
 			// Выберем разовую заявку до добавления.
-			CurrentSingleOrder = SingleOrdersSet[SingleOrdersSet.ToList().FindIndex(x => x.Id == _selectedOrder.Id)];
+			CurrentTemporaryOrder = TemporaryOrdersSet.FirstOrDefault(x => x.Id == CurrentSelectedOrder.Id);
+			CurrentSingleOrder = SingleOrdersSet.FirstOrDefault(x => x.Id == CurrentSelectedOrder.Id);
 
 			TextEnable = false; // При открытии окна поля недоступны.
 			AcceptButtonEnable = false; // При открытии кнопки применить и отмена недоступны.
