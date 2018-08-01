@@ -59,6 +59,9 @@ namespace SupRealClient.Views
         private int selectedDocument = -1;
 	    private const string _nameDocument_PhotoImageType = "Личная фотография";
 	    private const string _nameDocument_SignatureImageType = "Личная подпись";
+	    private bool _visibleButton_OpenDocument_InRedactMode = false;
+	    private bool _enableButton_OpenDocument_InRedactMode = false;
+		private bool _isRedactMode = false;
 
 		public CollectionView PositionList { get; private set; }
 
@@ -81,6 +84,17 @@ namespace SupRealClient.Views
                 TextEnable = model.TextEnable;
                 ButtonEnable = model.ButtonEnable;
                 AccessVisibility = model.AccessVisibility;
+
+				if (model is NewVisitsModel || model is EditVisitsModel)
+				{
+					IsRedactMode = true;
+				}
+				else
+				{
+					IsRedactMode = false;
+				}
+
+	            SelectedDocument = -1;
             }
         }
 
@@ -126,7 +140,7 @@ namespace SupRealClient.Views
             set
             {
                 Model.ButtonEnable = value;
-                OnPropertyChanged();
+	            OnPropertyChanged();
             }
         }
 
@@ -140,7 +154,40 @@ namespace SupRealClient.Views
             }
         }
 
-        public ObservableCollection<EnumerationClasses.Visitor> Set
+	    public bool IsRedactMode
+	    {
+		    get { return _isRedactMode; }
+		    set
+		    {
+			    _isRedactMode = value;
+			    VisibleButton_OpenDocument_InRedactMode = _isRedactMode;
+			    OnPropertyChanged(nameof(IsRedactMode));
+			}
+	    }
+
+
+	    public bool VisibleButton_OpenDocument_InRedactMode
+	    {
+		    get { return _visibleButton_OpenDocument_InRedactMode; }
+		    set
+		    {
+			    _visibleButton_OpenDocument_InRedactMode = value;
+			    OnPropertyChanged(nameof(VisibleButton_OpenDocument_InRedactMode));
+			}
+	    }
+
+	    public bool EnableButton_OpenDocument_InRedactMode
+	    {
+		    get { return _enableButton_OpenDocument_InRedactMode; }
+		    set
+		    {
+			    _enableButton_OpenDocument_InRedactMode = value;
+			    OnPropertyChanged(nameof(EnableButton_OpenDocument_InRedactMode));
+		    }
+	    }
+
+
+		public ObservableCollection<EnumerationClasses.Visitor> Set
         {
             get { return Model?.Set; }
             set
@@ -186,6 +233,8 @@ namespace SupRealClient.Views
             {
                 selectedDocument = value;
                 OnPropertyChanged();
+	            OnPropertyChanged(nameof(SelectedDocument));
+				Change_ButtonEnable();
             }
         }
 
@@ -435,6 +484,7 @@ namespace SupRealClient.Views
         private void New()
         {
             Model = new NewVisitsModel();
+	        IsRedactMode = true;
         }
 
         private void Extradite()
@@ -482,6 +532,8 @@ namespace SupRealClient.Views
                     view.CloseWindow(new CancelEventArgs());
                 else
                     Model = new VisitsModel();
+	            IsRedactMode = false;
+
             }                
         }
 
@@ -501,7 +553,10 @@ namespace SupRealClient.Views
                 else
                     Model = new VisitsModel(Set, ((EditVisitsModel)Model).OldVisitor);
             }
-        }
+
+
+	        IsRedactMode = false;
+		}
 
         private void AddImageSource(ImageType imageType, string name)
         {
@@ -664,16 +719,48 @@ namespace SupRealClient.Views
 		}
 
 	    private void RemoveImageToDocuments(string name)
-		{
-			if (CurrentItem?.Documents?.Count <= 0)
-			{
-				return;
-			}
-			VisitorsDocument deleteItem = CurrentItem?.Documents?.FirstOrDefault(item => item.Name == name);
+	    {
+		    if (CurrentItem?.Documents?.Count <= 0)
+		    {
+			    return;
+		    }
+
+		    VisitorsDocument deleteItem = CurrentItem?.Documents?.FirstOrDefault(item => item.Name == name);
 		    CurrentItem?.Documents?.Remove(deleteItem);
 	    }
 
-		public event PropertyChangedEventHandler PropertyChanged;
+	    private void Change_ButtonEnable()
+	    {
+		    if (Model is NewVisitsModel || Model is EditVisitsModel)
+		    {
+				// Здесь учитывается инверсия значения переменное "ButtonEnable" при использовании классов NewVisitsModel или EditVisitsModel
+				// Поэтому когда нужно активировать кнопку ButtonEnable = false
+				// Поэтому когда нужно заблокиравать кнопку ButtonEnable = true
+				if (SelectedDocument < 0)
+			    {
+				    EnableButton_OpenDocument_InRedactMode = false;
+				    return;
+			    }
+
+				#region НЕ ИСПОЛЬЗУЕТСЯ Модуль блокирования кнопки "Просмотр", если в списке прикрепленных сканов выбраны пункты "Личная фотография" или "Личная подпись"
+				//   VisitorsDocument deleteItem = CurrentItem?.Documents?[SelectedDocument];
+				//   if (deleteItem != null)
+				//   {
+				//    if (deleteItem.Name != _nameDocument_PhotoImageType && deleteItem.Name != _nameDocument_SignatureImageType)
+				//    {
+				//	    ButtonEnable = false;
+				//	    return;
+				//    }
+				//	 }
+				// 
+				// ButtonEnable = true;
+				#endregion
+
+			    EnableButton_OpenDocument_InRedactMode = true;
+			}
+		}
+
+	    public event PropertyChangedEventHandler PropertyChanged;
 
         [NotifyPropertyChangedInvocator]
         protected virtual void OnPropertyChanged([CallerMemberName] string propertyName = null)
@@ -1160,7 +1247,7 @@ namespace SupRealClient.Views
 
     public class VisitsModel : BaseVisitsModel
     {
-        public int selectedIndex { get; set; }
+		public int selectedIndex { get; set; }
 
         public override bool TextEnable
         {
@@ -1171,7 +1258,7 @@ namespace SupRealClient.Views
         public override bool ButtonEnable
         {
             get { return false; }
-            set { }
+	        set {  }
         }
 
         public override bool AccessVisibility
@@ -1452,8 +1539,9 @@ namespace SupRealClient.Views
     }
 
     public class NewVisitsModel : BaseVisitsModel
-    {
-        public override event Action<object> OnClose;
+	{
+		private bool _buttonEnable = true;
+		public override event Action<object> OnClose;
 
         public override bool TextEnable
         {
@@ -1463,8 +1551,8 @@ namespace SupRealClient.Views
 
         public override bool ButtonEnable
         {
-            get { return true; }
-            set { }
+            get { return _buttonEnable; }
+	        set { _buttonEnable = value; }
         }
 
         public override bool AccessVisibility
@@ -1489,7 +1577,8 @@ namespace SupRealClient.Views
                 SearchButtonEnable = false,
                 RefreshButtonEnable = false
             };
-            Set = new ObservableCollection<EnumerationClasses.Visitor>();
+	        ButtonEnable = true;
+			Set = new ObservableCollection<EnumerationClasses.Visitor>();
             CurrentItem = new EnumerationClasses.Visitor() {AgreeToDate=DateTime.Now };
             CurrentItem.MainDocuments = new ObservableCollection<VisitorsMainDocument>();
             CurrentItem.Documents = new ObservableCollection<VisitorsDocument>();
@@ -1560,7 +1649,8 @@ namespace SupRealClient.Views
 
     public class EditVisitsModel : BaseVisitsModel
     {
-        public EnumerationClasses.Visitor OldVisitor { get; set; }
+	    private bool _buttonEnable = true;
+		public EnumerationClasses.Visitor OldVisitor { get; set; }
 
         public override bool TextEnable
         {
@@ -1570,8 +1660,8 @@ namespace SupRealClient.Views
 
         public override bool ButtonEnable
         {
-            get { return true; }
-            set { }
+            get { return _buttonEnable; }
+	        set { _buttonEnable = value; }
         }
 
         public override bool AccessVisibility

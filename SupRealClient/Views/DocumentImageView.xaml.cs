@@ -18,7 +18,7 @@ namespace SupRealClient.Views
 	/// <summary>
 	/// Логика взаимодействия для DocumentImageView.xaml
 	/// </summary>
-	public partial class DocumentImageView : Window
+	public partial class DocumentImageView 
 	{
 		private DocumentImageViewModel _viewModel = new DocumentImageViewModel();
 

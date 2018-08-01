@@ -95,9 +95,8 @@
 						<Image.Tag>
 							<MultiBinding Converter="{StaticResource DocumentListElementsHeightConverter}" >
 								<Binding ElementName="ListBoxImages"></Binding>
-								<Binding Path="Images"></Binding>
-								<Binding Path="ItemsSource" ElementName="ListBoxImages"></Binding>
-								<Binding Path="Items" ElementName="ListBoxImages"></Binding>
+								<Binding Path="Images" UpdateSourceTrigger="PropertyChanged"></Binding>
+								<Binding Path="ActualHeight" ElementName="ListBoxImages"></Binding>
 								<Binding ElementName="BuferTextBlock"></Binding>
 								</MultiBinding>
 						</Image.Tag>

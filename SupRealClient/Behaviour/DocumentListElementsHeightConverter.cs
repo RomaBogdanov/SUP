@@ -41,7 +41,7 @@ namespace SupRealClient.Behaviour
 
 		private void SetHeight(object textBoxControl, double heightValue)
 		{
-			if (textBoxControl is TextBlock)
+			if (textBoxControl is TextBlock && heightValue>=0)
 				(textBoxControl as TextBlock).Height = heightValue;
 		}
 	}
@@ -52,7 +52,6 @@ namespace SupRealClient.Behaviour
 	{
 		public object Convert(object values, Type targetType, object parameter, CultureInfo culture)
 		{
-			int i = 0; 
 			return null;
 		}
 
