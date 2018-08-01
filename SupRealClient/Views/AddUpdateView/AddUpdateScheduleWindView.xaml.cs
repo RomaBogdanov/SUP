@@ -1,22 +1,22 @@
-﻿using System;
+﻿using SupRealClient.Common.Interfaces;
+using System;
 using System.ComponentModel;
 using System.Windows;
 using System.Windows.Input;
-using SupRealClient.Common.Interfaces;
 
-namespace SupRealClient.Views
+namespace SupRealClient.Views.AddUpdateView
 {
     /// <summary>
-    /// Логика взаимодействия для AddUpdateSpaceView.xaml
+    /// Interaction logic for AddUpdateScheduleWindView.xaml
     /// </summary>
-    public partial class AddUpdateSpaceView : IWindow
+    public partial class AddUpdateScheduleWindView : IWindow
     {
         /// <summary>
         /// Двигатель фокуса
         /// </summary>
         private TraversalRequest _focusMover = new TraversalRequest(FocusNavigationDirection.Next);
 
-        public AddUpdateSpaceView()
+        public AddUpdateScheduleWindView()
         {
             InitializeComponent();
 
@@ -34,7 +34,7 @@ namespace SupRealClient.Views
 
         public void CloseWindow(CancelEventArgs e)
         {
-            
+
         }
 
         public void Unsuscribe()
@@ -48,28 +48,11 @@ namespace SupRealClient.Views
             this.Close();
         }
 
-        private void MetroWindow_Loaded(object sender, RoutedEventArgs e)
-        {
-            tbNumReal.Focus();
-        }
-
         private void TextBox_OnKeyUp(object sender, KeyEventArgs e)
         {
             if (e.Key == Key.Enter)
             {
-                UIElement elementWithFocus = Keyboard.FocusedElement as UIElement;
-                if (elementWithFocus != null)
-                {
-                    elementWithFocus.MoveFocus(_focusMover);
-                }
-            }
-        }        
-
-        private void btnOK_KeyDown(object sender, KeyEventArgs e)
-        {
-            if (e.Key == Key.Enter)
-            {
-                btnOK.Command.Execute(null);
+                ((UIElement)sender).MoveFocus(_focusMover);
             }
         }
     }

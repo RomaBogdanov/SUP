@@ -364,7 +364,7 @@ namespace SupRealClient.TabsSingleton
             foreach (Area relAreas in orderElement.Areas)
             {
                 AreaOrderElement aoe = new AreaOrderElement {OrderElementId = 
-                    (int)row["f_oe_id"], AreaId = relAreas.Id};
+                    (int)row["f_oe_id"], AreaIdHi = relAreas.ObjectIdHi, AreaIdLo = relAreas.ObjectIdLo };
                 AreaOrderElementWrapper.CurrentTable().AddRow(aoe);
             }
         }
@@ -445,7 +445,8 @@ namespace SupRealClient.TabsSingleton
 
             DataRow row = CurrentTable().Table.NewRow();
             row["f_oe_id"] = aoe.OrderElementId;
-            row["f_area_id"] = aoe.AreaId;
+            row["f_area_id_hi"] = aoe.AreaIdHi;
+            row["f_area_id_lo"] = aoe.AreaIdLo;
             StandartCols(row);
             CurrentTable().Table.Rows.Add(row);
         }

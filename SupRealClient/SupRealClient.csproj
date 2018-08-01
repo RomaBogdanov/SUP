@@ -267,6 +267,9 @@
     <Compile Include="Views\AddUpdateView\AddUpdateKeyWindView.xaml.cs">
       <DependentUpon>AddUpdateKeyWindView.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Views\AddUpdateView\AddUpdateScheduleWindView.xaml.cs">
+      <DependentUpon>AddUpdateScheduleWindView.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Views\AddUpdateView\AddUpdateSpaceView.xaml.cs">
       <DependentUpon>AddUpdateSpaceView.xaml</DependentUpon>
     </Compile>
@@ -537,6 +540,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Views\AddUpdateView\AddUpdateKeyWindView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\AddUpdateView\AddUpdateScheduleWindView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
