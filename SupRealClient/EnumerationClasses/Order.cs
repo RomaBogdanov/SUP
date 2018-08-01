@@ -37,7 +37,7 @@ namespace SupRealClient.EnumerationClasses
             switch (e.Action)
             {
                 case NotifyCollectionChangedAction.Add:
-                    foreach (var item in e.NewItems)
+                    foreach (var item  in e.NewItems)
                     {
                         ((OrderElement) item).OrderId = Id;
                         AddedOrderElements.Add((OrderElement)item);
@@ -271,6 +271,8 @@ namespace SupRealClient.EnumerationClasses
             }
         }
         public string Organization { get; set; } = "";
+
+	    public string Position { get; set; } = "";
 
         public int CatcherId
         {

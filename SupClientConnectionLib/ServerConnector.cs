@@ -137,7 +137,7 @@ namespace SupClientConnectionLib
         {
             for (int i = 0; i < rowValues.Length; i++)
             {
-                if (rowValues[i] as DBNull != null)
+                if (rowValues[i] is DBNull)
                 {
                     rowValues[i] = "";
                 }
@@ -155,7 +155,7 @@ namespace SupClientConnectionLib
         {
             for (int i = 0; i < rowValues.Length; i++)
             {
-                if (rowValues[i] as DBNull != null)
+                if (rowValues[i] is DBNull)
                 {
                     rowValues[i] = "";
                 }

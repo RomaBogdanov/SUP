@@ -140,7 +140,7 @@ namespace SupRealClient.ViewModels.AddUpdateViewModel
             (CurrentItem as OrderElement).VisitorId = result.Id;
             (CurrentItem as OrderElement).Visitor = result.Name;
             (CurrentItem as OrderElement).OrganizationId = result.OrganizationId;
-            (CurrentItem as OrderElement).Organization = result.Organization;
+            //(CurrentItem as OrderElement).Organization = result.Organization;
             CurrentItem = CurrentItem;
         }
 

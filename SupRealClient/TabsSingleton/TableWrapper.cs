@@ -360,7 +360,9 @@ namespace SupRealClient.TabsSingleton
             row["f_not_remaind"] = "N";//todo: разобраться
             row["f_full_role"] = "N";//todo: разобраться
             row["f_other_org"] = "";//todo: разобраться
-            AddRow(row);
+	        row["f_org_id"] = orderElement.OrganizationId;
+	        row["f_position"] = orderElement.Position;
+			AddRow(row);
             foreach (Area relAreas in orderElement.Areas)
             {
                 AreaOrderElement aoe = new AreaOrderElement {OrderElementId = 
