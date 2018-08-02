@@ -90,10 +90,5 @@ namespace SupRealClient.Views
                     this.DataContext = new VisitsViewModel(this);
             }
         }
-
-	    private void Control_OnMouseDoubleClick(object sender, MouseButtonEventArgs e)
-	    {
-		    (DataContext as VisitsViewModel).OpenMainDocument();
-	    }
     }
 }

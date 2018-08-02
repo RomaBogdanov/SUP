@@ -483,9 +483,14 @@
 									BorderBrush="Black"
 									BorderThickness="1"
 									ItemsSource="{Binding Path=CurrentItem.MainDocuments, Mode=OneWay}"
-									MouseDoubleClick="Control_OnMouseDoubleClick"
 									SelectedIndex="{Binding Path=SelectedMainDocument}"
-									TabIndex="27" />
+									TabIndex="27">
+									<i:Interaction.Triggers>
+										<i:EventTrigger EventName="PreviewMouseDoubleClick">
+											<i:InvokeCommandAction Command="{Binding OpenMainDocumentCommand}" />
+										</i:EventTrigger>
+									</i:Interaction.Triggers>
+								</ListBox>
 
 								<Grid Grid.Row="3" Grid.ColumnSpan="5">
 									<Grid.ColumnDefinitions>
