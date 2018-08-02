@@ -457,7 +457,8 @@ namespace SupRealClient.Views
 		    CurrentItem.BirthDate = person.DateOfBirth?.Value;
 		    CurrentItem.DocType = person.DocumentClassCode?.Value;
 		    CurrentItem.DocNum = person.DocumentNumber?.Value;
-		    CurrentItem.DocPlace = person.DocumentDeliveryPlace?.Value;
+		    CurrentItem.Department = person.DocumentDeliveryPlace?.Value;
+		    CurrentItem.DocCode = person.DocumentDeliveryPlaceCode?.Value;
 
 		    if (person.DocumentDeliveryDate?.Value != null)
 		    {
@@ -770,7 +771,7 @@ namespace SupRealClient.Views
 
         }
 
-        private void OpenMainDocument()
+        internal void OpenMainDocument()
         {
             if (SelectedMainDocument < 0)
             {

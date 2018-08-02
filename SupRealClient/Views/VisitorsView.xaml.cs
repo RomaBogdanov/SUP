@@ -1,5 +1,6 @@
 ﻿using SupRealClient.Common.Interfaces;
 using System.Windows;
+using System.Windows.Input;
 
 namespace SupRealClient.Views
 {
@@ -88,6 +89,11 @@ namespace SupRealClient.Views
                 if (this.Visibility == Visibility.Hidden)
                     this.DataContext = new VisitsViewModel(this);
             }
-        }       
+        }
+
+	    private void Control_OnMouseDoubleClick(object sender, MouseButtonEventArgs e)
+	    {
+		    (DataContext as VisitsViewModel).OpenMainDocument();
+	    }
     }
 }
