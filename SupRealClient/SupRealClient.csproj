@@ -101,6 +101,7 @@
     <Compile Include="Behaviour\BoolToStringConverter.cs" />
     <Compile Include="Behaviour\DataGridTextSearch.cs" />
     <Compile Include="Behaviour\DialogService.cs" />
+    <Compile Include="Behaviour\DocumentListElementsHeightConverter.cs" />
     <Compile Include="Behaviour\HeaderToCurrentColumnConverter.cs" />
     <Compile Include="Behaviour\IDialogService.cs" />
     <Compile Include="Behaviour\InverseBooleanConverterюcs.cs" />
@@ -131,6 +132,7 @@
     </Compile>
     <Compile Include="Common\Interfaces\IBase1ViewModel.cs" />
     <Compile Include="Common\Interfaces\IBase2ViewModel.cs" />
+    <Compile Include="Handlers\VisitorsDocumentTestingNameHandler.cs" />
     <Compile Include="InputProvider.cs" />
     <Compile Include="Models\AddCardModel.cs" />
     <Compile Include="Common\Data\SearchData.cs" />
@@ -196,6 +198,7 @@
     <Compile Include="Models\Bids\IBidsModel.cs" />
     <Compile Include="Models\Bids\BidsModel.cs" />
     <Compile Include="Models\Bids\EditBidsModel.cs" />
+    <Compile Include="ViewModels\DocumentImageViewModel.cs" />
     <Compile Include="ViewModels\ListsViewModel\BaseListViewModel.cs" />
     <Compile Include="ViewModels\DocumentImagesViewModel.cs" />
     <Compile Include="ViewModels\FullNameViewModel.cs" />
@@ -342,6 +345,9 @@
     <Compile Include="Views\BaseTemplates\Наследники Base4ModelAbstr\VisitorsListModel.cs" />
     <Compile Include="Views\DocumentImagesView.xaml.cs">
       <DependentUpon>DocumentImagesView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\DocumentImageView.xaml.cs">
+      <DependentUpon>DocumentImageView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\FullNameView.xaml.cs">
       <DependentUpon>FullNameView.xaml</DependentUpon>
@@ -628,6 +634,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Views\DocumentImagesView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\DocumentImageView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

@@ -4,12 +4,21 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:mah="http://metro.mahapps.com/winfx/xaml/controls"
+		xmlns:converter="clr-namespace:SupRealClient.Behaviour"
+        xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
         mc:Ignorable="d"
         Title="{Binding Path=Caption, Mode=OneTime}" 
         Height="470" Width="300" 
         ResizeMode="NoResize">
+	<mah:MetroWindow.Resources>
 
-    <mah:MetroWindow.InputBindings>
+		<converter:DocumentListElementsHeightConverter x:Key="DocumentListElementsHeightConverter"></converter:DocumentListElementsHeightConverter>
+		<converter:DocumentListElementHeightConverter x:Key="DocumentListElementHeightConverter"></converter:DocumentListElementHeightConverter>
+	</mah:MetroWindow.Resources>
+	<!--<-->
+
+
+	<mah:MetroWindow.InputBindings>
         <KeyBinding Key="Escape" Command="{Binding Cancel}"/>
     </mah:MetroWindow.InputBindings>
     
@@ -39,10 +48,11 @@
             Grid.Column="0"
             Grid.ColumnSpan="2" 
             TabIndex="0"
-            Text="{Binding Path=Name, Mode=TwoWay}"
+            Text="{Binding Name, Mode=TwoWay}"
             Margin="2"
             Style="{StaticResource TextBoxStyle}"
             KeyUp="TextBox_OnKeyUp"/>
+	    <!--Text="{Binding Name, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"-->
 
         <TextBlock 
             Grid.Row="2" 
@@ -53,18 +63,55 @@
             Style="{StaticResource TextBLockStyle}"/>
 
         <ListBox
+			Name="ListBoxImages"
             Grid.Row="3"
             Grid.ColumnSpan="2"
             ItemsSource="{Binding Path=Images}"
-            SelectedIndex="{Binding Path=SelectedImage}">
+            SelectedIndex="{Binding Path=SelectedImage}"
+	        SelectedItem="{Binding Path=SelectedItem}"
+	        >
+			<!--<ListBox.InputBindings>
+		        <MouseBinding MouseAction="LeftDoubleClick" Command="{Binding OpenDocumentCommand}"/>
+			</ListBox.InputBindings>-->
+			<!--MouseDoubleClick=""-->
+	        <!--PreviewMouseDoubleClick=""-->
+	        <i:Interaction.Triggers>
+				<i:EventTrigger EventName="PreviewMouseDoubleClick">
+					<i:InvokeCommandAction Command="{Binding OpenDocumentCommand}"/>
+		        </i:EventTrigger>
+	        </i:Interaction.Triggers>
+			<!--<ListBox.Tag>
+				<MultiBinding Converter="{StaticResource DocumentListElementsHeightConverter}">
+					<Binding Path="ItemsSource"></Binding>
+					<Binding ElementName="ListBoxImages"></Binding>
+				</MultiBinding>
+			</ListBox.Tag>-->
             <ListBox.ItemTemplate>
                 <DataTemplate>
-                    <StackPanel>
-                        <Image Height="10" Source="{Binding}" />
-                    </StackPanel>
+                    <!--<StackPanel>-->
+					<Image Name="ImageControl" Margin="-3,0,3,0" MaxWidth="290" HorizontalAlignment="Center" Height="{Binding Height, ElementName=BuferTextBlock}" Source="{Binding}" MinHeight="50" >
+						<!--Height="{Binding Height, ElementName=BuferTextBlock}"-->
+						<!--Width="290" HorizontalAlignment="Center"-->
+						<Image.Tag>
+							<MultiBinding Converter="{StaticResource DocumentListElementsHeightConverter}" >
+								<Binding ElementName="ListBoxImages"></Binding>
+								<Binding Path="Images" UpdateSourceTrigger="PropertyChanged"></Binding>
+								<Binding Path="ActualHeight" ElementName="ListBoxImages"></Binding>
+								<Binding ElementName="BuferTextBlock"></Binding>
+								</MultiBinding>
+						</Image.Tag>
+
+						<!--<Image.InputBindings>
+							<MouseBinding MouseAction="LeftDoubleClick" Command="{Binding OpenDocumentCommand}"/>
+						</Image.InputBindings>-->
+					</Image>
+                    <!--</StackPanel>-->
                 </DataTemplate>
             </ListBox.ItemTemplate>
         </ListBox>
+
+		<TextBlock Name="BuferTextBlock"></TextBlock>
+
 
         <Grid Grid.Row="4" Grid.ColumnSpan="2">
             <Grid.ColumnDefinitions>
@@ -73,7 +120,19 @@
                 <ColumnDefinition Width="Auto"/>
                 <ColumnDefinition Width="Auto"/>
             </Grid.ColumnDefinitions>
-            <Button
+
+			<Button
+				Command="{Binding OpenDocumentCommand}"
+				TabIndex="28"
+				Grid.Column="1"
+				Margin="2"
+				Height="25"
+				Content="Просмотр"
+				Name="Button_OpenDocument"
+				IsEnabled="{Binding ConditionButton_OpenDocument, Mode=OneWay}"
+				Style="{StaticResource VisitorsSquareButtonStyle}"/>
+
+			<Button
                 Command="{Binding AddImageCommand}"
                 TabIndex="2"
                 Grid.Column="2"
@@ -101,6 +160,7 @@
             Command="{Binding Path=Ok}"
             Margin="2"
             TabIndex="6"
+			IsEnabled="{Binding ConditionButton_SaveChanges, UpdateSourceTrigger=PropertyChanged, Mode=OneWay}"
             Style="{StaticResource ButtonStyle}">
             <Grid Width="140">
                 <Grid.ColumnDefinitions>
@@ -144,3 +204,4 @@
         </Button>
     </Grid>
 </mah:MetroWindow>
+

@@ -7,6 +7,7 @@
         xmlns:converters="clr-namespace:SupRealClient.Behaviour"
         xmlns:wpfx="http://schemas.xceed.com/wpf/xaml/toolkit"    
         xmlns:gl="clr-namespace:System.Globalization;assembly=mscorlib"
+        xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
         mc:Ignorable="d"
         Title="Посетители" 
         ResizeMode="NoResize"
@@ -835,17 +836,23 @@
 
                         <TextBlock
                             Grid.Row="0"
-                            Text="Удостоверения личности"
+                            Text="Привязанные сканы"
                             FontSize="15"
                             Style="{StaticResource TextBLockStyle}"/>
 
-                        <ListBox
+						<ListBox
                             TabIndex="60"
                             Grid.Row="1"
                             BorderBrush="Black"
                             BorderThickness="1"
                             SelectedIndex="{Binding Path=SelectedDocument}"
-                            ItemsSource="{Binding Path=CurrentItem.Documents, Mode=OneWay}"/>
+                            ItemsSource="{Binding Path=CurrentItem.Documents, Mode=OneWay}">
+							<i:Interaction.Triggers>
+								<i:EventTrigger EventName="PreviewMouseDoubleClick">
+									<i:InvokeCommandAction Command="{Binding OpenDocumentCommand}"/>
+								</i:EventTrigger>
+							</i:Interaction.Triggers>
+						</ListBox>
 
                         <Grid Grid.Row="2">
                             <Grid.ColumnDefinitions>
@@ -855,7 +862,9 @@
                                 <ColumnDefinition Width="Auto"/>
                                 <ColumnDefinition Width="Auto"/>
                             </Grid.ColumnDefinitions>
-                            <Button
+
+							<Button
+								Name="Button_OpenDocument"
                                     Command="{Binding OpenDocumentCommand}"
                                     TabIndex="61"
                                     Grid.Column="1"
@@ -864,7 +873,18 @@
                                     Content="Просмотр"
                                     IsEnabled="{Binding Path=ButtonEnable, Converter={StaticResource InverseBooleanConverter}, Mode=TwoWay}"
                                     Style="{StaticResource VisitorsSquareButtonStyle}"/>
-                            <Button
+	                        <Button
+								Name="Button_OpenDocument_InRedactMode"
+		                        Command="{Binding OpenDocumentCommand}"
+		                        TabIndex="61"
+		                        Grid.Column="1"
+		                        Margin="2"
+		                        Height="25"
+		                        Content="Просмотр"
+		                        IsEnabled="{Binding Path=EnableButton_OpenDocument_InRedactMode, Mode=TwoWay}"
+								Visibility="{Binding VisibleButton_OpenDocument_InRedactMode, Converter={StaticResource BooleanToVisibilityConverter}}"
+		                        Style="{StaticResource VisitorsSquareButtonStyle}"/>
+							<Button
                                     Command="{Binding AddDocumentCommand}"
                                     TabIndex="62"
                                     Grid.Column="2"
