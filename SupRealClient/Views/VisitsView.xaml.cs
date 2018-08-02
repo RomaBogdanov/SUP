@@ -414,6 +414,7 @@ namespace SupRealClient.Views
 		    {
 			    Type = person.DocumentClassCode?.Value,
 			    Num = person.DocumentNumber?.Value,
+			    Code = person.DocumentDeliveryPlaceCode?.Value,
 			    Date = CurrentItem.DocDate
 		    };
 
@@ -459,6 +460,7 @@ namespace SupRealClient.Views
 		    CurrentItem.DocNum = person.DocumentNumber?.Value;
 		    CurrentItem.Department = person.DocumentDeliveryPlace?.Value;
 		    CurrentItem.DocCode = person.DocumentDeliveryPlaceCode?.Value;
+		    CurrentItem.Person = person;
 
 		    if (person.DocumentDeliveryDate?.Value != null)
 		    {
@@ -777,17 +779,17 @@ namespace SupRealClient.Views
             {
                 return;
             }
-
+	    
             var window = new VisitorsMainDocumentView(
                new VisitorsMainDocumentModel(
-                   CurrentItem.MainDocuments[SelectedMainDocument]), false);
+                   CurrentItem.MainDocuments[SelectedMainDocument]), false, CurrentItem.Person);
             window.ShowDialog();
         }
 
         private void AddMainDocument()
         {
             var window = new VisitorsMainDocumentView(
-                new VisitorsMainDocumentModel(null), true);
+                new VisitorsMainDocumentModel(null), true,null);
             window.ShowDialog();
             var document = window.WindowResult as VisitorsMainDocument;
 
@@ -807,7 +809,7 @@ namespace SupRealClient.Views
             }
             var window = new VisitorsMainDocumentView(
                 new VisitorsMainDocumentModel(
-                    CurrentItem.MainDocuments[SelectedMainDocument]), true);
+                    CurrentItem.MainDocuments[SelectedMainDocument]), true, CurrentItem.Person);
             window.ShowDialog();
             var document = window.WindowResult as VisitorsMainDocument;
 
@@ -1641,7 +1643,7 @@ namespace SupRealClient.Views
                     where visit.Field<int>("f_visitor_id") == Set[index].Id
                     select new Card2
                     {
-                        Card = card.Field<string>("f_card_name"),
+                        Card = card.Field<string>("f_card_text"),
                         From = visit.Field<DateTime>("f_date_from"),
                         To = visit.Field<DateTime>("f_date_to"),
                         Change = visit.Field<DateTime>("f_rec_date"),

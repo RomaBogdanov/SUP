@@ -7,6 +7,8 @@ using System.Linq;
 using System;
 using System.Collections.Generic;
 using System.Data;
+using System.Windows.Media.Imaging;
+using RegulaLib;
 using SupRealClient.TabsSingleton;
 using SupRealClient.Views;
 
@@ -28,14 +30,15 @@ namespace SupRealClient.ViewModels
         private DateTime birthDate;
         private string comment = "";
 
-        private string image = "";
+	 private string image = "";
 
-        private List<Guid> imageCache = new List<Guid>();
+	private List<Guid> imageCache = new List<Guid>();
         private int selectedImage = -1;
 
         public bool Editable { get; private set; }
+	public CPerson Person { get; private set; }
 
-        public string Caption { get; private set; }
+	public string Caption { get; private set; }
 
         public string DocType
         {
@@ -164,17 +167,18 @@ namespace SupRealClient.ViewModels
             }
         }
 
-        public string Image
-        {
-            get { return image; }
-            set
-            {
-                image = value;
-                OnPropertyChanged("Image");
-            }
-        }
+		public string Image
+		{
+			get { return image; }
+			set
+			{
+				image = value;
+				OnPropertyChanged("Image");
+			}
+		}
+	   
 
-        public ICommand AddImageCommand { get; set; }
+	 public ICommand AddImageCommand { get; set; }
         public ICommand RemoveImageCommand { get; set; }
 
         public ICommand DocumentsCommand { get; set; }
@@ -186,9 +190,10 @@ namespace SupRealClient.ViewModels
         public ICommand Ok { get; set; }
         public ICommand Cancel { get; set; }
 
-        public VisitorsMainDocumentViewModel(bool editable)
+        public VisitorsMainDocumentViewModel(bool editable, CPerson person)
         {
             Editable = editable;
+	    Person = person;
         }
 
         public void SetModel(VisitorsMainDocumentModel model)
@@ -241,37 +246,38 @@ namespace SupRealClient.ViewModels
             this.PropertyChanged?.Invoke(this,
             new PropertyChangedEventArgs(propertyName));
 
-        private void AddImage()
-        {
-            var dlg = new OpenFileDialog();
-            if (dlg.ShowDialog() == DialogResult.OK)
-            {
-                Guid id = ImagesHelper.LoadImage(dlg.FileName);
-                imageCache.Add(id);
-                SetImage(imageCache.Count - 1);
-            }
-        }
+	    private void AddImage()
+	    {
+			var dlg = new OpenFileDialog();
+			if (dlg.ShowDialog() == DialogResult.OK)
+			{
+				var guid = ImagesHelper.LoadImage(dlg.FileName);
+				imageCache.Add(guid);
+				SetImage(imageCache.Count - 1);
+			}
+		}
 
-        private void RemoveImage()
-        {
-            if (SelectedImage < 0)
-            {
-                return;
-            }
-            int selected = SelectedImage;
-            imageCache.RemoveAt(selected);
-            SetImage(selected <= imageCache.Count - 1 ? selected : selected - 1);
-        }
+	    private void RemoveImage()
+	    {
+		    if (SelectedImage < 0)
+		    {
+			    return;
+		    }
 
-        private void Prev()
-        {
-            if (selectedImage > 0)
-            {
-                SetImage(selectedImage - 1);
-            }
-        }
+		    int selected = SelectedImage;
+			imageCache.RemoveAt(selected);
+			SetImage(selected <= imageCache.Count - 1 ? selected : selected - 1);
+		}
 
-        private void Next()
+	    private void Prev()
+	    {
+		    if (selectedImage > 0)
+		    {
+			    SetImage(selectedImage - 1);
+		    }
+	    }
+
+	    private void Next()
         {
             if (selectedImage < imageCache.Count - 1)
             {
@@ -282,8 +288,11 @@ namespace SupRealClient.ViewModels
         private void SetImage(int index)
         {
             selectedImage = index;
-            Image = selectedImage < 0 ? "" :
-                ImagesHelper.GetImagePath(imageCache[selectedImage]);
+	        if (index < 0)
+	        {
+		        return;
+	        }
+            Image = ImagesHelper.GetImagePath(imageCache[selectedImage]);
         }
 
         private void OkExecute()

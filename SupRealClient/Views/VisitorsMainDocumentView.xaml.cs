@@ -2,6 +2,7 @@
 using SupRealClient.ViewModels;
 using System.Windows;
 using System.Windows.Input;
+using RegulaLib;
 
 namespace SupRealClient.Views
 {
@@ -15,10 +16,10 @@ namespace SupRealClient.Views
         /// </summary>
         private TraversalRequest _focusMover = new TraversalRequest(FocusNavigationDirection.Next);
 
-        public VisitorsMainDocumentView(VisitorsMainDocumentModel model, bool editable)
+        public VisitorsMainDocumentView(VisitorsMainDocumentModel model, bool editable, CPerson person)
         {
             model.OnClose += Handling_OnClose;
-            DataContext = new VisitorsMainDocumentViewModel(editable);
+            DataContext = new VisitorsMainDocumentViewModel(editable,person);
             ((VisitorsMainDocumentViewModel)DataContext).SetModel(model);
             InitializeComponent();
 
@@ -31,7 +32,7 @@ namespace SupRealClient.Views
         public VisitorsMainDocumentView()
         {
             InitializeComponent();
-            DataContext = new VisitorsMainDocumentViewModel(false);
+            DataContext = new VisitorsMainDocumentViewModel(false,null);
         }
 
         private void TextBox_OnKeyUp(object sender, KeyEventArgs e)
