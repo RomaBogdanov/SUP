@@ -2,6 +2,7 @@
 using SupRealClient.ViewModels;
 using System.Windows;
 using System.Windows.Input;
+using SupRealClient.Handlers;
 
 namespace SupRealClient.Views
 {
@@ -14,22 +15,31 @@ namespace SupRealClient.Views
         /// Двигатель фокуса
         /// </summary>
         private TraversalRequest _focusMover = new TraversalRequest(FocusNavigationDirection.Next);
+	    public event VisitorsDocumentTestingNameHandler _TestingNameVisitorsDocument;
 
-        public VisitorsDocumentView(VisitorsDocumentModel model)
+		public VisitorsDocumentView(VisitorsDocumentModel model)
         {
             model.OnClose += Handling_OnClose;
             DataContext = new VisitorsDocumentViewModel();
             ((VisitorsDocumentViewModel)DataContext).SetModel(model);
-            InitializeComponent();
+			((VisitorsDocumentViewModel)DataContext)._TestingNameVisitorsDocument += VisitorsDocumentView__TestingNameVisitorsDocument;
+			
+
+			InitializeComponent();
 
             AfterInitialize();
             NameTextBox.Focus();
         }
 
-        /// <summary>
-        /// Конструктор - заглушка
-        /// </summary>
-        public VisitorsDocumentView()
+		private void VisitorsDocumentView__TestingNameVisitorsDocument(object sender, System.ComponentModel.CancelEventArgs e)
+		{
+			_TestingNameVisitorsDocument?.Invoke(sender, e);
+		}
+
+		/// <summary>
+		/// Конструктор - заглушка
+		/// </summary>
+		public VisitorsDocumentView()
         {
             InitializeComponent();
             NameTextBox.Focus();

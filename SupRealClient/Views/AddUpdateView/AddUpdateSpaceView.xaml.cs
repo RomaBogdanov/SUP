@@ -19,6 +19,8 @@ namespace SupRealClient.Views
         public AddUpdateSpaceView()
         {
             InitializeComponent();
+
+            this.WindowStartupLocation = WindowStartupLocation.CenterScreen;
         }
 
         public bool CanMinimize { get; private set; }

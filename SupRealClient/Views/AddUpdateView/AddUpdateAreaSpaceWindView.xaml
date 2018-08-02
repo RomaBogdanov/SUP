@@ -9,6 +9,8 @@
         Title="{Binding Path=Caption, Mode=OneTime}" Height="230" Width="300">
     <Grid>
         <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="4*"/>
+            <ColumnDefinition Width="2*"/>
             <ColumnDefinition Width="1*"/>
             <ColumnDefinition Width="1*"/>
         </Grid.ColumnDefinitions>
@@ -21,27 +23,47 @@
             <RowDefinition/>
         </Grid.RowDefinitions>
         <TextBlock 
-            Grid.ColumnSpan="2"
-            Text="Id области доступа:" 
+            Grid.ColumnSpan="4"
+            Text="Область доступа:" 
             FontSize="{Binding FontSize}"
             HorizontalAlignment="Left"
             Style="{StaticResource TextBLockStyle}"/>
 
         <TextBox 
             Grid.Row="1" 
-            Text="{Binding CurrentItem.AreaId, Mode=TwoWay}"
+            Text="{Binding Area, Mode=TwoWay}"
             Grid.Column="0"
             Grid.ColumnSpan="2" 
             Margin="2"
             TabIndex="2"
+            IsReadOnly="True"
             FontSize="{Binding FontSize}"
             Style="{StaticResource TextBoxStyle}"
             KeyUp="TextBox_OnKeyUp"/>
 
+        <Button
+            Command="{Binding AreaCommand}"
+            Grid.Row="1"
+            Grid.Column="2"
+            Content="..."
+            TabIndex="3"
+            Margin="2"
+            Style="{StaticResource ButtonStyle}"/>
+
+        <Button
+            Command="{Binding ClearCommand}"
+            CommandParameter="Area"
+            Grid.Row="1"
+            Grid.Column="3"
+            Content="X"
+            TabIndex="4"
+            Margin="2"
+            Style="{StaticResource ButtonStyle}"/>
+
         <TextBlock 
-            Grid.ColumnSpan="2"
+            Grid.ColumnSpan="4"
             Grid.Row="2"
-            Text="Id помещения:" 
+            Text="Помещение:" 
             FontSize="{Binding FontSize}"
             HorizontalAlignment="Left"
             Style="{StaticResource TextBLockStyle}"/>
@@ -51,11 +73,31 @@
             Grid.Column="0"
             Grid.ColumnSpan="2" 
             Margin="2"
-            TabIndex="2"
+            TabIndex="5"
+            IsReadOnly="True"
             FontSize="{Binding FontSize}"
-            Text="{Binding Path=CurrentItem.SpaceId, Mode=TwoWay}"
+            Text="{Binding Path=Space, Mode=TwoWay}"
             Style="{StaticResource TextBoxStyle}"
             KeyUp="TextBox_OnKeyUp"/>
+
+        <Button
+            Command="{Binding SpaceCommand}"
+            Grid.Row="3"
+            Grid.Column="2"
+            Content="..."
+            TabIndex="6"
+            Margin="2"
+            Style="{StaticResource ButtonStyle}"/>
+
+        <Button
+            Command="{Binding ClearCommand}"
+            CommandParameter="Space"
+            Grid.Row="3"
+            Grid.Column="3"
+            Content="X"
+            TabIndex="7"
+            Margin="2"
+            Style="{StaticResource ButtonStyle}"/>
 
         <Button 
             Grid.Row="9" 
