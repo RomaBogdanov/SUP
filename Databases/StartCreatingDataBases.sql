@@ -1,4 +1,42 @@
-﻿-- Файл создания Баз данных.
+﻿--Раскомитить если нужно перезаписать 
+/*EXEC msdb.dbo.sp_delete_database_backuphistory @database_name = N'Visitors'
+GO
+
+USE master
+GO
+
+ALTER DATABASE Visitors SET SINGLE_USER WITH ROLLBACK IMMEDIATE
+GO
+
+DROP DATABASE Visitors
+
+
+  EXEC msdb.dbo.sp_delete_database_backuphistory @database_name = N'VisitorsImages'
+GO
+
+USE master
+GO
+
+ALTER DATABASE VisitorsImages SET SINGLE_USER WITH ROLLBACK IMMEDIATE
+GO
+
+DROP DATABASE VisitorsImages
+
+
+ EXEC msdb.dbo.sp_delete_database_backuphistory @database_name = N'VisitorsLogs'
+GO
+
+USE master
+GO
+
+ALTER DATABASE VisitorsLogs SET SINGLE_USER WITH ROLLBACK IMMEDIATE
+GO
+
+DROP DATABASE VisitorsLogs*/
+
+
+
+-- Файл создания Баз данных.
 
 -- Пакет названий для создания Баз Данных
 
@@ -623,7 +661,7 @@ ADD PRIMARY KEY (f_oe_id)
 
 if not exists(select * from vis_order_elements where f_oe_id = '0')
 begin
-	insert into vis_order_elements values ( '0', '', '', '', '', '', '', '', 'N', '', '', '', '', '')
+	insert into vis_order_elements values ( '0', '', '', '', '', '', '', '', 'N', '', '', '', '', '',0,'')
 end
 go
 
