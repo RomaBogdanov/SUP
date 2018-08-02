@@ -1,4 +1,41 @@
-﻿-- Файл создания Баз данных.
+﻿/*EXEC msdb.dbo.sp_delete_database_backuphistory @database_name = N'Visitors'
+GO
+
+USE master
+GO
+
+ALTER DATABASE Visitors SET SINGLE_USER WITH ROLLBACK IMMEDIATE
+GO
+
+DROP DATABASE Visitors
+
+
+EXEC msdb.dbo.sp_delete_database_backuphistory @database_name = N'VisitorsImages'
+GO
+
+USE master
+GO
+
+ALTER DATABASE VisitorsImages SET SINGLE_USER WITH ROLLBACK IMMEDIATE
+GO
+
+DROP DATABASE VisitorsImages
+
+
+ EXEC msdb.dbo.sp_delete_database_backuphistory @database_name = N'VisitorsLogs'
+GO
+
+USE master
+GO
+
+ALTER DATABASE VisitorsLogs SET SINGLE_USER WITH ROLLBACK IMMEDIATE
+GO
+
+DROP DATABASE VisitorsLogs*/
+
+
+
+-- Файл создания Баз данных.
 
 -- Пакет названий для создания Баз Данных
 
@@ -615,15 +652,16 @@ CREATE TABLE vis_order_elements
     f_not_remaind                  nvarchar(1),
     f_full_role                    nvarchar(1),
     f_other_org                    nvarchar(200),
-    f_org_id                       INT,/*организация*/
-    f_position                     NVARCHAR(200)/*должность*/)
+    f_org_id                       INT,--организация
+    f_position                     NVARCHAR(200)--должность        
+  )
 
 ALTER TABLE vis_order_elements
 ADD PRIMARY KEY (f_oe_id)
 
 if not exists(select * from vis_order_elements where f_oe_id = '0')
 begin
-	insert into vis_order_elements values ( '0', '', '', '', '', '', '', '', 'N', '', '', '', '', '')
+	insert into vis_order_elements values ( '0', '', '', '', '', '', '', '', 'N', '', '', '', '', '',0,'')
 end
 go
 
@@ -667,16 +705,20 @@ CREATE TABLE vis_orders
     f_notes                        nvarchar(150),
     f_disabled                     nvarchar(1),
     f_deleted                      CHAR(1),
-    f_rec_date                     DATE,
-    f_rec_operator                 int,
-    f_temp_posted                  nvarchar(1))
+    f_rec_date                     DATETIME,--время последнего редактирования заявки
+    f_rec_operator                 int,--id оператора который последним внес изменеия в заявку
+    f_temp_posted                  nvarchar(1),
+    f_new_rec_date                 DATETIME,--время создания заявки
+    f_new_rec_operator             INT,--id оператора создателя заявки
+    f_barcode                      NVARCHAR(200)--штрихкод СЭД(система электронного документооборота)
+  )
 
 ALTER TABLE vis_orders
 ADD PRIMARY KEY (f_ord_id)
 
 if not exists(select * from vis_orders where f_ord_id = '0')
 begin
-	insert into vis_orders values ( '0', '', '', '', '', '', '', '', '', '', 'N', '', '', '')
+	insert into vis_orders values ( '0', '', '', '', '', '', '', '', '', '', 'N', '', '', '','','','')
 end
 go
 
