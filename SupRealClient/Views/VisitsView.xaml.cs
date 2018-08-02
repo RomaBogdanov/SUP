@@ -293,8 +293,8 @@ namespace SupRealClient.Views
         public ICommand RemoveMainDocumentCommand { get; set; }
 
         public ICommand RefreshCommand { get; set; }
-		
-	private ChildWindowSettings _windowSettings;
+
+        private ChildWindowSettings _windowSettings;
         public ChildWindowSettings WindowSettings
         {
             get { return _windowSettings; }
@@ -350,7 +350,6 @@ namespace SupRealClient.Views
 		    EditCommand = new RelayCommand(arg => Edit());
 		    FindCommand = new RelayCommand(arg => Find());
 
-
 		    OpenDocumentCommand = new RelayCommand(arg => OpenDocument());
 		    AddDocumentCommand = new RelayCommand(arg => AddDocument());
 		    EditDocumentCommand = new RelayCommand(arg => EditDocument());
@@ -363,7 +362,7 @@ namespace SupRealClient.Views
 
 		    RefreshCommand = new RelayCommand(arg => Refresh());
 
-		    _documentScaner.ScanFinished += Scaner_ScanFinished;
+            _documentScaner.ScanFinished += Scaner_ScanFinished;
 	    }
 
 	    ~VisitsViewModel()
@@ -702,6 +701,12 @@ namespace SupRealClient.Views
                 return;
             }
 
+            if (EnableButton_OpenDocument_InRedactMode)
+            {
+                EditDocument();
+                return;
+            }
+
             var window = new DocumentImagesView(
                 CurrentItem.Documents[SelectedDocument]);
             window.ShowDialog();
@@ -774,6 +779,12 @@ namespace SupRealClient.Views
         {
             if (SelectedMainDocument < 0)
             {
+                return;
+            }
+
+            if (ButtonEnable)
+            {
+                EditMainDocument();
                 return;
             }
 

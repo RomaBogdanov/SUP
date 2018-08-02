@@ -437,7 +437,13 @@
                                 BorderBrush="Black"
                                 BorderThickness="1"
                                 SelectedIndex="{Binding Path=SelectedMainDocument}"
-                                ItemsSource="{Binding Path=CurrentItem.MainDocuments, Mode=OneWay}"/>
+                                ItemsSource="{Binding Path=CurrentItem.MainDocuments, Mode=OneWay}">
+                                    <i:Interaction.Triggers>
+                                        <i:EventTrigger EventName="MouseDoubleClick">
+                                            <i:InvokeCommandAction Command="{Binding OpenMainDocumentCommand}"/>
+                                        </i:EventTrigger>
+                                    </i:Interaction.Triggers>
+                                </ListBox>
 
                                 <Grid Grid.Row="3" Grid.ColumnSpan="5">
                                     <Grid.ColumnDefinitions>
