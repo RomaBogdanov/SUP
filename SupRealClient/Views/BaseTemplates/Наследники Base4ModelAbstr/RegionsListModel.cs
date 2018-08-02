@@ -6,6 +6,7 @@ using SupRealClient.TabsSingleton;
 using System.Data;
 using SupRealClient.Models;
 using SupRealClient.Common;
+using System.Windows;
 
 namespace SupRealClient.Views
 {
@@ -48,6 +49,7 @@ namespace SupRealClient.Views
                 CommonHelper.NotDeleted(orgs)
                 select orgs).Any())
             {
+                MessageBox.Show("Регион невозможно удалить, т.к. он связан с организациями!");
                 return false;
             }
 

@@ -17,6 +17,8 @@ using SupRealClient.Models.AddUpdateModel;
 using SupRealClient.ViewModels.AddUpdateViewModel;
 using SupRealClient.Views.AddUpdateView;
 using System.Collections;
+using System.Windows.Data;
+using System.ComponentModel;
 
 namespace SupRealClient.Views
 {
@@ -24,6 +26,8 @@ namespace SupRealClient.Views
     {
         public event ModelPropertyChanged OnModelPropertyChanged;
         public event Action<object> OnClose;
+
+        public Action ScrollCurrentItem { get; set; }
 
         public IWindow Parent { get; set; }
 
@@ -41,8 +45,30 @@ namespace SupRealClient.Views
             {
                 set = value;
                 OnModelPropertyChanged?.Invoke("Set");
+                OnModelPropertyChanged?.Invoke("CollectionView");
             }
         }
+
+        private CollectionView _collectionView = null;
+        public virtual CollectionView CollectionView
+        {
+            get
+            {
+                _collectionView = (CollectionView)CollectionViewSource.GetDefaultView(Set);
+                if (_collectionView != null && CurrentColumn != null)
+                {
+                    ListSortDirection oSortDirection = ListSortDirection.Ascending;
+                    if (CurrentColumn.SortDirection != null)
+                        oSortDirection = (ListSortDirection)CurrentColumn.SortDirection;
+                    _collectionView.SortDescriptions.Clear();
+                    _collectionView.SortDescriptions.Add(new SortDescription(CurrentColumn.SortMemberPath, oSortDirection));                    
+                }
+                return _collectionView;
+            }
+        }
+
+        public delegate void ScrollIntoViewDelegateSignature();
+        public virtual ScrollIntoViewDelegateSignature ScrollIntoViewCurrentItem { get; set; }
 
         public virtual T CurrentItem
         {
@@ -81,7 +107,7 @@ namespace SupRealClient.Views
             }
         }
         public virtual void Prev()
-        {
+        {            
             if (Set.Count > 0)
             {
                 if (SelectedIndex > 0)
@@ -103,6 +129,7 @@ namespace SupRealClient.Views
                 {
                     SelectedIndex++;
                     CurrentItem = Set[SelectedIndex];
+
                 }
             }
             else
@@ -141,26 +168,33 @@ namespace SupRealClient.Views
 
         protected void Query()
         {
+            ListSortDirection? memSort = CurrentColumn?.SortDirection ?? ListSortDirection.Ascending;
             int oldIndex = SelectedIndex;
 
             int memCount = -1;
-            if (Set != null)
-                memCount = Set.Count - 1;
+            if (CollectionView != null)
+                memCount = CollectionView.Count - 1;
 
             DoQuery();
 
-            if (oldIndex >= 0 && oldIndex < Set.Count - 1 && memCount == Set.Count - 1)
+            if (CurrentColumn != null)
+            {
+                CurrentColumn.SortDirection = memSort;
+            }
+
+            if (oldIndex >= 0 && oldIndex < CollectionView.Count - 1 && memCount == CollectionView.Count - 1)
             {
                 SelectedIndex = oldIndex;
-                CurrentItem = Set[SelectedIndex];
+                CurrentItem = (T)CollectionView.GetItemAt(SelectedIndex);
             }
-            else if (memCount != Set.Count - 1)
-            {                
-                CurrentItem = Set[Set.Count - 1];
+            else if (memCount != CollectionView.Count - 1 && Set.Count > 0)
+            {               
+                if (CollectionView.MoveCurrentTo(Set[Set.Count - 1]))
+                    CurrentItem = (T)CollectionView.CurrentItem;
             }
-            else if (Set.Count > 0)
+            else if (CollectionView.Count > 0)
             {                
-                CurrentItem = Set[0];
+                CurrentItem = (T)CollectionView.GetItemAt(0);
             }
             OnModelPropertyChanged?.Invoke("CurrentItem");
         }
@@ -185,9 +219,16 @@ namespace SupRealClient.Views
             {
                 if ((Set.ElementAt(i) as IdEntity).Id == id)
                 {
-                    CurrentItem = Set.ElementAt(i);
-                    OnModelPropertyChanged?.Invoke("CurrentItem");
-                    break;
+                    //CurrentItem = Set.ElementAt(i);
+                    //OnModelPropertyChanged?.Invoke("CurrentItem");
+                    //break;
+                    if (CollectionView.MoveCurrentTo(Set.ElementAt(i)))
+                    {
+                        CurrentItem = (T)CollectionView.CurrentItem;
+                        OnModelPropertyChanged?.Invoke("CurrentItem");
+                        ScrollCurrentItem?.Invoke();
+                        break;
+                    }
                 }
             }
         }
@@ -320,6 +361,17 @@ namespace SupRealClient.Views
                 });
         }
 
+        public override bool Remove()
+        {
+            //TODO: доработать функционал проверка/и отмены удаления
+
+            DataRow row =
+                ZonesWrapper.CurrentTable().Table.Rows.Find(currentItem.Id);
+            row["f_deleted"] = CommonHelper.BoolToString(true);
+
+            return true;
+        }
+
         protected override BaseModelResult GetResult()
         {
             return new BaseModelResult { Id = CurrentItem.Id, Name = CurrentItem.Name };
@@ -399,6 +451,17 @@ namespace SupRealClient.Views
                 });
         }
 
+        public override bool Remove()
+        {
+            //TODO: доработать функционал проверка/и отмены удаления
+
+            DataRow row =
+                OrganizationsWrapper.CurrentTable().Table.Rows.Find(currentItem.Id);
+            row["f_deleted"] = CommonHelper.BoolToString(true);
+
+            return true;
+        }
+
         protected override BaseModelResult GetResult()
         {
             return new BaseModelResult { Id = CurrentItem.Id, Name = CurrentItem.Name };
@@ -474,6 +537,17 @@ namespace SupRealClient.Views
                         arg => arg.Field<int>("f_region_id") ==
                         orgs.Field<int>("f_region_id"))["f_region_name"].ToString()
                 });
+        }
+
+        public override bool Remove()
+        {
+            //TODO: доработать функционал, для проверок отмены удаления
+
+            DataRow row =
+                OrganizationsWrapper.CurrentTable().Table.Rows.Find(currentItem.Id);
+            row["f_deleted"] = CommonHelper.BoolToString(true);
+
+            return true;
         }
 
         protected override BaseModelResult GetResult()
@@ -564,6 +638,17 @@ namespace SupRealClient.Views
                         p.IdCard == c.Field<int>("f_card_id"))?
                         .PersonName.ToString())
                 });
+        }
+
+        public override bool Remove()
+        {
+            //TODO: доработать функционал, для проверок отмены удаления
+
+            DataRow row =
+                CardsWrapper.CurrentTable().Table.Rows.Find(currentItem.Id);
+            row["f_deleted"] = CommonHelper.BoolToString(true);
+
+            return true;
         }
 
         protected override BaseModelResult GetResult()
@@ -708,6 +793,17 @@ namespace SupRealClient.Views
             base.DoQuery();
             Set = new ObservableCollection<T>(Set.Where(arg => arg.State.ToUpper() == "АКТИВЕН"));
         }
+
+        public override bool Remove()
+        {
+            //TODO: доработать функционал, для проверок отмены удаления
+
+            //DataRow row =
+            //    CardsWrapper.CurrentTable().Table.Rows.Find(currentItem.Id);
+            //row["f_deleted"] = CommonHelper.BoolToString(true);
+
+            return true;
+        }
     }
 
     public class AreasListModel<T> : Base4ModelAbstr<T>
@@ -780,6 +876,17 @@ namespace SupRealClient.Views
                     row.Descript = desc.Descript;
                 }
             }
+        }
+
+        public override bool Remove()
+        {
+            //TODO: доработать функционал, для проверок отмены удаления
+
+            DataRow row =
+                AreasWrapper.CurrentTable().Table.Rows.Find(currentItem.Id);
+            row["f_deleted"] = CommonHelper.BoolToString(true);
+
+            return true;
         }
 
         protected override BaseModelResult GetResult()
@@ -866,6 +973,17 @@ namespace SupRealClient.Views
            });
         }
 
+        public override bool Remove()
+        {
+            //TODO: доработать функционал, для проверок отмены удаления
+
+            DataRow row =
+                AreasSpacesWrapper.CurrentTable().Table.Rows.Find(currentItem.Id);
+            row["f_deleted"] = CommonHelper.BoolToString(true);
+
+            return true;
+        }
+
         protected override BaseModelResult GetResult()
         {
             return new BaseModelResult { Id = CurrentItem.Id, Name = CurrentItem.Id.ToString() };
@@ -946,6 +1064,17 @@ namespace SupRealClient.Views
             }
         }
 
+        public override bool Remove()
+        {
+            //TODO: доработать функционал, для проверок отмены удаления
+
+            DataRow row =
+                AccessPointsWrapper.CurrentTable().Table.Rows.Find(currentItem.Id);
+            row["f_deleted"] = CommonHelper.BoolToString(true);
+
+            return true;
+        }
+
         protected override BaseModelResult GetResult()
         {
             return new BaseModelResult { Id = CurrentItem.Id, Name = CurrentItem.Name };
@@ -1006,6 +1135,17 @@ namespace SupRealClient.Views
                Name = keys.Field<string>("f_key_name"),
                Descript = keys.Field<string>("f_key_description")
            });
+        }
+
+        public override bool Remove()
+        {
+            //TODO: доработать функционал, для проверок отмены удаления
+
+            DataRow row =
+                KeysWrapper.CurrentTable().Table.Rows.Find(currentItem.Id);
+            row["f_deleted"] = CommonHelper.BoolToString(true);
+
+            return true;
         }
 
         protected override BaseModelResult GetResult()
@@ -1096,6 +1236,17 @@ namespace SupRealClient.Views
                     row.Descript = desc.Descript;
                 }
             }
+        }
+
+        public override bool Remove()
+        {
+            //TODO: доработать функционал, для проверок отмены удаления
+
+            DataRow row =
+                SchedulesWrapper.CurrentTable().Table.Rows.Find(currentItem.Id);
+            row["f_deleted"] = CommonHelper.BoolToString(true);
+
+            return true;
         }
 
         protected override BaseModelResult GetResult()
@@ -1189,6 +1340,17 @@ namespace SupRealClient.Views
            });
         }
 
+        public override bool Remove()
+        {
+            //TODO: доработать функционал, для проверок отмены удаления
+
+            DataRow row =
+                AccessLevelWrapper.CurrentTable().Table.Rows.Find(currentItem.Id);
+            row["f_deleted"] = CommonHelper.BoolToString(true);
+
+            return true;
+        }
+
         protected override BaseModelResult GetResult()
         {
             return new BaseModelResult { Id = CurrentItem.Id, Name = CurrentItem.Id.ToString() };
@@ -1250,6 +1412,17 @@ namespace SupRealClient.Views
                VisitorId = cars.Field<int>("f_visitor_id"),
                Color = cars.Field<string>("f_color")
            });
+        }
+
+        public override bool Remove()
+        {
+            //TODO: доработать функционал, для проверок отмены удаления
+
+            DataRow row =
+                CarsWrapper.CurrentTable().Table.Rows.Find(currentItem.Id);
+            row["f_deleted"] = CommonHelper.BoolToString(true);
+
+            return true;
         }
 
         protected override BaseModelResult GetResult()
@@ -1321,6 +1494,17 @@ namespace SupRealClient.Views
            });
         }
 
+        public override bool Remove()
+        {
+            //TODO: доработать функционал, для проверок отмены удаления
+
+            DataRow row =
+                EquipmentWrapper.CurrentTable().Table.Rows.Find(currentItem.Id);
+            row["f_deleted"] = CommonHelper.BoolToString(true);
+
+            return true;
+        }
+
         protected override BaseModelResult GetResult()
         {
             return new BaseModelResult { Id = CurrentItem.Id, Name = CurrentItem.Name };
@@ -1367,6 +1551,17 @@ select new T
 });
         }
 
+        public override bool Remove()
+        {
+            //TODO: доработать функционал, для проверок отмены удаления
+
+            DataRow row =
+                KeyCasesWrapper.CurrentTable().Table.Rows.Find(currentItem.Id);
+            row["f_deleted"] = CommonHelper.BoolToString(true);
+
+            return true;
+        }
+
         protected override BaseModelResult GetResult()
         {
             return new BaseModelResult { Id = CurrentItem.Id, Name = CurrentItem.InnerCode };
@@ -1408,6 +1603,17 @@ select new T
     Descript = keyHolder.Field<string>("f_descript"),
     Count = keyHolder.Field<int>("f_count")
 });
+        }
+
+        public override bool Remove()
+        {
+            //TODO: доработать функционал, для проверок отмены удаления
+
+            DataRow row =
+                KeyHoldersWrapper.CurrentTable().Table.Rows.Find(currentItem.Id);
+            row["f_deleted"] = CommonHelper.BoolToString(true);
+
+            return true;
         }
 
         protected override BaseModelResult GetResult()

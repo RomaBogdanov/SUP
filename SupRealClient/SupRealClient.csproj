@@ -44,6 +44,10 @@
     <Reference Include="Microsoft.Expression.Interactions, Version=4.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <HintPath>..\packages\System.Windows.Interactivity.WPF.2.0.20525\lib\net40\Microsoft.Expression.Interactions.dll</HintPath>
     </Reference>
+    <Reference Include="RegulaLib, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\3rdPart\RegulaLib.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Configuration" />
     <Reference Include="System.Data" />
@@ -196,6 +200,7 @@
     <Compile Include="ViewModels\DocumentImagesViewModel.cs" />
     <Compile Include="ViewModels\FullNameViewModel.cs" />
     <Compile Include="Models\Bids\NewBidsModel.cs" />
+    <Compile Include="EnumerationClasses\OrderType.cs" />
     <Compile Include="ViewModels\SynonimViewModel.cs" />
     <Compile Include="ViewModels\VisitorsDocumentViewModel.cs" />
     <Compile Include="ViewModels\Base3ViewModel.cs" />
@@ -425,6 +430,9 @@
     </Compile>
     <Compile Include="Views\VisitorsPassTabView.xaml.cs">
       <DependentUpon>VisitorsPassTabView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\RegulaView.xaml.cs">
+      <DependentUpon>RegulaView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\VisitorsView1.xaml.cs">
       <DependentUpon>VisitorsView1.xaml</DependentUpon>
@@ -824,6 +832,10 @@
     <Page Include="Views\VisitorsPassTabView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\RegulaView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
     </Page>
     <Page Include="Views\VisitorsView1.xaml">
       <Generator>MSBuild:Compile</Generator>
