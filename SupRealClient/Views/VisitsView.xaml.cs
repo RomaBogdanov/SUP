@@ -63,7 +63,8 @@ namespace SupRealClient.Views
         private IWindow view;
         private int selectedMainDocument = -1;
         private int selectedDocument = -1;
-	    private const string _nameDocument_PhotoImageType = "Личная фотография";
+        private int selectedCard = -1;
+        private const string _nameDocument_PhotoImageType = "Личная фотография";
 	    private const string _nameDocument_SignatureImageType = "Личная подпись";
 	    private bool _visibleButton_OpenDocument_InRedactMode = false;
 	    private bool _enableButton_OpenDocument_InRedactMode = false;
@@ -241,6 +242,16 @@ namespace SupRealClient.Views
                 OnPropertyChanged();
 	            OnPropertyChanged(nameof(SelectedDocument));
 				Change_ButtonEnable();
+            }
+        }
+
+        public int SelectedCard
+        {
+            get { return selectedCard; }
+            set
+            {
+                selectedCard = value;
+                OnPropertyChanged();
             }
         }
 
@@ -622,7 +633,11 @@ namespace SupRealClient.Views
 
         private void Return()
         {
-            var window = new ReturnBid();
+            var window = new ReturnBid()
+            {
+                DataContext = new ReturnBidViewModel(SelectedCard >= 0 ?
+                    CurrentItem.Cards[SelectedCard] : null)
+            };
 
             window.ShowDialog();
         }

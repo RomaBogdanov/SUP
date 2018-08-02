@@ -33,6 +33,7 @@
             Grid.Row="1"
             Grid.Column="0"
             Grid.ColumnSpan="3"
+            Text="{Binding Path=Number, Mode=TwoWay}"
             Style="{StaticResource TextBoxStyle}"/>
 
         <Button
