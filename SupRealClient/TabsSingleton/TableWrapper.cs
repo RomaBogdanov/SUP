@@ -4,9 +4,11 @@ using System.Collections.ObjectModel;
 using System.Data;
 using System.Linq;
 using System.Security.AccessControl;
+using System.Windows.Forms;
 using SupClientConnectionLib;
 using SupRealClient.Common;
 using SupRealClient.EnumerationClasses;
+using SupRealClient.ViewModels;
 
 namespace SupRealClient.TabsSingleton
 {
@@ -326,7 +328,7 @@ namespace SupRealClient.TabsSingleton
                         from row in OrderElementsWrapper.CurrentTable().Table.AsEnumerable()
                         where row.Field<int>("f_ord_id") == ords.Field<int>("f_ord_id") &&
                               CommonHelper.NotDeleted(row)
-                        select new OrderElement
+                        select new OrderElement((OrderType) ords.Field<int>("f_order_type_id") == OrderType.Single)
                         {
 							Id = row.Field<int>("f_oe_id"),
 	                        OrderId = row.Field<int>("f_ord_id"),
@@ -403,8 +405,9 @@ namespace SupRealClient.TabsSingleton
             ObservableCollection<OrderElement> orderElements = 
                 new ObservableCollection<OrderElement>(
                     from ordEls in OrderElementsWrapper.CurrentTable().Table.AsEnumerable() 
-                    where  ordEls.Field<int>("f_ord_id") != 0 && CommonHelper.NotDeleted(ordEls)
-                    select new OrderElement
+					join order in OrdersWrapper.CurrentTable().Table.AsEnumerable() on ordEls.Field<int>("f_ord_id") equals order.Field<int>("f_ord_id")
+					where  ordEls.Field<int>("f_ord_id") != 0 && CommonHelper.NotDeleted(ordEls)
+                    select new OrderElement((OrderType)(order.Field<int>("f_order_type_id")) == OrderType.Single)
                     {
                         Id = ordEls.Field<int>("f_oe_id"),
                         OrderId = ordEls.Field<int>("f_ord_id"),

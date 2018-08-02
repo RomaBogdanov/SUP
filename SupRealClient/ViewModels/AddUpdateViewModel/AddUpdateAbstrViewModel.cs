@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Runtime.CompilerServices;
+using System.Windows;
 using System.Windows.Input;
 using SupRealClient.Annotations;
 using SupRealClient.Models.AddUpdateModel;
@@ -118,15 +119,17 @@ namespace SupRealClient.ViewModels.AddUpdateViewModel
         public ICommand UpdateZones { get; set; }
 
 	    private OrderElement CurrentOrderElement => CurrentItem as OrderElement;
-	    public AddUpdateBidsViewModel() : base()
-        {
-            ChooseVisitor = new RelayCommand(arg => VisitorNameCommand());
-			ChooseOrganization = new RelayCommand(arg => OrganizationNameCommand());
-            ChooseCatcher = new RelayCommand(arg => CatcherNameCommand());
-            UpdateZones = new RelayCommand(arg => UpdateZonesCommand());
-        }
 
-        private void VisitorNameCommand()
+	    public AddUpdateBidsViewModel(AddUpdateAbstrModel model) : base()
+	    {
+		    Model = model;
+			ChooseVisitor = new RelayCommand(arg => VisitorNameCommand());
+		    ChooseOrganization = new RelayCommand(arg => OrganizationNameCommand());
+		    ChooseCatcher = new RelayCommand(arg => CatcherNameCommand());
+		    UpdateZones = new RelayCommand(arg => UpdateZonesCommand());
+		}
+
+		private void VisitorNameCommand()
         {
             VisitorsModelResult result = ViewManager.Instance.OpenWindowModal(
                 "VisitorsListWindViewOk", null) as VisitorsModelResult;
@@ -198,7 +201,21 @@ namespace SupRealClient.ViewModels.AddUpdateViewModel
 
             CurrentOrderElement.Passes = st.Remove(st.Length - 2);
         }
-    }
+
+	    protected override void OkCommand()
+	    {
+		    if (string.IsNullOrEmpty(CurrentOrderElement.Visitor) ||
+		        string.IsNullOrEmpty(CurrentOrderElement.Position) ||
+		        string.IsNullOrEmpty(CurrentOrderElement.Catcher) ||
+		        string.IsNullOrEmpty(CurrentOrderElement.Organization))
+		    {
+			    MessageBox.Show("Не все поля заполнены", "Ошибка");
+				return;
+		    }
+
+			base.OkCommand();
+	    }
+	}
 
     public class AddUpdateZonesToBidViewModel : AddUpdateBaseViewModel
     {

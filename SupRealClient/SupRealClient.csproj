@@ -94,6 +94,7 @@
       <DependentUpon>AndoverTestView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Andover\AndoverTestViewModel.cs" />
+    <Compile Include="Behaviour\BoolToGridRowHeightConverter.cs" />
     <Compile Include="Behaviour\BoolToStringConverter.cs" />
     <Compile Include="Behaviour\DataGridTextSearch.cs" />
     <Compile Include="Behaviour\DialogService.cs" />

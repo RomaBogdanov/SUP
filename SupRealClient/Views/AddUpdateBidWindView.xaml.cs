@@ -13,6 +13,7 @@ using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
 using System.ComponentModel;
 using  SupRealClient;
+using SupRealClient.Behaviour;
 using SupRealClient.Models.AddUpdateModel;
 
 namespace SupRealClient.Views
@@ -67,7 +68,7 @@ namespace SupRealClient.Views
         {
             if (e.Key == Key.Enter)
             {
-                dpDateFrom.Focus();
+                dpTimeFrom.Focus();
                 e.Handled = true;
             }
         }

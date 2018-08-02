@@ -209,12 +209,45 @@ namespace SupRealClient.EnumerationClasses
 	    private const int DefaultFromHour = 9;
 	    private const int DefaultToHour = 18;
 
-	    public OrderElement()
+		/// <summary>
+		/// Конструктор элемента заявки
+		/// </summary>
+		/// <param name="isTimeEditable">Может ли пользователь изменять время заявки</param>
+	    public OrderElement(bool isTimeEditable)
 	    {
-			DateTime nowDateTime = DateTime.Now;
-			From = new DateTime(nowDateTime.Year,nowDateTime.Month,nowDateTime.Day,DefaultFromHour, 00, 00);
-		    To = new DateTime(nowDateTime.Year, nowDateTime.Month, nowDateTime.Day, DefaultToHour, 00, 00);
+		    IsDateTimeDisplayed = isTimeEditable;
+	    }
+
+		/// <summary>
+		/// Конструктор элемента заявки
+		/// </summary>
+		/// <param name="isTimeEditable">Может ли пользователь изменять время заявки</param>
+		/// <param name="from">Начало действия</param>
+		/// <param name="to">Конец действия</param>
+		public OrderElement(bool isTimeEditable, DateTime from, DateTime to) : this(isTimeEditable)
+	    {
+		    if (isTimeEditable)
+		    {
+			    From = new DateTime(from.Year, from.Month, from.Day, DefaultFromHour, 00, 00);
+			    To = new DateTime(to.Year, to.Month, to.Day, DefaultToHour, 00, 00);
+		    }
+		    else
+		    {
+			    From = from;
+			    To = to;
+		    }
 		}
+
+		/// <summary>
+		/// Задать границы времени для OrderElement 
+		/// </summary>
+		/// <param name="isTimeEditable">Доступно ли пользователю редактирование времени</param>
+		/// <param name="from">Начало действия</param>
+		/// <param name="to">Конец действия</param>
+	    public void SetAndBlockDates(bool isTimeEditable, DateTime from, DateTime to)
+	    {
+		   
+	    }
 
         /// <summary>
         /// Уникальный номер заявки
@@ -339,9 +372,14 @@ namespace SupRealClient.EnumerationClasses
                 catcher = value;
                 OnPropertyChanged();
             }
-        } 
+        }
 
-        private DateTime from = DateTime.MinValue;
+		/// <summary>
+		/// Заблокировано ли для изменений время
+		/// </summary>
+		public bool IsDateTimeDisplayed { get; private set; } = true;
+
+		private DateTime from = DateTime.MinValue;
         public DateTime From
         {
             get { return from;}
