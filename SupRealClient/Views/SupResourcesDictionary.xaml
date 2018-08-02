@@ -4,7 +4,7 @@
     <converters:HeaderToCurrentColumnConverter x:Key="HeaderToCurrentColumnConverter" />
     <converters:SearchValueConverter x:Key="SearchValueConverter" />
     <converters:SupDateConverter x:Key="SupDateConverter" />
-    <Style TargetType="{x:Type DataGrid}">
+	<Style TargetType="{x:Type DataGrid}">
         <Setter Property="IsReadOnly">
             <Setter.Value>True</Setter.Value>
         </Setter>
