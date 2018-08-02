@@ -243,6 +243,11 @@ namespace SupRealClient.TabsSingleton
             row["f_date_from"] = order.From;
             row["f_date_to"] = order.To;
             row["f_signed_by"] = order.SignedId;
+            row["f_rec_date"] = order.RecDate;
+            row["f_rec_operator"] = order.RecOperatorID;
+            row["f_new_rec_date"] = order.NewRecDate;
+            row["f_new_rec_operator"] = order.NewRecOperatorID;
+            row["f_barcode"] = order.BarCode;
             row["f_adjusted_with"] = order.AgreeId;
             row["f_notes"] = order.Note;
             row["f_disabled"] = order.IsDisable ? "Y" : "N";
@@ -269,6 +274,11 @@ namespace SupRealClient.TabsSingleton
             row["f_date_from"] = order.From;
             row["f_date_to"] = order.To;
             row["f_signed_by"] = order.SignedId;
+	    row["f_rec_date"] = order.RecDate;
+            row["f_rec_operator"] = order.RecOperatorID;
+            row["f_new_rec_date"] = order.NewRecDate;
+            row["f_new_rec_operator"] = order.NewRecOperatorID;
+            row["f_barcode"] = order.BarCode;
             row["f_adjusted_with"] = order.AgreeId;
             row["f_notes"] = order.Note;
             row["f_disabled"] = "N"; // todo: судя по всему, поле показывает, что заявка неактивна.
@@ -315,11 +325,15 @@ namespace SupRealClient.TabsSingleton
                     Id = ords.Field<int>("f_ord_id"),
                     Number = ords.Field<int>("f_reg_number"),
                     TypeId = ords.Field<int>("f_order_type_id"),
-                    OrderDate = ords.Field<DateTime>("f_ord_date"),
-                    From = ords.Field<DateTime>("f_date_from"),
-                    To = ords.Field<DateTime>("f_date_to"),
+                    OrderDate = ords.Field<DateTime?>("f_ord_date"),
+                    From = ords.Field<DateTime?>("f_date_from"),
+                    To = ords.Field<DateTime?>("f_date_to"),
                     SignedId = ords.Field<int>("f_signed_by"),
-                    AgreeId = ords.Field<int>("f_adjusted_with"),
+	            RecDate = ords.Field<DateTime?>("f_rec_date"),
+	            RecOperatorID = ords.Field<int>("f_rec_operator"),
+	            NewRecDate = ords.Field<DateTime?>("f_new_rec_date"),
+	            NewRecOperatorID = ords.Field<int>("f_new_rec_operator"),
+		    AgreeId = ords.Field<int>("f_adjusted_with"),
                     Note = ords.Field<string>("f_notes"),
                     IsDisable = ords.Field<string>("f_disabled").ToUpper() == "Y" ? true : false,
                     OrderElements = new ObservableCollection<OrderElement>(
@@ -332,9 +346,8 @@ namespace SupRealClient.TabsSingleton
                             OrderId = row.Field<int>("f_ord_id"),
                             VisitorId = row.Field<int>("f_visitor_id"),
                             CatcherId = row.Field<int>("f_catcher_id"),
-                            From = row.Field<DateTime>("f_time_from"),
-                            To = row.Field<DateTime>("f_time_to"),
-                            RecDate = row.Field<DateTime>("f_rec_date"),
+                            From = row.Field<DateTime?>("f_time_from"),
+                            To = row.Field<DateTime?>("f_time_to"),
                             IsDisable = row.Field<string>("f_disabled").ToUpper() == "Y" ? true : false,
                             Passes = row.Field<string>("f_passes")
                         })
@@ -358,7 +371,6 @@ namespace SupRealClient.TabsSingleton
             row["f_time_to"] = orderElement.To;
             row["f_passes"] = orderElement.Passes;
             row["f_disabled"] = orderElement.IsDisable ? "Y" : "N";
-            row["f_rec_date"] = orderElement.RecDate;
             row["f_not_remaind"] = "N";//todo: разобраться
             row["f_full_role"] = "N";//todo: разобраться
             row["f_other_org"] = "";//todo: разобраться
@@ -387,7 +399,6 @@ namespace SupRealClient.TabsSingleton
             row["f_time_to"] = orderElement.To;
             row["f_passes"] = orderElement.Passes;
             row["f_disabled"] = orderElement.IsDisable ? "Y" : "N";
-            row["f_rec_date"] = orderElement.RecDate;
             row["f_not_remaind"] = "N";//todo: разобраться
             row["f_full_role"] = "N";//todo: разобраться
             row["f_other_org"] = "";//todo: разобраться
@@ -409,7 +420,6 @@ namespace SupRealClient.TabsSingleton
                         CatcherId = ordEls.Field<int>("f_catcher_id"),
                         From = ordEls.Field<DateTime>("f_time_from"),
                         To = ordEls.Field<DateTime>("f_time_to"),
-			    RecDate = ordEls.Field<DateTime>("f_rec_date"),
                         IsDisable = ordEls.Field<string>("f_disabled").ToUpper() == "Y" ? true : false,
                         Passes = ordEls.Field<string>("f_passes")
                     });

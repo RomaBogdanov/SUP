@@ -1,8 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Data;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
@@ -11,7 +8,6 @@ using System.Collections.Specialized;
 using System.Text.RegularExpressions;
 using SupRealClient.Annotations;
 using SupRealClient.TabsSingleton;
-using SupRealClient.Common;
 
 namespace SupRealClient.EnumerationClasses
 {
@@ -110,14 +106,18 @@ namespace SupRealClient.EnumerationClasses
         /// <summary>
         /// Дата подачи заявки.
         /// </summary>
-        public DateTime OrderDate { get; set; }
-        public DateTime From { get; set; }
-        public DateTime To { get; set; }
+        public DateTime? OrderDate { get; set; }
+        public DateTime? From { get; set; }
+        public DateTime? To { get; set; }
 		
-        public DateTime EditingDatetime { get; set; }
-	public DateTime CreatingDatetime { get; set; }
-        
-        public int CatcherId { get; set; } = 0; // Id провожающего
+        public DateTime? RecDate { get; set; }
+        public int RecOperatorID { get; set; }
+	public string RecOperator { get; set; }
+	public DateTime? NewRecDate { get; set; }
+        public int NewRecOperatorID { get; set; }
+	public string NewRecOperator { get; set; }
+	public string BarCode { get; set; }
+	public int CatcherId { get; set; } = 0; // Id провожающего
         public string Catcher { get; set; } = ""; // провожающий
         
         public string OrderType { get; set; } = ""; // тип заявки
@@ -299,8 +299,8 @@ namespace SupRealClient.EnumerationClasses
             }
         } // сопровождающий
 
-        private DateTime from= DateTime.MinValue;
-        public DateTime From
+        private DateTime? from= DateTime.MinValue;
+        public DateTime? From
         {
             get { return from;}
             set
@@ -310,9 +310,9 @@ namespace SupRealClient.EnumerationClasses
             }
         }
 
-        private DateTime to = DateTime.MinValue;
+        private DateTime? to = DateTime.MinValue;
 
-        public DateTime To
+        public DateTime? To
         {
             get { return to;}
             set
@@ -321,18 +321,6 @@ namespace SupRealClient.EnumerationClasses
                 OnPropertyChanged();
             }
         }
-	    private DateTime recDate = DateTime.MinValue;
-
-	    public DateTime RecDate
-	    {
-		    get { return recDate; }
-		    set
-		    {
-			    recDate = value;
-			    OnPropertyChanged();
-		    }
-	    }
-
 	    private string passes = "";
 
         public string Passes
