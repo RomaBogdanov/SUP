@@ -12,7 +12,6 @@ if DB_ID('Visitors') is not null
 	drop database Visitors;
 create database Visitors
 COLLATE Cyrillic_General_CI_AS
-GO;
 go
 
 use Visitors;
