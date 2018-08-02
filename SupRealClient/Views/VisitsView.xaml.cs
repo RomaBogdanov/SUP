@@ -1647,7 +1647,8 @@ namespace SupRealClient.Views
                 Set[index].Cards = new ObservableCollection<Card2>(
                     from card in CardsWrapper.CurrentTable().Table.AsEnumerable()
                     join visit in VisitsWrapper.CurrentTable().Table.AsEnumerable()
-                    on card.Field<int>("f_card_id") equals visit.Field<int>("f_card_id")
+                    on new { a = card.Field<int>("f_object_id_hi"), b = card.Field<int>("f_object_id_lo") }
+                    equals new { a = visit.Field<int>("f_card_id_hi"), b = visit.Field<int>("f_card_id_lo") }
                     where visit.Field<int>("f_visitor_id") == Set[index].Id
                     select new Card2
                     {
