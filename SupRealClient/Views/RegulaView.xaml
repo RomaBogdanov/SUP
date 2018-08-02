@@ -1,0 +1,177 @@
+﻿<mah:MetroWindow
+	x:Class="SupRealClient.Views.RegulaView"
+	xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+	xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+	xmlns:converters="clr-namespace:SupRealClient.Behaviour"
+	xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+	xmlns:gl="clr-namespace:System.Globalization;assembly=mscorlib"
+	xmlns:mah="http://metro.mahapps.com/winfx/xaml/controls"
+	xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+	xmlns:wpfx="http://schemas.xceed.com/wpf/xaml/toolkit"
+	Title="Посетитель"
+	Width="800"
+	Height="400"
+	ResizeMode="NoResize"
+	mc:Ignorable="d">
+
+	<mah:MetroWindow.InputBindings>
+		<KeyBinding Key="Escape" Command="{Binding CancelCommand}" />
+	</mah:MetroWindow.InputBindings>
+
+	<mah:MetroWindow.Resources>
+		<ResourceDictionary>
+			<ResourceDictionary.MergedDictionaries>
+				<ResourceDictionary Source="SupResourcesDictionary.xaml" />
+			</ResourceDictionary.MergedDictionaries>
+			<BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter" />
+			<converters:InverseBooleanConverter x:Key="InverseBooleanConverter" />
+		</ResourceDictionary>
+	</mah:MetroWindow.Resources>
+
+	<Grid>
+		<Grid.ColumnDefinitions>
+			<ColumnDefinition Width="*" />
+			<ColumnDefinition Width="5" />
+			<ColumnDefinition Width="*" />
+		</Grid.ColumnDefinitions>
+		<Image
+			x:Name="DocumentPageImage"
+			Grid.Column="0"
+			x:FieldModifier="private" />
+
+		<Grid Grid.Column="2">
+			<Grid.RowDefinitions>
+				<RowDefinition Height="Auto" />
+				<RowDefinition Height="130" />
+				<RowDefinition Height="80" />
+			</Grid.RowDefinitions>
+			<Grid.ColumnDefinitions>
+				<ColumnDefinition Width="150" />
+				<ColumnDefinition Width="*" />
+			</Grid.ColumnDefinitions>
+
+			<Image
+				x:Name="PortraitImage"
+				Grid.Row="0"
+				Grid.Column="0"
+				Width="140"
+				Height="160"
+				x:FieldModifier="private" />
+
+			<StackPanel
+				Grid.Row="0"
+				Grid.Column="1"
+				VerticalAlignment="Center">
+				<TextBlock
+					x:Name="SurnameTextBlock"
+					HorizontalAlignment="Left"
+					x:FieldModifier="private"
+					Style="{StaticResource TextBLockStyle}" />
+				<TextBlock
+					x:Name="NameTextBlock"
+					HorizontalAlignment="Left"
+					x:FieldModifier="private"
+					Style="{StaticResource TextBLockStyle}" />
+				<TextBlock
+					x:Name="PatronymicTextBlock"
+					HorizontalAlignment="Left"
+					x:FieldModifier="private"
+					Style="{StaticResource TextBLockStyle}" />
+			</StackPanel>
+
+			<StackPanel
+				Grid.Row="1"
+				Grid.Column="1"
+				VerticalAlignment="Center">
+				<TextBlock
+					x:Name="DocumentTypeTextBlock"
+					HorizontalAlignment="Left"
+					x:FieldModifier="private"
+					Style="{StaticResource TextBLockStyle}" />
+				<TextBlock
+					x:Name="DocumentNumberTextBlock"
+					HorizontalAlignment="Left"
+					x:FieldModifier="private"
+					Style="{StaticResource TextBLockStyle}" />
+				<TextBlock
+					x:Name="DocumentDeliveryPlaceTextBlock"
+					HorizontalAlignment="Left"
+					x:FieldModifier="private"
+					Style="{StaticResource TextBLockStyle}" />
+			</StackPanel>
+
+			<StackPanel
+				Grid.Row="1"
+				Grid.Column="0"
+				VerticalAlignment="Center">
+				<Ellipse
+					x:Name="CorrectionIndicatorEllipse"
+					Width="50"
+					Height="50"
+					x:FieldModifier="private"
+					Fill="#51ff0000" />
+				<TextBlock
+					x:Name="CorrectionIndicatorText"
+					HorizontalAlignment="Center"
+					x:FieldModifier="private"
+					FontSize="12" />
+			</StackPanel>
+
+			<UniformGrid
+				Grid.Row="2"
+				Grid.Column="0"
+				Grid.ColumnSpan="2"
+				Rows="1">
+				<Button
+					x:Name="ConfirmButton"
+					Margin="2"
+					x:FieldModifier="private"
+					IsEnabled="{Binding Path=VisitorsEnable.AcceptButtonEnable, Mode=TwoWay}"
+					Style="{StaticResource VisitorsSquareButtonStyle}"
+					Visibility="{Binding Path=VisitorsVisible.AcceptButtonEnable, Converter={StaticResource BooleanToVisibilityConverter}}">
+					<Grid>
+						<Grid.RowDefinitions>
+							<RowDefinition />
+							<RowDefinition Height="0.4*" />
+						</Grid.RowDefinitions>
+
+						<Image Grid.Row="0" Source="../Resources/Принять (2).ico" />
+
+						<TextBlock
+							Grid.Row="1"
+							FontSize="12"
+							Style="{StaticResource TextBLockStyle}"
+							Text="Принять" />
+					</Grid>
+				</Button>
+
+				<Button
+					x:Name="CancelButton"
+					Margin="2"
+					x:FieldModifier="private"
+					IsEnabled="{Binding Path=VisitorsEnable.CancelButtonEnable, Mode=TwoWay}"
+					Style="{StaticResource VisitorsSquareButtonStyle}"
+					Visibility="{Binding Path=VisitorsVisible.CancelButtonEnable, Converter={StaticResource BooleanToVisibilityConverter}}">
+					<Grid>
+						<Grid.RowDefinitions>
+							<RowDefinition />
+							<RowDefinition Height="0.4*" />
+						</Grid.RowDefinitions>
+
+						<Image Grid.Row="0" Source="../Resources/Отмена (2).ico" />
+
+						<TextBlock
+							Grid.Row="1"
+							FontSize="12"
+							Style="{StaticResource TextBLockStyle}"
+							Text="Отмена" />
+					</Grid>
+				</Button>
+			</UniformGrid>
+
+
+		</Grid>
+
+	</Grid>
+</mah:MetroWindow>
+

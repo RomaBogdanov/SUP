@@ -323,7 +323,12 @@ namespace SupRealClient.Models
         /// </summary>
         public void DeletePerson()
         {
-            UpdateVisitor.IsDeleted = true;
+	        if (UpdateVisitor == null)
+	        {
+			return;
+	        }
+
+	        UpdateVisitor.IsDeleted = true;
             CurrentSingleOrder.OrderElements.Remove(UpdateVisitor);
         }
 

@@ -109,6 +109,9 @@ namespace SupRealClient.EnumerationClasses
         public DateTime OrderDate { get; set; }
         public DateTime From { get; set; }
         public DateTime To { get; set; }
+		
+        public DateTime EditingDatetime { get; set; }
+	public DateTime CreatingDatetime { get; set; }
         
         public int CatcherId { get; set; } = 0; // Id провожающего
         public string Catcher { get; set; } = ""; // провожающий
@@ -420,6 +423,7 @@ namespace SupRealClient.EnumerationClasses
                 OnPropertyChanged();
             }
         }
+	    private DateTime recDate = DateTime.MinValue;
 	    public DateTime ToDate
 	    {
 		    get => To.Date;
@@ -439,7 +443,17 @@ namespace SupRealClient.EnumerationClasses
 		    }
 	    }
 
-        private string passes = "";
+	    public DateTime RecDate
+	    {
+		    get { return recDate; }
+		    set
+		    {
+			    recDate = value;
+			    OnPropertyChanged();
+		    }
+	    }
+
+	    private string passes = "";
 
         public string Passes
         {
@@ -456,7 +470,18 @@ namespace SupRealClient.EnumerationClasses
         /// </summary>
         public bool IsDisable { get; set; }
 
-        public event PropertyChangedEventHandler PropertyChanged;
+	    public bool IsBlock { get; set; }
+	    private string blockingNote;
+	    public string BlockingNote
+	    {
+		    get { return blockingNote; }
+		    set
+		    {
+			    blockingNote = value;
+			    OnPropertyChanged();
+		    }
+	    }
+		public event PropertyChangedEventHandler PropertyChanged;
 
         [NotifyPropertyChangedInvocator]
         protected virtual void OnPropertyChanged([CallerMemberName] string propertyName = null)

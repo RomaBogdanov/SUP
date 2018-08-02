@@ -17,6 +17,8 @@ using SupRealClient.Models.AddUpdateModel;
 using SupRealClient.ViewModels.AddUpdateViewModel;
 using SupRealClient.Views.AddUpdateView;
 using System.Collections;
+using System.Windows.Data;
+using System.ComponentModel;
 
 namespace SupRealClient.Views
 {
@@ -24,6 +26,8 @@ namespace SupRealClient.Views
     {
         public event ModelPropertyChanged OnModelPropertyChanged;
         public event Action<object> OnClose;
+
+        public Action ScrollCurrentItem { get; set; }
 
         public IWindow Parent { get; set; }
 
@@ -41,8 +45,30 @@ namespace SupRealClient.Views
             {
                 set = value;
                 OnModelPropertyChanged?.Invoke("Set");
+                OnModelPropertyChanged?.Invoke("CollectionView");
             }
         }
+
+        private CollectionView _collectionView = null;
+        public virtual CollectionView CollectionView
+        {
+            get
+            {
+                _collectionView = (CollectionView)CollectionViewSource.GetDefaultView(Set);
+                if (_collectionView != null && CurrentColumn != null)
+                {
+                    ListSortDirection oSortDirection = ListSortDirection.Ascending;
+                    if (CurrentColumn.SortDirection != null)
+                        oSortDirection = (ListSortDirection)CurrentColumn.SortDirection;
+                    _collectionView.SortDescriptions.Clear();
+                    _collectionView.SortDescriptions.Add(new SortDescription(CurrentColumn.SortMemberPath, oSortDirection));                    
+                }
+                return _collectionView;
+            }
+        }
+
+        public delegate void ScrollIntoViewDelegateSignature();
+        public virtual ScrollIntoViewDelegateSignature ScrollIntoViewCurrentItem { get; set; }
 
         public virtual T CurrentItem
         {
@@ -81,7 +107,7 @@ namespace SupRealClient.Views
             }
         }
         public virtual void Prev()
-        {
+        {            
             if (Set.Count > 0)
             {
                 if (SelectedIndex > 0)
@@ -103,6 +129,7 @@ namespace SupRealClient.Views
                 {
                     SelectedIndex++;
                     CurrentItem = Set[SelectedIndex];
+
                 }
             }
             else
@@ -141,26 +168,33 @@ namespace SupRealClient.Views
 
         protected void Query()
         {
+            ListSortDirection? memSort = CurrentColumn?.SortDirection ?? ListSortDirection.Ascending;
             int oldIndex = SelectedIndex;
 
             int memCount = -1;
-            if (Set != null)
-                memCount = Set.Count - 1;
+            if (CollectionView != null)
+                memCount = CollectionView.Count - 1;
 
             DoQuery();
 
-            if (oldIndex >= 0 && oldIndex < Set.Count - 1 && memCount == Set.Count - 1)
+            if (CurrentColumn != null)
+            {
+                CurrentColumn.SortDirection = memSort;
+            }
+
+            if (oldIndex >= 0 && oldIndex < CollectionView.Count - 1 && memCount == CollectionView.Count - 1)
             {
                 SelectedIndex = oldIndex;
-                CurrentItem = Set[SelectedIndex];
+                CurrentItem = (T)CollectionView.GetItemAt(SelectedIndex);
             }
-            else if (memCount != Set.Count - 1)
-            {                
-                CurrentItem = Set[Set.Count - 1];
+            else if (memCount != CollectionView.Count - 1 && Set.Count > 0)
+            {               
+                if (CollectionView.MoveCurrentTo(Set[Set.Count - 1]))
+                    CurrentItem = (T)CollectionView.CurrentItem;
             }
-            else if (Set.Count > 0)
+            else if (CollectionView.Count > 0)
             {                
-                CurrentItem = Set[0];
+                CurrentItem = (T)CollectionView.GetItemAt(0);
             }
             OnModelPropertyChanged?.Invoke("CurrentItem");
         }
@@ -185,9 +219,16 @@ namespace SupRealClient.Views
             {
                 if ((Set.ElementAt(i) as IdEntity).Id == id)
                 {
-                    CurrentItem = Set.ElementAt(i);
-                    OnModelPropertyChanged?.Invoke("CurrentItem");
-                    break;
+                    //CurrentItem = Set.ElementAt(i);
+                    //OnModelPropertyChanged?.Invoke("CurrentItem");
+                    //break;
+                    if (CollectionView.MoveCurrentTo(Set.ElementAt(i)))
+                    {
+                        CurrentItem = (T)CollectionView.CurrentItem;
+                        OnModelPropertyChanged?.Invoke("CurrentItem");
+                        ScrollCurrentItem?.Invoke();
+                        break;
+                    }
                 }
             }
         }
@@ -320,6 +361,17 @@ namespace SupRealClient.Views
                 });
         }
 
+        public override bool Remove()
+        {
+            //TODO: доработать функционал проверка/и отмены удаления
+
+            DataRow row =
+                ZonesWrapper.CurrentTable().Table.Rows.Find(currentItem.Id);
+            row["f_deleted"] = CommonHelper.BoolToString(true);
+
+            return true;
+        }
+
         protected override BaseModelResult GetResult()
         {
             return new BaseModelResult { Id = CurrentItem.Id, Name = CurrentItem.Name };
@@ -399,6 +451,17 @@ namespace SupRealClient.Views
                 });
         }
 
+        public override bool Remove()
+        {
+            //TODO: доработать функционал проверка/и отмены удаления
+
+            DataRow row =
+                OrganizationsWrapper.CurrentTable().Table.Rows.Find(currentItem.Id);
+            row["f_deleted"] = CommonHelper.BoolToString(true);
+
+            return true;
+        }
+
         protected override BaseModelResult GetResult()
         {
             return new BaseModelResult { Id = CurrentItem.Id, Name = CurrentItem.Name };
@@ -474,6 +537,17 @@ namespace SupRealClient.Views
                         arg => arg.Field<int>("f_region_id") ==
                         orgs.Field<int>("f_region_id"))["f_region_name"].ToString()
                 });
+        }
+
+        public override bool Remove()
+        {
+            //TODO: доработать функционал, для проверок отмены удаления
+
+            DataRow row =
+                OrganizationsWrapper.CurrentTable().Table.Rows.Find(currentItem.Id);
+            row["f_deleted"] = CommonHelper.BoolToString(true);
+
+            return true;
         }
 
         protected override BaseModelResult GetResult()
@@ -566,6 +640,17 @@ namespace SupRealClient.Views
                 });
         }
 
+        public override bool Remove()
+        {
+            //TODO: доработать функционал, для проверок отмены удаления
+
+            DataRow row =
+                CardsWrapper.CurrentTable().Table.Rows.Find(currentItem.Id);
+            row["f_deleted"] = CommonHelper.BoolToString(true);
+
+            return true;
+        }
+
         protected override BaseModelResult GetResult()
         {
             return new BaseModelResult { Id = CurrentItem.Id, Name = CurrentItem.ReceiversName };
@@ -649,8 +734,10 @@ namespace SupRealClient.Views
                     {
                         list.Add(new CardArea
                         {
-                            AreaId = orderElementArea.Id,
-                            CardId = (int)row["f_card_id"]
+                            AreaIdHi = orderElementArea.ObjectIdHi,
+                            AreaIdLo = orderElementArea.ObjectIdLo,
+                            CardIdHi = (int)row["f_card_id_hi"],
+                            CardIdLo = (int)row["f_card_id_lo"]
                         }); 
                     }
                 }
@@ -658,8 +745,10 @@ namespace SupRealClient.Views
             list.ForEach(arg =>
             {
                 DataRow r = CardAreaWrapper.CurrentTable().Table.NewRow();
-                r["f_card_id"] = arg.CardId;
-                r["f_area_id"] = arg.AreaId;
+                r["f_card_id_hi"] = arg.CardIdHi;
+                r["f_card_id_lo"] = arg.CardIdLo;
+                r["f_area_id_hi"] = arg.AreaIdHi;
+                r["f_area_id_lo"] = arg.AreaIdLo;
                 r["f_deleted"] = "N";
                 r["f_rec_date"] = DateTime.Now;
                 r["f_rec_operator"] = Authorizer.AppAuthorizer.Id;
@@ -704,6 +793,17 @@ namespace SupRealClient.Views
             base.DoQuery();
             Set = new ObservableCollection<T>(Set.Where(arg => arg.State.ToUpper() == "АКТИВЕН"));
         }
+
+        public override bool Remove()
+        {
+            //TODO: доработать функционал, для проверок отмены удаления
+
+            //DataRow row =
+            //    CardsWrapper.CurrentTable().Table.Rows.Find(currentItem.Id);
+            //row["f_deleted"] = CommonHelper.BoolToString(true);
+
+            return true;
+        }
     }
 
     public class AreasListModel<T> : Base4ModelAbstr<T>
@@ -721,7 +821,16 @@ namespace SupRealClient.Views
 
         public override void Add()
         {
-            AddUpdateAbstrModel model = new AddAreaModel();
+            if (MessageBox.Show(
+                "Данные будут выгружены из Andover. Старые данные будут удалены. Продолжить?",
+                "Внимание", MessageBoxButtons.YesNo) == DialogResult.Yes)
+            {
+            }
+        }
+
+        public override void Update()
+        {
+            AddUpdateAbstrModel model = new UpdateAreaModel(CurrentItem);
             AddUpdateBaseViewModel viewModel = new AddUpdateBaseViewModel
             {
                 Model = model
@@ -733,13 +842,18 @@ namespace SupRealClient.Views
             object res = view.WindowResult;
         }
 
-        public override void Update()
-        {
-            throw new NotImplementedException();
-        }
-
         protected override void DoQuery()
         {
+            var descriptions = new List<T>(
+                from areasext in AreasExtWrapper.CurrentTable().Table.AsEnumerable()
+                where !string.IsNullOrEmpty(areasext.Field<string>("f_description"))
+                select new T
+                {
+                    ObjectIdHi = areasext.Field<int>("f_object_id_hi"),
+                    ObjectIdLo = areasext.Field<int>("f_object_id_lo"),
+                    Descript = areasext.Field<string>("f_description")
+                });
+
             Set = new ObservableCollection<T>(
                 from areas in Table.AsEnumerable()
                 where areas.Field<int>("f_area_id") != 0 &&
@@ -748,8 +862,31 @@ namespace SupRealClient.Views
                 {
                     Id = areas.Field<int>("f_area_id"),
                     Name = areas.Field<string>("f_area_name"),
-                    Descript = areas.Field<string>("f_area_descript")
+                    ObjectIdHi = areas.Field<int>("f_object_id_hi"),
+                    ObjectIdLo = areas.Field<int>("f_object_id_lo"),
+                    Descript = null
                 });
+
+            foreach (var desc in descriptions)
+            {
+                var row = Set.FirstOrDefault(r => r.ObjectIdHi == desc.ObjectIdHi &&
+                    r.ObjectIdLo == desc.ObjectIdLo);
+                if (row != null)
+                {
+                    row.Descript = desc.Descript;
+                }
+            }
+        }
+
+        public override bool Remove()
+        {
+            //TODO: доработать функционал, для проверок отмены удаления
+
+            DataRow row =
+                AreasWrapper.CurrentTable().Table.Rows.Find(currentItem.Id);
+            row["f_deleted"] = CommonHelper.BoolToString(true);
+
+            return true;
         }
 
         protected override BaseModelResult GetResult()
@@ -783,7 +920,7 @@ namespace SupRealClient.Views
         public override void Add()
         {
             AddUpdateAbstrModel model = new AddAreaSpaceModel();
-            AddUpdateBaseViewModel viewModel = new AddUpdateBaseViewModel
+            AddUpdateBaseViewModel viewModel = new AddUpdateAreaSpaceViewModel
             {
                 Model = model
             };
@@ -796,7 +933,16 @@ namespace SupRealClient.Views
 
         public override void Update()
         {
-            throw new NotImplementedException();
+            AddUpdateAbstrModel model = new UpdateAreaSpaceModel(CurrentItem);
+            AddUpdateBaseViewModel viewModel = new AddUpdateAreaSpaceViewModel
+            {
+                Model = model
+            };
+            AddUpdateAreaSpaceWindView view = new AddUpdateAreaSpaceWindView();
+            view.DataContext = viewModel;
+            model.OnClose += view.Handling_OnClose;
+            view.ShowDialog();
+            object res = view.WindowResult;
         }
 
         protected override void DoQuery()
@@ -807,23 +953,40 @@ namespace SupRealClient.Views
            select new T
            {
                Id = arsp.Field<int>("f_area_space_id"),
-               AreaId = arsp.Field<int>("f_area_id"),
-               SpaceId = arsp.Field<int>("f_space_id")
+               AreaIdHi = arsp.Field<int>("f_area_id_hi"),
+               AreaIdLo = arsp.Field<int>("f_area_id_lo"),
+               Area = (arsp.Field<int>("f_area_id_hi") == 0 &&
+                    arsp.Field<int>("f_area_id_lo") == 0) ?
+                    "" : AreasWrapper.CurrentTable()
+                    .Table.AsEnumerable().FirstOrDefault(
+                    arg => arg.Field<int>("f_object_id_hi") ==
+                    arsp.Field<int>("f_area_id_hi") &&
+                    arg.Field<int>("f_object_id_lo") ==
+                    arsp.Field<int>("f_area_id_lo")
+                    )["f_area_name"].ToString(),
+               SpaceId = arsp.Field<int>("f_space_id"),
+               Space = arsp.Field<int>("f_space_id") == 0 ?
+                    "" : SpacesWrapper.CurrentTable()
+                    .Table.AsEnumerable().FirstOrDefault(
+                    arg => arg.Field<int>("f_space_id") ==
+                    arsp.Field<int>("f_space_id"))["f_num_real"].ToString(),
            });
+        }
+
+        public override bool Remove()
+        {
+            //TODO: доработать функционал, для проверок отмены удаления
+
+            DataRow row =
+                AreasSpacesWrapper.CurrentTable().Table.Rows.Find(currentItem.Id);
+            row["f_deleted"] = CommonHelper.BoolToString(true);
+
+            return true;
         }
 
         protected override BaseModelResult GetResult()
         {
             return new BaseModelResult { Id = CurrentItem.Id, Name = CurrentItem.Id.ToString() };
-        }
-
-        public override IDictionary<string, string> GetFields()
-        {
-            return new Dictionary<string, string>
-            {
-                { "AreaId", "Область доступа" },
-                { "SpaceId", "Помещение" }
-            };
         }
     }
 
@@ -842,7 +1005,16 @@ namespace SupRealClient.Views
 
         public override void Add()
         {
-            AddUpdateAbstrModel model = new AddAccessPointModel();
+            if (MessageBox.Show(
+                "Данные будут выгружены из Andover. Старые данные будут удалены. Продолжить?",
+                "Внимание", MessageBoxButtons.YesNo) == DialogResult.Yes)
+            {
+            }
+        }
+
+        public override void Update()
+        {
+            AddUpdateAbstrModel model = new UpdateAccessPointModel(CurrentItem);
             AddUpdateBaseViewModel viewModel = new AddUpdateBaseViewModel
             {
                 Model = model
@@ -854,13 +1026,18 @@ namespace SupRealClient.Views
             object res = view.WindowResult;
         }
 
-        public override void Update()
-        {
-            throw new NotImplementedException();
-        }
-
         protected override void DoQuery()
         {
+            var descriptions = new List<T>(
+                from accpntext in AccessPointsExtWrapper.CurrentTable().Table.AsEnumerable()
+                where !string.IsNullOrEmpty(accpntext.Field<string>("f_description"))
+                select new T
+                {
+                    ObjectIdHi = accpntext.Field<int>("f_object_id_hi"),
+                    ObjectIdLo = accpntext.Field<int>("f_object_id_lo"),
+                    Descript = accpntext.Field<string>("f_description")
+                });
+
             Set = new ObservableCollection<T>(
                 from accpnt in Table.AsEnumerable()
                 where accpnt.Field<int>("f_access_point_id") != 0 &&
@@ -869,10 +1046,33 @@ namespace SupRealClient.Views
                 {
                     Id = accpnt.Field<int>("f_access_point_id"),
                     Name = accpnt.Field<string>("f_access_point_name"),
-                    Descript = accpnt.Field<string>("f_access_point_description"),
                     SpaceIn = accpnt.Field<string>("f_access_point_space_in"),
-                    SpaceOut = accpnt.Field<string>("f_access_point_space_out")
+                    SpaceOut = accpnt.Field<string>("f_access_point_space_out"),
+                    ObjectIdHi = accpnt.Field<int>("f_object_id_hi"),
+                    ObjectIdLo = accpnt.Field<int>("f_object_id_lo"),
+                    Descript = null
                 });
+
+            foreach (var desc in descriptions)
+            {
+                var row = Set.FirstOrDefault(r => r.ObjectIdHi == desc.ObjectIdHi &&
+                    r.ObjectIdLo == desc.ObjectIdLo);
+                if (row != null)
+                {
+                    row.Descript = desc.Descript;
+                }
+            }
+        }
+
+        public override bool Remove()
+        {
+            //TODO: доработать функционал, для проверок отмены удаления
+
+            DataRow row =
+                AccessPointsWrapper.CurrentTable().Table.Rows.Find(currentItem.Id);
+            row["f_deleted"] = CommonHelper.BoolToString(true);
+
+            return true;
         }
 
         protected override BaseModelResult GetResult()
@@ -937,6 +1137,17 @@ namespace SupRealClient.Views
            });
         }
 
+        public override bool Remove()
+        {
+            //TODO: доработать функционал, для проверок отмены удаления
+
+            DataRow row =
+                KeysWrapper.CurrentTable().Table.Rows.Find(currentItem.Id);
+            row["f_deleted"] = CommonHelper.BoolToString(true);
+
+            return true;
+        }
+
         protected override BaseModelResult GetResult()
         {
             return new BaseModelResult { Id = CurrentItem.Id, Name = CurrentItem.Name };
@@ -970,16 +1181,39 @@ namespace SupRealClient.Views
 
         public override void Add()
         {
-            throw new NotImplementedException();
+            if (MessageBox.Show(
+                "Данные будут выгружены из Andover. Старые данные будут удалены. Продолжить?",
+                "Внимание", MessageBoxButtons.YesNo) == DialogResult.Yes)
+            {
+            }
         }
 
         public override void Update()
         {
-            throw new NotImplementedException();
+            AddUpdateAbstrModel model = new UpdateScheduleModel(CurrentItem);
+            AddUpdateBaseViewModel viewModel = new AddUpdateBaseViewModel
+            {
+                Model = model
+            };
+            AddUpdateScheduleWindView view = new AddUpdateScheduleWindView();
+            view.DataContext = viewModel;
+            model.OnClose += view.Handling_OnClose;
+            view.ShowDialog();
+            object res = view.WindowResult;
         }
 
         protected override void DoQuery()
         {
+            var descriptions = new List<T>(
+                from schdext in SchedulesExtWrapper.CurrentTable().Table.AsEnumerable()
+                where !string.IsNullOrEmpty(schdext.Field<string>("f_description"))
+                select new T
+                {
+                    ObjectIdHi = schdext.Field<int>("f_object_id_hi"),
+                    ObjectIdLo = schdext.Field<int>("f_object_id_lo"),
+                    Descript = schdext.Field<string>("f_description")
+                });
+
             Set = new ObservableCollection<T>(
                 from schd in Table.AsEnumerable()
                 where schd.Field<int>("f_schedule_id") != 0 &&
@@ -988,13 +1222,36 @@ namespace SupRealClient.Views
                 {
                     Id = schd.Field<int>("f_schedule_id"),
                     Name = schd.Field<string>("f_schedule_name"),
-                    Descript = schd.Field<string>("f_schedule_description")
+                    ObjectIdHi = schd.Field<int>("f_object_id_hi"),
+                    ObjectIdLo = schd.Field<int>("f_object_id_lo"),
+                    Descript = null
                 });
+
+            foreach (var desc in descriptions)
+            {
+                var row = Set.FirstOrDefault(r => r.ObjectIdHi == desc.ObjectIdHi &&
+                    r.ObjectIdLo == desc.ObjectIdLo);
+                if (row != null)
+                {
+                    row.Descript = desc.Descript;
+                }
+            }
+        }
+
+        public override bool Remove()
+        {
+            //TODO: доработать функционал, для проверок отмены удаления
+
+            DataRow row =
+                SchedulesWrapper.CurrentTable().Table.Rows.Find(currentItem.Id);
+            row["f_deleted"] = CommonHelper.BoolToString(true);
+
+            return true;
         }
 
         protected override BaseModelResult GetResult()
         {
-            throw new NotImplementedException();
+            return new BaseModelResult { Id = CurrentItem.Id, Name = CurrentItem.Name };
         }
 
         public override IDictionary<string, string> GetFields()
@@ -1023,7 +1280,7 @@ namespace SupRealClient.Views
         public override void Add()
         {
             AddUpdateAbstrModel model = new AddAccessLevelModel();
-            AddUpdateBaseViewModel viewModel = new AddUpdateBaseViewModel
+            AddUpdateBaseViewModel viewModel = new AddUpdateAccessLevelViewModel
             {
                 Model = model
             };
@@ -1036,7 +1293,16 @@ namespace SupRealClient.Views
 
         public override void Update()
         {
-            throw new NotImplementedException();
+            AddUpdateAbstrModel model = new UpdateAccessLevelModel(CurrentItem);
+            AddUpdateBaseViewModel viewModel = new AddUpdateAccessLevelViewModel
+            {
+                Model = model
+            };
+            AddUpdateAccessLevelWindView view = new AddUpdateAccessLevelWindView();
+            view.DataContext = viewModel;
+            model.OnClose += view.Handling_OnClose;
+            view.ShowDialog();
+            object res = view.WindowResult;
         }
 
         protected override void DoQuery()
@@ -1048,10 +1314,41 @@ namespace SupRealClient.Views
            {
                Id = acclev.Field<int>("f_access_level_id"),
                Name = acclev.Field<string>("f_level_name"),
-               AreaId = acclev.Field<int>("f_area_id"),
-               ScheduleId = acclev.Field<int>("f_schedule_id"),
+               AreaIdHi = acclev.Field<int>("f_area_id_hi"),
+               AreaIdLo = acclev.Field<int>("f_area_id_lo"),
+               Area = (acclev.Field<int>("f_area_id_hi") == 0 &&
+                    acclev.Field<int>("f_area_id_lo") == 0) ?
+                    "" : AreasWrapper.CurrentTable()
+                    .Table.AsEnumerable().FirstOrDefault(
+                    arg => arg.Field<int>("f_object_id_hi") ==
+                    acclev.Field<int>("f_area_id_hi") &&
+                    arg.Field<int>("f_object_id_lo") ==
+                    acclev.Field<int>("f_area_id_lo")
+                    )["f_area_name"].ToString(),
+               ScheduleIdHi = acclev.Field<int>("f_schedule_id_hi"),
+               ScheduleIdLo = acclev.Field<int>("f_schedule_id_lo"),
+               Schedule = (acclev.Field<int>("f_schedule_id_hi") == 0 &&
+                    acclev.Field<int>("f_schedule_id_lo") == 0) ?
+                    "" : SchedulesWrapper.CurrentTable()
+                    .Table.AsEnumerable().FirstOrDefault(
+                    arg => arg.Field<int>("f_object_id_hi") ==
+                    acclev.Field<int>("f_schedule_id_hi") &&
+                    arg.Field<int>("f_object_id_lo") ==
+                    acclev.Field<int>("f_schedule_id_lo")
+                    )["f_schedule_name"].ToString(),
                AccessLevelNote = acclev.Field<string>("f_access_level_note")
            });
+        }
+
+        public override bool Remove()
+        {
+            //TODO: доработать функционал, для проверок отмены удаления
+
+            DataRow row =
+                AccessLevelWrapper.CurrentTable().Table.Rows.Find(currentItem.Id);
+            row["f_deleted"] = CommonHelper.BoolToString(true);
+
+            return true;
         }
 
         protected override BaseModelResult GetResult()
@@ -1063,9 +1360,7 @@ namespace SupRealClient.Views
         {
             return new Dictionary<string, string>
             {
-                { "AreaId", "Область доступа" },
                 { "Name", "Название" },
-                { "ScheduleId", "Расписание" },
                 { "AccessLevelNote", "Описание уровня доступа" }
             };
         }
@@ -1117,6 +1412,17 @@ namespace SupRealClient.Views
                VisitorId = cars.Field<int>("f_visitor_id"),
                Color = cars.Field<string>("f_color")
            });
+        }
+
+        public override bool Remove()
+        {
+            //TODO: доработать функционал, для проверок отмены удаления
+
+            DataRow row =
+                CarsWrapper.CurrentTable().Table.Rows.Find(currentItem.Id);
+            row["f_deleted"] = CommonHelper.BoolToString(true);
+
+            return true;
         }
 
         protected override BaseModelResult GetResult()
@@ -1188,6 +1494,17 @@ namespace SupRealClient.Views
            });
         }
 
+        public override bool Remove()
+        {
+            //TODO: доработать функционал, для проверок отмены удаления
+
+            DataRow row =
+                EquipmentWrapper.CurrentTable().Table.Rows.Find(currentItem.Id);
+            row["f_deleted"] = CommonHelper.BoolToString(true);
+
+            return true;
+        }
+
         protected override BaseModelResult GetResult()
         {
             return new BaseModelResult { Id = CurrentItem.Id, Name = CurrentItem.Name };
@@ -1234,6 +1551,17 @@ select new T
 });
         }
 
+        public override bool Remove()
+        {
+            //TODO: доработать функционал, для проверок отмены удаления
+
+            DataRow row =
+                KeyCasesWrapper.CurrentTable().Table.Rows.Find(currentItem.Id);
+            row["f_deleted"] = CommonHelper.BoolToString(true);
+
+            return true;
+        }
+
         protected override BaseModelResult GetResult()
         {
             return new BaseModelResult { Id = CurrentItem.Id, Name = CurrentItem.InnerCode };
@@ -1275,6 +1603,17 @@ select new T
     Descript = keyHolder.Field<string>("f_descript"),
     Count = keyHolder.Field<int>("f_count")
 });
+        }
+
+        public override bool Remove()
+        {
+            //TODO: доработать функционал, для проверок отмены удаления
+
+            DataRow row =
+                KeyHoldersWrapper.CurrentTable().Table.Rows.Find(currentItem.Id);
+            row["f_deleted"] = CommonHelper.BoolToString(true);
+
+            return true;
         }
 
         protected override BaseModelResult GetResult()

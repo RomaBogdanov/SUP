@@ -9,6 +9,8 @@
         Title="{Binding Path=Caption, Mode=OneTime}" Height="350" Width="300">
     <Grid>
         <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="4*"/>
+            <ColumnDefinition Width="2*"/>
             <ColumnDefinition Width="1*"/>
             <ColumnDefinition Width="1*"/>
         </Grid.ColumnDefinitions>
@@ -25,25 +27,45 @@
             <RowDefinition/>
         </Grid.RowDefinitions>
         <TextBlock 
-            Grid.ColumnSpan="2"
-            Text="Id области доступа:" 
+            Grid.ColumnSpan="4"
+            Text="Область доступа:" 
             FontSize="{Binding FontSize}"
             HorizontalAlignment="Left"
             Style="{StaticResource TextBLockStyle}"/>
 
         <TextBox 
             Grid.Row="1" 
-            Text="{Binding CurrentItem.AreaId, Mode=TwoWay}"
+            Text="{Binding Area, Mode=TwoWay}"
             Grid.Column="0"
             Grid.ColumnSpan="2" 
             Margin="2"
             TabIndex="2"
+            IsReadOnly="True"
             FontSize="{Binding FontSize}"
             Style="{StaticResource TextBoxStyle}"
             KeyUp="TextBox_OnKeyUp"/>
 
+        <Button
+            Command="{Binding AreaCommand}"
+            Grid.Row="1"
+            Grid.Column="2"
+            Content="..."
+            TabIndex="3"
+            Margin="2"
+            Style="{StaticResource ButtonStyle}"/>
+
+        <Button
+            Command="{Binding ClearCommand}"
+            CommandParameter="Area"
+            Grid.Row="1"
+            Grid.Column="3"
+            Content="X"
+            TabIndex="4"
+            Margin="2"
+            Style="{StaticResource ButtonStyle}"/>
+
         <TextBlock 
-            Grid.ColumnSpan="2"
+            Grid.ColumnSpan="4"
             Grid.Row="2"
             Text="Название:" 
             FontSize="{Binding FontSize}"
@@ -53,18 +75,18 @@
         <TextBox 
             Grid.Row="3" 
             Grid.Column="0"
-            Grid.ColumnSpan="2" 
+            Grid.ColumnSpan="4" 
             Margin="2"
-            TabIndex="2"
+            TabIndex="5"
             FontSize="{Binding FontSize}"
             Text="{Binding Path=CurrentItem.Name, Mode=TwoWay}"
             Style="{StaticResource TextBoxStyle}"
             KeyUp="TextBox_OnKeyUp"/>
 
         <TextBlock 
-            Grid.ColumnSpan="2"
+            Grid.ColumnSpan="4"
             Grid.Row="4"
-            Text="Id расписания:" 
+            Text="Расписание:" 
             FontSize="{Binding FontSize}"
             HorizontalAlignment="Left"
             Style="{StaticResource TextBLockStyle}"/>
@@ -74,14 +96,34 @@
             Grid.Column="0"
             Grid.ColumnSpan="2" 
             Margin="2"
-            TabIndex="2"
+            TabIndex="6"
+            IsReadOnly="True"
             FontSize="{Binding FontSize}"
-            Text="{Binding Path=CurrentItem.ScheduleId, Mode=TwoWay}"
+            Text="{Binding Path=Schedule, Mode=TwoWay}"
             Style="{StaticResource TextBoxStyle}"
             KeyUp="TextBox_OnKeyUp"/>
 
+        <Button
+            Command="{Binding ScheduleCommand}"
+            Grid.Row="5"
+            Grid.Column="2"
+            Content="..."
+            TabIndex="7"
+            Margin="2"
+            Style="{StaticResource ButtonStyle}"/>
+
+        <Button
+            Command="{Binding ClearCommand}"
+            CommandParameter="Schedule"
+            Grid.Row="5"
+            Grid.Column="3"
+            Content="X"
+            TabIndex="8"
+            Margin="2"
+            Style="{StaticResource ButtonStyle}"/>
+
         <TextBlock 
-            Grid.ColumnSpan="2"
+            Grid.ColumnSpan="4"
             Grid.Row="6"
             Text="Примечание:" 
             FontSize="{Binding FontSize}"
@@ -91,9 +133,9 @@
         <TextBox 
             Grid.Row="7" 
             Grid.Column="0"
-            Grid.ColumnSpan="2" 
+            Grid.ColumnSpan="4" 
             Margin="2"
-            TabIndex="2"
+            TabIndex="9"
             FontSize="{Binding FontSize}"
             Text="{Binding Path=CurrentItem.AccessLevelNote, Mode=TwoWay}"
             Style="{StaticResource TextBoxStyle}"
@@ -104,7 +146,7 @@
             Grid.Column="0"
             Command="{Binding Path=Ok}"
             Margin="2"
-            TabIndex="9"
+            TabIndex="21"
             Style="{StaticResource ButtonStyle}">
             <Grid Width="140">
                 <Grid.ColumnDefinitions>
@@ -129,7 +171,7 @@
             Grid.Column="1" 
             Grid.ColumnSpan="3"
             Margin="2"
-            TabIndex="10"
+            TabIndex="22"
             Command="{Binding Path=Cancel}"
             Style="{StaticResource ButtonStyle}">
             <Grid Width="140">

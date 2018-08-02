@@ -29,7 +29,6 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Databases", "Databases", "{
 		Databases\CreateVisitorsLogs.sql = Databases\CreateVisitorsLogs.sql
 		Databases\StartCreatingDataBases.sql = Databases\StartCreatingDataBases.sql
 		Databases\StartCreatingDataBasesSQLCMD.sql = Databases\StartCreatingDataBasesSQLCMD.sql
-		Databases\Upgrade.sql = Databases\Upgrade.sql
 	EndProjectSection
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SupRealClient", "SupRealClient\SupRealClient.csproj", "{DA7906D0-D57E-4BC2-B4A9-8D0400AC1CA0}"

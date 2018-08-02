@@ -2,7 +2,6 @@
 using System.Collections.ObjectModel;
 using System.Data;
 using System.Linq;
-using System.Windows.Forms;
 using SupRealClient.Common.Interfaces;
 using SupRealClient.Views;
 using SupRealClient.EnumerationClasses;
@@ -65,6 +64,27 @@ namespace SupRealClient.Models.AddUpdateModel
         }
     }
 
+    public class UpdateSpaceModel : AddUpdateAbstrModel
+    {
+        public UpdateSpaceModel(Space space)
+        {
+            CurrentItem = space.Clone();
+        }
+
+        protected override void SaveResult()
+        {
+            DataRow row = SpacesWrapper.CurrentTable().Table.Rows.Find(((IdEntity)CurrentItem).Id);
+            row.BeginEdit();
+            row["f_num_real"] = ((Space)CurrentItem).NumReal;
+            row["f_num_build"] = ((Space)CurrentItem).NumBuild;
+            row["f_descript"] = ((Space)CurrentItem).Descript;
+            row["f_note"] = ((Space)CurrentItem).Note;
+            row["f_rec_date"] = DateTime.Now;
+            row["f_rec_operator"] = Authorizer.AppAuthorizer.Id;
+            row.EndEdit();
+        }
+    }
+
     public class AddDoorModel : AddUpdateAbstrModel
     {
         public AddDoorModel()
@@ -77,9 +97,10 @@ namespace SupRealClient.Models.AddUpdateModel
             DataRow row = DoorsWrapper.CurrentTable().Table.NewRow();
             row["f_door_num"] = ((Door)CurrentItem).DoorNum;
             row["f_descript"] = ((Door)CurrentItem).Descript;
-            row["f_space_in"] = ((Door)CurrentItem).SpaceIn;
-            row["f_space_out"] = ((Door)CurrentItem).SpaceOut;
-            row["f_access_point_id"] = ((Door)CurrentItem).AccessPointId;
+            row["f_space_in"] = ((Door)CurrentItem).SpaceInId;
+            row["f_space_out"] = ((Door)CurrentItem).SpaceOutId;
+            row["f_access_point_id_hi"] = ((Door)CurrentItem).AccessPointIdHi;
+            row["f_access_point_id_lo"] = ((Door)CurrentItem).AccessPointIdLo;
             row["f_deleted"] = "N";
             row["f_rec_date"] = DateTime.Now;
             row["f_rec_operator"] = Authorizer.AppAuthorizer.Id;
@@ -87,27 +108,69 @@ namespace SupRealClient.Models.AddUpdateModel
         }
     }
 
-    public class AddAreaModel : AddUpdateAbstrModel
+    public class UpdateDoorModel : AddUpdateAbstrModel
     {
-        public AddAreaModel()
+        public UpdateDoorModel(Door door)
         {
-            CurrentItem = new Area();
+            CurrentItem = door.Clone();
         }
 
         protected override void SaveResult()
         {
-            DataRow row = AreasWrapper.CurrentTable().Table.NewRow();
-            row["f_area_name"] = ((Area)CurrentItem).Name;
-            row["f_area_descript"] = ((Area)CurrentItem).Descript;
-            row["f_deleted"] = "N";
+            DataRow row = DoorsWrapper.CurrentTable().Table.Rows.Find(((IdEntity)CurrentItem).Id);
+            row.BeginEdit();
+            row["f_door_num"] = ((Door)CurrentItem).DoorNum;
+            row["f_descript"] = ((Door)CurrentItem).Descript;
+            row["f_space_in"] = ((Door)CurrentItem).SpaceInId;
+            row["f_space_out"] = ((Door)CurrentItem).SpaceOutId;
+            row["f_access_point_id_hi"] = ((Door)CurrentItem).AccessPointIdHi;
+            row["f_access_point_id_lo"] = ((Door)CurrentItem).AccessPointIdLo;
             row["f_rec_date"] = DateTime.Now;
             row["f_rec_operator"] = Authorizer.AppAuthorizer.Id;
-            row["f_object_id_hi"] = 0;
-            row["f_object_id_lo"] = 0;
-            row["f_area_controller"] = "";
-            row["f_area_path"] = "";
-            row["f_area_data"] = "";
-            AreasWrapper.CurrentTable().Table.Rows.Add(row);
+            row.EndEdit();
+        }
+    }
+
+    public class UpdateAreaModel : AddUpdateAbstrModel
+    {
+        public UpdateAreaModel(Area area)
+        {
+            CurrentItem = area.Clone();
+        }
+
+        protected override void SaveResult()
+        {
+            DataRow mainRow = AreasWrapper.CurrentTable().Table.Rows.Find(((IdEntity)CurrentItem).Id);
+
+            DataRow row = null;
+            foreach (DataRow r in AreasExtWrapper.CurrentTable().Table.Rows)
+            {
+                if (mainRow.Field<int>("f_object_id_hi") == r.Field<int>("f_object_id_hi") &&
+                    mainRow.Field<int>("f_object_id_lo") == r.Field<int>("f_object_id_lo"))
+                {
+                    row = r;
+                    break;
+                }
+            }
+            if (row == null)
+            {
+                row = AreasExtWrapper.CurrentTable().Table.NewRow();
+                row["f_object_id_hi"] = ((Area)CurrentItem).ObjectIdHi;
+                row["f_object_id_lo"] = ((Area)CurrentItem).ObjectIdLo;
+                row["f_description"] = ((Area)CurrentItem).Descript;
+                AreasExtWrapper.CurrentTable().Table.Rows.Add(row);
+            }
+            else
+            {
+                row.BeginEdit();
+                row["f_description"] = ((Area)CurrentItem).Descript;
+                row.EndEdit();
+            }
+
+            mainRow.BeginEdit();
+            mainRow["f_rec_date"] = DateTime.Now;
+            mainRow["f_rec_operator"] = Authorizer.AppAuthorizer.Id;
+            mainRow.EndEdit();
         }
     }
 
@@ -121,7 +184,8 @@ namespace SupRealClient.Models.AddUpdateModel
         protected override void SaveResult()
         {
             DataRow row = AreasSpacesWrapper.CurrentTable().Table.NewRow();
-            row["f_area_id"] = ((AreaSpace)CurrentItem).AreaId;
+            row["f_area_id_hi"] = ((AreaSpace)CurrentItem).AreaIdHi;
+            row["f_area_id_lo"] = ((AreaSpace)CurrentItem).AreaIdLo;
             row["f_space_id"] = ((AreaSpace)CurrentItem).SpaceId;
             row["f_deleted"] = "N";
             row["f_rec_date"] = DateTime.Now;
@@ -130,24 +194,66 @@ namespace SupRealClient.Models.AddUpdateModel
         }
     }
 
-    public class AddAccessPointModel : AddUpdateAbstrModel
+    public class UpdateAreaSpaceModel : AddUpdateAbstrModel
     {
-        public AddAccessPointModel()
+        public UpdateAreaSpaceModel(AreaSpace areaSpace)
         {
-            CurrentItem = new AccessPoint();
+            CurrentItem = areaSpace.Clone();
         }
 
         protected override void SaveResult()
         {
-            DataRow row = AccessPointsWrapper.CurrentTable().Table.NewRow();
-            row["f_access_point_name"] = ((AccessPoint)CurrentItem).Name;
-            row["f_access_point_description"] = ((AccessPoint)CurrentItem).Descript;
-            row["f_access_point_space_in"] = ((AccessPoint)CurrentItem).SpaceIn;
-            row["f_access_point_space_out"] = ((AccessPoint)CurrentItem).SpaceOut;
-            row["f_deleted"] = "N";
+            DataRow row = AreasSpacesWrapper.CurrentTable().Table.Rows.Find(((IdEntity)CurrentItem).Id);
+            row.BeginEdit();
+            row["f_area_id_hi"] = ((AreaSpace)CurrentItem).AreaIdHi;
+            row["f_area_id_lo"] = ((AreaSpace)CurrentItem).AreaIdLo;
+            row["f_space_id"] = ((AreaSpace)CurrentItem).SpaceId;
             row["f_rec_date"] = DateTime.Now;
             row["f_rec_operator"] = Authorizer.AppAuthorizer.Id;
-            AccessPointsWrapper.CurrentTable().Table.Rows.Add(row);
+            row.EndEdit();
+        }
+    }
+
+    public class UpdateAccessPointModel : AddUpdateAbstrModel
+    {
+        public UpdateAccessPointModel(AccessPoint accessPoint)
+        {
+            CurrentItem = accessPoint.Clone();
+        }
+
+        protected override void SaveResult()
+        {
+            DataRow mainRow = AccessPointsWrapper.CurrentTable().Table.Rows.Find(((IdEntity)CurrentItem).Id);
+
+            DataRow row = null;
+            foreach (DataRow r in AccessPointsExtWrapper.CurrentTable().Table.Rows)
+            {
+                if (mainRow.Field<int>("f_object_id_hi") == r.Field<int>("f_object_id_hi") &&
+                    mainRow.Field<int>("f_object_id_lo") == r.Field<int>("f_object_id_lo"))
+                {
+                    row = r;
+                    break;
+                }
+            }
+            if (row == null)
+            {
+                row = AccessPointsExtWrapper.CurrentTable().Table.NewRow();
+                row["f_object_id_hi"] = ((AccessPoint)CurrentItem).ObjectIdHi;
+                row["f_object_id_lo"] = ((AccessPoint)CurrentItem).ObjectIdLo;
+                row["f_description"] = ((AccessPoint)CurrentItem).Descript;
+                AccessPointsExtWrapper.CurrentTable().Table.Rows.Add(row);
+            }
+            else
+            {
+                row.BeginEdit();
+                row["f_description"] = ((AccessPoint)CurrentItem).Descript;
+                row.EndEdit();
+            }
+
+            mainRow.BeginEdit();
+            mainRow["f_rec_date"] = DateTime.Now;
+            mainRow["f_rec_operator"] = Authorizer.AppAuthorizer.Id;
+            mainRow.EndEdit();
         }
     }
 
@@ -183,14 +289,38 @@ namespace SupRealClient.Models.AddUpdateModel
         protected override void SaveResult()
         {
             DataRow row = AccessLevelWrapper.CurrentTable().Table.NewRow();
-            row["f_area_id"] = ((AccessLevel)CurrentItem).AreaId;
+            row["f_area_id_hi"] = ((AccessLevel)CurrentItem).AreaIdHi;
+            row["f_area_id_lo"] = ((AccessLevel)CurrentItem).AreaIdLo;
             row["f_level_name"] = ((AccessLevel)CurrentItem).Name;
-            row["f_schedule_id"] = ((AccessLevel)CurrentItem).ScheduleId;
+            row["f_schedule_id_hi"] = ((AccessLevel)CurrentItem).ScheduleIdHi;
+            row["f_schedule_id_lo"] = ((AccessLevel)CurrentItem).ScheduleIdLo;
             row["f_access_level_note"] = ((AccessLevel)CurrentItem).AccessLevelNote;
             row["f_deleted"] = "N";
             row["f_rec_date"] = DateTime.Now;
             row["f_rec_operator"] = Authorizer.AppAuthorizer.Id;
             AccessLevelWrapper.CurrentTable().Table.Rows.Add(row);
+        }
+    }
+
+    public class UpdateAccessLevelModel : AddUpdateAbstrModel
+    {
+        public UpdateAccessLevelModel(AccessLevel accessLevel)
+        {
+            CurrentItem = accessLevel.Clone();
+        }
+
+        protected override void SaveResult()
+        {
+            DataRow row = AccessLevelWrapper.CurrentTable().Table.Rows.Find(((IdEntity)CurrentItem).Id);
+            row.BeginEdit();
+            row["f_area_id_hi"] = ((AccessLevel)CurrentItem).AreaIdHi;
+            row["f_area_id_lo"] = ((AccessLevel)CurrentItem).AreaIdLo;
+            row["f_level_name"] = ((AccessLevel)CurrentItem).Name;
+            row["f_schedule_id_hi"] = ((AccessLevel)CurrentItem).ScheduleIdHi;
+            row["f_schedule_id_lo"] = ((AccessLevel)CurrentItem).ScheduleIdLo;
+            row["f_access_level_note"] = ((AccessLevel)CurrentItem).AccessLevelNote;
+            row["f_rec_date"] = DateTime.Now;
+            row.EndEdit();
         }
     }
 
@@ -238,6 +368,49 @@ namespace SupRealClient.Models.AddUpdateModel
             row["f_rec_date"] = DateTime.Now;
             row["f_rec_operator"] = Authorizer.AppAuthorizer.Id;
             EquipmentWrapper.CurrentTable().Table.Rows.Add(row);
+        }
+    }
+
+    public class UpdateScheduleModel : AddUpdateAbstrModel
+    {
+        public UpdateScheduleModel(Schedule schedule)
+        {
+            CurrentItem = schedule.Clone();
+        }
+
+        protected override void SaveResult()
+        {
+            DataRow mainRow = SchedulesWrapper.CurrentTable().Table.Rows.Find(((IdEntity)CurrentItem).Id);
+
+            DataRow row = null;
+            foreach (DataRow r in SchedulesExtWrapper.CurrentTable().Table.Rows)
+            {
+                if (mainRow.Field<int>("f_object_id_hi") == r.Field<int>("f_object_id_hi") &&
+                    mainRow.Field<int>("f_object_id_lo") == r.Field<int>("f_object_id_lo"))
+                {
+                    row = r;
+                    break;
+                }
+            }
+            if (row == null)
+            {
+                row = SchedulesExtWrapper.CurrentTable().Table.NewRow();
+                row["f_object_id_hi"] = ((Schedule)CurrentItem).ObjectIdHi;
+                row["f_object_id_lo"] = ((Schedule)CurrentItem).ObjectIdLo;
+                row["f_description"] = ((Schedule)CurrentItem).Descript;
+                SchedulesExtWrapper.CurrentTable().Table.Rows.Add(row);
+            }
+            else
+            {
+                row.BeginEdit();
+                row["f_description"] = ((Schedule)CurrentItem).Descript;
+                row.EndEdit();
+            }
+
+            mainRow.BeginEdit();
+            mainRow["f_rec_date"] = DateTime.Now;
+            mainRow["f_rec_operator"] = Authorizer.AppAuthorizer.Id;
+            mainRow.EndEdit();
         }
     }
 
