@@ -351,6 +351,8 @@ namespace SupRealClient.Views
 		    FindCommand = new RelayCommand(arg => Find());
 
 
+
+
 		    OpenDocumentCommand = new RelayCommand(arg => OpenDocument());
 		    AddDocumentCommand = new RelayCommand(arg => AddDocument());
 		    EditDocumentCommand = new RelayCommand(arg => EditDocument());
@@ -631,7 +633,8 @@ namespace SupRealClient.Views
         private void Edit()
         {
             Model = new EditVisitsModel(Set, CurrentItem);
-        }
+	        IsRedactMode = true;
+		}
 
         private void Find()
         {
