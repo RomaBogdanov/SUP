@@ -30,7 +30,7 @@ namespace SupRealClient.Views
 
 		private void ViewPersonInfo(CPerson person)
 		{
-			DocumentPageImage.Source = GetImage(person.PagesScanList[0]);
+			DocumentPageImage.Source = GetImage(person.PagesScanList[1]);
 
 			SurnameTextBlock.Text = person.Surname?.Value;
 			NameTextBlock.Text = person.Name?.Value;
