@@ -239,9 +239,9 @@ namespace SupRealClient.TabsSingleton
             order.Id = (int)row["f_ord_id"];
             row["f_reg_number"] = order.Number;
             row["f_order_type_id"] = order.TypeId;
-            row["f_ord_date"] = order.OrderDate;
-            row["f_date_from"] = order.From;
-            row["f_date_to"] = order.To;
+            row["f_ord_date"] = order.OrderDate == null ? DateTime.MinValue : order.OrderDate;
+            row["f_date_from"] = order.From == null ? DateTime.MinValue : order.From;
+            row["f_date_to"] = order.To == null ? DateTime.MinValue : order.To;
             row["f_signed_by"] = order.SignedId;
             row["f_rec_date"] = order.RecDate;
             row["f_rec_operator"] = order.RecOperatorID;
@@ -271,8 +271,8 @@ namespace SupRealClient.TabsSingleton
             row["f_reg_number"] = order.Number;
             row["f_order_type_id"] = order.TypeId;
             row["f_ord_date"] = DateTime.MinValue; //todo: доработать
-            row["f_date_from"] = order.From;
-            row["f_date_to"] = order.To;
+            row["f_date_from"] = order.From == null ? DateTime.MinValue : order.From;
+            row["f_date_to"] = order.To == null ? DateTime.MinValue : order.To;
             row["f_signed_by"] = order.SignedId;
 	    row["f_rec_date"] = order.RecDate;
             row["f_rec_operator"] = order.RecOperatorID;

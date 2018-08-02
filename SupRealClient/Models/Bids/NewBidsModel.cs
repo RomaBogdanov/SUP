@@ -24,20 +24,28 @@ namespace SupRealClient.Models
 			IsCanAddRows = true;
 			switch (OrderType)
 			{
-				case OrderType.Temp:
-					CurrentTemporaryOrder.TypeId = 2;
-					CurrentTemporaryOrder.From = DateTime.Now;
-					CurrentTemporaryOrder.To = DateTime.Now;
-					CurrentSingleOrder.RecDate = DateTime.Now;
-					CurrentSingleOrder.NewRecDate = DateTime.Now;
-					CurrentTemporaryOrder.Number = ++maxOrderNumber;
-					break;
 				case OrderType.Single:
 					CurrentSingleOrder.TypeId = 1;
 					CurrentSingleOrder.From = DateTime.Now;
 					CurrentSingleOrder.RecDate = DateTime.Now;
 					CurrentSingleOrder.NewRecDate = DateTime.Now;
 					CurrentSingleOrder.Number = ++maxOrderNumber;
+					break;
+				case OrderType.Temp:
+					CurrentTemporaryOrder.TypeId = 2;
+					CurrentTemporaryOrder.From = DateTime.Now;
+					CurrentTemporaryOrder.To = DateTime.Now;
+					CurrentTemporaryOrder.RecDate = DateTime.Now;
+					CurrentTemporaryOrder.NewRecDate = DateTime.Now;
+					CurrentTemporaryOrder.Number = ++maxOrderNumber;
+					break;
+				case OrderType.Virtue:
+					CurrentVirtueOrder.TypeId = 2;
+					CurrentVirtueOrder.From = DateTime.Now;
+					CurrentVirtueOrder.To = DateTime.Now;
+					CurrentVirtueOrder.RecDate = DateTime.Now;
+					CurrentVirtueOrder.NewRecDate = DateTime.Now;
+					CurrentVirtueOrder.Number = ++maxOrderNumber;
 					break;
 			}
 		}
