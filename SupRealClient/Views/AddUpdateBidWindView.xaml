@@ -38,6 +38,7 @@
             <RowDefinition Height="{Binding CurrentItem.IsDateTimeDisplayed,  Converter={StaticResource BoolToGridRowHeightConverter}}"/>
             <RowDefinition/>
             <RowDefinition/>
+            <RowDefinition/>
             <RowDefinition Height="2*"/>
         </Grid.RowDefinitions>
 
@@ -48,7 +49,7 @@
         <Button Name="btnSelectBid" TabIndex="0" Grid.Row="1" Grid.Column="2" Content="..." IsDefault="False"
                 Command="{Binding ChooseVisitor}" 
                 Style="{StaticResource ButtonStyle}"
-                PreviewKeyDown="btnSelectBid_PreviewKeyDown">                
+                KeyDown="btnSelectBid_PreviewKeyDown">                
         </Button>
         <Button TabIndex="1" Grid.Row="1" Grid.Column="3" Content="x" Style="{StaticResource ButtonStyle}"></Button>
 
@@ -57,80 +58,49 @@
         <Button Name="btnSelectOrganization" TabIndex="2" Grid.Row="3" Grid.Column="2" Content="..." 
                 Command="{Binding ChooseOrganization}" 
                 Style="{StaticResource ButtonStyle}"
-                PreviewKeyDown="btnSelectOrganization_PreviewKeyDown">
+                KeyDown="btnSelectOrganization_PreviewKeyDown">
         </Button>
         <Button TabIndex="3" Grid.Row="3" Grid.Column="3" Content="x" Style="{StaticResource ButtonStyle}"></Button>
 
         <TextBlock Grid.Row="4" Text="Должность" Grid.ColumnSpan="2" Style="{StaticResource TextBLockStyle}" HorizontalAlignment="Left"></TextBlock>
-        <TextBox Grid.Row="5" Grid.ColumnSpan="4" IsEnabled="True" Text="{Binding CurrentItem.Position, Mode=TwoWay}"  Style="{StaticResource TextBoxStyle}" Margin="2"></TextBox>
+        <TextBox TabIndex ="4" Grid.Row="5" Grid.ColumnSpan="4" IsEnabled="True" Text="{Binding CurrentItem.Position, Mode=TwoWay}"  Style="{StaticResource TextBoxStyle}" Margin="2"></TextBox>
 
         <TextBlock Grid.Row="6" Text="Принимающее лицо" Grid.ColumnSpan="2" Style="{StaticResource TextBLockStyle}" HorizontalAlignment="Left"></TextBlock>
         <TextBox Name="txtCatcher" Grid.Row="7" Grid.ColumnSpan="2" IsEnabled="False" Text="{Binding CurrentItem.Catcher, Mode=TwoWay}" Style="{StaticResource TextBoxStyle}" Margin="2"></TextBox>
-        <Button Name="btnSelectCatcher" TabIndex="2" Grid.Row="7" Grid.Column="2" Content="..." 
+        <Button Name="btnSelectCatcher" TabIndex="5" Grid.Row="7" Grid.Column="2" Content="..." 
                 Command="{Binding ChooseCatcher}" 
                 Style="{StaticResource ButtonStyle}"
-                PreviewKeyDown="btnSelectCatcher_PreviewKeyDown">            
+                KeyDown="btnSelectCatcher_PreviewKeyDown">            
         </Button>
-        <Button TabIndex="3" Grid.Row="7" Grid.Column="3" Content="x" Style="{StaticResource ButtonStyle}"></Button>
+        <Button TabIndex="6" Grid.Row="7" Grid.Column="3" Content="x" Style="{StaticResource ButtonStyle}"></Button>
 
         <TextBlock Grid.Row="8" Text="Время от.." Grid.ColumnSpan="2" Style="{StaticResource TextBLockStyle}" HorizontalAlignment="Left"></TextBlock>
-        <mah:TimePicker Name="dpTimeFrom" TabIndex="3" Grid.Row="9" Grid.ColumnSpan="2" Height="25" Margin="2"
-                        SelectedTime="{Binding CurrentItem.FromTime, Mode=TwoWay}">
-        </mah:TimePicker>
-        <!--
-        <DatePicker Name="dpDateFrom" TabIndex="4" Grid.Row="9" Grid.ColumnSpan="3" Grid.Column="1"
-                    SelectedDate="{Binding CurrentItem.FromDate, Mode=TwoWay}" Height="25" Margin="2"
-                    PreviewKeyDown="UIdef_KeyDown" IsEnabled="False">
-            <DatePicker.Resources>
-                <Style TargetType="{x:Type DatePickerTextBox}">
-                    <Setter Property="Control.Template">
-                        <Setter.Value>
-                            <ControlTemplate>
-                                <wpfx:MaskedTextBox x:Name="PART_TextBox" Mask="00/00/0000" 
-                                    Text="{ Binding Path=SelectedDate,ConverterCulture={x:Static gl:CultureInfo.CurrentCulture}, StringFormat=dd/MM/yyyy, RelativeSource={RelativeSource AncestorType={x:Type DatePicker}}}" />
-                            </ControlTemplate>
-                        </Setter.Value>
-                    </Setter>
-                </Style>
-            </DatePicker.Resources>
-        </DatePicker>
-        -->
+        <wpfx:TimePicker Name="dpTimeFrom" TabIndex="7" Grid.Row="9" Grid.ColumnSpan="4" Height="25" Margin="2"
+                         IsEnabled="{Binding CurrentItem.IsDateTimeDisplayed}" 
+                         Value="{Binding CurrentItem.FromTime, Mode=TwoWay}"
+                         TextAlignment="Center">
+        </wpfx:TimePicker>
 
         <TextBlock Grid.Row="10" Text="Время до.." Grid.ColumnSpan="2" Style="{StaticResource TextBLockStyle}" HorizontalAlignment="Left"></TextBlock>
-        <mah:TimePicker Name="dpTimeTo" TabIndex="3" Grid.Row="11" Grid.ColumnSpan="2" Height="25" Margin="2"
-                        SelectedTime="{Binding CurrentItem.ToTime, Mode=TwoWay}">
-        </mah:TimePicker>
-        <!--<DatePicker Name="dpDateTo" TabIndex="5" Grid.Row="11" Grid.ColumnSpan="3"  Grid.Column="1"
-                    SelectedDate="{Binding CurrentItem.ToDate, Mode=TwoWay}" Height="25" Margin="2"
-                    PreviewKeyDown="UIdef_KeyDown" IsEnabled="False">
-            <DatePicker.Resources>
-                <Style TargetType="{x:Type DatePickerTextBox}">
-                    <Setter Property="Control.Template">
-                        <Setter.Value>
-                            <ControlTemplate>
-                                <wpfx:MaskedTextBox x:Name="PART_TextBox" Mask="00/00/0000" 
-                                    Text="{ Binding Path=SelectedDate,ConverterCulture={x:Static gl:CultureInfo.CurrentCulture}, StringFormat=dd/MM/yyyy, RelativeSource={RelativeSource AncestorType={x:Type DatePicker}}}" />
-                            </ControlTemplate>
-                        </Setter.Value>
-                    </Setter>
-                </Style>
-            </DatePicker.Resources>
-        </DatePicker>
-        -->
+        <wpfx:TimePicker Name="dpTimeTo" TabIndex="8" Grid.Row="11" Grid.ColumnSpan="4" Height="25" Margin="2"
+                         IsEnabled="{Binding CurrentItem.IsDateTimeDisplayed}"  
+                         Value="{Binding CurrentItem.ToTime, Mode=TwoWay}"
+                         TextAlignment="Center">
+        </wpfx:TimePicker>
 
         <TextBlock Grid.Row="12" Text="Проходы" Grid.ColumnSpan="2" Style="{StaticResource TextBLockStyle}" HorizontalAlignment="Left"></TextBlock>
         <TextBox IsEnabled="False" Grid.Row="13" Grid.ColumnSpan="2" Text="{Binding CurrentItem.Passes, Mode=TwoWay}" Style="{StaticResource TextBoxStyle}" Margin="2"></TextBox>
-        <Button Name="btnSelectPass" TabIndex="6" Grid.Row="13" Grid.Column="2" Content="..." Style="{StaticResource ButtonStyle}" Command="{Binding UpdateZones}"
-                PreviewKeyDown="btnSelectPass_PreviewKeyDown">                
+        <Button Name="btnSelectPass" TabIndex="9" Grid.Row="13" Grid.Column="2" Content="..." Style="{StaticResource ButtonStyle}" Command="{Binding UpdateZones}"
+                KeyDown="btnSelectPass_PreviewKeyDown">                
         </Button>
-        <Button TabIndex="7" Grid.Row="13" Grid.Column="3" Content="x" Style="{StaticResource ButtonStyle}"></Button>
+        <Button TabIndex="10" Grid.Row="13" Grid.Column="3" Content="x" Style="{StaticResource ButtonStyle}"></Button>
 
         <TextBlock Grid.Row="14" Text="Не активен" Style="{StaticResource TextBLockStyle}" HorizontalAlignment="Left"></TextBlock>
-        <CheckBox Name="checkDisable" TabIndex="8" Grid.Row="14" Grid.Column="3" IsChecked="{Binding CurrentItem.IsDisable}"
+        <CheckBox Name="checkDisable" TabIndex="11" Grid.Row="14" Grid.Column="3" IsChecked="{Binding CurrentItem.IsDisable}"
                   PreviewKeyDown="UIdef_KeyDown">            
         </CheckBox>
 
-        <Button Name="btnOK" TabIndex="9" Grid.Row="15"
+        <Button Name="btnOK" TabIndex="12" Grid.Row="15"
                 Command="{Binding Ok}"
                 Style="{StaticResource ButtonStyle}">
             <Grid Width="140">
@@ -143,7 +113,7 @@
             </Grid>
         </Button>
 
-        <Button TabIndex="10" Grid.Row="15" Grid.Column="1" Grid.ColumnSpan="3"
+        <Button TabIndex="13" Grid.Row="15" Grid.Column="1" Grid.ColumnSpan="3"
                 Command="{Binding Cancel, Mode=TwoWay}"
                 Style="{StaticResource ButtonStyle}">
             <Grid Width="140">

@@ -228,14 +228,14 @@ namespace SupRealClient.EnumerationClasses
 	    {
 		    if (isTimeEditable)
 		    {
-			    From = new DateTime(from.Year, from.Month, from.Day, DefaultFromHour, 00, 00);
-			    To = new DateTime(to.Year, to.Month, to.Day, DefaultToHour, 00, 00);
+			    From = new DateTime(from.Year, from.Month, from.Day, DefaultFromHour, 0, 0);
+			    To = new DateTime(to.Year, to.Month, to.Day, DefaultToHour, 0, 0);
 		    }
 		    else
 		    {
-			    From = from;
-			    To = to;
-		    }
+			    From = new DateTime(from.Year, from.Month, from.Day, 0, 00, 00);
+				To = new DateTime(to.Year, to.Month, to.Day, 23, 59, 59);
+			}
 		}
 
 		/// <summary>
@@ -398,12 +398,12 @@ namespace SupRealClient.EnumerationClasses
 			    OnPropertyChanged();
 			}
 	    }
-	    public TimeSpan FromTime
+	    public DateTime FromTime
 	    {
-		    get => From.TimeOfDay;
+		    get => From;
 		    set
 		    {
-			    From = new DateTime(From.Year,From.Month,From.Day,value.Hours,value.Minutes,value.Seconds);
+			    From = new DateTime(From.Year,From.Month,From.Day,value.Hour,value.Minute,value.Second);
 				OnPropertyChanged();
 		    }
 	    }
@@ -429,12 +429,12 @@ namespace SupRealClient.EnumerationClasses
 			    OnPropertyChanged();
 			}
 	    }
-	    public TimeSpan ToTime
+	    public DateTime ToTime
 	    {
-		    get => To.TimeOfDay;
+		    get => To;
 		    set
 		    {
-				To = new DateTime(To.Year,To.Month,To.Day,value.Hours,value.Minutes,value.Seconds);
+				To = new DateTime(To.Year,To.Month,To.Day,value.Hour,value.Minute,value.Second);
 				OnPropertyChanged();
 		    }
 	    }

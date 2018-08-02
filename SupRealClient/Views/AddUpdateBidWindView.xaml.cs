@@ -26,7 +26,7 @@ namespace SupRealClient.Views
         /// <summary>
         /// Двигатель фокуса
         /// </summary>
-        private TraversalRequest _focusMover = new TraversalRequest(FocusNavigationDirection.Next);
+        private readonly TraversalRequest _focusMover = new TraversalRequest(FocusNavigationDirection.Next);
 
         public object WindowResult { get; set; }
 
@@ -103,52 +103,4 @@ namespace SupRealClient.Views
             }
         }
     }
-
-    /*
-    public class AddUpdateBidWindViewModel : INotifyPropertyChanged
-    {
-        public event PropertyChangedEventHandler PropertyChanged;
-        public void OnPropertyChanged(string prop = "")
-        {
-            if (PropertyChanged != null)
-                PropertyChanged(this, new PropertyChangedEventArgs(prop));
-        }
-
-        public AddUpdateAbstrModel Model { get; set; }
-
-        public string Visitor { get; set; }
-
-        public string Organization { get; set; }
-
-        public string Catcher { get; set; }
-
-        public DateTime From { get; set; }
-
-        public DateTime To { get; set; }
-
-        public string Passes { get; set; }
-
-        public ICommand Ok { get; set; }
-
-        public ICommand Cancel { get; set; }
-
-        public AddUpdateBidWindViewModel()
-        {
-            Ok = new RelayCommand(arg => OkCommand());
-            Cancel = new RelayCommand(arg => CancelCommand());
-        }
-
-        private void OkCommand()
-        {
-            Model.Ok();
-        }
-
-
-        private void CancelCommand()
-        {
-            Model.Cancel();
-        }
-
-    }
-    */
 }
