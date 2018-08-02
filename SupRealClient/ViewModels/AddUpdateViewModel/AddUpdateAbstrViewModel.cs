@@ -14,6 +14,8 @@ using SupRealClient.EnumerationClasses;
 using SupRealClient.Views;
 using SupRealClient.Models;
 using SupRealClient.Views.Visitor;
+using SupRealClient.TabsSingleton;
+using System.Data;
 
 namespace SupRealClient.ViewModels.AddUpdateViewModel
 {
@@ -236,6 +238,299 @@ namespace SupRealClient.ViewModels.AddUpdateViewModel
         private void ToAllZonesCommand()
         {
             CurrentAppointZone = ((AddUpdateZonesToBidModel) this.Model).ToAllZonesCommand();
+        }
+    }
+
+    public class AddUpdateDoorViewModel : AddUpdateBaseViewModel
+    {
+        public ICommand SpaceInCommand { get; set; }
+        public ICommand SpaceOutCommand { get; set; }
+        public ICommand AccessPointCommand { get; set; }
+
+        public ICommand ClearCommand { get; set; }
+
+        public AddUpdateDoorViewModel() : base()
+        {
+            SpaceInCommand = new RelayCommand(arg => SpaceList("in"));
+            SpaceOutCommand = new RelayCommand(arg => SpaceList("out"));
+            AccessPointCommand = new RelayCommand(arg => AccessPointList());
+
+            ClearCommand = new RelayCommand(arg => Clear(arg as string));
+        }
+
+        public string SpaceIn
+        {
+            get { return ((Door)Model.CurrentItem).SpaceIn; }
+            set
+            {
+                ((Door)Model.CurrentItem).SpaceIn = value;
+                OnPropertyChanged("SpaceIn");
+            }
+        }
+
+        public string SpaceOut
+        {
+            get { return ((Door)Model.CurrentItem).SpaceOut; }
+            set
+            {
+                ((Door)Model.CurrentItem).SpaceOut = value;
+                OnPropertyChanged("SpaceOut");
+            }
+        }
+
+        public string AccessPoint
+        {
+            get { return ((Door)Model.CurrentItem).AccessPoint; }
+            set
+            {
+                ((Door)Model.CurrentItem).AccessPoint = value;
+                OnPropertyChanged("AccessPoint");
+            }
+        }
+
+        private void SpaceList(string direction)
+        {
+            var result = ViewManager.Instance.OpenWindowModal("Base4SpacesWindView") as BaseModelResult;
+
+            if (result == null)
+            {
+                return;
+            }
+
+            if (direction == "in")
+            {
+                ((Door)Model.CurrentItem).SpaceInId = result.Id <= 0 ? 0 : result.Id;
+                SpaceIn = result.Name;
+            }
+            else
+            {
+                ((Door)Model.CurrentItem).SpaceOutId = result.Id <= 0 ? 0 : result.Id;
+                SpaceOut = result.Name;
+            }
+        }
+
+        private void AccessPointList()
+        {
+            var result = ViewManager.Instance.OpenWindowModal("Base4AccessPointsWindView") as BaseModelResult;
+
+            if (result == null)
+            {
+                return;
+            }
+
+            DataRow row = AccessPointsWrapper.CurrentTable().Table.Rows.Find(result.Id);
+            if (row == null)
+            {
+                return;
+            }
+
+            ((Door)Model.CurrentItem).AccessPointIdHi = row.Field<int>("f_object_id_hi");
+            ((Door)Model.CurrentItem).AccessPointIdLo = row.Field<int>("f_object_id_lo");
+            AccessPoint = result.Name;
+        }
+
+        private void Clear(string field)
+        {
+            switch (field)
+            {
+                case "SpaceIn":
+                    ((Door)Model.CurrentItem).SpaceInId = 0;
+                    SpaceIn = "";
+                    break;
+                case "SpaceOut":
+                    ((Door)Model.CurrentItem).SpaceOutId = 0;
+                    SpaceOut = "";
+                    break;
+                case "AccessPoint":
+                    ((Door)Model.CurrentItem).AccessPointIdHi = 0;
+                    ((Door)Model.CurrentItem).AccessPointIdLo = 0;
+                    AccessPoint = "";
+                    break;
+                default:
+                    return;
+            }
+        }
+    }
+
+    public class AddUpdateAccessLevelViewModel : AddUpdateBaseViewModel
+    {
+        public ICommand AreaCommand { get; set; }
+        public ICommand ScheduleCommand { get; set; }
+
+        public ICommand ClearCommand { get; set; }
+
+        public AddUpdateAccessLevelViewModel() : base()
+        {
+            AreaCommand = new RelayCommand(arg => AreaList());
+            ScheduleCommand = new RelayCommand(arg => ScheduleList());
+
+            ClearCommand = new RelayCommand(arg => Clear(arg as string));
+        }
+
+        public string Area
+        {
+            get { return ((AccessLevel)Model.CurrentItem).Area; }
+            set
+            {
+                ((AccessLevel)Model.CurrentItem).Area = value;
+                OnPropertyChanged("Area");
+            }
+        }
+
+        public string Schedule
+        {
+            get { return ((AccessLevel)Model.CurrentItem).Schedule; }
+            set
+            {
+                ((AccessLevel)Model.CurrentItem).Schedule = value;
+                OnPropertyChanged("Schedule");
+            }
+        }
+
+        private void AreaList()
+        {
+            var result = ViewManager.Instance.OpenWindowModal("Base4AreasWindView") as BaseModelResult;
+
+            if (result == null)
+            {
+                return;
+            }
+
+            DataRow row = AreasWrapper.CurrentTable().Table.Rows.Find(result.Id);
+            if (row == null)
+            {
+                return;
+            }
+
+            ((AccessLevel)Model.CurrentItem).AreaIdHi = row.Field<int>("f_object_id_hi");
+            ((AccessLevel)Model.CurrentItem).AreaIdLo = row.Field<int>("f_object_id_lo");
+            Area = result.Name;
+        }
+
+        private void ScheduleList()
+        {
+            var result = ViewManager.Instance.OpenWindowModal("Base4SchedulesWindView") as BaseModelResult;
+
+            if (result == null)
+            {
+                return;
+            }
+
+            DataRow row = SchedulesWrapper.CurrentTable().Table.Rows.Find(result.Id);
+            if (row == null)
+            {
+                return;
+            }
+
+            ((AccessLevel)Model.CurrentItem).ScheduleIdHi = row.Field<int>("f_object_id_hi");
+            ((AccessLevel)Model.CurrentItem).ScheduleIdLo = row.Field<int>("f_object_id_lo");
+            Schedule = result.Name;
+        }
+
+        private void Clear(string field)
+        {
+            switch (field)
+            {
+                case "Area":
+                    ((AccessLevel)Model.CurrentItem).AreaIdHi = 0;
+                    ((AccessLevel)Model.CurrentItem).AreaIdLo = 0;
+                    Area = "";
+                    break;
+                case "Schedule":
+                    ((AccessLevel)Model.CurrentItem).ScheduleIdHi = 0;
+                    ((AccessLevel)Model.CurrentItem).ScheduleIdLo = 0;
+                    Schedule = "";
+                    break;
+                default:
+                    return;
+            }
+        }
+    }
+
+    public class AddUpdateAreaSpaceViewModel : AddUpdateBaseViewModel
+    {
+        public ICommand AreaCommand { get; set; }
+        public ICommand SpaceCommand { get; set; }
+
+        public ICommand ClearCommand { get; set; }
+
+        public AddUpdateAreaSpaceViewModel() : base()
+        {
+            AreaCommand = new RelayCommand(arg => AreaList());
+            SpaceCommand = new RelayCommand(arg => SpaceList());
+
+            ClearCommand = new RelayCommand(arg => Clear(arg as string));
+        }
+
+        public string Area
+        {
+            get { return ((AreaSpace)Model.CurrentItem).Area; }
+            set
+            {
+                ((AreaSpace)Model.CurrentItem).Area = value;
+                OnPropertyChanged("Area");
+            }
+        }
+
+        public string Space
+        {
+            get { return ((AreaSpace)Model.CurrentItem).Space; }
+            set
+            {
+                ((AreaSpace)Model.CurrentItem).Space = value;
+                OnPropertyChanged("Space");
+            }
+        }
+
+        private void AreaList()
+        {
+            var result = ViewManager.Instance.OpenWindowModal("Base4AreasWindView") as BaseModelResult;
+
+            if (result == null)
+            {
+                return;
+            }
+
+            DataRow row = AreasWrapper.CurrentTable().Table.Rows.Find(result.Id);
+            if (row == null)
+            {
+                return;
+            }
+
+            ((AreaSpace)Model.CurrentItem).AreaIdHi = row.Field<int>("f_object_id_hi");
+            ((AreaSpace)Model.CurrentItem).AreaIdLo = row.Field<int>("f_object_id_lo");
+            Area = result.Name;
+        }
+
+        private void SpaceList()
+        {
+            var result = ViewManager.Instance.OpenWindowModal("Base4SpacesWindView") as BaseModelResult;
+
+            if (result == null)
+            {
+                return;
+            }
+
+            ((AreaSpace)Model.CurrentItem).SpaceId = result.Id <= 0 ? 0 : result.Id;
+            Space = result.Name;
+        }
+
+        private void Clear(string field)
+        {
+            switch (field)
+            {
+                case "Area":
+                    ((AreaSpace)Model.CurrentItem).AreaIdHi = 0;
+                    ((AreaSpace)Model.CurrentItem).AreaIdLo = 0;
+                    Area = "";
+                    break;
+                case "Space":
+                    ((AreaSpace)Model.CurrentItem).SpaceId = 0;
+                    Space = "";
+                    break;
+                default:
+                    return;
+            }
         }
     }
 }

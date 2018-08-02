@@ -6,6 +6,7 @@ using SupRealClient.EnumerationClasses;
 using System.Data;
 using SupRealClient.Models;
 using SupRealClient.Common;
+using System.Windows;
 
 namespace SupRealClient.Views
 {
@@ -60,6 +61,7 @@ namespace SupRealClient.Views
                  CommonHelper.NotDeleted(vis)
                  select vis).Any())
             {
+                MessageBox.Show("Организацию невозможно удалить, т.к. она связана с посетителями!");
                 return false;
             }
 
@@ -68,6 +70,7 @@ namespace SupRealClient.Views
                  CommonHelper.NotDeleted(orgs)
                  select orgs).Any())
             {
+                MessageBox.Show("Перед удалением организации удалите её синонимы!");
                 return false;
             }
 

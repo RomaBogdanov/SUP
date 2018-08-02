@@ -1,11 +1,11 @@
 ﻿using System;
 using System.Data;
 using System.Linq;
+using System.Windows;
 using SupClientConnectionLib;
 using SupRealClient.EnumerationClasses;
 using SupRealClient.Common.Data;
 using SupRealClient.TabsSingleton;
-using System.Windows;
 
 namespace SupRealClient.Models
 {
@@ -32,8 +32,22 @@ namespace SupRealClient.Models
 
         public void Ok(FieldData data)
         {
+            if (string.IsNullOrEmpty(data.Field))
+            {
+                MessageBox.Show("Заполните поле - 'Отредактировать страну'");
+                return;
+            }
+
             CountriesWrapper countries = CountriesWrapper.CurrentTable();
-            if (data.Field != "")
+
+            var rows = (from object row in countries.Table.Rows select row as DataRow).ToList();
+
+            var IsNotExistNation =
+                rows.FirstOrDefault(
+                    r =>
+                        r.Field<string>("f_cntr_name").ToUpper() == data.Field.ToUpper()) == null;
+
+            if (IsNotExistNation)
             {
                 if (countries.Table.AsEnumerable().FirstOrDefault(x => 
                     x["f_cntr_name"].ToString() == data.Field.ToString() &&
@@ -49,8 +63,12 @@ namespace SupRealClient.Models
                 dataRow["f_rec_date"] = DateTime.Now;
                 dataRow["f_rec_operator"] = Authorizer.AppAuthorizer.Id;
                 dataRow.EndEdit();
+                Cancel();
             }
-            Cancel();
+            else
+            {
+                MessageBox.Show("Такая страна уже записана!");
+            }
         }
     }
 }
