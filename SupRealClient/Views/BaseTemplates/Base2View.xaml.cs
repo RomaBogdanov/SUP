@@ -8,6 +8,8 @@ using System.Windows.Media;
 using System.ComponentModel;
 using System.Windows;
 using System.Windows.Controls.Primitives;
+using System.Windows.Data;
+using System.Collections.ObjectModel;
 
 namespace SupRealClient.Views
 {
@@ -124,7 +126,7 @@ namespace SupRealClient.Views
             var item = oRow.Item;
 
             if (item is Organization)
-                RowColorOrganizationTable(oRow);
+                RowColorOrganizationTable(oRow);            
         }
 
         void RowColorOrganizationTable(DataGridRow oRow)
@@ -161,6 +163,8 @@ namespace SupRealClient.Views
                     return;
 
                 baseTab.ScrollIntoView(row);
+                baseTab.UpdateLayout();
+                baseTab.ScrollIntoView(row);
             }           
         }
 
@@ -188,7 +192,7 @@ namespace SupRealClient.Views
                 SortDataGrid(baseTab, 0, ListSortDirection.Ascending);
         } 
 
-        static void SortDataGrid(DataGrid dataGrid, int columnIndex = 0, ListSortDirection sortDirection = ListSortDirection.Ascending)
+        void SortDataGrid(DataGrid dataGrid, int columnIndex = 0, ListSortDirection sortDirection = ListSortDirection.Ascending)
         {
             var column = dataGrid.Columns[columnIndex];
 
@@ -208,8 +212,7 @@ namespace SupRealClient.Views
             if (dataGrid.Items.Count > 0)
                 dataGrid.SelectedItem = dataGrid.Items[0];
 
-            dataGrid.CurrentColumn = dataGrid.Columns[columnIndex];
-
+            dataGrid.CurrentColumn = dataGrid.Columns[columnIndex];            
             // Refresh items to display sort
             dataGrid.Items.Refresh();
         }

@@ -334,6 +334,7 @@ namespace SupRealClient.TabsSingleton
                             CatcherId = row.Field<int>("f_catcher_id"),
                             From = row.Field<DateTime>("f_time_from"),
                             To = row.Field<DateTime>("f_time_to"),
+                            RecDate = row.Field<DateTime>("f_rec_date"),
                             IsDisable = row.Field<string>("f_disabled").ToUpper() == "Y" ? true : false,
                             Passes = row.Field<string>("f_passes")
                         })
@@ -357,6 +358,7 @@ namespace SupRealClient.TabsSingleton
             row["f_time_to"] = orderElement.To;
             row["f_passes"] = orderElement.Passes;
             row["f_disabled"] = orderElement.IsDisable ? "Y" : "N";
+            row["f_rec_date"] = orderElement.RecDate;
             row["f_not_remaind"] = "N";//todo: разобраться
             row["f_full_role"] = "N";//todo: разобраться
             row["f_other_org"] = "";//todo: разобраться
@@ -364,7 +366,7 @@ namespace SupRealClient.TabsSingleton
             foreach (Area relAreas in orderElement.Areas)
             {
                 AreaOrderElement aoe = new AreaOrderElement {OrderElementId = 
-                    (int)row["f_oe_id"], AreaId = relAreas.Id};
+                    (int)row["f_oe_id"], AreaIdHi = relAreas.ObjectIdHi, AreaIdLo = relAreas.ObjectIdLo };
                 AreaOrderElementWrapper.CurrentTable().AddRow(aoe);
             }
         }
@@ -385,6 +387,7 @@ namespace SupRealClient.TabsSingleton
             row["f_time_to"] = orderElement.To;
             row["f_passes"] = orderElement.Passes;
             row["f_disabled"] = orderElement.IsDisable ? "Y" : "N";
+            row["f_rec_date"] = orderElement.RecDate;
             row["f_not_remaind"] = "N";//todo: разобраться
             row["f_full_role"] = "N";//todo: разобраться
             row["f_other_org"] = "";//todo: разобраться
@@ -406,6 +409,7 @@ namespace SupRealClient.TabsSingleton
                         CatcherId = ordEls.Field<int>("f_catcher_id"),
                         From = ordEls.Field<DateTime>("f_time_from"),
                         To = ordEls.Field<DateTime>("f_time_to"),
+			    RecDate = ordEls.Field<DateTime>("f_rec_date"),
                         IsDisable = ordEls.Field<string>("f_disabled").ToUpper() == "Y" ? true : false,
                         Passes = ordEls.Field<string>("f_passes")
                     });
@@ -445,7 +449,8 @@ namespace SupRealClient.TabsSingleton
 
             DataRow row = CurrentTable().Table.NewRow();
             row["f_oe_id"] = aoe.OrderElementId;
-            row["f_area_id"] = aoe.AreaId;
+            row["f_area_id_hi"] = aoe.AreaIdHi;
+            row["f_area_id_lo"] = aoe.AreaIdLo;
             StandartCols(row);
             CurrentTable().Table.Rows.Add(row);
         }

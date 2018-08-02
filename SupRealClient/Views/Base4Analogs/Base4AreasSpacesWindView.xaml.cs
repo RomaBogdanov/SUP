@@ -32,13 +32,13 @@ namespace SupRealClient.Views
             DataGridTextColumn dataGridTextColumn = new DataGridTextColumn
             {
                 Header = "Область доступа",
-                Binding = new Binding("AreaId")
+                Binding = new Binding("Area")
             };
             base4.BaseTab.Columns.Add(dataGridTextColumn);
             dataGridTextColumn = new DataGridTextColumn
             {
                 Header = "Помещение",
-                Binding = new Binding("SpaceId")
+                Binding = new Binding("Space")
             };
             base4.BaseTab.Columns.Add(dataGridTextColumn);
             

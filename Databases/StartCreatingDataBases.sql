@@ -10,7 +10,8 @@ go
 
 if DB_ID('Visitors') is not null
 	drop database Visitors;
-create database Visitors;
+create database Visitors
+COLLATE Cyrillic_General_CI_AS
 go
 
 use Visitors;
@@ -24,10 +25,10 @@ if	OBJECT_ID('vis_access_level') is not null
 create table vis_access_level
 (
 	f_access_level_id int not null,
-	f_level_name varchar(50), -- название уровня доступа
+	f_level_name nvarchar(50), -- название уровня доступа
 	f_area_id int, -- id области доступа
 	f_schedule_id int, -- id расписания
-	f_access_level_note varchar(100), -- заметка по уровню доступа
+	f_access_level_note nvarchar(100), -- заметка по уровню доступа
 	f_deleted                      CHAR(1),
     f_rec_date                     DATE,
     f_rec_operator                 int,
@@ -50,23 +51,14 @@ if OBJECT_ID('vis_access_points') is not null
 
 create table vis_access_points
 (
-	f_access_point_id              int not null,
-	f_access_point_name            varchar(128),
-	f_access_point_description     varchar(200),
-	f_access_point_space_in_id_hi  int,
-	f_access_point_space_in_id_lo  int,
-	f_access_point_space_out_id_hi int,
-	f_access_point_space_out_id_lo int,
-	f_access_point_space_in        varchar(128), -- ? метка по внутреннему помещению. Пока непонятно, что привязывать.
-	f_access_point_space_out       varchar(128), -- ? метка по внешнему помещению. Пока непонятно, что привязывать.
+	f_access_point_id int not null,
+	f_access_point_name nvarchar(20),
+	f_access_point_description nvarchar(200),
+	f_access_point_space_in nvarchar(50), -- ? метка по внутреннему помещению. Пока непонятно, что привязывать.
+	f_access_point_space_out nvarchar(50), -- ? метка по внешнему помещению. Пока непонятно, что привязывать.
 	f_deleted                      CHAR(1),
     f_rec_date                     DATE,
     f_rec_operator                 int,
-    f_object_id_hi                 int,
-    f_object_id_lo                 int,
-	f_access_point_controller      varchar(16),
-	f_access_point_path            varchar(MAX),
-	f_access_point_data            varchar(MAX)   -- Здесь можно будет сохранять сериализованный объект из Andover
 )
 
 alter table vis_access_points
@@ -74,7 +66,7 @@ alter table vis_access_points
 
 if not exists(select * from vis_access_points where f_access_point_id='0')
 begin
-	insert into vis_access_points values ('0', '', '', 0, 0, 0, 0, '', '', 'N', '', '', '0', '0', '', '', '')
+	insert into vis_access_points values ('0', '', '', '', '', 'N', '', '')
 end
 go
 
@@ -86,17 +78,12 @@ if OBJECT_ID('vis_areas') is not null
 
 create table vis_areas
 (
-	f_area_id                      int not null,
-	f_area_name                    varchar(128),
-	f_area_descript                varchar(200),
+	f_area_id int not null,
+	f_area_name nvarchar(50),
+	f_area_descript nvarchar(200),
 	f_deleted                      CHAR(1),
     f_rec_date                     DATE,
     f_rec_operator                 int,
-    f_object_id_hi                 int,
-    f_object_id_lo                 int,
-	f_area_controller              varchar(16),
-	f_area_path                    varchar(MAX),
-	f_area_data                    varchar(MAX)   -- Здесь можно будет сохранять сериализованный объект из Andover
 )
 
 alter table vis_areas
@@ -104,32 +91,7 @@ alter table vis_areas
 
 if not exists(select * from vis_areas where f_area_id='0')
 begin
-	insert into vis_areas values ('0', '', '', 'N', '', '', '0', '0', '', '', '')
-end
-go
-
--- Создание vis_areas_order_elements
--- Таблица соотношения между заявками и областями доступа.
-
-if OBJECT_ID('vis_areas_order_elements') is not null
-	drop table vis_areas_order_elements;
-
-create table vis_areas_order_elements
-(
-	f_area_order_element_id int not null,
-	f_oe_id int, -- id элемента заявки
-	f_area_id int, -- id помещения
-	f_deleted                      CHAR(1),
-    f_rec_date                     DATE,
-    f_rec_operator                 int,
-)
-
-alter table vis_areas_order_elements
-	add primary key (f_area_order_element_id)
-
-if not exists(select * from vis_areas_order_elements where f_area_order_element_id='0')
-begin
-	insert into vis_areas_order_elements values ('0','0','0','N','','')
+	insert into vis_areas values ('0', '', '', 'N', '', '')
 end
 go
 
@@ -166,9 +128,9 @@ if OBJECT_ID('vis_cabinets') is not null
 
 CREATE TABLE vis_cabinets
     (f_cabinet_id                  int NOT NULL,
-    f_cabinet_num                  VARCHAR(50),
-    f_cabinet_desc                 VARCHAR(200),
-    f_door_num                     VARCHAR(20),
+    f_cabinet_num                  nvarchar(50),
+    f_cabinet_desc                 nvarchar(200),
+    f_door_num                     nvarchar(20),
     f_deleted                      CHAR(1),
     f_rec_date                     DATE,
     f_rec_operator                 int,
@@ -232,54 +194,22 @@ if OBJECT_ID('vis_cards') is not null
 CREATE TABLE vis_cards
     (f_card_id                     int NOT NULL,
     f_state_id                     int,
-    f_card_name                    VARCHAR(128),
-    f_card_text                    VARCHAR(200),
+    f_card_text                    nvarchar(200),
     f_last_visit_id                int,
     f_deleted                      CHAR(1),
     f_rec_date                     DATE,
     f_rec_operator                 int,
     f_create_date                  DATE,
     f_lost_date                    DATE,
-    f_comment                      VARCHAR(200),
-    f_card_num                     int,
-    f_object_id_hi                 int,
-    f_object_id_lo                 int,
-    f_card_controller              varchar(16),
-    f_card_path                    varchar(MAX),
-    f_card_data                    varchar(MAX)   -- Здесь можно будет сохранять сериализованный объект из Andover
-)
+    f_comment                      nvarchar(200),
+    f_card_num                     int)
 
 ALTER TABLE vis_cards
 ADD PRIMARY KEY (f_card_id)
 
 if not exists(select * from vis_cards where f_card_id = '0')
 begin
-	insert into vis_cards values ( '0', '0', '', '', '0', 'N', '', '0', '', '', '', '0', '0', '0', '', '', '')
-end
-go
-
--- Создание vis_card_area
--- Таблица связи между картами доступа и областями доступа
-
-if object_id('vis_card_area') is not null
-	drop table vis_card_area;
-
-create table vis_card_area
-(
-	f_ca_id int not null,
-	f_card_id int, -- id карты
-	f_area_id int, -- id области доступа
-	f_deleted                      CHAR(1),
-    f_rec_date                     DATE,
-    f_rec_operator                 int
-)
-
-alter table vis_card_area
-add primary key (f_ca_id)
-
-if not exists(select * from vis_card_area where f_ca_id = '0')
-begin
-	insert into vis_card_area values ('0', '0', '0', 'N', '', '')
+	insert into vis_cards values ( '0', '0', '', '0', 'N', '', '0', '', '', '', '0')
 end
 go
 
@@ -292,11 +222,11 @@ if OBJECT_ID('vis_cars') is not null
 create table vis_cars
 (
 	f_car_id int not null,
-	f_car_mark varchar(50), -- марка машины
-	f_car_number varchar(20), -- номер машины
+	f_car_mark nvarchar(50), -- марка машины
+	f_car_number nvarchar(20), -- номер машины
 	f_org_id int, -- номер организации
 	f_visitor_id int, -- номер водителя
-	f_color varchar(25), -- цвет машины
+	f_color nvarchar(25), -- цвет машины
 	f_deleted                      CHAR(1),
     f_rec_date                     DATE,
     f_rec_operator                 int
@@ -319,7 +249,7 @@ if OBJECT_ID('vis_countries') is not null
 
 CREATE TABLE vis_countries
     (f_cntr_id                     int NOT NULL,
-    f_cntr_name                    VARCHAR(50),
+    f_cntr_name                    nvarchar(50),
     f_deleted                      CHAR(1),
     f_rec_date                     DATE,
     f_rec_operator                 int)
@@ -342,8 +272,8 @@ if OBJECT_ID('vis_departaments') is not null
 CREATE TABLE vis_departaments
     (f_dep_id                      int NOT NULL,
     f_org_id                       int,
-    f_dep_name                     VARCHAR(100),
-    f_short_dep_name               VARCHAR(15),
+    f_dep_name                     nvarchar(100),
+    f_short_dep_name               nvarchar(15),
     f_deleted                      CHAR(1),
     f_rec_date                     DATE,
     f_rec_operator                 int,
@@ -366,7 +296,7 @@ if OBJECT_ID('vis_documents') is not null
 
 CREATE TABLE vis_documents
     (f_doc_id                      int NOT NULL,
-    f_doc_name                     VARCHAR(40),
+    f_doc_name                     nvarchar(40),
     f_deleted                      CHAR(1),
     f_rec_date                     DATE,
     f_rec_operator                 int)
@@ -390,8 +320,8 @@ if OBJECT_ID('vis_doors') is not null
 CREATE TABLE vis_doors
 (
 	f_door_id int not null,
-	f_door_num varchar(20), -- номер "двери". Дан в текстовом виде для обобщения.
-	f_descript varchar(100), -- описание "двери". По умолчанию равно описанию внутреннего "помещения"
+	f_door_num nvarchar(20), -- номер "двери". Дан в текстовом виде для обобщения.
+	f_descript nvarchar(100), -- описание "двери". По умолчанию равно описанию внутреннего "помещения"
 	f_space_in int, -- id внутреннего помещения.
 	f_space_out int, -- id внешнего помещения.
 	f_access_point_id int, -- id точки доступа.
@@ -417,7 +347,7 @@ if OBJECT_ID('vis_flag') is not null
 
 CREATE TABLE vis_flag
     (f_user_id                     int,
-    f_modified                     VARCHAR(1))
+    f_modified                     nvarchar(1))
 	
 if not exists(select * from vis_flag where f_user_id = '0')
 begin
@@ -434,10 +364,10 @@ if OBJECT_ID('vis_key_case') is not null
 create table vis_key_case
 (
 	f_key_case_id int not null,
-	f_inner_code varchar(25), -- внутренний код штыря
-	f_key_holder_num varchar(25), -- номер ключницы
+	f_inner_code nvarchar(25), -- внутренний код штыря
+	f_key_holder_num nvarchar(25), -- номер ключницы
 	f_cell_num int, -- номер ячейки
-	f_descript varchar(200), -- описание
+	f_descript nvarchar(200), -- описание
 	f_deleted                      CHAR(1),
     f_rec_date                     DATE,
     f_rec_operator                 int
@@ -460,8 +390,8 @@ if OBJECT_ID('vis_key_holder') is not null
 create table vis_key_holder
 (
 	f_key_holder_id int not null,
-	f_key_holder_num varchar(25), -- номер ключницы
-	f_descript varchar(200), -- описание
+	f_key_holder_num nvarchar(25), -- номер ключницы
+	f_descript nvarchar(200), -- описание
 	f_count int, -- количество ячеек в ключнице
 	f_deleted                      CHAR(1),
     f_rec_date                     DATE,
@@ -485,8 +415,8 @@ if OBJECT_ID('vis_keys') is not null
 create table vis_keys
 (
 	f_key_id int not null,
-	f_key_name varchar(20),
-	f_key_description varchar(100),
+	f_key_name nvarchar(20),
+	f_key_description nvarchar(100),
 	f_door_id int, -- номер двери, к которой привязан ключ
 	f_key_holder_id int, -- номер ключницы, в которой ключ
 	f_key_case_id int, -- номер пенала, в котором ключ
@@ -512,7 +442,7 @@ if OBJECT_ID('vis_roles') is not null
 
 CREATE TABLE vis_roles
     (f_role_id                     int,
-    f_role                         VARCHAR(100),
+    f_role                         nvarchar(100),
     f_grb_id                       int)
 
 if not exists(select * from vis_roles where f_role_id = '0')
@@ -547,8 +477,8 @@ if OBJECT_ID('vis_users') is not null
 
 CREATE TABLE vis_users
     (f_user_id                     int,
-    f_user                         VARCHAR(100),
-    f_pass                         VARCHAR(100),
+    f_user                         nvarchar(100),
+    f_pass                         nvarchar(100),
 	f_timeout                      int)
 
 if not exists(select * from vis_users where f_user_id = '0')
@@ -577,14 +507,16 @@ CREATE TABLE vis_order_elements
     f_catcher_id                   int,
     f_time_from                    DATE,
     f_time_to                      DATE,
-    f_passes                       VARCHAR(1000),
-    f_disabled                     VARCHAR(1),
+    f_passes                       nvarchar(1000),
+    f_disabled                     nvarchar(1),
     f_deleted                      CHAR(1),
     f_rec_date                     DATE,
     f_rec_operator                 int,
-    f_not_remaind                  VARCHAR(1),
-    f_full_role                    VARCHAR(1),
-    f_other_org                    VARCHAR(200))
+    f_not_remaind                  nvarchar(1),
+    f_full_role                    nvarchar(1),
+    f_other_org                    nvarchar(200),
+    f_org_id                       INT,/*организация*/
+    f_position                     NVARCHAR(200)/*должность*/)
 
 ALTER TABLE vis_order_elements
 ADD PRIMARY KEY (f_oe_id)
@@ -632,12 +564,12 @@ CREATE TABLE vis_orders
     f_date_to                      DATE,
     f_signed_by                    int,
     f_adjusted_with                int,
-    f_notes                        VARCHAR(150),
-    f_disabled                     VARCHAR(1),
+    f_notes                        nvarchar(150),
+    f_disabled                     nvarchar(1),
     f_deleted                      CHAR(1),
     f_rec_date                     DATE,
     f_rec_operator                 int,
-    f_temp_posted                  VARCHAR(1))
+    f_temp_posted                  nvarchar(1))
 
 ALTER TABLE vis_orders
 ADD PRIMARY KEY (f_ord_id)
@@ -656,17 +588,17 @@ if OBJECT_ID('vis_organizations') is not null
 
 CREATE TABLE vis_organizations
     (f_org_id                      int NOT NULL,
-    f_org_type                     VARCHAR(15),
-    f_org_name                     VARCHAR(50),
-    f_has_free_access              VARCHAR(1),
-    f_is_master                    VARCHAR(1),
-    f_is_basic                     VARCHAR(1),
+    f_org_type                     nvarchar(15),
+    f_org_name                     nvarchar(50),
+    f_has_free_access              nvarchar(1),
+    f_is_master                    nvarchar(1),
+    f_is_basic                     nvarchar(1),
     f_deleted                      CHAR(1),
     f_rec_date                     DATE,
     f_rec_operator                 int,
     f_syn_id                       int,
-    f_comment                      VARCHAR(200),
-    f_full_org_name                VARCHAR(70),
+    f_comment                      nvarchar(200),
+    f_full_org_name                nvarchar(70),
     f_cntr_id                      int,
     f_region_id                    int)
 
@@ -687,7 +619,7 @@ if OBJECT_ID('vis_regions') is not null
 
 CREATE TABLE vis_regions
     (f_region_id                   int NOT NULL,
-    f_region_name                  VARCHAR(50),
+    f_region_name                  nvarchar(50),
     f_cntr_id                      int,
     f_deleted                      CHAR(1),
     f_rec_date                     DATE,
@@ -709,17 +641,23 @@ if OBJECT_ID('vis_schedules') is not null
 
 create table vis_schedules
 (
-	f_schedule_id                  int not null,
-    f_schedule_name                VARCHAR(128),
-	f_schedule_description         varchar(200),
-    f_deleted                      CHAR(1),
-    f_rec_date                     DATE,
-    f_rec_operator                 int,
-    f_object_id_hi                 int,
-    f_object_id_lo                 int,
-    f_schedule_controller          varchar(16),
-    f_schedule_path                varchar(MAX),
-    f_schedule_data                varchar(MAX)   -- Здесь можно будет сохранять сериализованный объект из Andover
+	f_schedule_id int not null,
+	f_monday_time_begin datetime,
+	f_monday_time_end datetime,
+	f_tuesday_time_begin datetime,
+	f_tuesday_time_end datetime,
+	f_whensday_time_begin datetime,
+	f_whensday_time_end datetime,
+	f_thursday_time_begin datetime,
+	f_thursday_time_end datetime,
+	f_friday_time_begin datetime,
+	f_friday_time_end datetime,
+	f_saturday_time_begin datetime,
+	f_saturday_time_end datetime,
+	f_sunday_time_begin datetime,
+	f_sunday_time_end datetime,
+	f_holiday_time_begin datetime,
+	f_holiday_time_end datetime,
 )
 
 alter table vis_schedules
@@ -727,7 +665,7 @@ alter table vis_schedules
 
 if not exists (select * from vis_schedules where f_schedule_id='0')
 begin
-	insert into vis_schedules values('0', '', '', 'N', '', '0', '0', '0', '', '', '')
+	insert into vis_schedules values('0', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '')
 end
 go
 
@@ -741,10 +679,10 @@ if OBJECT_ID('vis_spaces') is not null
 CREATE TABLE vis_spaces
 	(
 	f_space_id int not null,
-	f_num_real varchar(50), --номер помещения дан в текстовом виде для большего обобщения, в теории будет эквивалентем названию помещения
-	f_num_build varchar(50), --номер помещения дан в текстовом виде для большего обобщения, в теории будет эквивалентем названию помещения на этапе строительства
-	f_descript varchar(200), -- описание помещения
-	f_note varchar(200), -- примечание по помещению
+	f_num_real nvarchar(50), --номер помещения дан в текстовом виде для большего обобщения, в теории будет эквивалентем названию помещения
+	f_num_build nvarchar(50), --номер помещения дан в текстовом виде для большего обобщения, в теории будет эквивалентем названию помещения на этапе строительства
+	f_descript nvarchar(200), -- описание помещения
+	f_note nvarchar(200), -- примечание по помещению
 	f_deleted                      CHAR(1),
     f_rec_date                     DATE,
     f_rec_operator                 int
@@ -767,7 +705,7 @@ if OBJECT_ID('vis_spr_cardstates') is not null
 
 CREATE TABLE vis_spr_cardstates
     (f_state_id                    int NOT NULL,
-    f_state_text                   VARCHAR(50),
+    f_state_text                   nvarchar(50),
     f_deleted                      CHAR(1),
     f_rec_date                     DATE,
     f_rec_operator                 int)
@@ -784,10 +722,10 @@ go
 -- на данные строки завязан код клиентских приложений, поэтому не удалять и учитывать
 -- при работе
 
-insert into vis_spr_cardstates values ( '1', 'Активен', 'N', '11-июл-2003 14:41:24', '-1')
-insert into vis_spr_cardstates values ( '3', 'Выдан', 'N', '11-июл-2003 14:41:25', '-1')
-insert into vis_spr_cardstates values ( '4', 'Утерян', 'N', '11-июл-2003 14:41:28', '-1')
-insert into vis_spr_cardstates values ( '2', 'Неактивен', 'N', '11-июл-2003 14:41:58', '-1')
+insert into vis_spr_cardstates values ( '1', 'Активен', 'N', '20030711 14:41:24', '-1')
+insert into vis_spr_cardstates values ( '3', 'Выдан', 'N', '20030711 14:41:25', '-1')
+insert into vis_spr_cardstates values ( '4', 'Утерян', 'N', '20030711 14:41:28', '-1')
+insert into vis_spr_cardstates values ( '2', 'Неактивен', 'N', '20030711 14:41:58', '-1')
 
 -- Создание vis_spr_order_types
 -- TODO: Сделать описание таблицы
@@ -797,7 +735,7 @@ if OBJECT_ID('vis_spr_order_types') is not null
 
 CREATE TABLE vis_spr_order_types
     (f_order_type_id               int NOT NULL,
-    f_order_text                   VARCHAR(50),
+    f_order_text                   nvarchar(50),
     f_deleted                      CHAR(1),
     f_rec_date                     DATE,
     f_rec_operator                 int)
@@ -814,10 +752,10 @@ go
 -- на данные строки завязан код клиентских приложений, поэтому не удалять и учитывать
 -- при работе
 
-insert into vis_spr_order_types values ( '1', 'Разовая', 'N', '11-июл-2003 14:39:56', '-1')
-insert into vis_spr_order_types values ( '2', 'Временная', 'N', '11-июл-2003 14:39:56', '-1')
-insert into vis_spr_order_types values ( '3', 'Бессрочная', 'N', '11-июл-2003 14:39:56', '-1')
-insert into vis_spr_order_types values ( '4', 'На основании', 'N', '11-июл-2003 14:39:57', '-1')
+insert into vis_spr_order_types values ( '1', 'Разовая', 'N', '20030711 14:39:56', '-1')
+insert into vis_spr_order_types values ( '2', 'Временная', 'N', '20030711 14:39:56', '-1')
+insert into vis_spr_order_types values ( '3', 'Бессрочная', 'N', '20030711 14:39:56', '-1')
+insert into vis_spr_order_types values ( '4', 'На основании', 'N', '20030711 14:39:57', '-1')
 
 -- Создание vis_visitors
 -- Одна из основных таблиц.
@@ -830,23 +768,23 @@ CREATE TABLE vis_visitors
     (f_visitor_id                  int NOT NULL,
     f_doc_id                       int,
     f_cntr_id                      int,
-    f_family                       VARCHAR(50),
-    f_fst_name                     VARCHAR(20),
-    f_sec_name                     VARCHAR(20),
+    f_family                       nvarchar(50),
+    f_fst_name                     nvarchar(20),
+    f_sec_name                     nvarchar(20),
     f_birth_date                   DATE,
-    f_doc_seria                    VARCHAR(20),
-    f_doc_num                      VARCHAR(20),
+    f_doc_seria                    nvarchar(20),
+    f_doc_num                      nvarchar(20),
     f_doc_date                     DATE,
-    f_doc_org                      VARCHAR(100),
-    f_phones                       VARCHAR(50),
-    f_vr_text                      VARCHAR(100),
-    f_is_short_data                VARCHAR(1),
+    f_doc_org                      nvarchar(100),
+    f_phones                       nvarchar(50),
+    f_vr_text                      nvarchar(100),
+    f_is_short_data                nvarchar(1),
     f_dep_id                       int,
-    f_job                          VARCHAR(50),
-    f_can_sign_orders              VARCHAR(1),
-    f_can_adjust_orders            VARCHAR(1),
-    f_can_have_visitors            VARCHAR(1),
-    f_persona_non_grata            VARCHAR(1),
+    f_job                          nvarchar(50),
+    f_can_sign_orders              nvarchar(1),
+    f_can_adjust_orders            nvarchar(1),
+    f_can_have_visitors            nvarchar(1),
+    f_persona_non_grata            nvarchar(1),
     f_deleted                      CHAR(1),
     f_rec_date                     DATE,
     f_rec_operator                 int,
@@ -854,10 +792,10 @@ CREATE TABLE vis_visitors
     f_rec_date_pass                DATE,
     f_rec_operator_pass            int,
     f_cabinet_id                   int,
-    f_full_name                    VARCHAR(100),
+    f_full_name                    nvarchar(100),
     f_personal_data_agreement      CHAR(1),
     f_personal_data_last_date      DATE,
-    f_doc_code                     VARCHAR(20))
+    f_doc_code                     nvarchar(20))
 
 ALTER TABLE vis_visitors
 ADD PRIMARY KEY (f_visitor_id)
@@ -878,15 +816,15 @@ CREATE TABLE vis_visitors_documents
     (f_vd_id                       int NOT NULL,
     f_visitor_id                   int,
     f_doctype_id                   int,
-    f_doc_name                     VARCHAR(100),
-    f_doc_seria                    VARCHAR(20),
-    f_doc_num                      VARCHAR(20),
+    f_doc_name                     nvarchar(100),
+    f_doc_seria                    nvarchar(20),
+    f_doc_num                      nvarchar(20),
     f_doc_date                     DATE,
 	f_doc_date_to                  DATE,
-    f_doc_org                      VARCHAR(100),
-    f_doc_code                     VARCHAR(20),
+    f_doc_org                      nvarchar(100),
+    f_doc_code                     nvarchar(20),
 	f_birth_date                   DATE,
-	f_comment                      VARCHAR(100),
+	f_comment                      nvarchar(100),
     f_deleted                      CHAR(1))
 
 ALTER TABLE vis_visitors_documents
@@ -910,18 +848,18 @@ CREATE TABLE vis_visits
     f_visitor_id                   int,
     f_time_out                     DATE,
     f_time_in                      DATE,
-    f_visit_text                   VARCHAR(200),
+    f_visit_text                   nvarchar(200),
     f_date_from                    DATE,
     f_date_to                      DATE,
     f_order_id                     int,
     f_deleted                      CHAR(1),
     f_rec_date                     DATE,
     f_rec_operator                 int,
-    f_reason                       VARCHAR(1000),
+    f_reason                       nvarchar(1000),
     f_rec_operator_back            int,
     f_rec_date_back                DATE,
-    f_card_status                  varchar(1),
-    f_eff_zonen_text               VARCHAR(1000))
+    f_card_status                  nvarchar(1),
+    f_eff_zonen_text               nvarchar(1000))
 
 ALTER TABLE vis_visits
 ADD PRIMARY KEY (f_visit_id)
@@ -940,11 +878,11 @@ if OBJECT_ID('vis_zone_types') is not null
 
 CREATE TABLE vis_zone_types
     (f_zone_type_id                int NOT NULL,
-    f_zone_type_name               VARCHAR(50) NOT NULL,
+    f_zone_type_name               nvarchar(50) NOT NULL,
     f_deleted                      CHAR(1),
     f_rec_date                     DATE,
     f_rec_operator                 int,
-    f_comment                      VARCHAR(200))
+    f_comment                      nvarchar(200))
 
 ALTER TABLE vis_zone_types
 ADD PRIMARY KEY (f_zone_type_id)
@@ -966,7 +904,7 @@ CREATE TABLE vis_zones
     (f_zone_id                     int NOT NULL,
     f_zone_type_id                 int,
     f_zone_name                    CHAR(100),
-    f_comment                      VARCHAR(200),
+    f_comment                      nvarchar(200),
     f_deleted                      CHAR(1),
     f_rec_date                     DATE,
     f_rec_operator                 int,
@@ -1035,10 +973,10 @@ CREATE TABLE vis_zones
     f_holiday_time_end_2           DATE,
     f_holiday_time_end_3           DATE,
     f_holiday_time_end_4           DATE,
-    f_first_check                  VARCHAR(1),
-    f_fecond_check                 VARCHAR(1),
-    f_third_check                  VARCHAR(1),
-    f_last_check                   VARCHAR(1))
+    f_first_check                  nvarchar(1),
+    f_fecond_check                 nvarchar(1),
+    f_third_check                  nvarchar(1),
+    f_last_check                   nvarchar(1))
 
 ALTER TABLE vis_zones
 ADD PRIMARY KEY (f_zone_id)
@@ -1076,7 +1014,8 @@ go
 
 if DB_ID('VisitorsImages') is not null
 	drop database VisitorsImages;
-create database VisitorsImages;
+create database VisitorsImages
+COLLATE Cyrillic_General_CI_AS;
 go
 
 use VisitorsImages;
@@ -1122,7 +1061,8 @@ ADD PRIMARY KEY (f_img_doc_id)
 if DB_ID('VisitorsLogs') is not null
 	drop database VisitorsLogs;
 
-create database VisitorsLogs;
+create database VisitorsLogs
+COLLATE Cyrillic_General_CI_AS;
 go
 
 use VisitorsLogs;
@@ -1135,15 +1075,15 @@ if OBJECT_ID('vis_log') is not null
 
 CREATE TABLE vis_log
     (f_log_id                      bigint NOT NULL,
-	f_table_name                   VARCHAR(1000),  -- если нужно, сюда можно писать название таблицы из базы Visitors для привязки
+	f_table_name                   nvarchar(1000),  -- если нужно, сюда можно писать название таблицы из базы Visitors для привязки
 	f_table_id                     int,            -- если нужно, сюда можно писать id из таблицы базы Visitors для привязки
 	f_rec_operator                 int,            -- если нужно, сюда можно писать id пользователя из таблицы базы Visitors для привязки
-	f_log_severety                 VARCHAR(50),    -- критичность события - может быть и числовым
-	f_log_class                    VARCHAR(MAX),   -- класс, в котором произошло событие
-    f_log_message                  VARCHAR(1000),
+	f_log_severety                 nvarchar(50),    -- критичность события - может быть и числовым
+	f_log_class                    nvarchar(MAX),   -- класс, в котором произошло событие
+    f_log_message                  nvarchar(1000),
     f_rec_date                     DATE,
-	f_comment                      VARCHAR(200),   -- комментарий, на всякий случай
-	f_machine                      VARCHAR(200))   -- имя машины
+	f_comment                      nvarchar(200),   -- комментарий, на всякий случай
+	f_machine                      nvarchar(200))   -- имя машины
 
 ALTER TABLE vis_log
 ADD PRIMARY KEY (f_log_id)

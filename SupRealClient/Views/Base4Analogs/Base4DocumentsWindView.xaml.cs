@@ -18,7 +18,7 @@ namespace SupRealClient.Views
             ((Base4ViewModel<EnumerationClasses.Document>)base4.DataContext)
                 .OkVisibility = okVisibility;
             ((Base4ViewModel<EnumerationClasses.Document>)base4.DataContext)
-                .ScrollIntoViewCurrentItem = base4.ScrollIntoViewCurrentItem;
+                .ScrollCurrentItem = base4.ScrollIntoViewCurrentItem;
             base4.btnRemove.Visibility = Visibility.Collapsed; // Скрываем кнопку "Удалить".
             base4.Focus();
         }

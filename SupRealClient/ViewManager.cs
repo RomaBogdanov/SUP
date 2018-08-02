@@ -274,7 +274,8 @@ namespace SupRealClient
                 //Открытие окна в модальном режиме
                 if (window.GetType().ToString().Contains("AddUpdateOrgsView") ||
                     window.GetType().ToString().Contains("OrganizationsWindView") ||
-                    window.GetType().ToString().Contains("AddItem1View"))
+                    window.GetType().ToString().Contains("AddItem1View") ||
+                    window.GetType().ToString().Contains("Search1View"))
                     (window as Window).ShowDialog();
                 else
                     (window as Window).Show();

@@ -1,16 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows;
-using System.Windows.Controls;
+﻿using System.Windows.Controls;
 using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Shapes;
 
 namespace SupRealClient.Views
 {
@@ -32,7 +21,7 @@ namespace SupRealClient.Views
             DataGridTextColumn dataGridTextColumn = new DataGridTextColumn
             {
                 Header = "Область доступа",
-                Binding = new Binding("AreaId")
+                Binding = new Binding("Area")
             };
             base4.BaseTab.Columns.Add(dataGridTextColumn);
             dataGridTextColumn = new DataGridTextColumn
@@ -44,7 +33,7 @@ namespace SupRealClient.Views
             dataGridTextColumn = new DataGridTextColumn
             {
                 Header = "Расписание",
-                Binding = new Binding("ScheduleId")
+                Binding = new Binding("Schedule")
             };
             base4.BaseTab.Columns.Add(dataGridTextColumn);
             dataGridTextColumn = new DataGridTextColumn
