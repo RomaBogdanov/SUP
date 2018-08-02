@@ -24,13 +24,22 @@ namespace SupRealClient.Models
 
         public void Ok(FieldData data)
         {
-            CountriesWrapper countries = CountriesWrapper.CurrentTable();
-            if (countries.Table.AsEnumerable().FirstOrDefault(x=> x["f_cntr_name"].ToString() == data.Field.ToString()) != null)
+            if (string.IsNullOrEmpty(data.Field))
             {
-                MessageBox.Show("Такая организация уже записана!");
+                MessageBox.Show("Заполните поле - 'Введите страну'");
                 return;
             }
-            if (data.Field != "")
+
+            CountriesWrapper countries = CountriesWrapper.CurrentTable();
+
+            var rows = (from object row in countries.Table.Rows select row as DataRow).ToList();
+
+            var newNation =
+                rows.FirstOrDefault(
+                    r =>
+                        r.Field<string>("f_cntr_name").ToUpper() == data.Field.ToUpper()) == null;
+
+            if (newNation)
             {
                 DataRow row = countries.Table.NewRow();
                 row["f_cntr_name"] = data.Field;
@@ -38,8 +47,12 @@ namespace SupRealClient.Models
                 row["f_rec_date"] = DateTime.Now;
                 row["f_rec_operator"] = Authorizer.AppAuthorizer.Id;
                 countries.Table.Rows.Add(row);
+                Cancel();
             }
-            Cancel();
+            else
+            {
+                MessageBox.Show("Такая страна уже записана!");
+            }            
         }
     }
 }

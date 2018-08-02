@@ -57,7 +57,7 @@
             SelectedItem="{Binding Path=CurrentItem, Mode=TwoWay}" 
             converters:DataGridTextSearch.SearchValue="{Binding ElementName=tbxSearch, Path=Text, UpdateSourceTrigger=PropertyChanged}"
             SelectedIndex="{Binding Path=SelectedIndex, Mode=TwoWay}"
-            CurrentColumn="{Binding Path=CurrentColumn, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"            
+            CurrentColumn="{Binding Path=CurrentColumn, Mode=TwoWay}"            
             Style="{StaticResource AzureDataGrid1}"
             KeyDown="BaseTab_OnKeyDown"
             ColumnWidth="*"            
