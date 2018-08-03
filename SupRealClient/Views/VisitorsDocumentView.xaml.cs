@@ -46,7 +46,7 @@ namespace SupRealClient.Views
             DataContext = new VisitorsDocumentViewModel();
         }
 
-        private void TextBox_OnKeyUp(object sender, KeyEventArgs e)
+        private void TextBox_OnKeyDown(object sender, KeyEventArgs e)
         {
             if (e.Key == Key.Enter)
             {

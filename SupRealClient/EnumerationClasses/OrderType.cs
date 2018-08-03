@@ -1,8 +1,23 @@
 ﻿namespace SupRealClient.EnumerationClasses
 {
+	/// <summary>
+	/// Enum, который описывает тип заявки
+	/// </summary>
 	public enum OrderType
 	{
-		Temp, // временная заявка
-		Single // разовая заявка
+		/// <summary>
+		///  Разовая заявка
+		/// </summary>
+		Single,
+
+		/// <summary>
+		/// Временная заявка
+		/// </summary>
+		Temp,
+
+		/// <summary>
+		/// Заявка на основании
+		/// </summary>
+		Virtue
 	}
 }

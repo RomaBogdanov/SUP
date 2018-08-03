@@ -1,25 +1,20 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.ComponentModel;
 using System.Runtime.CompilerServices;
+using System.Windows;
 using System.Windows.Input;
 using SupRealClient.Annotations;
 using SupRealClient.Models.AddUpdateModel;
 using SupRealClient.Common.Interfaces;
 using SupRealClient.EnumerationClasses;
 using SupRealClient.Views;
-using SupRealClient.Models;
-using SupRealClient.Views.Visitor;
 using SupRealClient.TabsSingleton;
 using System.Data;
 
 namespace SupRealClient.ViewModels.AddUpdateViewModel
 {
-
     /// <summary>
     /// Класс-претендент на то, чтобы стать основой для всех ViewModel
     /// форм добавления-редактирования данных.
@@ -28,7 +23,6 @@ namespace SupRealClient.ViewModels.AddUpdateViewModel
     {
         protected AddUpdateAbstrModel model;
         protected string okCaption;
-        //protected object currentItem;
         protected string title;
 
         public IWindow Parent { get; set; }
@@ -113,38 +107,76 @@ namespace SupRealClient.ViewModels.AddUpdateViewModel
     public class AddUpdateSpaceViewModel: AddUpdateBaseViewModel
     { }
 
+	/// <summary>
+	/// ViewModel для окна окна создания и редактирования элементов заявки
+	/// </summary>
     public class AddUpdateBidsViewModel : AddUpdateBaseViewModel
     {
-        public ICommand VisitorName { get; set; }
-
-        public ICommand CatcherName { get; set; }
-
+        public ICommand ChooseVisitor { get; set; }
+		public ICommand ChooseOrganization { get; set; }
+        public ICommand ChooseCatcher { get; set; }
         public ICommand UpdateZones { get; set; }
 
-        public AddUpdateBidsViewModel() : base()
-        {
-            VisitorName = new RelayCommand(arg => VisitorNameCommand());
-            CatcherName = new RelayCommand(arg => CatcherNameCommand());
-            UpdateZones = new RelayCommand(arg => UpdateZonesCommand());
-        }
+		public ICommand ClearVisitor { get; set; }
+		public ICommand ClearOrganization { get; set; }
+		public ICommand ClearPosition { get; set; }
+		public ICommand ClearCatcher { get; set; }
+		public ICommand ClearZones { get; set; }
 
-        private void VisitorNameCommand()
+	    private OrderElement CurrentOrderElement => CurrentItem as OrderElement;
+
+	    public AddUpdateBidsViewModel(AddUpdateAbstrModel model) : base()
+	    {
+		    Model = model;
+			ChooseVisitor = new RelayCommand(arg => VisitorNameCommand());
+		    ChooseOrganization = new RelayCommand(arg => OrganizationNameCommand());
+		    ChooseCatcher = new RelayCommand(arg => CatcherNameCommand());
+		    UpdateZones = new RelayCommand(arg => UpdateZonesCommand());
+
+		    ClearVisitor = new RelayCommand(arg => ClearVisitorCommand());
+		    ClearOrganization = new RelayCommand(arg => ClearOrganiztionCommand());
+		    ClearPosition= new RelayCommand(arg => ClearPositionCommand());
+			ClearCatcher = new RelayCommand(arg => ClearCatcherCommand());
+		    ClearZones = new RelayCommand(arg => ClearZonesCommand());
+		}
+
+		private void VisitorNameCommand()
         {
             VisitorsModelResult result = ViewManager.Instance.OpenWindowModal(
                 "VisitorsListWindViewOk", null) as VisitorsModelResult;
-            (CurrentItem as OrderElement).VisitorId = result.Id;
-            (CurrentItem as OrderElement).Visitor = result.Name;
-            (CurrentItem as OrderElement).OrganizationId = result.OrganizationId;
-            (CurrentItem as OrderElement).Organization = result.Organization;
-            CurrentItem = CurrentItem;
+	        if (result == null)
+	        {
+		        return;
+	        }
+            CurrentOrderElement.VisitorId = result.Id;
+	        CurrentOrderElement.Position = CurrentOrderElement.VisitorMainPosition;
+		    CurrentOrderElement.OrganizationId = result.OrganizationId;
+
+			CurrentItem = CurrentItem;
         }
+
+	    private void OrganizationNameCommand()
+	    {
+		    BaseModelResult result = ViewManager.Instance.OpenWindowModal(
+				"Base4OrganizationsWindView", null) as BaseModelResult;
+		    if (result == null)
+		    {
+			    return;
+		    }
+		    CurrentOrderElement.OrganizationId = result.Id;
+		    CurrentItem = CurrentItem;
+		}
 
         private void CatcherNameCommand()
         {
             VisitorsModelResult result = ViewManager.Instance.OpenWindowModal(
                 "VisitorsListWindViewOk", null) as VisitorsModelResult;
-            (CurrentItem as OrderElement).CatcherId = result.Id;
-            (CurrentItem as OrderElement).Catcher = result.Name;
+	        if (result == null)
+	        {
+				return;
+	        }
+            CurrentOrderElement.CatcherId = result.Id;
+            CurrentOrderElement.Catcher = result.Name;
             CurrentItem = CurrentItem;
         }
 
@@ -152,7 +184,7 @@ namespace SupRealClient.ViewModels.AddUpdateViewModel
         {
             // todo: переделать нормально
             AddUpdateAbstrModel zonesModel = new AddUpdateZonesToBidModel(
-                (CurrentItem as OrderElement).Areas);
+                CurrentOrderElement.Areas);
             AddUpdateBaseViewModel viewModel = new AddUpdateZonesToBidViewModel
             {
                 Model = zonesModel
@@ -167,7 +199,7 @@ namespace SupRealClient.ViewModels.AddUpdateViewModel
             {
                 return;
             }
-            (CurrentItem as OrderElement).Areas = wind.WindowResult as 
+            CurrentOrderElement.Areas = wind.WindowResult as 
                 ObservableCollection<Area>;
             string st = "";
             foreach (var area in wind.WindowResult as ObservableCollection<Area>)
@@ -175,9 +207,55 @@ namespace SupRealClient.ViewModels.AddUpdateViewModel
                 st += area.Name + ", ";
             }
 
-            (CurrentItem as OrderElement).Passes = st.Remove(st.Length - 2);
+	        if (st.Length - 2 >= 0)
+	        {
+		        CurrentOrderElement.Passes = st.Remove(st.Length - 2);
+			}
         }
-    }
+
+	    private void ClearVisitorCommand()
+	    {
+		    CurrentOrderElement.VisitorId = 0;
+		    CurrentItem = CurrentItem;
+	    }
+
+	    private void ClearOrganiztionCommand()
+	    {
+		    CurrentOrderElement.OrganizationId = 0;
+		    CurrentItem = CurrentItem;
+		}
+
+	    private void ClearPositionCommand()
+	    {
+		    CurrentOrderElement.Position = "";
+		    CurrentItem = CurrentItem;
+		}
+
+	    private void ClearCatcherCommand()
+	    {
+		    CurrentOrderElement.CatcherId = 0;
+		    CurrentItem = CurrentItem;
+		}
+
+	    private void ClearZonesCommand()
+	    {
+		    CurrentItem = CurrentItem;
+		}
+
+	    protected override void OkCommand()
+	    {
+		    if (string.IsNullOrEmpty(CurrentOrderElement.Visitor) ||
+		        string.IsNullOrEmpty(CurrentOrderElement.Position) ||
+		        string.IsNullOrEmpty(CurrentOrderElement.Catcher) ||
+		        string.IsNullOrEmpty(CurrentOrderElement.Organization))
+		    {
+			    MessageBox.Show("Не все поля заполнены", "Ошибка");
+				return;
+		    }
+
+			base.OkCommand();
+	    }
+	}
 
     public class AddUpdateZonesToBidViewModel : AddUpdateBaseViewModel
     {
@@ -468,7 +546,7 @@ namespace SupRealClient.ViewModels.AddUpdateViewModel
             set
             {
                 ((AreaSpace)Model.CurrentItem).Area = value;
-                OnPropertyChanged("Area");
+                OnPropertyChanged();
             }
         }
 
@@ -478,7 +556,7 @@ namespace SupRealClient.ViewModels.AddUpdateViewModel
             set
             {
                 ((AreaSpace)Model.CurrentItem).Space = value;
-                OnPropertyChanged("Space");
+                OnPropertyChanged();
             }
         }
 

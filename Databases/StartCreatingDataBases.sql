@@ -663,8 +663,8 @@ CREATE TABLE vis_order_elements
     f_ord_id                       int,
     f_visitor_id                   int,
     f_catcher_id                   int,
-    f_time_from                    DATE,
-    f_time_to                      DATE,
+    f_time_from                    DATETIME,
+    f_time_to                      DATETIME,
     f_passes                       nvarchar(1000),
     f_disabled                     nvarchar(1),
     f_deleted                      CHAR(1),
@@ -731,7 +731,8 @@ CREATE TABLE vis_orders
     f_temp_posted                  nvarchar(1),
     f_new_rec_date                 DATETIME,--время создания заявки
     f_new_rec_operator             INT,--id оператора создателя заявки
-    f_barcode                      NVARCHAR(200)--штрихкод СЭД(система электронного документооборота)
+    f_barcode                      NVARCHAR(200),--штрихкод СЭД(система электронного документооборота)
+    f_image_id                     INT--ссылка на изображение
   )
 
 ALTER TABLE vis_orders
@@ -739,7 +740,7 @@ ADD PRIMARY KEY (f_ord_id)
 
 if not exists(select * from vis_orders where f_ord_id = '0')
 begin
-	insert into vis_orders values ( '0', '', '', '', '', '', '', '', '', '', 'N', '', '', '','','','')
+	insert into vis_orders values ( '0', '', '', '', '', '', '', '', '', '', 'N', '', '', '','','','','')
 end
 go
 

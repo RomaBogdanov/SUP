@@ -364,7 +364,7 @@ namespace SupRealClient.Views
 		    FindCommand = new RelayCommand(arg => Find());
 
 		    OpenDocumentCommand = new RelayCommand(arg => OpenDocument());
-		    AddDocumentCommand = new RelayCommand(arg => AddDocument());
+			AddDocumentCommand = new RelayCommand(arg => AddDocument());
 		    EditDocumentCommand = new RelayCommand(arg => EditDocument());
 		    RemoveDocumentCommand = new RelayCommand(arg => RemoveDocument());
 
@@ -382,7 +382,8 @@ namespace SupRealClient.Views
 	    {
 			if(_documentScaner!=null)
 				_documentScaner.ScanFinished -= Scaner_ScanFinished;
-		    _documentScaner?.Dispose();
+			if(_documentScaner!=null)
+				_documentScaner?.Dispose();
 	    }
 
 	    private void Refresh()
@@ -427,6 +428,7 @@ namespace SupRealClient.Views
 		    {
 			    Type = person.DocumentClassCode?.Value,
 			    Num = person.DocumentNumber?.Value,
+			    Code = person.DocumentDeliveryPlaceCode?.Value,
 			    Date = CurrentItem.DocDate
 		    };
 
@@ -470,7 +472,9 @@ namespace SupRealClient.Views
 		    CurrentItem.BirthDate = person.DateOfBirth?.Value;
 		    CurrentItem.DocType = person.DocumentClassCode?.Value;
 		    CurrentItem.DocNum = person.DocumentNumber?.Value;
-		    CurrentItem.DocPlace = person.DocumentDeliveryPlace?.Value;
+		    CurrentItem.Department = person.DocumentDeliveryPlace?.Value;
+		    CurrentItem.DocCode = person.DocumentDeliveryPlaceCode?.Value;
+		    CurrentItem.Person = person;
 
 		    if (person.DocumentDeliveryDate?.Value != null)
 		    {
@@ -796,13 +800,13 @@ namespace SupRealClient.Views
 
         }
 
-        private void OpenMainDocument()
+        internal void OpenMainDocument()
         {
             if (SelectedMainDocument < 0)
             {
                 return;
             }
-
+	    
             if (ButtonEnable)
             {
                 EditMainDocument();
@@ -811,14 +815,14 @@ namespace SupRealClient.Views
 
             var window = new VisitorsMainDocumentView(
                new VisitorsMainDocumentModel(
-                   CurrentItem.MainDocuments[SelectedMainDocument]), false);
+                   CurrentItem.MainDocuments[SelectedMainDocument]), false, CurrentItem.Person);
             window.ShowDialog();
         }
 
         private void AddMainDocument()
         {
             var window = new VisitorsMainDocumentView(
-                new VisitorsMainDocumentModel(null), true);
+                new VisitorsMainDocumentModel(null), true,null);
             window.ShowDialog();
             var document = window.WindowResult as VisitorsMainDocument;
 
@@ -838,7 +842,7 @@ namespace SupRealClient.Views
             }
             var window = new VisitorsMainDocumentView(
                 new VisitorsMainDocumentModel(
-                    CurrentItem.MainDocuments[SelectedMainDocument]), true);
+                    CurrentItem.MainDocuments[SelectedMainDocument]), true, CurrentItem.Person);
             window.ShowDialog();
             var document = window.WindowResult as VisitorsMainDocument;
 

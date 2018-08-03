@@ -97,7 +97,7 @@ namespace SupRealClient.ViewModels
                 ? countries.Where(p => !p.IsNullOrEmptyOrWhiteSpaces())
                 : countries;
 
-            return visibleCountries.FirstOrDefault(o => o.ToUpper() == @"РОССИЯ");
+            return visibleCountries.FirstOrDefault(o => o?.ToUpper() == @"РОССИЯ");
         }
 
         System.Collections.Generic.IEnumerable<string> GetCountries()
