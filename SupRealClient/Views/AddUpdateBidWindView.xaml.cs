@@ -53,7 +53,7 @@ namespace SupRealClient.Views
 
         public void Handling_OnClose(object result)
         {
-            WindowResult = result;
+			WindowResult = result;
             this.Close();
         }
 

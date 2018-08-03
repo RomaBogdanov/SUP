@@ -51,7 +51,8 @@
                 Style="{StaticResource ButtonStyle}"
                 PreviewKeyDown="uiElement_PreviewKeyDown">                
         </Button>
-        <Button TabIndex="1" Grid.Row="1" Grid.Column="3" Content="x" Style="{StaticResource ButtonStyle}"></Button>
+        <Button TabIndex="1" Grid.Row="1" Grid.Column="3" Content="x" 
+                Command="{Binding ClearVisitor}" Style="{StaticResource ButtonStyle}"></Button>
 
         <TextBlock Grid.Row="2" Text="Организация" Grid.ColumnSpan="2" Style="{StaticResource TextBLockStyle}" HorizontalAlignment="Left"></TextBlock>
         <TextBox Grid.Row="3" Grid.ColumnSpan="2" IsEnabled="False" Text="{Binding CurrentItem.Organization, Mode=OneWay}"  Style="{StaticResource TextBoxStyle}" Margin="2"></TextBox>
@@ -60,11 +61,14 @@
                 Style="{StaticResource ButtonStyle}"
                 PreviewKeyDown="uiElement_PreviewKeyDown">
         </Button>
-        <Button TabIndex="3" Grid.Row="3" Grid.Column="3" Content="x" Style="{StaticResource ButtonStyle}"></Button>
+        <Button TabIndex="3" Grid.Row="3" Grid.Column="3" Content="x" 
+                Command="{Binding ClearOrganization}" Style="{StaticResource ButtonStyle}"></Button>
 
         <TextBlock Grid.Row="4" Text="Должность" Grid.ColumnSpan="2" Style="{StaticResource TextBLockStyle}" HorizontalAlignment="Left"></TextBlock>
-        <TextBox Name="tbPosition"  TabIndex ="4" Grid.Row="5" Grid.ColumnSpan="4" IsEnabled="True" 
+        <TextBox Name="tbPosition"  TabIndex ="4" Grid.Row="5" Grid.ColumnSpan="3" IsEnabled="True" 
                  PreviewKeyDown="uiElement_PreviewKeyDown" Text="{Binding CurrentItem.Position, Mode=TwoWay}"  Style="{StaticResource TextBoxStyle}" Margin="2"></TextBox>
+        <Button TabIndex="3" Grid.Row="5" Grid.Column="3" Content="x" 
+                Command="{Binding ClearPosition}" Style="{StaticResource ButtonStyle}"></Button>
 
         <TextBlock Grid.Row="6" Text="Принимающее лицо" Grid.ColumnSpan="2" Style="{StaticResource TextBLockStyle}" HorizontalAlignment="Left"></TextBlock>
         <TextBox Name="txtCatcher" Grid.Row="7" Grid.ColumnSpan="2" IsEnabled="False" Text="{Binding CurrentItem.Catcher, Mode=TwoWay}" Style="{StaticResource TextBoxStyle}" Margin="2"></TextBox>
@@ -73,7 +77,8 @@
                 Style="{StaticResource ButtonStyle}"
                 PreviewKeyDown="uiElement_PreviewKeyDown">            
         </Button>
-        <Button TabIndex="6" Grid.Row="7" Grid.Column="3" Content="x" Style="{StaticResource ButtonStyle}"></Button>
+        <Button TabIndex="6" Grid.Row="7" Grid.Column="3" Content="x" 
+                Command="{Binding ClearCatcher}" Style="{StaticResource ButtonStyle}"></Button>
 
         <TextBlock Grid.Row="8" Text="Время от.." Grid.ColumnSpan="2" Style="{StaticResource TextBLockStyle}" HorizontalAlignment="Left"></TextBlock>
         <wpfx:TimePicker Name="dpTimeFrom" TabIndex="7" Grid.Row="9" Grid.ColumnSpan="4" Height="25" Margin="2"

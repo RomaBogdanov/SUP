@@ -113,12 +113,15 @@ namespace SupRealClient.ViewModels.AddUpdateViewModel
     public class AddUpdateBidsViewModel : AddUpdateBaseViewModel
     {
         public ICommand ChooseVisitor { get; set; }
-
 		public ICommand ChooseOrganization { get; set; }
-
         public ICommand ChooseCatcher { get; set; }
-
         public ICommand UpdateZones { get; set; }
+
+		public ICommand ClearVisitor { get; set; }
+		public ICommand ClearOrganization { get; set; }
+		public ICommand ClearPosition { get; set; }
+		public ICommand ClearCatcher { get; set; }
+		public ICommand ClearZones { get; set; }
 
 	    private OrderElement CurrentOrderElement => CurrentItem as OrderElement;
 
@@ -129,6 +132,12 @@ namespace SupRealClient.ViewModels.AddUpdateViewModel
 		    ChooseOrganization = new RelayCommand(arg => OrganizationNameCommand());
 		    ChooseCatcher = new RelayCommand(arg => CatcherNameCommand());
 		    UpdateZones = new RelayCommand(arg => UpdateZonesCommand());
+
+		    ClearVisitor = new RelayCommand(arg => ClearVisitorCommand());
+		    ClearOrganization = new RelayCommand(arg => ClearOrganiztionCommand());
+		    ClearPosition= new RelayCommand(arg => ClearPositionCommand());
+			ClearCatcher = new RelayCommand(arg => ClearCatcherCommand());
+		    ClearZones = new RelayCommand(arg => ClearZonesCommand());
 		}
 
 		private void VisitorNameCommand()
@@ -206,6 +215,35 @@ namespace SupRealClient.ViewModels.AddUpdateViewModel
 		        CurrentOrderElement.Passes = st.Remove(st.Length - 2);
 			}
         }
+
+	    private void ClearVisitorCommand()
+	    {
+		    CurrentOrderElement.VisitorId = 0;
+		    CurrentItem = CurrentItem;
+	    }
+
+	    private void ClearOrganiztionCommand()
+	    {
+		    CurrentOrderElement.OrganizationId = 0;
+		    CurrentItem = CurrentItem;
+		}
+
+	    private void ClearPositionCommand()
+	    {
+		    CurrentOrderElement.Position = "";
+		    CurrentItem = CurrentItem;
+		}
+
+	    private void ClearCatcherCommand()
+	    {
+		    CurrentOrderElement.CatcherId = 0;
+		    CurrentItem = CurrentItem;
+		}
+
+	    private void ClearZonesCommand()
+	    {
+		    CurrentItem = CurrentItem;
+		}
 
 	    protected override void OkCommand()
 	    {
@@ -511,7 +549,7 @@ namespace SupRealClient.ViewModels.AddUpdateViewModel
             set
             {
                 ((AreaSpace)Model.CurrentItem).Area = value;
-                OnPropertyChanged("Area");
+                OnPropertyChanged();
             }
         }
 
@@ -521,7 +559,7 @@ namespace SupRealClient.ViewModels.AddUpdateViewModel
             set
             {
                 ((AreaSpace)Model.CurrentItem).Space = value;
-                OnPropertyChanged("Space");
+                OnPropertyChanged();
             }
         }
 
