@@ -408,17 +408,22 @@ namespace SupRealClient.Views
 			    {
 				    FillCurrentItemFieldsFromScan(e.Person);
 				    AddMainDocumentFromScan(e.Person);
-
+				    AddPortraitAndSignatureFromScan(e.Person);
 				    OnPropertyChanged(nameof(CurrentItem));
 			    }
 		    }
 	    }
 
+	    private void AddPortraitAndSignatureFromScan(CPerson person)
+	    {
+		    AddImageSource(ImageType.Photo,null,person);
+		}
+
 	    /// <summary>
 	    /// Добавление отсканированного документа.
 	    /// </summary>
 	    /// <param name="person"></param>
-	    private void AddMainDocumentFromScan(CPerson person)
+		private void AddMainDocumentFromScan(CPerson person)
 	    {
 		    var document = new VisitorsMainDocument
 		    {
@@ -696,14 +701,32 @@ namespace SupRealClient.Views
 	        IsRedactMode = false;
 		}
 
-        private void AddImageSource(ImageType imageType, string name)
+        private void AddImageSource(ImageType imageType, string name, CPerson person = null)
         {
-            var dlg = new OpenFileDialog();
-            if (dlg.ShowDialog() == DialogResult.OK)
-            {
-                Model.AddImageSource(dlg.FileName, imageType);
-	            AddImageToDocuments(name, dlg.FileName);
-            }
+	        if (person == null)
+	        {
+		        var dlg = new OpenFileDialog();
+		        if (dlg.ShowDialog() == DialogResult.OK)
+		        {
+			        Model.AddImageSource(dlg.FileName, imageType);
+			        AddImageToDocuments(name, dlg.FileName);
+		        }
+
+		        return;
+	        }
+
+	        if (Model is BaseVisitsModel baseModel)
+	        {
+		        if (person.Portrait != null)
+		        {
+			        baseModel.AddImageSource(person.Portrait, ImageType.Photo);
+		        }
+
+		        if (person.Signature != null)
+		        {
+			        baseModel.AddImageSource(person.Signature, ImageType.Signature);
+		        }
+	        }
         }
 
         private void RemoveImageSource(ImageType imageType, string name)
@@ -1085,7 +1108,15 @@ namespace SupRealClient.Views
             SetImageSource(ImagesHelper.LoadImage(path), imageType);
         }
 
-        public virtual void RemoveImageSource(ImageType imageType)
+	    /// <summary>
+	    /// Загрузка портрета и подписи со сканера.
+	    /// </summary>
+	    public void AddImageSource(byte[] image, ImageType imageType)
+	    {
+		    SetImageSource(ImagesHelper.GetGuidFromByteArray(image), imageType);
+	    }
+
+		public virtual void RemoveImageSource(ImageType imageType)
         {
             SetImageSource(Guid.Empty, imageType);
         }
