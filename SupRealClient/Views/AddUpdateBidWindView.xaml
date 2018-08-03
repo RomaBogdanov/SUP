@@ -49,7 +49,7 @@
         <Button Name="btnSelectBid" TabIndex="0" Grid.Row="1" Grid.Column="2" Content="..." IsDefault="False"
                 Command="{Binding ChooseVisitor}" 
                 Style="{StaticResource ButtonStyle}"
-                KeyDown="btnSelectBid_PreviewKeyDown">                
+                PreviewKeyDown="uiElement_PreviewKeyDown">                
         </Button>
         <Button TabIndex="1" Grid.Row="1" Grid.Column="3" Content="x" Style="{StaticResource ButtonStyle}"></Button>
 
@@ -58,19 +58,20 @@
         <Button Name="btnSelectOrganization" TabIndex="2" Grid.Row="3" Grid.Column="2" Content="..." 
                 Command="{Binding ChooseOrganization}" 
                 Style="{StaticResource ButtonStyle}"
-                KeyDown="btnSelectOrganization_PreviewKeyDown">
+                PreviewKeyDown="uiElement_PreviewKeyDown">
         </Button>
         <Button TabIndex="3" Grid.Row="3" Grid.Column="3" Content="x" Style="{StaticResource ButtonStyle}"></Button>
 
         <TextBlock Grid.Row="4" Text="Должность" Grid.ColumnSpan="2" Style="{StaticResource TextBLockStyle}" HorizontalAlignment="Left"></TextBlock>
-        <TextBox TabIndex ="4" Grid.Row="5" Grid.ColumnSpan="4" IsEnabled="True" Text="{Binding CurrentItem.Position, Mode=TwoWay}"  Style="{StaticResource TextBoxStyle}" Margin="2"></TextBox>
+        <TextBox Name="tbPosition"  TabIndex ="4" Grid.Row="5" Grid.ColumnSpan="4" IsEnabled="True" 
+                 PreviewKeyDown="uiElement_PreviewKeyDown" Text="{Binding CurrentItem.Position, Mode=TwoWay}"  Style="{StaticResource TextBoxStyle}" Margin="2"></TextBox>
 
         <TextBlock Grid.Row="6" Text="Принимающее лицо" Grid.ColumnSpan="2" Style="{StaticResource TextBLockStyle}" HorizontalAlignment="Left"></TextBlock>
         <TextBox Name="txtCatcher" Grid.Row="7" Grid.ColumnSpan="2" IsEnabled="False" Text="{Binding CurrentItem.Catcher, Mode=TwoWay}" Style="{StaticResource TextBoxStyle}" Margin="2"></TextBox>
         <Button Name="btnSelectCatcher" TabIndex="5" Grid.Row="7" Grid.Column="2" Content="..." 
                 Command="{Binding ChooseCatcher}" 
                 Style="{StaticResource ButtonStyle}"
-                KeyDown="btnSelectCatcher_PreviewKeyDown">            
+                PreviewKeyDown="uiElement_PreviewKeyDown">            
         </Button>
         <Button TabIndex="6" Grid.Row="7" Grid.Column="3" Content="x" Style="{StaticResource ButtonStyle}"></Button>
 
@@ -78,31 +79,32 @@
         <wpfx:TimePicker Name="dpTimeFrom" TabIndex="7" Grid.Row="9" Grid.ColumnSpan="4" Height="25" Margin="2"
                          IsEnabled="{Binding CurrentItem.IsDateTimeDisplayed}" 
                          Value="{Binding CurrentItem.FromTime, Mode=TwoWay}"
-                         TextAlignment="Center">
+                         PreviewKeyDown="uiElement_PreviewKeyDown" TextAlignment="Center">
         </wpfx:TimePicker>
 
         <TextBlock Grid.Row="10" Text="Время до.." Grid.ColumnSpan="2" Style="{StaticResource TextBLockStyle}" HorizontalAlignment="Left"></TextBlock>
         <wpfx:TimePicker Name="dpTimeTo" TabIndex="8" Grid.Row="11" Grid.ColumnSpan="4" Height="25" Margin="2"
                          IsEnabled="{Binding CurrentItem.IsDateTimeDisplayed}"  
                          Value="{Binding CurrentItem.ToTime, Mode=TwoWay}"
-                         TextAlignment="Center">
+                         PreviewKeyDown="uiElement_PreviewKeyDown" TextAlignment="Center">
         </wpfx:TimePicker>
 
         <TextBlock Grid.Row="12" Text="Проходы" Grid.ColumnSpan="2" Style="{StaticResource TextBLockStyle}" HorizontalAlignment="Left"></TextBlock>
         <TextBox IsEnabled="False" Grid.Row="13" Grid.ColumnSpan="2" Text="{Binding CurrentItem.Passes, Mode=TwoWay}" Style="{StaticResource TextBoxStyle}" Margin="2"></TextBox>
         <Button Name="btnSelectPass" TabIndex="9" Grid.Row="13" Grid.Column="2" Content="..." Style="{StaticResource ButtonStyle}" Command="{Binding UpdateZones}"
-                KeyDown="btnSelectPass_PreviewKeyDown">                
+                PreviewKeyDown="uiElement_PreviewKeyDown">                
         </Button>
         <Button TabIndex="10" Grid.Row="13" Grid.Column="3" Content="x" Style="{StaticResource ButtonStyle}"></Button>
 
         <TextBlock Grid.Row="14" Text="Не активен" Style="{StaticResource TextBLockStyle}" HorizontalAlignment="Left"></TextBlock>
         <CheckBox Name="checkDisable" TabIndex="11" Grid.Row="14" Grid.Column="3" IsChecked="{Binding CurrentItem.IsDisable}"
-                  PreviewKeyDown="UIdef_KeyDown">            
+                  PreviewKeyDown="uiElement_PreviewKeyDown">            
         </CheckBox>
 
         <Button Name="btnOK" TabIndex="12" Grid.Row="15"
                 Command="{Binding Ok}"
-                Style="{StaticResource ButtonStyle}">
+                Style="{StaticResource ButtonStyle}"
+                PreviewKeyDown="uiElement_PreviewKeyDown">
             <Grid Width="140">
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition/>
