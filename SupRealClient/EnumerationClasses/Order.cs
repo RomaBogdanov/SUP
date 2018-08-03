@@ -122,7 +122,7 @@ namespace SupRealClient.EnumerationClasses
 		public DateTime? NewRecDate { get; set; }
 		public int NewRecOperatorID { get; set; }
 		public string NewRecOperator { get; set; }
-		public string BarCode { get; set; }
+		public string Barcode { get; set; }
 		public int CatcherId { get; set; } = 0; // Id провожающего
 		public int ImageId { get; set; } // id исходника скана заявки
 		public string Catcher { get; set; } = ""; // провожающий

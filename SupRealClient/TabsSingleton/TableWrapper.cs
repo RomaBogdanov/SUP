@@ -257,7 +257,7 @@ namespace SupRealClient.TabsSingleton
 			row["f_rec_operator"] = order.RecOperatorID;
 			row["f_new_rec_date"] = order.NewRecDate;
 			row["f_new_rec_operator"] = order.NewRecOperatorID;
-			row["f_barcode"] = order.BarCode;
+			row["f_barcode"] = order.Barcode;
 			row["f_adjusted_with"] = order.AgreeId;
 			row["f_notes"] = order.Note;
 			row["f_disabled"] = order.IsDisable ? "Y" : "N";
@@ -289,7 +289,7 @@ namespace SupRealClient.TabsSingleton
 			row["f_rec_operator"] = order.RecOperatorID;
 			row["f_new_rec_date"] = order.NewRecDate;
 			row["f_new_rec_operator"] = order.NewRecOperatorID;
-			row["f_barcode"] = order.BarCode;
+			row["f_barcode"] = order.Barcode;
 			row["f_adjusted_with"] = order.AgreeId;
 			row["f_notes"] = order.Note;
 			row["f_disabled"] = "N"; // todo: судя по всему, поле показывает, что заявка неактивна.
@@ -343,7 +343,7 @@ namespace SupRealClient.TabsSingleton
 					To = ords.Field<DateTime>("f_date_to"),
 					SignedId = ords.Field<int>("f_signed_by"),
 					RecDate = ords.Field<DateTime>("f_rec_date"),
-					BarCode = ords.Field<string>("f_barcode"),
+					Barcode = ords.Field<string>("f_barcode"),
 					ImageId = ords.Field<int>("f_image_id"),
 					RecOperatorID = ords.Field<int>("f_rec_operator"),
 					NewRecDate = ords.Field<DateTime?>("f_new_rec_date"),
