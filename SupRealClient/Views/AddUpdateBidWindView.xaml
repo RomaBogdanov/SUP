@@ -12,7 +12,7 @@
         ResizeMode="NoResize"
         Title="Заявка" Height="470" Width="300" 
         KeyboardNavigation.DirectionalNavigation="Cycle"
-                 Loaded="MetroWindow_Loaded">
+        Loaded="MetroWindow_Loaded">
     <mah:MetroWindow.Resources>
         <conv:BoolToGridRowHeightConverter x:Key="BoolToGridRowHeightConverter"/>
     </mah:MetroWindow.Resources>

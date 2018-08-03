@@ -12,6 +12,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
 using System.ComponentModel;
+using System.Diagnostics;
 using  SupRealClient;
 using SupRealClient.Behaviour;
 using SupRealClient.Models.AddUpdateModel;
@@ -28,15 +29,15 @@ namespace SupRealClient.Views
         /// </summary>
         private readonly TraversalRequest _focusMover = new TraversalRequest(FocusNavigationDirection.Next);
 
-	    private List<UIElement> enterUiElementsSequence;
-	    private UIElement previousEnterUiElement = null;
+	    private readonly List<UIElement> _enterUiElementsSequence;
+	    private UIElement _previousEnterUiElement = null;
 
         public object WindowResult { get; set; }
 
         public AddUpdateBidWindView()
         {
             InitializeComponent();
-	        enterUiElementsSequence = new List<UIElement>
+	        _enterUiElementsSequence = new List<UIElement>
 	        {
 		        btnSelectBid,
 		        btnSelectOrganization,
@@ -68,14 +69,14 @@ namespace SupRealClient.Views
 				return;
 		    }
 
-		    if (previousEnterUiElement !=null && previousEnterUiElement.Equals(sender))
+		    if (_previousEnterUiElement !=null && _previousEnterUiElement.Equals(sender))
 		    {
-			    UIElement newFocus = previousEnterUiElement;
+			    UIElement newFocus = _previousEnterUiElement;
 			    while (true)
 			    {
-				    int index = enterUiElementsSequence.FindIndex(x => x.Equals(newFocus));
-				    index = (index + 1) % enterUiElementsSequence.Count;
-					newFocus = enterUiElementsSequence[index];
+				    int index = _enterUiElementsSequence.FindIndex(x => x.Equals(newFocus));
+				    index = (index + 1) % _enterUiElementsSequence.Count;
+					newFocus = _enterUiElementsSequence[index];
 				    newFocus?.Focus();
 
 				    if (newFocus != null && !newFocus.IsEnabled)
@@ -90,90 +91,8 @@ namespace SupRealClient.Views
 		    }
 		    else
 		    {
-			    previousEnterUiElement = (UIElement)sender;
+			    _previousEnterUiElement = (UIElement)sender;
 			}
 	    }
-
-        private void btnSelectBid_PreviewKeyDown(object sender, KeyEventArgs e)
-        {
-            if (e.Key == Key.Enter)
-            {
-	            if (!Equals(previousEnterUiElement, btnSelectBid))
-	            {
-		            previousEnterUiElement = btnSelectBid;
-	            }
-	            else
-	            {
-		            previousEnterUiElement = null;
-					btnSelectOrganization.Focus();
-					e.Handled = true;
-				}
-            }
-        }
-
-	    private void btnSelectOrganization_PreviewKeyDown(object sender, KeyEventArgs e)
-	    {
-		    if (e.Key == Key.Enter)
-		    {
-				if (!Equals(previousEnterUiElement, btnSelectOrganization))
-				{
-					previousEnterUiElement = btnSelectOrganization;
-				}
-				else
-				{
-					previousEnterUiElement = null;
-					btnSelectCatcher.Focus();
-					e.Handled = true;
-				}
-			}
-		}
-
-        private void btnSelectCatcher_PreviewKeyDown(object sender, KeyEventArgs e)
-        {
-	        bool test = Equals((UIElement) sender, btnSelectCatcher); 
-            if (e.Key == Key.Enter)
-            {
-				if (!Equals(previousEnterUiElement, btnSelectCatcher))
-				{
-					previousEnterUiElement = btnSelectCatcher;
-				}
-				else
-				{
-					previousEnterUiElement = null;
-					dpTimeFrom.Focus();
-					e.Handled = true;
-				}
-			}
-        }
-
-        private void UIdef_KeyDown(object sender, KeyEventArgs e)
-        {
-            if (e.Key == Key.Enter)
-            {
-                UIElement elementWithFocus = Keyboard.FocusedElement as UIElement;
-                if (elementWithFocus != null)
-                {
-                    elementWithFocus.MoveFocus(_focusMover);
-                    e.Handled = true;
-                }
-            }
-        }
-
-        private void btnSelectPass_PreviewKeyDown(object sender, KeyEventArgs e)
-        {
-            if (e.Key == Key.Enter)
-            {
-                checkDisable.Focus();
-                e.Handled = true;
-            }
-        }
-
-        private void btnOK_KeyDown(object sender, KeyEventArgs e)
-        {
-            if (e.Key == Key.Enter)
-            {
-                btnOK.Command.Execute(null);
-            }
-        }
     }
 }
