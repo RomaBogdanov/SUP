@@ -1643,7 +1643,7 @@ namespace SupRealClient.Views
                     where visit.Field<int>("f_visitor_id") == Set[index].Id
                     select new Card2
                     {
-                        Card = card.Field<string>("f_card_text"),
+                        Card = card.Field<string>("f_card_name"),
                         From = visit.Field<DateTime>("f_date_from"),
                         To = visit.Field<DateTime>("f_date_to"),
                         Change = visit.Field<DateTime>("f_rec_date"),
