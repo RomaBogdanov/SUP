@@ -201,7 +201,10 @@ namespace SupRealClient.ViewModels.AddUpdateViewModel
                 st += area.Name + ", ";
             }
 
-            CurrentOrderElement.Passes = st.Remove(st.Length - 2);
+	        if (st.Length - 2 >= 0)
+	        {
+		        CurrentOrderElement.Passes = st.Remove(st.Length - 2);
+			}
         }
 
 	    protected override void OkCommand()
