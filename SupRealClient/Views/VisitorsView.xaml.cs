@@ -1,5 +1,6 @@
 ﻿using SupRealClient.Common.Interfaces;
 using System.Windows;
+using System.Windows.Input;
 
 namespace SupRealClient.Views
 {
@@ -9,8 +10,9 @@ namespace SupRealClient.Views
     public partial class VisitorsView
     {
         private static VisitorsView visitorsView;
+	    private TraversalRequest _focusMover = new TraversalRequest(FocusNavigationDirection.Next);
 
-        public static VisitorsView Instance
+		public static VisitorsView Instance
         {
             get
             {
@@ -88,6 +90,16 @@ namespace SupRealClient.Views
                 if (this.Visibility == Visibility.Hidden)
                     this.DataContext = new VisitsViewModel(this);
             }
-        }       
-    }
+        }
+
+		private void MoveNextFocusControl(object sender, KeyEventArgs e)
+		{
+			if (e.Key == Key.Enter)
+			{
+				((UIElement)sender).MoveFocus(_focusMover);
+				e.Handled = true;
+				
+			}
+		}
+	}
 }

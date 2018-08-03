@@ -50,8 +50,10 @@ namespace SupRealClient.Views
         {
             if (e.Key == Key.Enter)
             {
-                ((UIElement)sender).MoveFocus(_focusMover);
-            }
+				//((UIElement)sender).MoveFocus(_focusMover);
+				if(DataContext is VisitorsDocumentViewModel)
+					(DataContext as VisitorsDocumentViewModel).RealizationSaving();
+			}
         }
     }
 }

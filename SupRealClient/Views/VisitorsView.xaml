@@ -64,13 +64,14 @@
             <TextBlock Grid.Row="0" Grid.Column="0" Text="Фамилия" Style="{StaticResource TextBLockStyle}"/>
 
             <TextBox
-                TabIndex="0"
+	            TabIndex="{Binding Path=TabIndex, RelativeSource={RelativeSource AncestorType={x:Type Window}}}"
                 Text="{Binding Path=CurrentItem.Family, Mode=TwoWay}"
                 Grid.Row="1"
                 Grid.Column="0"
                 Margin="2"
                 IsEnabled="{Binding Path=TextEnable, Mode=TwoWay}"
-                Style="{StaticResource TextBoxStyle}"/>
+                Style="{StaticResource TextBoxStyle}"
+	            KeyUp="MoveNextFocusControl"/>
 
             <TextBlock
                 Grid.Row="0"
@@ -79,13 +80,14 @@
                 Style="{StaticResource TextBLockStyle}"/>
 
             <TextBox
-                TabIndex="1"
+	            TabIndex="{Binding Path=TabIndex, RelativeSource={RelativeSource AncestorType={x:Type Window}}}"
                 Text="{Binding Path=CurrentItem.Name, Mode=TwoWay}"
                 Grid.Row="1"
                 Grid.Column="1"
                 Margin="2"
                 IsEnabled="{Binding Path=TextEnable, Mode=TwoWay}"
-                Style="{StaticResource TextBoxStyle}"/>
+                Style="{StaticResource TextBoxStyle}"
+	            KeyUp="MoveNextFocusControl"/>
 
             <TextBlock
                 Grid.Row="0"
@@ -94,13 +96,14 @@
                 Style="{StaticResource TextBLockStyle}"/>
 
             <TextBox
-                TabIndex="2"
+	            TabIndex="{Binding Path=TabIndex, RelativeSource={RelativeSource AncestorType={x:Type Window}}}"
                 Text="{Binding Path=CurrentItem.Patronymic, Mode=TwoWay}"
                 Grid.Row="1"
                 Grid.Column="2"
                 Margin="2"
                 IsEnabled="{Binding Path=TextEnable, Mode=TwoWay}"
-                Style="{StaticResource TextBoxStyle}"/>
+                Style="{StaticResource TextBoxStyle}"
+	            KeyUp="MoveNextFocusControl"/>
 
             <TextBlock
                 Grid.Row="2"
@@ -201,7 +204,7 @@
                 Style="{StaticResource TextBLockStyle}" Margin="6,13" VerticalAlignment="Stretch"/>
 
             <TextBox
-                TabIndex="4"
+                TabIndex="8"
                 Text="{Binding Path=CurrentItem.Organization, Mode=TwoWay}"
                 Grid.Row="0"
                 Grid.Column="1"
@@ -210,7 +213,8 @@
                 IsReadOnly="True" Margin="10,11" VerticalAlignment="Stretch"/>
 
             <Button
-                TabIndex="5"
+	            TabIndex="{Binding Path=TabIndex, RelativeSource={RelativeSource AncestorType={x:Type Window}}}"
+				Focusable="True"
                 Command="{Binding Path=OrganizationCommand}"
                 Grid.Row="0"
                 Grid.Column="2"
@@ -223,7 +227,7 @@
             <Button
                 Command="{Binding ClearCommand}"
                 CommandParameter="Organization"
-                TabIndex="6"
+                TabIndex="9"
                 Grid.Column="3"
                 Height="25"
                 Width="25"
@@ -239,7 +243,7 @@
                 Style="{StaticResource TextBLockStyle}" Margin="8,13" VerticalAlignment="Stretch"/>
 
             <TextBox
-                TabIndex="7"
+                TabIndex="10"
                 Text="{Binding Path=CurrentItem.Comment, Mode=TwoWay}"
                 Grid.Row="1"
                 Grid.Column="1"
@@ -247,7 +251,7 @@
                 Style="{StaticResource TextBoxStyle}" Margin="10,11" VerticalAlignment="Stretch"/>
 
             <Button
-                TabIndex="8"
+                TabIndex="11"
                 Grid.Row="1"
                 Grid.Column="2"
                 Content="..."
@@ -259,7 +263,7 @@
             <Button
                 Command="{Binding ClearCommand}"
                 CommandParameter="Comment"
-                TabIndex="9"
+                TabIndex="12"
                 Grid.Row="1"
                 Grid.Column="3"
                 Height="25"
@@ -270,20 +274,23 @@
                 Style="{StaticResource VisitorsSquareButtonStyle}"/>
 
             <StackPanel Orientation="Horizontal" Grid.Row="2" Grid.ColumnSpan="4" Grid.IsSharedSizeScope="True">
-                <CheckBox TabIndex="10" Grid.Column="0" Grid.Row="2" Margin="10,11,0,11"
+                <CheckBox TabIndex="13" Grid.Column="0" Grid.Row="2" Margin="10,11,0,11"
                       Content="Вход запрещен"
                       IsChecked="{Binding Path=CurrentItem.IsAccessDenied, Mode=TwoWay}"
                       IsEnabled="{Binding Path=TextEnable, Mode=TwoWay}" />
 
-                <CheckBox TabIndex="11" Grid.Column="1" Grid.Row="2" Margin="10,11"
+                <CheckBox TabIndex="14" Grid.Column="1" Grid.Row="2" Margin="10,11"
                       Content="Принимающее лицо"
                       IsChecked="{Binding Path=CurrentItem.IsCanHaveVisitors, Mode=TwoWay}"
                       IsEnabled="{Binding Path=TextEnable, Mode=TwoWay}" />
 
-                <CheckBox TabIndex="12" Grid.Column="2" Grid.ColumnSpan="2" Grid.Row="2" HorizontalAlignment="Center" 
-                      Content="Нет формуляра"
-                      IsChecked="{Binding Path=CurrentItem.IsNotFormular, Mode=TwoWay}"
-                      IsEnabled="{Binding Path=TextEnable, Mode=TwoWay}" Margin="0,11" />
+                <CheckBox 
+	                TabIndex="{Binding Path=TabIndex, RelativeSource={RelativeSource AncestorType={x:Type Window}}}"
+	                Grid.Column="2" Grid.ColumnSpan="2" Grid.Row="2" HorizontalAlignment="Center" 
+                    Content="Нет формуляра"
+                    IsChecked="{Binding Path=CurrentItem.IsNotFormular, Mode=TwoWay}"
+                    IsEnabled="{Binding Path=TextEnable, Mode=TwoWay}" Margin="0,11" 
+                    KeyUp="MoveNextFocusControl"/>
             </StackPanel>
         </Grid>
 
@@ -505,12 +512,13 @@
                                     </Grid.ColumnDefinitions>
 
                                     <CheckBox 
-                                    TabIndex="34"
+	                                TabIndex="{Binding Path=TabIndex, RelativeSource={RelativeSource AncestorType={x:Type Window}}}"
                                     IsChecked="{Binding Path=CurrentItem.IsAgree, Mode=TwoWay}"
                                     Grid.Column="0"
                                     HorizontalAlignment="Center"
                                     IsEnabled="{Binding Path=TextEnable, Mode=TwoWay}"
-                                    VerticalAlignment="Center"/>
+                                    VerticalAlignment="Center"
+	                                KeyUp="MoveNextFocusControl"/>
 
                                     <TextBlock
                                     Grid.Column="1"
@@ -1177,6 +1185,7 @@
                     Command="{Binding OkCommand}"
                     Grid.Row="1"
                     Grid.Column="2"
+	            TabIndex="{Binding Path=TabIndex, RelativeSource={RelativeSource AncestorType={x:Type Window}}}"
                     Margin="2"
                     IsEnabled="{Binding Path=VisitorsEnable.AcceptButtonEnable, Mode=TwoWay}"
                     Visibility="{Binding Path=VisitorsVisible.AcceptButtonEnable, 

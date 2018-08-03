@@ -48,10 +48,11 @@
             Grid.Column="0"
             Grid.ColumnSpan="2" 
             TabIndex="0"
-            Text="{Binding Name, Mode=TwoWay}"
+	        Text="{Binding Name, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
             Margin="2"
             Style="{StaticResource TextBoxStyle}"
             KeyUp="TextBox_OnKeyUp"/>
+	    <!--Text="{Binding Name, Mode=TwoWay}"-->
 	    <!--Text="{Binding Name, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"-->
 
         <TextBlock 
