@@ -35,8 +35,7 @@ namespace SupRealClient.Views
 			SurnameTextBlock.Text = person.Surname?.Value;
 			NameTextBlock.Text = person.Name?.Value;
 			PatronymicTextBlock.Text = person.Patronymic?.Value;
-
-			DocumentTypeTextBlock.Text = person.DocumentClassCode?.Value;
+			
 			DocumentNumberTextBlock.Text = person.DocumentNumber?.Value;
 			DocumentDeliveryPlaceTextBlock.Text = person.DocumentDeliveryPlace?.Value;
 

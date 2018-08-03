@@ -428,7 +428,6 @@ namespace SupRealClient.Views
 	    {
 		    var document = new VisitorsMainDocument
 		    {
-			    Type = person.DocumentClassCode?.Value,
 			    Num = person.DocumentNumber?.Value,
 			    Code = person.DocumentDeliveryPlaceCode?.Value,
 			    Date = CurrentItem.DocDate
@@ -449,7 +448,9 @@ namespace SupRealClient.Views
 		    var isContains = false;
 		    for (var index = 0; index < CurrentItem.MainDocuments.Count; index++)
 		    {
-			    if (string.Equals(CurrentItem.MainDocuments[index].Num.Trim(), document.Num.Trim()))
+			    if (string.IsNullOrEmpty(CurrentItem.MainDocuments[index]?.Num?.Trim()) 
+			        || string.IsNullOrEmpty(document.Num?.Trim())
+				    || string.Equals(CurrentItem.MainDocuments[index]?.Num?.Trim(), document.Num?.Trim()))
 			    {
 				    isContains = true;
 				    (view as Window)?.Invoke(() => { CurrentItem.MainDocuments[index] = document; });
