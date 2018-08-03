@@ -19,8 +19,8 @@ namespace SupRealClient.Views
         public VisitorsMainDocumentView(VisitorsMainDocumentModel model, bool editable, CPerson person)
         {
             model.OnClose += Handling_OnClose;
-            DataContext = new VisitorsMainDocumentViewModel(editable,person);
-            ((VisitorsMainDocumentViewModel)DataContext).SetModel(model);
+            DataContext = new VisitorsMainDocumentViewModel(editable);
+            ((VisitorsMainDocumentViewModel)DataContext).SetModel(model, person);
             InitializeComponent();
 
             AfterInitialize();
@@ -32,7 +32,7 @@ namespace SupRealClient.Views
         public VisitorsMainDocumentView()
         {
             InitializeComponent();
-            DataContext = new VisitorsMainDocumentViewModel(false,null);
+            DataContext = new VisitorsMainDocumentViewModel(false);
         }
 
         private void TextBox_OnKeyUp(object sender, KeyEventArgs e)

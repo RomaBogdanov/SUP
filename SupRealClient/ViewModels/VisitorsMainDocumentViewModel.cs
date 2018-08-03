@@ -190,59 +190,67 @@ namespace SupRealClient.ViewModels
         public ICommand Ok { get; set; }
         public ICommand Cancel { get; set; }
 
-        public VisitorsMainDocumentViewModel(bool editable, CPerson person)
+        public VisitorsMainDocumentViewModel(bool editable)
         {
             Editable = editable;
-	    Person = person;
         }
 
-        public void SetModel(VisitorsMainDocumentModel model)
-        {
-            this.model = model;
-            Caption = !Editable ? "Просмотр документа" :
-                (model.Data.Id == -1 ? "Добавление документа" :
-                "Редактирование документа");
+	    public void SetModel(VisitorsMainDocumentModel model, CPerson person)
+	    {
+		    this.model = model;
+		    Caption = !Editable
+			    ? "Просмотр документа"
+			    : (model.Data.Id == -1 ? "Добавление документа" : "Редактирование документа");
 
-            this.Seria = model.Data.Seria;
-            this.Num = model.Data.Num;
-            this.Date = model.Data.Date;
-            this.DateTo = model.Data.DateTo;
-            this.Org = model.Data.Org;
-            this.Code = model.Data.Code;
-            this.Comment = model.Data.Comment;
-            this.BirthDate = model.Data.BirthDate;
-            documentId = model.Data.TypeId;
-            DocType = (string)DocumentsWrapper.CurrentTable().Table
-                .AsEnumerable().FirstOrDefault(arg =>
-                arg.Field<int>("f_doc_id") == documentId)?["f_doc_name"];
+		    this.Seria = model.Data.Seria;
+		    this.Num = model.Data.Num;
+		    this.Date = model.Data.Date;
+		    this.DateTo = model.Data.DateTo;
+		    this.Org = model.Data.Org;
+		    this.Code = model.Data.Code;
+		    this.Comment = model.Data.Comment;
+		    this.BirthDate = model.Data.BirthDate;
+		    documentId = model.Data.TypeId;
+		    DocType = (string) DocumentsWrapper.CurrentTable().Table
+			    .AsEnumerable().FirstOrDefault(arg =>
+				    arg.Field<int>("f_doc_id") == documentId)?["f_doc_name"];
 
-            if (model.Data.Images.Any())
-            {
-                imageCache = model.Data.Images;
-            }
-            else
-            {
-                imageCache = DocumentsHelper.CacheImages(model.Data.Id);
-            }
-            if (imageCache.Any())
-            {
-                SetImage(0);
-            }
+		    if (model.Data.Images.Any())
+		    {
+			    imageCache = model.Data.Images;
+		    }
+		    else
+		    {
+			    imageCache = DocumentsHelper.CacheImages(model.Data.Id);
+		    }
+		    
+		    if (person?.PagesScanList != null)
+		    {
+			    foreach (var page in person.PagesScanList)
+			    {
+				    imageCache.Add(ImagesHelper.GetGuidFromByteArray(page));
+			    }
+		    }
 
-            this.Ok = new RelayCommand(arg => OkExecute());
-            this.Cancel = new RelayCommand(arg => this.model.Cancel());
+		    if (imageCache.Any())
+		    {
+			    SetImage(0);
+		    }
 
-            DocumentsCommand = new RelayCommand(arg => DocumentsListModel());
-            ClearCommand = new RelayCommand(arg => Clear());
+		    this.Ok = new RelayCommand(arg => OkExecute());
+		    this.Cancel = new RelayCommand(arg => this.model.Cancel());
 
-            AddImageCommand = new RelayCommand(arg => AddImage());
-            RemoveImageCommand = new RelayCommand(arg => RemoveImage());
+		    DocumentsCommand = new RelayCommand(arg => DocumentsListModel());
+		    ClearCommand = new RelayCommand(arg => Clear());
 
-            PrevCommand = new RelayCommand(arg => Prev());
-            NextCommand = new RelayCommand(arg => Next());
-        }
+		    AddImageCommand = new RelayCommand(arg => AddImage());
+		    RemoveImageCommand = new RelayCommand(arg => RemoveImage());
 
-        protected virtual void OnPropertyChanged(string propertyName) =>
+		    PrevCommand = new RelayCommand(arg => Prev());
+		    NextCommand = new RelayCommand(arg => Next());
+	    }
+
+	    protected virtual void OnPropertyChanged(string propertyName) =>
             this.PropertyChanged?.Invoke(this,
             new PropertyChangedEventArgs(propertyName));
 
