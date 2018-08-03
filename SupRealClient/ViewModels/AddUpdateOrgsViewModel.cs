@@ -5,6 +5,7 @@ using System.Windows.Input;
 using SupRealClient.EnumerationClasses;
 using SupRealClient.Views;
 using System.Windows.Data;
+using SupRealClient.Common.Interfaces;
 
 namespace SupRealClient.ViewModels
 {
@@ -12,6 +13,7 @@ namespace SupRealClient.ViewModels
     {
         public event PropertyChangedEventHandler PropertyChanged;
         private IAddUpdateOrgsModel model;
+        private IWindow view;
         private string type = "";
         private string name = "";
         private string comment = "";
@@ -139,9 +141,9 @@ namespace SupRealClient.ViewModels
 
         public ICommand Cancel { get; set; }
 
-        public AddUpdateOrgsViewModel()
+        public AddUpdateOrgsViewModel(IWindow view)
         {
-            
+            this.view = view;
         }
 
         private bool TypeListFilter(object item)
@@ -218,7 +220,7 @@ namespace SupRealClient.ViewModels
         private void CountyList()
         {
             var result = ViewManager.Instance.OpenWindowModal(
-                "Base4NationsWindViewOk", null) as BaseModelResult;
+                "Base4NationsWindViewOk", view) as BaseModelResult;
             if (result == null)
             {
                 return;

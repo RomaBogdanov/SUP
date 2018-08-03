@@ -7,7 +7,8 @@
       xmlns:mah="http://metro.mahapps.com/winfx/xaml/controls"      
       mc:Ignorable="d" 
       Title="Гражданства" Height="600" Width="596" ResizeMode="NoResize"
-      PreviewKeyDown="Window_PreviewKeyDown">
+      PreviewKeyDown="Window_PreviewKeyDown" 
+      IsVisibleChanged="MetroWindow_IsVisibleChanged">
     <Grid>
         <local:Base1View x:Name="base4" ></local:Base1View>
     </Grid>

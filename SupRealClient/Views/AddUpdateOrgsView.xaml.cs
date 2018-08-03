@@ -22,7 +22,7 @@ namespace SupRealClient.Views
         public AddUpdateOrgsView(IAddUpdateOrgsModel model)
         {
             model.OnClose += Handling_OnClose;
-            DataContext = new AddUpdateOrgsViewModel();
+            DataContext = new AddUpdateOrgsViewModel(this);
             ((AddUpdateOrgsViewModel)DataContext).SetModel(model);
             InitializeComponent();
             
@@ -35,7 +35,7 @@ namespace SupRealClient.Views
         public AddUpdateOrgsView()
         {
             InitializeComponent();            
-            DataContext = new AddUpdateOrgsViewModel();
+            DataContext = new AddUpdateOrgsViewModel(this);
         }
 
         private void MetroWindow_Loaded(object sender, RoutedEventArgs e)
