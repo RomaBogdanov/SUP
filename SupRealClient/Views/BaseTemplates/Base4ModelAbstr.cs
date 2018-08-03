@@ -1650,12 +1650,30 @@ select new T
 
         public override void Add()
         {
-            throw new NotImplementedException();
+            AddUpdateAbstrModel model = new AddTemplateModel();
+            AddUpdateBaseViewModel viewModel = new AddUpdateBaseViewModel
+            {
+                Model = model
+            };
+            AddUpdateTemplateView view = new AddUpdateTemplateView();
+            view.DataContext = viewModel;
+            model.OnClose += view.Handling_OnClose;
+            view.ShowDialog();
+            object res = view.WindowResult;
         }
 
         public override void Update()
         {
-            throw new NotImplementedException();
+            AddUpdateAbstrModel model = new UpdateTemplateModel(CurrentItem);
+            AddUpdateBaseViewModel viewModel = new AddUpdateBaseViewModel
+            {
+                Model = model
+            };
+            AddUpdateTemplateView view = new AddUpdateTemplateView();
+            view.DataContext = viewModel;
+            model.OnClose += view.Handling_OnClose;
+            view.ShowDialog();
+            object res = view.WindowResult;
         }
 
         protected override void DoQuery()

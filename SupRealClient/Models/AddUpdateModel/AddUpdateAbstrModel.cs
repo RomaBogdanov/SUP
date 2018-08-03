@@ -546,4 +546,44 @@ namespace SupRealClient.Models.AddUpdateModel
             OnClose?.Invoke(SetAppointZones);
         }
     }
+
+    public class AddTemplateModel : AddUpdateAbstrModel
+    {
+        public AddTemplateModel()
+        {
+            CurrentItem = new Template();
+        }
+
+        protected override void SaveResult()
+        {
+            DataRow row = TemplatesWrapper.CurrentTable().Table.NewRow();
+            row["f_template_name"] = ((Template)CurrentItem).Name;
+            row["f_template_type"] = int.Parse(((Template)CurrentItem).Type);
+            row["f_template_description"] = ((Template)CurrentItem).Descript;
+            row["f_deleted"] = "N";
+            row["f_rec_date"] = DateTime.Now;
+            row["f_rec_operator"] = Authorizer.AppAuthorizer.Id;
+            TemplatesWrapper.CurrentTable().Table.Rows.Add(row);
+        }
+    }
+
+    public class UpdateTemplateModel : AddUpdateAbstrModel
+    {
+        public UpdateTemplateModel(Template template)
+        {
+            CurrentItem = template.Clone();
+        }
+
+        protected override void SaveResult()
+        {
+            DataRow row = TemplatesWrapper.CurrentTable().Table.Rows.Find(((IdEntity)CurrentItem).Id);
+            row.BeginEdit();
+            row["f_template_name"] = ((Template)CurrentItem).Name;
+            row["f_template_type"] = int.Parse(((Template)CurrentItem).Type);
+            row["f_template_description"] = ((Template)CurrentItem).Descript;
+            row["f_rec_date"] = DateTime.Now;
+            row["f_rec_operator"] = Authorizer.AppAuthorizer.Id;
+            row.EndEdit();
+        }
+    }
 }
