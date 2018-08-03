@@ -157,10 +157,11 @@ namespace SupRealClient
             ReopenWindow(window.WindowName, window, parent);
         }
 
-        public object OpenRegions(int countryId)
+        public object OpenRegions(int countryId, IWindow parent = null)
         {
             var window = new Base4RegionsWindView(Visibility.Visible);
             window.SetCountry(countryId);
+            window.ParentWindow = parent;
             return OpenWindowModal(window);
         }
 

@@ -90,7 +90,7 @@
             Grid.Row="4" 
             Grid.Column="0"
             Grid.ColumnSpan="4"
-            Text="Комментарий:"
+            Text="Примечание:"
             FontSize="{Binding FontSize}"
             HorizontalAlignment="Left"
             Style="{StaticResource TextBLockStyle}"/>

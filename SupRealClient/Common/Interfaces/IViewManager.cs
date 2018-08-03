@@ -62,7 +62,7 @@ namespace SupRealClient.Common.Interfaces
         /// </summary>
         void OpenWindow(IWindow window, IWindow parent);
 
-        object OpenRegions(int countryId);
+        object OpenRegions(int countryId, IWindow parent);
 
         int? OpenSynonims(Organization organization);
 

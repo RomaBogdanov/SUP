@@ -6,7 +6,7 @@
       xmlns:local="clr-namespace:SupRealClient.Views"
       xmlns:mah="http://metro.mahapps.com/winfx/xaml/controls"      
       mc:Ignorable="d" 
-      Title="Гражданства" Height="600" Width="596" ResizeMode="NoResize"
+      Title="Страны" Height="600" Width="596" ResizeMode="NoResize"
       PreviewKeyDown="Window_PreviewKeyDown" 
       IsVisibleChanged="MetroWindow_IsVisibleChanged">
     <Grid>

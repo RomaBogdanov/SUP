@@ -45,5 +45,17 @@ namespace SupRealClient.Views
         {
             base4.baseTab.CurrentColumn = base4.baseTab.Columns[0];
         }
+
+        private void MetroWindow_IsVisibleChanged(object sender, DependencyPropertyChangedEventArgs e)
+        {
+            Title = @"Регионы";
+            if (Visibility == Visibility.Visible)
+            {
+                if (ParentWindow is AddUpdateOrgsView)
+                {
+                    Title = @"Выбор региона";
+                }
+            }
+        }
     }
 }

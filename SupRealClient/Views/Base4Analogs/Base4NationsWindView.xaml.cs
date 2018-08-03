@@ -39,7 +39,7 @@ namespace SupRealClient.Views
 
         private void MetroWindow_IsVisibleChanged(object sender, DependencyPropertyChangedEventArgs e)
         {
-            Title = @"Гражданства";
+            Title = @"Страны";
             if (Visibility == Visibility.Visible)
             {
                 if (ParentWindow is AddUpdateOrgsView)

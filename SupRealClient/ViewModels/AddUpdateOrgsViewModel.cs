@@ -171,7 +171,7 @@ namespace SupRealClient.ViewModels
         public void SetModel(IAddUpdateOrgsModel addItem1Model)
         {
             this.model = addItem1Model;
-            this.Caption = model.Data.Id <= 0 ? "Добавление организации" :
+            this.Caption = model.Data.Id <= 0 ? "Добавить организацию" :
                 "Редактирование организации";
             this.TypeList = 
                 (CollectionView)CollectionViewSource.GetDefaultView(OrganizationsHelper.GetTypes(model.Data.Type));
@@ -238,7 +238,7 @@ namespace SupRealClient.ViewModels
         private void RegionList()
         {
             var result = ViewManager.Instance.OpenRegions(
-                countryId) as BaseModelResult;
+                countryId, view) as BaseModelResult;
             if (result == null)
             {
                 return;
