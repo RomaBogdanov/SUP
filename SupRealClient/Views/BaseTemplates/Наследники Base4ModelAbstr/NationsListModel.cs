@@ -62,7 +62,8 @@ namespace SupRealClient.Views
 
         protected override BaseModelResult GetResult()
         {
-            return new BaseModelResult { Id = CurrentItem.Id, Name = CurrentItem.CountryName };
+            return new BaseModelResult { Id = CurrentItem != null ? CurrentItem.Id : 0 ,
+                                         Name = CurrentItem?.CountryName };
         }
 
         protected override void DoQuery()

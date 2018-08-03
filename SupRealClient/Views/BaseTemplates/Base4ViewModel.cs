@@ -197,7 +197,7 @@ namespace SupRealClient.Views
         public Base4ViewModel()
         {
             Add = new RelayCommand(obj => AddCom());
-            Update = new RelayCommand(obj => UpdateCom());
+            Update = new RelayCommand(obj => UpdateCom(), oCanExecute => CanExecuteUpdate());
             Search = new RelayCommand(obj => SearchCom());
             Farther = new RelayCommand(obj => FartherCom());
             Begin = new RelayCommand(obj => BeginCom());
@@ -237,12 +237,25 @@ namespace SupRealClient.Views
         {
             this.Model.Add();
             ScrollCurrentItem?.Invoke();
-        }
+        }        
+
         private void UpdateCom()
         {
             this.Model.Update();
             ScrollCurrentItem?.Invoke();
         }
+        private bool CanExecuteUpdate()
+        {
+            bool result = true;
+
+            if (CurrentItem == null)
+            {
+                result = false;
+            }
+
+            return result;
+        }
+
         private void SearchCom()
         {
             this.Model.Search();
