@@ -12,6 +12,7 @@
     Height="550"
     KeyboardNavigation.DirectionalNavigation="Cycle"
     Loaded="MetroWindow_Loaded"
+    PreviewKeyDown="Window_PreviewKeyDown"
     ResizeMode="NoResize"
     WindowStartupLocation="CenterOwner"
     mc:Ignorable="d">
@@ -65,7 +66,7 @@
             Command="{Binding ChooseVisitor}"
             Content="..."
             IsDefault="False"
-            PreviewKeyDown="uiElement_PreviewKeyDown"
+            PreviewKeyDown="UiElement_PreviewKeyDown"
             Style="{StaticResource ButtonStyle}"
             TabIndex="0" />
         <Button
@@ -95,7 +96,7 @@
             Grid.Column="2"
             Command="{Binding ChooseOrganization}"
             Content="..."
-            PreviewKeyDown="uiElement_PreviewKeyDown"
+            PreviewKeyDown="UiElement_PreviewKeyDown"
             Style="{StaticResource ButtonStyle}"
             TabIndex="2" />
         <Button
@@ -118,7 +119,7 @@
             Grid.ColumnSpan="3"
             Margin="2"
             IsEnabled="True"
-            PreviewKeyDown="uiElement_PreviewKeyDown"
+            PreviewKeyDown="UiElement_PreviewKeyDown"
             Style="{StaticResource TextBoxStyle}"
             TabIndex="4"
             Text="{Binding CurrentItem.Position, Mode=TwoWay}" />
@@ -128,7 +129,7 @@
             Command="{Binding ClearPosition}"
             Content="x"
             Style="{StaticResource ButtonStyle}"
-            TabIndex="3" />
+            TabIndex="4" />
 
         <TextBlock
             Grid.Row="6"
@@ -150,7 +151,7 @@
             Grid.Column="2"
             Command="{Binding ChooseCatcher}"
             Content="..."
-            PreviewKeyDown="uiElement_PreviewKeyDown"
+            PreviewKeyDown="UiElement_PreviewKeyDown"
             Style="{StaticResource ButtonStyle}"
             TabIndex="5" />
         <Button
@@ -174,7 +175,7 @@
             Height="25"
             Margin="2"
             IsEnabled="{Binding CurrentItem.IsDateTimeDisplayed}"
-            PreviewKeyDown="uiElement_PreviewKeyDown"
+            PreviewKeyDown="UiElement_PreviewKeyDown"
             TabIndex="7"
             TextAlignment="Center"
             Value="{Binding CurrentItem.FromTime, Mode=TwoWay}" />
@@ -192,7 +193,7 @@
             Height="25"
             Margin="2"
             IsEnabled="{Binding CurrentItem.IsDateTimeDisplayed}"
-            PreviewKeyDown="uiElement_PreviewKeyDown"
+            PreviewKeyDown="UiElement_PreviewKeyDown"
             TabIndex="8"
             TextAlignment="Center"
             Value="{Binding CurrentItem.ToTime, Mode=TwoWay}" />
@@ -205,7 +206,7 @@
             Text="Проходы" />
         <TextBox
             Grid.Row="13"
-            Grid.ColumnSpan="2"
+            Grid.ColumnSpan="3"
             Margin="2"
             IsEnabled="False"
             Style="{StaticResource TextBoxStyle}"
@@ -213,18 +214,19 @@
         <Button
             Name="btnSelectPass"
             Grid.Row="13"
-            Grid.Column="2"
+            Grid.Column="3"
             Command="{Binding UpdateZones}"
             Content="..."
-            PreviewKeyDown="uiElement_PreviewKeyDown"
+            PreviewKeyDown="UiElement_PreviewKeyDown"
             Style="{StaticResource ButtonStyle}"
             TabIndex="9" />
-        <Button
+        <!--<Button
             Grid.Row="13"
             Grid.Column="3"
             Content="x"
             Style="{StaticResource ButtonStyle}"
             TabIndex="10" />
+        -->
 
         <TextBlock
             Grid.Row="14"
@@ -236,14 +238,14 @@
             Grid.Row="14"
             Grid.Column="3"
             IsChecked="{Binding CurrentItem.IsDisable}"
-            PreviewKeyDown="uiElement_PreviewKeyDown"
+            PreviewKeyDown="UiElement_PreviewKeyDown"
             TabIndex="11" />
 
         <Button
             Name="btnOK"
             Grid.Row="15"
             Command="{Binding Ok}"
-            PreviewKeyDown="uiElement_PreviewKeyDown"
+            PreviewKeyDown="UiElement_PreviewKeyDown"
             Style="{StaticResource ButtonStyle}"
             TabIndex="12">
             <Grid Width="140">
