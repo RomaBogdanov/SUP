@@ -13,6 +13,7 @@
     KeyboardNavigation.DirectionalNavigation="Cycle"
     Loaded="MetroWindow_Loaded"
     ResizeMode="NoResize"
+    WindowStartupLocation="CenterOwner"
     mc:Ignorable="d">
     <mah:MetroWindow.Resources>
         <conv:BoolToGridRowHeightConverter x:Key="BoolToGridRowHeightConverter" />
