@@ -7,6 +7,8 @@ using System.Linq;
 using System;
 using System.Collections.Generic;
 using System.Data;
+using System.Windows.Media.Imaging;
+using RegulaLib;
 using SupRealClient.TabsSingleton;
 using SupRealClient.Views;
 
@@ -28,14 +30,15 @@ namespace SupRealClient.ViewModels
         private DateTime birthDate;
         private string comment = "";
 
-        private string image = "";
+	 private string image = "";
 
-        private List<Guid> imageCache = new List<Guid>();
+	private List<Guid> imageCache = new List<Guid>();
         private int selectedImage = -1;
 
         public bool Editable { get; private set; }
+	public CPerson Person { get; private set; }
 
-        public string Caption { get; private set; }
+	public string Caption { get; private set; }
 
         public string DocType
         {
@@ -164,17 +167,18 @@ namespace SupRealClient.ViewModels
             }
         }
 
-        public string Image
-        {
-            get { return image; }
-            set
-            {
-                image = value;
-                OnPropertyChanged("Image");
-            }
-        }
+		public string Image
+		{
+			get { return image; }
+			set
+			{
+				image = value;
+				OnPropertyChanged("Image");
+			}
+		}
+	   
 
-        public ICommand AddImageCommand { get; set; }
+	 public ICommand AddImageCommand { get; set; }
         public ICommand RemoveImageCommand { get; set; }
 
         public ICommand DocumentsCommand { get; set; }
@@ -191,87 +195,97 @@ namespace SupRealClient.ViewModels
             Editable = editable;
         }
 
-        public void SetModel(VisitorsMainDocumentModel model)
-        {
-            this.model = model;
-            Caption = !Editable ? "Просмотр документа" :
-                (model.Data.Id == -1 ? "Добавление документа" :
-                "Редактирование документа");
+	    public void SetModel(VisitorsMainDocumentModel model, CPerson person)
+	    {
+		    this.model = model;
+		    Caption = !Editable
+			    ? "Просмотр документа"
+			    : (model.Data.Id == -1 ? "Добавление документа" : "Редактирование документа");
 
-            this.Seria = model.Data.Seria;
-            this.Num = model.Data.Num;
-            this.Date = model.Data.Date;
-            this.DateTo = model.Data.DateTo;
-            this.Org = model.Data.Org;
-            this.Code = model.Data.Code;
-            this.Comment = model.Data.Comment;
-            this.BirthDate = model.Data.BirthDate;
-            documentId = model.Data.TypeId;
-            DocType = (string)DocumentsWrapper.CurrentTable().Table
-                .AsEnumerable().FirstOrDefault(arg =>
-                arg.Field<int>("f_doc_id") == documentId)?["f_doc_name"];
+		    this.Seria = model.Data.Seria;
+		    this.Num = model.Data.Num;
+		    this.Date = model.Data.Date;
+		    this.DateTo = model.Data.DateTo;
+		    this.Org = model.Data.Org;
+		    this.Code = model.Data.Code;
+		    this.Comment = model.Data.Comment;
+		    this.BirthDate = model.Data.BirthDate;
+		    documentId = model.Data.TypeId;
+		    DocType = (string) DocumentsWrapper.CurrentTable().Table
+			    .AsEnumerable().FirstOrDefault(arg =>
+				    arg.Field<int>("f_doc_id") == documentId)?["f_doc_name"];
 
-            if (model.Data.Images.Any())
-            {
-                imageCache = model.Data.Images;
-            }
-            else
-            {
-                imageCache = DocumentsHelper.CacheImages(model.Data.Id);
-            }
-            if (imageCache.Any())
-            {
-                SetImage(0);
-            }
+		    if (model.Data.Images.Any())
+		    {
+			    imageCache = model.Data.Images;
+		    }
+		    else
+		    {
+			    imageCache = DocumentsHelper.CacheImages(model.Data.Id);
+		    }
+		    
+		    if (person?.PagesScanList != null)
+		    {
+			    foreach (var page in person.PagesScanList)
+			    {
+				    imageCache.Add(ImagesHelper.GetGuidFromByteArray(page));
+			    }
+		    }
 
-            this.Ok = new RelayCommand(arg => OkExecute());
-            this.Cancel = new RelayCommand(arg => this.model.Cancel());
+		    if (imageCache.Any())
+		    {
+			    SetImage(0);
+		    }
 
-            DocumentsCommand = new RelayCommand(arg => DocumentsListModel());
-            ClearCommand = new RelayCommand(arg => Clear());
+		    this.Ok = new RelayCommand(arg => OkExecute());
+		    this.Cancel = new RelayCommand(arg => this.model.Cancel());
 
-            AddImageCommand = new RelayCommand(arg => AddImage());
-            RemoveImageCommand = new RelayCommand(arg => RemoveImage());
+		    DocumentsCommand = new RelayCommand(arg => DocumentsListModel());
+		    ClearCommand = new RelayCommand(arg => Clear());
 
-            PrevCommand = new RelayCommand(arg => Prev());
-            NextCommand = new RelayCommand(arg => Next());
-        }
+		    AddImageCommand = new RelayCommand(arg => AddImage());
+		    RemoveImageCommand = new RelayCommand(arg => RemoveImage());
 
-        protected virtual void OnPropertyChanged(string propertyName) =>
+		    PrevCommand = new RelayCommand(arg => Prev());
+		    NextCommand = new RelayCommand(arg => Next());
+	    }
+
+	    protected virtual void OnPropertyChanged(string propertyName) =>
             this.PropertyChanged?.Invoke(this,
             new PropertyChangedEventArgs(propertyName));
 
-        private void AddImage()
-        {
-            var dlg = new OpenFileDialog();
-            if (dlg.ShowDialog() == DialogResult.OK)
-            {
-                Guid id = ImagesHelper.LoadImage(dlg.FileName);
-                imageCache.Add(id);
-                SetImage(imageCache.Count - 1);
-            }
-        }
+	    private void AddImage()
+	    {
+			var dlg = new OpenFileDialog();
+			if (dlg.ShowDialog() == DialogResult.OK)
+			{
+				var guid = ImagesHelper.LoadImage(dlg.FileName);
+				imageCache.Add(guid);
+				SetImage(imageCache.Count - 1);
+			}
+		}
 
-        private void RemoveImage()
-        {
-            if (SelectedImage < 0)
-            {
-                return;
-            }
-            int selected = SelectedImage;
-            imageCache.RemoveAt(selected);
-            SetImage(selected <= imageCache.Count - 1 ? selected : selected - 1);
-        }
+	    private void RemoveImage()
+	    {
+		    if (SelectedImage < 0)
+		    {
+			    return;
+		    }
 
-        private void Prev()
-        {
-            if (selectedImage > 0)
-            {
-                SetImage(selectedImage - 1);
-            }
-        }
+		    int selected = SelectedImage;
+			imageCache.RemoveAt(selected);
+			SetImage(selected <= imageCache.Count - 1 ? selected : selected - 1);
+		}
 
-        private void Next()
+	    private void Prev()
+	    {
+		    if (selectedImage > 0)
+		    {
+			    SetImage(selectedImage - 1);
+		    }
+	    }
+
+	    private void Next()
         {
             if (selectedImage < imageCache.Count - 1)
             {
@@ -282,8 +296,11 @@ namespace SupRealClient.ViewModels
         private void SetImage(int index)
         {
             selectedImage = index;
-            Image = selectedImage < 0 ? "" :
-                ImagesHelper.GetImagePath(imageCache[selectedImage]);
+	        if (index < 0)
+	        {
+		        return;
+	        }
+            Image = ImagesHelper.GetImagePath(imageCache[selectedImage]);
         }
 
         private void OkExecute()

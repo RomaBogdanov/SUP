@@ -2,6 +2,7 @@
 using System.Collections.ObjectModel;
 using System.Data;
 using System.Linq;
+using RegulaLib;
 using SupRealClient.Models;
 using SupRealClient.TabsSingleton;
 
@@ -55,7 +56,12 @@ namespace SupRealClient.EnumerationClasses
         public bool IsAgreement { get; set; }
         public int CabinetId { get; set; }
         public string Cabinet { get; set; }
-        public ObservableCollection<Order> Orders { get; set; }
+
+	/// <summary>
+	/// RegulaLib.CPerson
+	/// </summary>
+	public CPerson Person { get; set; }
+	public ObservableCollection<Order> Orders { get; set; }
         public ObservableCollection<Card2> Cards { get; set; }
         public ObservableCollection<VisitorsMainDocument> MainDocuments { get; set; }
         public ObservableCollection<VisitorsDocument> Documents { get; set; }
