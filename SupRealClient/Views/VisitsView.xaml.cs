@@ -70,7 +70,8 @@ namespace SupRealClient.Views
 	    private bool _enableButton_OpenDocument_InRedactMode = false;
 		private bool _isRedactMode = false;
 
-	    public event Action<string> MoveNextFocusingElement;
+
+		public event Action<string> MoveNextFocusingElement;
 
 		public CollectionView PositionList { get; private set; }
 
@@ -171,11 +172,18 @@ namespace SupRealClient.Views
 			    _isRedactMode = value;
 			    VisibleButton_OpenDocument_InRedactMode = _isRedactMode;
 			    OnPropertyChanged(nameof(IsRedactMode));
+			    OnPropertyChanged(nameof(VisibleTabItem_Employee));
+			    OnPropertyChanged(nameof(IsRedactMode_Inverce));
 			}
 	    }
 
+	    public bool IsRedactMode_Inverce
+	    {
+		    get { return !_isRedactMode; }
+	    }
 
-	    public bool VisibleButton_OpenDocument_InRedactMode
+
+		public bool VisibleButton_OpenDocument_InRedactMode
 	    {
 		    get { return _visibleButton_OpenDocument_InRedactMode; }
 		    set
@@ -266,6 +274,19 @@ namespace SupRealClient.Views
         {
             get { return Model?.Signature; }
         }
+
+	    public bool VisibleTabItem_Employee
+		{
+		    get
+		    {
+			    if (!IsRedactMode)
+				    return true;
+				else if (CurrentItem.OrganizationIsMaster)
+				    return false;
+			    else
+				    return true;
+		    }
+	    }
 
         public bool Enable
         { get; set; }
@@ -543,10 +564,15 @@ namespace SupRealClient.Views
             CurrentItem.OrganizationId = result.Id;
             CurrentItem.Organization = OrganizationsHelper.
                 GenerateFullName(result.Id, true);
-            OnPropertyChanged("CurrentItem");
-	        MoveNextFocusingElement?.Invoke("OrganizationsList");
+			CurrentItem.OrganizationIsMaster = OrganizationsHelper.GetMasterParametr(result.Id, true);
 
-        }
+
+
+			OnPropertyChanged("CurrentItem");
+	        MoveNextFocusingElement?.Invoke("OrganizationsList");
+	        OnPropertyChanged(nameof(VisibleTabItem_Employee));
+
+		}
 
         private void CountyList()
         {
