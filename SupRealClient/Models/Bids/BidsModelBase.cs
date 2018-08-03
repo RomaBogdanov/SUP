@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.ObjectModel;
+using System.Linq;
 using System.Windows;
 using SupRealClient.EnumerationClasses;
 using SupRealClient.Models.AddUpdateModel;
@@ -305,16 +306,11 @@ namespace SupRealClient.Models
 			}
 
 			AddUpdateAbstrModel model = new UpdateBidModel(UpdateVisitor);
-			AddUpdateBaseViewModel viewModel = new AddUpdateBidsViewModel(model);
-			AddUpdateBidWindView view = new AddUpdateBidWindView
-			{
-				DataContext = viewModel
-			};
-			model.OnClose += view.Handling_OnClose;
-			view.ShowDialog();
 			int i = CurrentSingleOrder.OrderElements.IndexOf(UpdateVisitor);
-			if (view.WindowResult == null) return;
-			CurrentSingleOrder.OrderElements[i] = (view.WindowResult as OrderElement);
+			object res = OpenWindow(model);
+			if (res == null) return;
+			
+			CurrentSingleOrder.OrderElements[i] = (res as OrderElement);
 			UpdateVisitor = CurrentSingleOrder.OrderElements[i];
 			OnRefresh?.Invoke();
 		}
@@ -387,13 +383,7 @@ namespace SupRealClient.Models
 		protected void AddPersonInSingleOrder()
 		{
 			AddUpdateAbstrModel model = new AddSingleBidModel(true, CurrentSingleOrder.From, CurrentSingleOrder.From);
-			AddUpdateBaseViewModel viewModel = new AddUpdateBidsViewModel(model);
-			AddUpdateBidWindView view = new AddUpdateBidWindView();
-			view.Title = "Добавить посетителя";
-			view.DataContext = viewModel;
-			model.OnClose += view.Handling_OnClose;
-			view.ShowDialog();
-			object res = view.WindowResult;
+			object res = OpenWindow(model);
 			if (res == null) return;
 			if (CurrentSingleOrder.OrderElements == null)
 				CurrentSingleOrder.OrderElements = new ObservableCollection<OrderElement>();
@@ -407,16 +397,7 @@ namespace SupRealClient.Models
 		protected void AddPersonInTempOrder()
 		{
 			AddUpdateAbstrModel model = new AddSingleBidModel(false, CurrentTemporaryOrder.From, CurrentTemporaryOrder.To);
-			AddUpdateBaseViewModel viewModel = new AddUpdateBidsViewModel(model)
-			{
-				Model = model
-			};
-			AddUpdateBidWindView view = new AddUpdateBidWindView();
-			view.Title = "Добавить посетителя";
-			view.DataContext = viewModel;
-			model.OnClose += view.Handling_OnClose;
-			view.ShowDialog();
-			object res = view.WindowResult;
+			object res = OpenWindow(model);
 			if (res == null) return;
 			if (CurrentTemporaryOrder.OrderElements == null)
 			{
@@ -426,5 +407,22 @@ namespace SupRealClient.Models
 			CurrentTemporaryOrder.OrderElements.Add((OrderElement) res);
 			OnRefresh?.Invoke();
 		}
+
+		private object OpenWindow(AddUpdateAbstrModel model)
+		{
+			AddUpdateBaseViewModel viewModel = new AddUpdateBidsViewModel(model)
+			{
+				Model = model
+			};
+			AddUpdateBidWindView view = new AddUpdateBidWindView();
+			view.Owner = Application.Current.Windows.OfType<Window>().SingleOrDefault(x => x.IsActive);
+			view.Title = "Добавить посетителя";
+			view.DataContext = viewModel;
+			model.OnClose += view.Handling_OnClose;
+			view.ShowDialog();
+			return view.WindowResult;
+		}
+
+
 	}
 }
