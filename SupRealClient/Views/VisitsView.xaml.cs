@@ -402,13 +402,14 @@ namespace SupRealClient.Views
 				    regulaView = new RegulaView(e.Person);
 				    regulaView?.ShowDialog();
 			    });
-			    
-			   
-			    if (regulaView?.Result??false)
+
+
+			    if (regulaView?.Result ?? false)
 			    {
-				    FillCurrentItemFieldsFromScan(e.Person);
 				    AddMainDocumentFromScan(e.Person);
 				    AddPortraitAndSignatureFromScan(e.Person);
+				    FillCurrentItemFieldsFromScan(e.Person);
+
 				    OnPropertyChanged(nameof(CurrentItem));
 			    }
 		    }
@@ -423,7 +424,7 @@ namespace SupRealClient.Views
 	    /// Добавление отсканированного документа.
 	    /// </summary>
 	    /// <param name="person"></param>
-		private void AddMainDocumentFromScan(CPerson person)
+	    private void AddMainDocumentFromScan(CPerson person)
 	    {
 		    var document = new VisitorsMainDocument
 		    {
@@ -442,7 +443,9 @@ namespace SupRealClient.Views
 			    //
 		    }
 
-		    //проверка на наличие документа в списке документов CurrentItem
+		    document.Comment += GetDocumentComment(person);
+
+			//проверка на наличие документа в списке документов CurrentItem
 		    var isContains = false;
 		    for (var index = 0; index < CurrentItem.MainDocuments.Count; index++)
 		    {
@@ -452,11 +455,48 @@ namespace SupRealClient.Views
 				    (view as Window)?.Invoke(() => { CurrentItem.MainDocuments[index] = document; });
 			    }
 		    }
-
+		    
 		    if (!isContains)
 		    {
 			    (view as Window)?.Invoke(() => { Model.AddMainDocument(document); });
 		    }
+	    }
+
+	    /// <summary>
+	    /// заполнение примечания документа в случае измеения ФИО.
+	    /// </summary>
+	    private string GetDocumentComment(CPerson person)
+	    {
+		    //если изменились ФИО, то добавить примечание
+		    var isNameDifferent = !string.IsNullOrEmpty(CurrentItem.Name) &&
+		                          !string.Equals(CurrentItem.Name?.Trim().ToLower(), person.Name?.Value.Trim().ToLower());
+		    var isSurnameDifferent = !string.IsNullOrEmpty(CurrentItem.Family) &&
+		                             !string.Equals(CurrentItem.Family?.Trim().ToLower(), person.Surname?.Value.Trim().ToLower());
+		    var isPatronomycDifferent = !string.IsNullOrEmpty(CurrentItem.Patronymic) &&
+		                                !string.Equals(CurrentItem.Patronymic?.Trim().ToLower(),
+			                                person.Patronymic?.Value.Trim().ToLower());
+		    var isChange = isNameDifferent || isSurnameDifferent || isPatronomycDifferent;
+		    var str = "";
+		    if (isChange)
+		    {
+			   str = "\nпрошлые поля: ";
+			    if (isNameDifferent)
+			    {
+				    str += "имя: " + CurrentItem.Name + ", ";
+			    }
+
+			    if (isSurnameDifferent)
+			    {
+				    str += "фамилия: " + CurrentItem.Family + ", ";
+			    }
+
+			    if (isSurnameDifferent)
+			    {
+				    str += "отчество: " + CurrentItem.Patronymic + ", ";
+			    }
+		    }
+
+		    return str;
 	    }
 
 
