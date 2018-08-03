@@ -4,6 +4,9 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 VisualStudioVersion = 15.0.27130.2010
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SupHost", "SupHost\SupHost.csproj", "{26CA47B8-6802-4D1E-93A8-B3B2F9B5EB57}"
+	ProjectSection(ProjectDependencies) = postProject
+		{011C7D33-710F-4852-987A-05D09352B64D} = {011C7D33-710F-4852-987A-05D09352B64D}
+	EndProjectSection
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SupContract", "SupContract\SupContract.csproj", "{EE82210E-6E55-48BB-A558-FA78C966CC9B}"
 EndProject

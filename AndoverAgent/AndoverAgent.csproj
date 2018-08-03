@@ -60,5 +60,11 @@
       <Name>AndoverLib</Name>
     </ProjectReference>
   </ItemGroup>
+  <ItemGroup>
+    <None Include="CreateBase.sql" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="LoadPersons.txt" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
