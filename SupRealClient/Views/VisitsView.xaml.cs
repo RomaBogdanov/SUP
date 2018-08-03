@@ -64,6 +64,7 @@ namespace SupRealClient.Views
         private int selectedMainDocument = -1;
         private int selectedDocument = -1;
         private int selectedCard = -1;
+        private int selectedOrder = -1;
         private const string _nameDocument_PhotoImageType = "Личная фотография";
 	    private const string _nameDocument_SignatureImageType = "Личная подпись";
 	    private bool _visibleButton_OpenDocument_InRedactMode = false;
@@ -265,6 +266,16 @@ namespace SupRealClient.Views
             }
         }
 
+        public int SelectedOrder
+        {
+            get { return selectedOrder; }
+            set
+            {
+                selectedOrder = value;
+                OnPropertyChanged();
+            }
+        }
+
         public string PhotoSource
         {
             get { return Model?.PhotoSource; }
@@ -305,6 +316,7 @@ namespace SupRealClient.Views
 
         public ICommand ExtraditeCommand { get; set; }
         public ICommand ReturnCommand { get; set; }
+        public ICommand OpenOrderCommand { get; set; }
 
         public ICommand OkCommand { get; set; }
         public ICommand CancelCommand { get; set; }
@@ -373,7 +385,7 @@ namespace SupRealClient.Views
 
 		    ExtraditeCommand = new RelayCommand(obj => Extradite());
 		    ReturnCommand = new RelayCommand(obj => Return());
-
+            OpenOrderCommand = new RelayCommand(obj => OpenOrder());
 
             AddImageSourceCommand = new RelayCommand(arg => AddImageSource(ImageType.Photo, _nameDocument_PhotoImageType));
             RemoveImageSourceCommand= new RelayCommand(arg => RemoveImageSource(ImageType.Photo, _nameDocument_PhotoImageType));
@@ -675,6 +687,16 @@ namespace SupRealClient.Views
             };
 
             window.ShowDialog();
+        }
+
+        private void OpenOrder()
+        {
+            if (SelectedOrder < 0)
+            {
+                return;
+            }
+
+            ViewManager.Instance.OpenWindow("BidsView");
         }
 
         private void Edit()
