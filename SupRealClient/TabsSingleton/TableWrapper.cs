@@ -3,12 +3,9 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Data;
 using System.Linq;
-using System.Security.AccessControl;
-using System.Windows.Forms;
 using SupClientConnectionLib;
 using SupRealClient.Common;
 using SupRealClient.EnumerationClasses;
-using SupRealClient.ViewModels;
 
 namespace SupRealClient.TabsSingleton
 {
@@ -346,6 +343,7 @@ namespace SupRealClient.TabsSingleton
 					To = ords.Field<DateTime>("f_date_to"),
 					SignedId = ords.Field<int>("f_signed_by"),
 					RecDate = ords.Field<DateTime>("f_rec_date"),
+					BarCode = ords.Field<string>("f_barcode"),
 					ImageId = ords.Field<int>("f_image_id"),
 					RecOperatorID = ords.Field<int>("f_rec_operator"),
 					NewRecDate = ords.Field<DateTime?>("f_new_rec_date"),
