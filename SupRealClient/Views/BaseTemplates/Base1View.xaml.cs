@@ -174,9 +174,11 @@ namespace SupRealClient.Views
                 if (row == null)
                     return;
 
+                Window.GetWindow(this)?.Activate();
+
                 baseTab.ScrollIntoView(row);
                 baseTab.UpdateLayout();
-                baseTab.ScrollIntoView(row);
+                baseTab.ScrollIntoView(row);              
             }
         }
 
