@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Data;
 using System.Linq;
-using System.Security.AccessControl;
 using SupClientConnectionLib;
 using SupRealClient.Common;
 using SupRealClient.EnumerationClasses;
@@ -244,6 +243,7 @@ namespace SupRealClient.TabsSingleton
             row["f_date_to"] = order.To == null ? DateTime.MinValue : order.To;
             row["f_signed_by"] = order.SignedId;
             row["f_rec_date"] = order.RecDate;
+            row["f_image_id"] = order.ImageId;
             row["f_rec_operator"] = order.RecOperatorID;
             row["f_new_rec_date"] = order.NewRecDate;
             row["f_new_rec_operator"] = order.NewRecOperatorID;
@@ -275,6 +275,7 @@ namespace SupRealClient.TabsSingleton
             row["f_date_to"] = order.To == null ? DateTime.MinValue : order.To;
             row["f_signed_by"] = order.SignedId;
 	    row["f_rec_date"] = order.RecDate;
+	    row["f_image_id"] = order.ImageId;
             row["f_rec_operator"] = order.RecOperatorID;
             row["f_new_rec_date"] = order.NewRecDate;
             row["f_new_rec_operator"] = order.NewRecOperatorID;
@@ -330,6 +331,7 @@ namespace SupRealClient.TabsSingleton
                     To = ords.Field<DateTime?>("f_date_to"),
                     SignedId = ords.Field<int>("f_signed_by"),
 	            RecDate = ords.Field<DateTime?>("f_rec_date"),
+		    ImageId =  ords.Field<int>("f_image_id"),
 	            RecOperatorID = ords.Field<int>("f_rec_operator"),
 	            NewRecDate = ords.Field<DateTime?>("f_new_rec_date"),
 	            NewRecOperatorID = ords.Field<int>("f_new_rec_operator"),
@@ -367,7 +369,7 @@ namespace SupRealClient.TabsSingleton
             row["f_ord_id"] =  orderElement.OrderId;
             row["f_visitor_id"] = orderElement.VisitorId;
             row["f_catcher_id"] = orderElement.CatcherId;
-            row["f_time_from"] = orderElement.From; 
+            row["f_time_from"] = orderElement.From;
             row["f_time_to"] = orderElement.To;
             row["f_passes"] = orderElement.Passes;
             row["f_disabled"] = orderElement.IsDisable ? "Y" : "N";

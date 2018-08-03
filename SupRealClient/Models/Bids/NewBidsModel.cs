@@ -55,9 +55,10 @@ namespace SupRealClient.Models
 			switch (OrderType)
 			{
 				case OrderType.Temp:
-					OrdersWrapper.CurrentTable().AddRow(CurrentTemporaryOrder);
+					CurrentVirtueOrder.OrderDate = DateTime.Now;
 					CurrentSingleOrder.RecDate = DateTime.Now;
 					CurrentSingleOrder.NewRecDate = DateTime.Now;
+					OrdersWrapper.CurrentTable().AddRow(CurrentTemporaryOrder);
 					break;
 				case OrderType.Single:
 					CurrentSingleOrder.To = CurrentSingleOrder.From;
@@ -65,6 +66,12 @@ namespace SupRealClient.Models
 					CurrentSingleOrder.RecDate = DateTime.Now;
 					CurrentSingleOrder.NewRecDate = DateTime.Now;
 					OrdersWrapper.CurrentTable().AddRow(CurrentSingleOrder);
+					break;
+				case OrderType.Virtue:
+					CurrentVirtueOrder.OrderDate = DateTime.Now;
+					CurrentVirtueOrder.RecDate = DateTime.Now;
+					CurrentVirtueOrder.NewRecDate = DateTime.Now;
+					OrdersWrapper.CurrentTable().AddRow(CurrentVirtueOrder);
 					break;
 			}
 		}

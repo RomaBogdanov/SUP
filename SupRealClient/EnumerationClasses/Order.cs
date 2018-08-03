@@ -118,6 +118,7 @@ namespace SupRealClient.EnumerationClasses
 	public string NewRecOperator { get; set; }
 	public string BarCode { get; set; }
 	public int CatcherId { get; set; } = 0; // Id провожающего
+	public int ImageId { get; set; } // id исходника скана заявки
         public string Catcher { get; set; } = ""; // провожающий
         
         public string OrderType { get; set; } = ""; // тип заявки
