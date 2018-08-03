@@ -642,7 +642,13 @@
                     Converter={StaticResource BooleanToVisibilityConverter}}">
                     <DataGrid Style="{StaticResource AzureDataGrid1}" 
                               ItemsSource="{Binding Path=CurrentItem.Orders}"
+                              SelectedIndex="{Binding Path=SelectedOrder}"
                               CanUserAddRows="False">
+                        <i:Interaction.Triggers>
+                            <i:EventTrigger EventName="MouseDoubleClick">
+                                <i:InvokeCommandAction Command="{Binding OpenOrderCommand}"/>
+                            </i:EventTrigger>
+                        </i:Interaction.Triggers>
                         <DataGrid.Columns>
                             <DataGridTextColumn Header="№ заявки" Binding="{Binding Path=RegNumber}"/>
                             <DataGridTextColumn Header="Дата/время от" Binding="{Binding Path=From}"/>
