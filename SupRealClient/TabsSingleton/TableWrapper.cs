@@ -4,9 +4,11 @@ using System.Collections.ObjectModel;
 using System.Data;
 using System.Linq;
 using System.Security.AccessControl;
+using System.Windows.Forms;
 using SupClientConnectionLib;
 using SupRealClient.Common;
 using SupRealClient.EnumerationClasses;
+using SupRealClient.ViewModels;
 
 namespace SupRealClient.TabsSingleton
 {
@@ -326,11 +328,13 @@ namespace SupRealClient.TabsSingleton
                         from row in OrderElementsWrapper.CurrentTable().Table.AsEnumerable()
                         where row.Field<int>("f_ord_id") == ords.Field<int>("f_ord_id") &&
                               CommonHelper.NotDeleted(row)
-                        select new OrderElement
+                        select new OrderElement((OrderType) ords.Field<int>("f_order_type_id") == OrderType.Single)
                         {
                             Id = row.Field<int>("f_oe_id"),
                             OrderId = row.Field<int>("f_ord_id"),
                             VisitorId = row.Field<int>("f_visitor_id"),
+	                        OrganizationId = row.Field<int?>("f_org_id"),
+	                        Position = row.Field<string>("f_position"),
                             CatcherId = row.Field<int>("f_catcher_id"),
                             From = row.Field<DateTime>("f_time_from"),
                             To = row.Field<DateTime>("f_time_to"),
@@ -362,7 +366,9 @@ namespace SupRealClient.TabsSingleton
             row["f_not_remaind"] = "N";//todo: разобраться
             row["f_full_role"] = "N";//todo: разобраться
             row["f_other_org"] = "";//todo: разобраться
-            AddRow(row);
+	        row["f_org_id"] = orderElement.OrganizationId;
+	        row["f_position"] = orderElement.Position;
+			AddRow(row);
             foreach (Area relAreas in orderElement.Areas)
             {
                 AreaOrderElement aoe = new AreaOrderElement {OrderElementId = 
@@ -391,7 +397,9 @@ namespace SupRealClient.TabsSingleton
             row["f_not_remaind"] = "N";//todo: разобраться
             row["f_full_role"] = "N";//todo: разобраться
             row["f_other_org"] = "";//todo: разобраться
-            StandartCols(row, orderElement);
+	        row["f_org_id"] = orderElement.OrganizationId;
+	        row["f_position"] = orderElement.Position;
+			StandartCols(row, orderElement);
             row.EndEdit();
         }
 
@@ -400,12 +408,15 @@ namespace SupRealClient.TabsSingleton
             ObservableCollection<OrderElement> orderElements = 
                 new ObservableCollection<OrderElement>(
                     from ordEls in OrderElementsWrapper.CurrentTable().Table.AsEnumerable() 
-                    where  ordEls.Field<int>("f_ord_id") != 0 && CommonHelper.NotDeleted(ordEls)
-                    select new OrderElement
+					join order in OrdersWrapper.CurrentTable().Table.AsEnumerable() on ordEls.Field<int>("f_ord_id") equals order.Field<int>("f_ord_id")
+					where  ordEls.Field<int>("f_ord_id") != 0 && CommonHelper.NotDeleted(ordEls)
+                    select new OrderElement((OrderType)(order.Field<int>("f_order_type_id")) == OrderType.Single)
                     {
                         Id = ordEls.Field<int>("f_oe_id"),
                         OrderId = ordEls.Field<int>("f_ord_id"),
                         VisitorId = ordEls.Field<int>("f_visitor_id"),
+						OrganizationId = ordEls.Field<int>("f_org_id"),
+						Position = ordEls.Field<string>("f_position"),
                         CatcherId = ordEls.Field<int>("f_catcher_id"),
                         From = ordEls.Field<DateTime>("f_time_from"),
                         To = ordEls.Field<DateTime>("f_time_to"),

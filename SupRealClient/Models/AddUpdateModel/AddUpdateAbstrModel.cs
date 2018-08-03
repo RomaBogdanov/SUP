@@ -419,9 +419,9 @@ namespace SupRealClient.Models.AddUpdateModel
     /// </summary>
     public class AddSingleBidModel : AddUpdateAbstrModel
     {
-        public AddSingleBidModel()
+        public AddSingleBidModel(bool isTimeEditable,DateTime dateFrom, DateTime dateTo)
         {
-            CurrentItem = new OrderElement();
+            CurrentItem = new OrderElement(isTimeEditable, dateFrom, dateTo);
         }
     }
 

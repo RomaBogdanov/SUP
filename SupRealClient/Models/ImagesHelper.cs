@@ -43,7 +43,20 @@ namespace SupRealClient.Models
             return alias;
         }
 
-        /// <summary>
+	    /// <summary>
+	    /// Сохраняем в папке Images, получаем GUID
+	    /// </summary>
+	    /// <returns></returns>
+	    public static Guid GetGuidFromByteArray(byte[] imageArray)
+	    {
+		    var alias = Guid.NewGuid();
+		    var imagePath = GetImagePath(alias);
+		    File.WriteAllBytes(imagePath, imageArray);
+
+		    return alias;
+	    }
+
+	    /// <summary>
         /// Получаем Guid картинки из базы по id посетителя
         /// и кэшируем ее в Images если необходимо
         /// </summary>
