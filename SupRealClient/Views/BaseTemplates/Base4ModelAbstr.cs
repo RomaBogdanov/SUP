@@ -196,6 +196,10 @@ namespace SupRealClient.Views
             {                
                 CurrentItem = (T)CollectionView.GetItemAt(0);
             }
+            else if (CollectionView.Count == 0)
+            {
+                CurrentItem = default(T);
+            }
             OnModelPropertyChanged?.Invoke("CurrentItem");
         }
 
