@@ -1,4 +1,41 @@
-﻿-- Файл создания Баз данных.
+﻿/*EXEC msdb.dbo.sp_delete_database_backuphistory @database_name = N'Visitors'
+GO
+
+USE master
+GO
+
+ALTER DATABASE Visitors SET SINGLE_USER WITH ROLLBACK IMMEDIATE
+GO
+
+DROP DATABASE Visitors
+
+
+EXEC msdb.dbo.sp_delete_database_backuphistory @database_name = N'VisitorsImages'
+GO
+
+USE master
+GO
+
+ALTER DATABASE VisitorsImages SET SINGLE_USER WITH ROLLBACK IMMEDIATE
+GO
+
+DROP DATABASE VisitorsImages
+
+
+ EXEC msdb.dbo.sp_delete_database_backuphistory @database_name = N'VisitorsLogs'
+GO
+
+USE master
+GO
+
+ALTER DATABASE VisitorsLogs SET SINGLE_USER WITH ROLLBACK IMMEDIATE
+GO
+
+DROP DATABASE VisitorsLogs*/
+
+
+
+-- Файл создания Баз данных.
 
 -- Пакет названий для создания Баз Данных
 
@@ -53,14 +90,23 @@ if OBJECT_ID('vis_access_points') is not null
 
 create table vis_access_points
 (
-	f_access_point_id int not null,
-	f_access_point_name nvarchar(20),
-	f_access_point_description nvarchar(200),
-	f_access_point_space_in nvarchar(50), -- ? метка по внутреннему помещению. Пока непонятно, что привязывать.
-	f_access_point_space_out nvarchar(50), -- ? метка по внешнему помещению. Пока непонятно, что привязывать.
+	f_access_point_id              int not null,
+	f_access_point_name            nvarchar(128),
+	f_access_point_description     nvarchar(200),
+	f_access_point_space_in_id_hi  int,
+	f_access_point_space_in_id_lo  int,
+	f_access_point_space_out_id_hi int,
+	f_access_point_space_out_id_lo int,
+	f_access_point_space_in        nvarchar(128), -- ? метка по внутреннему помещению. Пока непонятно, что привязывать.
+	f_access_point_space_out       nvarchar(128), -- ? метка по внешнему помещению. Пока непонятно, что привязывать.
 	f_deleted                      CHAR(1),
     f_rec_date                     DATE,
     f_rec_operator                 int,
+    f_object_id_hi                 int,
+    f_object_id_lo                 int,
+	f_access_point_controller      nvarchar(16),
+	f_access_point_path            nvarchar(MAX),
+	f_access_point_data            nvarchar(MAX)   -- Здесь можно будет сохранять сериализованный объект из Andover
 )
 
 alter table vis_access_points
@@ -68,7 +114,7 @@ alter table vis_access_points
 
 if not exists(select * from vis_access_points where f_access_point_id='0')
 begin
-	insert into vis_access_points values ('0', '', '', '', '', 'N', '', '')
+	insert into vis_access_points values ('0', '', '', 0, 0, 0, 0, '', '', 'N', '', '', '0', '0', '', '', '')
 end
 go
 
@@ -100,12 +146,17 @@ if OBJECT_ID('vis_areas') is not null
 
 create table vis_areas
 (
-	f_area_id int not null,
-	f_area_name nvarchar(50),
-	f_area_descript nvarchar(200),
+	f_area_id                      int not null,
+	f_area_name                    nvarchar(128),
+	f_area_descript                nvarchar(200),
 	f_deleted                      CHAR(1),
     f_rec_date                     DATE,
     f_rec_operator                 int,
+    f_object_id_hi                 int,
+    f_object_id_lo                 int,
+	f_area_controller              nvarchar(16),
+	f_area_path                    nvarchar(MAX),
+	f_area_data                    nvarchar(MAX)   -- Здесь можно будет сохранять сериализованный объект из Andover
 )
 
 alter table vis_areas
@@ -113,7 +164,7 @@ alter table vis_areas
 
 if not exists(select * from vis_areas where f_area_id='0')
 begin
-	insert into vis_areas values ('0', '', '', 'N', '', '')
+	insert into vis_areas values ('0', '', '', 'N', '', '', '0', '0', '', '', '')
 end
 go
 
@@ -135,6 +186,7 @@ create table vis_areas_ext
 alter table vis_areas_ext
 	add primary key (f_area_id)
 go
+
 
 -- Создание vis_areas_spaces
 -- Таблица соотношения между "областями доступа" и "помещениями". 
@@ -161,8 +213,6 @@ begin
 	insert into vis_areas_spaces values ('0', '', '', '', 'N', '', '')
 end
 go
-
-
 
 -- Создание vis_areas_order_elements
 -- Таблица соотношения между заявками и областями доступа.
@@ -265,6 +315,7 @@ if OBJECT_ID('vis_cards') is not null
 CREATE TABLE vis_cards
     (f_card_id                     int NOT NULL,
     f_state_id                     int,
+	f_card_name                    nvarchar(128),
     f_card_text                    nvarchar(200),
     f_last_visit_id                int,
     f_deleted                      CHAR(1),
@@ -273,16 +324,23 @@ CREATE TABLE vis_cards
     f_create_date                  DATE,
     f_lost_date                    DATE,
     f_comment                      nvarchar(200),
-    f_card_num                     int)
+    f_card_num                     int,
+	f_object_id_hi                 int,
+    f_object_id_lo                 int,
+    f_card_controller              nvarchar(16),
+    f_card_path                    nvarchar(MAX),
+    f_card_data                    nvarchar(MAX)   -- Здесь можно будет сохранять сериализованный объект из Andover
+)
 
 ALTER TABLE vis_cards
 ADD PRIMARY KEY (f_card_id)
 
 if not exists(select * from vis_cards where f_card_id = '0')
 begin
-	insert into vis_cards values ( '0', '0', '', '0', 'N', '', '0', '', '', '', '0')
+	insert into vis_cards values ( '0', '0', '', '', '0', 'N', '', '0', '', '', '', '0', '0', '0', '', '', '')
 end
 go
+
 
 
 -- Создание vis_card_area
@@ -615,15 +673,16 @@ CREATE TABLE vis_order_elements
     f_not_remaind                  nvarchar(1),
     f_full_role                    nvarchar(1),
     f_other_org                    nvarchar(200),
-    f_org_id                       INT,/*организация*/
-    f_position                     NVARCHAR(200)/*должность*/)
+    f_org_id                       INT,--организация
+    f_position                     NVARCHAR(200)--должность        
+  )
 
 ALTER TABLE vis_order_elements
 ADD PRIMARY KEY (f_oe_id)
 
 if not exists(select * from vis_order_elements where f_oe_id = '0')
 begin
-	insert into vis_order_elements values ( '0', '', '', '', '', '', '', '', 'N', '', '', '', '', '')
+	insert into vis_order_elements values ( '0', '', '', '', '', '', '', '', 'N', '', '', '', '', '',0,'')
 end
 go
 
@@ -667,16 +726,21 @@ CREATE TABLE vis_orders
     f_notes                        nvarchar(150),
     f_disabled                     nvarchar(1),
     f_deleted                      CHAR(1),
-    f_rec_date                     DATE,
-    f_rec_operator                 int,
-    f_temp_posted                  nvarchar(1))
+    f_rec_date                     DATETIME,--время последнего редактирования заявки
+    f_rec_operator                 int,--id оператора который последним внес изменеия в заявку
+    f_temp_posted                  nvarchar(1),
+    f_new_rec_date                 DATETIME,--время создания заявки
+    f_new_rec_operator             INT,--id оператора создателя заявки
+    f_barcode                      NVARCHAR(200),--штрихкод СЭД(система электронного документооборота)
+    f_image_id                     INT--ссылка на изображение
+  )
 
 ALTER TABLE vis_orders
 ADD PRIMARY KEY (f_ord_id)
 
 if not exists(select * from vis_orders where f_ord_id = '0')
 begin
-	insert into vis_orders values ( '0', '', '', '', '', '', '', '', '', '', 'N', '', '', '')
+	insert into vis_orders values ( '0', '', '', '', '', '', '', '', '', '', 'N', '', '', '','','','','')
 end
 go
 
@@ -736,28 +800,19 @@ go
 
 -- Создание vis_schedules
 
-if OBJECT_ID('vis_schedules') is not null
-	drop table vis_schedules
-
 create table vis_schedules
 (
-	f_schedule_id int not null,
-	f_monday_time_begin datetime,
-	f_monday_time_end datetime,
-	f_tuesday_time_begin datetime,
-	f_tuesday_time_end datetime,
-	f_whensday_time_begin datetime,
-	f_whensday_time_end datetime,
-	f_thursday_time_begin datetime,
-	f_thursday_time_end datetime,
-	f_friday_time_begin datetime,
-	f_friday_time_end datetime,
-	f_saturday_time_begin datetime,
-	f_saturday_time_end datetime,
-	f_sunday_time_begin datetime,
-	f_sunday_time_end datetime,
-	f_holiday_time_begin datetime,
-	f_holiday_time_end datetime,
+	f_schedule_id                  int not null,
+    f_schedule_name                VARCHAR(128),
+	f_schedule_description         nvarchar(200),
+    f_deleted                      CHAR(1),
+    f_rec_date                     DATE,
+    f_rec_operator                 int,
+    f_object_id_hi                 int,
+    f_object_id_lo                 int,
+    f_schedule_controller          nvarchar(16),
+    f_schedule_path                nvarchar(MAX),
+    f_schedule_data                nvarchar(MAX)   -- Здесь можно будет сохранять сериализованный объект из Andover
 )
 
 alter table vis_schedules
@@ -765,7 +820,7 @@ alter table vis_schedules
 
 if not exists (select * from vis_schedules where f_schedule_id='0')
 begin
-	insert into vis_schedules values('0', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '')
+	insert into vis_schedules values('0', '', '', 'N', '', '0', '0', '0', '', '', '')
 end
 go
 
@@ -959,12 +1014,14 @@ go
 -- Создание vis_visits
 -- TODO: Сделать описание таблицы
 
+
 if OBJECT_ID('vis_visits') is not null
 	drop table vis_visits;
 
 CREATE TABLE vis_visits
     (f_visit_id                    int NOT NULL,
-    f_card_id                      int,
+    f_card_id_hi                   int,
+	f_card_id_lo                   int,
     f_visitor_id                   int,
     f_time_out                     DATE,
     f_time_in                      DATE,
@@ -986,7 +1043,7 @@ ADD PRIMARY KEY (f_visit_id)
 
 if not exists(select * from vis_visits where f_visit_id = '0')
 begin
-	insert into vis_visits values ( '0', '', '', '', '', '', '', '', '', 'N', '', '', '', '', '', '', '')
+	insert into vis_visits values ( '0', '', '', '', '', '', '', '', '', '', 'N', '', '', '', '', '', '', '')
 end
 go
 

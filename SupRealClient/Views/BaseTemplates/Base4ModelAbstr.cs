@@ -606,14 +606,16 @@ namespace SupRealClient.Views
                 from v in visitsWrapper.Table.AsEnumerable()
                 from p in visitorsWrapper.Table.AsEnumerable()
                 where c.Field<int>("f_card_id") != 0 &&
-                CommonHelper.NotDeleted(c) &
-                c.Field<int>("f_card_id") == v.Field<int>("f_card_id") &
-                v.Field<int>("f_visitor_id") == p.Field<int>("f_visitor_id") &
-                c.Field<int>("f_state_id") == 3 &
+                CommonHelper.NotDeleted(c) &&
+                c.Field<int>("f_object_id_hi") == v.Field<int>("f_card_id_hi") &&
+                c.Field<int>("f_object_id_lo") == v.Field<int>("f_card_id_lo") &&
+                v.Field<int>("f_visitor_id") == p.Field<int>("f_visitor_id") &&
+                c.Field<int>("f_state_id") == 3 &&
                 v.Field<int>("f_rec_operator_back") == 0
                 select new CardsPersons
                 {
-                    IdCard = c.Field<int>("f_card_id"),
+                    IdCardHi = c.Field<int>("f_object_id_hi"),
+                    IdCardLo = c.Field<int>("f_object_id_lo"),
                     PersonName = p.Field<string>("f_full_name")
                 };
 
@@ -626,6 +628,8 @@ namespace SupRealClient.Views
                 select new T
                 {
                     Id = c.Field<int>("f_card_id"),
+                    CardIdHi = c.Field<int>("f_object_id_hi"),
+                    CardIdLo = c.Field<int>("f_object_id_lo"),
                     CurdNum = c.Field<int>("f_card_num"),
                     CreateDate = c.Field<DateTime>("f_create_date"),
                     ChangeDate = c.Field<DateTime>("f_rec_date"),
@@ -635,7 +639,8 @@ namespace SupRealClient.Views
                     State = s.Field<string>("f_state_text"),
                     ReceiversName =
                         (cardsPersons.FirstOrDefault(p =>
-                        p.IdCard == c.Field<int>("f_card_id"))?
+                        p.IdCardHi == c.Field<int>("f_object_id_hi") &&
+                        p.IdCardLo == c.Field<int>("f_object_id_lo"))?
                         .PersonName.ToString())
                 });
         }
@@ -673,7 +678,8 @@ namespace SupRealClient.Views
 
         public class CardsPersons
         {
-            public int IdCard { get; set; }
+            public int IdCardHi { get; set; }
+            public int IdCardLo { get; set; }
             public string PersonName { get; set; }
         }
     }
@@ -705,7 +711,8 @@ namespace SupRealClient.Views
 
             // todo: Добавляем карту и персону в список визитов. Всё под рефакторинг!!!
             DataRow row1 = VisitsWrapper.CurrentTable().Table.NewRow();
-            row1["f_card_id"] = CurrentItem.Id;
+            row1["f_card_id_hi"] = CurrentItem.CardIdHi;
+            row1["f_card_id_lo"] = CurrentItem.CardIdLo;
             row1["f_visitor_id"] = visitorId; //todo: проставить id визитёра
             row1["f_time_out"] = DateTime.Now; //todo: пока непонятно, что за дата
             row1["f_time_in"] = DateTime.Now; //todo: пока непонятно, что за дата
