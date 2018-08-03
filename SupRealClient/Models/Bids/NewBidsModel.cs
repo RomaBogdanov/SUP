@@ -49,14 +49,25 @@ namespace SupRealClient.Models
 
         public override void Ok()
         {
-            //CurrentSingleOrder.TypeId = 1;
             switch (OrderType)
             {
                 case OrderType.Temp:
+	                foreach (OrderElement currentOrderOrderElement in CurrentOrder.OrderElements)
+	                {
+		                currentOrderOrderElement.From = CurrentTemporaryOrder.From;
+		                currentOrderOrderElement.To = CurrentTemporaryOrder.To;
+	                }
                     OrdersWrapper.CurrentTable().AddRow(CurrentTemporaryOrder);
                     break;
                 case OrderType.Single:
-                    CurrentSingleOrder.To = CurrentSingleOrder.From;
+	                foreach (OrderElement currentOrderOrderElement in CurrentOrder.OrderElements)
+	                {
+		                currentOrderOrderElement.From = new DateTime(CurrentSingleOrder.From.Year, CurrentSingleOrder.From.Year, CurrentSingleOrder.From.Year,
+							currentOrderOrderElement.From.Hour,currentOrderOrderElement.From.Minute,currentOrderOrderElement.From.Second);
+		                currentOrderOrderElement.To = new DateTime(CurrentSingleOrder.To.Year, CurrentSingleOrder.To.Year, CurrentSingleOrder.To.Year,
+			                currentOrderOrderElement.To.Hour, currentOrderOrderElement.To.Minute, currentOrderOrderElement.To.Second);
+					}
+					CurrentSingleOrder.To = CurrentSingleOrder.From;
                     CurrentSingleOrder.OrderDate = DateTime.Now;
                     OrdersWrapper.CurrentTable().AddRow(CurrentSingleOrder);
                     break;
