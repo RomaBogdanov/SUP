@@ -444,7 +444,13 @@
                                 BorderBrush="Black"
                                 BorderThickness="1"
                                 SelectedIndex="{Binding Path=SelectedMainDocument}"
-                                ItemsSource="{Binding Path=CurrentItem.MainDocuments, Mode=OneWay}"/>
+                                ItemsSource="{Binding Path=CurrentItem.MainDocuments, Mode=OneWay}">
+                                    <i:Interaction.Triggers>
+                                        <i:EventTrigger EventName="MouseDoubleClick">
+                                            <i:InvokeCommandAction Command="{Binding OpenMainDocumentCommand}"/>
+                                        </i:EventTrigger>
+                                    </i:Interaction.Triggers>
+                                </ListBox>
 
                                 <Grid Grid.Row="3" Grid.ColumnSpan="5">
                                     <Grid.ColumnDefinitions>
@@ -561,8 +567,14 @@
                     Converter={StaticResource BooleanToVisibilityConverter}}">
                     <DataGrid 
                         ItemsSource="{Binding Path=CurrentItem.Cards}"
+                        SelectedIndex="{Binding Path=SelectedCard}"
                         CanUserAddRows="False"
                         Style="{StaticResource AzureDataGrid1}">
+                        <i:Interaction.Triggers>
+                            <i:EventTrigger EventName="MouseDoubleClick">
+                                <i:InvokeCommandAction Command="{Binding ReturnCommand}"/>
+                            </i:EventTrigger>
+                        </i:Interaction.Triggers>
                         <DataGrid.Columns>
                             <DataGridTextColumn 
                                 Header="Пропуск" Binding="{Binding Path=Card}"/>

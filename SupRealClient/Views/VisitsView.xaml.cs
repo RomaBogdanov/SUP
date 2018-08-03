@@ -63,7 +63,8 @@ namespace SupRealClient.Views
         private IWindow view;
         private int selectedMainDocument = -1;
         private int selectedDocument = -1;
-	    private const string _nameDocument_PhotoImageType = "Личная фотография";
+        private int selectedCard = -1;
+        private const string _nameDocument_PhotoImageType = "Личная фотография";
 	    private const string _nameDocument_SignatureImageType = "Личная подпись";
 	    private bool _visibleButton_OpenDocument_InRedactMode = false;
 	    private bool _enableButton_OpenDocument_InRedactMode = false;
@@ -244,6 +245,16 @@ namespace SupRealClient.Views
             }
         }
 
+        public int SelectedCard
+        {
+            get { return selectedCard; }
+            set
+            {
+                selectedCard = value;
+                OnPropertyChanged();
+            }
+        }
+
         public string PhotoSource
         {
             get { return Model?.PhotoSource; }
@@ -293,8 +304,8 @@ namespace SupRealClient.Views
         public ICommand RemoveMainDocumentCommand { get; set; }
 
         public ICommand RefreshCommand { get; set; }
-		
-	private ChildWindowSettings _windowSettings;
+
+        private ChildWindowSettings _windowSettings;
         public ChildWindowSettings WindowSettings
         {
             get { return _windowSettings; }
@@ -350,9 +361,6 @@ namespace SupRealClient.Views
 		    EditCommand = new RelayCommand(arg => Edit());
 		    FindCommand = new RelayCommand(arg => Find());
 
-
-
-
 		    OpenDocumentCommand = new RelayCommand(arg => OpenDocument());
 		    AddDocumentCommand = new RelayCommand(arg => AddDocument());
 		    EditDocumentCommand = new RelayCommand(arg => EditDocument());
@@ -365,7 +373,7 @@ namespace SupRealClient.Views
 
 		    RefreshCommand = new RelayCommand(arg => Refresh());
 
-		    _documentScaner.ScanFinished += Scaner_ScanFinished;
+            _documentScaner.ScanFinished += Scaner_ScanFinished;
 	    }
 
 	    ~VisitsViewModel()
@@ -625,7 +633,11 @@ namespace SupRealClient.Views
 
         private void Return()
         {
-            var window = new ReturnBid();
+            var window = new ReturnBid()
+            {
+                DataContext = new ReturnBidViewModel(SelectedCard >= 0 ?
+                    CurrentItem.Cards[SelectedCard] : null)
+            };
 
             window.ShowDialog();
         }
@@ -705,6 +717,12 @@ namespace SupRealClient.Views
                 return;
             }
 
+            if (EnableButton_OpenDocument_InRedactMode)
+            {
+                EditDocument();
+                return;
+            }
+
             var window = new DocumentImagesView(
                 CurrentItem.Documents[SelectedDocument]);
             window.ShowDialog();
@@ -777,6 +795,12 @@ namespace SupRealClient.Views
         {
             if (SelectedMainDocument < 0)
             {
+                return;
+            }
+
+            if (ButtonEnable)
+            {
+                EditMainDocument();
                 return;
             }
 
@@ -1639,7 +1663,8 @@ namespace SupRealClient.Views
                 Set[index].Cards = new ObservableCollection<Card2>(
                     from card in CardsWrapper.CurrentTable().Table.AsEnumerable()
                     join visit in VisitsWrapper.CurrentTable().Table.AsEnumerable()
-                    on card.Field<int>("f_card_id") equals visit.Field<int>("f_card_id")
+                    on new { a = card.Field<int>("f_object_id_hi"), b = card.Field<int>("f_object_id_lo") }
+                    equals new { a = visit.Field<int>("f_card_id_hi"), b = visit.Field<int>("f_card_id_lo") }
                     where visit.Field<int>("f_visitor_id") == Set[index].Id
                     select new Card2
                     {
