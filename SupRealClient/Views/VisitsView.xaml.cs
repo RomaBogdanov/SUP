@@ -362,7 +362,7 @@ namespace SupRealClient.Views
 		    FindCommand = new RelayCommand(arg => Find());
 
 		    OpenDocumentCommand = new RelayCommand(arg => OpenDocument());
-		    AddDocumentCommand = new RelayCommand(arg => AddDocument());
+			AddDocumentCommand = new RelayCommand(arg => AddDocument());
 		    EditDocumentCommand = new RelayCommand(arg => EditDocument());
 		    RemoveDocumentCommand = new RelayCommand(arg => RemoveDocument());
 

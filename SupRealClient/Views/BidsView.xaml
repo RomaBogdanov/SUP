@@ -69,9 +69,11 @@
                             <RowDefinition Height="0.2*" />
                             <RowDefinition Height="0.1*" />
                             <RowDefinition Height="*" />
-                            <RowDefinition Height="70" />
-                            <RowDefinition Height="50" />
-                            <RowDefinition Height="50" />
+                            <RowDefinition Height="40" />
+                            <RowDefinition Height="40" />
+                            <RowDefinition Height="60" />
+                            <RowDefinition Height="40" />
+                            <RowDefinition Height="40" />
                         </Grid.RowDefinitions>
 
                         <Grid Grid.Row="0">
@@ -86,7 +88,6 @@
 
                             <TextBlock
                                 Grid.Column="0"
-                                Margin="2"
                                 HorizontalAlignment="Left"
                                 Style="{StaticResource TextBLockStyle}"
                                 Text="Номер заявки" />
@@ -256,7 +257,6 @@
                                 <DataGridCheckBoxColumn Binding="{Binding IsDisable}" Header="Не активен" />
                                 <DataGridTextColumn Binding="{Binding Passes}" Header="Проходы" />
                                 <DataGridCheckBoxColumn Binding="{Binding IsBlock}" Header="Заблокирован" />
-                                <DataGridTextColumn Binding="{Binding BlockingNote}" Header="Примечание по блокировке" />
                             </DataGrid.Columns>
                         </DataGrid>
 
@@ -290,47 +290,77 @@
                                     <ColumnDefinition Width="120" />
                                     <ColumnDefinition />
                                 </Grid.ColumnDefinitions>
-                                <TextBlock
-                                    Grid.Column="0"
-                                    Margin="5,2,2,2"
-                                    HorizontalAlignment="Left"
-                                    Style="{StaticResource TextBLockStyle}"
-                                    Text="Примечание:" />
 
-                                <TextBox
-                                    Grid.Column="1"
-                                    Margin="5,2,2,2"
-                                    VerticalContentAlignment="Center"
-                                    IsEnabled="{Binding TextEnable, UpdateSourceTrigger=PropertyChanged}"
-                                    Style="{StaticResource TextBoxStyle}"
-                                    Text="{Binding CurrentSingleOrder.Note, Mode=TwoWay}" />
                             </Grid>
                             <StackPanel Margin="0,5,0,0" Orientation="Horizontal" />
                         </StackPanel>
-
-                        <Grid
-                            Grid.Row="4"
-                            Grid.RowSpan="2"
-                            Margin="0,10,0,0">
+                        <Grid Grid.Row="4" Margin="0,10,0,0">
                             <Grid.ColumnDefinitions>
-                                <ColumnDefinition Width="30" />
-                                <ColumnDefinition Width="180" />
+                                <ColumnDefinition Width="10" />
                                 <ColumnDefinition Width="*" />
-                                <ColumnDefinition Width="150" />
-                                <ColumnDefinition Width="150" />
-                                <ColumnDefinition Width="180" />
+                                <ColumnDefinition Width="*" />
+                                <ColumnDefinition Width="*" />
+                                <ColumnDefinition Width="*" />
+                                <ColumnDefinition Width="10" />
                             </Grid.ColumnDefinitions>
-                            <Grid.RowDefinitions>
-                                <RowDefinition Height="*" />
-                                <RowDefinition Height="*" />
-                            </Grid.RowDefinitions>
+
+                            <TextBlock
+                                Grid.Column="1"
+                                Margin="5"
+                                HorizontalAlignment="Left"
+                                Style="{StaticResource TextBLockStyle}"
+                                Text="Штрих-код СЭД:" />
+                            <TextBlock
+                                Grid.Column="2"
+                                Width="160"
+                                Height="24"
+                                Margin="5"
+                                HorizontalAlignment="Left"
+                                IsEnabled="False"
+                                Style="{StaticResource TextBLockStyle}"
+                                Text="{Binding CurrentSingleOrder.Barcode, UpdateSourceTrigger=PropertyChanged}" />
+                            <TextBlock
+                                Grid.Row="0"
+                                Grid.Column="3"
+                                Width="150"
+                                Height="24"
+                                Margin="5"
+                                HorizontalAlignment="Left"
+                                Style="{StaticResource TextBLockStyle}"
+                                Text="Оригинал заявки:" />
+                        </Grid>
+                        <Grid Grid.Row="5" Margin="0,10,0,0">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="10" />
+                                <ColumnDefinition Width="0.1*" />
+                                <ColumnDefinition Width="0.3*" />
+                                <ColumnDefinition Width="0.3*" />
+                                <ColumnDefinition Width="*" />
+                                <ColumnDefinition Width="10" />
+                            </Grid.ColumnDefinitions>
+
+                            <TextBlock
+                                Grid.Column="3"
+                                Width="109"
+                                Height="23"
+                                Margin="5"
+                                HorizontalAlignment="Left"
+                                Style="{StaticResource TextBLockStyle}"
+                                Text="Примечание:" />
+
+                            <TextBox
+                                Grid.Column="4"
+                                Height="26"
+                                VerticalContentAlignment="Center"
+                                IsEnabled="{Binding TextEnable, UpdateSourceTrigger=PropertyChanged}"
+                                Style="{StaticResource TextBoxStyle}"
+                                Text="{Binding CurrentSingleOrder.Note, Mode=TwoWay}" />
 
                             <CheckBox
-                                Grid.Row="0"
-                                Grid.Column="0"
+                                Grid.Column="1"
                                 Width="24"
                                 Height="18"
-                                Margin="2,14,0,13"
+                                Margin="0,10,0,9"
                                 HorizontalAlignment="Left"
                                 VerticalAlignment="Center"
                                 FontSize="18"
@@ -339,70 +369,100 @@
 
                             <TextBlock
                                 Grid.Row="0"
-                                Grid.Column="1"
+                                Grid.Column="2"
                                 Width="150"
                                 Height="24"
-                                Margin="2,10,0,11"
+                                Margin="5"
                                 HorizontalAlignment="Left"
                                 Style="{StaticResource TextBLockStyle}"
                                 Text="Заявка не активна" />
-
-                            <TextBlock
-                                Grid.Row="1"
-                                Grid.Column="0"
-                                Grid.ColumnSpan="2"
-                                Width="96"
-                                Height="24"
-                                Margin="2,11,0,10"
-                                HorizontalAlignment="Left"
-                                Style="{StaticResource TextBLockStyle}"
-                                Text="Оператор 1" />
+                        </Grid>
+                        <Grid Grid.Row="6" Margin="0,10,0,0">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="10" />
+                                <ColumnDefinition Width="1.3*" />
+                                <ColumnDefinition Width="0.5*" />
+                                <ColumnDefinition Width="2*" />
+                                <ColumnDefinition Width="0.5*" />
+                                <ColumnDefinition Width="10" />
+                            </Grid.ColumnDefinitions>
                             <TextBlock
                                 Grid.Row="0"
-                                Grid.Column="2"
-                                Width="258"
-                                Height="24"
-                                Margin="0,10,2,11"
-                                HorizontalAlignment="Right"
+                                Grid.Column="1"
+                                Margin="5"
+                                HorizontalAlignment="Left"
                                 Style="{StaticResource TextBLockStyle}"
                                 Text="Имя создавшего пользователя:" />
                             <TextBlock
                                 Grid.Row="0"
-                                Grid.Column="4"
-                                Width="123"
+                                Grid.Column="2"
+                                Width="100"
                                 Height="24"
-                                Margin="0,10,2,11"
-                                HorizontalAlignment="Right"
+                                Margin="5"
+                                HorizontalAlignment="Left"
+                                Style="{StaticResource TextBLockStyle}"
+                                Text="{Binding CurrentSingleOrder.RecOperator, UpdateSourceTrigger=PropertyChanged}" />
+                            <TextBlock
+                                Grid.Row="0"
+                                Grid.Column="3"
+                                Margin="5"
+                                HorizontalAlignment="Left"
+                                Style="{StaticResource TextBLockStyle}"
+                                Text="Имя последнего редактировавшего пользователя:" />
+                            <TextBlock
+                                Grid.Row="0"
+                                Grid.Column="4"
+                                Width="100"
+                                Height="24"
+                                Margin="5"
+                                HorizontalAlignment="Left"
+                                Style="{StaticResource TextBLockStyle}"
+                                Text="{Binding CurrentSingleOrder.NewRecOperator, UpdateSourceTrigger=PropertyChanged}" />
+                        </Grid>
+                        <Grid Grid.Row="7" Margin="0,10,0,0">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="10" />
+                                <ColumnDefinition Width="*" />
+                                <ColumnDefinition Width="0.5*" />
+                                <ColumnDefinition Width="*" />
+                                <ColumnDefinition Width="0.5*" />
+                                <ColumnDefinition Width="10" />
+                            </Grid.ColumnDefinitions>
+
+                            <TextBlock
+                                Grid.Row="0"
+                                Grid.Column="1"
+                                Margin="5"
+                                HorizontalAlignment="Left"
                                 Style="{StaticResource TextBLockStyle}"
                                 Text="Дата создания:" />
                             <TextBlock
-                                Grid.Row="1"
+                                Grid.Row="0"
                                 Grid.Column="3"
-                                Grid.ColumnSpan="2"
-                                Width="283"
-                                Height="24"
-                                Margin="0,11,2,10"
-                                HorizontalAlignment="Right"
+                                Margin="5"
+                                HorizontalAlignment="Left"
                                 Style="{StaticResource TextBLockStyle}"
                                 Text="Дата последнего редактирования:" />
                             <TextBlock
                                 Grid.Row="0"
-                                Grid.Column="5"
+                                Grid.Column="2"
                                 Width="160"
                                 Height="24"
-                                HorizontalAlignment="Right"
+                                Margin="5"
+                                HorizontalAlignment="Left"
                                 IsEnabled="False"
                                 Style="{StaticResource TextBLockStyle}"
-                                Text="{Binding CurrentSingleOrder.CreatingDatetime, UpdateSourceTrigger=PropertyChanged, StringFormat=dd.MM.yyyy HH:mm}" />
+                                Text="{Binding CurrentSingleOrder.NewRecDate, UpdateSourceTrigger=PropertyChanged, StringFormat=dd.MM.yyyy HH:mm}" />
                             <TextBlock
-                                Grid.Row="1"
-                                Grid.Column="5"
+                                Grid.Row="0"
+                                Grid.Column="4"
                                 Width="160"
                                 Height="24"
-                                HorizontalAlignment="Right"
+                                Margin="5"
+                                HorizontalAlignment="Left"
                                 IsEnabled="False"
                                 Style="{StaticResource TextBLockStyle}"
-                                Text="{Binding CurrentSingleOrder.EditingDatetime, UpdateSourceTrigger=PropertyChanged, StringFormat=dd.MM.yyyy HH:mm}" />
+                                Text="{Binding CurrentSingleOrder.RecDate, UpdateSourceTrigger=PropertyChanged, StringFormat=dd.MM.yyyy HH:mm}" />
                         </Grid>
                     </Grid>
                 </ScrollViewer>
@@ -418,8 +478,11 @@
                             <RowDefinition />
                             <RowDefinition />
                             <RowDefinition Height="6*" />
-                            <RowDefinition />
-                            <RowDefinition />
+                            <RowDefinition Height="40" />
+                            <RowDefinition Height="40" />
+                            <RowDefinition Height="60" />
+                            <RowDefinition Height="40" />
+                            <RowDefinition Height="40" />
                         </Grid.RowDefinitions>
 
                         <Grid Grid.Row="0">
@@ -442,17 +505,18 @@
                             <TextBox
                                 Grid.Column="1"
                                 Margin="2"
+                                IsEnabled="False"
                                 Style="{StaticResource TextBoxStyle}"
                                 Text="{Binding CurrentTemporaryOrder.RegNumber, Mode=TwoWay}" />
 
                             <CheckBox
                                 Grid.Column="2"
                                 HorizontalAlignment="Center"
-                                VerticalAlignment="Center" />
+                                VerticalAlignment="Center"
+                                IsEnabled="{Binding TextEnable, UpdateSourceTrigger=PropertyChanged}" />
 
                             <TextBlock
                                 Grid.Column="3"
-                                Margin="2"
                                 HorizontalAlignment="Left"
                                 Style="{StaticResource TextBLockStyle}"
                                 Text="Бессрочная заявка" />
@@ -489,7 +553,6 @@
 
                             <TextBlock
                                 Grid.Column="0"
-                                Margin="2"
                                 Style="{StaticResource TextBLockStyle}"
                                 Text="От" />
 
@@ -502,6 +565,7 @@
                                 Grid.Column="1"
                                 Width="160"
                                 Height="25"
+                                IsEnabled="{Binding TextEnable, UpdateSourceTrigger=PropertyChanged}"
                                 SelectedDate="{Binding CurrentTemporaryOrder.From, Mode=TwoWay}">
                                 <DatePicker.Resources>
                                     <Style TargetType="{x:Type DatePickerTextBox}">
@@ -525,11 +589,11 @@
                                 Height="25"
                                 Margin="2"
                                 Content="..."
+                                IsEnabled="{Binding TextEnable, UpdateSourceTrigger=PropertyChanged}"
                                 Style="{StaticResource VisitorsSquareButtonStyle}" />
 
                             <TextBlock
                                 Grid.Column="3"
-                                Margin="2"
                                 Style="{StaticResource TextBLockStyle}"
                                 Text="До" />
 
@@ -542,6 +606,7 @@
                                 Grid.Column="4"
                                 Width="160"
                                 Height="25"
+                                IsEnabled="{Binding TextEnable, UpdateSourceTrigger=PropertyChanged}"
                                 SelectedDate="{Binding CurrentTemporaryOrder.To, Mode=TwoWay}">
                                 <DatePicker.Resources>
                                     <Style TargetType="{x:Type DatePickerTextBox}">
@@ -566,6 +631,7 @@
                                 Margin="2"
                                 HorizontalAlignment="Left"
                                 Content="..."
+                                IsEnabled="{Binding TextEnable, UpdateSourceTrigger=PropertyChanged}"
                                 Style="{StaticResource VisitorsSquareButtonStyle}" />
                         </Grid>
 
@@ -573,7 +639,8 @@
                             Grid.Row="2"
                             AutoGenerateColumns="False"
                             CanUserAddRows="{Binding IsCanAddRows, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
-                            ItemsSource="{Binding Path=CurrentTemporaryOrder.OrderElements}">
+                            ItemsSource="{Binding Path=CurrentTemporaryOrder.OrderElements}"
+                            SelectedItem="{Binding UpdateVisitor, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}">
                             <DataGrid.Columns>
                                 <DataGridTextColumn Header="№" />
                                 <DataGridTextColumn
@@ -590,7 +657,6 @@
                                 <DataGridCheckBoxColumn Header="Не активен" />
                                 <DataGridTextColumn Binding="{Binding Passes}" Header="Проходы" />
                                 <DataGridCheckBoxColumn Binding="{Binding IsBlock}" Header="Заблокирован" />
-                                <DataGridTextColumn Binding="{Binding BlockingNote}" Header="Примечание по блокировке" />
                             </DataGrid.Columns>
                         </DataGrid>
 
@@ -613,6 +679,7 @@
                             <TextBox
                                 Grid.Column="1"
                                 Margin="2"
+                                IsEnabled="{Binding TextEnable, UpdateSourceTrigger=PropertyChanged}"
                                 Style="{StaticResource TextBoxStyle}"
                                 Text="{Binding CurrentTemporaryOrder.Signed, Mode=TwoWay}" />
 
@@ -623,17 +690,18 @@
                                 Margin="2"
                                 Command="{Binding SignerCommand}"
                                 Content="..."
+                                IsEnabled="{Binding TextEnable, UpdateSourceTrigger=PropertyChanged}"
                                 Style="{StaticResource VisitorsSquareButtonStyle}" />
 
                             <TextBlock
                                 Grid.Column="3"
-                                Margin="2"
                                 Style="{StaticResource TextBLockStyle}"
                                 Text="Согласовано" />
 
                             <TextBox
                                 Grid.Column="4"
                                 Margin="2"
+                                IsEnabled="{Binding TextEnable, UpdateSourceTrigger=PropertyChanged}"
                                 Style="{StaticResource TextBoxStyle}"
                                 Text="{Binding CurrentTemporaryOrder.Agree, Mode=TwoWay}" />
 
@@ -644,49 +712,201 @@
                                 Margin="2"
                                 Command="{Binding AgreerCommand}"
                                 Content="..."
+                                IsEnabled="{Binding TextEnable, UpdateSourceTrigger=PropertyChanged}"
                                 Style="{StaticResource VisitorsSquareButtonStyle}" />
                         </Grid>
 
-                        <Grid Grid.Row="4">
+                        <Grid Grid.Row="4" Margin="0,10,0,0">
                             <Grid.ColumnDefinitions>
-                                <ColumnDefinition Width="50" />
-                                <ColumnDefinition Width="180" />
-                                <ColumnDefinition Width="130" />
-                                <ColumnDefinition />
+                                <ColumnDefinition Width="10" />
+                                <ColumnDefinition Width="*" />
+                                <ColumnDefinition Width="*" />
+                                <ColumnDefinition Width="*" />
+                                <ColumnDefinition Width="*" />
+                                <ColumnDefinition Width="10" />
                             </Grid.ColumnDefinitions>
-
-                            <CheckBox
-                                Grid.Column="0"
-                                HorizontalAlignment="Center"
-                                VerticalAlignment="Center" />
 
                             <TextBlock
                                 Grid.Column="1"
+                                Margin="5"
+                                HorizontalAlignment="Left"
                                 Style="{StaticResource TextBLockStyle}"
-                                Text="Заявка не активна" />
-
+                                Text="Штрих-код СЭД:" />
                             <TextBlock
                                 Grid.Column="2"
-                                Margin="2"
+                                Width="160"
+                                Height="24"
+                                Margin="5"
+                                HorizontalAlignment="Left"
+                                IsEnabled="False"
+                                Style="{StaticResource TextBLockStyle}"
+                                Text="{Binding CurrentTemporaryOrder.Barcode, UpdateSourceTrigger=PropertyChanged}" />
+                            <TextBlock
+                                Grid.Row="0"
+                                Grid.Column="3"
+                                Width="150"
+                                Height="24"
+                                Margin="5"
+                                HorizontalAlignment="Left"
+                                Style="{StaticResource TextBLockStyle}"
+                                Text="Оригинал заявки:" />
+                        </Grid>
+
+                        <Grid Grid.Row="5" Margin="0,10,0,0">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="10" />
+                                <ColumnDefinition Width="0.1*" />
+                                <ColumnDefinition Width="0.3*" />
+                                <ColumnDefinition Width="0.3*" />
+                                <ColumnDefinition Width="*" />
+                                <ColumnDefinition Width="10" />
+                            </Grid.ColumnDefinitions>
+
+                            <TextBlock
+                                Grid.Column="3"
+                                Width="109"
+                                Height="23"
+                                Margin="5"
+                                HorizontalAlignment="Left"
                                 Style="{StaticResource TextBLockStyle}"
                                 Text="Примечание:" />
 
                             <TextBox
-                                Grid.Column="3"
-                                Margin="2"
+                                Grid.Column="4"
+                                Height="26"
+                                VerticalContentAlignment="Center"
+                                IsEnabled="{Binding TextEnable, UpdateSourceTrigger=PropertyChanged}"
                                 Style="{StaticResource TextBoxStyle}"
                                 Text="{Binding CurrentTemporaryOrder.Note, Mode=TwoWay}" />
+
+                            <CheckBox
+                                Grid.Column="1"
+                                Width="24"
+                                Height="18"
+                                Margin="0,10,0,9"
+                                HorizontalAlignment="Left"
+                                VerticalAlignment="Center"
+                                FontSize="18"
+                                IsChecked="{Binding CurrentTemporaryOrder.IsDisable, Mode=TwoWay}"
+                                IsEnabled="{Binding TextEnable, UpdateSourceTrigger=PropertyChanged}" />
+
+                            <TextBlock
+                                Grid.Row="0"
+                                Grid.Column="2"
+                                Width="150"
+                                Height="24"
+                                Margin="5"
+                                HorizontalAlignment="Left"
+                                Style="{StaticResource TextBLockStyle}"
+                                Text="Заявка не активна" />
+                        </Grid>
+
+                        <Grid Grid.Row="6" Margin="0,10,0,0">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="10" />
+                                <ColumnDefinition Width="1.3*" />
+                                <ColumnDefinition Width="0.5*" />
+                                <ColumnDefinition Width="2*" />
+                                <ColumnDefinition Width="0.5*" />
+                                <ColumnDefinition Width="10" />
+                            </Grid.ColumnDefinitions>
+                            <TextBlock
+                                Grid.Row="0"
+                                Grid.Column="1"
+                                Margin="5"
+                                HorizontalAlignment="Left"
+                                Style="{StaticResource TextBLockStyle}"
+                                Text="Имя создавшего пользователя:" />
+                            <TextBlock
+                                Grid.Row="0"
+                                Grid.Column="2"
+                                Width="100"
+                                Height="24"
+                                Margin="5"
+                                HorizontalAlignment="Left"
+                                Style="{StaticResource TextBLockStyle}"
+                                Text="{Binding CurrentTemporaryOrder.RecOperator, UpdateSourceTrigger=PropertyChanged}" />
+                            <TextBlock
+                                Grid.Row="0"
+                                Grid.Column="3"
+                                Margin="5"
+                                HorizontalAlignment="Left"
+                                Style="{StaticResource TextBLockStyle}"
+                                Text="Имя последнего редактировавшего пользователя:" />
+                            <TextBlock
+                                Grid.Row="0"
+                                Grid.Column="4"
+                                Width="100"
+                                Height="24"
+                                Margin="5"
+                                HorizontalAlignment="Left"
+                                Style="{StaticResource TextBLockStyle}"
+                                Text="{Binding CurrentTemporaryOrder.NewRecOperator, UpdateSourceTrigger=PropertyChanged}" />
+                        </Grid>
+
+                        <Grid Grid.Row="7" Margin="0,10,0,0">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="10" />
+                                <ColumnDefinition Width="*" />
+                                <ColumnDefinition Width="0.5*" />
+                                <ColumnDefinition Width="*" />
+                                <ColumnDefinition Width="0.5*" />
+                                <ColumnDefinition Width="10" />
+                            </Grid.ColumnDefinitions>
+
+                            <TextBlock
+                                Grid.Row="0"
+                                Grid.Column="1"
+                                Margin="5"
+                                HorizontalAlignment="Left"
+                                Style="{StaticResource TextBLockStyle}"
+                                Text="Дата создания:" />
+                            <TextBlock
+                                Grid.Row="0"
+                                Grid.Column="3"
+                                Margin="5"
+                                HorizontalAlignment="Left"
+                                Style="{StaticResource TextBLockStyle}"
+                                Text="Дата последнего редактирования:" />
+                            <TextBlock
+                                Grid.Row="0"
+                                Grid.Column="2"
+                                Width="160"
+                                Height="24"
+                                Margin="5"
+                                HorizontalAlignment="Left"
+                                IsEnabled="False"
+                                Style="{StaticResource TextBLockStyle}"
+                                Text="{Binding CurrentTemporaryOrder.NewRecDate, UpdateSourceTrigger=PropertyChanged, StringFormat=dd.MM.yyyy HH:mm}" />
+                            <TextBlock
+                                Grid.Row="0"
+                                Grid.Column="4"
+                                Width="160"
+                                Height="24"
+                                Margin="5"
+                                HorizontalAlignment="Left"
+                                IsEnabled="False"
+                                Style="{StaticResource TextBLockStyle}"
+                                Text="{Binding CurrentTemporaryOrder.RecDate, UpdateSourceTrigger=PropertyChanged, StringFormat=dd.MM.yyyy HH:mm}" />
                         </Grid>
                     </Grid>
                 </ScrollViewer>
             </mah:MetroTabItem>
 
-            <mah:MetroTabItem IsEnabled="{Binding IsEnabled, UpdateSourceTrigger=PropertyChanged}" Tag="2">
+            <mah:MetroTabItem
+                IsEnabled="{Binding IsEnabled, UpdateSourceTrigger=PropertyChanged}"
+                IsSelected="{Binding IsVirtueOrder, Mode=TwoWay}"
+                Tag="2">
                 <Grid>
                     <Grid.RowDefinitions>
                         <RowDefinition />
                         <RowDefinition />
                         <RowDefinition Height="5*" />
+                        <RowDefinition Height="40" />
+                        <RowDefinition Height="40" />
+                        <RowDefinition Height="60" />
+                        <RowDefinition Height="40" />
+                        <RowDefinition Height="40" />
                     </Grid.RowDefinitions>
 
                     <Grid Grid.Row="0">
@@ -705,13 +925,15 @@
 
                         <TextBox
                             Grid.Column="1"
+                            IsEnabled="False"
                             Style="{StaticResource TextBoxStyle}"
                             Text="{Binding CurrentVirtueOrder.RegNumber, Mode=TwoWay}" />
 
                         <CheckBox
                             Grid.Column="2"
                             HorizontalAlignment="Center"
-                            VerticalAlignment="Center" />
+                            VerticalAlignment="Center"
+                            IsEnabled="{Binding TextEnable, UpdateSourceTrigger=PropertyChanged}" />
 
                         <TextBlock
                             Grid.Column="3"
@@ -743,6 +965,7 @@
                         <DatePicker
                             Grid.Column="1"
                             Height="25"
+                            IsEnabled="{Binding TextEnable, UpdateSourceTrigger=PropertyChanged}"
                             SelectedDate="{Binding CurrentVirtueOrder.From, Mode=TwoWay}">
                             <DatePicker.Resources>
                                 <Style TargetType="{x:Type DatePickerTextBox}">
@@ -765,6 +988,7 @@
                             Width="25"
                             Height="25"
                             Content="..."
+                            IsEnabled="{Binding TextEnable, UpdateSourceTrigger=PropertyChanged}"
                             Style="{StaticResource VisitorsSquareButtonStyle}" />
 
                         <TextBlock
@@ -780,6 +1004,7 @@
                         <DatePicker
                             Grid.Column="4"
                             Height="25"
+                            IsEnabled="{Binding TextEnable, UpdateSourceTrigger=PropertyChanged}"
                             SelectedDate="{Binding CurrentVirtueOrder.To, Mode=TwoWay}">
                             <DatePicker.Resources>
                                 <Style TargetType="{x:Type DatePickerTextBox}">
@@ -802,6 +1027,7 @@
                             Width="25"
                             Height="25"
                             Content="..."
+                            IsEnabled="{Binding TextEnable, UpdateSourceTrigger=PropertyChanged}"
                             Style="{StaticResource VisitorsSquareButtonStyle}" />
                     </Grid>
 
@@ -832,6 +1058,7 @@
                             Grid.Row="0"
                             Grid.Column="1"
                             Grid.ColumnSpan="2"
+                            IsEnabled="{Binding TextEnable, UpdateSourceTrigger=PropertyChanged}"
                             Style="{StaticResource TextBoxStyle}" />
 
                         <TextBlock
@@ -845,6 +1072,7 @@
                             Grid.Row="1"
                             Grid.Column="1"
                             Grid.ColumnSpan="2"
+                            IsEnabled="{Binding TextEnable, UpdateSourceTrigger=PropertyChanged}"
                             Style="{StaticResource TextBoxStyle}" />
 
                         <TextBlock
@@ -858,6 +1086,7 @@
                             Grid.Row="2"
                             Grid.Column="1"
                             Grid.ColumnSpan="2"
+                            IsEnabled="{Binding TextEnable, UpdateSourceTrigger=PropertyChanged}"
                             Style="{StaticResource TextBoxStyle}"
                             Text="{Binding CurrentVirtueOrder.Organization, Mode=TwoWay}" />
 
@@ -871,6 +1100,7 @@
                         <TextBox
                             Grid.Row="3"
                             Grid.Column="1"
+                            IsEnabled="{Binding TextEnable, UpdateSourceTrigger=PropertyChanged}"
                             Style="{StaticResource TextBoxStyle}"
                             Text="{Binding CurrentVirtueOrder.Passes, Mode=TwoWay}" />
 
@@ -880,44 +1110,178 @@
                             Width="25"
                             Height="25"
                             Content="..."
+                            IsEnabled="{Binding TextEnable, UpdateSourceTrigger=PropertyChanged}"
                             Style="{StaticResource VisitorsSquareButtonStyle}" />
-
-                        <Grid
-                            Grid.Row="4"
-                            Grid.Column="0"
-                            Grid.ColumnSpan="3">
-                            <Grid.ColumnDefinitions>
-                                <ColumnDefinition Width="40" />
-                                <ColumnDefinition />
-                            </Grid.ColumnDefinitions>
-
-                            <CheckBox
-                                Grid.Column="0"
-                                HorizontalAlignment="Center"
-                                VerticalAlignment="Center" />
-
-                            <TextBlock
-                                Grid.Column="1"
-                                HorizontalAlignment="Left"
-                                Style="{StaticResource TextBLockStyle}"
-                                Text="Заявка не активна" />
-                        </Grid>
+                    </Grid>
+                    <Grid Grid.Row="4" Margin="0,10,0,0">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="10" />
+                            <ColumnDefinition Width="*" />
+                            <ColumnDefinition Width="*" />
+                            <ColumnDefinition Width="*" />
+                            <ColumnDefinition Width="*" />
+                            <ColumnDefinition Width="10" />
+                        </Grid.ColumnDefinitions>
 
                         <TextBlock
-                            Grid.Row="5"
-                            Grid.Column="0"
-                            Grid.ColumnSpan="3"
+                            Grid.Column="1"
+                            Margin="5"
                             HorizontalAlignment="Left"
                             Style="{StaticResource TextBLockStyle}"
-                            Text="Оператор 1" />
+                            Text="Штрих-код СЭД:" />
+                        <TextBlock
+                            Grid.Column="2"
+                            Width="160"
+                            Height="24"
+                            Margin="5"
+                            HorizontalAlignment="Left"
+                            IsEnabled="False"
+                            Style="{StaticResource TextBLockStyle}"
+                            Text="{Binding CurrentVirtueOrder.Barcode, UpdateSourceTrigger=PropertyChanged, StringFormat=dd.MM.yyyy HH:mm}" />
+                        <TextBlock
+                            Grid.Row="0"
+                            Grid.Column="3"
+                            Width="150"
+                            Height="24"
+                            Margin="5"
+                            HorizontalAlignment="Left"
+                            Style="{StaticResource TextBLockStyle}"
+                            Text="Оригинал заявки:" />
+                    </Grid>
+                    <Grid Grid.Row="5" Margin="0,10,0,0">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="10" />
+                            <ColumnDefinition Width="0.1*" />
+                            <ColumnDefinition Width="0.3*" />
+                            <ColumnDefinition Width="0.3*" />
+                            <ColumnDefinition Width="*" />
+                            <ColumnDefinition Width="10" />
+                        </Grid.ColumnDefinitions>
 
                         <TextBlock
-                            Grid.Row="5"
-                            Grid.Column="0"
-                            Grid.ColumnSpan="3"
-                            HorizontalAlignment="Right"
+                            Grid.Column="3"
+                            Width="109"
+                            Height="23"
+                            Margin="5"
+                            HorizontalAlignment="Left"
                             Style="{StaticResource TextBLockStyle}"
-                            Text="Изменён ..." />
+                            Text="Примечание:" />
+
+                        <TextBox
+                            Grid.Column="4"
+                            Height="26"
+                            VerticalContentAlignment="Center"
+                            IsEnabled="{Binding TextEnable, UpdateSourceTrigger=PropertyChanged}"
+                            Style="{StaticResource TextBoxStyle}"
+                            Text="{Binding CurrentVirtueOrder.Note, Mode=TwoWay}" />
+
+                        <CheckBox
+                            Grid.Column="1"
+                            Width="24"
+                            Height="18"
+                            Margin="0,10,0,9"
+                            HorizontalAlignment="Left"
+                            VerticalAlignment="Center"
+                            FontSize="18"
+                            IsChecked="{Binding CurrentVirtueOrder.IsDisable, Mode=TwoWay}"
+                            IsEnabled="{Binding TextEnable, UpdateSourceTrigger=PropertyChanged}" />
+
+                        <TextBlock
+                            Grid.Row="0"
+                            Grid.Column="2"
+                            Width="150"
+                            Height="24"
+                            Margin="5"
+                            HorizontalAlignment="Left"
+                            Style="{StaticResource TextBLockStyle}"
+                            Text="Заявка не активна" />
+                    </Grid>
+                    <Grid Grid.Row="6" Margin="0,10,0,0">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="10" />
+                            <ColumnDefinition Width="1.3*" />
+                            <ColumnDefinition Width="0.5*" />
+                            <ColumnDefinition Width="2*" />
+                            <ColumnDefinition Width="0.5*" />
+                            <ColumnDefinition Width="10" />
+                        </Grid.ColumnDefinitions>
+                        <TextBlock
+                            Grid.Row="0"
+                            Grid.Column="1"
+                            Margin="5"
+                            HorizontalAlignment="Left"
+                            Style="{StaticResource TextBLockStyle}"
+                            Text="Имя создавшего пользователя:" />
+                        <TextBlock
+                            Grid.Row="0"
+                            Grid.Column="2"
+                            Width="100"
+                            Height="24"
+                            Margin="5"
+                            HorizontalAlignment="Left"
+                            Style="{StaticResource TextBLockStyle}"
+                            Text="{Binding CurrentVirtueOrder.RecOperator, UpdateSourceTrigger=PropertyChanged}" />
+                        <TextBlock
+                            Grid.Row="0"
+                            Grid.Column="3"
+                            Margin="5"
+                            HorizontalAlignment="Left"
+                            Style="{StaticResource TextBLockStyle}"
+                            Text="Имя последнего редактировавшего пользователя:" />
+                        <TextBlock
+                            Grid.Row="0"
+                            Grid.Column="4"
+                            Width="100"
+                            Height="24"
+                            Margin="5"
+                            HorizontalAlignment="Left"
+                            Style="{StaticResource TextBLockStyle}"
+                            Text="{Binding CurrentVirtueOrder.NewRecOperator, UpdateSourceTrigger=PropertyChanged}" />
+                    </Grid>
+                    <Grid Grid.Row="7" Margin="0,10,0,0">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="10" />
+                            <ColumnDefinition Width="*" />
+                            <ColumnDefinition Width="0.5*" />
+                            <ColumnDefinition Width="*" />
+                            <ColumnDefinition Width="0.5*" />
+                            <ColumnDefinition Width="10" />
+                        </Grid.ColumnDefinitions>
+
+                        <TextBlock
+                            Grid.Row="0"
+                            Grid.Column="1"
+                            Margin="5"
+                            HorizontalAlignment="Left"
+                            Style="{StaticResource TextBLockStyle}"
+                            Text="Дата создания:" />
+                        <TextBlock
+                            Grid.Row="0"
+                            Grid.Column="3"
+                            Margin="5"
+                            HorizontalAlignment="Left"
+                            Style="{StaticResource TextBLockStyle}"
+                            Text="Дата последнего редактирования:" />
+                        <TextBlock
+                            Grid.Row="0"
+                            Grid.Column="2"
+                            Width="160"
+                            Height="24"
+                            Margin="5"
+                            HorizontalAlignment="Left"
+                            IsEnabled="False"
+                            Style="{StaticResource TextBLockStyle}"
+                            Text="{Binding CurrentVirtueOrder.NewRecDate, UpdateSourceTrigger=PropertyChanged, StringFormat=dd.MM.yyyy HH:mm}" />
+                        <TextBlock
+                            Grid.Row="0"
+                            Grid.Column="4"
+                            Width="160"
+                            Height="24"
+                            Margin="5"
+                            HorizontalAlignment="Left"
+                            IsEnabled="False"
+                            Style="{StaticResource TextBLockStyle}"
+                            Text="{Binding CurrentVirtueOrder.RecDate, UpdateSourceTrigger=PropertyChanged, StringFormat=dd.MM.yyyy HH:mm}" />
                     </Grid>
                 </Grid>
             </mah:MetroTabItem>
@@ -942,6 +1306,7 @@
                     </DataGrid.Columns>
                 </DataGrid>
             </mah:MetroTabItem>
+
         </mah:MetroAnimatedTabControl>
 
         <Grid Grid.Row="2">
