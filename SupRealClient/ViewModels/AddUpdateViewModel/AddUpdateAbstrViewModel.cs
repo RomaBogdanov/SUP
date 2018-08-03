@@ -150,10 +150,7 @@ namespace SupRealClient.ViewModels.AddUpdateViewModel
 	        }
             CurrentOrderElement.VisitorId = result.Id;
 	        CurrentOrderElement.Position = CurrentOrderElement.VisitorMainPosition;
-			if (CurrentOrderElement.OrganizationId == 0)
-	        {
-		        CurrentOrderElement.OrganizationId = result.OrganizationId;
-			}
+		    CurrentOrderElement.OrganizationId = result.OrganizationId;
 
 			CurrentItem = CurrentItem;
         }
