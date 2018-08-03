@@ -351,10 +351,7 @@ namespace SupRealClient.Models
                 return;
             }
             AddUpdateAbstrModel model = new UpdateBidModel(UpdateVisitor);
-            AddUpdateBaseViewModel viewModel = new AddUpdateBidsViewModel
-            {
-                Model = model
-            };
+	        AddUpdateBaseViewModel viewModel = new AddUpdateBidsViewModel(model);
             AddUpdateBidWindView view = new AddUpdateBidWindView
             {
                 DataContext = viewModel
@@ -435,11 +432,8 @@ namespace SupRealClient.Models
         /// </summary>
         protected void AddPersonInSingleOrder()
         {
-            AddUpdateAbstrModel model = new AddSingleBidModel();
-            AddUpdateBaseViewModel viewModel = new AddUpdateBidsViewModel
-            {
-                Model = model
-            };
+            AddUpdateAbstrModel model = new AddSingleBidModel(true, CurrentSingleOrder.From, CurrentSingleOrder.From);
+	        AddUpdateBaseViewModel viewModel = new AddUpdateBidsViewModel(model);
             AddUpdateBidWindView view = new AddUpdateBidWindView();
             view.Title = "Добавить посетителя";
             view.DataContext = viewModel;
@@ -458,9 +452,9 @@ namespace SupRealClient.Models
         /// </summary>
         protected void AddPersonInTempOrder()
         {
-            AddUpdateAbstrModel model = new AddSingleBidModel();
-            AddUpdateBaseViewModel viewModel = new AddUpdateBidsViewModel
-            {
+            AddUpdateAbstrModel model = new AddSingleBidModel(false, CurrentTemporaryOrder.From, CurrentTemporaryOrder.To);
+			AddUpdateBaseViewModel viewModel = new AddUpdateBidsViewModel(model)
+			{
                 Model = model
             };
             AddUpdateBidWindView view = new AddUpdateBidWindView();

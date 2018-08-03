@@ -12,7 +12,9 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
 using System.ComponentModel;
+using System.Diagnostics;
 using  SupRealClient;
+using SupRealClient.Behaviour;
 using SupRealClient.Models.AddUpdateModel;
 
 namespace SupRealClient.Views
@@ -25,14 +27,29 @@ namespace SupRealClient.Views
         /// <summary>
         /// Двигатель фокуса
         /// </summary>
-        private TraversalRequest _focusMover = new TraversalRequest(FocusNavigationDirection.Next);
+        private readonly TraversalRequest _focusMover = new TraversalRequest(FocusNavigationDirection.Next);
+
+	    private readonly List<UIElement> _enterUiElementsSequence;
+	    private UIElement _previousEnterUiElement = null;
 
         public object WindowResult { get; set; }
 
         public AddUpdateBidWindView()
         {
             InitializeComponent();
-        }        
+	        _enterUiElementsSequence = new List<UIElement>
+	        {
+		        btnSelectBid,
+		        btnSelectOrganization,
+		        tbPosition,
+		        btnSelectCatcher,
+		        dpTimeFrom,
+		        dpTimeTo,
+		        btnSelectPass,
+		        checkDisable,
+		        btnOK
+	        };
+		}        
 
         public void Handling_OnClose(object result)
         {
@@ -45,101 +62,37 @@ namespace SupRealClient.Views
             btnSelectBid.Focus();
         }
 
-        private void btnSelectBid_PreviewKeyDown(object sender, KeyEventArgs e)
-        {
-            if (e.Key == Key.Enter)
-            {
-                btnSelectCatcher.Focus();
-                e.Handled = true;
-            }
-        }
+	    private void uiElement_PreviewKeyDown(object sender, KeyEventArgs e)
+	    {
+		    if (e.Key != Key.Enter)
+		    {
+				return;
+		    }
 
-        private void btnSelectCatcher_PreviewKeyDown(object sender, KeyEventArgs e)
-        {
-            if (e.Key == Key.Enter)
-            {
-                dpTimeFrom.Focus();
-                e.Handled = true;
-            }
-        }
+		    if (_previousEnterUiElement !=null && _previousEnterUiElement.Equals(sender))
+		    {
+			    UIElement newFocus = _previousEnterUiElement;
+			    while (true)
+			    {
+				    int index = _enterUiElementsSequence.FindIndex(x => x.Equals(newFocus));
+				    index = (index + 1) % _enterUiElementsSequence.Count;
+					newFocus = _enterUiElementsSequence[index];
+				    newFocus?.Focus();
 
+				    if (newFocus != null && !newFocus.IsEnabled)
+				    {
+						continue;
+				    }
 
-        private void UIdef_KeyDown(object sender, KeyEventArgs e)
-        {
-            if (e.Key == Key.Enter)
-            {
-                UIElement elementWithFocus = Keyboard.FocusedElement as UIElement;
-                if (elementWithFocus != null)
-                {
-                    elementWithFocus.MoveFocus(_focusMover);
-                    e.Handled = true;
-                }
-            }
-        }
-
-        private void btnSelectPass_PreviewKeyDown(object sender, KeyEventArgs e)
-        {
-            if (e.Key == Key.Enter)
-            {
-                checkDisable.Focus();
-                e.Handled = true;
-            }
-        }
-
-        private void btnOK_KeyDown(object sender, KeyEventArgs e)
-        {
-            if (e.Key == Key.Enter)
-            {
-                btnOK.Command.Execute(null);
-            }
-        }
+				    break;
+			    }
+			   
+			    e.Handled = true;
+		    }
+		    else
+		    {
+			    _previousEnterUiElement = (UIElement)sender;
+			}
+	    }
     }
-
-    /*
-    public class AddUpdateBidWindViewModel : INotifyPropertyChanged
-    {
-        public event PropertyChangedEventHandler PropertyChanged;
-        public void OnPropertyChanged(string prop = "")
-        {
-            if (PropertyChanged != null)
-                PropertyChanged(this, new PropertyChangedEventArgs(prop));
-        }
-
-        public AddUpdateAbstrModel Model { get; set; }
-
-        public string Visitor { get; set; }
-
-        public string Organization { get; set; }
-
-        public string Catcher { get; set; }
-
-        public DateTime From { get; set; }
-
-        public DateTime To { get; set; }
-
-        public string Passes { get; set; }
-
-        public ICommand Ok { get; set; }
-
-        public ICommand Cancel { get; set; }
-
-        public AddUpdateBidWindViewModel()
-        {
-            Ok = new RelayCommand(arg => OkCommand());
-            Cancel = new RelayCommand(arg => CancelCommand());
-        }
-
-        private void OkCommand()
-        {
-            Model.Ok();
-        }
-
-
-        private void CancelCommand()
-        {
-            Model.Cancel();
-        }
-
-    }
-    */
 }

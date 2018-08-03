@@ -11,8 +11,8 @@ namespace SupRealClient.Models
 		public NewBidsModel(OrderType currentOrderType = OrderType.Single)
 		{
 			OrderType = currentOrderType;
-			CurrentSingleOrder = new Order();
 			CurrentTemporaryOrder = new Order();
+			CurrentSingleOrder = new Order();
 			CurrentVirtueOrder = new Order();
 			CurrentOrder = new Order();
 
@@ -40,7 +40,7 @@ namespace SupRealClient.Models
 					CurrentTemporaryOrder.Number = ++maxOrderNumber;
 					break;
 				case OrderType.Virtue:
-					CurrentVirtueOrder.TypeId = 2;
+					CurrentVirtueOrder.TypeId = 3;
 					CurrentVirtueOrder.From = DateTime.Now;
 					CurrentVirtueOrder.To = DateTime.Now;
 					CurrentVirtueOrder.RecDate = DateTime.Now;
@@ -55,23 +55,43 @@ namespace SupRealClient.Models
 			switch (OrderType)
 			{
 				case OrderType.Temp:
-					CurrentVirtueOrder.OrderDate = DateTime.Now;
-					CurrentSingleOrder.RecDate = DateTime.Now;
-					CurrentSingleOrder.NewRecDate = DateTime.Now;
+					foreach (OrderElement currentOrderOrderElement in CurrentOrder.OrderElements)
+					{
+						currentOrderOrderElement.From = CurrentTemporaryOrder.From;
+						currentOrderOrderElement.To = CurrentTemporaryOrder.To;
+					}
+					CurrentTemporaryOrder.RecDate = DateTime.Now;
+
 					OrdersWrapper.CurrentTable().AddRow(CurrentTemporaryOrder);
 					break;
 				case OrderType.Single:
+					foreach (OrderElement currentOrderOrderElement in CurrentOrder.OrderElements)
+					{
+						currentOrderOrderElement.From = new DateTime(CurrentSingleOrder.From.Year, CurrentSingleOrder.From.Year,
+							CurrentSingleOrder.From.Year,
+							currentOrderOrderElement.From.Hour, currentOrderOrderElement.From.Minute, currentOrderOrderElement.From.Second);
+						currentOrderOrderElement.To = new DateTime(CurrentSingleOrder.To.Year, CurrentSingleOrder.To.Year,
+							CurrentSingleOrder.To.Year,
+							currentOrderOrderElement.To.Hour, currentOrderOrderElement.To.Minute, currentOrderOrderElement.To.Second);
+					}
+
+					CurrentSingleOrder.RecDate = DateTime.Now;
 					CurrentSingleOrder.To = CurrentSingleOrder.From;
 					CurrentSingleOrder.OrderDate = DateTime.Now;
-					CurrentSingleOrder.RecDate = DateTime.Now;
-					CurrentSingleOrder.NewRecDate = DateTime.Now;
 					OrdersWrapper.CurrentTable().AddRow(CurrentSingleOrder);
 					break;
 				case OrderType.Virtue:
+					foreach (OrderElement currentOrderOrderElement in CurrentOrder.OrderElements)
+					{
+						currentOrderOrderElement.From = CurrentVirtueOrder.From;
+						currentOrderOrderElement.To = CurrentVirtueOrder.To;
+					}
 					CurrentVirtueOrder.OrderDate = DateTime.Now;
 					CurrentVirtueOrder.RecDate = DateTime.Now;
-					CurrentVirtueOrder.NewRecDate = DateTime.Now;
+
 					OrdersWrapper.CurrentTable().AddRow(CurrentVirtueOrder);
+					break;
+				default:
 					break;
 			}
 		}
