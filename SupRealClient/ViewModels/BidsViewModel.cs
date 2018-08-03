@@ -53,9 +53,6 @@ namespace SupRealClient.ViewModels
 				bidsModel.OnRefresh += BidsModel_OnRefresh;
 			}
 		}
-
-
-
 		public OrderElement UpdateVisitor
 		{
 			get { return BidsModel?.UpdateVisitor; }
