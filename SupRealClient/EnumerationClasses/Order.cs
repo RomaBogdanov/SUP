@@ -115,10 +115,29 @@ namespace SupRealClient.EnumerationClasses
 
 		public DateTime RecDate { get; set; }
 		public int RecOperatorID { get; set; }
-		public string RecOperator { get; set; }
+		public string RecOperator
+		{
+			get
+			{
+				return UsersWrapper.CurrentTable().Table.AsEnumerable()
+					.FirstOrDefault(arg => arg.Field<int>("f_user_id") ==
+					                       RecOperatorID)["f_user"].ToString();
+			}
+			set { }
+		}
+
 		public DateTime? NewRecDate { get; set; }
 		public int NewRecOperatorID { get; set; }
-		public string NewRecOperator { get; set; }
+		public string NewRecOperator
+		{
+			get
+			{
+				return UsersWrapper.CurrentTable().Table.AsEnumerable()
+					.FirstOrDefault(arg => arg.Field<int>("f_user_id") ==
+					                       NewRecOperatorID)["f_user"].ToString();
+			}
+			set { }
+		}
 		public string Barcode { get; set; }
 		public int CatcherId { get; set; } = 0; // Id провожающего
 		public int ImageId { get; set; } // id исходника скана заявки
