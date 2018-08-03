@@ -1,4 +1,5 @@
-﻿using SupRealClient.Common.Interfaces;
+﻿using System;
+using SupRealClient.Common.Interfaces;
 using System.Windows;
 using System.Windows.Input;
 
@@ -34,8 +35,9 @@ namespace SupRealClient.Views
                 if (this.DataContext == null)
                 {
                     this.DataContext = new VisitsViewModel(this);
-
-                    this.Height = (this.DataContext as VisitsViewModel).WinSet.Height;
+	                DataContext = new VisitsViewModel(this);
+					(DataContext as VisitsViewModel).MoveNextFocusingElement += MovingNextFocusingElement;
+					this.Height = (this.DataContext as VisitsViewModel).WinSet.Height;
                     this.Width = (this.DataContext as VisitsViewModel).WinSet.Width;
                     this.Left = (this.DataContext as VisitsViewModel).WinSet.Left;
                     this.Top = (this.DataContext as VisitsViewModel).WinSet.Top;
@@ -47,7 +49,15 @@ namespace SupRealClient.Views
             };
         }
 
-		public void NewVisitor()
+	    private void MovingNextFocusingElement(string e)
+	    {
+		    if (e == "OrganizationsList")
+		    {
+			    checkBoxNoForm.Focus();
+		    }
+	    }
+
+	    public void NewVisitor()
         {
             ((VisitsViewModel)this.DataContext).Model= new NewVisitsModel();
         }
@@ -101,5 +111,38 @@ namespace SupRealClient.Views
 				
 			}
 		}
+
+	    private void MoveNextFocusControl_ToName(object sender, KeyEventArgs e)
+	    {
+		    if (e.Key == Key.Enter)
+		    {
+			    MoveNextFocusControl_ToName((sender as FrameworkElement).Name);
+		    }
+	    }
+
+	    private void MoveNextFocusControl_ToName(string nameControl)
+	    {
+			    switch (nameControl)
+			    {
+				    case "textbox_Patronymic":
+				    {
+					    button_LoadOrganization.Focus();
+				    }
+					    break;
+				    case "checkBoxNoForm":
+				    {
+					    checkBox_Consent.Focus();
+				    }
+					    break;
+
+				    case "checkBox_Consent":
+				    {
+					    button_Ok.Focus();
+				    }
+					    break;
+					default:
+						break;
+			    }
+	    }
 	}
 }

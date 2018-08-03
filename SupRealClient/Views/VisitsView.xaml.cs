@@ -70,6 +70,8 @@ namespace SupRealClient.Views
 	    private bool _enableButton_OpenDocument_InRedactMode = false;
 		private bool _isRedactMode = false;
 
+	    public event Action<string> MoveNextFocusingElement;
+
 		public CollectionView PositionList { get; private set; }
 
         public IVisitsModel Model
@@ -378,8 +380,9 @@ namespace SupRealClient.Views
 
 	    ~VisitsViewModel()
 	    {
-		    _documentScaner.ScanFinished -= Scaner_ScanFinished;
-		    _documentScaner.Dispose();
+			if(_documentScaner!=null)
+				_documentScaner.ScanFinished -= Scaner_ScanFinished;
+		    _documentScaner?.Dispose();
 	    }
 
 	    private void Refresh()
@@ -537,6 +540,8 @@ namespace SupRealClient.Views
             CurrentItem.Organization = OrganizationsHelper.
                 GenerateFullName(result.Id, true);
             OnPropertyChanged("CurrentItem");
+	        MoveNextFocusingElement?.Invoke("OrganizationsList");
+
         }
 
         private void CountyList()
