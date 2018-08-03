@@ -256,7 +256,7 @@ namespace SupRealClient.TabsSingleton
 			row["f_image_id"] = order.ImageId;
 			row["f_rec_operator"] = order.RecOperatorID;
 			row["f_new_rec_date"] = order.NewRecDate;
-			row["f_new_rec_operator"] = order.NewRecOperatorID;
+			row["f_new_rec_operator"] = Authorizer.AppAuthorizer.Id;
 			row["f_barcode"] = order.Barcode;
 			row["f_adjusted_with"] = order.AgreeId;
 			row["f_notes"] = order.Note;
