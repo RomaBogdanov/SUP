@@ -618,6 +618,7 @@
                             Grid.Row="2"
                             AutoGenerateColumns="False"
                             CanUserAddRows="{Binding IsCanAddRows, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                            SelectedItem="{Binding UpdateVisitor, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                             ItemsSource="{Binding Path=CurrentTemporaryOrder.OrderElements}">
                             <DataGrid.Columns>
                                 <DataGridTextColumn Header="№" />

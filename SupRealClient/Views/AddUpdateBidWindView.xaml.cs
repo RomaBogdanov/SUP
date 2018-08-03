@@ -1,34 +1,15 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Collections.Generic;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
 using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Shapes;
-using System.ComponentModel;
-using System.Diagnostics;
-using  SupRealClient;
-using SupRealClient.Behaviour;
-using SupRealClient.Models.AddUpdateModel;
 
 namespace SupRealClient.Views
 {
-    /// <summary>
-    /// Логика взаимодействия для AddUpdateBidWindView.xaml
-    /// </summary>
-    public partial class AddUpdateBidWindView
+	/// <summary>
+	/// Логика взаимодействия для AddUpdateBidWindView.xaml
+	/// </summary>
+	public partial class AddUpdateBidWindView
     {
-        /// <summary>
-        /// Двигатель фокуса
-        /// </summary>
-        private readonly TraversalRequest _focusMover = new TraversalRequest(FocusNavigationDirection.Next);
-
 	    private readonly List<UIElement> _enterUiElementsSequence;
 	    private UIElement _previousEnterUiElement = null;
 
@@ -62,15 +43,22 @@ namespace SupRealClient.Views
             btnSelectBid.Focus();
         }
 
-	    private void uiElement_PreviewKeyDown(object sender, KeyEventArgs e)
+	    private void UiElement_PreviewKeyDown(object sender, KeyEventArgs e)
 	    {
 		    if (e.Key != Key.Enter)
 		    {
 				return;
 		    }
 
-		    if (_previousEnterUiElement !=null && _previousEnterUiElement.Equals(sender))
+		    bool isSenderButton = sender is Button;
+
+
+			if (_previousEnterUiElement !=null && (!isSenderButton || _previousEnterUiElement.Equals(sender)))
 		    {
+			    if (!isSenderButton)
+			    {
+				    _previousEnterUiElement = (UIElement) sender;
+			    }
 			    UIElement newFocus = _previousEnterUiElement;
 			    while (true)
 			    {
@@ -93,6 +81,15 @@ namespace SupRealClient.Views
 		    {
 			    _previousEnterUiElement = (UIElement)sender;
 			}
+	    }
+
+	    private void Window_PreviewKeyDown(object sender, KeyEventArgs e)
+	    {
+		    if (e.Key == Key.Escape)
+		    {
+			    Close();
+			    e.Handled = true;
+		    }
 	    }
     }
 }
