@@ -83,138 +83,182 @@ namespace SupRealClient.Models
 
         public virtual event Action OnRefresh;
 
-        /// <summary>
-        /// Обработка нажатия кнопки "Начало".
-        /// </summary>
-        public void Begin()
-        {
-            switch (OrderType)
-            {
-                case OrderType.Temp:
-                {
-                    if (TemporaryOrdersSet.Count > 0)
-                    {
-                        CurrentTemporaryOrder = TemporaryOrdersSet[0];
-                    }
-                    break;
-                }
-                case OrderType.Single:
-                {
-                    if (SingleOrdersSet.Count > 0)
-                    {
-                        CurrentSingleOrder = SingleOrdersSet[0];
-                    }
+	    /// <summary>
+	    /// Обработка нажатия кнопки "Начало".
+	    /// </summary>
+	    public void Begin()
+	    {
+		    switch (OrderType)
+		    {
+			    case OrderType.Temp:
+			    {
+				    if (TemporaryOrdersSet.Count > 0)
+				    {
+					    CurrentTemporaryOrder = TemporaryOrdersSet[0];
+				    }
 
-                    break;
-                }
+				    break;
+			    }
+			    case OrderType.Single:
+			    {
+				    if (SingleOrdersSet.Count > 0)
+				    {
+					    CurrentSingleOrder = SingleOrdersSet[0];
+				    }
 
-                default:
-                    throw new Exception("Unexpected Case");
-            }
-        }
+				    break;
+			    }
+			    case OrderType.Virtue:
+			    {
+				    if (VirtueOrdersSet.Count > 0)
+				    {
+					    CurrentVirtueOrder = VirtueOrdersSet[0];
+				    }
 
-        /// <summary>
-        /// Обработка нажатия кнопки "Предыдущий".
-        /// </summary>
-        public void Prev()
-        {
-            switch (OrderType)
-            {
-                case OrderType.Temp:
-                {
-                    if (TemporaryOrdersSet.Count > 0 && TemporaryOrdersSet
-                            .IndexOf(CurrentTemporaryOrder) > 0)
-                    {
-                        CurrentTemporaryOrder = TemporaryOrdersSet[
-                            TemporaryOrdersSet.IndexOf(CurrentTemporaryOrder) - 1];
-                    }
-                    break;
-                }
-                case OrderType.Single:
-                {
-                    if (SingleOrdersSet.Count > 0 &&
-                        SingleOrdersSet.IndexOf(CurrentSingleOrder) > 0)
-                    {
-                        CurrentSingleOrder = SingleOrdersSet[
-                            SingleOrdersSet.IndexOf(CurrentSingleOrder) - 1];
-                    }
+				    break;
+			    }
+			    default:
+				    throw new Exception("Unexpected Case");
+		    }
+	    }
 
-                    break;
-                }
+	    /// <summary>
+	    /// Обработка нажатия кнопки "Предыдущий".
+	    /// </summary>
+	    public void Prev()
+	    {
+		    switch (OrderType)
+		    {
+			    case OrderType.Temp:
+			    {
+				    if (TemporaryOrdersSet.Count > 0 && TemporaryOrdersSet
+					        .IndexOf(CurrentTemporaryOrder) > 0)
+				    {
+					    CurrentTemporaryOrder = TemporaryOrdersSet[
+						    TemporaryOrdersSet.IndexOf(CurrentTemporaryOrder) - 1];
+				    }
 
-                default:
-                    throw new Exception("Unexpected Case");
-            }
-        }
+				    break;
+			    }
+			    case OrderType.Single:
+			    {
+				    if (SingleOrdersSet.Count > 0 &&
+				        SingleOrdersSet.IndexOf(CurrentSingleOrder) > 0)
+				    {
+					    CurrentSingleOrder = SingleOrdersSet[
+						    SingleOrdersSet.IndexOf(CurrentSingleOrder) - 1];
+				    }
 
-        /// <summary>
-        /// Обработка нажатия кнопки "Следующий".
-        /// </summary>
-        public void Next()
-        {
-            switch (OrderType)
-            {
-                case OrderType.Temp:
-                {
-                    if (TemporaryOrdersSet.Count > 0 && TemporaryOrdersSet
-                            .IndexOf(CurrentTemporaryOrder) <
-                        TemporaryOrdersSet.Count - 1)
-                    {
-                        CurrentTemporaryOrder = TemporaryOrdersSet[
-                            TemporaryOrdersSet.IndexOf(CurrentTemporaryOrder) + 1];
-                    }
-                    break;
-                }
-                case OrderType.Single:
-                {
-                    if (SingleOrdersSet.Count > 0 &&
-                        SingleOrdersSet.IndexOf(CurrentSingleOrder) <
-                        SingleOrdersSet.Count - 1)
-                    {
-                        CurrentSingleOrder = SingleOrdersSet[
-                            SingleOrdersSet.IndexOf(CurrentSingleOrder) + 1];
-                    }
+				    break;
+			    }
+			    case OrderType.Virtue:
+			    {
+				    if (VirtueOrdersSet.Count > 0 &&
+				        VirtueOrdersSet.IndexOf(CurrentVirtueOrder) > 0)
+				    {
+					    CurrentVirtueOrder = VirtueOrdersSet[
+						    VirtueOrdersSet.IndexOf(CurrentVirtueOrder) - 1];
+				    }
 
-                    break;
-                }
+				    break;
+			    }
 
-                default:
-                    throw new Exception("Unexpected Case");
-            }
-        }
+			    default:
+				    throw new Exception("Unexpected Case");
+		    }
+	    }
 
-        /// <summary>
-        /// Обработка нажатия кнопки "Конец".
-        /// </summary>
-        public void End()
-        {
-            switch (OrderType)
-            {
-                case OrderType.Temp:
-                {
-                    if (TemporaryOrdersSet.Count > 0)
-                    {
-                        CurrentTemporaryOrder = TemporaryOrdersSet[
-                            TemporaryOrdersSet.Count - 1];
-                    }
-                    break;
-                }
-                case OrderType.Single:
-                {
-                    if (SingleOrdersSet.Count > 0)
-                    {
-                        CurrentSingleOrder = SingleOrdersSet[
-                            SingleOrdersSet.Count - 1];
-                    }
-                    break;
-                }
+	    /// <summary>
+	    /// Обработка нажатия кнопки "Следующий".
+	    /// </summary>
+	    public void Next()
+	    {
+		    switch (OrderType)
+		    {
+			    case OrderType.Temp:
+			    {
+				    if (TemporaryOrdersSet.Count > 0 && TemporaryOrdersSet
+					        .IndexOf(CurrentTemporaryOrder) <
+				        TemporaryOrdersSet.Count - 1)
+				    {
+					    CurrentTemporaryOrder = TemporaryOrdersSet[
+						    TemporaryOrdersSet.IndexOf(CurrentTemporaryOrder) + 1];
+				    }
 
-                default:
-                    throw new Exception("Unexpected Case");
-            }
-        }
+				    break;
+			    }
+			    case OrderType.Single:
+			    {
+				    if (SingleOrdersSet.Count > 0 &&
+				        SingleOrdersSet.IndexOf(CurrentSingleOrder) <
+				        SingleOrdersSet.Count - 1)
+				    {
+					    CurrentSingleOrder = SingleOrdersSet[
+						    SingleOrdersSet.IndexOf(CurrentSingleOrder) + 1];
+				    }
 
-        /// <summary>
+				    break;
+			    }
+			    case OrderType.Virtue:
+			    {
+				    if (VirtueOrdersSet.Count > 0 &&
+				        VirtueOrdersSet.IndexOf(CurrentVirtueOrder) <
+				        VirtueOrdersSet.Count - 1)
+				    {
+					    CurrentVirtueOrder = VirtueOrdersSet[
+						    VirtueOrdersSet.IndexOf(CurrentVirtueOrder) + 1];
+				    }
+
+				    break;
+			    }
+			    default:
+				    throw new Exception("Unexpected Case");
+		    }
+	    }
+
+	    /// <summary>
+	    /// Обработка нажатия кнопки "Конец".
+	    /// </summary>
+	    public void End()
+	    {
+		    switch (OrderType)
+		    {
+			    case OrderType.Temp:
+			    {
+				    if (TemporaryOrdersSet.Count > 0)
+				    {
+					    CurrentTemporaryOrder = TemporaryOrdersSet[
+						    TemporaryOrdersSet.Count - 1];
+				    }
+
+				    break;
+			    }
+			    case OrderType.Single:
+			    {
+				    if (SingleOrdersSet.Count > 0)
+				    {
+					    CurrentSingleOrder = SingleOrdersSet[
+						    SingleOrdersSet.Count - 1];
+				    }
+
+				    break;
+			    }
+			    case OrderType.Virtue:
+			    {
+				    if (VirtueOrdersSet.Count > 0)
+				    {
+					    CurrentVirtueOrder = VirtueOrdersSet[
+						    VirtueOrdersSet.Count - 1];
+				    }
+
+				    break;
+			    }
+			    default:
+				    throw new Exception("Unexpected Case");
+		    }
+	    }
+
+	    /// <summary>
         /// Обработка нажатия кнопки "Далее".
         /// </summary>
         public void Further()
@@ -275,25 +319,28 @@ namespace SupRealClient.Models
             //todo: наверно, надо удалить, потому что обработка на уровне ViewModel
         }
 
-        /// <summary>
-        /// Обработка нажатия кнопок добавления нового человека в заявку.
-        /// </summary>
-        public void AddPerson()
-        {
-            switch (OrderType)
-            {
-                case OrderType.Temp:
-                    AddPersonInTempOrder();
-                    break;
-                case OrderType.Single:
-                    AddPersonInSingleOrder();
-                    break;
-                default:
-                    break;
-            }
-        }
+	    /// <summary>
+	    /// Обработка нажатия кнопок добавления нового человека в заявку.
+	    /// </summary>
+	    public void AddPerson()
+	    {
+		    switch (OrderType)
+		    {
+			    case OrderType.Temp:
+				    AddPersonInTempOrder();
+				    break;
+			    case OrderType.Single:
+				    AddPersonInSingleOrder();
+				    break;
+			    case OrderType.Virtue:
+				    throw new Exception("Unexpected Case");
+				    break;
+			    default:
+				    break;
+		    }
+	    }
 
-        /// <summary>
+	    /// <summary>
         /// Обработка нажатия кнопок редактирования нового человека в заявку.
         /// </summary>
         public void UpdatePerson()
@@ -345,37 +392,42 @@ namespace SupRealClient.Models
             OnRefresh?.Invoke();
         }
 
-        /// <summary>
-        /// Обработка нажатия кнопки "Правка".
-        /// </summary>
-        public void Signer()
-        {
-            VisitorsModelResult result = ViewManager.Instance.OpenWindowModal(
-                "VisitorsListWindViewOk", null) as VisitorsModelResult;
-            if (result == null) return;
-            switch (OrderType)
-            {
-                case OrderType.Temp:
-                    {
-                        CurrentTemporaryOrder.SignedId = result.Id;
-                        CurrentTemporaryOrder.Signed = result.Name;
-                        break;
-                    }
-                case OrderType.Single:
-                    {
-                        CurrentSingleOrder.SignedId = result.Id;
-                        CurrentSingleOrder.Signed = result.Name;
-                        break;
-                    }
+	    /// <summary>
+	    /// Обработка нажатия кнопки "Правка".
+	    /// </summary>
+	    public void Signer()
+	    {
+		    VisitorsModelResult result = ViewManager.Instance.OpenWindowModal(
+			    "VisitorsListWindViewOk", null) as VisitorsModelResult;
+		    if (result == null) return;
+		    switch (OrderType)
+		    {
+			    case OrderType.Temp:
+			    {
+				    CurrentTemporaryOrder.SignedId = result.Id;
+				    CurrentTemporaryOrder.Signed = result.Name;
+				    break;
+			    }
+			    case OrderType.Single:
+			    {
+				    CurrentSingleOrder.SignedId = result.Id;
+				    CurrentSingleOrder.Signed = result.Name;
+				    break;
+			    }
+			    case OrderType.Virtue:
+			    {
+				    CurrentVirtueOrder.SignedId = result.Id;
+				    CurrentVirtueOrder.Signed = result.Name;
+				    break;
+			    }
+			    default:
+				    break;
+		    }
 
-                default:
-                    break;
-            }
+		    OnRefresh?.Invoke();
+	    }
 
-            OnRefresh?.Invoke();
-        }
-        
-        /// <summary>
+	    /// <summary>
         /// Процедура обрабатывающая добавление персоны в разовой заявке.
         /// </summary>
         protected void AddPersonInSingleOrder()
@@ -412,8 +464,10 @@ namespace SupRealClient.Models
             view.ShowDialog();
             object res = view.WindowResult;
             if (res == null) return;
-            if (CurrentTemporaryOrder.OrderElements == null)
-                CurrentTemporaryOrder.OrderElements = new ObservableCollection<OrderElement>();
+	        if (CurrentTemporaryOrder.OrderElements == null)
+	        {
+		        CurrentTemporaryOrder.OrderElements = new ObservableCollection<OrderElement>();
+	        }
             CurrentTemporaryOrder.OrderElements.Add((OrderElement)res);
             OnRefresh?.Invoke();
         }

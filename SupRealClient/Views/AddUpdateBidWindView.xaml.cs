@@ -1,28 +1,13 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Collections.Generic;
 using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
 using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Shapes;
-using System.ComponentModel;
-using System.Diagnostics;
-using  SupRealClient;
-using SupRealClient.Behaviour;
-using SupRealClient.Models.AddUpdateModel;
 
 namespace SupRealClient.Views
 {
-    /// <summary>
-    /// Логика взаимодействия для AddUpdateBidWindView.xaml
-    /// </summary>
-    public partial class AddUpdateBidWindView
+	/// <summary>
+	/// Логика взаимодействия для AddUpdateBidWindView.xaml
+	/// </summary>
+	public partial class AddUpdateBidWindView
     {
         /// <summary>
         /// Двигатель фокуса
@@ -53,7 +38,7 @@ namespace SupRealClient.Views
 
         public void Handling_OnClose(object result)
         {
-            WindowResult = result;
+			WindowResult = result;
             this.Close();
         }
 
