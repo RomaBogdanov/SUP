@@ -120,6 +120,7 @@
     <Compile Include="EnumerationClasses\IEntity.cs" />
     <Compile Include="EnumerationClasses\Order.cs" />
     <Compile Include="EnumerationClasses\Card2.cs" />
+    <Compile Include="EnumerationClasses\OrderElement.cs" />
     <Compile Include="EnumerationClasses\Region.cs" />
     <Compile Include="EnumerationClasses\Space.cs" />
     <Compile Include="EnumerationClasses\Visitor.cs" />
