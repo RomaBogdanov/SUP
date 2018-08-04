@@ -278,6 +278,20 @@ namespace SupRealClient.EnumerationClasses
 		/// </summary>
 		public bool IsDisable { get; set; }
 
+		public bool IsBlock { get; set; }
+
+		private string blockingNote;
+		public string BlockingNote
+		{
+			get { return blockingNote; }
+			set
+			{
+				blockingNote = value;
+				OnPropertyChanged();
+			}
+		}
+
+
 		private string _reason;
 
 		public string Reason
@@ -289,6 +303,9 @@ namespace SupRealClient.EnumerationClasses
 				OnPropertyChanged();
 			}
 		}
+
+
+
 
 		public event PropertyChangedEventHandler PropertyChanged;
 
