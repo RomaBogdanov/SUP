@@ -14,6 +14,7 @@
     Height="827.512"
     Closing="Window_Closing"
     Initialized="MetroWindow_Initialized"
+    PreviewKeyDown="Window_PreviewKeyDown"
     ResizeMode="NoResize"
     mc:Ignorable="d">
     <mah:MetroWindow.InputBindings>

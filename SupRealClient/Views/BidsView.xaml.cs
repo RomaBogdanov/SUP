@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Windows.Controls;
+using System.Windows.Input;
 
 namespace SupRealClient.Views
 {
@@ -26,6 +27,20 @@ namespace SupRealClient.Views
 		private void ComboBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
 		{
 			mainTabControl.SelectedIndex = comboMenu.SelectedIndex;
+		}
+
+		/// <summary>
+		/// Закрытие окна по нажатию Esc
+		/// </summary>
+		/// <param name="sender"></param>
+		/// <param name="e"></param>
+		private void MainWindow_PreviewKeyDown(object sender, KeyEventArgs e)
+		{
+			if (e.Key == Key.Escape)
+			{
+				Close();
+				e.Handled = true;
+			}
 		}
 	}
 }
