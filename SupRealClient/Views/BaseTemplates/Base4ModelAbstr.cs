@@ -1651,7 +1651,7 @@ select new T
         public override void Add()
         {
             AddUpdateAbstrModel model = new AddTemplateModel();
-            AddUpdateBaseViewModel viewModel = new AddUpdateBaseViewModel
+            AddUpdateBaseViewModel viewModel = new AddUpdateTemplateViewModel
             {
                 Model = model
             };
@@ -1665,7 +1665,7 @@ select new T
         public override void Update()
         {
             AddUpdateAbstrModel model = new UpdateTemplateModel(CurrentItem);
-            AddUpdateBaseViewModel viewModel = new AddUpdateBaseViewModel
+            AddUpdateBaseViewModel viewModel = new AddUpdateTemplateViewModel
             {
                 Model = model
             };
@@ -1686,7 +1686,8 @@ select new T
                     Id = template.Field<int>("f_template_id"),
                     Name = template.Field<string>("f_template_name"),
                     Type = template.Field<int>("f_template_type").ToString(),
-                    Descript = template.Field<string>("f_template_description")
+                    Descript = template.Field<string>("f_template_description"),
+                    AreaIdList = template.Field<string>("f_template_areas"),
                 });
         }
 

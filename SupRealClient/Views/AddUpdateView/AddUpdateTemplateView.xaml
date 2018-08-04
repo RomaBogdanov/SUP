@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:mah="http://metro.mahapps.com/winfx/xaml/controls"
         mc:Ignorable="d"
-        Title="Шаблон" Height="410" Width="300">
+        Title="Шаблон" Height="600" Width="600">
     <Grid>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="1*"/>
@@ -18,12 +18,8 @@
             <RowDefinition Height="30"/>
             <RowDefinition Height="30"/>
             <RowDefinition Height="30"/>
-            <RowDefinition Height="30"/>
-            <RowDefinition Height="30"/>
-            <RowDefinition Height="30"/>
-            <RowDefinition Height="30"/>
-            <RowDefinition Height="30"/>
-            <RowDefinition/>
+            <RowDefinition />
+            <RowDefinition Height="90"/>
         </Grid.RowDefinitions>
         <TextBlock 
             Grid.ColumnSpan="2"
@@ -82,8 +78,92 @@
             Style="{StaticResource TextBoxStyle}"
             KeyUp="TextBox_OnKeyUp"/>
 
+        <Grid Grid.Row="6" Grid.Column="0" Grid.ColumnSpan="2">
+            <Grid.RowDefinitions>
+                <RowDefinition/>
+                <RowDefinition/>
+                <RowDefinition/>
+                <RowDefinition/>
+                <RowDefinition/>
+                <RowDefinition/>
+                <RowDefinition/>
+                <RowDefinition/>
+            </Grid.RowDefinitions>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition/>
+                <ColumnDefinition Width="0.3*"/>
+                <ColumnDefinition/>
+            </Grid.ColumnDefinitions>
+
+            <TextBlock
+                Grid.Row="0"
+                Grid.Column="0"
+                Text="Все доступные области доступа"
+                FontSize="15"
+                Style="{StaticResource TextBLockStyle}"/>
+
+            <TextBlock
+                Grid.Row="0"
+                Grid.Column="2"
+                Text="Назначенные области доступа"
+                FontSize="15"
+                Style="{StaticResource TextBLockStyle}"/>
+
+            <DataGrid
+                Grid.Row="1"
+                Grid.RowSpan="7"
+                Grid.Column="0"
+                AutoGenerateColumns="False"
+                CanUserAddRows="False"
+                ItemsSource="{Binding SetAllAreas, Mode=TwoWay}"
+                SelectedItem="{Binding CurrentAllArea, Mode=TwoWay}"
+                BorderBrush="Black"
+                BorderThickness="1">
+                <DataGrid.Columns>
+                    <DataGridTextColumn Header="Названиие" Binding="{Binding Name}" Width="100"/>
+                    <DataGridTextColumn Header="Описание" Binding="{Binding Descript}" Width="*"/>
+                </DataGrid.Columns>
+            </DataGrid>
+
+            <Button
+                Grid.Row="2"
+                Grid.Column="1"
+                Width="50"
+                Style="{StaticResource ButtonStyle}"
+                Command="{Binding ToAppointAreasCommand}">
+                <Image
+                Source="../../Resources/Перенести.ico"/>
+            </Button>
+
+            <Button
+                Grid.Row="3"
+                Grid.Column="1"
+                Width="50"
+                Style="{StaticResource ButtonStyle}"
+                Command="{Binding ToAllAreasCommand}">
+                <Image
+                Source="../../Resources/Вернуть.ico"/>
+            </Button>
+
+            <DataGrid
+                Grid.Row="1"
+                Grid.RowSpan="7"
+                Grid.Column="2"
+                AutoGenerateColumns="False"
+                CanUserAddRows="False"
+                ItemsSource="{Binding SetAppointAreas, Mode=TwoWay}"
+                SelectedItem="{Binding CurrentAppointArea, Mode=TwoWay}"
+                BorderBrush="Black"
+                BorderThickness="1">
+                <DataGrid.Columns>
+                    <DataGridTextColumn Header="Название" Binding="{Binding Name}" Width="100"/>
+                    <DataGridTextColumn Header="Описание" Binding="{Binding Descript}" Width="*"/>
+                </DataGrid.Columns>
+            </DataGrid>
+        </Grid>
+
         <Button 
-            Grid.Row="11" 
+            Grid.Row="7" 
             Grid.Column="0"
             Command="{Binding Path=Ok}"
             Margin="2"
@@ -108,7 +188,7 @@
         </Button>
 
         <Button 
-            Grid.Row="11" 
+            Grid.Row="7" 
             Grid.Column="1" 
             Grid.ColumnSpan="3"
             Margin="2"
