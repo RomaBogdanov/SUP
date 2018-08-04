@@ -17,7 +17,6 @@ namespace SupRealClient.Views
     /// </summary>
     public partial class Base1View : UserControl
     {
-        int memCountRows = 0;
         DataGridColumnHeader headerCliked = null;
         /// <summary>
         /// Конструктор по умолчанию.
@@ -94,8 +93,15 @@ namespace SupRealClient.Views
         void SortItemsSource()
         {
             if (baseTab.ItemsSource is System.Collections.ObjectModel.ObservableCollection<Organization>)
+            {
                 SortDataGrid(baseTab, 1, ListSortDirection.Ascending);
-            else if (baseTab.ItemsSource is ObservableCollection<Nation>)
+            }
+            else if (baseTab.Columns.Count > 0)
+            {
+                SortDataGrid(baseTab, 0, ListSortDirection.Ascending);
+            }
+
+            if (baseTab.ItemsSource is ObservableCollection<Nation>)
             {
                 var nationSource = baseTab.ItemsSource as ObservableCollection<Nation>;
                 var onlyRus = nationSource.Where(o => o.CountryName.ToUpper() == @"РОССИЯ");
@@ -103,17 +109,20 @@ namespace SupRealClient.Views
                 baseTab.ItemsSource = new ObservableCollection<Nation>(onlyRus.Union(withoutRus));
             }
             else if (baseTab.ItemsSource is ObservableCollection<Document>)
-            {
+            {               
                 var docSource = baseTab.ItemsSource as ObservableCollection<Document>;
                 var onlyPass = docSource.Where(o => o.DocName.ToUpper() == @"ПАСПОРТ");
                 var withoutPass = docSource.Where(o => o.DocName.ToUpper() != @"ПАСПОРТ").OrderBy(o => o.DocName);
                 baseTab.ItemsSource = new ObservableCollection<Document>(onlyPass.Union(withoutPass));
             }
-            else if (baseTab.Columns.Count > 0)
-                SortDataGrid(baseTab, 0, ListSortDirection.Ascending);
 
             if (baseTab.Items.Count > 0)
-                baseTab.SelectedItem = baseTab.Items[0];          
+            {
+                baseTab.SelectedItem = baseTab.Items[0];
+            }                
+
+            // Refresh items to display sort
+            baseTab.Items.Refresh();
         }
 
         static void SortDataGrid(DataGrid dataGrid, int columnIndex = 0, ListSortDirection sortDirection = ListSortDirection.Ascending)
@@ -134,9 +143,6 @@ namespace SupRealClient.Views
             column.SortDirection = sortDirection;
             
             dataGrid.CurrentColumn = dataGrid.Columns[columnIndex];
-
-            // Refresh items to display sort
-            dataGrid.Items.Refresh();
         }
 
         #region Под удаление
@@ -173,9 +179,7 @@ namespace SupRealClient.Views
                 var row = baseTab.CurrentItem;
                 if (row == null)
                     return;
-
-                Window.GetWindow(this)?.Activate();
-
+                
                 baseTab.ScrollIntoView(row);
                 baseTab.UpdateLayout();
                 baseTab.ScrollIntoView(row);              

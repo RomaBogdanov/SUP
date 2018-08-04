@@ -161,7 +161,7 @@ namespace SupRealClient.Views
 
         public CollectionView CollectionView
         {
-            get { return Model?.CollectionView; }
+            get { return Model?.SetCollection; }
         }
 
         public int SelectedIndex

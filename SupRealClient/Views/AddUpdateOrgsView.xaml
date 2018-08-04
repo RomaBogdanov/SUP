@@ -58,7 +58,8 @@
             StaysOpenOnEdit="True"
             IsTextSearchEnabled="False"      
             ItemsSource="{Binding Path=TypeList}"
-            KeyUp="TextBox_OnKeyUp"   
+            KeyUp="TextBox_OnKeyUp" 
+            PreviewKeyDown="TypeTextBox_PreviewKeyDown"   
             />
 
         <TextBlock 

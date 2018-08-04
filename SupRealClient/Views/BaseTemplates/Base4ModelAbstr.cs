@@ -45,25 +45,25 @@ namespace SupRealClient.Views
             {
                 set = value;
                 OnModelPropertyChanged?.Invoke("Set");
-                OnModelPropertyChanged?.Invoke("CollectionView");
+                OnModelPropertyChanged?.Invoke("SetCollection");
             }
         }
 
-        private CollectionView _collectionView = null;
-        public virtual CollectionView CollectionView
+        private CollectionView setCollection = null;
+        public virtual CollectionView SetCollection
         {
             get
             {
-                _collectionView = (CollectionView)CollectionViewSource.GetDefaultView(Set);
-                if (_collectionView != null && CurrentColumn != null)
+                setCollection = (CollectionView)CollectionViewSource.GetDefaultView(Set);
+                if (setCollection != null && CurrentColumn != null)
                 {
                     ListSortDirection oSortDirection = ListSortDirection.Ascending;
                     if (CurrentColumn.SortDirection != null)
                         oSortDirection = (ListSortDirection)CurrentColumn.SortDirection;
-                    _collectionView.SortDescriptions.Clear();
-                    _collectionView.SortDescriptions.Add(new SortDescription(CurrentColumn.SortMemberPath, oSortDirection));                    
+                    setCollection.SortDescriptions.Clear();
+                    setCollection.SortDescriptions.Add(new SortDescription(CurrentColumn.SortMemberPath, oSortDirection));                    
                 }
-                return _collectionView;
+                return setCollection;
             }
         }
 
@@ -172,8 +172,8 @@ namespace SupRealClient.Views
             int oldIndex = SelectedIndex;
 
             int memCount = -1;
-            if (CollectionView != null)
-                memCount = CollectionView.Count - 1;
+            if (SetCollection != null)
+                memCount = SetCollection.Count - 1;
 
             DoQuery();
 
@@ -182,21 +182,21 @@ namespace SupRealClient.Views
                 CurrentColumn.SortDirection = memSort;
             }
 
-            if (oldIndex >= 0 && oldIndex < CollectionView.Count - 1 && memCount == CollectionView.Count - 1)
+            if (oldIndex >= 0 && oldIndex < SetCollection.Count - 1 && memCount == SetCollection.Count - 1)
             {
                 SelectedIndex = oldIndex;
-                CurrentItem = (T)CollectionView.GetItemAt(SelectedIndex);
+                CurrentItem = (T)SetCollection.GetItemAt(SelectedIndex);
             }
-            else if (memCount != CollectionView.Count - 1 && Set.Count > 0)
+            else if (memCount != SetCollection.Count - 1 && Set.Count > 0)
             {               
-                if (CollectionView.MoveCurrentTo(Set[Set.Count - 1]))
-                    CurrentItem = (T)CollectionView.CurrentItem;
+                if (SetCollection.MoveCurrentTo(Set[Set.Count - 1]))
+                    CurrentItem = (T)SetCollection.CurrentItem;
             }
-            else if (CollectionView.Count > 0)
+            else if (SetCollection.Count > 0)
             {                
-                CurrentItem = (T)CollectionView.GetItemAt(0);
+                CurrentItem = (T)SetCollection.GetItemAt(0);
             }
-            else if (CollectionView.Count == 0)
+            else if (SetCollection.Count == 0)
             {
                 CurrentItem = default(T);
             }
@@ -222,13 +222,10 @@ namespace SupRealClient.Views
             for (int i = 0; i < Set.Count(); i++)
             {
                 if ((Set.ElementAt(i) as IdEntity).Id == id)
-                {
-                    //CurrentItem = Set.ElementAt(i);
-                    //OnModelPropertyChanged?.Invoke("CurrentItem");
-                    //break;
-                    if (CollectionView.MoveCurrentTo(Set.ElementAt(i)))
+                {                   
+                    if (SetCollection.MoveCurrentTo(Set.ElementAt(i)))
                     {
-                        CurrentItem = (T)CollectionView.CurrentItem;
+                        CurrentItem = (T)SetCollection.CurrentItem;
                         OnModelPropertyChanged?.Invoke("CurrentItem");
                         ScrollCurrentItem?.Invoke();
                         break;
@@ -240,33 +237,22 @@ namespace SupRealClient.Views
         public virtual bool Searching(string pattern)
         {
             searchResult = new SearchResult();
+
             if (CurrentColumn == null || string.IsNullOrEmpty(pattern))
             {
                 return false;
             }
 
-            System.ComponentModel.ICollectionView iSource = System.Windows.Data.CollectionViewSource.GetDefaultView(Set);
-            object sortedRows = iSource?.GetType()
-                            .GetProperty(@"InternalList", System.Reflection.BindingFlags.NonPublic | System.Reflection.BindingFlags.Instance)?
-                            .GetValue(iSource, null);
-
-            if (sortedRows != null)
+            foreach (object element in SetCollection)
             {
-                IEnumerable enumerable = sortedRows as IEnumerable;
-                if (enumerable != null)
+                object obj = element.GetType().GetProperty(CurrentColumn.SortMemberPath)?.GetValue(element, null);                
+                if (obj != null && CommonHelper.IsSearchConditionMatch(obj.ToString(), pattern))
                 {
-                    foreach (object element in enumerable)
-                    {
-                        object obj = element.GetType().GetProperty(CurrentColumn.SortMemberPath)?.GetValue(element, null);
-                        if (obj != null && CommonHelper.IsSearchConditionMatch(obj.ToString(), pattern))
-                        {
-                            object idRow = element.GetType().GetProperty(@"Id")?.GetValue(element, null);
-                            if (idRow is int)
-                                searchResult.Add((int)idRow);
-                        }                     
-                    }
+                    object idRow = element.GetType().GetProperty(@"Id")?.GetValue(element, null);
+                    if (idRow is int)
+                        searchResult.Add((int)idRow);
                 }
-            }          
+            }
             SetAt(searchResult.Begin());
 
             return searchResult.Any();
