@@ -9,11 +9,12 @@
     xmlns:wpfx="http://schemas.xceed.com/wpf/xaml/toolkit"
     Title="Заявка"
     Width="300"
-    Height="550"
+    Height="auto"
     KeyboardNavigation.DirectionalNavigation="Cycle"
     Loaded="MetroWindow_Loaded"
     PreviewKeyDown="Window_PreviewKeyDown"
     ResizeMode="NoResize"
+    SizeToContent="Height"
     WindowStartupLocation="CenterOwner"
     mc:Ignorable="d">
     <mah:MetroWindow.Resources>
@@ -144,7 +145,7 @@
             Margin="2"
             IsEnabled="False"
             Style="{StaticResource TextBoxStyle}"
-            Text="{Binding CurrentItem.Catcher, Mode=TwoWay}" />
+            Text="{Binding CurrentItem.Catcher, Mode=OneWay}" />
         <Button
             Name="btnSelectCatcher"
             Grid.Row="7"

@@ -177,7 +177,6 @@ namespace SupRealClient.ViewModels.AddUpdateViewModel
 				return;
 	        }
             CurrentOrderElement.CatcherId = result.Id;
-            CurrentOrderElement.Catcher = result.Name;
             CurrentItem = CurrentItem;
         }
 
