@@ -1147,4 +1147,64 @@ namespace SupRealClient.TabsSingleton
         }
     }
 
+	/// <summary>
+	/// ??
+	/// </summary>
+	partial class TemplatesWrapper : TableWrapper
+	{
+		static TemplatesWrapper currentTable;
+
+        public static TemplatesWrapper CurrentTable()
+        {
+            if (currentTable == null)
+            {
+                currentTable = new TemplatesWrapper();
+                wrappers.Add(currentTable);
+            }
+            return currentTable;
+        }
+
+		public override void Dispose()
+        {
+            base.Dispose();
+            currentTable = null;
+        }
+
+        private TemplatesWrapper() : base()
+        {
+            this.table = connector.GetTable(TableName.VisTemplates);
+            this.Subscribe();
+        }
+    }
+
+	/// <summary>
+	/// ??
+	/// </summary>
+	partial class TemplatesAreasWrapper : TableWrapper
+	{
+		static TemplatesAreasWrapper currentTable;
+
+        public static TemplatesAreasWrapper CurrentTable()
+        {
+            if (currentTable == null)
+            {
+                currentTable = new TemplatesAreasWrapper();
+                wrappers.Add(currentTable);
+            }
+            return currentTable;
+        }
+
+		public override void Dispose()
+        {
+            base.Dispose();
+            currentTable = null;
+        }
+
+        private TemplatesAreasWrapper() : base()
+        {
+            this.table = connector.GetTable(TableName.VisTemplatesAreas);
+            this.Subscribe();
+        }
+    }
+
 }

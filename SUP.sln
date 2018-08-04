@@ -4,6 +4,9 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 VisualStudioVersion = 15.0.27130.2010
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SupHost", "SupHost\SupHost.csproj", "{26CA47B8-6802-4D1E-93A8-B3B2F9B5EB57}"
+	ProjectSection(ProjectDependencies) = postProject
+		{011C7D33-710F-4852-987A-05D09352B64D} = {011C7D33-710F-4852-987A-05D09352B64D}
+	EndProjectSection
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SupContract", "SupContract\SupContract.csproj", "{EE82210E-6E55-48BB-A558-FA78C966CC9B}"
 EndProject
@@ -38,6 +41,12 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AndoverExportTest", "AndoverExportTest\AndoverExportTest.csproj", "{68ADBE6D-6D19-413F-8212-13671DA81CA8}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AndoverPersonsManager", "AndoverPersonsManager\AndoverPersonsManager.csproj", "{1709F48A-5F83-40B9-9274-2531CD5CD896}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AndoverLib", "AndoverLib\AndoverLib.csproj", "{011C7D33-710F-4852-987A-05D09352B64D}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AndoverAgent", "AndoverAgent\AndoverAgent.csproj", "{6089BC57-5FE3-428E-AD20-0147C11D0B00}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AndoverClient", "AndoverClient\AndoverClient.csproj", "{51E5ADE9-2E02-42D2-913E-44D2D7944C2D}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -85,6 +94,18 @@ Global
 		{1709F48A-5F83-40B9-9274-2531CD5CD896}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{1709F48A-5F83-40B9-9274-2531CD5CD896}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{1709F48A-5F83-40B9-9274-2531CD5CD896}.Release|Any CPU.Build.0 = Release|Any CPU
+		{011C7D33-710F-4852-987A-05D09352B64D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{011C7D33-710F-4852-987A-05D09352B64D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{011C7D33-710F-4852-987A-05D09352B64D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{011C7D33-710F-4852-987A-05D09352B64D}.Release|Any CPU.Build.0 = Release|Any CPU
+		{6089BC57-5FE3-428E-AD20-0147C11D0B00}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{6089BC57-5FE3-428E-AD20-0147C11D0B00}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{6089BC57-5FE3-428E-AD20-0147C11D0B00}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{6089BC57-5FE3-428E-AD20-0147C11D0B00}.Release|Any CPU.Build.0 = Release|Any CPU
+		{51E5ADE9-2E02-42D2-913E-44D2D7944C2D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{51E5ADE9-2E02-42D2-913E-44D2D7944C2D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{51E5ADE9-2E02-42D2-913E-44D2D7944C2D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{51E5ADE9-2E02-42D2-913E-44D2D7944C2D}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

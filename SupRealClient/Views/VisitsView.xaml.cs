@@ -64,11 +64,15 @@ namespace SupRealClient.Views
         private int selectedMainDocument = -1;
         private int selectedDocument = -1;
         private int selectedCard = -1;
+        private int selectedOrder = -1;
         private const string _nameDocument_PhotoImageType = "Личная фотография";
 	    private const string _nameDocument_SignatureImageType = "Личная подпись";
 	    private bool _visibleButton_OpenDocument_InRedactMode = false;
 	    private bool _enableButton_OpenDocument_InRedactMode = false;
 		private bool _isRedactMode = false;
+
+
+		public event Action<string> MoveNextFocusingElement;
 
 		public CollectionView PositionList { get; private set; }
 
@@ -169,11 +173,18 @@ namespace SupRealClient.Views
 			    _isRedactMode = value;
 			    VisibleButton_OpenDocument_InRedactMode = _isRedactMode;
 			    OnPropertyChanged(nameof(IsRedactMode));
+			    OnPropertyChanged(nameof(VisibleTabItem_Employee));
+			    OnPropertyChanged(nameof(IsRedactMode_Inverce));
 			}
 	    }
 
+	    public bool IsRedactMode_Inverce
+	    {
+		    get { return !_isRedactMode; }
+	    }
 
-	    public bool VisibleButton_OpenDocument_InRedactMode
+
+		public bool VisibleButton_OpenDocument_InRedactMode
 	    {
 		    get { return _visibleButton_OpenDocument_InRedactMode; }
 		    set
@@ -255,6 +266,16 @@ namespace SupRealClient.Views
             }
         }
 
+        public int SelectedOrder
+        {
+            get { return selectedOrder; }
+            set
+            {
+                selectedOrder = value;
+                OnPropertyChanged();
+            }
+        }
+
         public string PhotoSource
         {
             get { return Model?.PhotoSource; }
@@ -264,6 +285,19 @@ namespace SupRealClient.Views
         {
             get { return Model?.Signature; }
         }
+
+	    public bool VisibleTabItem_Employee
+		{
+		    get
+		    {
+			    if (!IsRedactMode)
+				    return true;
+				else if (CurrentItem.OrganizationIsMaster)
+				    return false;
+			    else
+				    return true;
+		    }
+	    }
 
         public bool Enable
         { get; set; }
@@ -282,6 +316,7 @@ namespace SupRealClient.Views
 
         public ICommand ExtraditeCommand { get; set; }
         public ICommand ReturnCommand { get; set; }
+        public ICommand OpenOrderCommand { get; set; }
 
         public ICommand OkCommand { get; set; }
         public ICommand CancelCommand { get; set; }
@@ -350,7 +385,7 @@ namespace SupRealClient.Views
 
 		    ExtraditeCommand = new RelayCommand(obj => Extradite());
 		    ReturnCommand = new RelayCommand(obj => Return());
-
+            OpenOrderCommand = new RelayCommand(obj => OpenOrder());
 
             AddImageSourceCommand = new RelayCommand(arg => AddImageSource(ImageType.Photo, _nameDocument_PhotoImageType));
             RemoveImageSourceCommand= new RelayCommand(arg => RemoveImageSource(ImageType.Photo, _nameDocument_PhotoImageType));
@@ -378,8 +413,10 @@ namespace SupRealClient.Views
 
 	    ~VisitsViewModel()
 	    {
-		    _documentScaner.ScanFinished -= Scaner_ScanFinished;
-		    _documentScaner.Dispose();
+			if(_documentScaner!=null)
+				_documentScaner.ScanFinished -= Scaner_ScanFinished;
+			if(_documentScaner!=null)
+				_documentScaner?.Dispose();
 	    }
 
 	    private void Refresh()
@@ -586,8 +623,15 @@ namespace SupRealClient.Views
             CurrentItem.OrganizationId = result.Id;
             CurrentItem.Organization = OrganizationsHelper.
                 GenerateFullName(result.Id, true);
-            OnPropertyChanged("CurrentItem");
-        }
+			CurrentItem.OrganizationIsMaster = OrganizationsHelper.GetMasterParametr(result.Id, true);
+
+
+
+			OnPropertyChanged("CurrentItem");
+	        MoveNextFocusingElement?.Invoke("OrganizationsList");
+	        OnPropertyChanged(nameof(VisibleTabItem_Employee));
+
+		}
 
         private void CountyList()
         {
@@ -692,10 +736,21 @@ namespace SupRealClient.Views
             window.ShowDialog();
         }
 
+        private void OpenOrder()
+        {
+            if (SelectedOrder < 0)
+            {
+                return;
+            }
+
+            ViewManager.Instance.OpenWindow("BidsView");
+        }
+
         private void Edit()
         {
             Model = new EditVisitsModel(Set, CurrentItem);
-        }
+	        IsRedactMode = true;
+		}
 
         private void Find()
         {

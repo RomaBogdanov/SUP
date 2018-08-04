@@ -134,23 +134,7 @@ namespace SupRealClient.ViewModels
             Images = new ObservableCollection<string>(imageCache.Select(i =>
                 ImagesHelper.GetImagePath(i)));
 
-            this.Ok = new RelayCommand(arg =>
-            {
-	            System.ComponentModel.CancelEventArgs cancelEventArgs = new System.ComponentModel.CancelEventArgs(true);
-	            _TestingNameVisitorsDocument?.Invoke(this, cancelEventArgs);
-
-	            if (cancelEventArgs.Cancel)
-	            {
-		            this.model.Ok(
-			            new VisitorsDocument
-			            {
-				            Name = Name,
-				            TypeId = 0,
-				            Images = imageCache,
-				            IsChanged = true
-			            });
-	            }
-            });
+            this.Ok = new RelayCommand(arg => { RealizationSaving(); });
             this.Cancel = new RelayCommand(arg =>
             {
 		            this.model.Cancel();
@@ -163,7 +147,25 @@ namespace SupRealClient.ViewModels
 
 		}
 
-        protected virtual void OnPropertyChanged(string propertyName) =>
+	    public void RealizationSaving()
+	    {
+		    System.ComponentModel.CancelEventArgs cancelEventArgs = new System.ComponentModel.CancelEventArgs(true);
+		    _TestingNameVisitorsDocument?.Invoke(this, cancelEventArgs);
+
+		    if (cancelEventArgs.Cancel)
+		    {
+			    this.model.Ok(
+				    new VisitorsDocument
+				    {
+					    Name = Name,
+					    TypeId = 0,
+					    Images = imageCache,
+					    IsChanged = true
+				    });
+		    }
+		}
+
+	    protected virtual void OnPropertyChanged(string propertyName) =>
             this.PropertyChanged?.Invoke(this,
             new PropertyChangedEventArgs(propertyName));
 
