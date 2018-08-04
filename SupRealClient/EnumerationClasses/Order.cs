@@ -10,9 +10,18 @@ namespace SupRealClient.EnumerationClasses
 {
 	public class Order : IdEntity
 	{
-		public Order()
+		/// <summary>
+		/// Конструктор
+		/// </summary>
+		/// <param name="autoCreateFirstElement">Создать ли автоматически первый элемент заявки</param>
+		public Order(bool autoCreateFirstElement = false)
 		{
 			OrderElements = new ObservableCollection<OrderElement>();
+
+			if (autoCreateFirstElement == true)
+			{
+				OrderElements.Add(new OrderElement(false));
+			}
 
 			OnChangeId += Order_OnChangeId;
 		}
@@ -58,6 +67,23 @@ namespace SupRealClient.EnumerationClasses
 
 		private int organizationId;
 		private int agreeId;
+
+		/// <summary>
+		/// Первый элемент заявки
+		/// Если лист элементов пуст, возвращает null
+		/// </summary>
+		public OrderElement FirstOrderElement
+		{
+			get
+			{
+				if (OrderElements.Count >= 1)
+				{
+					return OrderElements[0];
+				}
+
+				return null;
+			}
+		}
 
 		/// <summary>
 		/// Номер заявки.
@@ -179,19 +205,6 @@ namespace SupRealClient.EnumerationClasses
 
 		public string Agree { get; set; } = ""; // Полное имя согласовавшего
 		public string Note { get; set; } = ""; // Примечание
-
-		public int OrganizationId
-		{
-			get { return organizationId; }
-			set
-			{
-				organizationId = value;
-				Organization = OrganizationsWrapper.CurrentTable().Table
-					.AsEnumerable().FirstOrDefault(arg =>
-						arg.Field<int>("f_org_id") == organizationId)["f_org_name"]
-					.ToString();
-			}
-		}
 
 		public string Organization { get; set; } = "";
 

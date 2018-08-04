@@ -10,6 +10,9 @@ namespace SupRealClient.Views
 	/// </summary>
 	public partial class AddUpdateBidWindView
     {
+		/// <summary>
+		/// Последовательность элементов при проходе с помощью клавишы Enter
+		/// </summary>
 	    private readonly List<UIElement> _enterUiElementsSequence;
 	    private UIElement _previousEnterUiElement = null;
 
@@ -43,6 +46,12 @@ namespace SupRealClient.Views
             btnSelectBid.Focus();
         }
 
+		/// <summary>
+		/// Реакция на нажатие Enter
+		/// Для кнопок первое нажатие активирует кнопку, а второе - переводит фокус на следующий элемент
+		/// </summary>
+		/// <param name="sender"></param>
+		/// <param name="e"></param>
 	    private void UiElement_PreviewKeyDown(object sender, KeyEventArgs e)
 	    {
 		    if (e.Key != Key.Enter)
@@ -51,7 +60,6 @@ namespace SupRealClient.Views
 		    }
 
 		    bool isSenderButton = sender is Button;
-
 
 			if (_previousEnterUiElement !=null && (!isSenderButton || _previousEnterUiElement.Equals(sender)))
 		    {
@@ -62,16 +70,12 @@ namespace SupRealClient.Views
 			    UIElement newFocus = _previousEnterUiElement;
 			    while (true)
 			    {
-				    int index = _enterUiElementsSequence.FindIndex(x => x.Equals(newFocus));
-				    index = (index + 1) % _enterUiElementsSequence.Count;
-					newFocus = _enterUiElementsSequence[index];
-				    newFocus?.Focus();
+				    newFocus = MoveFocusToNext(newFocus);
 
 				    if (newFocus != null && !newFocus.IsEnabled)
 				    {
 						continue;
 				    }
-
 				    break;
 			    }
 			   
@@ -83,6 +87,20 @@ namespace SupRealClient.Views
 			}
 	    }
 
+	    private UIElement MoveFocusToNext(UIElement newFocus)
+	    {
+		    int index = _enterUiElementsSequence.FindIndex(x => x.Equals(newFocus));
+		    index = (index + 1) % _enterUiElementsSequence.Count;
+		    newFocus = _enterUiElementsSequence[index];
+		    newFocus?.Focus();
+		    return newFocus;
+	    }
+
+		/// <summary>
+		/// Закрытие окна по нажатию Esc
+		/// </summary>
+		/// <param name="sender"></param>
+		/// <param name="e"></param>
 	    private void Window_PreviewKeyDown(object sender, KeyEventArgs e)
 	    {
 		    if (e.Key == Key.Escape)

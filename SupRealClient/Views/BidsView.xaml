@@ -957,11 +957,6 @@
                             Style="{StaticResource TextBLockStyle}"
                             Text="От" />
 
-                        <!--
-                        <TextBox
-                             Text="{Binding CurrentVirtueOrder.From, Mode=TwoWay}"
-                            Grid.Column="1"
-                            Style="{StaticResource TextBoxStyle}"/>-->
                         <DatePicker
                             Grid.Column="1"
                             Height="25"
@@ -983,24 +978,11 @@
                             </DatePicker.Resources>
                         </DatePicker>
 
-                        <Button
-                            Grid.Column="2"
-                            Width="25"
-                            Height="25"
-                            Content="..."
-                            IsEnabled="{Binding TextEnable, UpdateSourceTrigger=PropertyChanged}"
-                            Style="{StaticResource VisitorsSquareButtonStyle}" />
-
                         <TextBlock
                             Grid.Column="3"
                             Style="{StaticResource TextBLockStyle}"
                             Text="До" />
 
-                        <!--
-                        <TextBox
-                             Text="{Binding CurrentVirtueOrder.To, Mode=TwoWay}"
-                            Grid.Column="4"
-                            Style="{StaticResource TextBoxStyle}"/>-->
                         <DatePicker
                             Grid.Column="4"
                             Height="25"
@@ -1021,14 +1003,6 @@
                                 </Style>
                             </DatePicker.Resources>
                         </DatePicker>
-
-                        <Button
-                            Grid.Column="5"
-                            Width="25"
-                            Height="25"
-                            Content="..."
-                            IsEnabled="{Binding TextEnable, UpdateSourceTrigger=PropertyChanged}"
-                            Style="{StaticResource VisitorsSquareButtonStyle}" />
                     </Grid>
 
                     <Grid Grid.Row="2">
@@ -1053,13 +1027,13 @@
                             HorizontalAlignment="Left"
                             Style="{StaticResource TextBLockStyle}"
                             Text="Основание" />
-
                         <TextBox
                             Grid.Row="0"
                             Grid.Column="1"
                             Grid.ColumnSpan="2"
                             IsEnabled="{Binding TextEnable, UpdateSourceTrigger=PropertyChanged}"
-                            Style="{StaticResource TextBoxStyle}" />
+                            Style="{StaticResource TextBoxStyle}"
+                            Text="{Binding CurrentVirtueOrder.FirstOrderElement.Reason, Mode=TwoWay}" />
 
                         <TextBlock
                             Grid.Row="1"
@@ -1067,13 +1041,22 @@
                             HorizontalAlignment="Left"
                             Style="{StaticResource TextBLockStyle}"
                             Text="Посетитель" />
-
                         <TextBox
                             Grid.Row="1"
                             Grid.Column="1"
-                            Grid.ColumnSpan="2"
+                            Grid.ColumnSpan="1"
+                            IsEnabled="False"
+                            Style="{StaticResource TextBoxStyle}"
+                            Text="{Binding CurrentVirtueOrder.FirstOrderElement.Visitor, Mode=OneWay}" />
+                        <Button
+                            Grid.Row="1"
+                            Grid.Column="2"
+                            Width="25"
+                            Height="25"
+                            Command="{Binding ChooseVisitorForVirtueCommand}"
+                            Content="..."
                             IsEnabled="{Binding TextEnable, UpdateSourceTrigger=PropertyChanged}"
-                            Style="{StaticResource TextBoxStyle}" />
+                            Style="{StaticResource VisitorsSquareButtonStyle}" />
 
                         <TextBlock
                             Grid.Row="2"
@@ -1081,34 +1064,55 @@
                             HorizontalAlignment="Left"
                             Style="{StaticResource TextBLockStyle}"
                             Text="Организация" />
-
                         <TextBox
                             Grid.Row="2"
                             Grid.Column="1"
-                            Grid.ColumnSpan="2"
-                            IsEnabled="{Binding TextEnable, UpdateSourceTrigger=PropertyChanged}"
+                            Grid.ColumnSpan="1"
+                            IsEnabled="False"
                             Style="{StaticResource TextBoxStyle}"
-                            Text="{Binding CurrentVirtueOrder.Organization, Mode=TwoWay}" />
+                            Text="{Binding CurrentVirtueOrder.FirstOrderElement.Organization, Mode=OneWay}" />
+                        <Button
+                            Grid.Row="2"
+                            Grid.Column="2"
+                            Width="25"
+                            Height="25"
+                            Command="{Binding ChooseOrganizationForVirtueCommand}"
+                            Content="..."
+                            IsEnabled="{Binding TextEnable, UpdateSourceTrigger=PropertyChanged}"
+                            Style="{StaticResource VisitorsSquareButtonStyle}" />
 
                         <TextBlock
                             Grid.Row="3"
                             Grid.Column="0"
                             HorizontalAlignment="Left"
                             Style="{StaticResource TextBLockStyle}"
-                            Text="Проходы" />
-
+                            Text="Должность" />
                         <TextBox
                             Grid.Row="3"
                             Grid.Column="1"
+                            Grid.ColumnSpan="2"
                             IsEnabled="{Binding TextEnable, UpdateSourceTrigger=PropertyChanged}"
                             Style="{StaticResource TextBoxStyle}"
-                            Text="{Binding CurrentVirtueOrder.Passes, Mode=TwoWay}" />
+                            Text="{Binding CurrentVirtueOrder.FirstOrderElement.Position, Mode=TwoWay}" />
 
+                        <TextBlock
+                            Grid.Row="4"
+                            Grid.Column="0"
+                            HorizontalAlignment="Left"
+                            Style="{StaticResource TextBLockStyle}"
+                            Text="Проходы" />
+                        <TextBox
+                            Grid.Row="4"
+                            Grid.Column="1"
+                            IsEnabled="False"
+                            Style="{StaticResource TextBoxStyle}"
+                            Text="{Binding CurrentVirtueOrder.FirstOrderElement.Passes, Mode=OneWay}" />
                         <Button
-                            Grid.Row="3"
+                            Grid.Row="4"
                             Grid.Column="2"
                             Width="25"
                             Height="25"
+                            Command="{Binding ChooseZonesForVirtueCommand}"
                             Content="..."
                             IsEnabled="{Binding TextEnable, UpdateSourceTrigger=PropertyChanged}"
                             Style="{StaticResource VisitorsSquareButtonStyle}" />

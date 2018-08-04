@@ -365,6 +365,7 @@ namespace SupRealClient.TabsSingleton
 							CatcherId = row.Field<int>("f_catcher_id"),
 							From = row.Field<DateTime>("f_time_from"),
 							To = row.Field<DateTime>("f_time_to"),
+							Reason =  row.Field<string>("f_other_org"),
 							IsDisable = row.Field<string>("f_disabled").ToUpper() == "Y" ? true : false,
 							Passes = row.Field<string>("f_passes")
 						})
@@ -390,7 +391,7 @@ namespace SupRealClient.TabsSingleton
 			row["f_disabled"] = orderElement.IsDisable ? "Y" : "N";
 			row["f_not_remaind"] = "N"; //todo: разобраться
 			row["f_full_role"] = "N"; //todo: разобраться
-			row["f_other_org"] = ""; //todo: разобраться
+			row["f_other_org"] = orderElement.Reason; //todo: изменить название столбца в БД
 			row["f_org_id"] = orderElement.OrganizationId;
 			row["f_position"] = orderElement.Position;
 			AddRow(row);
@@ -425,7 +426,7 @@ namespace SupRealClient.TabsSingleton
 			row["f_disabled"] = orderElement.IsDisable ? "Y" : "N";
 			row["f_not_remaind"] = "N"; //todo: разобраться
 			row["f_full_role"] = "N"; //todo: разобраться
-			row["f_other_org"] = ""; //todo: разобраться
+			row["f_other_org"] = orderElement.Reason; //todo: изменить название столбца в БД
 			row["f_org_id"] = orderElement.OrganizationId;
 			row["f_position"] = orderElement.Position;
 			StandartCols(row, orderElement);
@@ -450,6 +451,7 @@ namespace SupRealClient.TabsSingleton
 						CatcherId = ordEls.Field<int>("f_catcher_id"),
 						From = ordEls.Field<DateTime>("f_time_from"),
 						To = ordEls.Field<DateTime>("f_time_to"),
+						Reason = ordEls.Field<string>("f_other_org"),
 						IsDisable = ordEls.Field<string>("f_disabled").ToUpper() == "Y" ? true : false,
 						Passes = ordEls.Field<string>("f_passes")
 					});

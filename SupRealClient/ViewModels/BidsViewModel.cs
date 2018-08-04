@@ -5,6 +5,9 @@ using System.Linq;
 using System.Windows;
 using SupRealClient.EnumerationClasses;
 using SupRealClient.Models;
+using SupRealClient.Models.AddUpdateModel;
+using SupRealClient.ViewModels.AddUpdateViewModel;
+using SupRealClient.Views;
 
 namespace SupRealClient.ViewModels
 {
@@ -288,6 +291,10 @@ namespace SupRealClient.ViewModels
 		public ICommand FurtherCommand { get; set; }
 		public ICommand ReloadCommand { get; set; }
 
+		public ICommand ChooseVisitorForVirtueCommand { get; set; }
+		public ICommand ChooseOrganizationForVirtueCommand { get; set; }
+		public ICommand ChooseZonesForVirtueCommand { get; set; }
+
 		public ICommand AddPersonCommand { get; set; } // добавление человека в заявку
 		public ICommand UpdatePersonCommand { get; set; } // редактирование человека в заявке
 		public ICommand DeletePersonCommand { get; set; } // удаление человека из заявки
@@ -343,11 +350,11 @@ namespace SupRealClient.ViewModels
 		public ChildWinSet WinSet { get; set; }
 
 		#endregion
-		
+
 		public BidsViewModel()
 		{
 			// Задать размеры и положение формы.
-			WinSet = new ChildWinSet() {Left = 0};
+			WinSet = new ChildWinSet() { Left = 0 };
 			WinSet.Left = WinSet.Width;
 
 			// Инициализация команд.
@@ -363,6 +370,10 @@ namespace SupRealClient.ViewModels
 			CancelCommand = new RelayCommand(arg => Cancel());
 			FurtherCommand = new RelayCommand(arg => Further());
 			ReloadCommand = new RelayCommand(arg => Reload());
+
+			ChooseVisitorForVirtueCommand = new RelayCommand(arg => ChooseVisitorForVirtue());
+			ChooseOrganizationForVirtueCommand = new RelayCommand(arg => ChooseOrganizationForVirtue());
+			ChooseZonesForVirtueCommand = new RelayCommand(arg => ChooseZonesForVirtue());
 
 			AddPersonCommand = new RelayCommand(arg => AddPerson());
 			UpdatePersonCommand = new RelayCommand(arg => UpdatePerson());
@@ -574,7 +585,7 @@ namespace SupRealClient.ViewModels
 					throw new ArgumentOutOfRangeException();
 			}
 		}
-		
+
 		private void ChangeCurrentSelectedOrder()
 		{
 			switch (CurrentOrderType)
@@ -615,6 +626,76 @@ namespace SupRealClient.ViewModels
 		private void Reload()
 		{
 			BidsModel.Reload();
+		}
+
+		private void ChooseVisitorForVirtue()
+		{
+			VisitorsModelResult result = ViewManager.Instance.OpenWindowModal(
+				"VisitorsListWindViewOk", null) as VisitorsModelResult;
+			if (result == null)
+			{
+				return;
+			}
+
+			OrderElement currentOrderElement = CurrentVirtueOrder.FirstOrderElement;
+
+			currentOrderElement.VisitorId = result.Id;
+			currentOrderElement.Position = currentOrderElement.VisitorMainPosition;
+			currentOrderElement.OrganizationId = result.OrganizationId;
+
+			CurrentVirtueOrder = CurrentVirtueOrder;
+		}
+
+		private void ChooseOrganizationForVirtue()
+		{
+			BaseModelResult result = ViewManager.Instance.OpenWindowModal(
+				"Base4OrganizationsWindView", null) as BaseModelResult;
+			if (result == null)
+			{
+				return;
+			}
+
+			OrderElement currentOrderElement = CurrentVirtueOrder.FirstOrderElement;
+
+			currentOrderElement.OrganizationId = result.Id;
+
+			CurrentVirtueOrder = CurrentVirtueOrder;
+		}
+
+		private void ChooseZonesForVirtue()
+		{
+			OrderElement currentOrderElement = CurrentVirtueOrder.FirstOrderElement;
+
+			AddUpdateAbstrModel zonesModel = new AddUpdateZonesToBidModel(
+				currentOrderElement.Areas);
+			AddUpdateBaseViewModel viewModel = new AddUpdateZonesToBidViewModel
+			{
+				Model = zonesModel
+			};
+			AssigningZonesView wind = new AssigningZonesView
+			{
+				DataContext = viewModel
+			};
+			viewModel.Model.OnClose += wind.Handling_OnClose;
+			wind.ShowDialog();
+			if (wind.WindowResult as ObservableCollection<Area> == null)
+			{
+				return;
+			}
+			currentOrderElement.Areas = wind.WindowResult as
+				ObservableCollection<Area>;
+			string st = "";
+			foreach (var area in wind.WindowResult as ObservableCollection<Area>)
+			{
+				st += area.Name + ", ";
+			}
+
+			if (st.Length - 2 >= 0)
+			{
+				currentOrderElement.Passes = st.Remove(st.Length - 2);
+			}
+
+			CurrentVirtueOrder = CurrentVirtueOrder;
 		}
 	}
 }
