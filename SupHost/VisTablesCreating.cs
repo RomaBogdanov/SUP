@@ -740,25 +740,4 @@ namespace SupHost
 			this.getTableBehavior = new VisTemplatesTableBehavior(); 
 		}
     }
-    /// <summary>
-    /// TableBehavior для Связь между шаблоном и областью
-    /// </summary>
-    partial class VisTemplatesAreasTableBehavior : VisitorsDBTableBehavior
-    {
-        public VisTemplatesAreasTableBehavior()
-        {
-            this.StandartSetup("vis_templates_areas", "f_template_area_id");
-        }
-    }
-
-    /// <summary>
-    /// TableWrapper для Связь между шаблоном и областью
-    /// </summary>
-	partial class VisTemplatesAreasTableWrapper : AbstractTableWrapper
-    {
-        public VisTemplatesAreasTableWrapper()
-        { 
-			this.getTableBehavior = new VisTemplatesAreasTableBehavior(); 
-		}
-    }
 }
