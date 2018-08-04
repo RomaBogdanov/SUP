@@ -184,6 +184,8 @@ namespace SupRealClient.ViewModels
                 ViewManager.Instance.OpenWindow("Base4CarsWindView"));
         public ICommand ListEquipmentsClick { get; set; } = new RelayCommand(arg =>
                 ViewManager.Instance.OpenWindow("Base4EquipmentsWindView"));
+        public ICommand ListTemplatesClick { get; set; } = new RelayCommand(arg =>
+                ViewManager.Instance.OpenWindow("Base4TemplatesWindView"));
 
         public ICommand OpenAboutWindow { get; set; }
 
