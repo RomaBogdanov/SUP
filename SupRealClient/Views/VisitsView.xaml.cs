@@ -903,8 +903,10 @@ namespace SupRealClient.Views
             var window = new VisitorsDocumentView(
                 new VisitorsDocumentModel(
                     CurrentItem.Documents[SelectedDocument]));
-            window.ShowDialog();
-            var document = window.WindowResult as VisitorsDocument;
+	        window._TestingNameVisitorsDocument += TestingNameVisitorsDocument;
+			window.ShowDialog();
+	        window._TestingNameVisitorsDocument -= TestingNameVisitorsDocument;
+			var document = window.WindowResult as VisitorsDocument;
 
             if (document == null)
             {
@@ -1361,12 +1363,12 @@ namespace SupRealClient.Views
                 return false;
             }
 
-
 	        if (!CurrentItem.IsAgree)
 	        {
 		        MessageBox.Show("Нет согласия на обработку персональных данных!");
 		        return false;
 	        }
+
 			if (!CurrentItem.IsNotFormular &
                 (string.IsNullOrEmpty(CurrentItem.Telephone) ||
                 string.IsNullOrEmpty(CurrentItem.Nation) ||
@@ -1375,6 +1377,7 @@ namespace SupRealClient.Views
                 MessageBox.Show("Не все поля вкладки Основная заполнены!");
                 return false;
             }
+
             if (!ValidateDocumentDates() &&
                 MessageBox.Show("В документах разные даты рождения. Все равно сохранить?",
                 "Внимание", MessageBoxButtons.YesNo) == DialogResult.No)
@@ -1385,7 +1388,120 @@ namespace SupRealClient.Views
             return true;
         }
 
-        protected void SaveAdditionalData(int id)
+		/// <summary>
+		/// Метод для потверждения проведения сохранения данных. Различие от "Validate" в том, что если согласия на обработку персональных данных нет, запрашивается подтверждение записи.
+		/// </summary>
+		/// <returns></returns>
+		protected bool? Validate_AndUse_IsAgree()
+	    {
+		    if (string.IsNullOrEmpty(CurrentItem.Family) ||
+		        string.IsNullOrEmpty(CurrentItem.Name) ||
+		        string.IsNullOrEmpty(CurrentItem.Patronymic) ||
+		        string.IsNullOrEmpty(CurrentItem.Organization))
+		    {
+			    MessageBox.Show("Не все поля заполнены корректно!");
+			    return false;
+		    }
+
+		    if (!CurrentItem.IsAgree)
+		    {
+			    DialogResult result =
+				    MessageBox.Show(
+					    "Нет согласия на обработку персональных данных! " + Environment.NewLine +
+					    "При подтвердении сохранения будут сохранены ФИО посетителя и название организации", "Внимание",
+					    MessageBoxButtons.OKCancel);
+
+			    if (result == DialogResult.OK)
+			    {
+				    return null;
+			    }
+			    else
+				    return false;
+
+		    }
+
+		    if (!CurrentItem.IsNotFormular &
+		        (string.IsNullOrEmpty(CurrentItem.Telephone) ||
+		         string.IsNullOrEmpty(CurrentItem.Nation) ||
+		         !CurrentItem.MainDocuments.Any()))
+		    {
+			    MessageBox.Show("Не все поля вкладки Основная заполнены!");
+			    return false;
+		    }
+
+		    if (!ValidateDocumentDates() &&
+		        MessageBox.Show("В документах разные даты рождения. Все равно сохранить?",
+			        "Внимание", MessageBoxButtons.YesNo) == DialogResult.No)
+		    {
+			    return false;
+		    }
+
+		    return true;
+	    }
+
+	    protected bool Validate_BaseData()
+	    {
+		    if (string.IsNullOrEmpty(CurrentItem.Family) ||
+		        string.IsNullOrEmpty(CurrentItem.Name) ||
+		        string.IsNullOrEmpty(CurrentItem.Patronymic) ||
+		        string.IsNullOrEmpty(CurrentItem.Organization))
+		    {
+			    MessageBox.Show("Не все поля заполнены корректно!");
+			    return false;
+		    }
+
+		    return true;
+	    }
+		
+	    protected bool? Validate_IsAgreeValue()
+	    {
+		    if (!CurrentItem.IsAgree)
+		    {
+			    DialogResult result =
+				    MessageBox.Show(
+					    "Нет согласия на обработку персональных данных! " + Environment.NewLine +
+					    "При подтвердении сохранения будут сохранены ФИО посетителя и название организации", "Внимание",
+					    MessageBoxButtons.OKCancel);
+			    if (result == DialogResult.OK)
+			    {
+				    return null;
+			    }
+				else
+				    return false;
+		    }
+
+		    return true;
+	    }
+
+	    protected bool Validate_FormularValue()
+	    {
+		    if (!CurrentItem.IsNotFormular &
+		        (string.IsNullOrEmpty(CurrentItem.Telephone) ||
+		         string.IsNullOrEmpty(CurrentItem.Nation) ||
+		         !CurrentItem.MainDocuments.Any()))
+		    {
+			    MessageBox.Show("Не все поля вкладки Основная заполнены!");
+			    return false;
+		    }
+
+		    return true;
+	    }
+
+	    protected bool Validate_DocumentDates()
+	    {
+		    if (!ValidateDocumentDates() &&
+		        MessageBox.Show("В документах разные даты рождения. Все равно сохранить?",
+			        "Внимание", MessageBoxButtons.YesNo) == DialogResult.No)
+		    {
+			    return false;
+		    }
+
+		    return true;
+	    }
+
+
+
+		protected void SaveAdditionalData(int id)
         {
             List<KeyValuePair<Guid, ImageType>> images =
                 new List<KeyValuePair<Guid, ImageType>>();
@@ -2087,63 +2203,160 @@ namespace SupRealClient.Views
         
         public override bool Ok()
         {
-            if (!Validate())
+	        bool? validate = Validate_AndUse_IsAgree();
+
+			if (validate!=null && !validate.Value)
             {
                 return false;
             }
 
-            DataRow row = VisitorsWrapper.CurrentTable().Table.NewRow();
+			if (validate == null)
+	        {
 
-            row["f_rec_date_pass"] = DateTime.Now;
-            row["f_is_short_data"] = CommonHelper.BoolToString(false);
-            row["f_rec_operator_pass"] = Authorizer.AppAuthorizer.Id;
-            row["f_full_name"] = CommonHelper.CreateFullName(CurrentItem.Family,
-                CurrentItem.Name, CurrentItem.Patronymic);
 
-            row["f_deleted"] = CommonHelper.BoolToString(false);
-            row["f_rec_date"] = DateTime.Now;
-            row["f_rec_operator"] = Authorizer.AppAuthorizer.Id;
+				//DataRow row = VisitorsWrapper.CurrentTable().Table.NewRow();
 
-            row["f_family"] = CurrentItem.Family;
-            row["f_fst_name"] = CurrentItem.Name;
-            row["f_sec_name"] = CurrentItem.Patronymic;
-            row["f_org_id"] = CurrentItem.OrganizationId >= 0 ?
-                CurrentItem.OrganizationId : 0;
-            row["f_vr_text"] = CurrentItem.Comment ?? "";
+				//row["f_rec_date_pass"] = DateTime.Now;
+				//row["f_is_short_data"] = CommonHelper.BoolToString(false);
+				//row["f_rec_operator_pass"] = Authorizer.AppAuthorizer.Id;
+				//row["f_full_name"] = CommonHelper.CreateFullName(CurrentItem.Family,
+				//	CurrentItem.Name, CurrentItem.Patronymic);
 
-            row["f_persona_non_grata"] =
-                CommonHelper.BoolToString(CurrentItem.IsAccessDenied);
-            row["f_can_have_visitors"] =
-                CommonHelper.BoolToString(CurrentItem.IsCanHaveVisitors);
-            row["f_personal_data_agreement"] =
-                CommonHelper.BoolToString(CurrentItem.IsAgree);
-            row["f_personal_data_last_date"] = CurrentItem.AgreeToDate;
-            row["f_birth_date"] = Convert.ToDateTime(CurrentItem.BirthDate);
-            row["f_phones"] = CurrentItem.Telephone ?? "";
-            row["f_cntr_id"] = CurrentItem.NationId >= 0 ?
-                CurrentItem.NationId : 0;
-            row["f_doc_id"] = CurrentItem.DocumentId >= 0 ?
-                CurrentItem.DocumentId : 0;
-            row["f_doc_seria"] = CurrentItem.DocSeria ?? "";
-            row["f_doc_num"] = CurrentItem.DocNum ?? "";
-            row["f_doc_date"] = CurrentItem.DocDate;
-            row["f_doc_code"] = CurrentItem.DocCode;
-            row["f_doc_org"] = CurrentItem.DocPlace ?? "";
-            row["f_job"] = CurrentItem.Position ?? "";
-            row["f_can_sign_orders"] =
-                CommonHelper.BoolToString(CurrentItem.IsRightSign);
-            row["f_can_adjust_orders"] =
-                CommonHelper.BoolToString(CurrentItem.IsAgreement);
+				//row["f_deleted"] = CommonHelper.BoolToString(false);
+				//row["f_rec_date"] = DateTime.Now;
+				//row["f_rec_operator"] = Authorizer.AppAuthorizer.Id;
 
-            row["f_dep_id"] = CurrentItem.DepartmentId >= 0 ?
-                CurrentItem.DepartmentId : 0;
-            row["f_cabinet_id"] = CurrentItem.CabinetId >= 0 ?
-                CurrentItem.CabinetId : 0;
-            VisitorsWrapper.CurrentTable().Table.Rows.Add(row);
+				//row["f_family"] = CurrentItem.Family;
+				//row["f_fst_name"] = CurrentItem.Name;
+				//row["f_sec_name"] = CurrentItem.Patronymic;
 
-            SaveAdditionalData((int)row["f_visitor_id"]);
-            OnClose?.Invoke(CurrentItem);
-            return true;
+
+				//row["f_org_id"] = CurrentItem.OrganizationId >= 0 ?
+				//	CurrentItem.OrganizationId : 0;
+
+
+
+
+
+
+				//      row["f_vr_text"] = "";
+
+				//      row["f_persona_non_grata"] =
+				//       CommonHelper.BoolToString(false);
+				//      row["f_can_have_visitors"] =
+				//       CommonHelper.BoolToString(false);
+				//      row["f_personal_data_agreement"] =
+				//       CommonHelper.BoolToString(CurrentItem.IsAgree);
+				//      row["f_personal_data_last_date"] = CurrentItem.AgreeToDate;
+				//      row["f_birth_date"] = Convert.ToDateTime(CurrentItem.BirthDate);
+				//      row["f_phones"] ="";
+				//      row["f_cntr_id"] = 0;
+				//      row["f_doc_id"] = 0;
+				//      row["f_doc_seria"] = "";
+				//      row["f_doc_num"] = "";
+				//      row["f_doc_date"] = CurrentItem.DocDate;
+				//      row["f_doc_code"] = CurrentItem.DocCode;
+				//      row["f_doc_org"] = "";
+				//      row["f_job"] = "";
+				//      row["f_can_sign_orders"] =
+				//       CommonHelper.BoolToString(false);
+				//      row["f_can_adjust_orders"] =
+				//       CommonHelper.BoolToString(false);
+
+				//      row["f_dep_id"] = 0;
+				//      row["f_cabinet_id"] = 0;
+				//      VisitorsWrapper.CurrentTable().Table.Rows.Add(row);
+
+				//      SaveAdditionalData((int)row["f_visitor_id"]);
+
+
+
+				//OnClose?.Invoke(CurrentItem);
+				//return true;
+
+
+			        CurrentItem.Comment = "";
+			        CurrentItem.IsAccessDenied = false;
+			        CurrentItem.IsCanHaveVisitors = false;
+			        CurrentItem.Telephone = "";
+			        CurrentItem.NationId = 0;
+			        CurrentItem.DocumentId = 0;
+			        CurrentItem.DocSeria = "";
+			        CurrentItem.DocNum = "";
+			        CurrentItem.DocDate = DateTime.MinValue;
+			        CurrentItem.DocCode = "";
+			        CurrentItem.DocPlace = "";
+			        CurrentItem.Position = "";
+			        CurrentItem.IsRightSign = false;
+			        CurrentItem.IsAgreement = false;
+			        CurrentItem.CabinetId = 0;
+			        CurrentItem.DepartmentId = 0;
+
+		        for (int index = 0; index < CurrentItem.MainDocuments.Count; index++)
+		        {
+			        this.RemoveMainDocument(0);
+				}
+
+		        for (int index = 0; index < CurrentItem.Documents.Count; index++)
+		        {
+			        this.RemoveDocument(0);
+		        }
+
+		        this.RemoveImageSource(ImageType.Photo);
+		        this.RemoveImageSource(ImageType.Signature);
+
+				CurrentItem.MainDocuments.Clear();
+		        CurrentItem.Documents.Clear();
+
+			}
+
+		        DataRow row = VisitorsWrapper.CurrentTable().Table.NewRow();
+
+		        row["f_rec_date_pass"] = DateTime.Now;
+		        row["f_is_short_data"] = CommonHelper.BoolToString(false);
+		        row["f_rec_operator_pass"] = Authorizer.AppAuthorizer.Id;
+		        row["f_full_name"] = CommonHelper.CreateFullName(CurrentItem.Family,
+			        CurrentItem.Name, CurrentItem.Patronymic);
+
+		        row["f_deleted"] = CommonHelper.BoolToString(false);
+		        row["f_rec_date"] = DateTime.Now;
+		        row["f_rec_operator"] = Authorizer.AppAuthorizer.Id;
+
+		        row["f_family"] = CurrentItem.Family;
+		        row["f_fst_name"] = CurrentItem.Name;
+		        row["f_sec_name"] = CurrentItem.Patronymic;
+		        row["f_org_id"] = CurrentItem.OrganizationId >= 0 ? CurrentItem.OrganizationId : 0;
+		        row["f_vr_text"] = CurrentItem.Comment ?? "";
+
+		        row["f_persona_non_grata"] =
+			        CommonHelper.BoolToString(CurrentItem.IsAccessDenied);
+		        row["f_can_have_visitors"] =
+			        CommonHelper.BoolToString(CurrentItem.IsCanHaveVisitors);
+		        row["f_personal_data_agreement"] =
+			        CommonHelper.BoolToString(CurrentItem.IsAgree);
+		        row["f_personal_data_last_date"] = CurrentItem.AgreeToDate;
+		        row["f_birth_date"] = Convert.ToDateTime(CurrentItem.BirthDate);
+		        row["f_phones"] = CurrentItem.Telephone ?? "";
+		        row["f_cntr_id"] = CurrentItem.NationId >= 0 ? CurrentItem.NationId : 0;
+		        row["f_doc_id"] = CurrentItem.DocumentId >= 0 ? CurrentItem.DocumentId : 0;
+		        row["f_doc_seria"] = CurrentItem.DocSeria ?? "";
+		        row["f_doc_num"] = CurrentItem.DocNum ?? "";
+		        row["f_doc_date"] = CurrentItem.DocDate;
+		        row["f_doc_code"] = CurrentItem.DocCode;
+		        row["f_doc_org"] = CurrentItem.DocPlace ?? "";
+		        row["f_job"] = CurrentItem.Position ?? "";
+		        row["f_can_sign_orders"] =
+			        CommonHelper.BoolToString(CurrentItem.IsRightSign);
+		        row["f_can_adjust_orders"] =
+			        CommonHelper.BoolToString(CurrentItem.IsAgreement);
+
+		        row["f_dep_id"] = CurrentItem.DepartmentId >= 0 ? CurrentItem.DepartmentId : 0;
+		        row["f_cabinet_id"] = CurrentItem.CabinetId >= 0 ? CurrentItem.CabinetId : 0;
+		        VisitorsWrapper.CurrentTable().Table.Rows.Add(row);
+
+		        SaveAdditionalData((int) row["f_visitor_id"]);
+		        OnClose?.Invoke(CurrentItem);
+		        return true;
         }
     }
 
@@ -2194,109 +2407,193 @@ namespace SupRealClient.Views
 
 	    public override bool Ok()
         {
-            if (!Validate())
-            {
-                return false;
-            }
+			bool? validate = Validate_AndUse_IsAgree();
 
-            DataRow row = VisitorsWrapper.CurrentTable().Table.Rows.Find(
-                CurrentItem.Id);
+			if (validate != null && !validate.Value)
+			{
+				return false;
+			}
 
-            row.BeginEdit();
+	        if (validate == null)
+	        {
+		        CurrentItem.Comment = "";
+		        CurrentItem.IsAccessDenied = false;
+		        CurrentItem.IsCanHaveVisitors = false;
+		        CurrentItem.Telephone = "";
+		        CurrentItem.NationId = 0;
+		        CurrentItem.DocumentId = 0;
+		        CurrentItem.DocSeria = "";
+		        CurrentItem.DocNum = "";
+		        CurrentItem.DocDate = DateTime.MinValue;
+		        CurrentItem.DocCode = "";
+		        CurrentItem.DocPlace = "";
+		        CurrentItem.Position = "";
+		        CurrentItem.IsRightSign = false;
+		        CurrentItem.IsAgreement = false;
+		        CurrentItem.CabinetId = 0;
+		        CurrentItem.DepartmentId = 0;
 
-            row["f_rec_date_pass"] = DateTime.Now;
-            row["f_rec_operator_pass"] = Authorizer.AppAuthorizer.Id;
+		        for (int index = 0; index < CurrentItem.MainDocuments.Count; index++)
+		        {
+			        this.RemoveMainDocument(0);
+		        }
 
-            bool fullNameChanged = false;
-            if (OldVisitor.Family != CurrentItem.Family)
-            {
-                row["f_family"] = CurrentItem.Family;
-                fullNameChanged = true;
-            }
-            if (OldVisitor.Name != CurrentItem.Name)
-            {
-                row["f_fst_name"] = CurrentItem.Name;
-                fullNameChanged = true;
-            }
-            if (OldVisitor.Patronymic != CurrentItem.Patronymic)
-            {
-                row["f_sec_name"] = CurrentItem.Patronymic;
-                fullNameChanged = true;
-            }
-            if (fullNameChanged)
-            {
-                row["f_full_name"] = CommonHelper.CreateFullName(
-                    CurrentItem.Family, CurrentItem.Name, CurrentItem.Patronymic);
-            }
-            if (OldVisitor.OrganizationId != CurrentItem.OrganizationId)
-                row["f_org_id"] = CurrentItem.OrganizationId >= 0 ?
-                    CurrentItem.OrganizationId : 0;
-            if (OldVisitor.Comment != CurrentItem.Comment)
-                row["f_vr_text"] = CurrentItem.Comment;
-            if (OldVisitor.IsAccessDenied != CurrentItem.IsAccessDenied)
-            {
-                row["f_persona_non_grata"] =
-                    CommonHelper.BoolToString(CurrentItem.IsAccessDenied);
-            }
-            if (OldVisitor.IsCanHaveVisitors != CurrentItem.IsCanHaveVisitors)
-            {
-                row["f_can_have_visitors"] =
-                    CommonHelper.BoolToString(CurrentItem.IsCanHaveVisitors);
-            }
-            if (OldVisitor.IsAgree != CurrentItem.IsAgree)
-            {
-                row["f_personal_data_agreement"] =
-                    CommonHelper.BoolToString(CurrentItem.IsAgree);
-            }
-            if (OldVisitor.AgreeToDate != CurrentItem.AgreeToDate)
-            {
-                row["f_personal_data_last_date"] = CurrentItem.AgreeToDate;
-            }
-            if (OldVisitor.Telephone != CurrentItem.Telephone)
-                row["f_phones"] = CurrentItem.Telephone;
-            if (OldVisitor.Nation != CurrentItem.Nation)
-                row["f_cntr_id"] = CurrentItem.NationId >= 0 ?
-                    CurrentItem.NationId : 0;
-            if (OldVisitor.DocType != CurrentItem.DocType)
-                row["f_doc_id"] = CurrentItem.DocumentId >= 0 ?
-                    CurrentItem.DocumentId : 0;
-            if (OldVisitor.DocSeria != CurrentItem.DocSeria)
-                row["f_doc_seria"] = CurrentItem.DocSeria;
-            if (OldVisitor.DocNum != CurrentItem.DocNum)
-                row["f_doc_num"] = CurrentItem.DocNum;
-            if (OldVisitor.DocDate != CurrentItem.DocDate)
-                row["f_doc_date"] = CurrentItem.DocDate;
-            if (OldVisitor.DocCode != CurrentItem.DocCode)
-                row["f_doc_code"] = CurrentItem.DocCode;
-            if (OldVisitor.DocPlace != CurrentItem.DocPlace)
-                row["f_doc_org"] = CurrentItem.DocPlace;
-            if (OldVisitor.Position != CurrentItem.Position)
-                row["f_job"] = CurrentItem.Position;
-            if (OldVisitor.IsRightSign != CurrentItem.IsRightSign)
-            {
-                row["f_can_sign_orders"] =
-                    CommonHelper.BoolToString(CurrentItem.IsRightSign);
-            }
-            if (OldVisitor.IsAgreement != CurrentItem.IsAgreement)
-            {
-                row["f_can_adjust_orders"] =
-                    CommonHelper.BoolToString(CurrentItem.IsAgreement);
-            }
-            if (OldVisitor.Cabinet != CurrentItem.Cabinet)
-            {
-                row["f_cabinet_id"] = CurrentItem.CabinetId >= 0 ?
-                    CurrentItem.CabinetId : 0;
-            }
-            if (OldVisitor.Department != CurrentItem.Department)
-            {
-                row["f_dep_id"] = CurrentItem.DepartmentId >= 0 ?
-                    CurrentItem.DepartmentId : 0;
-            }
-            row.EndEdit();
+		        for (int index = 0; index < CurrentItem.Documents.Count; index++)
+		        {
+			        this.RemoveDocument(0);
+		        }
 
-            SaveAdditionalData(CurrentItem.Id);
+		        this.RemoveImageSource(ImageType.Photo);
+		        this.RemoveImageSource(ImageType.Signature);
 
-            return true;
-        }
+				CurrentItem.MainDocuments.Clear();
+		        CurrentItem.Documents.Clear();
+			}
+
+
+
+	        DataRow row = VisitorsWrapper.CurrentTable().Table.Rows.Find(
+				CurrentItem.Id);
+
+			row.BeginEdit();
+
+			row["f_rec_date_pass"] = DateTime.Now;
+			row["f_rec_operator_pass"] = Authorizer.AppAuthorizer.Id;
+
+			bool fullNameChanged = false;
+			if (OldVisitor.Family != CurrentItem.Family)
+			{
+				row["f_family"] = CurrentItem.Family;
+				fullNameChanged = true;
+			}
+			if (OldVisitor.Name != CurrentItem.Name)
+			{
+				row["f_fst_name"] = CurrentItem.Name;
+				fullNameChanged = true;
+			}
+			if (OldVisitor.Patronymic != CurrentItem.Patronymic)
+			{
+				row["f_sec_name"] = CurrentItem.Patronymic;
+				fullNameChanged = true;
+			}
+			if (fullNameChanged)
+			{
+				row["f_full_name"] = CommonHelper.CreateFullName(
+					CurrentItem.Family, CurrentItem.Name, CurrentItem.Patronymic);
+			}
+			if (OldVisitor.OrganizationId != CurrentItem.OrganizationId)
+				row["f_org_id"] = CurrentItem.OrganizationId >= 0 ?
+					CurrentItem.OrganizationId : 0;
+			if (OldVisitor.Comment != CurrentItem.Comment)
+				row["f_vr_text"] = CurrentItem.Comment;
+			if (OldVisitor.IsAccessDenied != CurrentItem.IsAccessDenied)
+			{
+				row["f_persona_non_grata"] =
+					CommonHelper.BoolToString(CurrentItem.IsAccessDenied);
+			}
+			if (OldVisitor.IsCanHaveVisitors != CurrentItem.IsCanHaveVisitors)
+			{
+				row["f_can_have_visitors"] =
+					CommonHelper.BoolToString(CurrentItem.IsCanHaveVisitors);
+			}
+			if (OldVisitor.IsAgree != CurrentItem.IsAgree)
+			{
+				row["f_personal_data_agreement"] =
+					CommonHelper.BoolToString(CurrentItem.IsAgree);
+			}
+			if (OldVisitor.AgreeToDate != CurrentItem.AgreeToDate)
+			{
+				row["f_personal_data_last_date"] = CurrentItem.AgreeToDate;
+			}
+			if (OldVisitor.Telephone != CurrentItem.Telephone)
+				row["f_phones"] = CurrentItem.Telephone;
+			if (OldVisitor.Nation != CurrentItem.Nation)
+				row["f_cntr_id"] = CurrentItem.NationId >= 0 ?
+					CurrentItem.NationId : 0;
+			if (OldVisitor.DocType != CurrentItem.DocType)
+				row["f_doc_id"] = CurrentItem.DocumentId >= 0 ?
+					CurrentItem.DocumentId : 0;
+			if (OldVisitor.DocSeria != CurrentItem.DocSeria)
+				row["f_doc_seria"] = CurrentItem.DocSeria;
+			if (OldVisitor.DocNum != CurrentItem.DocNum)
+				row["f_doc_num"] = CurrentItem.DocNum;
+			if (OldVisitor.DocDate != CurrentItem.DocDate)
+				row["f_doc_date"] = CurrentItem.DocDate;
+			if (OldVisitor.DocCode != CurrentItem.DocCode)
+				row["f_doc_code"] = CurrentItem.DocCode;
+			if (OldVisitor.DocPlace != CurrentItem.DocPlace)
+				row["f_doc_org"] = CurrentItem.DocPlace;
+			if (OldVisitor.Position != CurrentItem.Position)
+				row["f_job"] = CurrentItem.Position;
+			if (OldVisitor.IsRightSign != CurrentItem.IsRightSign)
+			{
+				row["f_can_sign_orders"] =
+					CommonHelper.BoolToString(CurrentItem.IsRightSign);
+			}
+			if (OldVisitor.IsAgreement != CurrentItem.IsAgreement)
+			{
+				row["f_can_adjust_orders"] =
+					CommonHelper.BoolToString(CurrentItem.IsAgreement);
+			}
+			if (OldVisitor.Cabinet != CurrentItem.Cabinet)
+			{
+				row["f_cabinet_id"] = CurrentItem.CabinetId >= 0 ?
+					CurrentItem.CabinetId : 0;
+			}
+			if (OldVisitor.Department != CurrentItem.Department)
+			{
+				row["f_dep_id"] = CurrentItem.DepartmentId >= 0 ?
+					CurrentItem.DepartmentId : 0;
+			}
+			row.EndEdit();
+
+			SaveAdditionalData(CurrentItem.Id);
+
+			return true;
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+		}
     }
 }

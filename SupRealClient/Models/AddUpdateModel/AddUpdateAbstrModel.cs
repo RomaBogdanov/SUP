@@ -7,6 +7,10 @@ using SupRealClient.Views;
 using SupRealClient.EnumerationClasses;
 using SupRealClient.TabsSingleton;
 using SupClientConnectionLib;
+using System.Collections.Generic;
+using SupRealClient.Common;
+using System.Windows;
+using System.Text;
 
 namespace SupRealClient.Models.AddUpdateModel
 {
@@ -544,6 +548,181 @@ namespace SupRealClient.Models.AddUpdateModel
         public override void Ok()
         {
             OnClose?.Invoke(SetAppointZones);
+        }
+    }
+
+    public abstract class AddUpdateTemplateModel : AddUpdateAbstrModel
+    {
+        public ObservableCollection<Area> SetAllAreas { get; set; }
+
+        public ObservableCollection<Area> SetAppointAreas { get; set; }
+
+        protected List<Area> descriptions;
+
+        protected AddUpdateTemplateModel()
+        {
+            descriptions = new List<Area>(
+                from areasext in AreasExtWrapper.CurrentTable().Table.AsEnumerable()
+                where !string.IsNullOrEmpty(areasext.Field<string>("f_description"))
+                select new Area
+                {
+                    ObjectIdHi = areasext.Field<int>("f_object_id_hi"),
+                    ObjectIdLo = areasext.Field<int>("f_object_id_lo"),
+                    Descript = areasext.Field<string>("f_description")
+                });
+
+            var allAreas = new List<Area>(
+                from areas in AreasWrapper.CurrentTable().Table.AsEnumerable()
+                where areas.Field<int>("f_area_id") != 0 &&
+                CommonHelper.NotDeleted(areas)
+                select new Area
+                {
+                    Id = areas.Field<int>("f_area_id"),
+                    Name = areas.Field<string>("f_area_name"),
+                    ObjectIdHi = areas.Field<int>("f_object_id_hi"),
+                    ObjectIdLo = areas.Field<int>("f_object_id_lo"),
+                    Descript = null
+                });
+
+            foreach (var desc in descriptions)
+            {
+                var row = allAreas.FirstOrDefault(r => r.ObjectIdHi == desc.ObjectIdHi &&
+                    r.ObjectIdLo == desc.ObjectIdLo);
+                if (row != null)
+                {
+                    row.Descript = desc.Descript;
+                }
+            }
+
+            allAreas.Sort((a1, a2) => a1.Name.CompareTo(a2.Name));
+
+            SetAllAreas = new ObservableCollection<Area>(allAreas);
+            SetAppointAreas = new ObservableCollection<Area>();
+        }
+
+        protected bool Validate(Template template)
+        {
+            if (string.IsNullOrEmpty(template.Name))
+            {
+                MessageBox.Show("Не заполнено поле название!", "Ошибка",
+                    MessageBoxButton.OK, MessageBoxImage.Error);
+                return false;
+            }
+            return true;
+        }
+    }
+
+    public class AddTemplateModel : AddUpdateTemplateModel
+    {
+        public AddTemplateModel()
+        {
+            CurrentItem = new Template();
+        }
+
+        protected override void SaveResult()
+        {
+            if (!Validate((Template)CurrentItem))
+            {
+                return;
+            }
+
+            DataRow row = TemplatesWrapper.CurrentTable().Table.NewRow();
+            row["f_template_name"] = ((Template)CurrentItem).Name;
+            row["f_template_type"] = int.Parse(((Template)CurrentItem).Type);
+            row["f_template_description"] = ((Template)CurrentItem).Descript;
+            row["f_template_areas"] = AndoverEntityListHelper.AndoverEntitiesToString(SetAppointAreas);
+            row["f_deleted"] = "N";
+            row["f_rec_date"] = DateTime.Now;
+            row["f_rec_operator"] = Authorizer.AppAuthorizer.Id;
+            TemplatesWrapper.CurrentTable().Table.Rows.Add(row);
+        }
+    }
+
+    public class UpdateTemplateModel : AddUpdateTemplateModel
+    {
+        public UpdateTemplateModel(Template template)
+        {
+            CurrentItem = template.Clone();
+
+            var areaIds = AndoverEntityListHelper.StringToAndoverEntityIds(
+                ((Template)CurrentItem).AreaIdList);
+            foreach (var idPair in areaIds)
+            {
+                var area = SetAllAreas.FirstOrDefault(a =>
+                    a.ObjectIdHi == idPair.Key && a.ObjectIdLo == idPair.Value);
+                if (area != null)
+                {
+                    SetAllAreas.Remove(area);
+                    SetAppointAreas.Add(area);
+                }
+            }
+        }
+
+        protected override void SaveResult()
+        {
+            if (!Validate((Template)CurrentItem))
+            {
+                return;
+            }
+
+            DataRow row = TemplatesWrapper.CurrentTable().Table.Rows.Find(((IdEntity)CurrentItem).Id);
+            row.BeginEdit();
+            row["f_template_name"] = ((Template)CurrentItem).Name;
+            row["f_template_type"] = int.Parse(((Template)CurrentItem).Type);
+            row["f_template_description"] = ((Template)CurrentItem).Descript;
+            row["f_template_areas"] = AndoverEntityListHelper.AndoverEntitiesToString(SetAppointAreas);
+            row["f_rec_date"] = DateTime.Now;
+            row["f_rec_operator"] = Authorizer.AppAuthorizer.Id;
+            row.EndEdit();
+        }
+    }
+
+    // TODO - вынести в отдельный класс. Переписать более универсально (принимать/возвращать IdEntity и AndoverEntity(создать класс))
+    public static class AndoverEntityListHelper
+    {
+        public static string AndoverEntitiesToString(IEnumerable<Area> areas)
+        {
+            var sb = new StringBuilder();
+            foreach (var area in areas)
+            {
+                sb.Append(area.ObjectIdHi);
+                sb.Append(",");
+                sb.Append(area.ObjectIdLo);
+                sb.Append(";");
+            }
+            return sb.ToString();
+        }
+
+        public static IEnumerable<KeyValuePair<int, int>> StringToAndoverEntityIds(string areas)
+        {
+            var result = new List<KeyValuePair<int, int>>();
+
+            string[] areaArray = areas.Split(new[] { ';' },
+                StringSplitOptions.RemoveEmptyEntries);
+            foreach (var areaIds in areaArray)
+            {
+                string[] idPair = areaIds.Split(new[] { ',' },
+                    StringSplitOptions.RemoveEmptyEntries);
+                if (idPair.Length != 2)
+                {
+                    continue;
+                }
+
+                int idHi;
+                if (!int.TryParse(idPair[0], out idHi))
+                {
+                    continue;
+                }
+                int idLo;
+                if (!int.TryParse(idPair[1], out idLo))
+                {
+                    continue;
+                }
+
+                result.Add(new KeyValuePair<int, int>(idHi, idLo));
+            }
+
+            return result;
         }
     }
 }
