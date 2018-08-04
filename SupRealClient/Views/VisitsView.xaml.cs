@@ -727,11 +727,12 @@ namespace SupRealClient.Views
         }
 
 
-        private void New()
-        {
-            Model = new NewVisitsModel();
-	        IsRedactMode = true;
-        }
+	    private void New()
+	    {
+		    _documentScaner?.Connect();
+		    Model = new NewVisitsModel();
+		    IsRedactMode = true;
+	    }
 
 
 	    private void Extradite()
@@ -771,7 +772,8 @@ namespace SupRealClient.Views
 
         private void Edit()
         {
-            Model = new EditVisitsModel(Set, CurrentItem);
+	        _documentScaner?.Connect();
+			Model = new EditVisitsModel(Set, CurrentItem);
 	        IsRedactMode = true;
 		}
 
