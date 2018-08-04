@@ -35,5 +35,4 @@
   <Item Name="VisAreaOrderElement" TabName="vis_areas_order_elements" ColId="f_area_order_element_id" Comment="Связь между областью и заявкой" />
   <Item Name="VisCardArea" TabName="vis_card_area" ColId="f_ca_id" Comment="Связь между картой и областью" />
   <Item Name="VisTemplates" TabName="vis_templates" ColId="f_template_id" Comment="Шаблоны" />
-  <Item Name="VisTemplatesAreas" TabName="vis_templates_areas" ColId="f_template_area_id" Comment="Связь между шаблоном и областью" />
 </Enum>
