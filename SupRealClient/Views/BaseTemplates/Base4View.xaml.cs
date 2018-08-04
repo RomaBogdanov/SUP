@@ -184,6 +184,20 @@ namespace SupRealClient.Views
         {
             modeEdit = true;
         }
+
+        public void ScrollIntoViewCurrentItem()
+        {
+            if (baseTab.Items.Count > 0)
+            {
+                var row = baseTab.CurrentItem;
+                if (row == null)
+                    return;
+
+                baseTab.ScrollIntoView(row);
+                baseTab.UpdateLayout();
+                baseTab.ScrollIntoView(row);
+            }
+        }
     }
 
     public delegate void ModelPropertyChanged(string property);

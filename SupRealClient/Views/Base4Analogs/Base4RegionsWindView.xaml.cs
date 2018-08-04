@@ -16,6 +16,8 @@ namespace SupRealClient.Views
             AfterInitialize();
             ((Base4ViewModel<EnumerationClasses.Region>)base4.DataContext)
                 .OkVisibility = visibility;
+            ((Base4ViewModel<EnumerationClasses.Region>)base4.DataContext)
+                .ScrollCurrentItem = base4.ScrollIntoViewCurrentItem;
             base4.Focus();
         }
 
