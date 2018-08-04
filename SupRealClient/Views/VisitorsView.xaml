@@ -277,28 +277,43 @@
 				Style="{StaticResource TextBoxStyle}"
 				TabIndex="7"
 				Text="{Binding Path=CurrentItem.Comment, Mode=TwoWay}" />
+			<Grid Grid.Row="1" Grid.Column="2" Grid.ColumnSpan="2"
+			      Visibility="{Binding IsRedactMode_Inverce, Converter={StaticResource BooleanToVisibilityConverter}}">
+				<Grid.ColumnDefinitions>
+					<ColumnDefinition></ColumnDefinition>
+					<ColumnDefinition></ColumnDefinition>
+				</Grid.ColumnDefinitions>
+				<Button
+					Width="25"
+					Height="25"
+					Content="..."
+					Style="{StaticResource VisitorsSquareButtonStyle}"
+					Command="{Binding EditVisitorCommentCommand}"/>
+				<Button
+					Width="25"
+					Height="25"
+					Content="v"
+					Visibility="{Binding EditingVisitorCommentMode, Converter={StaticResource BooleanToVisibilityConverter}}"
+					Style="{StaticResource VisitorsSquareButtonStyle}"
+					Command="{Binding EndVisitorCommentCommand}"/>
 
-			<Button
-				Grid.Row="1"
-				Grid.Column="2"
-				Width="25"
-				Height="25"
-				Content="..."
-				IsEnabled="{Binding Path=ButtonEnable, Mode=TwoWay}"
-				Style="{StaticResource VisitorsSquareButtonStyle}"/>
+				<Button
+					Grid.Column="1"
+					Width="25"
+					Height="25"
+					Margin="0"
+					Command="{Binding ClearCommand}"
+					CommandParameter="Comment"
+					Content="X"
+					Style="{StaticResource VisitorsSquareButtonStyle}" 
+					Visibility="{Binding EditingVisitorCommentMode, Converter={StaticResource BooleanToVisibilityConverter}}"
+					IsTabStop="False"/>
+				<!--IsEnabled="{Binding Path=ButtonEnable, Mode=TwoWay}"-->
 
-			<Button
-				Grid.Row="1"
-				Grid.Column="3"
-				Width="25"
-				Height="25"
-				Margin="0"
-				Command="{Binding ClearCommand}"
-				CommandParameter="Comment"
-				Content="X"
-				IsEnabled="{Binding Path=ButtonEnable, Mode=TwoWay}"
-				Style="{StaticResource VisitorsSquareButtonStyle}" 
-				IsTabStop="False"/>
+			</Grid>
+			<!--Grid.Row="1" Grid.Column="2" Grid.ColumnSpan="2"-->
+
+
 
             <StackPanel Orientation="Horizontal" Grid.Row="2" Grid.ColumnSpan="4" Grid.IsSharedSizeScope="True">
                 <CheckBox  Grid.Column="0" Grid.Row="2" Margin="10,11,0,11"
