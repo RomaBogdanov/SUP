@@ -258,6 +258,18 @@
                                 <DataGridTextColumn Binding="{Binding Passes}" Header="Проходы" />
                                 <DataGridCheckBoxColumn Binding="{Binding IsBlock}" Header="Заблокирован" />
                             </DataGrid.Columns>
+                            <DataGrid.RowStyle>
+                                <Style TargetType="DataGridRow">
+                                    <Style.Triggers>
+                                        <DataTrigger Binding="{Binding IsBlock}" Value="True">
+                                            <Setter Property="Background" Value="#33ff0000" />
+                                        </DataTrigger>
+                                        <DataTrigger Binding="{Binding IsBlock}" Value="False">
+                                            <Setter Property="Background" Value="#33008800" />
+                                        </DataTrigger>
+                                    </Style.Triggers>
+                                </Style>
+                            </DataGrid.RowStyle>
                         </DataGrid>
 
                         <StackPanel Grid.Row="3">
@@ -658,6 +670,18 @@
                                 <DataGridTextColumn Binding="{Binding Passes}" Header="Проходы" />
                                 <DataGridCheckBoxColumn Binding="{Binding IsBlock}" Header="Заблокирован" />
                             </DataGrid.Columns>
+                            <DataGrid.RowStyle>
+                                <Style TargetType="DataGridRow">
+                                    <Style.Triggers>
+                                        <DataTrigger Binding="{Binding IsBlock}" Value="True">
+                                            <Setter Property="Background" Value="#33ff0000" />
+                                        </DataTrigger>
+                                        <DataTrigger Binding="{Binding IsBlock}" Value="False">
+                                            <Setter Property="Background" Value="#33008800" />
+                                        </DataTrigger>
+                                    </Style.Triggers>
+                                </Style>
+                            </DataGrid.RowStyle>
                         </DataGrid>
 
                         <Grid Grid.Row="3">
