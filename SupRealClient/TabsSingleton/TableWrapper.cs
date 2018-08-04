@@ -365,6 +365,7 @@ namespace SupRealClient.TabsSingleton
 							CatcherId = row.Field<int>("f_catcher_id"),
 							From = row.Field<DateTime>("f_time_from"),
 							To = row.Field<DateTime>("f_time_to"),
+							IsBlock = VisitorsWrapper.CurrentTable().Table.AsEnumerable().Where(item=>item.Field<int>("f_visitor_id") == row.Field<int>("f_visitor_id")).FirstOrDefault().Field<string>("f_persona_non_grata").ToUpper() == "Y",
 							IsDisable = row.Field<string>("f_disabled").ToUpper() == "Y" ? true : false,
 							Passes = row.Field<string>("f_passes")
 						})
