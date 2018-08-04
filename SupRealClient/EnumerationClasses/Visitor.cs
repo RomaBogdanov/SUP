@@ -32,7 +32,8 @@ namespace SupRealClient.EnumerationClasses
             }
         }
         public string Organization { get; set; }
-        public string Comment { get; set; }
+	    public bool OrganizationIsMaster{get;set;}
+		public string Comment { get; set; }
         public bool IsAccessDenied { get; set; }
         public bool IsCanHaveVisitors { get; set; }
         public bool IsNotFormular { get; set; }

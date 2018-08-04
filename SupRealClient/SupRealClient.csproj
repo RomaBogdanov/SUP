@@ -123,6 +123,7 @@
     <Compile Include="EnumerationClasses\OrderElement.cs" />
     <Compile Include="EnumerationClasses\Region.cs" />
     <Compile Include="EnumerationClasses\Space.cs" />
+    <Compile Include="EnumerationClasses\Template.cs" />
     <Compile Include="EnumerationClasses\Visitor.cs" />
     <Compile Include="EnumerationClasses\VisitorsDocument.cs" />
     <Compile Include="EnumerationClasses\VisitorsDocumentBase.cs" />
@@ -296,6 +297,9 @@
     </Compile>
     <Compile Include="Views\Base4Analogs\Base4KeyHoldersWindView.xaml.cs">
       <DependentUpon>Base4KeyHoldersWindView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Base4Analogs\Base4TemplatesWindView.xaml.cs">
+      <DependentUpon>Base4TemplatesWindView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\Base4Analogs\Base4ZonesWindView.xaml.cs">
       <DependentUpon>Base4ZonesWindView.xaml</DependentUpon>
@@ -582,6 +586,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Views\Base4Analogs\Base4KeyHoldersWindView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\Base4Analogs\Base4TemplatesWindView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

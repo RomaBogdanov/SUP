@@ -46,12 +46,14 @@ namespace SupRealClient.Views
             DataContext = new VisitorsDocumentViewModel();
         }
 
-        private void TextBox_OnKeyUp(object sender, KeyEventArgs e)
+        private void TextBox_OnKeyDown(object sender, KeyEventArgs e)
         {
             if (e.Key == Key.Enter)
             {
-                ((UIElement)sender).MoveFocus(_focusMover);
-            }
+				//((UIElement)sender).MoveFocus(_focusMover);
+				if(DataContext is VisitorsDocumentViewModel)
+					(DataContext as VisitorsDocumentViewModel).RealizationSaving();
+			}
         }
     }
 }

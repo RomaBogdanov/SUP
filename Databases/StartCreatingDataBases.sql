@@ -932,6 +932,53 @@ insert into vis_spr_order_types values ( '2', 'Временная', 'N', '200307
 insert into vis_spr_order_types values ( '3', 'Бессрочная', 'N', '20030711 14:39:56', '-1')
 insert into vis_spr_order_types values ( '4', 'На основании', 'N', '20030711 14:39:57', '-1')
 
+
+-- Создание vis_templates
+-- Таблица списка шаблонов.
+
+if OBJECT_ID('vis_templates') is not null
+	drop table vis_templates;
+
+CREATE TABLE vis_templates
+    (f_template_id                 int NOT NULL,
+	f_template_type                int,
+    f_template_name                nvarchar(50),
+	f_template_description         nvarchar(200),
+    f_deleted                      CHAR(1),
+    f_rec_date                     DATE,
+    f_rec_operator                 int)
+
+ALTER TABLE vis_templates
+ADD PRIMARY KEY (f_template_id)
+
+if not exists(select * from vis_templates where f_template_id = '0')
+begin
+	insert into vis_templates values ('0', '0', '', '', 'N', '', '0')
+end
+go
+
+
+-- Создание vis_templates_areas
+-- Таблица соотношения между "областями доступа" и "шаблонами". 
+
+if OBJECT_ID('vis_templates_areas') is not null
+	drop table vis_templates_areas;
+
+create table vis_templates_areas
+(
+	f_template_area_id                int not null,
+	f_template_id                     int,
+	f_area_id_hi                      int,
+	f_area_id_lo                      int,
+	f_deleted                         CHAR(1),
+    f_rec_date                        DATE,
+    f_rec_operator                    int
+)
+
+alter table vis_templates_areas
+	add primary key (f_template_area_id)
+go
+
 -- Создание vis_visitors
 -- Одна из основных таблиц.
 -- Таблица посетителей и сотрудников Транснефти.
