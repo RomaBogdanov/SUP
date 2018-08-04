@@ -9,8 +9,8 @@
         Title="{Binding Path=Caption, Mode=OneTime}"
         Height="163.786" Width="276.838" 
         ResizeMode="NoResize"
-        Loaded="MetroWindow_Loaded"
-                 KeyDown="btnOK_KeyDown">
+        Loaded="MetroWindow_Loaded">
+    
     <mah:MetroWindow.Resources>
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
@@ -49,7 +49,8 @@
             TabIndex="0"
             FontSize="{Binding FontSize}"
             Text="{Binding Path=Field, Mode=TwoWay}"
-            Style="{StaticResource TextBoxStyle}"/>
+            Style="{StaticResource TextBoxStyle}" 
+            KeyUp="tbInputNewItem_KeyUp"/>
 
         <Button 
             x:Name="btnOK"
@@ -58,7 +59,8 @@
             Command="{Binding Path=Ok}"
             Margin="2"
             TabIndex="1"
-            Style="{StaticResource VisitorsSquareButtonStyle}" >
+            Style="{StaticResource VisitorsSquareButtonStyle}" 
+            KeyDown="btnOK_KeyDown">
             <Grid >
                 <Grid.RowDefinitions>
                     <RowDefinition />

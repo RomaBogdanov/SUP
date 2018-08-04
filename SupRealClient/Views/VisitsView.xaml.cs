@@ -6,9 +6,13 @@ using System.Data;
 using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Text;
+using System.Windows;
 using System.Windows.Data;
 using System.Windows.Forms;
 using System.Windows.Input;
+using System.Windows.Threading;
+using MahApps.Metro.Controls;
+using RegulaLib;
 using SupClientConnectionLib;
 using SupContract;
 using SupRealClient.Annotations;
@@ -17,8 +21,10 @@ using SupRealClient.Common.Interfaces;
 using SupRealClient.EnumerationClasses;
 using SupRealClient.Models;
 using SupRealClient.TabsSingleton;
+using SupRealClient.ViewModels;
 using SupRealClient.Views.Visitor;
 using KeyEventArgs = System.Windows.Input.KeyEventArgs;
+using MessageBox = System.Windows.Forms.MessageBox;
 
 namespace SupRealClient.Views
 {
@@ -57,8 +63,20 @@ namespace SupRealClient.Views
         private IWindow view;
         private int selectedMainDocument = -1;
         private int selectedDocument = -1;
+        private int selectedCard = -1;
+        private int selectedOrder = -1;
+        private const string _nameDocument_PhotoImageType = "Личная фотография";
+	    private const string _nameDocument_SignatureImageType = "Личная подпись";
+	    private bool _visibleButton_OpenDocument_InRedactMode = false;
+	    private bool _enableButton_OpenDocument_InRedactMode = false;
+		private bool _isRedactMode = false;
+	    private bool _editingVisitorCommentMode = false;
+	    private string _bufer_CurrentItem_Comment = "";
 
-        public CollectionView PositionList { get; private set; }
+
+		public event Action<string> MoveNextFocusingElement;
+
+		public CollectionView PositionList { get; private set; }
 
         public IVisitsModel Model
         {
@@ -79,6 +97,17 @@ namespace SupRealClient.Views
                 TextEnable = model.TextEnable;
                 ButtonEnable = model.ButtonEnable;
                 AccessVisibility = model.AccessVisibility;
+
+				if (model is NewVisitsModel || model is EditVisitsModel)
+				{
+					IsRedactMode = true;
+				}
+				else
+				{
+					IsRedactMode = false;
+				}
+
+	            SelectedDocument = -1;
             }
         }
 
@@ -124,7 +153,7 @@ namespace SupRealClient.Views
             set
             {
                 Model.ButtonEnable = value;
-                OnPropertyChanged();
+	            OnPropertyChanged();
             }
         }
 
@@ -138,7 +167,48 @@ namespace SupRealClient.Views
             }
         }
 
-        public ObservableCollection<EnumerationClasses.Visitor> Set
+	    public bool IsRedactMode
+	    {
+		    get { return _isRedactMode; }
+		    set
+		    {
+			    _isRedactMode = value;
+			    VisibleButton_OpenDocument_InRedactMode = _isRedactMode;
+			    OnPropertyChanged(nameof(IsRedactMode));
+			    OnPropertyChanged(nameof(VisibleTabItem_Employee));
+			    OnPropertyChanged(nameof(IsRedactMode_Inverce));
+			    EditingVisitorCommentMode = false;
+		    }
+	    }
+
+	    public bool IsRedactMode_Inverce
+	    {
+		    get { return !_isRedactMode; }
+	    }
+
+
+		public bool VisibleButton_OpenDocument_InRedactMode
+	    {
+		    get { return _visibleButton_OpenDocument_InRedactMode; }
+		    set
+		    {
+			    _visibleButton_OpenDocument_InRedactMode = value;
+			    OnPropertyChanged(nameof(VisibleButton_OpenDocument_InRedactMode));
+			}
+	    }
+
+	    public bool EnableButton_OpenDocument_InRedactMode
+	    {
+		    get { return _enableButton_OpenDocument_InRedactMode; }
+		    set
+		    {
+			    _enableButton_OpenDocument_InRedactMode = value;
+			    OnPropertyChanged(nameof(EnableButton_OpenDocument_InRedactMode));
+		    }
+	    }
+
+
+		public ObservableCollection<EnumerationClasses.Visitor> Set
         {
             get { return Model?.Set; }
             set
@@ -184,6 +254,28 @@ namespace SupRealClient.Views
             {
                 selectedDocument = value;
                 OnPropertyChanged();
+	            OnPropertyChanged(nameof(SelectedDocument));
+				Change_ButtonEnable();
+            }
+        }
+
+        public int SelectedCard
+        {
+            get { return selectedCard; }
+            set
+            {
+                selectedCard = value;
+                OnPropertyChanged();
+            }
+        }
+
+        public int SelectedOrder
+        {
+            get { return selectedOrder; }
+            set
+            {
+                selectedOrder = value;
+                OnPropertyChanged();
             }
         }
 
@@ -197,7 +289,30 @@ namespace SupRealClient.Views
             get { return Model?.Signature; }
         }
 
-        public bool Enable
+	    public bool VisibleTabItem_Employee
+		{
+		    get
+		    {
+			    if (!IsRedactMode)
+				    return true;
+				else if (CurrentItem.OrganizationIsMaster)
+				    return false;
+			    else
+				    return true;
+		    }
+	    }
+
+	    public bool EditingVisitorCommentMode
+	    {
+		    get { return _editingVisitorCommentMode; }
+		    set
+		    {
+			    _editingVisitorCommentMode = value;
+				OnPropertyChanged(nameof(EditingVisitorCommentMode));
+		    }
+	    }
+
+		public bool Enable
         { get; set; }
 
         public ICommand BeginCommand { get; set; }
@@ -214,6 +329,7 @@ namespace SupRealClient.Views
 
         public ICommand ExtraditeCommand { get; set; }
         public ICommand ReturnCommand { get; set; }
+        public ICommand OpenOrderCommand { get; set; }
 
         public ICommand OkCommand { get; set; }
         public ICommand CancelCommand { get; set; }
@@ -234,6 +350,10 @@ namespace SupRealClient.Views
         public ICommand AddMainDocumentCommand { get; set; }
         public ICommand EditMainDocumentCommand { get; set; }
         public ICommand RemoveMainDocumentCommand { get; set; }
+	    public ICommand EditVisitorCommentCommand { get; set; }
+	    public ICommand EndVisitorCommentCommand { get; set; }
+
+		public ICommand RefreshCommand { get; set; }
 
         private ChildWindowSettings _windowSettings;
         public ChildWindowSettings WindowSettings
@@ -242,57 +362,247 @@ namespace SupRealClient.Views
             set { _windowSettings = value; OnPropertyChanged("WindowSettings"); }
         }
 
-        public ChildWinSet WinSet { get; set; }
+	    /// <summary>
+	    /// Сканер документов.
+	    /// </summary>
+	    private readonly CDocumentScaner _documentScaner = CDocumentScaner.GetInstance();
 
-        public VisitsViewModel(IWindow view)
+		public ChildWinSet WinSet { get; set; }
+
+	    public VisitsViewModel(IWindow view)
+	    {
+		    WinSet = new ChildWinSet() {Left = 0};
+		    //GlobalSettings.GetChildWindowSettings();     
+
+		    this.view = view;
+		    Model = new VisitsModel();
+
+		    this.PositionList =
+			    new CollectionView(Model.CurrentItem != null
+				    ? VisitorsHelper.GetPositions(
+					    Model.CurrentItem.Position)
+				    : new List<string>());
+
+		    OnPropertyChanged("PhotoSource");
+		    OnPropertyChanged("Signature");
+
+		    BeginCommand = new RelayCommand(arg => Begin());
+		    PrevCommand = new RelayCommand(arg => Prev());
+		    NextCommand = new RelayCommand(arg => Next());
+		    EndCommand = new RelayCommand(arg => End());
+		    NewCommand = new RelayCommand(arg => New());
+		    OrganizationCommand = new RelayCommand(arg => OrganizationsList());
+		    CountryCommand = new RelayCommand(arg => CountyList());
+		    CabinetsCommand = new RelayCommand(arg => CabinetsList());
+		    DepartmentsCommand = new RelayCommand(arg => DepartmentsList());
+
+		    ClearCommand = new RelayCommand(arg => Clear(arg as string));
+
+		    ExtraditeCommand = new RelayCommand(obj => Extradite());
+		    ReturnCommand = new RelayCommand(obj => Return());
+            OpenOrderCommand = new RelayCommand(obj => OpenOrder());
+
+            AddImageSourceCommand = new RelayCommand(arg => AddImageSource(ImageType.Photo, _nameDocument_PhotoImageType));
+            RemoveImageSourceCommand= new RelayCommand(arg => RemoveImageSource(ImageType.Photo, _nameDocument_PhotoImageType));
+            AddSignatureCommand = new RelayCommand(arg => AddImageSource(ImageType.Signature, _nameDocument_SignatureImageType));
+            RemoveSignatureCommand = new RelayCommand(arg => RemoveImageSource(ImageType.Signature, _nameDocument_SignatureImageType));
+		    OkCommand = new RelayCommand(arg => Ok());
+		    CancelCommand = new RelayCommand(arg => Cancel());
+		    EditCommand = new RelayCommand(arg => Edit());
+		    FindCommand = new RelayCommand(arg => Find());
+
+		    OpenDocumentCommand = new RelayCommand(arg => OpenDocument());
+			AddDocumentCommand = new RelayCommand(arg => AddDocument());
+		    EditDocumentCommand = new RelayCommand(arg => EditDocument());
+		    RemoveDocumentCommand = new RelayCommand(arg => RemoveDocument());
+
+		    OpenMainDocumentCommand = new RelayCommand(arg => OpenMainDocument());
+		    AddMainDocumentCommand = new RelayCommand(arg => AddMainDocument());
+		    EditMainDocumentCommand = new RelayCommand(arg => EditMainDocument());
+		    RemoveMainDocumentCommand = new RelayCommand(arg => RemoveMainDocument());
+
+
+		    EditVisitorCommentCommand = new RelayCommand(arg => ActivateEditingVisitorComment());
+		    EndVisitorCommentCommand = new RelayCommand(arg => SavingEditedVisitorComment());
+
+			RefreshCommand = new RelayCommand(arg => Refresh());
+
+            _documentScaner.ScanFinished += Scaner_ScanFinished;
+	    }
+
+	    ~VisitsViewModel()
+	    {
+			if(_documentScaner!=null)
+				_documentScaner.ScanFinished -= Scaner_ScanFinished;
+			if(_documentScaner!=null)
+				_documentScaner?.Dispose();
+	    }
+
+	    private void Refresh()
         {
-            WinSet = new ChildWinSet(); GlobalSettings.GetChildWindowSettings();     
-
-            this.view = view;
             Model = new VisitsModel();
+        }
 
-            this.PositionList =
-                new CollectionView(Model.CurrentItem != null ?
-                VisitorsHelper.GetPositions(
-                Model.CurrentItem.Position) : new List<string>());
+	    /// <summary>
+	    /// Завершение сканирования.
+	    /// </summary>
+	    /// <param name="sender"></param>
+	    /// <param name="e"></param>
+	    private void Scaner_ScanFinished(object sender, RegulaLib.Events.ScanFinishedEventArgs e)
+	    {
+		    if (model.ButtonEnable && CurrentItem != null)
+		    {
+			    RegulaView regulaView = null;
+			    (view as Window).Invoke(() =>
+			    {
+				    regulaView = new RegulaView(e.Person);
+				    regulaView?.ShowDialog();
+			    });
 
-            OnPropertyChanged("PhotoSource");
-            OnPropertyChanged("Signature");
 
-            BeginCommand = new RelayCommand(arg => Begin());
-            PrevCommand = new RelayCommand(arg => Prev());
-            NextCommand = new RelayCommand(arg => Next());
-            EndCommand = new RelayCommand(arg => End());
-            NewCommand = new RelayCommand(arg => New());
-            OrganizationCommand = new RelayCommand(arg => OrganizationsList());
-            CountryCommand = new RelayCommand(arg => CountyList());
-            CabinetsCommand = new RelayCommand(arg => CabinetsList());
-            DepartmentsCommand = new RelayCommand(arg => DepartmentsList());
+			    if (regulaView?.Result ?? false)
+			    {
+				    AddMainDocumentFromScan(e.Person);
+				    AddPortraitAndSignatureFromScan(e.Person);
+				    FillCurrentItemFieldsFromScan(e.Person);
 
-            ClearCommand = new RelayCommand(arg => Clear(arg as string));
+				    OnPropertyChanged(nameof(CurrentItem));
+			    }
+		    }
+	    }
 
-            ExtraditeCommand = new RelayCommand(obj => Extradite());
-            ReturnCommand = new RelayCommand(obj => Return());
+	    private void AddPortraitAndSignatureFromScan(CPerson person)
+	    {
+		    AddImageSource(ImageType.Photo,null,person);
+		}
 
-            OkCommand = new RelayCommand(arg => Ok());
-            CancelCommand = new RelayCommand(arg => Cancel());
-            EditCommand = new RelayCommand(arg => Edit());
-            FindCommand = new RelayCommand(arg => Find());
+	    /// <summary>
+	    /// Добавление отсканированного документа.
+	    /// </summary>
+	    /// <param name="person"></param>
+	    private void AddMainDocumentFromScan(CPerson person)
+	    {
+		    var document = new VisitorsMainDocument
+		    {
+			    Num = person.DocumentNumber?.Value,
+			    Seria = person.DocumentSeria?.Value,
+			    Code = person.DocumentDeliveryPlaceCode?.Value,
+		    };
 
-            AddImageSourceCommand = new RelayCommand(arg => AddImageSource(ImageType.Photo));
-            RemoveImageSourceCommand= new RelayCommand(arg => RemoveImageSource(ImageType.Photo));
-            AddSignatureCommand = new RelayCommand(arg => AddImageSource(ImageType.Signature));
-            RemoveSignatureCommand = new RelayCommand(arg => RemoveImageSource(ImageType.Signature));
+		    try
+		    {
+			    document.Date = DateTime.Parse(person.DocumentDeliveryDate?.Value);
+			    document.DateTo = DateTime.Parse(person.DocumentDateOfExpiry?.Value);
+			    document.BirthDate = DateTime.Parse(person.DateOfBirth?.Value);
+		    }
+		    catch (Exception)
+		    {
+			    //
+		    }
 
-            OpenDocumentCommand = new RelayCommand(arg => OpenDocument());
-            AddDocumentCommand = new RelayCommand(arg => AddDocument());
-            EditDocumentCommand = new RelayCommand(arg => EditDocument());
-            RemoveDocumentCommand = new RelayCommand(arg => RemoveDocument());
+		    document.Comment += GetDocumentComment(person);
 
-            OpenMainDocumentCommand = new RelayCommand(arg => OpenMainDocument());
-            AddMainDocumentCommand = new RelayCommand(arg => AddMainDocument());
-            EditMainDocumentCommand = new RelayCommand(arg => EditMainDocument());
-            RemoveMainDocumentCommand = new RelayCommand(arg => RemoveMainDocument());
+		    //проверка на наличие документа в списке документов CurrentItem
+		    var isContains = false;
+		    for (var index = 0; index < CurrentItem.MainDocuments.Count; index++)
+		    {
+			    if (string.IsNullOrEmpty(CurrentItem.MainDocuments[index]?.Num?.Trim())
+			        || string.IsNullOrEmpty(document.Num?.Trim())
+			        || string.Equals(CurrentItem.MainDocuments[index]?.Num?.Trim(), document.Num?.Trim()))
+			    {
+				    isContains = true;
+				    (view as Window)?.Invoke(() => { CurrentItem.MainDocuments[index] = document; });
+			    }
+		    }
+
+		    if (!isContains)
+		    {
+			    (view as Window)?.Invoke(() => { Model.AddMainDocument(document); });
+		    }
+	    }
+
+	    /// <summary>
+	    /// заполнение примечания документа в случае измеения ФИО.
+	    /// </summary>
+	    private string GetDocumentComment(CPerson person)
+	    {
+		    //если изменились ФИО, то добавить примечание
+		    var isNameDifferent = !string.IsNullOrEmpty(CurrentItem.Name) &&
+		                          !string.Equals(CurrentItem.Name?.Trim().ToLower(), person.Name?.Value.Trim().ToLower());
+		    var isSurnameDifferent = !string.IsNullOrEmpty(CurrentItem.Family) &&
+		                             !string.Equals(CurrentItem.Family?.Trim().ToLower(), person.Surname?.Value.Trim().ToLower());
+		    var isPatronomycDifferent = !string.IsNullOrEmpty(CurrentItem.Patronymic) &&
+		                                !string.Equals(CurrentItem.Patronymic?.Trim().ToLower(),
+			                                person.Patronymic?.Value.Trim().ToLower());
+		    var isChange = isNameDifferent || isSurnameDifferent || isPatronomycDifferent;
+		    var str = "";
+		    if (isChange)
+		    {
+			   str = "\nпрошлые поля: ";
+			    if (isNameDifferent)
+			    {
+				    str += "имя: " + CurrentItem.Name + ", ";
+			    }
+
+			    if (isSurnameDifferent)
+			    {
+				    str += "фамилия: " + CurrentItem.Family + ", ";
+			    }
+
+			    if (isSurnameDifferent)
+			    {
+				    str += "отчество: " + CurrentItem.Patronymic + ", ";
+			    }
+		    }
+
+		    return str;
+	    }
+
+
+	    /// <summary>
+	    /// Заполнение полей CurrentItem из скана документа.
+	    /// </summary> 
+	    /// <param name="person"></param>
+	    private void FillCurrentItemFieldsFromScan(CPerson person)
+	    {
+		    CurrentItem.Name = person.Name?.Value;
+		    CurrentItem.Family = person.Surname?.Value;
+		    CurrentItem.Patronymic = person.Patronymic?.Value;
+		    CurrentItem.FullName = person.SurnmameAndName?.Value;
+		    CurrentItem.BirthDate = person.DateOfBirth?.Value;
+		    CurrentItem.DocType = person.DocumentClassCode?.Value;
+		    CurrentItem.DocNum = person.DocumentNumber?.Value;
+		    CurrentItem.Department = person.DocumentDeliveryPlace?.Value;
+		    CurrentItem.DocCode = person.DocumentDeliveryPlaceCode?.Value;
+		    CurrentItem.Person = person;
+
+		    if (person.DocumentDeliveryDate?.Value != null)
+		    {
+			    try
+			    {
+				    CurrentItem.DocDate = DateTime.Parse(person.DocumentDeliveryDate?.Value);
+			    }
+			    catch (FormatException)
+			    {
+				    //
+			    }
+		    }
+	    }
+
+
+
+	    /// <summary>
+		/// Конструктор с возможностью загрузки нового посетителя.
+		/// todo: скорее всего, под удаление.
+		/// </summary>
+		/// <param name="view"></param>
+		/// <param name="isNew"></param>
+		public VisitsViewModel(IWindow view, bool isNew) : this(view)
+        {
+            if (isNew)
+            {
+                this.New();
+            }
         }
 
         private void CabinetsList()
@@ -333,8 +643,15 @@ namespace SupRealClient.Views
             CurrentItem.OrganizationId = result.Id;
             CurrentItem.Organization = OrganizationsHelper.
                 GenerateFullName(result.Id, true);
-            OnPropertyChanged("CurrentItem");
-        }
+			CurrentItem.OrganizationIsMaster = OrganizationsHelper.GetMasterParametr(result.Id, true);
+
+
+
+			OnPropertyChanged("CurrentItem");
+	        MoveNextFocusingElement?.Invoke("OrganizationsList");
+	        OnPropertyChanged(nameof(VisibleTabItem_Employee));
+
+		}
 
         private void CountyList()
         {
@@ -351,39 +668,42 @@ namespace SupRealClient.Views
 
         private void Clear(string field)
         {
-            switch (field)
-            {
-                case "Nation":
-                    CurrentItem.NationId = -1;
-                    CurrentItem.Nation = "";
-                    break;
-                case "Organization":
-                    CurrentItem.OrganizationId = -1;
-                    CurrentItem.Organization = "";
-                    break;
-                case "DocType":
-                    CurrentItem.DocumentId = -1;
-                    CurrentItem.DocType = "";
-                    break;
-                case "Department":
-                    CurrentItem.DepartmentId = -1;
-                    CurrentItem.Department = "";
-                    break;
-                case "Cabinet":
-                    CurrentItem.CabinetId = -1;
-                    CurrentItem.Cabinet = "";
-                    break;
-                case "Position":
-                    CurrentItem.Position = "";
-                    break;
-                case "Comment":
-                    CurrentItem.Comment = "";
-                    break;
-                default:
-                    return;
-            }
+	        switch (field)
+	        {
+		        case "Nation":
+			        CurrentItem.NationId = -1;
+			        CurrentItem.Nation = "";
+			        break;
+		        case "Organization":
+			        CurrentItem.OrganizationId = -1;
+			        CurrentItem.Organization = "";
+			        break;
+		        case "DocType":
+			        CurrentItem.DocumentId = -1;
+			        CurrentItem.DocType = "";
+			        break;
+		        case "Department":
+			        CurrentItem.DepartmentId = -1;
+			        CurrentItem.Department = "";
+			        break;
+		        case "Cabinet":
+			        CurrentItem.CabinetId = -1;
+			        CurrentItem.Cabinet = "";
+			        break;
+		        case "Position":
+			        CurrentItem.Position = "";
+			        break;
+		        case "Comment":
+		        {
+			        CurrentItem.Comment = _bufer_CurrentItem_Comment;
+			        EndEditingVisitorComment();
+		        }
+			        break;
+		        default:
+			        return;
+	        }
 
-            OnPropertyChanged("CurrentItem");
+	        OnPropertyChanged("CurrentItem");
         }
 
         private void Begin()
@@ -406,34 +726,59 @@ namespace SupRealClient.Views
             CurrentItem = Model.End();
         }
 
+
         private void New()
         {
             Model = new NewVisitsModel();
+	        IsRedactMode = true;
         }
 
-        private void Extradite()
-        {
-            var window = new AddZone();
 
+	    private void Extradite()
+        {
+            Base4ViewModel<Order> viewModel =
+                new Base4ViewModel<Order>
+                {
+                    Model = new AddZoneModel(CurrentItem.Orders, CurrentItem.Id)
+                };
+            var window = new AddZone
+            {
+                DataContext = viewModel
+            };
             window.ShowDialog();
         }
 
         private void Return()
         {
-            var window = new ReturnBid();
+            var window = new ReturnBid()
+            {
+                DataContext = new ReturnBidViewModel(SelectedCard >= 0 ?
+                    CurrentItem.Cards[SelectedCard] : null)
+            };
 
             window.ShowDialog();
+        }
+
+        private void OpenOrder()
+        {
+            if (SelectedOrder < 0)
+            {
+                return;
+            }
+
+            ViewManager.Instance.OpenWindow("BidsView");
         }
 
         private void Edit()
         {
             Model = new EditVisitsModel(Set, CurrentItem);
-        }
+	        IsRedactMode = true;
+		}
 
         private void Find()
         {
             var result = ViewManager.Instance.OpenWindowModal(
-                "VisitorsListWindView", view) as BaseModelResult;
+                @"VisitorsListWindViewOk", view) as BaseModelResult;
             if (result == null)
             {
                 return;
@@ -444,39 +789,82 @@ namespace SupRealClient.Views
         private void Ok()
         {
             if (Model.Ok())
-                Model = new VisitsModel();
+            {
+                if (view.ParentWindow is VisitorsListWindView)
+                    view.CloseWindow(new CancelEventArgs());
+                else
+                    Model = new VisitsModel();
+
+	            IsRedactMode = false;
+
+            }                
         }
 
         private void Cancel()
         {
             if (Model is NewVisitsModel)
             {
-                Model = new VisitsModel();
+                if (view.ParentWindow is SupRealClient.Views.VisitorsListWindView)
+                    view.CloseWindow(new CancelEventArgs());
+                else
+                    Model = new VisitsModel();
             }
             else if (Model is EditVisitsModel)
             {
-                Model = new VisitsModel(Set, ((EditVisitsModel)Model).OldVisitor);
-            }
-        }
+                if (view.ParentWindow is SupRealClient.Views.VisitorsListWindView)
+                    view.CloseWindow(new CancelEventArgs());
+                else
+                    Model = new VisitsModel(Set, ((EditVisitsModel)Model).OldVisitor);
 
-        private void AddImageSource(ImageType imageType)
+            }
+
+	        IsRedactMode = false;
+		}
+
+        private void AddImageSource(ImageType imageType, string name, CPerson person = null)
         {
-            var dlg = new OpenFileDialog();
-            if (dlg.ShowDialog() == DialogResult.OK)
-            {
-                Model.AddImageSource(dlg.FileName, imageType);
-            }
+	        if (person == null)
+	        {
+		        var dlg = new OpenFileDialog();
+		        if (dlg.ShowDialog() == DialogResult.OK)
+		        {
+			        Model.AddImageSource(dlg.FileName, imageType);
+			        AddImageToDocuments(name, dlg.FileName);
+		        }
+
+		        return;
+	        }
+
+	        if (Model is BaseVisitsModel baseModel)
+	        {
+		        if (person.Portrait != null)
+		        {
+			        baseModel.AddImageSource(person.Portrait, ImageType.Photo);
+		        }
+
+		        if (person.Signature != null)
+		        {
+			        baseModel.AddImageSource(person.Signature, ImageType.Signature);
+		        }
+	        }
         }
 
-        private void RemoveImageSource(ImageType imageType)
+        private void RemoveImageSource(ImageType imageType, string name)
         {
             Model.RemoveImageSource(imageType);
-        }
+	        RemoveImageToDocuments(name);
+		}
 
         private void OpenDocument()
         {
             if (SelectedDocument < 0)
             {
+                return;
+            }
+
+            if (EnableButton_OpenDocument_InRedactMode)
+            {
+                EditDocument();
                 return;
             }
 
@@ -489,8 +877,10 @@ namespace SupRealClient.Views
         {
             var window = new VisitorsDocumentView(
                 new VisitorsDocumentModel(null));
-            window.ShowDialog();
-            var document = window.WindowResult as VisitorsDocument;
+			window._TestingNameVisitorsDocument += TestingNameVisitorsDocument;
+			window.ShowDialog();
+	        window._TestingNameVisitorsDocument -= TestingNameVisitorsDocument;
+			var document = window.WindowResult as VisitorsDocument;
            
             if (document == null)
             {
@@ -500,7 +890,9 @@ namespace SupRealClient.Views
             Model.AddDocument(document);
         }
 
-        private void EditDocument()
+
+
+		private void EditDocument()
         {
             if (SelectedDocument < 0)
             {
@@ -526,26 +918,47 @@ namespace SupRealClient.Views
             {
                 return;
             }
-            Model.RemoveDocument(SelectedDocument);
+
+	        VisitorsDocument deleteItem = CurrentItem?.Documents?[SelectedDocument];
+	        Model.RemoveDocument(SelectedDocument);
+			if (deleteItem != null)
+	        {
+		        switch (deleteItem.Name)
+		        {
+					case _nameDocument_PhotoImageType:
+						RemoveImageSource(ImageType.Photo, _nameDocument_PhotoImageType);
+						break;
+					case _nameDocument_SignatureImageType:
+						RemoveImageSource(ImageType.Signature, _nameDocument_SignatureImageType);
+						break;
+				}
+			}
+
         }
 
-        private void OpenMainDocument()
+        internal void OpenMainDocument()
         {
             if (SelectedMainDocument < 0)
             {
                 return;
             }
+	    
+            if (ButtonEnable)
+            {
+                EditMainDocument();
+                return;
+            }
 
             var window = new VisitorsMainDocumentView(
                new VisitorsMainDocumentModel(
-                   CurrentItem.MainDocuments[SelectedMainDocument]), false);
+                   CurrentItem.MainDocuments[SelectedMainDocument]), false, CurrentItem.Person);
             window.ShowDialog();
         }
 
         private void AddMainDocument()
         {
             var window = new VisitorsMainDocumentView(
-                new VisitorsMainDocumentModel(null), true);
+                new VisitorsMainDocumentModel(null), true,null);
             window.ShowDialog();
             var document = window.WindowResult as VisitorsMainDocument;
 
@@ -557,7 +970,7 @@ namespace SupRealClient.Views
             Model.AddMainDocument(document);
         }
 
-        private void EditMainDocument()
+		private void EditMainDocument()
         {
             if (SelectedMainDocument < 0)
             {
@@ -565,7 +978,7 @@ namespace SupRealClient.Views
             }
             var window = new VisitorsMainDocumentView(
                 new VisitorsMainDocumentModel(
-                    CurrentItem.MainDocuments[SelectedMainDocument]), true);
+                    CurrentItem.MainDocuments[SelectedMainDocument]), true, CurrentItem.Person);
             window.ShowDialog();
             var document = window.WindowResult as VisitorsMainDocument;
 
@@ -586,7 +999,140 @@ namespace SupRealClient.Views
             Model.RemoveMainDocument(SelectedMainDocument);
         }
 
-        public event PropertyChangedEventHandler PropertyChanged;
+	    private void ActivateEditingVisitorComment()
+	    {
+		    if (!IsRedactMode)
+		    {
+			    EditingVisitorCommentMode = true;
+			    _bufer_CurrentItem_Comment = CurrentItem.Comment;
+			    TextEnable = true;
+			}
+		    else
+		    {
+			    EditingVisitorCommentMode = false;
+		    }
+		}
+
+	    private void SavingEditedVisitorComment()
+	    {
+		    _bufer_CurrentItem_Comment = CurrentItem.Comment;
+		    Model.Ok();
+
+		    EndEditingVisitorComment();
+	    }
+
+		private void EndEditingVisitorComment()
+	    {
+			EditingVisitorCommentMode = false;
+		    TextEnable = false;
+	    }
+
+
+
+	    private void AddImageToDocuments(string name,  string fileName)
+	    {
+		    RemoveImageToDocuments(name);
+
+			Guid id = ImagesHelper.LoadImage(fileName);
+			VisitorsDocument visitorsDocument = new VisitorsDocument()
+			{
+				Name = name,
+				TypeId = 0,
+				Images = new List<Guid>() {id},
+				IsChanged = true
+			};
+
+			CurrentItem.Documents.Add(visitorsDocument);
+		}
+
+	    private void RemoveImageToDocuments(string name)
+	    {
+		    if (CurrentItem?.Documents?.Count <= 0)
+		    {
+			    return;
+		    }
+
+		    VisitorsDocument deleteItem = CurrentItem?.Documents?.FirstOrDefault(item => item.Name == name);
+		    CurrentItem?.Documents?.Remove(deleteItem);
+	    }
+
+	    private void Change_ButtonEnable()
+	    {
+		    if (Model is NewVisitsModel || Model is EditVisitsModel)
+		    {
+				// Здесь учитывается инверсия значения переменное "ButtonEnable" при использовании классов NewVisitsModel или EditVisitsModel
+				// Поэтому когда нужно активировать кнопку ButtonEnable = false
+				// Поэтому когда нужно заблокиравать кнопку ButtonEnable = true
+				if (SelectedDocument < 0)
+			    {
+				    EnableButton_OpenDocument_InRedactMode = false;
+				    return;
+			    }
+
+				#region НЕ ИСПОЛЬЗУЕТСЯ Модуль блокирования кнопки "Просмотр", если в списке прикрепленных сканов выбраны пункты "Личная фотография" или "Личная подпись"
+				//   VisitorsDocument deleteItem = CurrentItem?.Documents?[SelectedDocument];
+				//   if (deleteItem != null)
+				//   {
+				//    if (deleteItem.Name != _nameDocument_PhotoImageType && deleteItem.Name != _nameDocument_SignatureImageType)
+				//    {
+				//	    ButtonEnable = false;
+				//	    return;
+				//    }
+				//	 }
+				// 
+				// ButtonEnable = true;
+				#endregion
+
+			    EnableButton_OpenDocument_InRedactMode = true;
+			}
+		}
+
+		#region Realization events
+
+	    private void TestingNameVisitorsDocument(object sender, CancelEventArgs e)
+	    {
+		    if (sender is VisitorsDocumentViewModel)
+		    {
+			    VisitorsDocumentViewModel visitorsDocumentViewModel = sender as VisitorsDocumentViewModel;
+
+			    if (visitorsDocumentViewModel.Name == _nameDocument_PhotoImageType)
+			    {
+				    e.Cancel = false;
+				    if (PhotoSource!="")
+					    MessageBox.Show("Документ с названием " +"\"" + visitorsDocumentViewModel.Name + "\"" + " уже имеется");
+					else
+					    MessageBox.Show("Документ с названием " + "\"" + visitorsDocumentViewModel.Name + "\"" + " невозможно добавить, так как данное название используется только для документа, содержащий личную фотографию");
+					return;
+			    }
+
+			    if (visitorsDocumentViewModel.Name == _nameDocument_SignatureImageType)
+			    {
+				    e.Cancel = false;
+				    if (Signature != "")
+					    MessageBox.Show("Документ с названием " + "\"" + visitorsDocumentViewModel.Name + "\"" + " уже имеется");
+				    else
+					    MessageBox.Show("Документ с названием " + "\"" + visitorsDocumentViewModel.Name + "\"" + " невозможно добавить, так как данное название используется только для документа, содержащий скан личной подписи");
+					return;
+			    }
+
+			    VisitorsDocument findingItem =
+				    CurrentItem?.Documents?.FirstOrDefault(item => item.Name == visitorsDocumentViewModel.Name);
+			    if (findingItem != null)
+			    {
+				    e.Cancel = false;
+				    MessageBox.Show("Документ с названием " + "\"" + visitorsDocumentViewModel.Name + "\"" + " уже имеется");
+			    }
+
+
+
+		    }
+
+
+	    }
+
+		#endregion
+
+		public event PropertyChangedEventHandler PropertyChanged;
 
         [NotifyPropertyChangedInvocator]
         protected virtual void OnPropertyChanged([CallerMemberName] string propertyName = null)
@@ -598,7 +1144,7 @@ namespace SupRealClient.Views
     public interface IVisitsModel
     {
         event ModelPropertyChanged OnModelPropertyChanged;
-
+        event Action<object> OnClose;
         string PhotoSource { get; }
         string Signature { get; }
 
@@ -632,6 +1178,7 @@ namespace SupRealClient.Views
     public abstract class BaseVisitsModel : IVisitsModel
     {
         public event ModelPropertyChanged OnModelPropertyChanged;
+        public virtual event Action<object> OnClose;
 
         private EnumerationClasses.Visitor currentItem;
         protected VisitorsEnableOrVisible visitorsEnable;
@@ -711,7 +1258,15 @@ namespace SupRealClient.Views
             SetImageSource(ImagesHelper.LoadImage(path), imageType);
         }
 
-        public virtual void RemoveImageSource(ImageType imageType)
+	    /// <summary>
+	    /// Загрузка портрета и подписи со сканера.
+	    /// </summary>
+	    public void AddImageSource(byte[] image, ImageType imageType)
+	    {
+		    SetImageSource(ImagesHelper.GetGuidFromByteArray(image), imageType);
+	    }
+
+		public virtual void RemoveImageSource(ImageType imageType)
         {
             SetImageSource(Guid.Empty, imageType);
         }
@@ -774,7 +1329,7 @@ namespace SupRealClient.Views
 
         public void AddMainDocument(VisitorsMainDocument document)
         {
-            CurrentItem.MainDocuments.Add(document);
+		CurrentItem.MainDocuments.Add(document);
             isMainDocumentsChanged = true;
             document.IsChanged = true;
         }
@@ -803,7 +1358,14 @@ namespace SupRealClient.Views
                 MessageBox.Show("Не все поля заполнены корректно!");
                 return false;
             }
-            if (!CurrentItem.IsNotFormular &
+
+
+	        if (!CurrentItem.IsAgree)
+	        {
+		        MessageBox.Show("Нет согласия на обработку персональных данных!");
+		        return false;
+	        }
+			if (!CurrentItem.IsNotFormular &
                 (string.IsNullOrEmpty(CurrentItem.Telephone) ||
                 string.IsNullOrEmpty(CurrentItem.Nation) ||
                 !CurrentItem.MainDocuments.Any()))
@@ -1072,18 +1634,21 @@ namespace SupRealClient.Views
 
     public class VisitsModel : BaseVisitsModel
     {
-        private int selectedIndex;
+	    private bool _textEnable = false;
+	    public override event Action<object> OnClose;
+		public int selectedIndex { get; set; }
 
-        public override bool TextEnable
+
+		public override bool TextEnable
         {
-            get { return false; }
-            set { }
-        }
+            get { return _textEnable; }
+			set { _textEnable = value; }
+		}
 
         public override bool ButtonEnable
         {
             get { return false; }
-            set { }
+	        set {  }
         }
 
         public override bool AccessVisibility
@@ -1133,8 +1698,9 @@ namespace SupRealClient.Views
                     Family = visitors.Field<string>("f_family"),
                     Name = visitors.Field<string>("f_fst_name"),
                     Patronymic = visitors.Field<string>("f_sec_name"),
+                    OrganizationId = visitors.Field<int>("f_org_id"),
                     Organization = OrganizationsHelper.
-                        GenerateFullName(visitors.Field<int>("f_org_id"), true),
+                                   GenerateFullName(visitors.Field<int>("f_org_id"), true),
                     Comment = visitors.Field<string>("f_vr_text"),
                     IsAccessDenied = CommonHelper.StringToBool(visitors.Field<string>(
                         "f_persona_non_grata")),
@@ -1283,11 +1849,12 @@ namespace SupRealClient.Views
                 Set[index].Cards = new ObservableCollection<Card2>(
                     from card in CardsWrapper.CurrentTable().Table.AsEnumerable()
                     join visit in VisitsWrapper.CurrentTable().Table.AsEnumerable()
-                    on card.Field<int>("f_card_id") equals visit.Field<int>("f_card_id")
+                    on new { a = card.Field<int>("f_object_id_hi"), b = card.Field<int>("f_object_id_lo") }
+                    equals new { a = visit.Field<int>("f_card_id_hi"), b = visit.Field<int>("f_card_id_lo") }
                     where visit.Field<int>("f_visitor_id") == Set[index].Id
                     select new Card2
                     {
-                        Card = card.Field<string>("f_card_text"),
+                        Card = card.Field<string>("f_card_name"),
                         From = visit.Field<DateTime>("f_date_from"),
                         To = visit.Field<DateTime>("f_date_to"),
                         Change = visit.Field<DateTime>("f_rec_date"),
@@ -1360,10 +1927,120 @@ namespace SupRealClient.Views
                 " " + date.ToShortDateString() + " " +
                 date.ToShortTimeString();
         }
-    }
+
+		public override bool Ok()
+		{
+			if (!Validate())
+			{
+				return false;
+			}
+
+			DataRow row = VisitorsWrapper.CurrentTable().Table.Rows.Find(
+				CurrentItem.Id);
+
+			row.BeginEdit();
+
+			row["f_rec_date_pass"] = DateTime.Now;
+			row["f_rec_operator_pass"] = Authorizer.AppAuthorizer.Id;
+
+			bool fullNameChanged = false;
+			//if (OldVisitor.Family != CurrentItem.Family)
+			//{
+			//	row["f_family"] = CurrentItem.Family;
+			//	fullNameChanged = true;
+			//}
+			//if (OldVisitor.Name != CurrentItem.Name)
+			//{
+			//	row["f_fst_name"] = CurrentItem.Name;
+			//	fullNameChanged = true;
+			//}
+			//if (OldVisitor.Patronymic != CurrentItem.Patronymic)
+			//{
+			//	row["f_sec_name"] = CurrentItem.Patronymic;
+			//	fullNameChanged = true;
+			//}
+			//if (fullNameChanged)
+			//{
+			//	row["f_full_name"] = CommonHelper.CreateFullName(
+			//		CurrentItem.Family, CurrentItem.Name, CurrentItem.Patronymic);
+			//}
+			//if (OldVisitor.OrganizationId != CurrentItem.OrganizationId)
+			//	row["f_org_id"] = CurrentItem.OrganizationId >= 0 ?
+			//		CurrentItem.OrganizationId : 0;
+			//if (OldVisitor.Comment != CurrentItem.Comment)
+				row["f_vr_text"] = CurrentItem.Comment;
+			//if (OldVisitor.IsAccessDenied != CurrentItem.IsAccessDenied)
+			//{
+			//	row["f_persona_non_grata"] =
+			//		CommonHelper.BoolToString(CurrentItem.IsAccessDenied);
+			//}
+			//if (OldVisitor.IsCanHaveVisitors != CurrentItem.IsCanHaveVisitors)
+			//{
+			//	row["f_can_have_visitors"] =
+			//		CommonHelper.BoolToString(CurrentItem.IsCanHaveVisitors);
+			//}
+			//if (OldVisitor.IsAgree != CurrentItem.IsAgree)
+			//{
+			//	row["f_personal_data_agreement"] =
+			//		CommonHelper.BoolToString(CurrentItem.IsAgree);
+			//}
+			//if (OldVisitor.AgreeToDate != CurrentItem.AgreeToDate)
+			//{
+			//	row["f_personal_data_last_date"] = CurrentItem.AgreeToDate;
+			//}
+			//if (OldVisitor.Telephone != CurrentItem.Telephone)
+			//	row["f_phones"] = CurrentItem.Telephone;
+			//if (OldVisitor.Nation != CurrentItem.Nation)
+			//	row["f_cntr_id"] = CurrentItem.NationId >= 0 ?
+			//		CurrentItem.NationId : 0;
+			//if (OldVisitor.DocType != CurrentItem.DocType)
+			//	row["f_doc_id"] = CurrentItem.DocumentId >= 0 ?
+			//		CurrentItem.DocumentId : 0;
+			//if (OldVisitor.DocSeria != CurrentItem.DocSeria)
+			//	row["f_doc_seria"] = CurrentItem.DocSeria;
+			//if (OldVisitor.DocNum != CurrentItem.DocNum)
+			//	row["f_doc_num"] = CurrentItem.DocNum;
+			//if (OldVisitor.DocDate != CurrentItem.DocDate)
+			//	row["f_doc_date"] = CurrentItem.DocDate;
+			//if (OldVisitor.DocCode != CurrentItem.DocCode)
+			//	row["f_doc_code"] = CurrentItem.DocCode;
+			//if (OldVisitor.DocPlace != CurrentItem.DocPlace)
+			//	row["f_doc_org"] = CurrentItem.DocPlace;
+			//if (OldVisitor.Position != CurrentItem.Position)
+			//	row["f_job"] = CurrentItem.Position;
+			//if (OldVisitor.IsRightSign != CurrentItem.IsRightSign)
+			//{
+			//	row["f_can_sign_orders"] =
+			//		CommonHelper.BoolToString(CurrentItem.IsRightSign);
+			//}
+			//if (OldVisitor.IsAgreement != CurrentItem.IsAgreement)
+			//{
+			//	row["f_can_adjust_orders"] =
+			//		CommonHelper.BoolToString(CurrentItem.IsAgreement);
+			//}
+			//if (OldVisitor.Cabinet != CurrentItem.Cabinet)
+			//{
+			//	row["f_cabinet_id"] = CurrentItem.CabinetId >= 0 ?
+			//		CurrentItem.CabinetId : 0;
+			//}
+			//if (OldVisitor.Department != CurrentItem.Department)
+			//{
+			//	row["f_dep_id"] = CurrentItem.DepartmentId >= 0 ?
+			//		CurrentItem.DepartmentId : 0;
+			//}
+			row.EndEdit();
+
+			SaveAdditionalData(CurrentItem.Id);
+
+			return true;
+		}
+	}
 
     public class NewVisitsModel : BaseVisitsModel
-    {
+	{
+		private bool _buttonEnable = true;
+		public override event Action<object> OnClose;
+
         public override bool TextEnable
         {
             get { return true; }
@@ -1372,8 +2049,8 @@ namespace SupRealClient.Views
 
         public override bool ButtonEnable
         {
-            get { return true; }
-            set { }
+            get { return _buttonEnable; }
+	        set { _buttonEnable = value; }
         }
 
         public override bool AccessVisibility
@@ -1398,7 +2075,8 @@ namespace SupRealClient.Views
                 SearchButtonEnable = false,
                 RefreshButtonEnable = false
             };
-            Set = new ObservableCollection<EnumerationClasses.Visitor>();
+	        ButtonEnable = true;
+			Set = new ObservableCollection<EnumerationClasses.Visitor>();
             CurrentItem = new EnumerationClasses.Visitor() {AgreeToDate=DateTime.Now };
             CurrentItem.MainDocuments = new ObservableCollection<VisitorsMainDocument>();
             CurrentItem.Documents = new ObservableCollection<VisitorsDocument>();
@@ -1438,7 +2116,7 @@ namespace SupRealClient.Views
             row["f_personal_data_agreement"] =
                 CommonHelper.BoolToString(CurrentItem.IsAgree);
             row["f_personal_data_last_date"] = CurrentItem.AgreeToDate;
-
+            row["f_birth_date"] = Convert.ToDateTime(CurrentItem.BirthDate);
             row["f_phones"] = CurrentItem.Telephone ?? "";
             row["f_cntr_id"] = CurrentItem.NationId >= 0 ?
                 CurrentItem.NationId : 0;
@@ -1462,14 +2140,15 @@ namespace SupRealClient.Views
             VisitorsWrapper.CurrentTable().Table.Rows.Add(row);
 
             SaveAdditionalData((int)row["f_visitor_id"]);
-
+            OnClose?.Invoke(CurrentItem);
             return true;
         }
     }
 
     public class EditVisitsModel : BaseVisitsModel
     {
-        public EnumerationClasses.Visitor OldVisitor { get; set; }
+	    private bool _buttonEnable = true;
+		public EnumerationClasses.Visitor OldVisitor { get; set; }
 
         public override bool TextEnable
         {
@@ -1479,8 +2158,8 @@ namespace SupRealClient.Views
 
         public override bool ButtonEnable
         {
-            get { return true; }
-            set { }
+            get { return _buttonEnable; }
+	        set { _buttonEnable = value; }
         }
 
         public override bool AccessVisibility
@@ -1489,29 +2168,29 @@ namespace SupRealClient.Views
             set { }
         }
 
-        public EditVisitsModel(ObservableCollection<EnumerationClasses.Visitor> set, 
-            EnumerationClasses.Visitor visitor)
-        {
-            visitorsEnable =
-            new VisitorsEnableOrVisible
-            {
-                StartButtonEnable = false,
-                PreviousButtonEnable = false,
-                NextButtonEnable = false,
-                EndButtonEnable = false,
-                ExtraditeButtonEnable = false,
-                ReturnButtonEnable = false,
-                NewButtonEnable = false,
-                EditButtonEnable = false,
-                SearchButtonEnable = false,
-                RefreshButtonEnable = false
-            };
-            Set = set;
-            CurrentItem = (EnumerationClasses.Visitor)visitor.Clone();
-            OldVisitor = visitor;
-        }
+	    public EditVisitsModel(ObservableCollection<EnumerationClasses.Visitor> set,
+		    EnumerationClasses.Visitor visitor)
+	    {
+		    visitorsEnable =
+			    new VisitorsEnableOrVisible
+			    {
+				    StartButtonEnable = false,
+				    PreviousButtonEnable = false,
+				    NextButtonEnable = false,
+				    EndButtonEnable = false,
+				    ExtraditeButtonEnable = false,
+				    ReturnButtonEnable = false,
+				    NewButtonEnable = false,
+				    EditButtonEnable = false,
+				    SearchButtonEnable = false,
+				    RefreshButtonEnable = false
+			    };
+		    Set = set;
+		    CurrentItem = (EnumerationClasses.Visitor) visitor?.Clone();
+		    OldVisitor = visitor;
+	    }
 
-        public override bool Ok()
+	    public override bool Ok()
         {
             if (!Validate())
             {

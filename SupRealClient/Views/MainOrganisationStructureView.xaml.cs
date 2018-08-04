@@ -1,4 +1,6 @@
 ﻿using System.Windows;
+using System.Windows.Controls;
+using System.Windows.Input;
 using SupRealClient.ViewModels;
 
 namespace SupRealClient.Views
@@ -15,11 +17,30 @@ namespace SupRealClient.Views
                 Handling_OnClose;
 
             AfterInitialize();
+            tbSearch.Focus();
         }
 
         private void TreeView_OnSelectedItemChanged(object sender, RoutedPropertyChangedEventArgs<object> e)
         {
             ((MainOrganizationViewModel) DataContext).SelectedObject = e.NewValue;
+        }
+
+        private void TreeViewSelectedItemChanged(object sender, RoutedEventArgs e)
+        {
+            TreeViewItem item = sender as TreeViewItem;
+            if (item != null)
+            {
+                item.BringIntoView();
+                e.Handled = true;
+            }
+        }
+
+        private void tbSearch_PreviewKeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.Key == Key.Enter)
+            {
+                ((MainOrganizationViewModel)DataContext).Next();
+            }
         }
     }
 }

@@ -13,35 +13,89 @@ namespace SupRealClient.EnumerationClasses
         public string Descript { get; set; }
         public string Note { get; set; }
 
+        public object Clone()
+        {
+            return this.MemberwiseClone();
+        }
+
     }
 
     public class Door : IdEntity
     {
         public string DoorNum { get; set; }
         public string Descript { get; set; }
-        public int SpaceIn { get; set; }
-        public int SpaceOut { get; set; }
-        public int AccessPointId { get; set; }
+        public int SpaceInId { get; set; }
+        public string SpaceIn { get; set; }
+        public int SpaceOutId { get; set; }
+        public string SpaceOut { get; set; }
+        public int AccessPointIdHi { get; set; }
+        public int AccessPointIdLo { get; set; }
+        public string AccessPoint { get; set; }
+
+        public object Clone()
+        {
+            return this.MemberwiseClone();
+        }
     }
 
+    /// <summary>
+    /// Описание области доступа.
+    /// </summary>
     public class Area : IdEntity
     {
+        public int ObjectIdHi { get; set; }
+        public int ObjectIdLo { get; set; }
         public string Name { get; set; }
         public string Descript { get; set; }
+
+        public object Clone()
+        {
+            return this.MemberwiseClone();
+        }
+    }
+
+    public class AreaOrderElement : IdEntity
+    {
+        public int OrderElementId { get; set; }
+        public int AreaIdHi { get; set; }
+        public int AreaIdLo { get; set; }
     }
 
     public class AreaSpace : IdEntity
     {
-        public int AreaId { get; set; }
+        public int AreaIdHi { get; set; }
+        public int AreaIdLo { get; set; }
+        public string Area { get; set; }
         public int SpaceId { get; set; }
+        public string Space { get; set; }
+
+        public object Clone()
+        {
+            return this.MemberwiseClone();
+        }
     }
 
     public class AccessPoint : IdEntity
     {
+        public int ObjectIdHi { get; set; }
+        public int ObjectIdLo { get; set; }
         public string Name { get; set; }
         public string Descript { get; set; }
         public string SpaceIn { get; set; }
         public string SpaceOut { get; set; }
+
+        public object Clone()
+        {
+            return this.MemberwiseClone();
+        }
+    }
+
+    public class CardArea : IdEntity
+    {
+        public int CardIdHi { get; set; }
+        public int CardIdLo { get; set; }
+        public int AreaIdHi { get; set; }
+        public int AreaIdLo { get; set; }
     }
 
     public class RealKey : IdEntity
@@ -55,15 +109,32 @@ namespace SupRealClient.EnumerationClasses
 
     public class Schedule : IdEntity
     {
-        // Неверно совершенно. Переделать.
+        public int ObjectIdHi { get; set; }
+        public int ObjectIdLo { get; set; }
+        public string Name { get; set; }
+        public string Descript { get; set; }
+
+        public object Clone()
+        {
+            return this.MemberwiseClone();
+        }
     }
 
     public class AccessLevel : IdEntity
     {
-        public int AreaId { get; set; }
+        public int AreaIdHi { get; set; }
+        public int AreaIdLo { get; set; }
+        public string Area { get; set; }
         public string Name { get; set; }
-        public int ScheduleId { get; set; }
+        public int ScheduleIdHi { get; set; }
+        public int ScheduleIdLo { get; set; }
+        public string Schedule { get; set; }
         public string AccessLevelNote { get; set; }
+
+        public object Clone()
+        {
+            return this.MemberwiseClone();
+        }
     }
 
     public class Car : IdEntity

@@ -54,9 +54,12 @@
             SelectedValue="{Binding Path=Type, Mode=OneWay}"
             Text="{Binding Path=Type, Mode=TwoWay}"
             Margin="2"
-            IsEditable="True"
+            IsEditable="True"  
+            StaysOpenOnEdit="True"
+            IsTextSearchEnabled="False"      
             ItemsSource="{Binding Path=TypeList}"
-            KeyUp="TextBox_OnKeyUp" />
+            KeyUp="TextBox_OnKeyUp"   
+            />
 
         <TextBlock 
             Grid.Row="2" 
@@ -71,9 +74,12 @@
             Grid.Row="3" 
             Grid.Column="0"
             Grid.ColumnSpan="4" 
+            x:Name="NameTextBox"
             Margin="2"
             TabIndex="1"
-            IsEditable="True"
+            IsEditable="True"  
+            StaysOpenOnEdit="True"
+            IsTextSearchEnabled="False"
             FontSize="{Binding FontSize}"
             SelectedValue="{Binding Path=Name, Mode=OneWay}"
             Text="{Binding Path=Name, Mode=TwoWay}"
@@ -123,6 +129,7 @@
             />
         
         <Button
+            Name="butFullName"
             Command="{Binding FullNameCommand}"
             Grid.Row="7"
             Grid.Column="2"

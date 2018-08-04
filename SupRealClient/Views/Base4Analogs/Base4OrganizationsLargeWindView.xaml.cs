@@ -24,6 +24,8 @@ namespace SupRealClient.Views
             InitializeComponent();
             base4.tbxSearch.Focus();
             AfterInitialize();
+            (base4.DataContext as Base4ViewModel<EnumerationClasses.Organization>).OkVisibility = Visibility.Hidden;
+            (base4.DataContext as Base4ViewModel<EnumerationClasses.Organization>).ScrollCurrentItem = base4.ScrollIntoViewCurrentItem;
             base4.Focus();
         }
 
@@ -51,6 +53,18 @@ namespace SupRealClient.Views
             {
                 Header = "Основное название",
                 Binding = new Binding("FullName")
+            };
+            base4.baseTab.Columns.Add(dataGridTextColumn);
+            dataGridTextColumn = new DataGridTextColumn
+            {
+                Header = "Страна",
+                Binding = new Binding("Country")
+            };
+            base4.baseTab.Columns.Add(dataGridTextColumn);
+            dataGridTextColumn = new DataGridTextColumn
+            {
+                Header = "Регион",
+                Binding = new Binding("Region")
             };
             base4.baseTab.Columns.Add(dataGridTextColumn);
         }

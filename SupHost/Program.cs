@@ -12,6 +12,7 @@ using System.Reflection;
 
 using SupContract;
 using SupHost.Connectors;
+using SupHost.Andover;
 
 /// <summary>
 /// Хост суп предназначен для:
@@ -73,6 +74,8 @@ namespace SupHost
                     Console.WriteLine("1. Нажмите <ENTER> для закрытия сервера.");
                     Console.WriteLine("2. Нажмите v для проверки соединения с " +
                         "базой данных Visitors");
+                    Console.WriteLine("3. Нажмите a для проверки соединения с " +
+                        "AndoverAgent");
                     string mes = Console.ReadLine();
                     if (mes == "")
                     {
@@ -87,6 +90,19 @@ namespace SupHost
                         else
                         {
                             logger.Warn("Соединение с БД настроено неправильно");
+                        }
+                        continue;
+                    }
+                    if (mes == "a")
+                    {
+                        var andoverManager = new AndoverManager(null);
+                        if (andoverManager.Ping())
+                        {
+                            logger.Info("Соединение с AndoverAgent нормальное");
+                        }
+                        else
+                        {
+                            logger.Warn("Соединение с AndoverAgent настроено неправильно");
                         }
                         continue;
                     }

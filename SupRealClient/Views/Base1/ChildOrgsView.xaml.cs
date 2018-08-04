@@ -14,13 +14,14 @@ namespace SupRealClient.Views
         public ChildOrgsView()
         {
             InitializeComponent();
-            Base1ModelAbstr b = new ChildOrgsModel(
+            /*Base1ModelAbstr b = new ChildOrgsModel(
                 (Base1ViewModel)base1.DataContext, this);
             b.OnClose += Handling_OnClose;
             base1.SetViewModel(b);
-            AfterInitialize();
+            base1.btnUpdate.Visibility = Visibility.Collapsed; // Hide button "Edit".
+            AfterInitialize();*/
         }
-
+        /*
         partial void CreateColumns()
         {
             DataGridTextColumn dataGridTextColumn = new DataGridTextColumn
@@ -37,6 +38,6 @@ namespace SupRealClient.Views
             base1.BaseTab.Columns.Add(dataGridTextColumn);
             base1.btnUpdate.Content = "Удалить";
             base1.SetDefaultColumn();
-        }
+        }*/
     }
 }

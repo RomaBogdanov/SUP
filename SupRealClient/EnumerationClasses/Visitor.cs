@@ -1,18 +1,39 @@
 ﻿using System;
 using System.Collections.ObjectModel;
+using System.Data;
+using System.Linq;
+using RegulaLib;
+using SupRealClient.Models;
+using SupRealClient.TabsSingleton;
 
 namespace SupRealClient.EnumerationClasses
 {
     public class Visitor : IdEntity, ICloneable
     {
+        private int organizationId;
+
         public string FullName { get; set; }
         public string Family { get; set; }
         public string Name { get; set; }
         public string Patronymic { get; set; }
         public string BirthDate { get; set; }
-        public int OrganizationId { get; set; }
+
+        public int OrganizationId
+        {
+            get { return organizationId;}
+            set
+            {
+                organizationId = value;
+                /*DataRow row = OrganizationsWrapper.CurrentTable()
+                    .Table.AsEnumerable().FirstOrDefault(arg =>
+                        arg.Field<int>("f_org_id") ==
+                        organizationId);*/ //["f_org_name"]; //["f_full_org_name"];;
+                Organization = OrganizationsHelper.GenerateFullName(organizationId, true);
+            }
+        }
         public string Organization { get; set; }
-        public string Comment { get; set; }
+	    public bool OrganizationIsMaster{get;set;}
+		public string Comment { get; set; }
         public bool IsAccessDenied { get; set; }
         public bool IsCanHaveVisitors { get; set; }
         public bool IsNotFormular { get; set; }
@@ -36,7 +57,12 @@ namespace SupRealClient.EnumerationClasses
         public bool IsAgreement { get; set; }
         public int CabinetId { get; set; }
         public string Cabinet { get; set; }
-        public ObservableCollection<Order> Orders { get; set; }
+
+	/// <summary>
+	/// RegulaLib.CPerson
+	/// </summary>
+	public CPerson Person { get; set; }
+	public ObservableCollection<Order> Orders { get; set; }
         public ObservableCollection<Card2> Cards { get; set; }
         public ObservableCollection<VisitorsMainDocument> MainDocuments { get; set; }
         public ObservableCollection<VisitorsDocument> Documents { get; set; }

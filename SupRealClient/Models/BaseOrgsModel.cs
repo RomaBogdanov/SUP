@@ -19,7 +19,7 @@ namespace SupRealClient.Models
         public override void Add()
         {
             //ViewManager.Instance.AddObject(new AddMasterOrgsModel(), parent);
-            var wind = new AddOrgsListView(new AddBaseOrgsListModel());
+            var wind = new AddOrgsListView(new AddBaseOrgsListModel(parent));
             wind.ShowDialog();
         }
 

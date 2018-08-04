@@ -104,13 +104,82 @@ namespace SupRealClient.Models
                         .Table.AsEnumerable().FirstOrDefault(
                         arg => arg.Field<int>("f_region_id") ==
                         orgs.Field<int>("f_region_id"))["f_region_name"].ToString(),
-                    SynId = orgs.Field<int>("f_syn_id")
-                }).FirstOrDefault();
+                    SynId = orgs.Field<int>("f_syn_id"),
+	                IsMaster_ToString = orgs.Field<string>("f_is_master")
+				}).FirstOrDefault();
 
             return GenerateFullName(org, calculated);
         }
 
-        public static string GenerateFullName(Organization organization)
+	    public static Organization GetOrganization(int id, bool calculated = false)
+	    {
+		    if (id <= 0)
+		    {
+			    return null;
+		    }
+
+		    var org = (from orgs in OrganizationsWrapper.CurrentTable().
+				    Table.AsEnumerable()
+			    where orgs.Field<int>("f_org_id") == id
+			    select new Organization
+			    {
+				    Id = orgs.Field<int>("f_org_id"),
+				    Type = orgs.Field<string>("f_org_type"),
+				    Name = UntrimName(orgs.Field<string>("f_org_name")),
+				    CountryId = orgs.Field<int>("f_cntr_id"),
+				    Country = orgs.Field<int>("f_cntr_id") == 0 ?
+					    "" : CountriesWrapper.CurrentTable()
+						    .Table.AsEnumerable().FirstOrDefault(
+							    arg => arg.Field<int>("f_cntr_id") ==
+							           orgs.Field<int>("f_cntr_id"))["f_cntr_name"].ToString(),
+				    RegionId = orgs.Field<int>("f_region_id"),
+				    Region = orgs.Field<int>("f_region_id") == 0 ?
+					    "" : RegionsWrapper.CurrentTable()
+						    .Table.AsEnumerable().FirstOrDefault(
+							    arg => arg.Field<int>("f_region_id") ==
+							           orgs.Field<int>("f_region_id"))["f_region_name"].ToString(),
+				    SynId = orgs.Field<int>("f_syn_id"),
+				    IsMaster_ToString = orgs.Field<string>("f_is_master")
+			    }).FirstOrDefault();
+
+		    return org;
+	    }
+
+	    public static bool GetMasterParametr(int id, bool calculated = false)
+	    {
+		    if (id <= 0)
+		    {
+			    return false;
+		    }
+
+		    var org = (from orgs in OrganizationsWrapper.CurrentTable().
+				    Table.AsEnumerable()
+			    where orgs.Field<int>("f_org_id") == id
+			    select new Organization
+			    {
+				    Id = orgs.Field<int>("f_org_id"),
+				    Type = orgs.Field<string>("f_org_type"),
+				    Name = UntrimName(orgs.Field<string>("f_org_name")),
+				    CountryId = orgs.Field<int>("f_cntr_id"),
+				    Country = orgs.Field<int>("f_cntr_id") == 0 ?
+					    "" : CountriesWrapper.CurrentTable()
+						    .Table.AsEnumerable().FirstOrDefault(
+							    arg => arg.Field<int>("f_cntr_id") ==
+							           orgs.Field<int>("f_cntr_id"))["f_cntr_name"].ToString(),
+				    RegionId = orgs.Field<int>("f_region_id"),
+				    Region = orgs.Field<int>("f_region_id") == 0 ?
+					    "" : RegionsWrapper.CurrentTable()
+						    .Table.AsEnumerable().FirstOrDefault(
+							    arg => arg.Field<int>("f_region_id") ==
+							           orgs.Field<int>("f_region_id"))["f_region_name"].ToString(),
+				    SynId = orgs.Field<int>("f_syn_id"),
+				    IsMaster_ToString = orgs.Field<string>("f_is_master")
+			    }).FirstOrDefault();
+
+		    return org.IsMaster;
+	    }
+
+		public static string GenerateFullName(Organization organization)
         {
             var sb = new StringBuilder();
             sb.Append(organization.Type);
@@ -149,38 +218,38 @@ namespace SupRealClient.Models
                   select orgs.Field<int?>("f_syn_id")).Any();
         }
 
-        public static KeyValuePair<string, List<string>> GetSynonims(Organization org)
+        public static KeyValuePair<string, Dictionary<int, string>> GetSynonims(Organization org)
         {
             string fullName = GenerateFullName(org, org.SynId == 0);
-            var synonims = new List<string>(
+            var synonims =
                 (from orgs in OrganizationsWrapper.CurrentTable().
                     Table.AsEnumerable()
-                    where orgs.Field<int>("f_syn_id") ==
-                    (org.SynId == 0 ? org.Id : org.SynId) &&
-                    orgs.Field<int>("f_org_id") != org.Id
+                 where orgs.Field<int>("f_syn_id") ==
+                 (org.SynId == 0 ? org.Id : org.SynId) &&
+                 orgs.Field<int>("f_org_id") != org.Id
                  select new Organization
-                    {
-                        Id = orgs.Field<int>("f_org_id"),
-                        Type = orgs.Field<string>("f_org_type"),
-                        Name = UntrimName(orgs.Field<string>("f_org_name")),
-                        CountryId = orgs.Field<int>("f_cntr_id"),
-                        Country = orgs.Field<int>("f_cntr_id") == 0 ?
+                 {
+                     Id = orgs.Field<int>("f_org_id"),
+                     Type = orgs.Field<string>("f_org_type"),
+                     Name = UntrimName(orgs.Field<string>("f_org_name")),
+                     CountryId = orgs.Field<int>("f_cntr_id"),
+                     Country = orgs.Field<int>("f_cntr_id") == 0 ?
                             "" : CountriesWrapper.CurrentTable()
                             .Table.AsEnumerable().FirstOrDefault(
                             arg => arg.Field<int>("f_cntr_id") ==
                             orgs.Field<int>("f_cntr_id"))["f_cntr_name"].
                             ToString(),
-                        RegionId = orgs.Field<int>("f_region_id"),
-                        Region = orgs.Field<int>("f_region_id") == 0 ?
+                     RegionId = orgs.Field<int>("f_region_id"),
+                     Region = orgs.Field<int>("f_region_id") == 0 ?
                             "" : RegionsWrapper.CurrentTable()
                             .Table.AsEnumerable().FirstOrDefault(
                             arg => arg.Field<int>("f_region_id") ==
                             orgs.Field<int>("f_region_id"))["f_region_name"].
                             ToString(),
-                        SynId = orgs.Field<int>("f_syn_id")
-                    }).Select(o => GenerateFullName(o)));
+                     SynId = orgs.Field<int>("f_syn_id")
+                 }).ToDictionary(o => o.Id, o => GenerateFullName(o));
            
-            return new KeyValuePair<string, List<string>>(fullName, synonims);
+            return new KeyValuePair<string, Dictionary<int, string>>(fullName, synonims);
         }
 
         private static string GenerateFullName(Organization organization, bool calculated)

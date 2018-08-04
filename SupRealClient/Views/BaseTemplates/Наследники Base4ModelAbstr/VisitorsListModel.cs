@@ -3,6 +3,7 @@ using System.Collections.ObjectModel;
 using SupRealClient.TabsSingleton;
 using System.Data;
 using SupRealClient.Common;
+using System.Collections.Generic;
 
 namespace SupRealClient.Views
 {
@@ -21,25 +22,26 @@ namespace SupRealClient.Views
 
         public override void Add()
         {
-            Visitor.AddVisitorView wind = new Visitor.AddVisitorView();
-            wind.Show();
+            //Visitor.AddVisitorView wind = new Visitor.AddVisitorView();
+            //wind.Show();
+            //ViewManager.Instance.OpenWindow("VisitorsViewNew");
+            /*VisitorsView.Instance.Show();
+            VisitorsView.Instance.NewVisitor();*/
+            //object res = ViewManager.Instance.OpenWindowModal("VisitorsView");
+            ViewManager.Instance.OpenWindow("VisitorsView", this.Parent);
         }
 
         public override void Farther()
         {
-            System.Windows.Forms.MessageBox.Show("Farther");
+            SetAt(searchResult.Next());
         }
 
-        public override void Search()
-        {
-            System.Windows.Forms.MessageBox.Show("Search");
-        }
-
+        
         public override void Update()
         {
             if (CurrentItem != null)
-            {
-                System.Windows.Forms.MessageBox.Show("Update");
+            { 
+                ViewManager.Instance.OpenWindow("VisitorsView", this.Parent);
             }
         }
 
@@ -67,10 +69,6 @@ namespace SupRealClient.Views
                     Id = visitors.Field<int>("f_visitor_id"),
                     FullName = visitors.Field<string>("f_full_name"),
                     OrganizationId = visitors.Field<int>("f_org_id"),
-                    Organization = (string)OrganizationsWrapper.CurrentTable()
-                        .Table.AsEnumerable().FirstOrDefault(arg =>
-                        arg.Field<int>("f_org_id") == 
-                        visitors.Field<int>("f_org_id"))["f_full_org_name"],
                     Comment = visitors.Field<string>("f_vr_text")
                 }
                 );
@@ -79,6 +77,16 @@ namespace SupRealClient.Views
         public override long GetId(int index)
         {
             return Rows[index].Field<int>("f_visitor_id");
+        }
+
+        public override IDictionary<string, string> GetFields()
+        {
+            return new Dictionary<string, string>
+            {                
+                { "FullName", "ФИО" },
+                { "Organization", "Организация" },
+                { "Comment", "Примечание" },
+            };
         }
 
         protected override DataTable Table

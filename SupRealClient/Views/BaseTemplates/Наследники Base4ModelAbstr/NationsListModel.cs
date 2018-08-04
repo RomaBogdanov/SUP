@@ -6,6 +6,7 @@ using SupRealClient.TabsSingleton;
 using System.Data;
 using SupRealClient.Models;
 using SupRealClient.Common;
+using System.Windows;
 
 namespace SupRealClient.Views
 {
@@ -39,6 +40,7 @@ namespace SupRealClient.Views
                  CommonHelper.NotDeleted(orgs)
                  select orgs).Any())
             {
+                MessageBox.Show("Страну невозможно удалить, т.к. она связана с посетителями!");
                 return false;
             }
 
@@ -47,6 +49,7 @@ namespace SupRealClient.Views
                  CommonHelper.NotDeleted(regs)
                  select regs).Any())
             {
+                MessageBox.Show("Страну невозможно удалить, т.к. она связана с регионом!");
                 return false;
             }
 
@@ -84,7 +87,7 @@ namespace SupRealClient.Views
         {
             return new Dictionary<string, string>()
             {
-                { "f_cntr_name", "Название" }
+                { "CountryName", "Название" }
             };
         }
 

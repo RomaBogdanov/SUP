@@ -5,6 +5,7 @@ using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows.Media;
 using SupRealClient.Annotations;
 using SupRealClient.Models.OrganizationStructure.Interfaces;
 
@@ -20,6 +21,40 @@ namespace SupRealClient.Models.OrganizationStructure
                 _description = value; 
                 OnPropertyChanged();
             }
+        }
+
+        public bool IsExpanded
+        {
+            get { return _isExpanded; }
+            set
+            {
+                if (value != _isExpanded)
+                {
+                    _isExpanded = value;
+                    this.OnPropertyChanged("IsExpanded");
+                }
+            }
+        }
+        private bool _isExpanded;
+
+        public bool IsSelected
+        {
+            get { return _isSelected; }
+            set
+            {
+                if (value != _isSelected)
+                {
+                    _isSelected = value;
+                    this.OnPropertyChanged("IsSelected");
+                    this.OnPropertyChanged("Background");
+                }
+            }
+        }
+        private bool _isSelected;
+
+        public Brush Background
+        {
+            get { return IsSelected ? new SolidColorBrush(Color.FromRgb(0xCC, 0xDA, 0xFF)) : Brushes.Transparent; }
         }
 
         public int Id;

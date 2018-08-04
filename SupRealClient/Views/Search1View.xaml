@@ -1,21 +1,23 @@
-﻿<Window x:Class="SupRealClient.Views.Search1View"
+﻿<mah:MetroWindow x:Class="SupRealClient.Views.Search1View"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
 		xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
-        mc:Ignorable="d" Title="Поиск" Height="310" Width="300">
+        xmlns:mah="http://metro.mahapps.com/winfx/xaml/controls"
+        ShowMinButton="False" ShowMaxRestoreButton="False"
+        mc:Ignorable="d" Title="Поиск" Height="350" Width="300">
 
-    <Window.InputBindings>
+    <mah:MetroWindow.InputBindings>
         <KeyBinding Key="Escape" Command="{Binding Cancel}"/>
-    </Window.InputBindings>
+        <KeyBinding Gesture="Ctrl+G" Command="{Binding Next}"/>
+    </mah:MetroWindow.InputBindings>
 
     <Grid FocusManager.FocusedElement="{Binding ElementName=SearchText}">
         <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="2*"/>
-            <ColumnDefinition Width="2*"/>
-            <ColumnDefinition Width="1*"/>
-            <ColumnDefinition Width="2*"/>
+            <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width="*"/>
         </Grid.ColumnDefinitions>
         <Grid.RowDefinitions>
             <RowDefinition Height="65"/>
@@ -23,7 +25,7 @@
             <RowDefinition Height="65"/>
             <RowDefinition Height="*"/>
         </Grid.RowDefinitions>
-        <GroupBox Header="Значение поля" Grid.Row="0" Grid.ColumnSpan="4">
+        <GroupBox Header="Значение поля" Grid.Row="0" Grid.ColumnSpan="3">
             <TextBox Name="SearchText" Text="{Binding Path=Text, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}">
 				<i:Interaction.Triggers>
 					<i:EventTrigger EventName="TextChanged">
@@ -32,7 +34,7 @@
 				</i:Interaction.Triggers>
 			</TextBox>
         </GroupBox>
-        <GroupBox Header="Тип поиска" Grid.Row="1" Grid.ColumnSpan="4">
+        <GroupBox Header="Тип поиска" Grid.Row="1" Grid.ColumnSpan="3">
             <StackPanel>
 				<CheckBox Content="Учитывать регистр" IsChecked="{Binding Path=Register, Mode=TwoWay}">
 					<i:Interaction.Triggers>
@@ -67,7 +69,7 @@
 				</RadioButton>
             </StackPanel>
         </GroupBox>
-        <GroupBox Header="Поля" Grid.Row="2" Grid.ColumnSpan="4">
+        <GroupBox Header="Поля" Grid.Row="2" Grid.ColumnSpan="3">
 			<ComboBox ItemsSource="{Binding Path=Fields, Mode=OneWay}" DisplayMemberPath="Value" SelectedValuePath="Key" SelectedValue="{Binding Path=Field, Mode=TwoWay}">
 				<i:Interaction.Triggers>
 					<i:EventTrigger EventName="SelectionChanged">
@@ -76,8 +78,76 @@
 				</i:Interaction.Triggers>
 			</ComboBox> 
 		</GroupBox>
-		<Button Grid.Row="3" Grid.Column="0" Content="Начало" Command="{Binding Begin}" IsEnabled="{Binding Path=BeginEnabled, Mode=OneWay}"></Button>
-		<Button Grid.Row="3" Grid.Column="1" Content="Далее" Command="{Binding Next}" IsEnabled="{Binding Path=NextEnabled, Mode=OneWay}"></Button>
-		<Button Grid.Row="3" Grid.Column="3" Content="Отмена" Command="{Binding Cancel}"></Button>
+        <Button 
+            Grid.Row="3"
+            Grid.Column="0"
+            Margin="1" 
+            Command="{Binding Path=Begin}" 
+            IsEnabled="{Binding Path=BeginEnabled, Mode=OneWay}"
+            Style="{StaticResource VisitorsSquareButtonStyle}">
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition/>
+                    <RowDefinition Height="0.4*"/>
+                </Grid.RowDefinitions>
+
+                <Image
+                            Grid.Row="0"
+                            Source="../Resources/Начало (2).ico"/>
+
+                <TextBlock
+                            Grid.Row="1"
+                            Text="Начало"
+                            FontSize="12"
+                            Style="{StaticResource TextBLockStyle}"/>
+            </Grid>
+        </Button>
+        <Button 
+            Grid.Row="3" 
+            Grid.Column="1" 
+            Margin="1" 
+            Command="{Binding Path=Next}" 
+            Style="{StaticResource VisitorsSquareButtonStyle}" 
+            IsEnabled="{Binding Path=NextEnabled, Mode=OneWay}">
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition />
+                    <RowDefinition Height="0.4*"/>
+                </Grid.RowDefinitions>
+
+                <Image
+                    Grid.Row="0"
+                    Source="../Resources/Далее.ico"/>
+
+                <TextBlock
+                    Grid.Row="1"
+                    Text="Далее..."
+                    FontSize="{Binding FontSize}"
+                    Style="{StaticResource TextBLockDetailStyle}"/>
+            </Grid>
+        </Button>
+        <Button 
+            Grid.Row="3" 
+            Grid.Column="2" 
+            Margin="1" 
+            Command="{Binding Path=Cancel}" 
+            Style="{StaticResource VisitorsSquareButtonStyle}">
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition />
+                    <RowDefinition Height="0.4*"/>
+                </Grid.RowDefinitions>
+
+                <Image
+                    Grid.Row="0"
+                    Source="../Resources/Отмена (2).ico"/>
+
+                <TextBlock
+                    Grid.Row="1"
+                    Text="Закрыть"
+                    FontSize="{Binding FontSize}"
+                    Style="{StaticResource TextBLockDetailStyle}"/>
+            </Grid>
+        </Button>
     </Grid>
-</Window>
+</mah:MetroWindow>

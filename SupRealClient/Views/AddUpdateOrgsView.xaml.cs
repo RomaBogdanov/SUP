@@ -5,6 +5,7 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Data;
 using System.Windows.Input;
+using System.Windows.Media;
 
 namespace SupRealClient.Views
 {
@@ -16,15 +17,15 @@ namespace SupRealClient.Views
         /// <summary>
         /// Двигатель фокуса
         /// </summary>
-        private TraversalRequest _focusMover = new TraversalRequest(FocusNavigationDirection.Next);        
-
+        private TraversalRequest _focusMover = new TraversalRequest(FocusNavigationDirection.Next);
+        
         public AddUpdateOrgsView(IAddUpdateOrgsModel model)
         {
             model.OnClose += Handling_OnClose;
             DataContext = new AddUpdateOrgsViewModel();
             ((AddUpdateOrgsViewModel)DataContext).SetModel(model);
             InitializeComponent();
-
+            
             AfterInitialize();            
         }
 
@@ -40,6 +41,9 @@ namespace SupRealClient.Views
         private void MetroWindow_Loaded(object sender, RoutedEventArgs e)
         {
             TypeTextBox.Focus();
+
+            if (!butFullName.IsEnabled)
+                 this.Background = Brushes.LightGreen;
         }
 
         private void TextBox_OnKeyUp(object sender, KeyEventArgs e)
@@ -51,6 +55,14 @@ namespace SupRealClient.Views
                 {
                     elementWithFocus.MoveFocus(_focusMover);
                 }
+            }
+            else if (sender is ComboBox && ((ComboBox)sender).Name == "TypeTextBox")
+            {
+                TypeTextBoxTextChanged(sender, e);
+            }
+            else if (sender is ComboBox && ((ComboBox)sender).Name == "NameTextBox")
+            {
+                NameTextBoxTextChanged(sender, e);
             }
         }
 
@@ -69,5 +81,57 @@ namespace SupRealClient.Views
                 btnOK.Command.Execute(null);
             }
         }
-    }
+
+        int selectionStartType;
+        void TypeTextBoxTextChanged(object sender, KeyEventArgs e)
+        {
+            if (e.Key == Key.Left || e.Key == Key.Right || e.Key == Key.Escape)
+                return;
+            
+            var textBox = (TypeTextBox.Template.FindName("PART_EditableTextBox",
+                           TypeTextBox) as TextBox);    
+
+            if (e.Key != Key.Up && e.Key != Key.Down)
+            {
+                selectionStartType = textBox.SelectionStart;
+                CollectionView cv = ((AddUpdateOrgsViewModel)DataContext).TypeList;
+                cv.Refresh();
+            }
+            else
+                selectionStartType = textBox.Text.Length;
+
+            if (TypeTextBox.Items.Count > 0)
+                TypeTextBox.IsDropDownOpen = true;
+            else
+                TypeTextBox.IsDropDownOpen = false;
+
+            textBox.SelectionStart = selectionStartType;            
+        }
+
+        int selectionStartName;
+        void NameTextBoxTextChanged(object sender, KeyEventArgs e)
+        {
+            if (e.Key == Key.Left || e.Key == Key.Right || e.Key == Key.Escape)
+                return;
+
+            var textBox = (NameTextBox.Template.FindName("PART_EditableTextBox",
+                           NameTextBox) as TextBox);
+
+            if (e.Key != Key.Up && e.Key != Key.Down)
+            {
+                selectionStartName = textBox.SelectionStart;
+                CollectionView cv = ((AddUpdateOrgsViewModel)DataContext).DescriptionList;
+                cv.Refresh();
+            }
+            else
+                selectionStartName = textBox.Text.Length;
+
+            if (NameTextBox.Items.Count > 0)
+                NameTextBox.IsDropDownOpen = true;
+            else
+                NameTextBox.IsDropDownOpen = false;
+
+            textBox.SelectionStart = selectionStartName;
+        }        
+    } 
 }

@@ -730,6 +730,36 @@ namespace SupRealClient.TabsSingleton
 	/// <summary>
 	/// ??
 	/// </summary>
+	partial class AreasExtWrapper : TableWrapper
+	{
+		static AreasExtWrapper currentTable;
+
+        public static AreasExtWrapper CurrentTable()
+        {
+            if (currentTable == null)
+            {
+                currentTable = new AreasExtWrapper();
+                wrappers.Add(currentTable);
+            }
+            return currentTable;
+        }
+
+		public override void Dispose()
+        {
+            base.Dispose();
+            currentTable = null;
+        }
+
+        private AreasExtWrapper() : base()
+        {
+            this.table = connector.GetTable(TableName.VisAreasExt);
+            this.Subscribe();
+        }
+    }
+
+	/// <summary>
+	/// ??
+	/// </summary>
 	partial class AreasSpacesWrapper : TableWrapper
 	{
 		static AreasSpacesWrapper currentTable;
@@ -790,6 +820,36 @@ namespace SupRealClient.TabsSingleton
 	/// <summary>
 	/// ??
 	/// </summary>
+	partial class AccessPointsExtWrapper : TableWrapper
+	{
+		static AccessPointsExtWrapper currentTable;
+
+        public static AccessPointsExtWrapper CurrentTable()
+        {
+            if (currentTable == null)
+            {
+                currentTable = new AccessPointsExtWrapper();
+                wrappers.Add(currentTable);
+            }
+            return currentTable;
+        }
+
+		public override void Dispose()
+        {
+            base.Dispose();
+            currentTable = null;
+        }
+
+        private AccessPointsExtWrapper() : base()
+        {
+            this.table = connector.GetTable(TableName.VisAccessPointsExt);
+            this.Subscribe();
+        }
+    }
+
+	/// <summary>
+	/// ??
+	/// </summary>
 	partial class KeysWrapper : TableWrapper
 	{
 		static KeysWrapper currentTable;
@@ -843,6 +903,36 @@ namespace SupRealClient.TabsSingleton
         private SchedulesWrapper() : base()
         {
             this.table = connector.GetTable(TableName.VisSchedules);
+            this.Subscribe();
+        }
+    }
+
+	/// <summary>
+	/// ??
+	/// </summary>
+	partial class SchedulesExtWrapper : TableWrapper
+	{
+		static SchedulesExtWrapper currentTable;
+
+        public static SchedulesExtWrapper CurrentTable()
+        {
+            if (currentTable == null)
+            {
+                currentTable = new SchedulesExtWrapper();
+                wrappers.Add(currentTable);
+            }
+            return currentTable;
+        }
+
+		public override void Dispose()
+        {
+            base.Dispose();
+            currentTable = null;
+        }
+
+        private SchedulesExtWrapper() : base()
+        {
+            this.table = connector.GetTable(TableName.VisSchedulesExt);
             this.Subscribe();
         }
     }
@@ -993,6 +1083,126 @@ namespace SupRealClient.TabsSingleton
         private KeyHoldersWrapper() : base()
         {
             this.table = connector.GetTable(TableName.VisKeyHolders);
+            this.Subscribe();
+        }
+    }
+
+	/// <summary>
+	/// ??
+	/// </summary>
+	partial class AreaOrderElementWrapper : TableWrapper
+	{
+		static AreaOrderElementWrapper currentTable;
+
+        public static AreaOrderElementWrapper CurrentTable()
+        {
+            if (currentTable == null)
+            {
+                currentTable = new AreaOrderElementWrapper();
+                wrappers.Add(currentTable);
+            }
+            return currentTable;
+        }
+
+		public override void Dispose()
+        {
+            base.Dispose();
+            currentTable = null;
+        }
+
+        private AreaOrderElementWrapper() : base()
+        {
+            this.table = connector.GetTable(TableName.VisAreaOrderElement);
+            this.Subscribe();
+        }
+    }
+
+	/// <summary>
+	/// ??
+	/// </summary>
+	partial class CardAreaWrapper : TableWrapper
+	{
+		static CardAreaWrapper currentTable;
+
+        public static CardAreaWrapper CurrentTable()
+        {
+            if (currentTable == null)
+            {
+                currentTable = new CardAreaWrapper();
+                wrappers.Add(currentTable);
+            }
+            return currentTable;
+        }
+
+		public override void Dispose()
+        {
+            base.Dispose();
+            currentTable = null;
+        }
+
+        private CardAreaWrapper() : base()
+        {
+            this.table = connector.GetTable(TableName.VisCardArea);
+            this.Subscribe();
+        }
+    }
+
+	/// <summary>
+	/// ??
+	/// </summary>
+	partial class TemplatesWrapper : TableWrapper
+	{
+		static TemplatesWrapper currentTable;
+
+        public static TemplatesWrapper CurrentTable()
+        {
+            if (currentTable == null)
+            {
+                currentTable = new TemplatesWrapper();
+                wrappers.Add(currentTable);
+            }
+            return currentTable;
+        }
+
+		public override void Dispose()
+        {
+            base.Dispose();
+            currentTable = null;
+        }
+
+        private TemplatesWrapper() : base()
+        {
+            this.table = connector.GetTable(TableName.VisTemplates);
+            this.Subscribe();
+        }
+    }
+
+	/// <summary>
+	/// ??
+	/// </summary>
+	partial class TemplatesAreasWrapper : TableWrapper
+	{
+		static TemplatesAreasWrapper currentTable;
+
+        public static TemplatesAreasWrapper CurrentTable()
+        {
+            if (currentTable == null)
+            {
+                currentTable = new TemplatesAreasWrapper();
+                wrappers.Add(currentTable);
+            }
+            return currentTable;
+        }
+
+		public override void Dispose()
+        {
+            base.Dispose();
+            currentTable = null;
+        }
+
+        private TemplatesAreasWrapper() : base()
+        {
+            this.table = connector.GetTable(TableName.VisTemplatesAreas);
             this.Subscribe();
         }
     }

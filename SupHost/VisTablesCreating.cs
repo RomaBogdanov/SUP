@@ -426,6 +426,27 @@ namespace SupHost
 		}
     }
     /// <summary>
+    /// TableBehavior для Области доступа (дополнительная информация)
+    /// </summary>
+    partial class VisAreasExtTableBehavior : VisitorsDBTableBehavior
+    {
+        public VisAreasExtTableBehavior()
+        {
+            this.StandartSetup("vis_areas_ext", "f_area_id");
+        }
+    }
+
+    /// <summary>
+    /// TableWrapper для Области доступа (дополнительная информация)
+    /// </summary>
+	partial class VisAreasExtTableWrapper : AbstractTableWrapper
+    {
+        public VisAreasExtTableWrapper()
+        { 
+			this.getTableBehavior = new VisAreasExtTableBehavior(); 
+		}
+    }
+    /// <summary>
     /// TableBehavior для Соотношение помещений областей доступа
     /// </summary>
     partial class VisAreasSpacesTableBehavior : VisitorsDBTableBehavior
@@ -468,6 +489,27 @@ namespace SupHost
 		}
     }
     /// <summary>
+    /// TableBehavior для Точки доступа (дополнительная информация)
+    /// </summary>
+    partial class VisAccessPointsExtTableBehavior : VisitorsDBTableBehavior
+    {
+        public VisAccessPointsExtTableBehavior()
+        {
+            this.StandartSetup("vis_access_points_ext", "f_access_point_id");
+        }
+    }
+
+    /// <summary>
+    /// TableWrapper для Точки доступа (дополнительная информация)
+    /// </summary>
+	partial class VisAccessPointsExtTableWrapper : AbstractTableWrapper
+    {
+        public VisAccessPointsExtTableWrapper()
+        { 
+			this.getTableBehavior = new VisAccessPointsExtTableBehavior(); 
+		}
+    }
+    /// <summary>
     /// TableBehavior для ключи привязанные к дверям
     /// </summary>
     partial class VisKeysTableBehavior : VisitorsDBTableBehavior
@@ -507,6 +549,27 @@ namespace SupHost
         public VisSchedulesTableWrapper()
         { 
 			this.getTableBehavior = new VisSchedulesTableBehavior(); 
+		}
+    }
+    /// <summary>
+    /// TableBehavior для Расписания (дополнительная информация)
+    /// </summary>
+    partial class VisSchedulesExtTableBehavior : VisitorsDBTableBehavior
+    {
+        public VisSchedulesExtTableBehavior()
+        {
+            this.StandartSetup("vis_schedules_ext", "f_schedule_id");
+        }
+    }
+
+    /// <summary>
+    /// TableWrapper для Расписания (дополнительная информация)
+    /// </summary>
+	partial class VisSchedulesExtTableWrapper : AbstractTableWrapper
+    {
+        public VisSchedulesExtTableWrapper()
+        { 
+			this.getTableBehavior = new VisSchedulesExtTableBehavior(); 
 		}
     }
     /// <summary>
@@ -612,6 +675,90 @@ namespace SupHost
         public VisKeyHoldersTableWrapper()
         { 
 			this.getTableBehavior = new VisKeyHoldersTableBehavior(); 
+		}
+    }
+    /// <summary>
+    /// TableBehavior для Связь между областью и заявкой
+    /// </summary>
+    partial class VisAreaOrderElementTableBehavior : VisitorsDBTableBehavior
+    {
+        public VisAreaOrderElementTableBehavior()
+        {
+            this.StandartSetup("vis_areas_order_elements", "f_area_order_element_id");
+        }
+    }
+
+    /// <summary>
+    /// TableWrapper для Связь между областью и заявкой
+    /// </summary>
+	partial class VisAreaOrderElementTableWrapper : AbstractTableWrapper
+    {
+        public VisAreaOrderElementTableWrapper()
+        { 
+			this.getTableBehavior = new VisAreaOrderElementTableBehavior(); 
+		}
+    }
+    /// <summary>
+    /// TableBehavior для Связь между картой и областью
+    /// </summary>
+    partial class VisCardAreaTableBehavior : VisitorsDBTableBehavior
+    {
+        public VisCardAreaTableBehavior()
+        {
+            this.StandartSetup("vis_card_area", "f_ca_id");
+        }
+    }
+
+    /// <summary>
+    /// TableWrapper для Связь между картой и областью
+    /// </summary>
+	partial class VisCardAreaTableWrapper : AbstractTableWrapper
+    {
+        public VisCardAreaTableWrapper()
+        { 
+			this.getTableBehavior = new VisCardAreaTableBehavior(); 
+		}
+    }
+    /// <summary>
+    /// TableBehavior для Шаблоны
+    /// </summary>
+    partial class VisTemplatesTableBehavior : VisitorsDBTableBehavior
+    {
+        public VisTemplatesTableBehavior()
+        {
+            this.StandartSetup("vis_templates", "f_template_id");
+        }
+    }
+
+    /// <summary>
+    /// TableWrapper для Шаблоны
+    /// </summary>
+	partial class VisTemplatesTableWrapper : AbstractTableWrapper
+    {
+        public VisTemplatesTableWrapper()
+        { 
+			this.getTableBehavior = new VisTemplatesTableBehavior(); 
+		}
+    }
+    /// <summary>
+    /// TableBehavior для Связь между шаблоном и областью
+    /// </summary>
+    partial class VisTemplatesAreasTableBehavior : VisitorsDBTableBehavior
+    {
+        public VisTemplatesAreasTableBehavior()
+        {
+            this.StandartSetup("vis_templates_areas", "f_template_area_id");
+        }
+    }
+
+    /// <summary>
+    /// TableWrapper для Связь между шаблоном и областью
+    /// </summary>
+	partial class VisTemplatesAreasTableWrapper : AbstractTableWrapper
+    {
+        public VisTemplatesAreasTableWrapper()
+        { 
+			this.getTableBehavior = new VisTemplatesAreasTableBehavior(); 
 		}
     }
 }

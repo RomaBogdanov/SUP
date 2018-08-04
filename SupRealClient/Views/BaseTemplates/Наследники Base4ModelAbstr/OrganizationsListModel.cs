@@ -6,6 +6,7 @@ using SupRealClient.EnumerationClasses;
 using System.Data;
 using SupRealClient.Models;
 using SupRealClient.Common;
+using System.Windows;
 
 namespace SupRealClient.Views
 {
@@ -44,7 +45,11 @@ namespace SupRealClient.Views
 
         public override void RightClick()
         {
-            ViewManager.Instance.OpenSynonims(CurrentItem);
+            int? res = ViewManager.Instance.OpenSynonims(CurrentItem);
+            if (res.HasValue)
+            {
+                SetAt(res.Value);
+            }
         }
 
         #endregion
@@ -56,6 +61,7 @@ namespace SupRealClient.Views
                  CommonHelper.NotDeleted(vis)
                  select vis).Any())
             {
+                MessageBox.Show("Организацию невозможно удалить, т.к. она связана с посетителями!");
                 return false;
             }
 
@@ -64,6 +70,7 @@ namespace SupRealClient.Views
                  CommonHelper.NotDeleted(orgs)
                  select orgs).Any())
             {
+                MessageBox.Show("Перед удалением организации удалите её синонимы!");
                 return false;
             }
 
@@ -129,9 +136,12 @@ namespace SupRealClient.Views
         {
             return new Dictionary<string, string>
             {
-                { "f_org_type", "Тип" },
-                { "f_org_name", "Название организации" },
-                { "f_comment", "Примечание" },
+                { "Type", "Тип" },
+                { "Name", "Название организации" },
+                { "Comment", "Примечание" },
+                { "FullName", "Основное название" },
+                { "Country", "Страна" },
+                { "Region", "Регион" },
             };
         }
 

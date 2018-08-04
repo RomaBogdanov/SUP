@@ -29,6 +29,8 @@ namespace SupRealClient.Views.AddUpdateView
         public AddUpdateDoorWindView()
         {
             InitializeComponent();
+
+            this.WindowStartupLocation = WindowStartupLocation.CenterScreen;
         }
 
         public bool CanMinimize { get; private set; }

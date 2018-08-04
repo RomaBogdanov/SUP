@@ -27,7 +27,7 @@ namespace SupRealClient.Models
 
         public void Ok(Card data)
         {
-            CardsWrapper cards = CardsWrapper.CurrentTable();
+            /*CardsWrapper cards = CardsWrapper.CurrentTable();
             DataRow row = cards.Table.NewRow();
             row["f_card_num"] = data.CurdNum;
             row["f_create_date"] = data.CreateDate;
@@ -37,7 +37,8 @@ namespace SupRealClient.Models
             row["f_rec_operator"] = Authorizer.AppAuthorizer.Id;
             row["f_rec_date"] = data.CreateDate;
             row["f_lost_date"] = DateTime.MinValue;
-            cards.Table.Rows.Add(row);
+            cards.Table.Rows.Add(row);*/
+            CardsWrapper.CurrentTable().AddRow(data);
             Cancel();
         }
     }

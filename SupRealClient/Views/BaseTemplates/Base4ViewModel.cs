@@ -7,6 +7,7 @@ using SupRealClient.Annotations;
 using SupRealClient.Common.Interfaces;
 using SupRealClient.Models;
 using System.Windows;
+using System.Windows.Data;
 
 namespace SupRealClient.Views
 {
@@ -128,7 +129,7 @@ namespace SupRealClient.Views
             {
                 if (Model != null && value != null)
                 {
-                    Model.CurrentItem = value;
+                    Model.CurrentItem = value;                    
                     OnPropertyChanged();
                 }
             }
@@ -139,7 +140,7 @@ namespace SupRealClient.Views
             get { return Model != null ? Model.CurrentColumn : null; }
             set
             {
-                if (Model != null && value != null)
+                if (Model != null && value != null && value.SortDirection != null)
                 {
                     Model.CurrentColumn = value;
                     OnPropertyChanged();
@@ -154,7 +155,13 @@ namespace SupRealClient.Views
             {
                 if (Model != null) Model.Set = value;
                 OnPropertyChanged();
+                OnPropertyChanged("CollectionView");
             }
+        }
+
+        public CollectionView CollectionView
+        {
+            get { return Model?.CollectionView; }
         }
 
         public int SelectedIndex
@@ -180,6 +187,7 @@ namespace SupRealClient.Views
                     _model.OnModelPropertyChanged -= OnPropertyChanged;
                 }
                 _model = value;
+                Set = _model.Set;
                 _model.Parent = Parent;
                 _model.OnModelPropertyChanged += OnPropertyChanged;
                 OnPropertyChanged();
@@ -212,10 +220,38 @@ namespace SupRealClient.Views
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
 
-        private void AddCom() { this.Model.Add(); }
-        private void UpdateCom() { this.Model.Update(); }
-        private void SearchCom() { this.Model.Search(); }
-        private void FartherCom() { this.Model.Farther(); }
+        public System.Action ScrollCurrentItem
+        {
+            get { return Model != null ? Model.ScrollCurrentItem : null; }
+            set
+            {
+                if (Model != null && value != null)
+                {
+                    Model.ScrollCurrentItem = value;                 
+                }
+            }
+        }
+
+
+        private void AddCom()
+        {
+            this.Model.Add();
+            ScrollCurrentItem?.Invoke();
+        }
+        private void UpdateCom()
+        {
+            this.Model.Update();
+            ScrollCurrentItem?.Invoke();
+        }
+        private void SearchCom()
+        {
+            this.Model.Search();
+        }
+        private void FartherCom()
+        {
+            this.Model.Farther();
+            ScrollCurrentItem?.Invoke();
+        }
         private void BeginCom()
         {
             this.Model.Begin();
@@ -236,7 +272,11 @@ namespace SupRealClient.Views
             this.Model.Next();
             Reset();
         }
-        private void OkCom() { this.Model.Ok(); }
+        private void OkCom()
+        {
+            if (OkVisibility == Visibility.Visible)
+                this.Model.Ok();
+        }
         private void CloseCom() { this.Model.Close(); }
         private void ZonesCom() { this.Model.Zones(); }
         private void WatchCom() { this.Model.Watch(); }
@@ -245,16 +285,27 @@ namespace SupRealClient.Views
             this.Model.RightClick();
         }
 
-        private void RemoveCom()
+        /// <summary>
+        /// Команда на удаление. Почему не работает???
+        /// </summary>
+        public void RemoveCom()
         {
             if (CurrentItem != null &&
-                MessageBox.Show("Вы уверены?", "", MessageBoxButton.YesNo) ==
+                MessageBox.Show("Вы действительно хотите удалить эту запись?", 
+                "Удаление", 
+                MessageBoxButton.YesNo, MessageBoxImage.Question) ==
                 MessageBoxResult.Yes)
             {
-                if (!this.Model.Remove())
+                int memIndexSel = SelectedIndex;
+                this.Model.Remove();
+
+                int countItem = CollectionView.Count;
+                if (countItem > 0)
                 {
-                    MessageBox.Show("Не удалось удалить элемент,\n" +
-                        "Возможно, он используется в других элементах");
+                    if (memIndexSel < countItem)
+                        SelectedIndex = memIndexSel;
+                    else
+                        SelectedIndex = countItem - 1;
                 }
             }
         }
@@ -263,6 +314,7 @@ namespace SupRealClient.Views
         {
             SelectedIndex = Model.SelectedIndex;
             CurrentItem = Model.CurrentItem;
+            ScrollCurrentItem?.Invoke();
         }
     }
 }

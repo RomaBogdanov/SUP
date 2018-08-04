@@ -29,14 +29,21 @@
         VisSpaces,
         VisDoors,
         VisAreas,
+        VisAreasExt,
         VisAreasSpaces,
         VisAccessPoints,
+        VisAccessPointsExt,
         VisKeys,
         VisSchedules,
+        VisSchedulesExt,
         VisAccessLevel,
         VisCars,
         VisEquipment,
         VisKeyCases,
-        VisKeyHolders
+        VisKeyHolders,
+        VisAreaOrderElement,
+        VisCardArea,
+        VisTemplates,
+        VisTemplatesAreas
     }
 }

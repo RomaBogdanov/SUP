@@ -164,10 +164,11 @@ namespace SupRealClient
             return OpenWindowModal(window);
         }
 
-        public void OpenSynonims(Organization organization)
+        public int? OpenSynonims(Organization organization)
         {
             var window = new SynonimView(organization);
             window.ShowDialog();
+            return window.WindowResult as int?;
         }
 
         /// <summary>
@@ -272,7 +273,9 @@ namespace SupRealClient
 
                 //Открытие окна в модальном режиме
                 if (window.GetType().ToString().Contains("AddUpdateOrgsView") ||
-                    window.GetType().ToString().Contains("OrganizationsWindView"))
+                    window.GetType().ToString().Contains("OrganizationsWindView") ||
+                    window.GetType().ToString().Contains("AddItem1View") ||
+                    window.GetType().ToString().Contains("Search1View"))
                     (window as Window).ShowDialog();
                 else
                     (window as Window).Show();
@@ -321,6 +324,8 @@ namespace SupRealClient
                     return new BaseOrgsView();
                 case "VisitorsView":
                     return new VisitorsView();
+                case "VisitorsViewNew":
+                    return new VisitorsView(true);
                 case @"VisitorsListWindView":
                     return new VisitorsListWindView(Visibility.Hidden);
                 case @"VisitorsListWindViewOk":
@@ -372,6 +377,10 @@ namespace SupRealClient
                     return new Base4CarsWindView();
                 case "Base4EquipmentsWindView":
                     return new Base4EquipmentsWindView();
+                case "BidsView":
+                    return new BidsView(); // Окно "Заявки".
+                case "Base4TemplatesWindView":
+                    return new Base4TemplatesWindView();
                 default:
                     break;
             }

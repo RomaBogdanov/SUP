@@ -44,6 +44,10 @@
     <Reference Include="Microsoft.Expression.Interactions, Version=4.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <HintPath>..\packages\System.Windows.Interactivity.WPF.2.0.20525\lib\net40\Microsoft.Expression.Interactions.dll</HintPath>
     </Reference>
+    <Reference Include="RegulaLib, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\3rdPart\RegulaLib.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Configuration" />
     <Reference Include="System.Data" />
@@ -90,9 +94,15 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="Andover\AndoverTestView.xaml.cs">
+      <DependentUpon>AndoverTestView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Andover\AndoverTestViewModel.cs" />
+    <Compile Include="Behaviour\BoolToGridRowHeightConverter.cs" />
     <Compile Include="Behaviour\BoolToStringConverter.cs" />
     <Compile Include="Behaviour\DataGridTextSearch.cs" />
     <Compile Include="Behaviour\DialogService.cs" />
+    <Compile Include="Behaviour\DocumentListElementsHeightConverter.cs" />
     <Compile Include="Behaviour\HeaderToCurrentColumnConverter.cs" />
     <Compile Include="Behaviour\IDialogService.cs" />
     <Compile Include="Behaviour\InverseBooleanConverterюcs.cs" />
@@ -110,8 +120,10 @@
     <Compile Include="EnumerationClasses\IEntity.cs" />
     <Compile Include="EnumerationClasses\Order.cs" />
     <Compile Include="EnumerationClasses\Card2.cs" />
+    <Compile Include="EnumerationClasses\OrderElement.cs" />
     <Compile Include="EnumerationClasses\Region.cs" />
     <Compile Include="EnumerationClasses\Space.cs" />
+    <Compile Include="EnumerationClasses\Template.cs" />
     <Compile Include="EnumerationClasses\Visitor.cs" />
     <Compile Include="EnumerationClasses\VisitorsDocument.cs" />
     <Compile Include="EnumerationClasses\VisitorsDocumentBase.cs" />
@@ -123,10 +135,12 @@
     </Compile>
     <Compile Include="Common\Interfaces\IBase1ViewModel.cs" />
     <Compile Include="Common\Interfaces\IBase2ViewModel.cs" />
+    <Compile Include="Handlers\VisitorsDocumentTestingNameHandler.cs" />
     <Compile Include="InputProvider.cs" />
     <Compile Include="Models\AddCardModel.cs" />
     <Compile Include="Common\Data\SearchData.cs" />
     <Compile Include="Models\AddItemRegionsModel.cs" />
+    <Compile Include="Models\Bids\BidsModelBase.cs" />
     <Compile Include="Models\ChildWindowSettings.cs" />
     <Compile Include="Models\DocumentsHelper.cs" />
     <Compile Include="Models\IAddUpdateRegionModel.cs" />
@@ -180,13 +194,21 @@
       <DependentUpon>Wrappers.tt</DependentUpon>
     </Compile>
     <Compile Include="Utils\StringExtensions.cs" />
+    <Compile Include="ViewModels\AboutWindowViewModel.cs" />
     <Compile Include="ViewModels\AddUpdateCardViewModel.cs" />
     <Compile Include="ViewModels\AddUpdateRegionViewModel.cs" />
     <Compile Include="Models\AddUpdateModel\AddUpdateAbstrModel.cs" />
     <Compile Include="ViewModels\AddUpdateViewModel\AddUpdateAbstrViewModel.cs" />
+    <Compile Include="Models\Bids\IBidsModel.cs" />
+    <Compile Include="Models\Bids\BidsModel.cs" />
+    <Compile Include="Models\Bids\EditBidsModel.cs" />
+    <Compile Include="ViewModels\DocumentImageViewModel.cs" />
     <Compile Include="ViewModels\ListsViewModel\BaseListViewModel.cs" />
     <Compile Include="ViewModels\DocumentImagesViewModel.cs" />
     <Compile Include="ViewModels\FullNameViewModel.cs" />
+    <Compile Include="Models\Bids\NewBidsModel.cs" />
+    <Compile Include="EnumerationClasses\OrderType.cs" />
+    <Compile Include="ViewModels\ReturnBidViewModel.cs" />
     <Compile Include="ViewModels\SynonimViewModel.cs" />
     <Compile Include="ViewModels\VisitorsDocumentViewModel.cs" />
     <Compile Include="ViewModels\Base3ViewModel.cs" />
@@ -202,6 +224,9 @@
     <Compile Include="ViewModels\VisitorsViewModel.cs" />
     <Compile Include="ViewModels\VisitorViewModel.cs" />
     <Compile Include="ViewModels\VisitsViewModel.cs" />
+    <Compile Include="Views\AboutWindow.xaml.cs">
+      <DependentUpon>AboutWindow.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Views\AddDepartmentView.xaml.cs">
       <DependentUpon>AddDepartmentView.xaml</DependentUpon>
     </Compile>
@@ -255,6 +280,9 @@
     <Compile Include="Views\AddUpdateView\AddUpdateKeyWindView.xaml.cs">
       <DependentUpon>AddUpdateKeyWindView.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Views\AddUpdateView\AddUpdateScheduleWindView.xaml.cs">
+      <DependentUpon>AddUpdateScheduleWindView.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Views\AddUpdateView\AddUpdateSpaceView.xaml.cs">
       <DependentUpon>AddUpdateSpaceView.xaml</DependentUpon>
     </Compile>
@@ -269,6 +297,9 @@
     </Compile>
     <Compile Include="Views\Base4Analogs\Base4KeyHoldersWindView.xaml.cs">
       <DependentUpon>Base4KeyHoldersWindView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Base4Analogs\Base4TemplatesWindView.xaml.cs">
+      <DependentUpon>Base4TemplatesWindView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\Base4Analogs\Base4ZonesWindView.xaml.cs">
       <DependentUpon>Base4ZonesWindView.xaml</DependentUpon>
@@ -320,9 +351,11 @@
     <Compile Include="Views\BaseTemplates\Наследники Base4ModelAbstr\OrganizationsListModel.cs" />
     <Compile Include="Views\BaseTemplates\Наследники Base4ModelAbstr\RegionsListModel.cs" />
     <Compile Include="Views\BaseTemplates\Наследники Base4ModelAbstr\VisitorsListModel.cs" />
-    <Compile Include="Views\BidsViewModel.cs" />
     <Compile Include="Views\DocumentImagesView.xaml.cs">
       <DependentUpon>DocumentImagesView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\DocumentImageView.xaml.cs">
+      <DependentUpon>DocumentImageView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\FullNameView.xaml.cs">
       <DependentUpon>FullNameView.xaml</DependentUpon>
@@ -412,6 +445,9 @@
     <Compile Include="Views\VisitorsPassTabView.xaml.cs">
       <DependentUpon>VisitorsPassTabView.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Views\RegulaView.xaml.cs">
+      <DependentUpon>RegulaView.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Views\VisitorsView1.xaml.cs">
       <DependentUpon>VisitorsView1.xaml</DependentUpon>
     </Compile>
@@ -453,7 +489,15 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>Views.tt</DependentUpon>
     </Compile>
+    <Page Include="Andover\AndoverTestView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="ErrorWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\AboutWindow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -521,6 +565,10 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="Views\AddUpdateView\AddUpdateScheduleWindView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Views\AddUpdateView\AddUpdateSpaceView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -538,6 +586,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Views\Base4Analogs\Base4KeyHoldersWindView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\Base4Analogs\Base4TemplatesWindView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -594,6 +646,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Views\DocumentImagesView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\DocumentImageView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -799,6 +855,10 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="Views\RegulaView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
     <Page Include="Views\VisitorsView1.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -956,6 +1016,7 @@
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Resource>
     <Resource Include="Resources\Зона.ico" />
+    <Resource Include="Resources\NewRemove.png" />
     <Content Include="TabsSingleton\Wrappers.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
       <LastGenOutput>Wrappers.cs</LastGenOutput>

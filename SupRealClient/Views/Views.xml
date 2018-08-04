@@ -23,4 +23,7 @@
   <Item Name="FullNameView" />
   <Item Name="AddUpdateRegionView" />
   <Item Name="SynonimView" />
+  <Item Name="BidsView" />
+  <Item Name="AssigningZonesView" />
+  <Item Name="DocumentImageView" CanMinimize="false" />
 </Enum>

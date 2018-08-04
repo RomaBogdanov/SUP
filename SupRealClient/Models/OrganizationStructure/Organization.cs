@@ -19,7 +19,7 @@ namespace SupRealClient.Models.OrganizationStructure
                 OnPropertyChanged();
             }
         }
-        private ObservableCollection<Department> _items = new ObservableCollection<Department>();
+        private ObservableCollection<Department> _items = new ObservableCollection<Department>();        
     }
 
     internal interface IOrganization

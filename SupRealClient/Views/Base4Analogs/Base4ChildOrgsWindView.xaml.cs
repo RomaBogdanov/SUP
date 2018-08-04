@@ -25,8 +25,24 @@ namespace SupRealClient.Views
             base4.tbxSearch.Focus();
             AfterInitialize();
             ((Base4ViewModel<EnumerationClasses.Organization>)base4.DataContext)
-                .OkVisibility = Visibility.Hidden;
+                .OkVisibility = Visibility.Hidden;           
+            base4.btnUpdate.Visibility = Visibility.Collapsed; // Скрыть кнопку "Правка".
+            ChangeCommandKeyGestureCtrlD();
+            
             base4.Focus();
+        }
+
+        void ChangeCommandKeyGestureCtrlD()
+        {
+            foreach (InputBinding inputBinding in (base4 as UserControl)?.InputBindings)
+            {
+                KeyGesture keyGesture = inputBinding.Gesture as KeyGesture;
+                if (keyGesture != null && keyGesture.Key == Key.D && keyGesture.Modifiers == ModifierKeys.Control)
+                {
+                    inputBinding.Command = ((Base4ViewModel<EnumerationClasses.Organization>)base4.DataContext).Remove;
+                    break;
+                }
+            }
         }
 
         private void CreateColumns()
@@ -43,8 +59,20 @@ namespace SupRealClient.Views
                 Binding = new Binding("Name")
             };
             base4.BaseTab.Columns.Add(dataGridTextColumn);
+            dataGridTextColumn = new DataGridTextColumn
+            {
+                Header = "Страна",
+                Binding = new Binding("Country")
+            };
+            base4.baseTab.Columns.Add(dataGridTextColumn);
+            dataGridTextColumn = new DataGridTextColumn
+            {
+                Header = "Регион",
+                Binding = new Binding("Region")
+            };
+            base4.baseTab.Columns.Add(dataGridTextColumn);
             //base4.btnUpdate.Content = "Удалить";
-            
+
         }
         private void SetDefaultColumn()
         {

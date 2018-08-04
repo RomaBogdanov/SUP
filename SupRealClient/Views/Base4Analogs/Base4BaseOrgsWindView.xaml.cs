@@ -26,6 +26,7 @@ namespace SupRealClient.Views
             AfterInitialize();
             ((Base4ViewModel<EnumerationClasses.Organization>)base4.DataContext)
                 .OkVisibility = Visibility.Hidden;
+            base4.btnUpdate.Visibility = Visibility.Collapsed;
             base4.Focus();
         }
 
@@ -43,6 +44,18 @@ namespace SupRealClient.Views
                 Binding = new Binding("Name")
             };
             base4.BaseTab.Columns.Add(dataGridTextColumn);
+            dataGridTextColumn = new DataGridTextColumn
+            {
+                Header = "Страна",
+                Binding = new Binding("Country")
+            };
+            base4.baseTab.Columns.Add(dataGridTextColumn);
+            dataGridTextColumn = new DataGridTextColumn
+            {
+                Header = "Регион",
+                Binding = new Binding("Region")
+            };
+            base4.baseTab.Columns.Add(dataGridTextColumn);
             base4.btnUpdate.Content = "Удалить";
             
         }

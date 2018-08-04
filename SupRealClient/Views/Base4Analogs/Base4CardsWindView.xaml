@@ -11,6 +11,8 @@
         ResizeMode="NoResize"
         PreviewKeyDown="Window_PreviewKeyDown">
     <Grid>
-        <local:Base2View x:Name="base4"></local:Base2View>
+        <local:Base2View x:Name="base4" >
+            <!--Тут начну менять-->
+        </local:Base2View>
     </Grid>
 </mah:MetroWindow>

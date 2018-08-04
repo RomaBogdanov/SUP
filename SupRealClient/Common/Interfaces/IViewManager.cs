@@ -64,7 +64,7 @@ namespace SupRealClient.Common.Interfaces
 
         object OpenRegions(int countryId);
 
-        void OpenSynonims(Organization organization);
+        int? OpenSynonims(Organization organization);
 
         /// <summary>
         /// Закрыть окно

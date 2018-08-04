@@ -6,6 +6,7 @@ using System.Data;
 using SupRealClient.TabsSingleton;
 using SupRealClient.Models.AddUpdateModel;
 using SupRealClient.ViewModels.AddUpdateViewModel;
+using System.Collections.Generic;
 
 namespace SupRealClient.Views
 {
@@ -27,7 +28,8 @@ namespace SupRealClient.Views
             AddUpdateAbstrModel model = new AddSpaceModel();
             AddUpdateBaseViewModel viewModel = new AddUpdateBaseViewModel
                 {
-                    Model = model
+                    Model = model,
+                    Title = "Добавление помещения"
                 };
             AddUpdateSpaceView view = new AddUpdateSpaceView();
             view.DataContext = viewModel;
@@ -38,7 +40,17 @@ namespace SupRealClient.Views
 
         public override void Update()
         {
-            throw new NotImplementedException();
+            AddUpdateAbstrModel model = new UpdateSpaceModel(CurrentItem);
+            AddUpdateBaseViewModel viewModel = new AddUpdateBaseViewModel
+            {
+                Model = model,
+                Title = "Редактирование помещения"
+            };
+            AddUpdateSpaceView view = new AddUpdateSpaceView();
+            view.DataContext = viewModel;
+            model.OnClose += view.Handling_OnClose;
+            view.ShowDialog();
+            object res = view.WindowResult;
         }
 
         protected override void DoQuery()
@@ -60,6 +72,17 @@ namespace SupRealClient.Views
         {
             return new BaseModelResult { Id = CurrentItem.Id, Name = CurrentItem.NumReal };
 
+        }
+
+        public override IDictionary<string, string> GetFields()
+        {
+            return new Dictionary<string, string>
+            {
+                { "NumReal", "Реальный номер" },
+                { "NumBuild", "Строительный номер" },
+                { "Descript", "Описание" },
+                { "Note", "Примечание" }
+            };
         }
     }
 }

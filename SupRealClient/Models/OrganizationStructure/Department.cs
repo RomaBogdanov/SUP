@@ -16,6 +16,6 @@ namespace SupRealClient.Models.OrganizationStructure
             }
         }
         private ObservableCollection<Department> _items =
-            new ObservableCollection<Department>();
+            new ObservableCollection<Department>();        
     }
 }

@@ -7,6 +7,7 @@ using SupRealClient.EnumerationClasses;
 using System.Data;
 using SupRealClient.Models;
 using SupRealClient.Common;
+using System.Windows;
 
 namespace SupRealClient.Views
 {
@@ -40,6 +41,7 @@ namespace SupRealClient.Views
                  CommonHelper.NotDeleted(docs)
                  select docs).Any())
             {
+                MessageBox.Show("Документ невозможно удалить, т.к. он связана с посетителями!");
                 return false;
             }
 
@@ -77,7 +79,7 @@ namespace SupRealClient.Views
         {
             return new Dictionary<string, string>()
             {
-                { "f_doc_name", "Название" }
+                { "DocName", "Название" }
             };
         }
 

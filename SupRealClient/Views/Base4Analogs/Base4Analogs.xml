@@ -23,4 +23,5 @@
   <Item Name="Equipments" Type="Equipment" />
   <Item Name="KeyCases" Type="KeyCase" />
   <Item Name="KeyHolders" Type="KeyHolder" />
+  <Item Name="Templates" Type="Template" />
 </Enum>

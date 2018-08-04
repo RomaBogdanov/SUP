@@ -8,7 +8,7 @@ namespace SupRealClient.Views
     /// <summary>
     /// Логика взаимодействия для Search1View.xaml
     /// </summary>
-    public partial class Search1View : Window
+    public partial class Search1View
     {
         public Search1View(ISearchHelper searchHelper)
 		{

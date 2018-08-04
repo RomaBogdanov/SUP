@@ -27,7 +27,6 @@ namespace SupRealClient.Views
             base4.Focus();
         }
 
-
         private void CreateColumns()
         {
             DataGridTextColumn dataGridTextColumn = new DataGridTextColumn

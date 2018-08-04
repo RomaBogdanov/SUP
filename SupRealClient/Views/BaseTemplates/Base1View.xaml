@@ -4,15 +4,15 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:converters="clr-namespace:SupRealClient.Behaviour"
+             xmlns:local="clr-namespace:SupRealClient.Views"
              mc:Ignorable="d" d:DesignHeight="300" d:DesignWidth="300"
-             PreviewKeyDown="UserControl_PreviewKeyDown">
-
+             PreviewKeyDown="UserControl_PreviewKeyDown" 
+             IsVisibleChanged="UserControl_IsVisibleChanged">
     <UserControl.InputBindings>
         <KeyBinding Gesture="Ctrl+D" Command="{Binding Update}"/>
         <KeyBinding Gesture="Ctrl+F" Command="{Binding Search}"/>
         <KeyBinding Gesture="Ctrl+G" Command="{Binding Farther}"/>
     </UserControl.InputBindings>
-
    <UserControl.Resources>
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
@@ -37,8 +37,9 @@
             <RowDefinition Height="70"/>
             <RowDefinition Height="70"/>
         </Grid.RowDefinitions>
-        
-        <DataGrid Name="baseTab"
+
+        <local:CustomDataGrid 
+                  x:Name="baseTab"
                   ColumnWidth="*"
                   Focusable="True" 
                   AutoGenerateColumns="False" 
@@ -52,11 +53,21 @@
                   SelectedValue="{Binding Path=SelectedValue, Mode=TwoWay}" 
                   CurrentColumn="{Binding Path=CurrentColumn, Mode=TwoWay}"
                   Style="{StaticResource AzureDataGrid1}"
-                  >
+                  SelectionChanged="baseTab_SelectionChanged"
+                  LoadingRow="baseTab_LoadingRow"
+                  KeyDown="BaseTab_OnKeyDown" 
+                  Loaded="baseTab_Loaded" 
+                  Sorted="baseTab_Sorted">
+            <DataGrid.ColumnHeaderStyle>
+                <Style TargetType="DataGridColumnHeader">
+                    <EventSetter Event="PreviewMouseLeftButtonUp" Handler="dgColumnHeader_PreviewMouseLeftButtonUp"></EventSetter>
+                </Style>
+            </DataGrid.ColumnHeaderStyle>
+
             <DataGrid.InputBindings>
                 <KeyBinding Key="Delete" Command="{Binding Remove}"/>
             </DataGrid.InputBindings>
-        </DataGrid>
+        </local:CustomDataGrid>
 
         <TextBlock 
             Grid.Row="1" 
@@ -72,18 +83,21 @@
             Grid.ColumnSpan="5" 
             Style="{StaticResource TextBoxStyle}"
             Margin="1" 
-            Text="{Binding Path=SearchingText, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}">
+            Text="{Binding Path=SearchingText, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" TextChanged="tbxSearch_TextChanged">
         </TextBox>
 
 
         <!-- Нижняя панель кнопок -->
         <Button 
+            Name="butAdd"
             Grid.Row="4" 
             Grid.Column="0" 
             Margin="1" 
             Command="{Binding Path=Add}" 
             Style="{StaticResource VisitorsSquareButtonStyle}" 
-            ToolTip="Insert">
+            ToolTip="Insert"
+            PreviewMouseLeftButtonDown="Button_PreviewMouseLeftButtonDown"
+            KeyDown="BaseTab_OnKeyDown">
             <Grid>
                 <Grid.RowDefinitions>
                     <RowDefinition/>
@@ -103,13 +117,40 @@
         </Button>
 
         <Button 
+            Name="btnRemove"
+            Grid.Row="4" 
+            Grid.Column="1" 
+            Margin="1" 
+            Command="{Binding Path=Remove}" 
+            Style="{StaticResource VisitorsSquareButtonStyle}"
+            ToolTip="Ctrl+D">
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition/>
+                    <RowDefinition Height="0.4*"/>
+                </Grid.RowDefinitions>
+
+                <Image
+                            Grid.Row="0"
+                            Source="../../Resources/NewRemove.png"/>
+
+                <TextBlock
+                            Grid.Row="1"
+                            Text="Удалить"
+                            FontSize="12"
+                            Style="{StaticResource TextBLockStyle}"/>
+            </Grid>
+        </Button>
+
+        <Button 
             Name="btnUpdate"
             Grid.Row="4" 
             Grid.Column="1" 
             Margin="1" 
             Command="{Binding Path=Update}" 
             Style="{StaticResource VisitorsSquareButtonStyle}"
-            ToolTip="Ctrl+D">
+            ToolTip="Ctrl+D"
+            KeyDown="BaseTab_OnKeyDown">
             <Grid>
                 <Grid.RowDefinitions>
                     <RowDefinition/>
@@ -129,13 +170,16 @@
         </Button>
 
 
+
+
         <Button 
             Grid.Row="4" 
             Grid.Column="2" 
             Margin="1" 
             Command="{Binding Path=Search}" 
             Style="{StaticResource VisitorsSquareButtonStyle}" 
-            ToolTip="Ctrl+F">
+            ToolTip="Ctrl+F"
+            KeyDown="BaseTab_OnKeyDown">
             <Grid>
                 <Grid.RowDefinitions>
                     <RowDefinition/>
@@ -161,7 +205,8 @@
             Margin="1" 
             Command="{Binding Path=Farther}" 
             Style="{StaticResource VisitorsSquareButtonStyle}" 
-            IsEnabled="{Binding Path=FartherEnabled}">
+            IsEnabled="{Binding Path=FartherEnabled}"
+            KeyDown="BaseTab_OnKeyDown">
             <Grid>
                 <Grid.RowDefinitions>
                     <RowDefinition />
@@ -186,7 +231,9 @@
             Margin="1" 
             Command="{Binding Path=Begin}" 
             Style="{StaticResource VisitorsSquareButtonStyle}" 
-            ToolTip="Home">
+            ToolTip="Home"
+            PreviewMouseLeftButtonDown="Button_PreviewMouseLeftButtonDown"
+            KeyDown="BaseTab_OnKeyDown">
             <Grid>
                 <Grid.RowDefinitions>
                     <RowDefinition/>
@@ -213,7 +260,9 @@
             Margin="1" 
             Command="{Binding Path=Prev}" 
             Style="{StaticResource VisitorsSquareButtonStyle}" 
-            ToolTip="↑">
+            ToolTip="↑"
+            PreviewMouseLeftButtonDown="Button_PreviewMouseLeftButtonDown"
+            KeyDown="BaseTab_OnKeyDown">
             <Grid>
                 <Grid.RowDefinitions>
                     <RowDefinition/>
@@ -240,7 +289,9 @@
             Margin="1" 
             Command="{Binding Path=Next}" 
             Style="{StaticResource VisitorsSquareButtonStyle}" 
-            ToolTip="↓">
+            ToolTip="↓"
+            PreviewMouseLeftButtonDown="Button_PreviewMouseLeftButtonDown"
+            KeyDown="BaseTab_OnKeyDown">
             <Grid>
                 <Grid.RowDefinitions>
                     <RowDefinition/>
@@ -266,7 +317,9 @@
             Margin="1" 
             Command="{Binding Path=End}" 
             Style="{StaticResource VisitorsSquareButtonStyle}" 
-            ToolTip="End">
+            ToolTip="End"
+            PreviewMouseLeftButtonDown="Button_PreviewMouseLeftButtonDown"
+            KeyDown="BaseTab_OnKeyDown">
             <Grid>
                 <Grid.RowDefinitions>
                     <RowDefinition/>
@@ -287,13 +340,15 @@
 
 
         <Button 
-            Grid.Row="4" 
+            x:Name="btnOk"
+            Grid.Row="3" 
             Grid.Column="4" 
             Margin="1" 
             Command="{Binding Path=Ok}" 
             Visibility="{Binding Path=OkVisibility, Mode=OneTime}" 
             FontSize="{Binding FontSize}" 
-            Style="{StaticResource VisitorsSquareButtonStyle}">
+            Style="{StaticResource VisitorsSquareButtonStyle}"
+            KeyDown="BaseTab_OnKeyDown">
             <Grid>
                 <Grid.RowDefinitions>
                     <RowDefinition />
@@ -306,21 +361,22 @@
 
                 <TextBlock
                     Grid.Row="1"
-                    Text="{Binding Path=OkCaption, Mode=OneTime}"
+                    Text="OK"
                     FontSize="{Binding FontSize}"
-                    Style="{StaticResource TextBLockDetailStyle}"/>
+                    Style="{StaticResource TextBLockStyle}"/>
             </Grid>
         </Button>				  
 
         <!-- Верхняя панель кнопок. -->
         <Button 
-            Grid.Row="3" 
+            Grid.Row="4" 
             Grid.Column="5" 
             Grid.ColumnSpan="2" 
             Margin="1" 
             Command="{Binding Path=Close}" 
             Style="{StaticResource VisitorsSquareButtonStyle}" 
-            ToolTip="Esc">
+            ToolTip="Esc"
+            KeyDown="BaseTab_OnKeyDown">
             <Grid>
                 <Grid.RowDefinitions>
                     <RowDefinition />

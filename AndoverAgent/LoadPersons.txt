@@ -1,0 +1,11 @@
+﻿'Fallthru Program created in Cyberstation.
+'Called manually from command line "run LoadPersons2"
+
+Line 1
+  Print "Line 1 - got here, going to line 2 - ", Date
+  Goto 2
+
+Line 2
+  Print "Line 2 - got here, attempting to load file"
+  Load "C:\Temp\persons.dmp" -o-x
+  Print "Line 2 - end - check distribution properties for status"

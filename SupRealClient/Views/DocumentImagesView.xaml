@@ -23,7 +23,6 @@
             Grid.Row="0"
             Grid.Column="0"
             Grid.ColumnSpan="2"
-            Stretch="UniformToFill"
             Source="{Binding Path=Image, Mode=OneWay}"/>
 
         <Grid
@@ -38,7 +37,7 @@
                     Command="{Binding Path=PrevCommand}"
                     Grid.Column="0"
                     Margin="2"
-                    IsEnabled="{Binding Path=VisitorsEnable.PreviousButtonEnable, Mode=TwoWay}"
+                    IsEnabled="{Binding Path=PreviousButtonEnable, Mode=TwoWay}"
                     Visibility="{Binding Path=VisitorsVisible.PreviousButtonEnable, 
                     Converter={StaticResource BooleanToVisibilityConverter}}"
                     Style="{StaticResource VisitorsSquareButtonStyle}">
@@ -64,7 +63,7 @@
                     Command="{Binding Path=NextCommand}"
                     Grid.Column="1"
                     Margin="2"
-                    IsEnabled="{Binding Path=VisitorsEnable.NextButtonEnable, Mode=TwoWay}"
+                    IsEnabled="{Binding Path=NextButtonEnable, Mode=TwoWay}"
                     Visibility="{Binding Path=VisitorsVisible.NextButtonEnable, 
                     Converter={StaticResource BooleanToVisibilityConverter}}"
                     Style="{StaticResource VisitorsSquareButtonStyle}">

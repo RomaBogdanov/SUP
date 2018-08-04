@@ -1,5 +1,7 @@
 ﻿using System;
+using System.Collections.ObjectModel;
 using System.Data;
+using System.Linq;
 using SupRealClient.Common.Interfaces;
 using SupRealClient.Views;
 using SupRealClient.EnumerationClasses;
@@ -15,8 +17,8 @@ namespace SupRealClient.Models.AddUpdateModel
     /// </summary>
     public abstract class AddUpdateAbstrModel
     {
-        public event ModelPropertyChanged OnModelPropertyChanged;
-        public event Action<object> OnClose;
+        public virtual event ModelPropertyChanged OnModelPropertyChanged;
+        public virtual event Action<object> OnClose;
         public virtual object CurrentItem { get; set; }
         
         //public object Result { get; set; }
@@ -34,6 +36,9 @@ namespace SupRealClient.Models.AddUpdateModel
 
         public IWindow Parent { get; internal set; }
 
+        /// <summary>
+        /// Действия, происходящие при нажатии Ок
+        /// </summary>
         protected virtual void SaveResult() { }
     }
 
@@ -59,6 +64,27 @@ namespace SupRealClient.Models.AddUpdateModel
         }
     }
 
+    public class UpdateSpaceModel : AddUpdateAbstrModel
+    {
+        public UpdateSpaceModel(Space space)
+        {
+            CurrentItem = space.Clone();
+        }
+
+        protected override void SaveResult()
+        {
+            DataRow row = SpacesWrapper.CurrentTable().Table.Rows.Find(((IdEntity)CurrentItem).Id);
+            row.BeginEdit();
+            row["f_num_real"] = ((Space)CurrentItem).NumReal;
+            row["f_num_build"] = ((Space)CurrentItem).NumBuild;
+            row["f_descript"] = ((Space)CurrentItem).Descript;
+            row["f_note"] = ((Space)CurrentItem).Note;
+            row["f_rec_date"] = DateTime.Now;
+            row["f_rec_operator"] = Authorizer.AppAuthorizer.Id;
+            row.EndEdit();
+        }
+    }
+
     public class AddDoorModel : AddUpdateAbstrModel
     {
         public AddDoorModel()
@@ -71,9 +97,10 @@ namespace SupRealClient.Models.AddUpdateModel
             DataRow row = DoorsWrapper.CurrentTable().Table.NewRow();
             row["f_door_num"] = ((Door)CurrentItem).DoorNum;
             row["f_descript"] = ((Door)CurrentItem).Descript;
-            row["f_space_in"] = ((Door)CurrentItem).SpaceIn;
-            row["f_space_out"] = ((Door)CurrentItem).SpaceOut;
-            row["f_access_point_id"] = ((Door)CurrentItem).AccessPointId;
+            row["f_space_in"] = ((Door)CurrentItem).SpaceInId;
+            row["f_space_out"] = ((Door)CurrentItem).SpaceOutId;
+            row["f_access_point_id_hi"] = ((Door)CurrentItem).AccessPointIdHi;
+            row["f_access_point_id_lo"] = ((Door)CurrentItem).AccessPointIdLo;
             row["f_deleted"] = "N";
             row["f_rec_date"] = DateTime.Now;
             row["f_rec_operator"] = Authorizer.AppAuthorizer.Id;
@@ -81,22 +108,69 @@ namespace SupRealClient.Models.AddUpdateModel
         }
     }
 
-    public class AddAreaModel : AddUpdateAbstrModel
+    public class UpdateDoorModel : AddUpdateAbstrModel
     {
-        public AddAreaModel()
+        public UpdateDoorModel(Door door)
         {
-            CurrentItem = new Area();
+            CurrentItem = door.Clone();
         }
 
         protected override void SaveResult()
         {
-            DataRow row = AreasWrapper.CurrentTable().Table.NewRow();
-            row["f_area_name"] = ((Area)CurrentItem).Name;
-            row["f_area_descript"] = ((Area)CurrentItem).Descript;
-            row["f_deleted"] = "N";
+            DataRow row = DoorsWrapper.CurrentTable().Table.Rows.Find(((IdEntity)CurrentItem).Id);
+            row.BeginEdit();
+            row["f_door_num"] = ((Door)CurrentItem).DoorNum;
+            row["f_descript"] = ((Door)CurrentItem).Descript;
+            row["f_space_in"] = ((Door)CurrentItem).SpaceInId;
+            row["f_space_out"] = ((Door)CurrentItem).SpaceOutId;
+            row["f_access_point_id_hi"] = ((Door)CurrentItem).AccessPointIdHi;
+            row["f_access_point_id_lo"] = ((Door)CurrentItem).AccessPointIdLo;
             row["f_rec_date"] = DateTime.Now;
             row["f_rec_operator"] = Authorizer.AppAuthorizer.Id;
-            AreasWrapper.CurrentTable().Table.Rows.Add(row);
+            row.EndEdit();
+        }
+    }
+
+    public class UpdateAreaModel : AddUpdateAbstrModel
+    {
+        public UpdateAreaModel(Area area)
+        {
+            CurrentItem = area.Clone();
+        }
+
+        protected override void SaveResult()
+        {
+            DataRow mainRow = AreasWrapper.CurrentTable().Table.Rows.Find(((IdEntity)CurrentItem).Id);
+
+            DataRow row = null;
+            foreach (DataRow r in AreasExtWrapper.CurrentTable().Table.Rows)
+            {
+                if (mainRow.Field<int>("f_object_id_hi") == r.Field<int>("f_object_id_hi") &&
+                    mainRow.Field<int>("f_object_id_lo") == r.Field<int>("f_object_id_lo"))
+                {
+                    row = r;
+                    break;
+                }
+            }
+            if (row == null)
+            {
+                row = AreasExtWrapper.CurrentTable().Table.NewRow();
+                row["f_object_id_hi"] = ((Area)CurrentItem).ObjectIdHi;
+                row["f_object_id_lo"] = ((Area)CurrentItem).ObjectIdLo;
+                row["f_description"] = ((Area)CurrentItem).Descript;
+                AreasExtWrapper.CurrentTable().Table.Rows.Add(row);
+            }
+            else
+            {
+                row.BeginEdit();
+                row["f_description"] = ((Area)CurrentItem).Descript;
+                row.EndEdit();
+            }
+
+            mainRow.BeginEdit();
+            mainRow["f_rec_date"] = DateTime.Now;
+            mainRow["f_rec_operator"] = Authorizer.AppAuthorizer.Id;
+            mainRow.EndEdit();
         }
     }
 
@@ -110,7 +184,8 @@ namespace SupRealClient.Models.AddUpdateModel
         protected override void SaveResult()
         {
             DataRow row = AreasSpacesWrapper.CurrentTable().Table.NewRow();
-            row["f_area_id"] = ((AreaSpace)CurrentItem).AreaId;
+            row["f_area_id_hi"] = ((AreaSpace)CurrentItem).AreaIdHi;
+            row["f_area_id_lo"] = ((AreaSpace)CurrentItem).AreaIdLo;
             row["f_space_id"] = ((AreaSpace)CurrentItem).SpaceId;
             row["f_deleted"] = "N";
             row["f_rec_date"] = DateTime.Now;
@@ -119,24 +194,66 @@ namespace SupRealClient.Models.AddUpdateModel
         }
     }
 
-    public class AddAccessPointModel : AddUpdateAbstrModel
+    public class UpdateAreaSpaceModel : AddUpdateAbstrModel
     {
-        public AddAccessPointModel()
+        public UpdateAreaSpaceModel(AreaSpace areaSpace)
         {
-            CurrentItem = new AccessPoint();
+            CurrentItem = areaSpace.Clone();
         }
 
         protected override void SaveResult()
         {
-            DataRow row = AccessPointsWrapper.CurrentTable().Table.NewRow();
-            row["f_access_point_name"] = ((AccessPoint)CurrentItem).Name;
-            row["f_access_point_description"] = ((AccessPoint)CurrentItem).Descript;
-            row["f_access_point_space_in"] = ((AccessPoint)CurrentItem).SpaceIn;
-            row["f_access_point_space_out"] = ((AccessPoint)CurrentItem).SpaceOut;
-            row["f_deleted"] = "N";
+            DataRow row = AreasSpacesWrapper.CurrentTable().Table.Rows.Find(((IdEntity)CurrentItem).Id);
+            row.BeginEdit();
+            row["f_area_id_hi"] = ((AreaSpace)CurrentItem).AreaIdHi;
+            row["f_area_id_lo"] = ((AreaSpace)CurrentItem).AreaIdLo;
+            row["f_space_id"] = ((AreaSpace)CurrentItem).SpaceId;
             row["f_rec_date"] = DateTime.Now;
             row["f_rec_operator"] = Authorizer.AppAuthorizer.Id;
-            AccessPointsWrapper.CurrentTable().Table.Rows.Add(row);
+            row.EndEdit();
+        }
+    }
+
+    public class UpdateAccessPointModel : AddUpdateAbstrModel
+    {
+        public UpdateAccessPointModel(AccessPoint accessPoint)
+        {
+            CurrentItem = accessPoint.Clone();
+        }
+
+        protected override void SaveResult()
+        {
+            DataRow mainRow = AccessPointsWrapper.CurrentTable().Table.Rows.Find(((IdEntity)CurrentItem).Id);
+
+            DataRow row = null;
+            foreach (DataRow r in AccessPointsExtWrapper.CurrentTable().Table.Rows)
+            {
+                if (mainRow.Field<int>("f_object_id_hi") == r.Field<int>("f_object_id_hi") &&
+                    mainRow.Field<int>("f_object_id_lo") == r.Field<int>("f_object_id_lo"))
+                {
+                    row = r;
+                    break;
+                }
+            }
+            if (row == null)
+            {
+                row = AccessPointsExtWrapper.CurrentTable().Table.NewRow();
+                row["f_object_id_hi"] = ((AccessPoint)CurrentItem).ObjectIdHi;
+                row["f_object_id_lo"] = ((AccessPoint)CurrentItem).ObjectIdLo;
+                row["f_description"] = ((AccessPoint)CurrentItem).Descript;
+                AccessPointsExtWrapper.CurrentTable().Table.Rows.Add(row);
+            }
+            else
+            {
+                row.BeginEdit();
+                row["f_description"] = ((AccessPoint)CurrentItem).Descript;
+                row.EndEdit();
+            }
+
+            mainRow.BeginEdit();
+            mainRow["f_rec_date"] = DateTime.Now;
+            mainRow["f_rec_operator"] = Authorizer.AppAuthorizer.Id;
+            mainRow.EndEdit();
         }
     }
 
@@ -172,14 +289,38 @@ namespace SupRealClient.Models.AddUpdateModel
         protected override void SaveResult()
         {
             DataRow row = AccessLevelWrapper.CurrentTable().Table.NewRow();
-            row["f_area_id"] = ((AccessLevel)CurrentItem).AreaId;
+            row["f_area_id_hi"] = ((AccessLevel)CurrentItem).AreaIdHi;
+            row["f_area_id_lo"] = ((AccessLevel)CurrentItem).AreaIdLo;
             row["f_level_name"] = ((AccessLevel)CurrentItem).Name;
-            row["f_schedule_id"] = ((AccessLevel)CurrentItem).ScheduleId;
+            row["f_schedule_id_hi"] = ((AccessLevel)CurrentItem).ScheduleIdHi;
+            row["f_schedule_id_lo"] = ((AccessLevel)CurrentItem).ScheduleIdLo;
             row["f_access_level_note"] = ((AccessLevel)CurrentItem).AccessLevelNote;
             row["f_deleted"] = "N";
             row["f_rec_date"] = DateTime.Now;
             row["f_rec_operator"] = Authorizer.AppAuthorizer.Id;
             AccessLevelWrapper.CurrentTable().Table.Rows.Add(row);
+        }
+    }
+
+    public class UpdateAccessLevelModel : AddUpdateAbstrModel
+    {
+        public UpdateAccessLevelModel(AccessLevel accessLevel)
+        {
+            CurrentItem = accessLevel.Clone();
+        }
+
+        protected override void SaveResult()
+        {
+            DataRow row = AccessLevelWrapper.CurrentTable().Table.Rows.Find(((IdEntity)CurrentItem).Id);
+            row.BeginEdit();
+            row["f_area_id_hi"] = ((AccessLevel)CurrentItem).AreaIdHi;
+            row["f_area_id_lo"] = ((AccessLevel)CurrentItem).AreaIdLo;
+            row["f_level_name"] = ((AccessLevel)CurrentItem).Name;
+            row["f_schedule_id_hi"] = ((AccessLevel)CurrentItem).ScheduleIdHi;
+            row["f_schedule_id_lo"] = ((AccessLevel)CurrentItem).ScheduleIdLo;
+            row["f_access_level_note"] = ((AccessLevel)CurrentItem).AccessLevelNote;
+            row["f_rec_date"] = DateTime.Now;
+            row.EndEdit();
         }
     }
 
@@ -230,14 +371,179 @@ namespace SupRealClient.Models.AddUpdateModel
         }
     }
 
+    public class UpdateScheduleModel : AddUpdateAbstrModel
+    {
+        public UpdateScheduleModel(Schedule schedule)
+        {
+            CurrentItem = schedule.Clone();
+        }
+
+        protected override void SaveResult()
+        {
+            DataRow mainRow = SchedulesWrapper.CurrentTable().Table.Rows.Find(((IdEntity)CurrentItem).Id);
+
+            DataRow row = null;
+            foreach (DataRow r in SchedulesExtWrapper.CurrentTable().Table.Rows)
+            {
+                if (mainRow.Field<int>("f_object_id_hi") == r.Field<int>("f_object_id_hi") &&
+                    mainRow.Field<int>("f_object_id_lo") == r.Field<int>("f_object_id_lo"))
+                {
+                    row = r;
+                    break;
+                }
+            }
+            if (row == null)
+            {
+                row = SchedulesExtWrapper.CurrentTable().Table.NewRow();
+                row["f_object_id_hi"] = ((Schedule)CurrentItem).ObjectIdHi;
+                row["f_object_id_lo"] = ((Schedule)CurrentItem).ObjectIdLo;
+                row["f_description"] = ((Schedule)CurrentItem).Descript;
+                SchedulesExtWrapper.CurrentTable().Table.Rows.Add(row);
+            }
+            else
+            {
+                row.BeginEdit();
+                row["f_description"] = ((Schedule)CurrentItem).Descript;
+                row.EndEdit();
+            }
+
+            mainRow.BeginEdit();
+            mainRow["f_rec_date"] = DateTime.Now;
+            mainRow["f_rec_operator"] = Authorizer.AppAuthorizer.Id;
+            mainRow.EndEdit();
+        }
+    }
+
     /// <summary>
     /// Обработчик формы добавления новой разовой заявки.
     /// </summary>
     public class AddSingleBidModel : AddUpdateAbstrModel
     {
-        public AddSingleBidModel()
+        public AddSingleBidModel(bool isTimeEditable,DateTime dateFrom, DateTime dateTo)
         {
-            CurrentItem = new VisitorOnOrder();
+            CurrentItem = new OrderElement(isTimeEditable, dateFrom, dateTo);
+        }
+    }
+
+    /// <summary>
+    /// Обработчик формы по редактированию заявки на человека.
+    /// </summary>
+    public class UpdateBidModel : AddUpdateAbstrModel
+    {
+        public UpdateBidModel(OrderElement visitor)
+        {
+            CurrentItem = visitor.Clone();
+        }
+    }
+
+    /// <summary>
+    /// Обработчик формы для добавления редактирования зон в заявку.
+    /// </summary>
+    public class AddUpdateZonesToBidModel : AddUpdateAbstrModel
+    {
+
+        public override event Action<object> OnClose;
+
+        private ObservableCollection<Area> setAllZones;
+        private ObservableCollection<Area> setAppointZones;
+        private Area currentAppointZone;
+
+        public ObservableCollection<Area> SetAllZones
+        {
+            get { return setAllZones;}
+            set { setAllZones = value; }
+        }
+
+        public ObservableCollection<Area> SetAppointZones
+        {
+            get { return setAppointZones; }
+            set { setAppointZones = value; }
+        }
+
+        public Area CurrentAppointZone
+        {
+            get { return currentAppointZone; }
+            set { currentAppointZone = value; }
+        }
+
+        public Area ToAppointZones()
+        {
+            if (CurrentItem != null)
+            {
+                int i = setAllZones.IndexOf((Area) CurrentItem);
+                SetAppointZones.Add((Area) CurrentItem);
+                SetAllZones.Remove((Area) CurrentItem);
+                if (SetAllZones.Count > i)
+                {
+                    CurrentItem = SetAllZones[i];
+                }
+                else if (SetAllZones.Count == 0)
+                {
+                    CurrentItem = null;
+                }
+                else
+                {
+                    CurrentItem = SetAllZones[i - 1];
+                }
+            }
+
+            return (Area)CurrentItem;
+        }
+
+        public Area ToAllZonesCommand()
+        {
+
+            if (CurrentAppointZone != null)
+            {
+                int i = SetAppointZones.IndexOf(CurrentAppointZone);
+                SetAllZones.Add(CurrentAppointZone);
+                SetAppointZones.Remove(CurrentAppointZone);
+                if (SetAppointZones.Count > i)
+                {
+                    CurrentAppointZone = SetAppointZones[i];
+                }
+                else if (SetAppointZones.Count == 0)
+                {
+                    CurrentAppointZone = null;
+                }
+                else
+                {
+                    CurrentAppointZone = SetAppointZones[i - 1];
+                }
+            }
+
+            return CurrentAppointZone;
+        }
+
+        public AddUpdateZonesToBidModel(ObservableCollection<Area> setAppointZones)
+        {
+            SetAppointZones = setAppointZones ?? new ObservableCollection<Area>();
+            Query();
+        }
+
+        private void Query()
+        {
+            
+            SetAllZones = new ObservableCollection<Area>(
+                from areas in AreasWrapper.CurrentTable().Table.AsEnumerable()
+                where areas.Field<int>("f_area_id") != 0 && 
+                      SetAppointZones.Where(
+                      arg => arg.Id == areas.Field<int>("f_area_id")).Count()==0
+                select new Area
+                {
+                    Id = areas.Field<int>("f_area_id"),
+                    Name = areas.Field<string>("f_area_name"),
+                    Descript = areas.Field<string>("f_area_descript")
+                });
+            //SetAppointZones = new ObservableCollection<Area>();
+            
+            CurrentItem = SetAllZones.Count > 0 ? SetAllZones[0] : null;
+            CurrentAppointZone = SetAppointZones.Count > 0 ? SetAppointZones[0] : null;
+        }
+
+        public override void Ok()
+        {
+            OnClose?.Invoke(SetAppointZones);
         }
     }
 }

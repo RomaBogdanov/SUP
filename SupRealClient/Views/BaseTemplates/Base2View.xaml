@@ -5,16 +5,16 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
              xmlns:converters="clr-namespace:SupRealClient.Behaviour"
+             xmlns:local="clr-namespace:SupRealClient.Views"
              mc:Ignorable="d" d:DesignHeight="300" d:DesignWidth="300"
-             PreviewKeyDown="UserControl_PreviewKeyDown">
-    
+             PreviewKeyDown="UserControl_PreviewKeyDown"
+             IsVisibleChanged="UserControl_IsVisibleChanged">    
     <UserControl.InputBindings>
-        <KeyBinding Gesture="Ctrl+D" Command="{Binding Update}"/>
-        <KeyBinding Gesture="Ctrl+F" Command="{Binding Search}"/>
-        <KeyBinding Gesture="Ctrl+G" Command="{Binding Farther}"/>
-        
-    </UserControl.InputBindings>
-    
+        <KeyBinding Gesture="Ctrl+D" Command="{Binding Update}"  />
+        <KeyBinding Gesture="Ctrl+F" Command="{Binding Search}"  />
+        <KeyBinding Gesture="Ctrl+G" Command="{Binding Farther}" />
+        <KeyBinding Gesture="Ctrl+Enter" Command="{Binding Ok}" />
+    </UserControl.InputBindings>    
     <!--<UserControl.DataContext>
         <local:Organizations1ViewModel />
     </UserControl.DataContext>-->
@@ -26,6 +26,7 @@
         </ResourceDictionary>
     </UserControl.Resources>
     <Grid>
+
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="1*"/>
             <ColumnDefinition Width="1*"/>
@@ -44,10 +45,10 @@
             <RowDefinition Height="30"/>
             <RowDefinition Height="50"/>
         </Grid.RowDefinitions>
-        <DataGrid 
-            Name="baseTab" 
+        <local:CustomDataGrid             
+            x:Name="baseTab" 
             Grid.Row="0" 
-            Grid.RowSpan="3" 
+            Grid.RowSpan="2" 
             Grid.ColumnSpan="10"
             ItemsSource="{Binding Path=Set, Mode=TwoWay}" 
             CurrentItem="{Binding Path=CurrentItem, Mode=TwoWay}"
@@ -56,23 +57,34 @@
             SelectedItem="{Binding Path=CurrentItem, Mode=TwoWay}" 
             converters:DataGridTextSearch.SearchValue="{Binding ElementName=tbxSearch, Path=Text, UpdateSourceTrigger=PropertyChanged}"
             SelectedIndex="{Binding Path=SelectedIndex, Mode=TwoWay}"
-            CurrentColumn="{Binding Path=CurrentColumn, Mode=TwoWay}"
-            ColumnHeaderStyle="{StaticResource SelectionColumnHeader}"
+            CurrentColumn="{Binding Path=CurrentColumn, Mode=TwoWay}"            
+            Style="{StaticResource AzureDataGrid1}"
             KeyDown="BaseTab_OnKeyDown"
-            ColumnWidth="*" Style="{StaticResource AzureDataGrid1}"
-            CanUserAddRows="False"> <!-- TODO - вернуть SelectedValue="{Binding Path=SelectedValue, Mode=TwoWay}"  -->
+            ColumnWidth="*"            
+            CanUserAddRows="False" 
+            SelectionChanged="baseTab_SelectionChanged"
+            LoadingRow="baseTab_LoadingRow" 
+            Loaded="baseTab_Loaded"
+            Sorted="baseTab_Sorted">            
+            <!-- TODO - вернуть SelectedValue="{Binding Path=SelectedValue, Mode=TwoWay}"  -->
+            <DataGrid.ColumnHeaderStyle>
+                <Style TargetType="DataGridColumnHeader" BasedOn="{StaticResource SelectionColumnHeader}">
+                    <EventSetter Event="PreviewMouseLeftButtonUp" Handler="dgColumnHeader_PreviewMouseLeftButtonUp"></EventSetter>
+                </Style>                
+            </DataGrid.ColumnHeaderStyle>
+            
             <DataGrid.InputBindings>
                 <KeyBinding Key="Delete" Command="{Binding Remove}"/>
                 <MouseBinding
                     MouseAction="RightClick"
                     Command="{Binding RightClickCommand}"/>
-                
+
                 <MouseBinding
                     MouseAction="LeftDoubleClick"
                     Command="{Binding Update}"/>
             </DataGrid.InputBindings>
-        </DataGrid>
-        
+        </local:CustomDataGrid>
+
         <TextBlock 
             Grid.Row="2" 
             Grid.Column="0" 
@@ -80,7 +92,7 @@
             Margin="1" 
             FontSize="{Binding FontSize}" 
             Style="{StaticResource TextBLockStyle}"/>
-        
+
         <TextBox 
             Name="tbxSearch" 
             Grid.Row="2" 
@@ -89,8 +101,8 @@
             Margin="1" 
             Text="{Binding Path=SearchingText, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" 
             FontSize="{Binding FontSize}" 
-            Style="{StaticResource TextBoxStyle}"/>
-        
+            Style="{StaticResource TextBoxStyle}" TextChanged="tbxSearch_TextChanged"/>
+
         <Button 
             Grid.Row="3" 
             Grid.Column="0" 
@@ -98,17 +110,18 @@
             Command="{Binding Path=Begin}" 
             KeyDown="BaseTab_OnKeyDown" 
             Style="{StaticResource ButtonStyle}"
-            ToolTip="Home">
+            ToolTip="Home" 
+            PreviewMouseLeftButtonDown="Button_PreviewMouseLeftButtonDown">
             <Grid>
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="30"/>
                     <ColumnDefinition/>
                 </Grid.ColumnDefinitions>
-                
+
                 <Image
                     Grid.Column="0"
                     Source="../../Resources/Начало (2).ico"/>
-                
+
                 <TextBlock
                     Grid.Column="1"
                     Text="Начало"
@@ -116,7 +129,7 @@
                     Style="{StaticResource TextBLockStyle}"/>
             </Grid>
         </Button>
-        
+
         <Button 
             Name="btnUp"
             Grid.Row="3" 
@@ -125,7 +138,8 @@
             Command="{Binding Path=Prev}" 
             KeyDown="BaseTab_OnKeyDown"
             Style="{StaticResource ButtonStyle}"
-            ToolTip="↑">
+            ToolTip="↑"
+            PreviewMouseLeftButtonDown="Button_PreviewMouseLeftButtonDown">
             <Grid>
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="30"/>
@@ -143,7 +157,7 @@
                     Style="{StaticResource TextBLockStyle}"/>
             </Grid>
         </Button>
-        
+
         <Button 
             Name="btnDown"
             Grid.Row="3" 
@@ -152,7 +166,8 @@
             Command="{Binding Path=Next}" 
             KeyDown="BaseTab_OnKeyDown"
             Style="{StaticResource ButtonStyle}"
-            ToolTip="↓">
+            ToolTip="↓"
+            PreviewMouseLeftButtonDown="Button_PreviewMouseLeftButtonDown">
             <Grid>
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="30"/>
@@ -170,7 +185,7 @@
                     Style="{StaticResource TextBLockStyle}"/>
             </Grid>
         </Button>
-        
+
         <Button 
             Grid.Row="3" 
             Grid.Column="3"
@@ -178,7 +193,8 @@
             Command="{Binding Path=End}" 
             KeyDown="BaseTab_OnKeyDown"
             Style="{StaticResource ButtonStyle}"
-            ToolTip="End">
+            ToolTip="End"
+            PreviewMouseLeftButtonDown="Button_PreviewMouseLeftButtonDown">
             <Grid>
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="30"/>
@@ -196,15 +212,17 @@
                     Style="{StaticResource TextBLockStyle}"/>
             </Grid>
         </Button>
-        
+
         <Button 
+            Name="butAdd"
             Grid.Row="3" 
             Grid.Column="4" 
             Margin="1" 
             Command="{Binding Path=Add}" 
             KeyDown="BaseTab_OnKeyDown"
             Style="{StaticResource ButtonStyle}"
-            ToolTip="Insert">
+            ToolTip="Insert"
+            PreviewMouseLeftButtonDown="Button_PreviewMouseLeftButtonDown">
             <Grid>
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="30"/>
@@ -249,7 +267,7 @@
                     Style="{StaticResource TextBLockStyle}"/>
             </Grid>
         </Button>
-        
+
         <Button 
             Grid.Row="3" 
             Grid.Column="6" 
@@ -275,7 +293,7 @@
                     Style="{StaticResource TextBLockStyle}"/>
             </Grid>
         </Button>
-        
+
         <Button 
             Grid.Row="3" 
             Grid.Column="7" 
@@ -283,7 +301,9 @@
             Command="{Binding Path=Farther}" 
             IsEnabled="{Binding Path=FartherEnabled}"
             KeyDown="BaseTab_OnKeyDown"
-            Style="{StaticResource ButtonStyle}">
+            Style="{StaticResource ButtonStyle}"
+            ToolTip="Ctrl+G"
+            PreviewMouseLeftButtonDown="Button_PreviewMouseLeftButtonDown">
             <Grid>
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="30"/>
@@ -301,7 +321,34 @@
                     Style="{StaticResource TextBLockStyle}"/>
             </Grid>
         </Button>
-        
+
+        <Button 
+            Grid.Row="3" 
+            Grid.Column="8" 
+            Margin="1" 
+            Command="{Binding Path=Ok}" 
+            Visibility="{Binding Path=OkVisibility, Mode=OneTime}" 
+            KeyDown="BaseTab_OnKeyDown"
+            Style="{StaticResource ButtonStyle}"
+            PreviewMouseLeftButtonDown="Button_PreviewMouseLeftButtonDown">
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="30"/>
+                    <ColumnDefinition/>
+                </Grid.ColumnDefinitions>
+
+                <Image
+                    Grid.Column="0"
+                    Source="../../Resources/Принять (2).ico"/>
+
+                <TextBlock
+                    Grid.Column="1"
+                    Text="ОК"
+                    FontSize="{Binding FontSize}"
+                    Style="{StaticResource TextBLockStyle}"/>
+            </Grid>
+        </Button>
+
         <Button 
             Grid.Row="3" 
             Grid.Column="9" 

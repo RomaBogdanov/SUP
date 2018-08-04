@@ -116,6 +116,16 @@ namespace SupClientConnectionLib
             return this.tableService.ExitAuthorize(authorizer.GetInfo());
         }
 
+        public bool ImportFromAndover()
+        {
+            return this.tableService.ImportFromAndover(authorizer.GetInfo());
+        }
+
+        public bool ExportToAndover(AndoverExportData data)
+        {
+            return this.tableService.ExportToAndover(data, authorizer.GetInfo());
+        }
+
         public DataTable GetTable(TableName tableName)
         {
             this.compositeType.TableName = tableName;
@@ -127,7 +137,7 @@ namespace SupClientConnectionLib
         {
             for (int i = 0; i < rowValues.Length; i++)
             {
-                if (rowValues[i] as DBNull != null)
+                if (rowValues[i] is DBNull)
                 {
                     rowValues[i] = "";
                 }
@@ -145,7 +155,7 @@ namespace SupClientConnectionLib
         {
             for (int i = 0; i < rowValues.Length; i++)
             {
-                if (rowValues[i] as DBNull != null)
+                if (rowValues[i] is DBNull)
                 {
                     rowValues[i] = "";
                 }
@@ -153,7 +163,7 @@ namespace SupClientConnectionLib
             bool b;
             lock (this.tableService)
             {
-                b = this.tableService.UpdateRow(compositeType, numRow, rowValues,
+                b = this.tableService.UpdateRow(compositeType, numRow, rowValues ,
                     authorizer.GetInfo());
             }
             return b;
@@ -227,7 +237,9 @@ namespace SupClientConnectionLib
                 {
                     MaxArrayLength = 2147483647,
                     MaxStringContentLength = 2147483647
-                }
+                },
+                ReceiveTimeout = TimeSpan.FromMinutes(5),
+                SendTimeout = TimeSpan.FromMinutes(5)
             };
             var myChannelFactory = new DuplexChannelFactory<ITableService>(
                 instanceContext, binding, new EndpointAddress(ClientConnector.uri));

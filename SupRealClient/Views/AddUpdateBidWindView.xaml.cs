@@ -1,85 +1,95 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Collections.Generic;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
 using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Shapes;
-using System.ComponentModel;
-using  SupRealClient;
-using SupRealClient.Models.AddUpdateModel;
 
 namespace SupRealClient.Views
 {
-    /// <summary>
-    /// Логика взаимодействия для AddUpdateBidWindView.xaml
-    /// </summary>
-    public partial class AddUpdateBidWindView : Window
+	/// <summary>
+	/// Логика взаимодействия для AddUpdateBidWindView.xaml
+	/// </summary>
+	public partial class AddUpdateBidWindView
     {
+	    private readonly List<UIElement> _enterUiElementsSequence;
+	    private UIElement _previousEnterUiElement = null;
+
+        public object WindowResult { get; set; }
+
         public AddUpdateBidWindView()
         {
             InitializeComponent();
-        }
-        public object WindowResult { get; set; }
+	        _enterUiElementsSequence = new List<UIElement>
+	        {
+		        btnSelectBid,
+		        btnSelectOrganization,
+		        tbPosition,
+		        btnSelectCatcher,
+		        dpTimeFrom,
+		        dpTimeTo,
+		        btnSelectPass,
+		        checkDisable,
+		        btnOK
+	        };
+		}        
 
         public void Handling_OnClose(object result)
         {
-            WindowResult = result;
+			WindowResult = result;
             this.Close();
         }
+
+        private void MetroWindow_Loaded(object sender, RoutedEventArgs e)
+        {
+            btnSelectBid.Focus();
+        }
+
+	    private void UiElement_PreviewKeyDown(object sender, KeyEventArgs e)
+	    {
+		    if (e.Key != Key.Enter)
+		    {
+				return;
+		    }
+
+		    bool isSenderButton = sender is Button;
+
+
+			if (_previousEnterUiElement !=null && (!isSenderButton || _previousEnterUiElement.Equals(sender)))
+		    {
+			    if (!isSenderButton)
+			    {
+				    _previousEnterUiElement = (UIElement) sender;
+			    }
+			    UIElement newFocus = _previousEnterUiElement;
+			    while (true)
+			    {
+				    int index = _enterUiElementsSequence.FindIndex(x => x.Equals(newFocus));
+				    index = (index + 1) % _enterUiElementsSequence.Count;
+					newFocus = _enterUiElementsSequence[index];
+				    newFocus?.Focus();
+
+				    if (newFocus != null && !newFocus.IsEnabled)
+				    {
+						continue;
+				    }
+
+				    break;
+			    }
+			   
+			    e.Handled = true;
+		    }
+		    else
+		    {
+			    _previousEnterUiElement = (UIElement)sender;
+			}
+	    }
+
+	    private void Window_PreviewKeyDown(object sender, KeyEventArgs e)
+	    {
+		    if (e.Key == Key.Escape)
+		    {
+			    Close();
+			    e.Handled = true;
+		    }
+	    }
     }
-
-    /*
-    public class AddUpdateBidWindViewModel : INotifyPropertyChanged
-    {
-        public event PropertyChangedEventHandler PropertyChanged;
-        public void OnPropertyChanged(string prop = "")
-        {
-            if (PropertyChanged != null)
-                PropertyChanged(this, new PropertyChangedEventArgs(prop));
-        }
-
-        public AddUpdateAbstrModel Model { get; set; }
-
-        public string Visitor { get; set; }
-
-        public string Organization { get; set; }
-
-        public string Catcher { get; set; }
-
-        public DateTime From { get; set; }
-
-        public DateTime To { get; set; }
-
-        public string Passes { get; set; }
-
-        public ICommand Ok { get; set; }
-
-        public ICommand Cancel { get; set; }
-
-        public AddUpdateBidWindViewModel()
-        {
-            Ok = new RelayCommand(arg => OkCommand());
-            Cancel = new RelayCommand(arg => CancelCommand());
-        }
-
-        private void OkCommand()
-        {
-            Model.Ok();
-        }
-
-
-        private void CancelCommand()
-        {
-            Model.Cancel();
-        }
-
-    }
-    */
 }

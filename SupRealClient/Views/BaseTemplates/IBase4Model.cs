@@ -2,6 +2,7 @@
 using System.Windows.Controls;
 using System.Collections.ObjectModel;
 using SupRealClient.Common.Interfaces;
+using System.Windows.Data;
 
 namespace SupRealClient.Views
 {
@@ -10,7 +11,10 @@ namespace SupRealClient.Views
         event ModelPropertyChanged OnModelPropertyChanged;
         event Action<object> OnClose;
 
+        Action ScrollCurrentItem { get; set; }
+
         ObservableCollection<T> Set { get; set; }
+        CollectionView CollectionView { get; }
         T CurrentItem { get; set; }
         int SelectedIndex { get; set; }
         DataGridColumn CurrentColumn { get; set; }

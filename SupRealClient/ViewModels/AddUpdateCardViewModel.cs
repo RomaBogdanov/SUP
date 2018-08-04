@@ -16,6 +16,14 @@ namespace SupRealClient.ViewModels
         private int numMAFW;
         private string comment;
 
+        /// <summary>
+        /// Заголовок окна.
+        /// </summary>
+        public string Caption { get; private set; }
+
+        /// <summary>
+        /// Пропуск.
+        /// </summary>
         public int CurdNum
         {
             get { return curdNum; }
@@ -26,6 +34,9 @@ namespace SupRealClient.ViewModels
             }
         }
 
+        /// <summary>
+        /// Текущее состояние.
+        /// </summary>
         public string State
         {
             get { return state; }
@@ -39,6 +50,9 @@ namespace SupRealClient.ViewModels
             }
         }
 
+        /// <summary>
+        /// Внесен в БД.
+        /// </summary>
         public DateTime CreateDate
         {
             get { return createDate; }
@@ -52,6 +66,9 @@ namespace SupRealClient.ViewModels
             }
         }
 
+        /// <summary>
+        /// Номер пропуска в MultiAccess.
+        /// </summary>
         public int NumMAFW
         {
             get { return numMAFW; }
@@ -62,6 +79,9 @@ namespace SupRealClient.ViewModels
             }
         }
 
+        /// <summary>
+        /// Комментарий.
+        /// </summary>
         public string Comment
         {
             get { return comment; }
@@ -80,9 +100,13 @@ namespace SupRealClient.ViewModels
 
         public AddUpdateCardViewModel() { }
 
+
         public void SetModel(IAddUpdateCardModel addItem1Model)
         {
             this.model = addItem1Model;
+            this.Caption = addItem1Model is AddCardModel ? "Добавление пропуска" :
+                           addItem1Model is UpdateCardModel ? "Редактирование пропуска" :
+                           string.Empty;
             this.CurdNum = model.Data.CurdNum;
             this.CreateDate = model.Data.CreateDate;
             this.NumMAFW = model.Data.NumMAFW;
