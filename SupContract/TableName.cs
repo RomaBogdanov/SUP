@@ -43,7 +43,6 @@
         VisKeyHolders,
         VisAreaOrderElement,
         VisCardArea,
-        VisTemplates,
-        VisTemplatesAreas
+        VisTemplates
     }
 }
