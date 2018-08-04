@@ -12,6 +12,7 @@ using SupRealClient.EnumerationClasses;
 using SupRealClient.Views;
 using SupRealClient.TabsSingleton;
 using System.Data;
+using SupRealClient.Common;
 
 namespace SupRealClient.ViewModels.AddUpdateViewModel
 {
@@ -176,7 +177,6 @@ namespace SupRealClient.ViewModels.AddUpdateViewModel
 				return;
 	        }
             CurrentOrderElement.CatcherId = result.Id;
-            CurrentOrderElement.Catcher = result.Name;
             CurrentItem = CurrentItem;
         }
 
@@ -249,9 +249,15 @@ namespace SupRealClient.ViewModels.AddUpdateViewModel
 		        string.IsNullOrEmpty(CurrentOrderElement.Catcher) ||
 		        string.IsNullOrEmpty(CurrentOrderElement.Organization))
 		    {
-			    MessageBox.Show("Не все поля заполнены", "Ошибка");
+			    MessageBox.Show("Не все поля заполнены.", "Ошибка");
 				return;
 		    }
+
+			if (!CommonHelper.IsPositionCorrect(CurrentOrderElement.Position))
+			{
+				MessageBox.Show("Некорретно введена должность.", "Ошибка");
+				return;
+			}
 
 			base.OkCommand();
 	    }
