@@ -174,20 +174,10 @@ namespace SupRealClient.EnumerationClasses
 			}
 		}
 
-		private string catcher = "";
-
 		/// <summary>
 		/// Полное имя сопровождающего
 		/// </summary>
-		public string Catcher
-		{
-			get { return catcher; }
-			set
-			{
-				catcher = value;
-				OnPropertyChanged();
-			}
-		}
+		public string Catcher { get; private set; } = "";
 
 		/// <summary>
 		/// Заблокировано ли для изменений время

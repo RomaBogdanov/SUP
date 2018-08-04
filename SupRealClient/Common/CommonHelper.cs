@@ -1,4 +1,6 @@
-﻿using System.Data;
+﻿using System;
+using System.Data;
+using System.Linq;
 
 namespace SupRealClient.Common
 {
@@ -25,6 +27,11 @@ namespace SupRealClient.Common
             return family.Trim() + " " + name.Trim().Substring(0, 1) + ". " +
                 secondName.Trim().Substring(0, 1) + ".";
         }
+
+	    public static bool IsPositionCorrect(string position)
+	    {
+		    return position.Any(Char.IsLetter);
+	    }
 
         public static bool IsSearchConditionMatch(string value, string searching)
         {
