@@ -468,12 +468,13 @@ namespace SupRealClient.Views
 			    Num = person.DocumentNumber?.Value,
 			    Seria = person.DocumentSeria?.Value,
 			    Code = person.DocumentDeliveryPlaceCode?.Value,
-			    Date = CurrentItem.DocDate
 		    };
 
 		    try
 		    {
+			    document.Date = DateTime.Parse(person.DocumentDeliveryDate?.Value);
 			    document.DateTo = DateTime.Parse(person.DocumentDateOfExpiry?.Value);
+			    document.BirthDate = DateTime.Parse(person.DateOfBirth?.Value);
 		    }
 		    catch (Exception)
 		    {
@@ -482,19 +483,19 @@ namespace SupRealClient.Views
 
 		    document.Comment += GetDocumentComment(person);
 
-			//проверка на наличие документа в списке документов CurrentItem
+		    //проверка на наличие документа в списке документов CurrentItem
 		    var isContains = false;
 		    for (var index = 0; index < CurrentItem.MainDocuments.Count; index++)
 		    {
-			    if (string.IsNullOrEmpty(CurrentItem.MainDocuments[index]?.Num?.Trim()) 
+			    if (string.IsNullOrEmpty(CurrentItem.MainDocuments[index]?.Num?.Trim())
 			        || string.IsNullOrEmpty(document.Num?.Trim())
-				    || string.Equals(CurrentItem.MainDocuments[index]?.Num?.Trim(), document.Num?.Trim()))
+			        || string.Equals(CurrentItem.MainDocuments[index]?.Num?.Trim(), document.Num?.Trim()))
 			    {
 				    isContains = true;
 				    (view as Window)?.Invoke(() => { CurrentItem.MainDocuments[index] = document; });
 			    }
 		    }
-		    
+
 		    if (!isContains)
 		    {
 			    (view as Window)?.Invoke(() => { Model.AddMainDocument(document); });
