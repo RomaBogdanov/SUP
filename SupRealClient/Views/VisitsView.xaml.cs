@@ -487,6 +487,7 @@ namespace SupRealClient.Views
 			    Num = person.DocumentNumber?.Value,
 			    Seria = person.DocumentSeria?.Value,
 			    Code = person.DocumentDeliveryPlaceCode?.Value,
+			    Images = GetScansByDocNumber(person, person.DocumentNumber?.Value)
 		    };
 
 		    try
@@ -519,6 +520,27 @@ namespace SupRealClient.Views
 		    {
 			    (view as Window)?.Invoke(() => { Model.AddMainDocument(document); });
 		    }
+	    }
+
+	    /// <summary>
+	    /// Сканы документа по номеру.
+	    /// </summary>
+	    private List<Guid> GetScansByDocNumber(CPerson person, string number)
+	    {
+		    var result = new List<Guid>();
+		    if (person?.PagesScanHash!=null && person.PagesScanHash.Count != 0)
+		    {
+				    foreach (var key in person.PagesScanHash.Keys)
+				    {
+					    if (key.Contains(number.Trim().ToLower()))
+					    {
+						    var page = person.PagesScanHash[key];
+						    result.Add(ImagesHelper.GetGuidFromByteArray(page));
+					    }
+				    }
+		    }
+
+		    return result;
 	    }
 
 	    /// <summary>
@@ -727,11 +749,12 @@ namespace SupRealClient.Views
         }
 
 
-        private void New()
-        {
-            Model = new NewVisitsModel();
-	        IsRedactMode = true;
-        }
+	    private void New()
+	    {
+		    _documentScaner?.Connect();
+		    Model = new NewVisitsModel();
+		    IsRedactMode = true;
+	    }
 
 
 	    private void Extradite()
@@ -771,7 +794,8 @@ namespace SupRealClient.Views
 
         private void Edit()
         {
-            Model = new EditVisitsModel(Set, CurrentItem);
+	        _documentScaner?.Connect();
+			Model = new EditVisitsModel(Set, CurrentItem);
 	        IsRedactMode = true;
 		}
 
