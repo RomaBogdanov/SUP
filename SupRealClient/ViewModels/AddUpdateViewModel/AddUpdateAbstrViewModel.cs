@@ -184,7 +184,7 @@ namespace SupRealClient.ViewModels.AddUpdateViewModel
         {
             // todo: переделать нормально
             AddUpdateAbstrModel zonesModel = new AddUpdateZonesToBidModel(
-                CurrentOrderElement.Areas);
+                CurrentOrderElement);
             AddUpdateBaseViewModel viewModel = new AddUpdateZonesToBidViewModel
             {
                 Model = zonesModel
@@ -195,14 +195,15 @@ namespace SupRealClient.ViewModels.AddUpdateViewModel
             };
             viewModel.Model.OnClose += wind.Handling_OnClose;
             wind.ShowDialog();
-            if (wind.WindowResult as ObservableCollection<Area> == null)
+            if (wind.WindowResult as OrderElement == null)
             {
                 return;
             }
-            CurrentOrderElement.Areas = wind.WindowResult as 
-                ObservableCollection<Area>;
+            CurrentOrderElement.Areas = (wind.WindowResult as OrderElement).Areas;
+            CurrentOrderElement.AreaIdList =
+                AndoverEntityListHelper.AndoverEntitiesToString(CurrentOrderElement.Areas);
             string st = "";
-            foreach (var area in wind.WindowResult as ObservableCollection<Area>)
+            foreach (var area in (wind.WindowResult as OrderElement).Areas)
             {
                 st += area.Name + ", ";
             }
@@ -288,6 +289,16 @@ namespace SupRealClient.ViewModels.AddUpdateViewModel
             }
         }
 
+        public Area CurrentAllZone
+        {
+            get { return ((AddUpdateZonesToBidModel)this.Model).CurrentAllZone; }
+            set
+            {
+                ((AddUpdateZonesToBidModel)this.Model).CurrentAllZone = value;
+                OnPropertyChanged();
+            }
+        }
+
         public Area CurrentAppointZone
         {
             get { return ((AddUpdateZonesToBidModel)this.Model).CurrentAppointZone; }
@@ -316,7 +327,7 @@ namespace SupRealClient.ViewModels.AddUpdateViewModel
 
         private void ToAppointZonesCommand()
         {
-            CurrentItem = ((AddUpdateZonesToBidModel) this.Model).ToAppointZones();
+            CurrentAllZone = ((AddUpdateZonesToBidModel) this.Model).ToAppointZones();
         }
 
         private void ToAllZonesCommand()

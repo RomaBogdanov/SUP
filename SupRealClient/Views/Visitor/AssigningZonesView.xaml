@@ -50,7 +50,7 @@
             AutoGenerateColumns="False"
             CanUserAddRows="False"
             ItemsSource="{Binding SetAllZones, Mode=TwoWay}"
-            SelectedItem="{Binding CurrentItem, Mode=TwoWay}"
+            SelectedItem="{Binding CurrentAllZone, Mode=TwoWay}"
             BorderBrush="Black"
             BorderThickness="1">
             <DataGrid.Columns>

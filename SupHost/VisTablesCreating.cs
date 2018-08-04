@@ -678,27 +678,6 @@ namespace SupHost
 		}
     }
     /// <summary>
-    /// TableBehavior для Связь между областью и заявкой
-    /// </summary>
-    partial class VisAreaOrderElementTableBehavior : VisitorsDBTableBehavior
-    {
-        public VisAreaOrderElementTableBehavior()
-        {
-            this.StandartSetup("vis_areas_order_elements", "f_area_order_element_id");
-        }
-    }
-
-    /// <summary>
-    /// TableWrapper для Связь между областью и заявкой
-    /// </summary>
-	partial class VisAreaOrderElementTableWrapper : AbstractTableWrapper
-    {
-        public VisAreaOrderElementTableWrapper()
-        { 
-			this.getTableBehavior = new VisAreaOrderElementTableBehavior(); 
-		}
-    }
-    /// <summary>
     /// TableBehavior для Связь между картой и областью
     /// </summary>
     partial class VisCardAreaTableBehavior : VisitorsDBTableBehavior
@@ -738,27 +717,6 @@ namespace SupHost
         public VisTemplatesTableWrapper()
         { 
 			this.getTableBehavior = new VisTemplatesTableBehavior(); 
-		}
-    }
-    /// <summary>
-    /// TableBehavior для Связь между шаблоном и областью
-    /// </summary>
-    partial class VisTemplatesAreasTableBehavior : VisitorsDBTableBehavior
-    {
-        public VisTemplatesAreasTableBehavior()
-        {
-            this.StandartSetup("vis_templates_areas", "f_template_area_id");
-        }
-    }
-
-    /// <summary>
-    /// TableWrapper для Связь между шаблоном и областью
-    /// </summary>
-	partial class VisTemplatesAreasTableWrapper : AbstractTableWrapper
-    {
-        public VisTemplatesAreasTableWrapper()
-        { 
-			this.getTableBehavior = new VisTemplatesAreasTableBehavior(); 
 		}
     }
 }
