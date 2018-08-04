@@ -36,6 +36,7 @@ namespace SupRealClient.Views
 			NameTextBlock.Text = person.Name?.Value;
 			PatronymicTextBlock.Text = person.Patronymic?.Value;
 			
+			DocumentSeriaTextBlock.Text = person.DocumentSeria?.Value;
 			DocumentNumberTextBlock.Text = person.DocumentNumber?.Value;
 			DocumentDeliveryPlaceTextBlock.Text = person.DocumentDeliveryPlace?.Value;
 

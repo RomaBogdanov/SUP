@@ -429,6 +429,7 @@ namespace SupRealClient.Views
 		    var document = new VisitorsMainDocument
 		    {
 			    Num = person.DocumentNumber?.Value,
+			    Seria = person.DocumentSeria?.Value,
 			    Code = person.DocumentDeliveryPlaceCode?.Value,
 			    Date = CurrentItem.DocDate
 		    };
