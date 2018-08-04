@@ -14,7 +14,7 @@
     Height="827.512"
     Closing="Window_Closing"
     Initialized="MetroWindow_Initialized"
-    PreviewKeyDown="Window_PreviewKeyDown"
+    PreviewKeyDown="MainWindow_PreviewKeyDown"
     ResizeMode="NoResize"
     mc:Ignorable="d">
     <mah:MetroWindow.InputBindings>
@@ -112,10 +112,12 @@
                             Grid.Column="1"
                             Style="{StaticResource TextBoxStyle}"/>-->
                             <DatePicker
+                                Name="dpSingleOrderDate"
                                 Grid.Column="3"
                                 Height="25"
                                 Margin="2"
                                 IsEnabled="{Binding TextEnable, UpdateSourceTrigger=PropertyChanged}"
+                                PreviewKeyDown="UiElement_PreviewKeyDown"
                                 SelectedDate="{Binding CurrentSingleOrder.From, Mode=TwoWay}">
                                 <DatePicker.Resources>
                                     <Style TargetType="{x:Type DatePickerTextBox}">
@@ -151,10 +153,12 @@
                             </Grid.ColumnDefinitions>
 
                             <Button
+                                Name="btnSingleOrderAdd"
                                 Grid.Column="0"
                                 Height="40"
                                 Margin="10,10,10,10"
                                 Command="{Binding AddPersonCommand}"
+                                PreviewKeyDown="UiElement_PreviewKeyDown"
                                 Style="{StaticResource VisitorsSquareButtonStyle}"
                                 Visibility="{Binding AddUpdVisib, Mode=TwoWay}">
                                 <Button.Content>
@@ -285,17 +289,19 @@
                                     Width="150"
                                     Margin="22,2,2,2"
                                     VerticalContentAlignment="Center"
-                                    IsEnabled="{Binding TextEnable, UpdateSourceTrigger=PropertyChanged}"
+                                    IsEnabled="False"
                                     Style="{StaticResource TextBoxStyle}"
                                     Text="{Binding CurrentSingleOrder.Signed, Mode=TwoWay}" />
 
                                 <Button
+                                    Name="btnSingleOrderSigner"
                                     Width="25"
                                     Height="25"
                                     Margin="10,2,2,2"
                                     Command="{Binding SignerCommand}"
                                     Content="..."
                                     IsEnabled="{Binding TextEnable, UpdateSourceTrigger=PropertyChanged}"
+                                    PreviewKeyDown="UiElement_PreviewKeyDown"
                                     Style="{StaticResource VisitorsSquareButtonStyle}" />
                             </StackPanel>
                             <Grid>
@@ -352,24 +358,8 @@
                                 <ColumnDefinition Width="10" />
                             </Grid.ColumnDefinitions>
 
-                            <TextBlock
-                                Grid.Column="3"
-                                Width="109"
-                                Height="23"
-                                Margin="5"
-                                HorizontalAlignment="Left"
-                                Style="{StaticResource TextBLockStyle}"
-                                Text="Примечание:" />
-
-                            <TextBox
-                                Grid.Column="4"
-                                Height="26"
-                                VerticalContentAlignment="Center"
-                                IsEnabled="{Binding TextEnable, UpdateSourceTrigger=PropertyChanged}"
-                                Style="{StaticResource TextBoxStyle}"
-                                Text="{Binding CurrentSingleOrder.Note, Mode=TwoWay}" />
-
                             <CheckBox
+                                Name="cbSingleOrderActive"
                                 Grid.Column="1"
                                 Width="24"
                                 Height="18"
@@ -378,7 +368,8 @@
                                 VerticalAlignment="Center"
                                 FontSize="18"
                                 IsChecked="{Binding CurrentSingleOrder.IsDisable, Mode=TwoWay}"
-                                IsEnabled="{Binding TextEnable, UpdateSourceTrigger=PropertyChanged}" />
+                                IsEnabled="{Binding TextEnable, UpdateSourceTrigger=PropertyChanged}"
+                                PreviewKeyDown="UiElement_PreviewKeyDown" />
 
                             <TextBlock
                                 Grid.Row="0"
@@ -389,6 +380,27 @@
                                 HorizontalAlignment="Left"
                                 Style="{StaticResource TextBLockStyle}"
                                 Text="Заявка не активна" />
+
+                            <TextBlock
+                                Grid.Column="3"
+                                Width="109"
+                                Height="23"
+                                Margin="5"
+                                HorizontalAlignment="Left"
+                                Style="{StaticResource TextBLockStyle}"
+                                Text="Примечание:" />
+
+                            <TextBox
+                                Name="tbSingleOrderNote"
+                                Grid.Column="4"
+                                Height="26"
+                                VerticalContentAlignment="Center"
+                                IsEnabled="{Binding TextEnable, UpdateSourceTrigger=PropertyChanged}"
+                                PreviewKeyDown="UiElement_PreviewKeyDown"
+                                Style="{StaticResource TextBoxStyle}"
+                                Text="{Binding CurrentSingleOrder.Note, Mode=TwoWay}" />
+
+
                         </Grid>
                         <Grid Grid.Row="6" Margin="0,10,0,0">
                             <Grid.ColumnDefinitions>
@@ -523,10 +535,12 @@
                                 Text="{Binding CurrentTemporaryOrder.RegNumber, Mode=TwoWay}" />
 
                             <CheckBox
+                                Name="cbTempOrderUnlimited"
                                 Grid.Column="2"
                                 HorizontalAlignment="Center"
                                 VerticalAlignment="Center"
-                                IsEnabled="{Binding TextEnable, UpdateSourceTrigger=PropertyChanged}" />
+                                IsEnabled="{Binding TextEnable, UpdateSourceTrigger=PropertyChanged}"
+                                PreviewKeyDown="UiElement_PreviewKeyDown" />
 
                             <TextBlock
                                 Grid.Column="3"
@@ -535,10 +549,12 @@
                                 Text="Бессрочная заявка" />
 
                             <Button
+                                Name="btnTempOrderAdd"
                                 Grid.Column="4"
                                 Margin="10"
                                 Command="{Binding AddPersonCommand}"
                                 Content="Добавить"
+                                PreviewKeyDown="UiElement_PreviewKeyDown"
                                 Visibility="{Binding AddUpdVisib, Mode=TwoWay}" />
                             <Button
                                 Grid.Column="5"
@@ -575,10 +591,12 @@
                             Grid.Column="1"
                             Style="{StaticResource TextBoxStyle}"/>-->
                             <DatePicker
+                                Name="dpTempOrderDateFrom"
                                 Grid.Column="1"
                                 Width="160"
                                 Height="25"
                                 IsEnabled="{Binding TextEnable, UpdateSourceTrigger=PropertyChanged}"
+                                PreviewKeyDown="UiElement_PreviewKeyDown"
                                 SelectedDate="{Binding CurrentTemporaryOrder.From, Mode=TwoWay}">
                                 <DatePicker.Resources>
                                     <Style TargetType="{x:Type DatePickerTextBox}">
@@ -596,15 +614,6 @@
                                 </DatePicker.Resources>
                             </DatePicker>
 
-                            <Button
-                                Grid.Column="2"
-                                Width="25"
-                                Height="25"
-                                Margin="2"
-                                Content="..."
-                                IsEnabled="{Binding TextEnable, UpdateSourceTrigger=PropertyChanged}"
-                                Style="{StaticResource VisitorsSquareButtonStyle}" />
-
                             <TextBlock
                                 Grid.Column="3"
                                 Style="{StaticResource TextBLockStyle}"
@@ -616,10 +625,12 @@
                             Grid.Column="4"
                             Style="{StaticResource TextBoxStyle}"/>-->
                             <DatePicker
+                                Name="dpTempOrderDateTo"
                                 Grid.Column="4"
                                 Width="160"
                                 Height="25"
                                 IsEnabled="{Binding TextEnable, UpdateSourceTrigger=PropertyChanged}"
+                                PreviewKeyDown="UiElement_PreviewKeyDown"
                                 SelectedDate="{Binding CurrentTemporaryOrder.To, Mode=TwoWay}">
                                 <DatePicker.Resources>
                                     <Style TargetType="{x:Type DatePickerTextBox}">
@@ -636,16 +647,6 @@
                                     </Style>
                                 </DatePicker.Resources>
                             </DatePicker>
-
-                            <Button
-                                Grid.Column="5"
-                                Width="25"
-                                Height="25"
-                                Margin="2"
-                                HorizontalAlignment="Left"
-                                Content="..."
-                                IsEnabled="{Binding TextEnable, UpdateSourceTrigger=PropertyChanged}"
-                                Style="{StaticResource VisitorsSquareButtonStyle}" />
                         </Grid>
 
                         <DataGrid
@@ -709,6 +710,7 @@
                                 Text="{Binding CurrentTemporaryOrder.Signed, Mode=TwoWay}" />
 
                             <Button
+                                Name="btnTempOrderSigner"
                                 Grid.Column="2"
                                 Width="25"
                                 Height="25"
@@ -716,6 +718,7 @@
                                 Command="{Binding SignerCommand}"
                                 Content="..."
                                 IsEnabled="{Binding TextEnable, UpdateSourceTrigger=PropertyChanged}"
+                                PreviewKeyDown="UiElement_PreviewKeyDown"
                                 Style="{StaticResource VisitorsSquareButtonStyle}" />
 
                             <TextBlock
@@ -731,6 +734,7 @@
                                 Text="{Binding CurrentTemporaryOrder.Agree, Mode=TwoWay}" />
 
                             <Button
+                                Name="btnTempOrderAgreeer"
                                 Grid.Column="5"
                                 Width="25"
                                 Height="25"
@@ -738,6 +742,7 @@
                                 Command="{Binding AgreerCommand}"
                                 Content="..."
                                 IsEnabled="{Binding TextEnable, UpdateSourceTrigger=PropertyChanged}"
+                                PreviewKeyDown="UiElement_PreviewKeyDown"
                                 Style="{StaticResource VisitorsSquareButtonStyle}" />
                         </Grid>
 
@@ -787,24 +792,8 @@
                                 <ColumnDefinition Width="10" />
                             </Grid.ColumnDefinitions>
 
-                            <TextBlock
-                                Grid.Column="3"
-                                Width="109"
-                                Height="23"
-                                Margin="5"
-                                HorizontalAlignment="Left"
-                                Style="{StaticResource TextBLockStyle}"
-                                Text="Примечание:" />
-
-                            <TextBox
-                                Grid.Column="4"
-                                Height="26"
-                                VerticalContentAlignment="Center"
-                                IsEnabled="{Binding TextEnable, UpdateSourceTrigger=PropertyChanged}"
-                                Style="{StaticResource TextBoxStyle}"
-                                Text="{Binding CurrentTemporaryOrder.Note, Mode=TwoWay}" />
-
                             <CheckBox
+                                Name="cbTempOrderActive"
                                 Grid.Column="1"
                                 Width="24"
                                 Height="18"
@@ -813,7 +802,8 @@
                                 VerticalAlignment="Center"
                                 FontSize="18"
                                 IsChecked="{Binding CurrentTemporaryOrder.IsDisable, Mode=TwoWay}"
-                                IsEnabled="{Binding TextEnable, UpdateSourceTrigger=PropertyChanged}" />
+                                IsEnabled="{Binding TextEnable, UpdateSourceTrigger=PropertyChanged}"
+                                PreviewKeyDown="UiElement_PreviewKeyDown" />
 
                             <TextBlock
                                 Grid.Row="0"
@@ -824,6 +814,27 @@
                                 HorizontalAlignment="Left"
                                 Style="{StaticResource TextBLockStyle}"
                                 Text="Заявка не активна" />
+
+                            <TextBlock
+                                Grid.Column="3"
+                                Width="109"
+                                Height="23"
+                                Margin="5"
+                                HorizontalAlignment="Left"
+                                Style="{StaticResource TextBLockStyle}"
+                                Text="Примечание:" />
+
+                            <TextBox
+                                Name="tbTempOrderNote"
+                                Grid.Column="4"
+                                Height="26"
+                                VerticalContentAlignment="Center"
+                                IsEnabled="{Binding TextEnable, UpdateSourceTrigger=PropertyChanged}"
+                                PreviewKeyDown="UiElement_PreviewKeyDown"
+                                Style="{StaticResource TextBoxStyle}"
+                                Text="{Binding CurrentTemporaryOrder.Note, Mode=TwoWay}" />
+
+
                         </Grid>
 
                         <Grid Grid.Row="6" Margin="0,10,0,0">
@@ -955,10 +966,12 @@
                             Text="{Binding CurrentVirtueOrder.RegNumber, Mode=TwoWay}" />
 
                         <CheckBox
+                            Name="cbVirtOrderUnlimited"
                             Grid.Column="2"
                             HorizontalAlignment="Center"
                             VerticalAlignment="Center"
-                            IsEnabled="{Binding TextEnable, UpdateSourceTrigger=PropertyChanged}" />
+                            IsEnabled="{Binding TextEnable, UpdateSourceTrigger=PropertyChanged}"
+                            PreviewKeyDown="UiElement_PreviewKeyDown" />
 
                         <TextBlock
                             Grid.Column="3"
@@ -983,9 +996,11 @@
                             Text="От" />
 
                         <DatePicker
+                            Name="dpVirtOrderFrom"
                             Grid.Column="1"
                             Height="25"
                             IsEnabled="{Binding TextEnable, UpdateSourceTrigger=PropertyChanged}"
+                            PreviewKeyDown="UiElement_PreviewKeyDown"
                             SelectedDate="{Binding CurrentVirtueOrder.From, Mode=TwoWay}">
                             <DatePicker.Resources>
                                 <Style TargetType="{x:Type DatePickerTextBox}">
@@ -1009,9 +1024,11 @@
                             Text="До" />
 
                         <DatePicker
+                            Name="dpVirtOrderTo"
                             Grid.Column="4"
                             Height="25"
                             IsEnabled="{Binding TextEnable, UpdateSourceTrigger=PropertyChanged}"
+                            PreviewKeyDown="UiElement_PreviewKeyDown"
                             SelectedDate="{Binding CurrentVirtueOrder.To, Mode=TwoWay}">
                             <DatePicker.Resources>
                                 <Style TargetType="{x:Type DatePickerTextBox}">
@@ -1053,10 +1070,12 @@
                             Style="{StaticResource TextBLockStyle}"
                             Text="Основание" />
                         <TextBox
+                            Name="tbVirtOrderReason"
                             Grid.Row="0"
                             Grid.Column="1"
                             Grid.ColumnSpan="2"
                             IsEnabled="{Binding TextEnable, UpdateSourceTrigger=PropertyChanged}"
+                            PreviewKeyDown="UiElement_PreviewKeyDown"
                             Style="{StaticResource TextBoxStyle}"
                             Text="{Binding CurrentVirtueOrder.FirstOrderElement.Reason, Mode=TwoWay}" />
 
@@ -1074,6 +1093,7 @@
                             Style="{StaticResource TextBoxStyle}"
                             Text="{Binding CurrentVirtueOrder.FirstOrderElement.Visitor, Mode=OneWay}" />
                         <Button
+                            Name="btnVirtOrderVisitor"
                             Grid.Row="1"
                             Grid.Column="2"
                             Width="25"
@@ -1081,6 +1101,7 @@
                             Command="{Binding ChooseVisitorForVirtueCommand}"
                             Content="..."
                             IsEnabled="{Binding TextEnable, UpdateSourceTrigger=PropertyChanged}"
+                            PreviewKeyDown="UiElement_PreviewKeyDown"
                             Style="{StaticResource VisitorsSquareButtonStyle}" />
 
                         <TextBlock
@@ -1097,6 +1118,7 @@
                             Style="{StaticResource TextBoxStyle}"
                             Text="{Binding CurrentVirtueOrder.FirstOrderElement.Organization, Mode=OneWay}" />
                         <Button
+                            Name="btnVirtOrderOrg"
                             Grid.Row="2"
                             Grid.Column="2"
                             Width="25"
@@ -1104,6 +1126,7 @@
                             Command="{Binding ChooseOrganizationForVirtueCommand}"
                             Content="..."
                             IsEnabled="{Binding TextEnable, UpdateSourceTrigger=PropertyChanged}"
+                            PreviewKeyDown="UiElement_PreviewKeyDown"
                             Style="{StaticResource VisitorsSquareButtonStyle}" />
 
                         <TextBlock
@@ -1113,10 +1136,12 @@
                             Style="{StaticResource TextBLockStyle}"
                             Text="Должность" />
                         <TextBox
+                            Name="tbVirtOrderPosition"
                             Grid.Row="3"
                             Grid.Column="1"
                             Grid.ColumnSpan="2"
                             IsEnabled="{Binding TextEnable, UpdateSourceTrigger=PropertyChanged}"
+                            PreviewKeyDown="UiElement_PreviewKeyDown"
                             Style="{StaticResource TextBoxStyle}"
                             Text="{Binding CurrentVirtueOrder.FirstOrderElement.Position, Mode=TwoWay}" />
 
@@ -1133,6 +1158,7 @@
                             Style="{StaticResource TextBoxStyle}"
                             Text="{Binding CurrentVirtueOrder.FirstOrderElement.Passes, Mode=OneWay}" />
                         <Button
+                            Name="btnVirtOrderZones"
                             Grid.Row="4"
                             Grid.Column="2"
                             Width="25"
@@ -1140,6 +1166,7 @@
                             Command="{Binding ChooseZonesForVirtueCommand}"
                             Content="..."
                             IsEnabled="{Binding TextEnable, UpdateSourceTrigger=PropertyChanged}"
+                            PreviewKeyDown="UiElement_PreviewKeyDown"
                             Style="{StaticResource VisitorsSquareButtonStyle}" />
                     </Grid>
                     <Grid Grid.Row="4" Margin="0,10,0,0">
@@ -1187,24 +1214,8 @@
                             <ColumnDefinition Width="10" />
                         </Grid.ColumnDefinitions>
 
-                        <TextBlock
-                            Grid.Column="3"
-                            Width="109"
-                            Height="23"
-                            Margin="5"
-                            HorizontalAlignment="Left"
-                            Style="{StaticResource TextBLockStyle}"
-                            Text="Примечание:" />
-
-                        <TextBox
-                            Grid.Column="4"
-                            Height="26"
-                            VerticalContentAlignment="Center"
-                            IsEnabled="{Binding TextEnable, UpdateSourceTrigger=PropertyChanged}"
-                            Style="{StaticResource TextBoxStyle}"
-                            Text="{Binding CurrentVirtueOrder.Note, Mode=TwoWay}" />
-
                         <CheckBox
+                            Name="cbVirtOrderActive"
                             Grid.Column="1"
                             Width="24"
                             Height="18"
@@ -1213,7 +1224,8 @@
                             VerticalAlignment="Center"
                             FontSize="18"
                             IsChecked="{Binding CurrentVirtueOrder.IsDisable, Mode=TwoWay}"
-                            IsEnabled="{Binding TextEnable, UpdateSourceTrigger=PropertyChanged}" />
+                            IsEnabled="{Binding TextEnable, UpdateSourceTrigger=PropertyChanged}"
+                            PreviewKeyDown="UiElement_PreviewKeyDown" />
 
                         <TextBlock
                             Grid.Row="0"
@@ -1224,6 +1236,27 @@
                             HorizontalAlignment="Left"
                             Style="{StaticResource TextBLockStyle}"
                             Text="Заявка не активна" />
+
+                        <TextBlock
+                            Grid.Column="3"
+                            Width="109"
+                            Height="23"
+                            Margin="5"
+                            HorizontalAlignment="Left"
+                            Style="{StaticResource TextBLockStyle}"
+                            Text="Примечание:" />
+
+                        <TextBox
+                            Name="tbVirtOrderNote"
+                            Grid.Column="4"
+                            Height="26"
+                            VerticalContentAlignment="Center"
+                            IsEnabled="{Binding TextEnable, UpdateSourceTrigger=PropertyChanged}"
+                            PreviewKeyDown="UiElement_PreviewKeyDown"
+                            Style="{StaticResource TextBoxStyle}"
+                            Text="{Binding CurrentVirtueOrder.Note, Mode=TwoWay}" />
+
+
                     </Grid>
                     <Grid Grid.Row="6" Margin="0,10,0,0">
                         <Grid.ColumnDefinitions>
@@ -1450,26 +1483,25 @@
             </Button>
 
             <Button
-                Grid.Row="1"
+                Grid.Row="0"
                 Grid.Column="4"
                 Margin="2"
-                Command="{Binding SearchCommand}"
+                Command="{Binding FurtherCommand}"
                 IsEnabled="{Binding NavigateButtonEnable, UpdateSourceTrigger=PropertyChanged}"
-                Style="{StaticResource VisitorsSquareButtonStyle}"
-                ToolTip="Ctrl+F">
+                Style="{StaticResource VisitorsSquareButtonStyle}">
                 <Grid>
                     <Grid.RowDefinitions>
                         <RowDefinition />
                         <RowDefinition Height="0.4*" />
                     </Grid.RowDefinitions>
 
-                    <Image Grid.Row="0" Source="../Resources/Найти (2).ico" />
+                    <Image Grid.Row="0" Source="../Resources/Далее.ico" />
 
                     <TextBlock
                         Grid.Row="1"
                         FontSize="12"
                         Style="{StaticResource TextBLockStyle}"
-                        Text="Найти" />
+                        Text="Далее" />
                 </Grid>
             </Button>
 
@@ -1497,6 +1529,7 @@
             </Button>
 
             <Button
+                Name="btnAddOrder"
                 Grid.Row="1"
                 Grid.Column="0"
                 Margin="2"
@@ -1544,6 +1577,7 @@
             </Button>
 
             <Button
+                Name="btnOk"
                 Grid.Row="1"
                 Grid.Column="2"
                 Margin="2"
@@ -1567,6 +1601,7 @@
             </Button>
 
             <Button
+                Name="btnCancel"
                 Grid.Row="1"
                 Grid.Column="3"
                 Margin="2"
@@ -1591,25 +1626,26 @@
             </Button>
 
             <Button
-                Grid.Row="0"
+                Grid.Row="1"
                 Grid.Column="4"
                 Margin="2"
-                Command="{Binding FurtherCommand}"
+                Command="{Binding SearchCommand}"
                 IsEnabled="{Binding NavigateButtonEnable, UpdateSourceTrigger=PropertyChanged}"
-                Style="{StaticResource VisitorsSquareButtonStyle}">
+                Style="{StaticResource VisitorsSquareButtonStyle}"
+                ToolTip="Ctrl+F">
                 <Grid>
                     <Grid.RowDefinitions>
                         <RowDefinition />
                         <RowDefinition Height="0.4*" />
                     </Grid.RowDefinitions>
 
-                    <Image Grid.Row="0" Source="../Resources/Далее.ico" />
+                    <Image Grid.Row="0" Source="../Resources/Найти (2).ico" />
 
                     <TextBlock
                         Grid.Row="1"
                         FontSize="12"
                         Style="{StaticResource TextBLockStyle}"
-                        Text="Далее" />
+                        Text="Найти" />
                 </Grid>
             </Button>
 
