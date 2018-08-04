@@ -106,6 +106,7 @@
                 <MenuItem Header="Расписания" Command="{Binding Path=ListSchedulesClick}"/>
                 <MenuItem Header="Уровни доступа" Command="{Binding Path=ListAccessLevelsClick}"/>
                 <MenuItem Header="Автотранспорт" Command="{Binding Path=ListCarsClick}"/>
+                <MenuItem Header="Шаблоны" Command="{Binding Path=ListTemplatesClick}"/>
             </MenuItem>
             <MenuItem Header="Сервис">
                 <MenuItem Header="Очистка базы данных..." IsEnabled="False"/>

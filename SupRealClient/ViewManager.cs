@@ -380,6 +380,8 @@ namespace SupRealClient
                     return new Base4EquipmentsWindView();
                 case "BidsView":
                     return new BidsView(); // Окно "Заявки".
+                case "Base4TemplatesWindView":
+                    return new Base4TemplatesWindView();
                 default:
                     break;
             }

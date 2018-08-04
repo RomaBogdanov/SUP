@@ -24,6 +24,8 @@ namespace SupRealClient.Views
             InitializeComponent();
             base4.tbxSearch.Focus();
             AfterInitialize();
+            (base4.DataContext as Base4ViewModel<EnumerationClasses.Organization>).OkVisibility = Visibility.Hidden;
+            (base4.DataContext as Base4ViewModel<EnumerationClasses.Organization>).ScrollCurrentItem = base4.ScrollIntoViewCurrentItem;
             base4.Focus();
         }
 

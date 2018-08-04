@@ -64,11 +64,17 @@ namespace SupRealClient.Views
         private int selectedMainDocument = -1;
         private int selectedDocument = -1;
         private int selectedCard = -1;
+        private int selectedOrder = -1;
         private const string _nameDocument_PhotoImageType = "Личная фотография";
 	    private const string _nameDocument_SignatureImageType = "Личная подпись";
 	    private bool _visibleButton_OpenDocument_InRedactMode = false;
 	    private bool _enableButton_OpenDocument_InRedactMode = false;
 		private bool _isRedactMode = false;
+	    private bool _editingVisitorCommentMode = false;
+	    private string _bufer_CurrentItem_Comment = "";
+
+
+		public event Action<string> MoveNextFocusingElement;
 
 		public CollectionView PositionList { get; private set; }
 
@@ -169,11 +175,19 @@ namespace SupRealClient.Views
 			    _isRedactMode = value;
 			    VisibleButton_OpenDocument_InRedactMode = _isRedactMode;
 			    OnPropertyChanged(nameof(IsRedactMode));
-			}
+			    OnPropertyChanged(nameof(VisibleTabItem_Employee));
+			    OnPropertyChanged(nameof(IsRedactMode_Inverce));
+			    EditingVisitorCommentMode = false;
+		    }
+	    }
+
+	    public bool IsRedactMode_Inverce
+	    {
+		    get { return !_isRedactMode; }
 	    }
 
 
-	    public bool VisibleButton_OpenDocument_InRedactMode
+		public bool VisibleButton_OpenDocument_InRedactMode
 	    {
 		    get { return _visibleButton_OpenDocument_InRedactMode; }
 		    set
@@ -255,6 +269,16 @@ namespace SupRealClient.Views
             }
         }
 
+        public int SelectedOrder
+        {
+            get { return selectedOrder; }
+            set
+            {
+                selectedOrder = value;
+                OnPropertyChanged();
+            }
+        }
+
         public string PhotoSource
         {
             get { return Model?.PhotoSource; }
@@ -265,7 +289,30 @@ namespace SupRealClient.Views
             get { return Model?.Signature; }
         }
 
-        public bool Enable
+	    public bool VisibleTabItem_Employee
+		{
+		    get
+		    {
+			    if (!IsRedactMode)
+				    return true;
+				else if (CurrentItem.OrganizationIsMaster)
+				    return false;
+			    else
+				    return true;
+		    }
+	    }
+
+	    public bool EditingVisitorCommentMode
+	    {
+		    get { return _editingVisitorCommentMode; }
+		    set
+		    {
+			    _editingVisitorCommentMode = value;
+				OnPropertyChanged(nameof(EditingVisitorCommentMode));
+		    }
+	    }
+
+		public bool Enable
         { get; set; }
 
         public ICommand BeginCommand { get; set; }
@@ -282,6 +329,7 @@ namespace SupRealClient.Views
 
         public ICommand ExtraditeCommand { get; set; }
         public ICommand ReturnCommand { get; set; }
+        public ICommand OpenOrderCommand { get; set; }
 
         public ICommand OkCommand { get; set; }
         public ICommand CancelCommand { get; set; }
@@ -302,8 +350,10 @@ namespace SupRealClient.Views
         public ICommand AddMainDocumentCommand { get; set; }
         public ICommand EditMainDocumentCommand { get; set; }
         public ICommand RemoveMainDocumentCommand { get; set; }
+	    public ICommand EditVisitorCommentCommand { get; set; }
+	    public ICommand EndVisitorCommentCommand { get; set; }
 
-        public ICommand RefreshCommand { get; set; }
+		public ICommand RefreshCommand { get; set; }
 
         private ChildWindowSettings _windowSettings;
         public ChildWindowSettings WindowSettings
@@ -350,7 +400,7 @@ namespace SupRealClient.Views
 
 		    ExtraditeCommand = new RelayCommand(obj => Extradite());
 		    ReturnCommand = new RelayCommand(obj => Return());
-
+            OpenOrderCommand = new RelayCommand(obj => OpenOrder());
 
             AddImageSourceCommand = new RelayCommand(arg => AddImageSource(ImageType.Photo, _nameDocument_PhotoImageType));
             RemoveImageSourceCommand= new RelayCommand(arg => RemoveImageSource(ImageType.Photo, _nameDocument_PhotoImageType));
@@ -362,7 +412,7 @@ namespace SupRealClient.Views
 		    FindCommand = new RelayCommand(arg => Find());
 
 		    OpenDocumentCommand = new RelayCommand(arg => OpenDocument());
-		    AddDocumentCommand = new RelayCommand(arg => AddDocument());
+			AddDocumentCommand = new RelayCommand(arg => AddDocument());
 		    EditDocumentCommand = new RelayCommand(arg => EditDocument());
 		    RemoveDocumentCommand = new RelayCommand(arg => RemoveDocument());
 
@@ -371,15 +421,21 @@ namespace SupRealClient.Views
 		    EditMainDocumentCommand = new RelayCommand(arg => EditMainDocument());
 		    RemoveMainDocumentCommand = new RelayCommand(arg => RemoveMainDocument());
 
-		    RefreshCommand = new RelayCommand(arg => Refresh());
+
+		    EditVisitorCommentCommand = new RelayCommand(arg => ActivateEditingVisitorComment());
+		    EndVisitorCommentCommand = new RelayCommand(arg => SavingEditedVisitorComment());
+
+			RefreshCommand = new RelayCommand(arg => Refresh());
 
             _documentScaner.ScanFinished += Scaner_ScanFinished;
 	    }
 
 	    ~VisitsViewModel()
 	    {
-		    _documentScaner.ScanFinished -= Scaner_ScanFinished;
-		    _documentScaner.Dispose();
+			if(_documentScaner!=null)
+				_documentScaner.ScanFinished -= Scaner_ScanFinished;
+			if(_documentScaner!=null)
+				_documentScaner?.Dispose();
 	    }
 
 	    private void Refresh()
@@ -402,17 +458,23 @@ namespace SupRealClient.Views
 				    regulaView = new RegulaView(e.Person);
 				    regulaView?.ShowDialog();
 			    });
-			    
-			   
-			    if (regulaView?.Result??false)
+
+
+			    if (regulaView?.Result ?? false)
 			    {
-				    FillCurrentItemFieldsFromScan(e.Person);
 				    AddMainDocumentFromScan(e.Person);
+				    AddPortraitAndSignatureFromScan(e.Person);
+				    FillCurrentItemFieldsFromScan(e.Person);
 
 				    OnPropertyChanged(nameof(CurrentItem));
 			    }
 		    }
 	    }
+
+	    private void AddPortraitAndSignatureFromScan(CPerson person)
+	    {
+		    AddImageSource(ImageType.Photo,null,person);
+		}
 
 	    /// <summary>
 	    /// Добавление отсканированного документа.
@@ -422,26 +484,31 @@ namespace SupRealClient.Views
 	    {
 		    var document = new VisitorsMainDocument
 		    {
-			    Type = person.DocumentClassCode?.Value,
 			    Num = person.DocumentNumber?.Value,
+			    Seria = person.DocumentSeria?.Value,
 			    Code = person.DocumentDeliveryPlaceCode?.Value,
-			    Date = CurrentItem.DocDate
 		    };
 
 		    try
 		    {
+			    document.Date = DateTime.Parse(person.DocumentDeliveryDate?.Value);
 			    document.DateTo = DateTime.Parse(person.DocumentDateOfExpiry?.Value);
+			    document.BirthDate = DateTime.Parse(person.DateOfBirth?.Value);
 		    }
 		    catch (Exception)
 		    {
 			    //
 		    }
 
+		    document.Comment += GetDocumentComment(person);
+
 		    //проверка на наличие документа в списке документов CurrentItem
 		    var isContains = false;
 		    for (var index = 0; index < CurrentItem.MainDocuments.Count; index++)
 		    {
-			    if (string.Equals(CurrentItem.MainDocuments[index].Num.Trim(), document.Num.Trim()))
+			    if (string.IsNullOrEmpty(CurrentItem.MainDocuments[index]?.Num?.Trim())
+			        || string.IsNullOrEmpty(document.Num?.Trim())
+			        || string.Equals(CurrentItem.MainDocuments[index]?.Num?.Trim(), document.Num?.Trim()))
 			    {
 				    isContains = true;
 				    (view as Window)?.Invoke(() => { CurrentItem.MainDocuments[index] = document; });
@@ -452,6 +519,43 @@ namespace SupRealClient.Views
 		    {
 			    (view as Window)?.Invoke(() => { Model.AddMainDocument(document); });
 		    }
+	    }
+
+	    /// <summary>
+	    /// заполнение примечания документа в случае измеения ФИО.
+	    /// </summary>
+	    private string GetDocumentComment(CPerson person)
+	    {
+		    //если изменились ФИО, то добавить примечание
+		    var isNameDifferent = !string.IsNullOrEmpty(CurrentItem.Name) &&
+		                          !string.Equals(CurrentItem.Name?.Trim().ToLower(), person.Name?.Value.Trim().ToLower());
+		    var isSurnameDifferent = !string.IsNullOrEmpty(CurrentItem.Family) &&
+		                             !string.Equals(CurrentItem.Family?.Trim().ToLower(), person.Surname?.Value.Trim().ToLower());
+		    var isPatronomycDifferent = !string.IsNullOrEmpty(CurrentItem.Patronymic) &&
+		                                !string.Equals(CurrentItem.Patronymic?.Trim().ToLower(),
+			                                person.Patronymic?.Value.Trim().ToLower());
+		    var isChange = isNameDifferent || isSurnameDifferent || isPatronomycDifferent;
+		    var str = "";
+		    if (isChange)
+		    {
+			   str = "\nпрошлые поля: ";
+			    if (isNameDifferent)
+			    {
+				    str += "имя: " + CurrentItem.Name + ", ";
+			    }
+
+			    if (isSurnameDifferent)
+			    {
+				    str += "фамилия: " + CurrentItem.Family + ", ";
+			    }
+
+			    if (isSurnameDifferent)
+			    {
+				    str += "отчество: " + CurrentItem.Patronymic + ", ";
+			    }
+		    }
+
+		    return str;
 	    }
 
 
@@ -539,8 +643,15 @@ namespace SupRealClient.Views
             CurrentItem.OrganizationId = result.Id;
             CurrentItem.Organization = OrganizationsHelper.
                 GenerateFullName(result.Id, true);
-            OnPropertyChanged("CurrentItem");
-        }
+			CurrentItem.OrganizationIsMaster = OrganizationsHelper.GetMasterParametr(result.Id, true);
+
+
+
+			OnPropertyChanged("CurrentItem");
+	        MoveNextFocusingElement?.Invoke("OrganizationsList");
+	        OnPropertyChanged(nameof(VisibleTabItem_Employee));
+
+		}
 
         private void CountyList()
         {
@@ -557,39 +668,42 @@ namespace SupRealClient.Views
 
         private void Clear(string field)
         {
-            switch (field)
-            {
-                case "Nation":
-                    CurrentItem.NationId = -1;
-                    CurrentItem.Nation = "";
-                    break;
-                case "Organization":
-                    CurrentItem.OrganizationId = -1;
-                    CurrentItem.Organization = "";
-                    break;
-                case "DocType":
-                    CurrentItem.DocumentId = -1;
-                    CurrentItem.DocType = "";
-                    break;
-                case "Department":
-                    CurrentItem.DepartmentId = -1;
-                    CurrentItem.Department = "";
-                    break;
-                case "Cabinet":
-                    CurrentItem.CabinetId = -1;
-                    CurrentItem.Cabinet = "";
-                    break;
-                case "Position":
-                    CurrentItem.Position = "";
-                    break;
-                case "Comment":
-                    CurrentItem.Comment = "";
-                    break;
-                default:
-                    return;
-            }
+	        switch (field)
+	        {
+		        case "Nation":
+			        CurrentItem.NationId = -1;
+			        CurrentItem.Nation = "";
+			        break;
+		        case "Organization":
+			        CurrentItem.OrganizationId = -1;
+			        CurrentItem.Organization = "";
+			        break;
+		        case "DocType":
+			        CurrentItem.DocumentId = -1;
+			        CurrentItem.DocType = "";
+			        break;
+		        case "Department":
+			        CurrentItem.DepartmentId = -1;
+			        CurrentItem.Department = "";
+			        break;
+		        case "Cabinet":
+			        CurrentItem.CabinetId = -1;
+			        CurrentItem.Cabinet = "";
+			        break;
+		        case "Position":
+			        CurrentItem.Position = "";
+			        break;
+		        case "Comment":
+		        {
+			        CurrentItem.Comment = _bufer_CurrentItem_Comment;
+			        EndEditingVisitorComment();
+		        }
+			        break;
+		        default:
+			        return;
+	        }
 
-            OnPropertyChanged("CurrentItem");
+	        OnPropertyChanged("CurrentItem");
         }
 
         private void Begin()
@@ -645,10 +759,21 @@ namespace SupRealClient.Views
             window.ShowDialog();
         }
 
+        private void OpenOrder()
+        {
+            if (SelectedOrder < 0)
+            {
+                return;
+            }
+
+            ViewManager.Instance.OpenWindow("BidsView");
+        }
+
         private void Edit()
         {
             Model = new EditVisitsModel(Set, CurrentItem);
-        }
+	        IsRedactMode = true;
+		}
 
         private void Find()
         {
@@ -696,14 +821,32 @@ namespace SupRealClient.Views
 	        IsRedactMode = false;
 		}
 
-        private void AddImageSource(ImageType imageType, string name)
+        private void AddImageSource(ImageType imageType, string name, CPerson person = null)
         {
-            var dlg = new OpenFileDialog();
-            if (dlg.ShowDialog() == DialogResult.OK)
-            {
-                Model.AddImageSource(dlg.FileName, imageType);
-	            AddImageToDocuments(name, dlg.FileName);
-            }
+	        if (person == null)
+	        {
+		        var dlg = new OpenFileDialog();
+		        if (dlg.ShowDialog() == DialogResult.OK)
+		        {
+			        Model.AddImageSource(dlg.FileName, imageType);
+			        AddImageToDocuments(name, dlg.FileName);
+		        }
+
+		        return;
+	        }
+
+	        if (Model is BaseVisitsModel baseModel)
+	        {
+		        if (person.Portrait != null)
+		        {
+			        baseModel.AddImageSource(person.Portrait, ImageType.Photo);
+		        }
+
+		        if (person.Signature != null)
+		        {
+			        baseModel.AddImageSource(person.Signature, ImageType.Signature);
+		        }
+	        }
         }
 
         private void RemoveImageSource(ImageType imageType, string name)
@@ -855,6 +998,36 @@ namespace SupRealClient.Views
             }
             Model.RemoveMainDocument(SelectedMainDocument);
         }
+
+	    private void ActivateEditingVisitorComment()
+	    {
+		    if (!IsRedactMode)
+		    {
+			    EditingVisitorCommentMode = true;
+			    _bufer_CurrentItem_Comment = CurrentItem.Comment;
+			    TextEnable = true;
+			}
+		    else
+		    {
+			    EditingVisitorCommentMode = false;
+		    }
+		}
+
+	    private void SavingEditedVisitorComment()
+	    {
+		    _bufer_CurrentItem_Comment = CurrentItem.Comment;
+		    Model.Ok();
+
+		    EndEditingVisitorComment();
+	    }
+
+		private void EndEditingVisitorComment()
+	    {
+			EditingVisitorCommentMode = false;
+		    TextEnable = false;
+	    }
+
+
 
 	    private void AddImageToDocuments(string name,  string fileName)
 	    {
@@ -1085,7 +1258,15 @@ namespace SupRealClient.Views
             SetImageSource(ImagesHelper.LoadImage(path), imageType);
         }
 
-        public virtual void RemoveImageSource(ImageType imageType)
+	    /// <summary>
+	    /// Загрузка портрета и подписи со сканера.
+	    /// </summary>
+	    public void AddImageSource(byte[] image, ImageType imageType)
+	    {
+		    SetImageSource(ImagesHelper.GetGuidFromByteArray(image), imageType);
+	    }
+
+		public virtual void RemoveImageSource(ImageType imageType)
         {
             SetImageSource(Guid.Empty, imageType);
         }
@@ -1453,13 +1634,16 @@ namespace SupRealClient.Views
 
     public class VisitsModel : BaseVisitsModel
     {
+	    private bool _textEnable = false;
+	    public override event Action<object> OnClose;
 		public int selectedIndex { get; set; }
 
-        public override bool TextEnable
+
+		public override bool TextEnable
         {
-            get { return false; }
-            set { }
-        }
+            get { return _textEnable; }
+			set { _textEnable = value; }
+		}
 
         public override bool ButtonEnable
         {
@@ -1743,7 +1927,114 @@ namespace SupRealClient.Views
                 " " + date.ToShortDateString() + " " +
                 date.ToShortTimeString();
         }
-    }
+
+		public override bool Ok()
+		{
+			if (!Validate())
+			{
+				return false;
+			}
+
+			DataRow row = VisitorsWrapper.CurrentTable().Table.Rows.Find(
+				CurrentItem.Id);
+
+			row.BeginEdit();
+
+			row["f_rec_date_pass"] = DateTime.Now;
+			row["f_rec_operator_pass"] = Authorizer.AppAuthorizer.Id;
+
+			bool fullNameChanged = false;
+			//if (OldVisitor.Family != CurrentItem.Family)
+			//{
+			//	row["f_family"] = CurrentItem.Family;
+			//	fullNameChanged = true;
+			//}
+			//if (OldVisitor.Name != CurrentItem.Name)
+			//{
+			//	row["f_fst_name"] = CurrentItem.Name;
+			//	fullNameChanged = true;
+			//}
+			//if (OldVisitor.Patronymic != CurrentItem.Patronymic)
+			//{
+			//	row["f_sec_name"] = CurrentItem.Patronymic;
+			//	fullNameChanged = true;
+			//}
+			//if (fullNameChanged)
+			//{
+			//	row["f_full_name"] = CommonHelper.CreateFullName(
+			//		CurrentItem.Family, CurrentItem.Name, CurrentItem.Patronymic);
+			//}
+			//if (OldVisitor.OrganizationId != CurrentItem.OrganizationId)
+			//	row["f_org_id"] = CurrentItem.OrganizationId >= 0 ?
+			//		CurrentItem.OrganizationId : 0;
+			//if (OldVisitor.Comment != CurrentItem.Comment)
+				row["f_vr_text"] = CurrentItem.Comment;
+			//if (OldVisitor.IsAccessDenied != CurrentItem.IsAccessDenied)
+			//{
+			//	row["f_persona_non_grata"] =
+			//		CommonHelper.BoolToString(CurrentItem.IsAccessDenied);
+			//}
+			//if (OldVisitor.IsCanHaveVisitors != CurrentItem.IsCanHaveVisitors)
+			//{
+			//	row["f_can_have_visitors"] =
+			//		CommonHelper.BoolToString(CurrentItem.IsCanHaveVisitors);
+			//}
+			//if (OldVisitor.IsAgree != CurrentItem.IsAgree)
+			//{
+			//	row["f_personal_data_agreement"] =
+			//		CommonHelper.BoolToString(CurrentItem.IsAgree);
+			//}
+			//if (OldVisitor.AgreeToDate != CurrentItem.AgreeToDate)
+			//{
+			//	row["f_personal_data_last_date"] = CurrentItem.AgreeToDate;
+			//}
+			//if (OldVisitor.Telephone != CurrentItem.Telephone)
+			//	row["f_phones"] = CurrentItem.Telephone;
+			//if (OldVisitor.Nation != CurrentItem.Nation)
+			//	row["f_cntr_id"] = CurrentItem.NationId >= 0 ?
+			//		CurrentItem.NationId : 0;
+			//if (OldVisitor.DocType != CurrentItem.DocType)
+			//	row["f_doc_id"] = CurrentItem.DocumentId >= 0 ?
+			//		CurrentItem.DocumentId : 0;
+			//if (OldVisitor.DocSeria != CurrentItem.DocSeria)
+			//	row["f_doc_seria"] = CurrentItem.DocSeria;
+			//if (OldVisitor.DocNum != CurrentItem.DocNum)
+			//	row["f_doc_num"] = CurrentItem.DocNum;
+			//if (OldVisitor.DocDate != CurrentItem.DocDate)
+			//	row["f_doc_date"] = CurrentItem.DocDate;
+			//if (OldVisitor.DocCode != CurrentItem.DocCode)
+			//	row["f_doc_code"] = CurrentItem.DocCode;
+			//if (OldVisitor.DocPlace != CurrentItem.DocPlace)
+			//	row["f_doc_org"] = CurrentItem.DocPlace;
+			//if (OldVisitor.Position != CurrentItem.Position)
+			//	row["f_job"] = CurrentItem.Position;
+			//if (OldVisitor.IsRightSign != CurrentItem.IsRightSign)
+			//{
+			//	row["f_can_sign_orders"] =
+			//		CommonHelper.BoolToString(CurrentItem.IsRightSign);
+			//}
+			//if (OldVisitor.IsAgreement != CurrentItem.IsAgreement)
+			//{
+			//	row["f_can_adjust_orders"] =
+			//		CommonHelper.BoolToString(CurrentItem.IsAgreement);
+			//}
+			//if (OldVisitor.Cabinet != CurrentItem.Cabinet)
+			//{
+			//	row["f_cabinet_id"] = CurrentItem.CabinetId >= 0 ?
+			//		CurrentItem.CabinetId : 0;
+			//}
+			//if (OldVisitor.Department != CurrentItem.Department)
+			//{
+			//	row["f_dep_id"] = CurrentItem.DepartmentId >= 0 ?
+			//		CurrentItem.DepartmentId : 0;
+			//}
+			row.EndEdit();
+
+			SaveAdditionalData(CurrentItem.Id);
+
+			return true;
+		}
+	}
 
     public class NewVisitsModel : BaseVisitsModel
 	{

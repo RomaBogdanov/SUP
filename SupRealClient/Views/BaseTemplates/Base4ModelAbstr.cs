@@ -1636,4 +1636,63 @@ select new T
             };
         }
     }
+
+    public class TemplatesListModel<T> : Base4ModelAbstr<T>
+        where T : Template, new()
+    {
+        protected override DataTable Table
+        {
+            get { return TemplatesWrapper.CurrentTable().Table; }
+        }
+
+        public TemplatesListModel()
+        {
+            TemplatesWrapper.CurrentTable().OnChanged += Query;
+            Query();
+            Begin();
+        }
+
+        public override void Add()
+        {
+            throw new NotImplementedException();
+        }
+
+        public override void Update()
+        {
+            throw new NotImplementedException();
+        }
+
+        protected override void DoQuery()
+        {
+            Set = new ObservableCollection<T>(
+                from template in Table.AsEnumerable()
+                where template.Field<int>("f_template_id") != 0
+                select new T
+                {
+                    Id = template.Field<int>("f_template_id"),
+                    Name = template.Field<string>("f_template_name"),
+                    Type = template.Field<int>("f_template_type").ToString(),
+                    Descript = template.Field<string>("f_template_description")
+                });
+        }
+
+        public override bool Remove()
+        {
+            //TODO: доработать функционал, для проверок отмены удаления
+
+            DataRow row = Table.Rows.Find(currentItem.Id);
+            row["f_deleted"] = CommonHelper.BoolToString(true);
+
+            return true;
+        }
+
+        protected override BaseModelResult GetResult()
+        {
+            return new BaseModelResult
+            {
+                Id = CurrentItem.Id,
+                Name = CurrentItem.Name
+            };
+        }
+    }
 }

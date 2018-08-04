@@ -73,14 +73,15 @@
 				Style="{StaticResource TextBLockStyle}"
 				Text="Фамилия" />
 
-			<TextBox
-				Grid.Row="1"
-				Grid.Column="0"
-				Margin="2"
-				IsEnabled="{Binding Path=TextEnable, Mode=TwoWay}"
-				Style="{StaticResource TextBoxStyle}"
-				TabIndex="0"
-				Text="{Binding Path=CurrentItem.Family, Mode=TwoWay}" />
+            <TextBox
+	            TabIndex="0"
+                Text="{Binding Path=CurrentItem.Family, Mode=TwoWay}"
+                Grid.Row="1"
+                Grid.Column="0"
+                Margin="2"
+                IsEnabled="{Binding Path=TextEnable, Mode=TwoWay}"
+                Style="{StaticResource TextBoxStyle}"
+	            KeyUp="MoveNextFocusControl"/>
 
 			<TextBlock
 				Grid.Row="0"
@@ -88,14 +89,15 @@
 				Style="{StaticResource TextBLockStyle}"
 				Text="Имя" />
 
-			<TextBox
-				Grid.Row="1"
-				Grid.Column="1"
-				Margin="2"
-				IsEnabled="{Binding Path=TextEnable, Mode=TwoWay}"
-				Style="{StaticResource TextBoxStyle}"
-				TabIndex="1"
-				Text="{Binding Path=CurrentItem.Name, Mode=TwoWay}" />
+            <TextBox
+	            TabIndex="1"
+                Text="{Binding Path=CurrentItem.Name, Mode=TwoWay}"
+                Grid.Row="1"
+                Grid.Column="1"
+                Margin="2"
+                IsEnabled="{Binding Path=TextEnable, Mode=TwoWay}"
+                Style="{StaticResource TextBoxStyle}"
+	            KeyUp="MoveNextFocusControl"/>
 
 			<TextBlock
 				Grid.Row="0"
@@ -103,14 +105,15 @@
 				Style="{StaticResource TextBLockStyle}"
 				Text="Отчество" />
 
-			<TextBox
-				Grid.Row="1"
-				Grid.Column="2"
-				Margin="2"
-				IsEnabled="{Binding Path=TextEnable, Mode=TwoWay}"
-				Style="{StaticResource TextBoxStyle}"
-				TabIndex="2"
-				Text="{Binding Path=CurrentItem.Patronymic, Mode=TwoWay}" />
+            <TextBox x:Name="textbox_Patronymic"
+	            TabIndex="2"
+                Text="{Binding Path=CurrentItem.Patronymic, Mode=TwoWay}"
+                Grid.Row="1"
+                Grid.Column="2"
+                Margin="2"
+                IsEnabled="{Binding Path=TextEnable, Mode=TwoWay}"
+                Style="{StaticResource TextBoxStyle}"
+	            KeyUp="MoveNextFocusControl_ToName"/>
 
 			<TextBlock
 				Grid.Row="2"
@@ -190,7 +193,8 @@
 					BorderThickness="2"
 					Command="{Binding RemoveImageSourceCommand}"
 					Content="X"
-					ToolTip="Удалить фото" />
+					ToolTip="Удалить фото" 
+					IsTabStop="False"/>
 			</Grid>
 		</Button>
 
@@ -230,16 +234,18 @@
 				TabIndex="4"
 				Text="{Binding Path=CurrentItem.Organization, Mode=TwoWay}" />
 
-			<Button
-				Grid.Row="0"
-				Grid.Column="2"
-				Width="25"
-				Height="25"
-				Command="{Binding Path=OrganizationCommand}"
-				Content="..."
-				IsEnabled="{Binding Path=ButtonEnable, Mode=TwoWay}"
-				Style="{StaticResource VisitorsSquareButtonStyle}"
-				TabIndex="5" />
+            <Button x:Name="button_LoadOrganization"
+	            TabIndex="5"
+				Focusable="True"
+                Command="{Binding Path=OrganizationCommand}"
+                Grid.Row="0"
+                Grid.Column="2"
+                Content="..."
+                Height="25"
+                Width="25"
+                IsEnabled="{Binding Path=ButtonEnable, Mode=TwoWay}"
+                Style="{StaticResource VisitorsSquareButtonStyle}"
+                Visibility="{Binding Path=ButtonEnable, Mode=TwoWay, Converter={StaticResource BooleanToVisibilityConverter}}"/>
 
 			<Button
 				Grid.Column="3"
@@ -251,7 +257,8 @@
 				Content="X"
 				IsEnabled="{Binding Path=ButtonEnable, Mode=TwoWay}"
 				Style="{StaticResource VisitorsSquareButtonStyle}"
-				TabIndex="6" />
+				Visibility="{Binding Path=ButtonEnable, Mode=TwoWay, Converter={StaticResource BooleanToVisibilityConverter}}"
+				IsTabStop="False"/>
 
 			<TextBlock
 				Grid.Row="1"
@@ -270,43 +277,50 @@
 				Style="{StaticResource TextBoxStyle}"
 				TabIndex="7"
 				Text="{Binding Path=CurrentItem.Comment, Mode=TwoWay}" />
+			<Grid Grid.Row="1" Grid.Column="2" Grid.ColumnSpan="2"
+			      Visibility="{Binding IsRedactMode_Inverce, Converter={StaticResource BooleanToVisibilityConverter}}">
+				<Grid.ColumnDefinitions>
+					<ColumnDefinition></ColumnDefinition>
+					<ColumnDefinition></ColumnDefinition>
+				</Grid.ColumnDefinitions>
+				<Button
+					Width="25"
+					Height="25"
+					Content="..."
+					Style="{StaticResource VisitorsSquareButtonStyle}"
+					Command="{Binding EditVisitorCommentCommand}"/>
+				<Button
+					Width="25"
+					Height="25"
+					Content="v"
+					Visibility="{Binding EditingVisitorCommentMode, Converter={StaticResource BooleanToVisibilityConverter}}"
+					Style="{StaticResource VisitorsSquareButtonStyle}"
+					Command="{Binding EndVisitorCommentCommand}"/>
 
-			<Button
-				Grid.Row="1"
-				Grid.Column="2"
-				Width="25"
-				Height="25"
-				Content="..."
-				IsEnabled="{Binding Path=ButtonEnable, Mode=TwoWay}"
-				Style="{StaticResource VisitorsSquareButtonStyle}"
-				TabIndex="8" />
+				<Button
+					Grid.Column="1"
+					Width="25"
+					Height="25"
+					Margin="0"
+					Command="{Binding ClearCommand}"
+					CommandParameter="Comment"
+					Content="X"
+					Style="{StaticResource VisitorsSquareButtonStyle}" 
+					Visibility="{Binding EditingVisitorCommentMode, Converter={StaticResource BooleanToVisibilityConverter}}"
+					IsTabStop="False"/>
+				<!--IsEnabled="{Binding Path=ButtonEnable, Mode=TwoWay}"-->
 
-			<Button
-				Grid.Row="1"
-				Grid.Column="3"
-				Width="25"
-				Height="25"
-				Margin="0"
-				Command="{Binding ClearCommand}"
-				CommandParameter="Comment"
-				Content="X"
-				IsEnabled="{Binding Path=ButtonEnable, Mode=TwoWay}"
-				Style="{StaticResource VisitorsSquareButtonStyle}"
-				TabIndex="9" />
+			</Grid>
+			<!--Grid.Row="1" Grid.Column="2" Grid.ColumnSpan="2"-->
 
-			<StackPanel
-				Grid.Row="2"
-				Grid.ColumnSpan="4"
-				Grid.IsSharedSizeScope="True"
-				Orientation="Horizontal">
-				<CheckBox
-					Grid.Row="2"
-					Grid.Column="0"
-					Margin="10,11,0,11"
-					Content="Вход запрещен"
-					IsChecked="{Binding Path=CurrentItem.IsAccessDenied, Mode=TwoWay}"
-					IsEnabled="{Binding Path=TextEnable, Mode=TwoWay}"
-					TabIndex="10" />
+
+
+            <StackPanel Orientation="Horizontal" Grid.Row="2" Grid.ColumnSpan="4" Grid.IsSharedSizeScope="True">
+                <CheckBox  Grid.Column="0" Grid.Row="2" Margin="10,11,0,11"
+                      Content="Вход запрещен"
+                      IsChecked="{Binding Path=CurrentItem.IsAccessDenied, Mode=TwoWay}"
+                      IsEnabled="{Binding Path=TextEnable, Mode=TwoWay}"  
+                      IsTabStop="False"/>
 
 				<CheckBox
 					Grid.Row="2"
@@ -317,18 +331,15 @@
 					IsEnabled="{Binding Path=TextEnable, Mode=TwoWay}"
 					TabIndex="11" />
 
-				<CheckBox
-					Grid.Row="2"
-					Grid.Column="2"
-					Grid.ColumnSpan="2"
-					Margin="0,11"
-					HorizontalAlignment="Center"
-					Content="Нет формуляра"
-					IsChecked="{Binding Path=CurrentItem.IsNotFormular, Mode=TwoWay}"
-					IsEnabled="{Binding Path=TextEnable, Mode=TwoWay}"
-					TabIndex="12" />
-			</StackPanel>
-		</Grid>
+                <CheckBox x:Name="checkBoxNoForm" 
+	                TabIndex="12"
+	                Grid.Column="2" Grid.ColumnSpan="2" Grid.Row="2" HorizontalAlignment="Center" 
+                    Content="Нет формуляра"
+                    IsChecked="{Binding Path=CurrentItem.IsNotFormular, Mode=TwoWay}"
+                    IsEnabled="{Binding Path=TextEnable, Mode=TwoWay}" Margin="0,11" 
+                    KeyUp="MoveNextFocusControl_ToName"/>
+            </StackPanel>
+        </Grid>
 
 
 		<Grid
@@ -409,6 +420,7 @@
 									Command="{Binding CountryCommand}"
 									Content="..."
 									IsEnabled="{Binding Path=ButtonEnable, Mode=TwoWay}"
+									Visibility="{Binding Path=ButtonEnable, Mode=TwoWay, Converter={StaticResource BooleanToVisibilityConverter}}"
 									Style="{StaticResource VisitorsSquareButtonStyle}"
 									TabIndex="24" />
 
@@ -422,7 +434,8 @@
 									Content="X"
 									IsEnabled="{Binding Path=ButtonEnable, Mode=TwoWay}"
 									Style="{StaticResource VisitorsSquareButtonStyle}"
-									TabIndex="25" />
+									Visibility="{Binding Path=ButtonEnable, Mode=TwoWay, Converter={StaticResource BooleanToVisibilityConverter}}"  
+									IsTabStop="False"/>
 							</Grid>
 
 							<TextBlock
@@ -557,13 +570,15 @@
 										<ColumnDefinition Width="150" />
 									</Grid.ColumnDefinitions>
 
-									<CheckBox
-										Grid.Column="0"
-										HorizontalAlignment="Center"
-										VerticalAlignment="Center"
-										IsChecked="{Binding Path=CurrentItem.IsAgree, Mode=TwoWay}"
-										IsEnabled="{Binding Path=TextEnable, Mode=TwoWay}"
-										TabIndex="34" />
+                                    <CheckBox x:Name="checkBox_Consent" 
+									Tag="Consent to the processing of personal data"
+	                                TabIndex="34"
+                                    IsChecked="{Binding Path=CurrentItem.IsAgree, Mode=TwoWay}"
+                                    Grid.Column="0"
+                                    HorizontalAlignment="Center"
+                                    IsEnabled="{Binding Path=TextEnable, Mode=TwoWay}"
+                                    VerticalAlignment="Center"
+	                                KeyUp="MoveNextFocusControl_ToName"/>
 
 									<TextBlock
 										Grid.Column="1"
@@ -642,7 +657,13 @@
                     Converter={StaticResource BooleanToVisibilityConverter}}">
                     <DataGrid Style="{StaticResource AzureDataGrid1}" 
                               ItemsSource="{Binding Path=CurrentItem.Orders}"
+                              SelectedIndex="{Binding Path=SelectedOrder}"
                               CanUserAddRows="False">
+                        <i:Interaction.Triggers>
+                            <i:EventTrigger EventName="MouseDoubleClick">
+                                <i:InvokeCommandAction Command="{Binding OpenOrderCommand}"/>
+                            </i:EventTrigger>
+                        </i:Interaction.Triggers>
                         <DataGrid.Columns>
                             <DataGridTextColumn Header="№ заявки" Binding="{Binding Path=RegNumber}"/>
                             <DataGridTextColumn Header="Дата/время от" Binding="{Binding Path=From}"/>
@@ -653,7 +674,8 @@
                         </DataGrid.Columns>
                     </DataGrid>
                 </mah:MetroTabItem>
-                <mah:MetroTabItem Header="Сотрудник">
+                <mah:MetroTabItem Header="Сотрудник"
+                                  Visibility="{Binding VisibleTabItem_Employee, Converter={StaticResource BooleanToVisibilityConverter}}">
                     <ScrollViewer CanContentScroll="True" ScrollViewer.VerticalScrollBarVisibility="Auto">
                         <Grid>
                             <Grid.ColumnDefinitions>
@@ -1216,19 +1238,20 @@
 				</Grid>
 			</Button>
 
-			<Button
-				Grid.Row="1"
-				Grid.Column="2"
-				Margin="2"
-				Command="{Binding OkCommand}"
-				IsEnabled="{Binding Path=VisitorsEnable.AcceptButtonEnable, Mode=TwoWay}"
-				Style="{StaticResource VisitorsSquareButtonStyle}"
-				Visibility="{Binding Path=VisitorsVisible.AcceptButtonEnable, Converter={StaticResource BooleanToVisibilityConverter}}">
-				<Grid>
-					<Grid.RowDefinitions>
-						<RowDefinition />
-						<RowDefinition Height="0.4*" />
-					</Grid.RowDefinitions>
+            <Button x:Name="button_Ok"
+                    Command="{Binding OkCommand}"
+                    Grid.Row="1"
+                    Grid.Column="2"
+                    Margin="2"
+                    IsEnabled="{Binding Path=VisitorsEnable.AcceptButtonEnable, Mode=TwoWay}"
+                    Visibility="{Binding Path=VisitorsVisible.AcceptButtonEnable, 
+                    Converter={StaticResource BooleanToVisibilityConverter}}"
+                    Style="{StaticResource VisitorsSquareButtonStyle}">
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition/>
+                        <RowDefinition Height="0.4*"/>
+                    </Grid.RowDefinitions>
 
 					<Image Grid.Row="0" Source="../Resources/Принять (2).ico" />
 

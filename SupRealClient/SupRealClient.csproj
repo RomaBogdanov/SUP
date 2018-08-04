@@ -120,8 +120,10 @@
     <Compile Include="EnumerationClasses\IEntity.cs" />
     <Compile Include="EnumerationClasses\Order.cs" />
     <Compile Include="EnumerationClasses\Card2.cs" />
+    <Compile Include="EnumerationClasses\OrderElement.cs" />
     <Compile Include="EnumerationClasses\Region.cs" />
     <Compile Include="EnumerationClasses\Space.cs" />
+    <Compile Include="EnumerationClasses\Template.cs" />
     <Compile Include="EnumerationClasses\Visitor.cs" />
     <Compile Include="EnumerationClasses\VisitorsDocument.cs" />
     <Compile Include="EnumerationClasses\VisitorsDocumentBase.cs" />
@@ -138,6 +140,7 @@
     <Compile Include="Models\AddCardModel.cs" />
     <Compile Include="Common\Data\SearchData.cs" />
     <Compile Include="Models\AddItemRegionsModel.cs" />
+    <Compile Include="Models\Bids\BidsModelBase.cs" />
     <Compile Include="Models\ChildWindowSettings.cs" />
     <Compile Include="Models\DocumentsHelper.cs" />
     <Compile Include="Models\IAddUpdateRegionModel.cs" />
@@ -294,6 +297,9 @@
     </Compile>
     <Compile Include="Views\Base4Analogs\Base4KeyHoldersWindView.xaml.cs">
       <DependentUpon>Base4KeyHoldersWindView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Base4Analogs\Base4TemplatesWindView.xaml.cs">
+      <DependentUpon>Base4TemplatesWindView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\Base4Analogs\Base4ZonesWindView.xaml.cs">
       <DependentUpon>Base4ZonesWindView.xaml</DependentUpon>
@@ -580,6 +586,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Views\Base4Analogs\Base4KeyHoldersWindView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\Base4Analogs\Base4TemplatesWindView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

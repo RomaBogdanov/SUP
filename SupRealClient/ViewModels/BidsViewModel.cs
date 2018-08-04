@@ -10,9 +10,16 @@ namespace SupRealClient.ViewModels
 {
 	public class BidsViewModel : ViewModelBase
 	{
+		#region Properties
+
 		private IBidsModel bidsModel;
 
 		private bool _isEnabled = false;
+
+		/// <summary>
+		/// Выбранная заявка перед добавлением новой. Может быть тип "Временная", "Разовая", "На основании"
+		/// </summary>
+		private Order CurrentSelectedOrder { get; set; }
 
 		/// <summary>
 		/// Доступность вкладок TabControl.
@@ -34,30 +41,18 @@ namespace SupRealClient.ViewModels
 			{
 				bidsModel = value;
 				OnPropertyChanged();
-				TemporaryOrdersSet = bidsModel.TemporaryOrdersSet;
 				OrdersSet = bidsModel.OrdersSet;
+				TemporaryOrdersSet = bidsModel.TemporaryOrdersSet;
 				SingleOrdersSet = bidsModel.SingleOrdersSet;
 				VirtueOrdersSet = bidsModel.VirtueOrdersSet;
-				CurrentTemporaryOrder = bidsModel.CurrentTemporaryOrder;
 				CurrentOrder = bidsModel.CurrentOrder;
-				CurrentSingleOrder = bidsModel.CurrentSingleOrder;
-				CurrentVirtueOrder = bidsModel.CurrentVirtueOrder;
+
 				IsCanAddRows = bidsModel.IsCanAddRows;
 				AddUpdVisib = bidsModel.IsAddUpdVisib;
 				bidsModel.OrderType = CurrentOrderType;
 				bidsModel.OnRefresh += BidsModel_OnRefresh;
 			}
 		}
-
-		private void BidsModel_OnRefresh()
-		{
-			CurrentTemporaryOrder = BidsModel.CurrentTemporaryOrder;
-			CurrentSingleOrder = BidsModel.CurrentSingleOrder;
-			CurrentSingleOrder.OrderElements = BidsModel.CurrentSingleOrder.OrderElements;
-			CurrentTemporaryOrder.OrderElements = BidsModel.CurrentTemporaryOrder.OrderElements;
-			//UpdateVisitor = BidsModel.UpdateVisitor;
-		}
-
 		public OrderElement UpdateVisitor
 		{
 			get { return BidsModel?.UpdateVisitor; }
@@ -207,6 +202,24 @@ namespace SupRealClient.ViewModels
 			}
 		}
 
+		private bool isVirtueOrder;
+
+
+		public bool IsVirtueOrder
+		{
+			get { return isVirtueOrder; }
+			set
+			{
+				isVirtueOrder = value;
+				if (IsVirtueOrder)
+				{
+					BidsModel.OrderType = OrderType.Virtue;
+				}
+
+				OnPropertyChanged();
+			}
+		}
+
 		/// <summary>
 		/// Свойство для определения текущей открытой вкладки.
 		/// </summary>
@@ -221,6 +234,13 @@ namespace SupRealClient.ViewModels
 				else if (IsSingleOrder)
 				{
 					return OrderType.Single;
+				}
+				else
+				{
+					if (IsVirtueOrder)
+					{
+						return OrderType.Virtue;
+					}
 				}
 
 				return OrderType.Single;
@@ -322,6 +342,8 @@ namespace SupRealClient.ViewModels
 		/// </summary>
 		public ChildWinSet WinSet { get; set; }
 
+		#endregion
+		
 		public BidsViewModel()
 		{
 			// Задать размеры и положение формы.
@@ -353,6 +375,20 @@ namespace SupRealClient.ViewModels
 			TextEnable = false; // При открытии окна поля недоступны.
 			AcceptButtonEnable = false; // При открытии кнопки применить и отмена недоступны.
 			IsEnabled = true;
+		}
+
+		private void BidsModel_OnRefresh()
+		{
+			CurrentTemporaryOrder = BidsModel.CurrentTemporaryOrder;
+			CurrentTemporaryOrder.OrderElements = BidsModel.CurrentTemporaryOrder.OrderElements;
+
+			CurrentSingleOrder = BidsModel.CurrentSingleOrder;
+			CurrentSingleOrder.OrderElements = BidsModel.CurrentSingleOrder.OrderElements;
+
+			CurrentVirtueOrder = BidsModel.CurrentVirtueOrder;
+			CurrentVirtueOrder.OrderElements = BidsModel.CurrentVirtueOrder.OrderElements;
+
+			//UpdateVisitor = BidsModel.UpdateVisitor;
 		}
 
 		private void Agreer()
@@ -398,29 +434,29 @@ namespace SupRealClient.ViewModels
 		private void Begin()
 		{
 			BidsModel.Begin();
-			CurrentTemporaryOrder = BidsModel.CurrentTemporaryOrder;
-			CurrentSingleOrder = BidsModel.CurrentSingleOrder;
+
+			ChangeCurrentSelectedOrder();
 		}
 
 		private void End()
 		{
 			BidsModel.End();
-			CurrentTemporaryOrder = BidsModel.CurrentTemporaryOrder;
-			CurrentSingleOrder = BidsModel.CurrentSingleOrder;
+
+			ChangeCurrentSelectedOrder();
 		}
 
 		private void Next()
 		{
 			BidsModel.Next();
-			CurrentTemporaryOrder = BidsModel.CurrentTemporaryOrder;
-			CurrentSingleOrder = BidsModel.CurrentSingleOrder;
+
+			ChangeCurrentSelectedOrder();
 		}
 
 		private void Prev()
 		{
 			BidsModel.Prev();
-			CurrentTemporaryOrder = BidsModel.CurrentTemporaryOrder;
-			CurrentSingleOrder = BidsModel.CurrentSingleOrder;
+
+			ChangeCurrentSelectedOrder();
 		}
 
 		private void Search()
@@ -438,74 +474,133 @@ namespace SupRealClient.ViewModels
 		/// </summary>
 		private void New()
 		{
-			//BidsModel.New();
+			switch (CurrentOrderType)
+			{
+				case OrderType.Single:
+					CurrentSelectedOrder = CurrentSingleOrder;
+					break;
+				case OrderType.Temp:
+					CurrentSelectedOrder = CurrentTemporaryOrder;
+					break;
+				case OrderType.Virtue:
+					CurrentSelectedOrder = CurrentVirtueOrder;
+					break;
+				default:
+					throw new ArgumentOutOfRangeException();
+			}
+
 			BidsModel = new NewBidsModel(CurrentOrderType);
-			
-			CurrentTemporaryOrder = BidsModel.CurrentTemporaryOrder;
-			CurrentSingleOrder = BidsModel.CurrentSingleOrder;
 
-			SetCurrentSelectedOrder();
-
+			switch (CurrentOrderType)
+			{
+				case OrderType.Single:
+					CurrentSingleOrder = BidsModel.CurrentSingleOrder;
+					break;
+				case OrderType.Temp:
+					CurrentTemporaryOrder = BidsModel.CurrentTemporaryOrder;
+					break;
+				case OrderType.Virtue:
+					CurrentVirtueOrder = BidsModel.CurrentVirtueOrder;
+					break;
+				default:
+					throw new ArgumentOutOfRangeException();
+			}
 
 			TextEnable = true; // При открытии окна поля недоступны.
 			AcceptButtonEnable = true; // При открытии кнопки применить и отмена недоступны.
 			IsEnabled = false;
 		}
-		
+
 		/// <summary>
 		/// Редактирование заявки.
 		/// </summary>
 		private void Edit()
 		{
-			//BidsModel.Edit();
 			BidsModel = new EditBidsModel(CurrentSingleOrder,
 				CurrentTemporaryOrder, CurrentVirtueOrder, CurrentOrder);
 
-			SetCurrentSelectedOrder();
+			ChangeCurrentSelectedOrder();
 
 			TextEnable = true; // При открытии окна поля недоступны.
 			AcceptButtonEnable = true; // При открытии кнопки применить и отмена недоступны.
+			IsEnabled = false;
 		}
 
 		private void Ok()
 		{
 			BidsModel.Ok();
-			int id = BidsModel.CurrentSingleOrder.Id;
+
+			switch (CurrentOrderType)
+			{
+				case OrderType.Single:
+					CurrentSelectedOrder = BidsModel.CurrentSingleOrder;
+					break;
+				case OrderType.Temp:
+					CurrentSelectedOrder = BidsModel.CurrentTemporaryOrder;
+					break;
+				case OrderType.Virtue:
+					CurrentSelectedOrder = BidsModel.CurrentVirtueOrder;
+					break;
+				default:
+					throw new ArgumentOutOfRangeException();
+			}
+
 			BidsModel = new BidsModel();
-			CurrentTemporaryOrder = TemporaryOrdersSet.FirstOrDefault(x => x.Id == CurrentSelectedOrder.Id);
-			CurrentSingleOrder = SingleOrdersSet.FirstOrDefault(x => x.Id == CurrentSelectedOrder.Id);
+
+			ApplyCurrentSelectedOrder();
+
 			TextEnable = false;
 			AcceptButtonEnable = false;
+			IsEnabled = true;
 		}
 
-		private void SetCurrentSelectedOrder()
+		private void ApplyCurrentSelectedOrder()
 		{
 			switch (CurrentOrderType)
 			{
 				case OrderType.Temp:
+					CurrentTemporaryOrder = BidsModel.TemporaryOrdersSet.FirstOrDefault(x => x.Id == CurrentSelectedOrder.Id);
+					CurrentSelectedOrder = BidsModel.CurrentTemporaryOrder;
+					break;
+				case OrderType.Single:
+					CurrentSingleOrder = BidsModel.SingleOrdersSet.FirstOrDefault(x => x.Id == CurrentSelectedOrder.Id);
+					CurrentSelectedOrder = BidsModel.CurrentSingleOrder;
+					break;
+				case OrderType.Virtue:
+					CurrentVirtueOrder = BidsModel.VirtueOrdersSet.FirstOrDefault(x => x.Id == CurrentSelectedOrder.Id);
+					CurrentSelectedOrder = BidsModel.CurrentVirtueOrder;
+					break;
+				default:
+					throw new ArgumentOutOfRangeException();
+			}
+		}
+		
+		private void ChangeCurrentSelectedOrder()
+		{
+			switch (CurrentOrderType)
+			{
+				case OrderType.Temp:
+					CurrentTemporaryOrder = BidsModel.CurrentTemporaryOrder;
 					CurrentSelectedOrder = BidsModel.CurrentTemporaryOrder; // Запомнить временную заявку перед добавлением новой.
 					break;
 				case OrderType.Single:
+					CurrentSingleOrder = BidsModel.CurrentSingleOrder;
 					CurrentSelectedOrder = BidsModel.CurrentSingleOrder; // Запомнить разовую заявку перед добавлением новой.
+					break;
+				case OrderType.Virtue:
+					CurrentVirtueOrder = BidsModel.CurrentVirtueOrder;
+					CurrentSelectedOrder = BidsModel.CurrentVirtueOrder; // Запомнить заявку на основании перед добавлением новой.
 					break;
 				default:
 					throw new ArgumentOutOfRangeException();
 			}
 		}
 
-		/// <summary>
-		/// Выбранная заявка перед добавлением новой. Может быть тип "Временная", "Разовая"
-		/// </summary>
-		private Order CurrentSelectedOrder { get; set; }
-
 		private void Cancel()
 		{
-			//BidsModel.Cancel();
 			BidsModel = new BidsModel();
 
-			// Выберем разовую заявку до добавления.
-			CurrentTemporaryOrder = TemporaryOrdersSet.FirstOrDefault(x => x.Id == CurrentSelectedOrder.Id);
-			CurrentSingleOrder = SingleOrdersSet.FirstOrDefault(x => x.Id == CurrentSelectedOrder.Id);
+			ApplyCurrentSelectedOrder();
 
 			TextEnable = false; // При открытии окна поля недоступны.
 			AcceptButtonEnable = false; // При открытии кнопки применить и отмена недоступны.
