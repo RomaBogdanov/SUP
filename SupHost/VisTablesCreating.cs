@@ -719,4 +719,46 @@ namespace SupHost
 			this.getTableBehavior = new VisCardAreaTableBehavior(); 
 		}
     }
+    /// <summary>
+    /// TableBehavior для Шаблоны
+    /// </summary>
+    partial class VisTemplatesTableBehavior : VisitorsDBTableBehavior
+    {
+        public VisTemplatesTableBehavior()
+        {
+            this.StandartSetup("vis_templates", "f_template_id");
+        }
+    }
+
+    /// <summary>
+    /// TableWrapper для Шаблоны
+    /// </summary>
+	partial class VisTemplatesTableWrapper : AbstractTableWrapper
+    {
+        public VisTemplatesTableWrapper()
+        { 
+			this.getTableBehavior = new VisTemplatesTableBehavior(); 
+		}
+    }
+    /// <summary>
+    /// TableBehavior для Связь между шаблоном и областью
+    /// </summary>
+    partial class VisTemplatesAreasTableBehavior : VisitorsDBTableBehavior
+    {
+        public VisTemplatesAreasTableBehavior()
+        {
+            this.StandartSetup("vis_templates_areas", "f_template_area_id");
+        }
+    }
+
+    /// <summary>
+    /// TableWrapper для Связь между шаблоном и областью
+    /// </summary>
+	partial class VisTemplatesAreasTableWrapper : AbstractTableWrapper
+    {
+        public VisTemplatesAreasTableWrapper()
+        { 
+			this.getTableBehavior = new VisTemplatesAreasTableBehavior(); 
+		}
+    }
 }

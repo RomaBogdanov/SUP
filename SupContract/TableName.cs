@@ -42,6 +42,8 @@
         VisKeyCases,
         VisKeyHolders,
         VisAreaOrderElement,
-        VisCardArea
+        VisCardArea,
+        VisTemplates,
+        VisTemplatesAreas
     }
 }

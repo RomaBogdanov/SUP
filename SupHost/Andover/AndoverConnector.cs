@@ -32,7 +32,7 @@ namespace SupHost.Andover
 
         public void ResetConnection()
         {
-            var binding = new WSDualHttpBinding()
+            var binding = new BasicHttpBinding()
             {
                 MaxReceivedMessageSize = 2147483647,
                 MaxBufferPoolSize = 2147483647,
@@ -40,6 +40,10 @@ namespace SupHost.Andover
                 {
                     MaxArrayLength = 2147483647,
                     MaxStringContentLength = 2147483647
+                },
+                Security = new BasicHttpSecurity
+                {
+                    Mode = BasicHttpSecurityMode.None
                 }
             };
             var myChannelFactory = new ChannelFactory<IAndoverService>(

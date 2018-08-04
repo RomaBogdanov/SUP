@@ -37,10 +37,10 @@
             ItemsSource="{Binding Path=Set, Mode=TwoWay}"
             AutoGenerateColumns="False">
             <DataGrid.Columns>
-                <DataGridCheckBoxColumn Header="Выдача"/>
-                <DataGridTextColumn Header="Номер" Binding="{Binding Path=RegNumber, Mode=TwoWay}"/>
-                <DataGridTextColumn Header="Действует до" Binding="{Binding Path=To }"/>
-                <DataGridTextColumn Header="Принимающее лицо" Binding="{Binding Path=Catcher}" Width="*"/>
+                <DataGridCheckBoxColumn Header="Выдача" />
+                <DataGridTextColumn Header="Номер" Binding="{Binding Path=RegNumber, Mode=TwoWay}" IsReadOnly="True" />
+                <DataGridTextColumn Header="Действует до" Binding="{Binding Path=To }" IsReadOnly="True" />
+                <DataGridTextColumn Header="Принимающее лицо" Binding="{Binding Path=Catcher}" Width="*" IsReadOnly="True" />
             </DataGrid.Columns>
         </DataGrid>
 
