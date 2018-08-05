@@ -32,7 +32,6 @@
   <Item Name="VisEquipment" TabName="vis_equipment" ColId="f_equip_id" Comment="Проносимое имущество" />
   <Item Name="VisKeyCases" TabName="vis_key_case" ColId="f_key_case_id" Comment="Штыри в ключницах" />
   <Item Name="VisKeyHolders" TabName="vis_key_holder" ColId="f_key_holder_id" Comment="Ключницы" />
-  <Item Name="VisAreaOrderElement" TabName="vis_areas_order_elements" ColId="f_area_order_element_id" Comment="Связь между областью и заявкой" />
   <Item Name="VisCardArea" TabName="vis_card_area" ColId="f_ca_id" Comment="Связь между картой и областью" />
   <Item Name="VisTemplates" TabName="vis_templates" ColId="f_template_id" Comment="Шаблоны" />
 </Enum>
