@@ -563,20 +563,7 @@ namespace SupRealClient.ViewModels
 
 			BidsModel.Ok();
 
-			switch (CurrentOrderType)
-			{
-				case OrderType.Single:
-					CurrentSelectedOrder = BidsModel.CurrentSingleOrder;
-					break;
-				case OrderType.Temp:
-					CurrentSelectedOrder = BidsModel.CurrentTemporaryOrder;
-					break;
-				case OrderType.Virtue:
-					CurrentSelectedOrder = BidsModel.CurrentVirtueOrder;
-					break;
-				default:
-					throw new ArgumentOutOfRangeException();
-			}
+			CurrentSelectedOrder = currentOrder;
 
 			BidsModel = new BidsModel();
 
