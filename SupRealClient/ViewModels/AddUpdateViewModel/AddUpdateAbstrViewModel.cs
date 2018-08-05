@@ -617,4 +617,105 @@ namespace SupRealClient.ViewModels.AddUpdateViewModel
             }
         }
     }
+
+    public class AddUpdateTemplateViewModel : AddUpdateBaseViewModel
+    {
+        private Area currentAllArea;
+        private Area currentAppointArea;
+
+        public ObservableCollection<Area> SetAllAreas
+        {
+            get { return ((AddUpdateTemplateModel)this.Model).SetAllAreas; }
+            set
+            {
+                ((AddUpdateTemplateModel)this.Model).SetAllAreas = value;
+                OnPropertyChanged();
+            }
+        }
+
+        public ObservableCollection<Area> SetAppointAreas
+        {
+            get { return ((AddUpdateTemplateModel)this.Model).SetAppointAreas; }
+            set
+            {
+                ((AddUpdateTemplateModel)this.Model).SetAppointAreas = value;
+                OnPropertyChanged();
+            }
+        }
+
+        public Area CurrentAllArea
+        {
+            get { return currentAllArea; }
+            set
+            {
+                currentAllArea = value;
+                OnPropertyChanged();
+            }
+        }
+
+        public Area CurrentAppointArea
+        {
+            get { return currentAppointArea; }
+            set
+            {
+                currentAppointArea = value;
+                OnPropertyChanged();
+            }
+        }
+
+        public ICommand ToAppointAreasCommand { get; set; }
+        public ICommand ToAllAreasCommand { get; set; }
+
+        public AddUpdateTemplateViewModel() : base()
+        {
+            ToAppointAreasCommand = new RelayCommand(arg => ToAppointAreas());
+            ToAllAreasCommand = new RelayCommand(arg => ToAllAreas());
+        }
+
+        private void ToAppointAreas()
+        {
+            if (CurrentAllArea == null)
+            {
+                return;
+            }
+            int i = SetAllAreas.IndexOf(CurrentAllArea);
+            SetAppointAreas.Add(CurrentAllArea);
+            SetAllAreas.Remove(CurrentAllArea);
+            if (SetAllAreas.Count > i)
+            {
+                CurrentAllArea = SetAllAreas[i];
+            }
+            else if (SetAllAreas.Count == 0)
+            {
+                CurrentAllArea = null;
+            }
+            else
+            {
+                CurrentAllArea = SetAllAreas[i - 1];
+            }
+        }
+
+        private void ToAllAreas()
+        {
+            if (CurrentAppointArea == null)
+            {
+                return;
+            }
+            int i = SetAppointAreas.IndexOf(CurrentAppointArea);
+            SetAllAreas.Add(CurrentAppointArea);
+            SetAppointAreas.Remove(CurrentAppointArea);
+            if (SetAppointAreas.Count > i)
+            {
+                CurrentAppointArea = SetAppointAreas[i];
+            }
+            else if (SetAppointAreas.Count == 0)
+            {
+                CurrentAppointArea = null;
+            }
+            else
+            {
+                CurrentAppointArea = SetAppointAreas[i - 1];
+            }
+        }
+    }
 }

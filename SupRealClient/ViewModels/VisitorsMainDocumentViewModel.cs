@@ -223,16 +223,9 @@ namespace SupRealClient.ViewModels
 		    else
 		    {
 			    imageCache = DocumentsHelper.CacheImages(model.Data.Id);
+			  
 		    }
 		    
-		    if (person?.PagesScanList != null)
-		    {
-			    foreach (var page in person.PagesScanList)
-			    {
-				    imageCache.Add(ImagesHelper.GetGuidFromByteArray(page));
-			    }
-		    }
-
 		    if (imageCache.Any())
 		    {
 			    SetImage(0);
