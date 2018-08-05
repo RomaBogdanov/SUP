@@ -15,7 +15,7 @@ namespace SupRealClient.Models
 		{
 			CurrentSingleOrder = singleOrder ?? new Order();
 			CurrentTemporaryOrder = temporaryOrder ?? new Order();
-			CurrentVirtueOrder = virtueOrder ?? new Order();
+			CurrentVirtueOrder = virtueOrder ?? new Order(true);
 			CurrentOrder = order ?? new Order();
 
 			SingleOrdersSet = new ObservableCollection<Order> {CurrentSingleOrder};
