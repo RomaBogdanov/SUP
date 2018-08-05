@@ -257,7 +257,7 @@ namespace SupRealClient.TabsSingleton
 			row["f_image_id"] = order.ImageId;
 			row["f_rec_operator"] = order.RecOperatorID;
 			row["f_new_rec_date"] = order.NewRecDate;
-			row["f_new_rec_operator"] = order.NewRecOperatorID;
+			row["f_new_rec_operator"] = Authorizer.AppAuthorizer.Id;
 			row["f_barcode"] = order.Barcode;
 			row["f_adjusted_with"] = order.AgreeId;
 			row["f_notes"] = order.Note;
@@ -366,6 +366,8 @@ namespace SupRealClient.TabsSingleton
 							CatcherId = row.Field<int>("f_catcher_id"),
 							From = row.Field<DateTime>("f_time_from"),
 							To = row.Field<DateTime>("f_time_to"),
+							Reason =  row.Field<string>("f_other_org"),
+							IsBlock = VisitorsWrapper.CurrentTable().Table.AsEnumerable().Where(item=>item.Field<int>("f_visitor_id") == row.Field<int>("f_visitor_id")).FirstOrDefault().Field<string>("f_persona_non_grata").ToUpper() == "Y",
 							IsDisable = row.Field<string>("f_disabled").ToUpper() == "Y" ? true : false,
 							Passes = row.Field<string>("f_passes"),
                             TemplateIdList = row.Field<string>("f_oe_templates"),
@@ -399,7 +401,7 @@ namespace SupRealClient.TabsSingleton
 			row["f_disabled"] = orderElement.IsDisable ? "Y" : "N";
 			row["f_not_remaind"] = "N"; //todo: разобраться
 			row["f_full_role"] = "N"; //todo: разобраться
-			row["f_other_org"] = ""; //todo: разобраться
+			row["f_other_org"] = orderElement.Reason; //todo: изменить название столбца в БД
 			row["f_org_id"] = orderElement.OrganizationId;
 			row["f_position"] = orderElement.Position;
             row["f_oe_templates"] = AndoverEntityListHelper.EntitiesToString(orderElement.Templates);
@@ -426,7 +428,7 @@ namespace SupRealClient.TabsSingleton
 			row["f_disabled"] = orderElement.IsDisable ? "Y" : "N";
 			row["f_not_remaind"] = "N"; //todo: разобраться
 			row["f_full_role"] = "N"; //todo: разобраться
-			row["f_other_org"] = ""; //todo: разобраться
+			row["f_other_org"] = orderElement.Reason; //todo: изменить название столбца в БД
 			row["f_org_id"] = orderElement.OrganizationId;
 			row["f_position"] = orderElement.Position;
             row["f_oe_templates"] = AndoverEntityListHelper.EntitiesToString(orderElement.Templates);
@@ -454,6 +456,7 @@ namespace SupRealClient.TabsSingleton
 						CatcherId = ordEls.Field<int>("f_catcher_id"),
 						From = ordEls.Field<DateTime>("f_time_from"),
 						To = ordEls.Field<DateTime>("f_time_to"),
+						Reason = ordEls.Field<string>("f_other_org"),
 						IsDisable = ordEls.Field<string>("f_disabled").ToUpper() == "Y" ? true : false,
 						Passes = ordEls.Field<string>("f_passes")
 					});
