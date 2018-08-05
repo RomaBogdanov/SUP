@@ -4,6 +4,7 @@ using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
+using SupRealClient.ViewModels;
 
 namespace SupRealClient.Views
 {
@@ -184,6 +185,11 @@ namespace SupRealClient.Views
 		private void EndEditingButtonClick(object sender, RoutedEventArgs e)
 		{
 			_previousEnterUiElement = null;
+		}
+
+		private void tableItem_MouseDoubleClick(object sender, MouseButtonEventArgs e)
+		{
+			((BidsViewModel) DataContext).OpenUserWindow(((DataGridRow)sender).Item);
 		}
 	}
 }

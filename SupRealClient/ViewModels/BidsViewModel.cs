@@ -56,12 +56,12 @@ namespace SupRealClient.ViewModels
 				bidsModel.OnRefresh += BidsModel_OnRefresh;
 			}
 		}
-		public OrderElement UpdateVisitor
+		public OrderElement SelectedElement
 		{
-			get { return BidsModel?.UpdateVisitor; }
+			get { return BidsModel?.SelectedElement; }
 			set
 			{
-				BidsModel.UpdateVisitor = value;
+				BidsModel.SelectedElement = value;
 				OnPropertyChanged();
 			}
 		}
@@ -431,7 +431,7 @@ namespace SupRealClient.ViewModels
 		private void UpdatePerson()
 		{
 			BidsModel.UpdatePerson();
-			UpdateVisitor = BidsModel.UpdateVisitor;
+			SelectedElement = BidsModel.SelectedElement;
 		}
 
 		/// <summary>
@@ -440,7 +440,7 @@ namespace SupRealClient.ViewModels
 		private void DeletePerson()
 		{
 			BidsModel.DeletePerson();
-			UpdateVisitor = BidsModel.UpdateVisitor;
+			SelectedElement = BidsModel.SelectedElement;
 		}
 
 		private void Begin()
@@ -531,7 +531,7 @@ namespace SupRealClient.ViewModels
 			BidsModel = new EditBidsModel(CurrentSingleOrder,
 				CurrentTemporaryOrder, CurrentVirtueOrder, CurrentOrder);
 
-			UpdateVisitor = BidsModel.UpdateVisitor;
+			SelectedElement = BidsModel.SelectedElement;
 
 			ChangeCurrentSelectedOrder();
 
@@ -707,6 +707,14 @@ namespace SupRealClient.ViewModels
 			}
 
 			CurrentVirtueOrder = CurrentVirtueOrder;
+		}
+
+		public void OpenUserWindow(object item)
+		{
+			if (item is OrderElement orderElement)
+			{
+				//todo:Открытие окна посетителя
+			}
 		}
 	}
 }
