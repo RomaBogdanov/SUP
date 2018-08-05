@@ -347,6 +347,12 @@ namespace SupRealClient.EnumerationClasses
 				return false;
 			}
 
+			if (string.IsNullOrEmpty(Passes))
+			{
+				errorMessage = "Необходимо выбрать хотя бы один проход.";
+				return false;
+			}
+
 			if (From.TimeOfDay > To.TimeOfDay)
 			{
 				errorMessage = " \"Время от\" не может быть позже, чем \"Время до\"";

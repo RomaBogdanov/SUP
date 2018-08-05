@@ -440,6 +440,7 @@ namespace SupRealClient.ViewModels
 		private void DeletePerson()
 		{
 			BidsModel.DeletePerson();
+			UpdateVisitor = BidsModel.UpdateVisitor;
 		}
 
 		private void Begin()
@@ -529,6 +530,8 @@ namespace SupRealClient.ViewModels
 		{
 			BidsModel = new EditBidsModel(CurrentSingleOrder,
 				CurrentTemporaryOrder, CurrentVirtueOrder, CurrentOrder);
+
+			UpdateVisitor = BidsModel.UpdateVisitor;
 
 			ChangeCurrentSelectedOrder();
 
