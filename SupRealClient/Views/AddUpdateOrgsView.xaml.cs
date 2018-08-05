@@ -64,6 +64,7 @@ namespace SupRealClient.Views
                 if (elementWithFocus != null)
                 {
                     elementWithFocus.MoveFocus(_focusMover);
+                    e.Handled = true;
                 }
             }
             else if (sender is ComboBox && ((ComboBox)sender).Name == "TypeTextBox")
