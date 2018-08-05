@@ -539,6 +539,28 @@ namespace SupRealClient.ViewModels
 
 		private void Ok()
 		{
+			Order currentOrder;
+			switch (CurrentOrderType)
+			{
+				case OrderType.Single:
+					currentOrder = BidsModel.CurrentSingleOrder;
+					break;
+				case OrderType.Temp:
+					currentOrder= BidsModel.CurrentTemporaryOrder;
+					break;
+				case OrderType.Virtue:
+					currentOrder = BidsModel.CurrentVirtueOrder;
+					break;
+				default:
+					throw new ArgumentOutOfRangeException();
+			}
+
+			if (!currentOrder.IsOrderDataCorrect(CurrentOrderType,out string errorMessage))
+			{
+				MessageBox.Show(errorMessage, "Ошибка");
+				return;
+			}
+
 			BidsModel.Ok();
 
 			switch (CurrentOrderType)

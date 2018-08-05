@@ -244,20 +244,11 @@ namespace SupRealClient.ViewModels.AddUpdateViewModel
 
 	    protected override void OkCommand()
 	    {
-		    if (string.IsNullOrEmpty(CurrentOrderElement.Visitor) ||
-		        string.IsNullOrEmpty(CurrentOrderElement.Position) ||
-		        string.IsNullOrEmpty(CurrentOrderElement.Catcher) ||
-		        string.IsNullOrEmpty(CurrentOrderElement.Organization))
+		    if (!CurrentOrderElement.IsOrderElementDataCorrect(out string errorMessage))
 		    {
-			    MessageBox.Show("Не все поля заполнены.", "Ошибка");
+			    MessageBox.Show(errorMessage, "Ошибка");
 				return;
 		    }
-
-			if (!CommonHelper.IsPositionCorrect(CurrentOrderElement.Position))
-			{
-				MessageBox.Show("Некорретно введена должность.", "Ошибка");
-				return;
-			}
 
 			base.OkCommand();
 	    }
