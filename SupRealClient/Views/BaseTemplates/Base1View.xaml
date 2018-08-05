@@ -52,9 +52,7 @@
                   SelectedIndex="{Binding Path=SelectedIndex, Mode=TwoWay}"
                   SelectedValue="{Binding Path=SelectedValue, Mode=TwoWay}" 
                   CurrentColumn="{Binding Path=CurrentColumn, Mode=TwoWay}"
-                  Style="{StaticResource AzureDataGrid1}"
-                  SelectionChanged="baseTab_SelectionChanged"
-                  LoadingRow="baseTab_LoadingRow"
+                  Style="{StaticResource AzureDataGrid1}"                 
                   KeyDown="BaseTab_OnKeyDown" 
                   Loaded="baseTab_Loaded" 
                   Sorted="baseTab_Sorted">
@@ -83,7 +81,7 @@
             Grid.ColumnSpan="5" 
             Style="{StaticResource TextBoxStyle}"
             Margin="1" 
-            Text="{Binding Path=SearchingText, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" TextChanged="tbxSearch_TextChanged">
+            Text="{Binding Path=SearchingText, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}">
         </TextBox>
 
 
@@ -96,7 +94,6 @@
             Command="{Binding Path=Add}" 
             Style="{StaticResource VisitorsSquareButtonStyle}" 
             ToolTip="Insert"
-            PreviewMouseLeftButtonDown="Button_PreviewMouseLeftButtonDown"
             KeyDown="BaseTab_OnKeyDown">
             <Grid>
                 <Grid.RowDefinitions>
@@ -232,7 +229,6 @@
             Command="{Binding Path=Begin}" 
             Style="{StaticResource VisitorsSquareButtonStyle}" 
             ToolTip="Home"
-            PreviewMouseLeftButtonDown="Button_PreviewMouseLeftButtonDown"
             KeyDown="BaseTab_OnKeyDown">
             <Grid>
                 <Grid.RowDefinitions>
@@ -261,7 +257,6 @@
             Command="{Binding Path=Prev}" 
             Style="{StaticResource VisitorsSquareButtonStyle}" 
             ToolTip="↑"
-            PreviewMouseLeftButtonDown="Button_PreviewMouseLeftButtonDown"
             KeyDown="BaseTab_OnKeyDown">
             <Grid>
                 <Grid.RowDefinitions>
@@ -290,7 +285,6 @@
             Command="{Binding Path=Next}" 
             Style="{StaticResource VisitorsSquareButtonStyle}" 
             ToolTip="↓"
-            PreviewMouseLeftButtonDown="Button_PreviewMouseLeftButtonDown"
             KeyDown="BaseTab_OnKeyDown">
             <Grid>
                 <Grid.RowDefinitions>
@@ -318,7 +312,6 @@
             Command="{Binding Path=End}" 
             Style="{StaticResource VisitorsSquareButtonStyle}" 
             ToolTip="End"
-            PreviewMouseLeftButtonDown="Button_PreviewMouseLeftButtonDown"
             KeyDown="BaseTab_OnKeyDown">
             <Grid>
                 <Grid.RowDefinitions>

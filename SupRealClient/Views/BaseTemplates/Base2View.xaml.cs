@@ -23,18 +23,15 @@ namespace SupRealClient.Views
         public Base2View()
         {
             InitializeComponent();
-
-            baseTab.SelectionChanged -= baseTab_SelectionChanged;            
-            //DataContext = viewModel;
         }
-        
+
+        #region Под удаление
         public void SetViewModel(Base1ModelAbstr model)
         {
             ((Base1ViewModel)DataContext).SetModel(model);
             InitializeComponent();
             tbxSearch.Focus();
-        }
-               
+        }               
 
         public void SetDefaultColumn()
         {
@@ -43,6 +40,7 @@ namespace SupRealClient.Views
                 baseTab.CurrentColumn = baseTab.Columns[0];
             }
         }
+        #endregion
 
         private void BaseTab_OnKeyDown(object sender, KeyEventArgs e)
         {
@@ -63,13 +61,11 @@ namespace SupRealClient.Views
             {
                 if (e.Key == Key.Up)
                 {
-                    baseTab.SelectionChanged += baseTab_SelectionChanged;
                     btnUp.Command.Execute(null);
                     e.Handled = true;
                 }
                 else if (e.Key == Key.Down)
                 {
-                    baseTab.SelectionChanged += baseTab_SelectionChanged;
                     btnDown.Command.Execute(null);
                     e.Handled = true;
                 }
@@ -89,36 +85,18 @@ namespace SupRealClient.Views
                 {
                     ((ISuperBaseViewModel)DataContext).End.Execute(null);
                 }
-            }            
-            else if (Keyboard.Modifiers == ModifierKeys.Control)
-            {
-                if (e.Key == Key.G)
-                {
-                    baseTab.SelectionChanged += baseTab_SelectionChanged;
-                }                    
-            }
+            } 
         }
 
         private void UserControl_IsVisibleChanged(object sender, System.Windows.DependencyPropertyChangedEventArgs e)
         {
             Window parentWindow = Window.GetWindow(this);
-            if (parentWindow.Visibility == System.Windows.Visibility.Hidden)
+            if (parentWindow.Visibility == System.Windows.Visibility.Visible)
             {
                 tbxSearch.Text = string.Empty;
-                baseTab.SelectedItems?.Clear();
-                baseTab.SelectionChanged += baseTab_SelectionChanged;
-
-                if (baseTab.ItemsSource is System.Collections.ObjectModel.ObservableCollection<Organization>)
-                    SortDataGrid(baseTab, 1, ListSortDirection.Ascending);
-                else if (baseTab.Columns.Count > 0)
-                    SortDataGrid(baseTab, 0, ListSortDirection.Ascending);
+                SortItemsSource();
             }
-        }
-
-        private void Button_PreviewMouseLeftButtonDown(object sender, MouseButtonEventArgs e)
-        {
-            baseTab.SelectionChanged += baseTab_SelectionChanged;
-        }
+        }       
 
         private void baseTab_LoadingRow(object sender, DataGridRowEventArgs e)
         {            
@@ -126,21 +104,81 @@ namespace SupRealClient.Views
             var item = oRow.Item;
 
             if (item is Organization)
-                RowColorOrganizationTable(oRow);            
+            {
+                RowColorOrganizationTable(oRow);
+            }                        
+        }
+        
+        private void baseTab_Loaded(object sender, System.Windows.RoutedEventArgs e)
+        {
+            SortItemsSource();
+        }        
+
+        private void dgColumnHeader_PreviewMouseLeftButtonUp(object sender, MouseButtonEventArgs e)
+        {
+            headerCliked = sender as DataGridColumnHeader;           
+        }
+
+        private void baseTab_Sorted(object sender, RoutedEventArgs e)
+        {
+            if (headerCliked != null)
+            {
+                baseTab.CurrentColumn = headerCliked.Column;
+                headerCliked = null;
+            }
+        }        
+
+        void SortItemsSource()
+        {
+            if (baseTab.ItemsSource is System.Collections.ObjectModel.ObservableCollection<Organization>)
+            {
+                SortDataGrid(baseTab, 1, ListSortDirection.Ascending);
+            }
+            else if (baseTab.Columns.Count > 0)
+            {
+                SortDataGrid(baseTab, 0, ListSortDirection.Ascending);
+            }
+
+            if (baseTab.Items.Count > 0)
+            {
+                baseTab.SelectedItem = baseTab.Items[0];
+            }
+            // Refresh items to display sort
+            baseTab.Items?.Refresh();
+        }
+
+        void SortDataGrid(DataGrid dataGrid, int columnIndex = 0, ListSortDirection sortDirection = ListSortDirection.Ascending)
+        {
+            var column = dataGrid.Columns[columnIndex];
+
+            // Clear current sort descriptions
+            dataGrid.Items.SortDescriptions.Clear();
+
+            // Add the new sort description
+            dataGrid.Items.SortDescriptions.Add(new SortDescription(column.SortMemberPath, sortDirection));
+
+            // Apply sort
+            foreach (var col in dataGrid.Columns)
+            {
+                col.SortDirection = null;
+            }
+            column.SortDirection = sortDirection;
+
+            dataGrid.CurrentColumn = dataGrid.Columns[columnIndex];         
         }
 
         void RowColorOrganizationTable(DataGridRow oRow)
         {
-            Organization oOrg = oRow.Item as Organization;            
+            Organization oOrg = oRow.Item as Organization;
             if (oOrg?.FullName == string.Empty)
             {
                 if (IsOrgHasSynonim(oOrg))
                     oRow.Background = Brushes.LightGreen;
                 else
-                    oRow.Background = Brushes.GreenYellow;                
+                    oRow.Background = Brushes.GreenYellow;
             }
             else
-                oRow.Background = Brushes.White;            
+                oRow.Background = Brushes.White;
         }
 
         bool IsOrgHasSynonim(Organization org)
@@ -161,86 +199,11 @@ namespace SupRealClient.Views
                 var row = baseTab.CurrentItem;
                 if (row == null)
                     return;
-                               
+
                 baseTab.ScrollIntoView(row);
                 baseTab.UpdateLayout();
                 baseTab.ScrollIntoView(row);
-            }           
-        }
-
-        private void baseTab_SelectionChanged(object sender, SelectionChangedEventArgs e)
-        {
-            baseTabCurrentItemScrollIntoView();
-            baseTab.SelectionChanged -= baseTab_SelectionChanged;           
-        }
-
-        void baseTabCurrentItemScrollIntoView()
-        {
-            if (baseTab.CurrentItem != null)
-            {
-                baseTab.ScrollIntoView(baseTab.CurrentItem);
-                baseTab.UpdateLayout();
-                baseTab.ScrollIntoView(baseTab.CurrentItem);
             }
-        }
-
-        private void baseTab_Loaded(object sender, System.Windows.RoutedEventArgs e)
-        {
-            if (baseTab.ItemsSource is System.Collections.ObjectModel.ObservableCollection<Organization>)
-                SortDataGrid(baseTab, 1, ListSortDirection.Ascending);
-            else if (baseTab.Columns.Count > 0)
-                SortDataGrid(baseTab, 0, ListSortDirection.Ascending);
-        } 
-
-        void SortDataGrid(DataGrid dataGrid, int columnIndex = 0, ListSortDirection sortDirection = ListSortDirection.Ascending)
-        {
-            var column = dataGrid.Columns[columnIndex];
-
-            // Clear current sort descriptions
-            dataGrid.Items.SortDescriptions.Clear();
-
-            // Add the new sort description
-            dataGrid.Items.SortDescriptions.Add(new SortDescription(column.SortMemberPath, sortDirection));
-
-            // Apply sort
-            foreach (var col in dataGrid.Columns)
-            {
-                col.SortDirection = null;
-            }
-            column.SortDirection = sortDirection;
-
-            if (dataGrid.Items.Count > 0)
-                dataGrid.SelectedItem = dataGrid.Items[0];
-
-            dataGrid.CurrentColumn = dataGrid.Columns[columnIndex];            
-            // Refresh items to display sort
-            dataGrid.Items.Refresh();
-        }
-
-        private void dgColumnHeader_PreviewMouseLeftButtonUp(object sender, MouseButtonEventArgs e)
-        {
-            headerCliked = sender as DataGridColumnHeader;           
-        }
-
-        private void baseTab_Sorted(object sender, RoutedEventArgs e)
-        {
-            if (headerCliked != null)
-            {
-                baseTab.CurrentColumn = headerCliked.Column;
-
-                if (!string.IsNullOrEmpty(tbxSearch.Text))
-                {
-                    tbxSearch.Text = tbxSearch.Text;
-                    baseTabCurrentItemScrollIntoView();
-                }
-
-                headerCliked = null;
-            }
-        }
-
-        private void tbxSearch_TextChanged(object sender, TextChangedEventArgs e)
-        {
-            baseTabCurrentItemScrollIntoView();
         }
     }
 

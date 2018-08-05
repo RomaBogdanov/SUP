@@ -62,7 +62,6 @@
             KeyDown="BaseTab_OnKeyDown"
             ColumnWidth="*"            
             CanUserAddRows="False" 
-            SelectionChanged="baseTab_SelectionChanged"
             LoadingRow="baseTab_LoadingRow" 
             Loaded="baseTab_Loaded"
             Sorted="baseTab_Sorted">            
@@ -101,7 +100,7 @@
             Margin="1" 
             Text="{Binding Path=SearchingText, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" 
             FontSize="{Binding FontSize}" 
-            Style="{StaticResource TextBoxStyle}" TextChanged="tbxSearch_TextChanged"/>
+            Style="{StaticResource TextBoxStyle}"/>
 
         <Button 
             Grid.Row="3" 
@@ -111,7 +110,7 @@
             KeyDown="BaseTab_OnKeyDown" 
             Style="{StaticResource ButtonStyle}"
             ToolTip="Home" 
-            PreviewMouseLeftButtonDown="Button_PreviewMouseLeftButtonDown">
+            >
             <Grid>
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="30"/>
@@ -139,7 +138,7 @@
             KeyDown="BaseTab_OnKeyDown"
             Style="{StaticResource ButtonStyle}"
             ToolTip="↑"
-            PreviewMouseLeftButtonDown="Button_PreviewMouseLeftButtonDown">
+            >
             <Grid>
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="30"/>
@@ -167,7 +166,7 @@
             KeyDown="BaseTab_OnKeyDown"
             Style="{StaticResource ButtonStyle}"
             ToolTip="↓"
-            PreviewMouseLeftButtonDown="Button_PreviewMouseLeftButtonDown">
+            >
             <Grid>
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="30"/>
@@ -194,7 +193,7 @@
             KeyDown="BaseTab_OnKeyDown"
             Style="{StaticResource ButtonStyle}"
             ToolTip="End"
-            PreviewMouseLeftButtonDown="Button_PreviewMouseLeftButtonDown">
+            >
             <Grid>
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="30"/>
@@ -222,7 +221,7 @@
             KeyDown="BaseTab_OnKeyDown"
             Style="{StaticResource ButtonStyle}"
             ToolTip="Insert"
-            PreviewMouseLeftButtonDown="Button_PreviewMouseLeftButtonDown">
+            >
             <Grid>
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="30"/>
@@ -303,7 +302,7 @@
             KeyDown="BaseTab_OnKeyDown"
             Style="{StaticResource ButtonStyle}"
             ToolTip="Ctrl+G"
-            PreviewMouseLeftButtonDown="Button_PreviewMouseLeftButtonDown">
+            >
             <Grid>
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="30"/>
@@ -330,7 +329,7 @@
             Visibility="{Binding Path=OkVisibility, Mode=OneTime}" 
             KeyDown="BaseTab_OnKeyDown"
             Style="{StaticResource ButtonStyle}"
-            PreviewMouseLeftButtonDown="Button_PreviewMouseLeftButtonDown">
+            >
             <Grid>
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="30"/>

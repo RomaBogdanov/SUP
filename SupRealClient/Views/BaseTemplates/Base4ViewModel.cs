@@ -143,7 +143,20 @@ namespace SupRealClient.Views
                 if (Model != null && value != null && value.SortDirection != null)
                 {
                     Model.CurrentColumn = value;
+
+                    if (SelectedIndex < 0 && SetCollection.Count > 0)
+                    {
+                        SelectedIndex = 0;
+                    }
                     OnPropertyChanged();
+                                        
+                    if (!string.IsNullOrEmpty(searchingText))
+                    {
+                        FartherEnabled = _model?.Searching(
+                            this.searchingText.ToUpper()) ?? false;
+                    }
+
+                    ScrollCurrentItem?.Invoke();
                 }
             }
         }
@@ -155,11 +168,11 @@ namespace SupRealClient.Views
             {
                 if (Model != null) Model.Set = value;
                 OnPropertyChanged();
-                OnPropertyChanged("CollectionView");
+                OnPropertyChanged("SetCollection");
             }
         }
 
-        public CollectionView CollectionView
+        public CollectionView SetCollection
         {
             get { return Model?.SetCollection; }
         }
@@ -258,6 +271,7 @@ namespace SupRealClient.Views
 
         private void SearchCom()
         {
+            this.SearchingText = string.Empty;
             this.Model.Search();
         }
         private void FartherCom()
@@ -312,7 +326,7 @@ namespace SupRealClient.Views
                 int memIndexSel = SelectedIndex;
                 this.Model.Remove();
 
-                int countItem = CollectionView.Count;
+                int countItem = SetCollection.Count;
                 if (countItem > 0)
                 {
                     if (memIndexSel < countItem)
