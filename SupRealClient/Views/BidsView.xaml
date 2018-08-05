@@ -242,7 +242,7 @@
                             CanUserAddRows="{Binding IsCanAddRows, Mode=TwoWay}"
                             IsReadOnly="True"
                             ItemsSource="{Binding Path=CurrentSingleOrder.OrderElements}"
-                            SelectedItem="{Binding SelectedElement, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}">
+                            SelectedItem="{Binding UpdateVisitor, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}">
                             <DataGrid.Columns>
                                 <DataGridTextColumn Header="№" />
                                 <DataGridTextColumn
@@ -265,7 +265,6 @@
                             </DataGrid.Columns>
                             <DataGrid.RowStyle>
                                 <Style TargetType="DataGridRow">
-                                    <EventSetter Event="MouseDoubleClick" Handler="tableItem_MouseDoubleClick" />
                                     <Style.Triggers>
                                         <DataTrigger Binding="{Binding IsBlock}" Value="True">
                                             <Setter Property="Background" Value="#33ff0000" />
@@ -566,7 +565,6 @@
                             <Button
                                 Grid.Column="6"
                                 Margin="10"
-                                Command="{Binding DeletePersonCommand}"
                                 Content="Удалить"
                                 Visibility="{Binding AddUpdVisib, Mode=TwoWay}" />
 
@@ -655,9 +653,8 @@
                             Grid.Row="2"
                             AutoGenerateColumns="False"
                             CanUserAddRows="{Binding IsCanAddRows, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
-                            IsReadOnly="True"
                             ItemsSource="{Binding Path=CurrentTemporaryOrder.OrderElements}"
-                            SelectedItem="{Binding SelectedElement, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}">
+                            SelectedItem="{Binding UpdateVisitor, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}">
                             <DataGrid.Columns>
                                 <DataGridTextColumn Header="№" />
                                 <DataGridTextColumn

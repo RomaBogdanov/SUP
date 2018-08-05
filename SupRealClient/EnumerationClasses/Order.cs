@@ -273,9 +273,9 @@ namespace SupRealClient.EnumerationClasses
 
 				if (!OrderElements[i].IsOrderElementDataCorrect(out errorMessage))
 				{
-					if (orderType != EnumerationClasses.OrderType.Virtue)
+					if (i > 0)
 					{
-						errorMessage = "Ошибка в элементе заявки " + (i + 1) + ": " + errorMessage;
+						errorMessage = "Элемент заявки " + (i + 1) + ": " + errorMessage;
 					}
 					return false;
 				}

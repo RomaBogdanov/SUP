@@ -31,30 +31,3 @@ begin
 	insert into vis_templates values ('0', '0', '', '', '', 'N', '', '0')
 end
 go
-
-
--- Удаление таблицы vis_areas_order_elements
-
-use Visitors;
-go
-
-if OBJECT_ID('vis_areas_order_elements') is not null
-	drop table vis_areas_order_elements;
-go
-
-
--- Обновление таблицы vis_order_elements
-
-use Visitors;
-go
-
-ALTER TABLE vis_order_elements
-ADD
-	f_oe_templates                 nvarchar(MAX),
-	f_oe_areas                     nvarchar(MAX),
-	f_schedule_id                  int
-go
-
-UPDATE vis_order_elements SET f_oe_templates='', f_oe_areas='', f_schedule_id=0
-go
-

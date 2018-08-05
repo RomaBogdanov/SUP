@@ -23,7 +23,7 @@ namespace SupRealClient.Models
 		OrderType OrderType { get; set; }
 		bool IsCanAddRows { get; set; }
 		Visibility IsAddUpdVisib { get; set; }
-		OrderElement SelectedElement { get; set; }
+		OrderElement UpdateVisitor { get; set; }
 		string RecOperator { get; set; }
 		string NewRecOperator { get; set; }
 

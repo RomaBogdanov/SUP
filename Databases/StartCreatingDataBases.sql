@@ -214,6 +214,32 @@ begin
 end
 go
 
+-- Создание vis_areas_order_elements
+-- Таблица соотношения между заявками и областями доступа.
+
+if OBJECT_ID('vis_areas_order_elements') is not null
+	drop table vis_areas_order_elements;
+
+create table vis_areas_order_elements
+(
+	f_area_order_element_id int not null,
+	f_oe_id int, -- id элемента заявки
+	f_area_id_hi int, -- id области доступа
+	f_area_id_lo int, -- id области доступа
+	f_deleted                      CHAR(1),
+    f_rec_date                     DATE,
+    f_rec_operator                 int,
+)
+
+alter table vis_areas_order_elements
+	add primary key (f_area_order_element_id)
+
+if not exists(select * from vis_areas_order_elements where f_area_order_element_id='0')
+begin
+	insert into vis_areas_order_elements values ('0','0','0','0','N','','')
+end
+go
+
 
 -- Создание vis_cabinets
 -- TODO: Сделать описание таблицы
@@ -648,10 +674,7 @@ CREATE TABLE vis_order_elements
     f_full_role                    nvarchar(1),
     f_other_org                    nvarchar(200),
     f_org_id                       INT,--организация
-    f_position                     NVARCHAR(200),--должность
-	f_oe_templates                 nvarchar(MAX),
-	f_oe_areas                     nvarchar(MAX),
-	f_schedule_id                  int
+    f_position                     NVARCHAR(200)--должность        
   )
 
 ALTER TABLE vis_order_elements
@@ -659,7 +682,7 @@ ADD PRIMARY KEY (f_oe_id)
 
 if not exists(select * from vis_order_elements where f_oe_id = '0')
 begin
-	insert into vis_order_elements values ( '0', '', '', '', '', '', '', '', 'N', '', '', '', '', '', 0, '', '', '', 0)
+	insert into vis_order_elements values ( '0', '', '', '', '', '', '', '', 'N', '', '', '', '', '',0,'')
 end
 go
 

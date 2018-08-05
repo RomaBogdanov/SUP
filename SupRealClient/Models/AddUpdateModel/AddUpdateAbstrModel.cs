@@ -445,32 +445,16 @@ namespace SupRealClient.Models.AddUpdateModel
     /// </summary>
     public class AddUpdateZonesToBidModel : AddUpdateAbstrModel
     {
+
         public override event Action<object> OnClose;
 
-        private ObservableCollection<Template> setAllTemplates;
-        private ObservableCollection<Template> setAppointTemplates;
         private ObservableCollection<Area> setAllZones;
         private ObservableCollection<Area> setAppointZones;
-        private Template currentAllTemplate;
-        private Template currentAppointTemplate;
-        private Area currentAllZone;
         private Area currentAppointZone;
-
-        public ObservableCollection<Template> SetAllTemplates
-        {
-            get { return setAllTemplates; }
-            set { setAllTemplates = value; }
-        }
-
-        public ObservableCollection<Template> SetAppointTemplates
-        {
-            get { return setAppointTemplates; }
-            set { setAppointTemplates = value; }
-        }
 
         public ObservableCollection<Area> SetAllZones
         {
-            get { return setAllZones; }
+            get { return setAllZones;}
             set { setAllZones = value; }
         }
 
@@ -480,104 +464,39 @@ namespace SupRealClient.Models.AddUpdateModel
             set { setAppointZones = value; }
         }
 
-        public Template CurrentAllTemplate
-        {
-            get { return currentAllTemplate; }
-            set { currentAllTemplate = value; }
-        }
-
-        public Template CurrentAppointTemplate
-        {
-            get { return currentAppointTemplate; }
-            set { currentAppointTemplate = value; }
-        }
-
-        public Area CurrentAllZone
-        {
-            get { return currentAllZone; }
-            set { currentAllZone = value; }
-        }
-
         public Area CurrentAppointZone
         {
             get { return currentAppointZone; }
             set { currentAppointZone = value; }
         }
 
-        public Template ToAppointTemplates()
-        {
-            if (CurrentAllTemplate != null)
-            {
-                int i = SetAllTemplates.IndexOf((Template)CurrentAllTemplate);
-                SetAppointTemplates.Add((Template)CurrentAllTemplate);
-                SetAllTemplates.Remove((Template)CurrentAllTemplate);
-                if (SetAllTemplates.Count > i)
-                {
-                    CurrentAllTemplate = SetAllTemplates[i];
-                }
-                else if (SetAllTemplates.Count == 0)
-                {
-                    CurrentAllTemplate = null;
-                }
-                else
-                {
-                    CurrentAllTemplate = SetAllTemplates[i - 1];
-                }
-            }
-
-            return (Template)CurrentAllTemplate;
-        }
-
-        public Template ToAllTemplatesCommand()
-        {
-            if (CurrentAppointTemplate != null)
-            {
-                int i = SetAppointTemplates.IndexOf(CurrentAppointTemplate);
-                SetAllTemplates.Add(CurrentAppointTemplate);
-                SetAppointTemplates.Remove(CurrentAppointTemplate);
-                if (SetAppointTemplates.Count > i)
-                {
-                    CurrentAppointTemplate = SetAppointTemplates[i];
-                }
-                else if (SetAppointTemplates.Count == 0)
-                {
-                    CurrentAppointTemplate = null;
-                }
-                else
-                {
-                    CurrentAppointTemplate = SetAppointTemplates[i - 1];
-                }
-            }
-
-            return CurrentAppointTemplate;
-        }
-
         public Area ToAppointZones()
         {
-            if (CurrentAllZone != null)
+            if (CurrentItem != null)
             {
-                int i = SetAllZones.IndexOf((Area)CurrentAllZone);
-                SetAppointZones.Add((Area)CurrentAllZone);
-                SetAllZones.Remove((Area)CurrentAllZone);
+                int i = setAllZones.IndexOf((Area) CurrentItem);
+                SetAppointZones.Add((Area) CurrentItem);
+                SetAllZones.Remove((Area) CurrentItem);
                 if (SetAllZones.Count > i)
                 {
-                    CurrentAllZone = SetAllZones[i];
+                    CurrentItem = SetAllZones[i];
                 }
                 else if (SetAllZones.Count == 0)
                 {
-                    CurrentAllZone = null;
+                    CurrentItem = null;
                 }
                 else
                 {
-                    CurrentAllZone = SetAllZones[i - 1];
+                    CurrentItem = SetAllZones[i - 1];
                 }
             }
 
-            return (Area)CurrentAllZone;
+            return (Area)CurrentItem;
         }
 
         public Area ToAllZonesCommand()
         {
+
             if (CurrentAppointZone != null)
             {
                 int i = SetAppointZones.IndexOf(CurrentAppointZone);
@@ -600,89 +519,35 @@ namespace SupRealClient.Models.AddUpdateModel
             return CurrentAppointZone;
         }
 
-        public AddUpdateZonesToBidModel(OrderElement orderElement)
+        public AddUpdateZonesToBidModel(ObservableCollection<Area> setAppointZones)
         {
-            CurrentItem = orderElement;
-            SetAppointTemplates = new ObservableCollection<Template>(orderElement.Templates) ??
-                new ObservableCollection<Template>();
-            SetAppointZones = new ObservableCollection<Area>(orderElement.Areas) ??
-                new ObservableCollection<Area>();
+            SetAppointZones = setAppointZones ?? new ObservableCollection<Area>();
             Query();
-        }
-
-        public int ScheduleId
-        {
-            get { return ((OrderElement)CurrentItem).ScheduleId; }
-            set { ((OrderElement)CurrentItem).ScheduleId = value; }
         }
 
         private void Query()
         {
-            SetAllTemplates = new ObservableCollection<Template>(
-               from templates in TemplatesWrapper.CurrentTable().Table.AsEnumerable()
-               where templates.Field<int>("f_template_id") != 0 &&
-               CommonHelper.NotDeleted(templates)
-               select new Template
-               {
-                   Id = templates.Field<int>("f_template_id"),
-                   Name = templates.Field<string>("f_template_name"),
-                   Descript = templates.Field<string>("f_template_description")
-               });
-
-            SetAppointTemplates = new ObservableCollection<Template>();
-
-            var templateIds = AndoverEntityListHelper.StringToEntityIds(
-                ((OrderElement)CurrentItem).TemplateIdList);
-            foreach (var id in templateIds)
-            {
-                var template = SetAllTemplates.FirstOrDefault(t => t.Id == id);
-                if (template != null)
-                {
-                    SetAllTemplates.Remove(template);
-                    SetAppointTemplates.Add(template);
-                }
-            }
-
-            CurrentAllTemplate = SetAllTemplates.Count > 0 ? SetAllTemplates[0] : null;
-            CurrentAppointTemplate = SetAppointTemplates.Count > 0 ? SetAppointTemplates[0] : null;
-
+            
             SetAllZones = new ObservableCollection<Area>(
                 from areas in AreasWrapper.CurrentTable().Table.AsEnumerable()
-                where areas.Field<int>("f_area_id") != 0 &&
-                CommonHelper.NotDeleted(areas)
+                where areas.Field<int>("f_area_id") != 0 && 
+                      SetAppointZones.Where(
+                      arg => arg.Id == areas.Field<int>("f_area_id")).Count()==0
                 select new Area
                 {
                     Id = areas.Field<int>("f_area_id"),
                     Name = areas.Field<string>("f_area_name"),
-                    Descript = areas.Field<string>("f_area_descript"),
-                    ObjectIdHi = areas.Field<int>("f_object_id_hi"),
-                    ObjectIdLo = areas.Field<int>("f_object_id_lo"),
+                    Descript = areas.Field<string>("f_area_descript")
                 });
-
-            SetAppointZones = new ObservableCollection<Area>();
-
-            var areaIds = AndoverEntityListHelper.StringToAndoverEntityIds(
-                ((OrderElement)CurrentItem).AreaIdList);
-            foreach (var idPair in areaIds)
-            {
-                var area = SetAllZones.FirstOrDefault(a =>
-                    a.ObjectIdHi == idPair.Key && a.ObjectIdLo == idPair.Value);
-                if (area != null)
-                {
-                    SetAllZones.Remove(area);
-                    SetAppointZones.Add(area);
-                }
-            }
-
-            CurrentAllZone = SetAllZones.Count > 0 ? SetAllZones[0] : null;
+            //SetAppointZones = new ObservableCollection<Area>();
+            
+            CurrentItem = SetAllZones.Count > 0 ? SetAllZones[0] : null;
             CurrentAppointZone = SetAppointZones.Count > 0 ? SetAppointZones[0] : null;
         }
 
         public override void Ok()
         {
-            ((OrderElement)CurrentItem).Templates = SetAppointTemplates;
-            ((OrderElement)CurrentItem).Areas = SetAppointZones;
-            OnClose?.Invoke(CurrentItem);
+            OnClose?.Invoke(SetAppointZones);
         }
     }
 
@@ -815,17 +680,6 @@ namespace SupRealClient.Models.AddUpdateModel
     // TODO - вынести в отдельный класс. Переписать более универсально (принимать/возвращать IdEntity и AndoverEntity(создать класс))
     public static class AndoverEntityListHelper
     {
-        public static string EntitiesToString(IEnumerable<Template> templates)
-        {
-            var sb = new StringBuilder();
-            foreach (var template in templates)
-            {
-                sb.Append(template.Id);
-                sb.Append(";");
-            }
-            return sb.ToString();
-        }
-
         public static string AndoverEntitiesToString(IEnumerable<Area> areas)
         {
             var sb = new StringBuilder();
@@ -837,26 +691,6 @@ namespace SupRealClient.Models.AddUpdateModel
                 sb.Append(";");
             }
             return sb.ToString();
-        }
-
-        public static IEnumerable<int> StringToEntityIds(string ids)
-        {
-            var result = new List<int>();
-
-            string[] idArray = ids.Split(new[] { ';' },
-                StringSplitOptions.RemoveEmptyEntries);
-            foreach (var idStr in idArray)
-            {
-                int id;
-                if (!int.TryParse(idStr, out id))
-                {
-                    continue;
-                }
-
-                result.Add(id);
-            }
-
-            return result;
         }
 
         public static IEnumerable<KeyValuePair<int, int>> StringToAndoverEntityIds(string areas)

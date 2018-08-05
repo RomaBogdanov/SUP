@@ -26,27 +26,10 @@ namespace SupRealClient.Models
 		public Order CurrentTemporaryOrder { get; set; }
 		public Order CurrentVirtueOrder { get; set; }
 		public Order CurrentOrder { get; set; }
-		public Order GetCurrentSelectedOrder
-		{
-			get
-			{
-				switch (OrderType)
-				{
-					case OrderType.Single:
-						return CurrentSingleOrder;
-					case OrderType.Temp:
-						return CurrentTemporaryOrder;
-					case OrderType.Virtue:
-						return CurrentVirtueOrder;
-					default:
-						throw new ArgumentOutOfRangeException();
-				}
-			}
-		}
 		public OrderType OrderType { get; set; }
 		public bool IsCanAddRows { get; set; }
 		public Visibility IsAddUpdVisib { get; set; }
-		public OrderElement SelectedElement { get; set; }
+		public OrderElement UpdateVisitor { get; set; }
 		public string RecOperator { get; set; }
 		public string NewRecOperator { get; set; }
 
@@ -316,19 +299,19 @@ namespace SupRealClient.Models
 		/// </summary>
 		public void UpdatePerson()
 		{
-			if (SelectedElement == null)
+			if (UpdateVisitor == null)
 			{
 				MessageBox.Show("Не выбран посетитель для редактирования данных по нему");
 				return;
 			}
 
-			AddUpdateAbstrModel model = new UpdateBidModel(SelectedElement);
-			int i = GetCurrentSelectedOrder.OrderElements.IndexOf(SelectedElement);
+			AddUpdateAbstrModel model = new UpdateBidModel(UpdateVisitor);
+			int i = CurrentSingleOrder.OrderElements.IndexOf(UpdateVisitor);
 			object res = OpenWindow(model);
 			if (res == null) return;
-
-			GetCurrentSelectedOrder.OrderElements[i] = (res as OrderElement);
-			SelectedElement = GetCurrentSelectedOrder.OrderElements[i];
+			
+			CurrentSingleOrder.OrderElements[i] = (res as OrderElement);
+			UpdateVisitor = CurrentSingleOrder.OrderElements[i];
 			OnRefresh?.Invoke();
 		}
 
@@ -337,13 +320,13 @@ namespace SupRealClient.Models
 		/// </summary>
 		public void DeletePerson()
 		{
-			if (SelectedElement == null)
+			if (UpdateVisitor == null)
 			{
 				return;
 			}
 
-			SelectedElement.IsDeleted = true;
-			GetCurrentSelectedOrder.OrderElements.Remove(SelectedElement);
+			UpdateVisitor.IsDeleted = true;
+			CurrentSingleOrder.OrderElements.Remove(UpdateVisitor);
 		}
 
 		/// <summary>
