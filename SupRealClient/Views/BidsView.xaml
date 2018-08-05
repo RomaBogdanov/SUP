@@ -1390,6 +1390,7 @@
             </Grid.ColumnDefinitions>
 
             <Button
+                Name="btnToFirst"
                 Grid.Row="0"
                 Grid.Column="0"
                 Margin="2"
@@ -1414,13 +1415,14 @@
             </Button>
 
             <Button
+                Name="btnPrevious"
                 Grid.Row="0"
                 Grid.Column="1"
                 Margin="2"
                 Command="{Binding PrevCommand}"
                 IsEnabled="{Binding NavigateButtonEnable, UpdateSourceTrigger=PropertyChanged}"
                 Style="{StaticResource VisitorsSquareButtonStyle}"
-                ToolTip="↑">
+                ToolTip="Ctrl + ↑">
                 <Grid>
                     <Grid.RowDefinitions>
                         <RowDefinition />
@@ -1438,13 +1440,14 @@
             </Button>
 
             <Button
+                Name="btnNext"
                 Grid.Row="0"
                 Grid.Column="2"
                 Margin="2"
                 Command="{Binding NextCommand}"
                 IsEnabled="{Binding NavigateButtonEnable, UpdateSourceTrigger=PropertyChanged}"
                 Style="{StaticResource VisitorsSquareButtonStyle}"
-                ToolTip="↓">
+                ToolTip="Ctrl + ↓">
                 <Grid>
                     <Grid.RowDefinitions>
                         <RowDefinition />
@@ -1462,6 +1465,7 @@
             </Button>
 
             <Button
+                Name="btnToLast"
                 Grid.Row="0"
                 Grid.Column="3"
                 Margin="2"
@@ -1538,7 +1542,8 @@
                 Margin="2"
                 Command="{Binding NewCommand}"
                 IsEnabled="{Binding NavigateButtonEnable, UpdateSourceTrigger=PropertyChanged}"
-                Style="{StaticResource VisitorsSquareButtonStyle}">
+                Style="{StaticResource VisitorsSquareButtonStyle}"
+                ToolTip="Insert">
                 <Grid>
                     <Grid.RowDefinitions>
                         <RowDefinition />
@@ -1556,13 +1561,14 @@
             </Button>
 
             <Button
+                Name="btnEditOrder"
                 Grid.Row="1"
                 Grid.Column="1"
                 Margin="2"
                 Command="{Binding EditCommand}"
                 IsEnabled="{Binding NavigateButtonEnable, UpdateSourceTrigger=PropertyChanged}"
                 Style="{StaticResource VisitorsSquareButtonStyle}"
-                ToolTip="Insert">
+                ToolTip="F2">
                 <Grid>
                     <Grid.RowDefinitions>
                         <RowDefinition />
@@ -1586,7 +1592,8 @@
                 Margin="2"
                 Command="{Binding OkCommand}"
                 IsEnabled="{Binding AcceptButtonEnable, UpdateSourceTrigger=PropertyChanged}"
-                Style="{StaticResource VisitorsSquareButtonStyle}">
+                Style="{StaticResource VisitorsSquareButtonStyle}"
+                ToolTip="Ctrl+S">
                 <Grid>
                     <Grid.RowDefinitions>
                         <RowDefinition />
@@ -1629,6 +1636,7 @@
             </Button>
 
             <Button
+                Name="btnFind"
                 Grid.Row="1"
                 Grid.Column="4"
                 Margin="2"
@@ -1653,12 +1661,14 @@
             </Button>
 
             <Button
+                Name="btnReload"
                 Grid.Row="1"
                 Grid.Column="5"
                 Margin="2"
                 Command="{Binding ReloadCommand}"
                 IsEnabled="{Binding NavigateButtonEnable, UpdateSourceTrigger=PropertyChanged}"
-                Style="{StaticResource VisitorsSquareButtonStyle}">
+                Style="{StaticResource VisitorsSquareButtonStyle}"
+                ToolTip="F5">
                 <Grid>
                     <Grid.RowDefinitions>
                         <RowDefinition />
