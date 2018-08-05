@@ -1177,34 +1177,4 @@ namespace SupRealClient.TabsSingleton
         }
     }
 
-	/// <summary>
-	/// ??
-	/// </summary>
-	partial class TemplatesAreasWrapper : TableWrapper
-	{
-		static TemplatesAreasWrapper currentTable;
-
-        public static TemplatesAreasWrapper CurrentTable()
-        {
-            if (currentTable == null)
-            {
-                currentTable = new TemplatesAreasWrapper();
-                wrappers.Add(currentTable);
-            }
-            return currentTable;
-        }
-
-		public override void Dispose()
-        {
-            base.Dispose();
-            currentTable = null;
-        }
-
-        private TemplatesAreasWrapper() : base()
-        {
-            this.table = connector.GetTable(TableName.VisTemplatesAreas);
-            this.Subscribe();
-        }
-    }
-
 }

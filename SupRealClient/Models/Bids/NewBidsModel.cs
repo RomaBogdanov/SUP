@@ -13,7 +13,7 @@ namespace SupRealClient.Models
 			OrderType = currentOrderType;
 			CurrentTemporaryOrder = new Order();
 			CurrentSingleOrder = new Order();
-			CurrentVirtueOrder = new Order();
+			CurrentVirtueOrder = new Order(true);
 			CurrentOrder = new Order();
 
 			SingleOrdersSet = new ObservableCollection<Order> {CurrentSingleOrder};
@@ -81,7 +81,7 @@ namespace SupRealClient.Models
 					OrdersWrapper.CurrentTable().AddRow(CurrentSingleOrder);
 					break;
 				case OrderType.Virtue:
-					foreach (OrderElement currentOrderOrderElement in CurrentOrder.OrderElements)
+					foreach (OrderElement currentOrderOrderElement in CurrentVirtueOrder.OrderElements)
 					{
 						currentOrderOrderElement.From = CurrentVirtueOrder.From;
 						currentOrderOrderElement.To = CurrentVirtueOrder.To;

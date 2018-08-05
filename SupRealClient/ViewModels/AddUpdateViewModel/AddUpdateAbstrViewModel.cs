@@ -46,8 +46,8 @@ namespace SupRealClient.ViewModels.AddUpdateViewModel
 
         public object CurrentItem
         {
-            get { return Model.CurrentItem; }
-            set
+            get => Model.CurrentItem;
+	        set
             {
                 Model.CurrentItem = value;
                 OnPropertyChanged();
@@ -56,8 +56,8 @@ namespace SupRealClient.ViewModels.AddUpdateViewModel
 
         public string OkCaption
         {
-            get { return okCaption; }
-            set
+            get => okCaption;
+	        set
             {
                 okCaption = value;
                 OnPropertyChanged();
@@ -66,8 +66,8 @@ namespace SupRealClient.ViewModels.AddUpdateViewModel
 
         public string Title
         {
-            get { return title; }
-            set
+            get => title;
+	        set
             {
                 title = value;
                 OnPropertyChanged();
@@ -129,9 +129,9 @@ namespace SupRealClient.ViewModels.AddUpdateViewModel
 	    public AddUpdateBidsViewModel(AddUpdateAbstrModel model) : base()
 	    {
 		    Model = model;
-			ChooseVisitor = new RelayCommand(arg => VisitorNameCommand());
-		    ChooseOrganization = new RelayCommand(arg => OrganizationNameCommand());
-		    ChooseCatcher = new RelayCommand(arg => CatcherNameCommand());
+			ChooseVisitor = new RelayCommand(arg => ChooseVisitorCommand());
+		    ChooseOrganization = new RelayCommand(arg => ChooseOrganizationCommand());
+		    ChooseCatcher = new RelayCommand(arg => ChooseCatcherCommand());
 		    UpdateZones = new RelayCommand(arg => UpdateZonesCommand());
 
 		    ClearVisitor = new RelayCommand(arg => ClearVisitorCommand());
@@ -141,7 +141,7 @@ namespace SupRealClient.ViewModels.AddUpdateViewModel
 		    ClearZones = new RelayCommand(arg => ClearZonesCommand());
 		}
 
-		private void VisitorNameCommand()
+		private void ChooseVisitorCommand()
         {
             VisitorsModelResult result = ViewManager.Instance.OpenWindowModal(
                 "VisitorsListWindViewOk", null) as VisitorsModelResult;
@@ -156,7 +156,7 @@ namespace SupRealClient.ViewModels.AddUpdateViewModel
 			CurrentItem = CurrentItem;
         }
 
-	    private void OrganizationNameCommand()
+	    private void ChooseOrganizationCommand()
 	    {
 		    BaseModelResult result = ViewManager.Instance.OpenWindowModal(
 				"Base4OrganizationsWindView", null) as BaseModelResult;
@@ -168,7 +168,7 @@ namespace SupRealClient.ViewModels.AddUpdateViewModel
 		    CurrentItem = CurrentItem;
 		}
 
-        private void CatcherNameCommand()
+        private void ChooseCatcherCommand()
         {
             VisitorsModelResult result = ViewManager.Instance.OpenWindowModal(
                 "VisitorsListWindViewOk", null) as VisitorsModelResult;
@@ -244,20 +244,11 @@ namespace SupRealClient.ViewModels.AddUpdateViewModel
 
 	    protected override void OkCommand()
 	    {
-		    if (string.IsNullOrEmpty(CurrentOrderElement.Visitor) ||
-		        string.IsNullOrEmpty(CurrentOrderElement.Position) ||
-		        string.IsNullOrEmpty(CurrentOrderElement.Catcher) ||
-		        string.IsNullOrEmpty(CurrentOrderElement.Organization))
+		    if (!CurrentOrderElement.IsOrderElementDataCorrect(out string errorMessage))
 		    {
-			    MessageBox.Show("Не все поля заполнены.", "Ошибка");
+			    MessageBox.Show(errorMessage, "Ошибка");
 				return;
 		    }
-
-			if (!CommonHelper.IsPositionCorrect(CurrentOrderElement.Position))
-			{
-				MessageBox.Show("Некорретно введена должность.", "Ошибка");
-				return;
-			}
 
 			base.OkCommand();
 	    }
@@ -614,6 +605,107 @@ namespace SupRealClient.ViewModels.AddUpdateViewModel
                     break;
                 default:
                     return;
+            }
+        }
+    }
+
+    public class AddUpdateTemplateViewModel : AddUpdateBaseViewModel
+    {
+        private Area currentAllArea;
+        private Area currentAppointArea;
+
+        public ObservableCollection<Area> SetAllAreas
+        {
+            get { return ((AddUpdateTemplateModel)this.Model).SetAllAreas; }
+            set
+            {
+                ((AddUpdateTemplateModel)this.Model).SetAllAreas = value;
+                OnPropertyChanged();
+            }
+        }
+
+        public ObservableCollection<Area> SetAppointAreas
+        {
+            get { return ((AddUpdateTemplateModel)this.Model).SetAppointAreas; }
+            set
+            {
+                ((AddUpdateTemplateModel)this.Model).SetAppointAreas = value;
+                OnPropertyChanged();
+            }
+        }
+
+        public Area CurrentAllArea
+        {
+            get { return currentAllArea; }
+            set
+            {
+                currentAllArea = value;
+                OnPropertyChanged();
+            }
+        }
+
+        public Area CurrentAppointArea
+        {
+            get { return currentAppointArea; }
+            set
+            {
+                currentAppointArea = value;
+                OnPropertyChanged();
+            }
+        }
+
+        public ICommand ToAppointAreasCommand { get; set; }
+        public ICommand ToAllAreasCommand { get; set; }
+
+        public AddUpdateTemplateViewModel() : base()
+        {
+            ToAppointAreasCommand = new RelayCommand(arg => ToAppointAreas());
+            ToAllAreasCommand = new RelayCommand(arg => ToAllAreas());
+        }
+
+        private void ToAppointAreas()
+        {
+            if (CurrentAllArea == null)
+            {
+                return;
+            }
+            int i = SetAllAreas.IndexOf(CurrentAllArea);
+            SetAppointAreas.Add(CurrentAllArea);
+            SetAllAreas.Remove(CurrentAllArea);
+            if (SetAllAreas.Count > i)
+            {
+                CurrentAllArea = SetAllAreas[i];
+            }
+            else if (SetAllAreas.Count == 0)
+            {
+                CurrentAllArea = null;
+            }
+            else
+            {
+                CurrentAllArea = SetAllAreas[i - 1];
+            }
+        }
+
+        private void ToAllAreas()
+        {
+            if (CurrentAppointArea == null)
+            {
+                return;
+            }
+            int i = SetAppointAreas.IndexOf(CurrentAppointArea);
+            SetAllAreas.Add(CurrentAppointArea);
+            SetAppointAreas.Remove(CurrentAppointArea);
+            if (SetAppointAreas.Count > i)
+            {
+                CurrentAppointArea = SetAppointAreas[i];
+            }
+            else if (SetAppointAreas.Count == 0)
+            {
+                CurrentAppointArea = null;
+            }
+            else
+            {
+                CurrentAppointArea = SetAppointAreas[i - 1];
             }
         }
     }

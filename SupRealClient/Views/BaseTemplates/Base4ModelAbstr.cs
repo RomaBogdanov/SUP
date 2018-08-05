@@ -1640,12 +1640,30 @@ select new T
 
         public override void Add()
         {
-            throw new NotImplementedException();
+            AddUpdateAbstrModel model = new AddTemplateModel();
+            AddUpdateBaseViewModel viewModel = new AddUpdateTemplateViewModel
+            {
+                Model = model
+            };
+            AddUpdateTemplateView view = new AddUpdateTemplateView();
+            view.DataContext = viewModel;
+            model.OnClose += view.Handling_OnClose;
+            view.ShowDialog();
+            object res = view.WindowResult;
         }
 
         public override void Update()
         {
-            throw new NotImplementedException();
+            AddUpdateAbstrModel model = new UpdateTemplateModel(CurrentItem);
+            AddUpdateBaseViewModel viewModel = new AddUpdateTemplateViewModel
+            {
+                Model = model
+            };
+            AddUpdateTemplateView view = new AddUpdateTemplateView();
+            view.DataContext = viewModel;
+            model.OnClose += view.Handling_OnClose;
+            view.ShowDialog();
+            object res = view.WindowResult;
         }
 
         protected override void DoQuery()
@@ -1658,7 +1676,8 @@ select new T
                     Id = template.Field<int>("f_template_id"),
                     Name = template.Field<string>("f_template_name"),
                     Type = template.Field<int>("f_template_type").ToString(),
-                    Descript = template.Field<string>("f_template_description")
+                    Descript = template.Field<string>("f_template_description"),
+                    AreaIdList = template.Field<string>("f_template_areas"),
                 });
         }
 
