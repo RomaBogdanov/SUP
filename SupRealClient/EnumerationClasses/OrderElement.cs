@@ -6,7 +6,6 @@ using System.ComponentModel;
 using System.Runtime.CompilerServices;
 using SupRealClient.Annotations;
 using SupRealClient.TabsSingleton;
-using SupRealClient.Common;
 
 namespace SupRealClient.EnumerationClasses
 {
@@ -19,8 +18,9 @@ namespace SupRealClient.EnumerationClasses
 		private int visitorId;
 		private int organizationId;
 		private int catcherId;
+        private int scheduleId;
 
-		private const int DefaultFromHour = 9;
+        private const int DefaultFromHour = 9;
 		private const int DefaultToHour = 18;
 
 		/// <summary>
@@ -280,27 +280,14 @@ namespace SupRealClient.EnumerationClasses
 		public bool IsDisable { get; set; }
 
 		public bool IsBlock { get; set; }
-
 		private string blockingNote;
+
 		public string BlockingNote
 		{
 			get { return blockingNote; }
 			set
 			{
 				blockingNote = value;
-				OnPropertyChanged();
-			}
-		}
-
-
-		private string _reason;
-
-		public string Reason
-		{
-			get => _reason;
-			set
-			{
-				_reason = value;
 				OnPropertyChanged();
 			}
 		}
@@ -318,55 +305,45 @@ namespace SupRealClient.EnumerationClasses
 			return this.MemberwiseClone();
 		}
 
-		public ObservableCollection<Area> Areas { get; set; } =
+        public ObservableCollection<Template> Templates { get; set; } =
+            new ObservableCollection<Template>();
+
+        public ObservableCollection<Area> Areas { get; set; } =
 			new ObservableCollection<Area>();
 
-		public ObservableCollection<Area> AddedAreas { get; set; } =
-			new ObservableCollection<Area>();
+        private string schedule = "";
 
-		public ObservableCollection<Area> DeletedAreas { get; set; } =
-			new ObservableCollection<Area>();
+        /// <summary>
+        /// Название расписания
+        /// </summary>
+        public string Schedule
+        {
+            get => schedule;
+            set
+            {
+                schedule = value;
+                OnPropertyChanged();
+            }
+        }
 
-		public bool IsOrderElementDataCorrect(out string errorMessage)
-		{
-			if (VisitorId == 0)
-			{
-				errorMessage = "Не выбран посетитель.";
-				return false;
-			}
+        /// <summary>
+		/// Расписание по id. Автоматически задает свойство названия расписания.
+		/// </summary>
+		public int ScheduleId
+        {
+            get { return scheduleId; }
+            set
+            {
+                scheduleId = value;
+                DataRow row = SchedulesWrapper.CurrentTable().Table
+                    .AsEnumerable().FirstOrDefault(arg =>
+                        arg.Field<int>("f_schedule_id") == scheduleId);
+                Schedule = row["f_schedule_name"].ToString();
+            }
+        }
 
-			if (OrganizationId == 0)
-			{
-				errorMessage = "Не выбрана организация.";
-				return false;
-			}
+        public string TemplateIdList { get; set; } = "";
 
-			if (string.IsNullOrEmpty(Position))
-			{
-				errorMessage = "Не указана должность.";
-				return false;
-			}
-
-			if (string.IsNullOrEmpty(Passes))
-			{
-				errorMessage = "Необходимо выбрать хотя бы один проход.";
-				return false;
-			}
-
-			if (From.TimeOfDay > To.TimeOfDay)
-			{
-				errorMessage = " \"Время от\" не может быть позже, чем \"Время до\"";
-				return false;
-			}
-
-			if (!CommonHelper.IsPositionCorrect(Position))
-			{
-				errorMessage = "Неверно введена должность.";
-				return false;
-			}
-
-			errorMessage = null;
-			return true;
-		}
-	}
+        public string AreaIdList { get; set; } = "";
+    }
 }

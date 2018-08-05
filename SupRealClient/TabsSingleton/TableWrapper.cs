@@ -6,6 +6,7 @@ using System.Linq;
 using SupClientConnectionLib;
 using SupRealClient.Common;
 using SupRealClient.EnumerationClasses;
+using SupRealClient.Models.AddUpdateModel;
 
 namespace SupRealClient.TabsSingleton
 {
@@ -256,7 +257,7 @@ namespace SupRealClient.TabsSingleton
 			row["f_image_id"] = order.ImageId;
 			row["f_rec_operator"] = order.RecOperatorID;
 			row["f_new_rec_date"] = order.NewRecDate;
-			row["f_new_rec_operator"] = Authorizer.AppAuthorizer.Id;
+			row["f_new_rec_operator"] = order.NewRecOperatorID;
 			row["f_barcode"] = order.Barcode;
 			row["f_adjusted_with"] = order.AgreeId;
 			row["f_notes"] = order.Note;
@@ -365,11 +366,17 @@ namespace SupRealClient.TabsSingleton
 							CatcherId = row.Field<int>("f_catcher_id"),
 							From = row.Field<DateTime>("f_time_from"),
 							To = row.Field<DateTime>("f_time_to"),
-							Reason =  row.Field<string>("f_other_org"),
-							IsBlock = VisitorsWrapper.CurrentTable().Table.AsEnumerable().Where(item=>item.Field<int>("f_visitor_id") == row.Field<int>("f_visitor_id")).FirstOrDefault().Field<string>("f_persona_non_grata").ToUpper() == "Y",
 							IsDisable = row.Field<string>("f_disabled").ToUpper() == "Y" ? true : false,
-							Passes = row.Field<string>("f_passes")
-						})
+							Passes = row.Field<string>("f_passes"),
+                            TemplateIdList = row.Field<string>("f_oe_templates"),
+                            AreaIdList = row.Field<string>("f_oe_areas"),
+                            ScheduleId = row.Field<int>("f_schedule_id"),
+                            Schedule = row.Field<int>("f_schedule_id") == 0 ? "" :
+                                SchedulesWrapper.CurrentTable()
+                                .Table.AsEnumerable().FirstOrDefault(
+                                arg => arg.Field<int>("f_schedule_id") ==
+                                row.Field<int>("f_schedule_id"))["f_schedule_name"].ToString(),
+                        })
 				});
 			return orders;
 		}
@@ -392,21 +399,13 @@ namespace SupRealClient.TabsSingleton
 			row["f_disabled"] = orderElement.IsDisable ? "Y" : "N";
 			row["f_not_remaind"] = "N"; //todo: разобраться
 			row["f_full_role"] = "N"; //todo: разобраться
-			row["f_other_org"] = orderElement.Reason; //todo: изменить название столбца в БД
+			row["f_other_org"] = ""; //todo: разобраться
 			row["f_org_id"] = orderElement.OrganizationId;
 			row["f_position"] = orderElement.Position;
-			AddRow(row);
-			foreach (Area relAreas in orderElement.Areas)
-			{
-				AreaOrderElement aoe = new AreaOrderElement
-				{
-					OrderElementId =
-						(int) row["f_oe_id"],
-					AreaIdHi = relAreas.ObjectIdHi,
-					AreaIdLo = relAreas.ObjectIdLo
-				};
-				AreaOrderElementWrapper.CurrentTable().AddRow(aoe);
-			}
+            row["f_oe_templates"] = AndoverEntityListHelper.EntitiesToString(orderElement.Templates);
+            row["f_oe_areas"] = AndoverEntityListHelper.AndoverEntitiesToString(orderElement.Areas);
+            row["f_schedule_id"] = orderElement.ScheduleId;
+            AddRow(row);
 		}
 
 		public override void UpdateRow<T>(T obj)
@@ -427,10 +426,13 @@ namespace SupRealClient.TabsSingleton
 			row["f_disabled"] = orderElement.IsDisable ? "Y" : "N";
 			row["f_not_remaind"] = "N"; //todo: разобраться
 			row["f_full_role"] = "N"; //todo: разобраться
-			row["f_other_org"] = orderElement.Reason; //todo: изменить название столбца в БД
+			row["f_other_org"] = ""; //todo: разобраться
 			row["f_org_id"] = orderElement.OrganizationId;
 			row["f_position"] = orderElement.Position;
-			StandartCols(row, orderElement);
+            row["f_oe_templates"] = AndoverEntityListHelper.EntitiesToString(orderElement.Templates);
+            row["f_oe_areas"] = AndoverEntityListHelper.AndoverEntitiesToString(orderElement.Areas);
+            row["f_schedule_id"] = orderElement.ScheduleId;
+            StandartCols(row, orderElement);
 			row.EndEdit();
 		}
 
@@ -452,7 +454,6 @@ namespace SupRealClient.TabsSingleton
 						CatcherId = ordEls.Field<int>("f_catcher_id"),
 						From = ordEls.Field<DateTime>("f_time_from"),
 						To = ordEls.Field<DateTime>("f_time_to"),
-						Reason = ordEls.Field<string>("f_other_org"),
 						IsDisable = ordEls.Field<string>("f_disabled").ToUpper() == "Y" ? true : false,
 						Passes = ordEls.Field<string>("f_passes")
 					});
@@ -475,25 +476,6 @@ namespace SupRealClient.TabsSingleton
 			row["f_comment"] = card.Comment;
 			row["f_lost_date"] = DateTime.MinValue;
 			row["f_last_visit_id"] = 0;
-			StandartCols(row);
-			CurrentTable().Table.Rows.Add(row);
-		}
-	}
-
-	partial class AreaOrderElementWrapper
-	{
-		public override void AddRow<T>(T obj)
-		{
-			AreaOrderElement aoe = obj as AreaOrderElement;
-			if (aoe == null)
-			{
-				return;
-			}
-
-			DataRow row = CurrentTable().Table.NewRow();
-			row["f_oe_id"] = aoe.OrderElementId;
-			row["f_area_id_hi"] = aoe.AreaIdHi;
-			row["f_area_id_lo"] = aoe.AreaIdLo;
 			StandartCols(row);
 			CurrentTable().Table.Rows.Add(row);
 		}
