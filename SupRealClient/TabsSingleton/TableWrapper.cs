@@ -371,6 +371,11 @@ namespace SupRealClient.TabsSingleton
                             TemplateIdList = row.Field<string>("f_oe_templates"),
                             AreaIdList = row.Field<string>("f_oe_areas"),
                             ScheduleId = row.Field<int>("f_schedule_id"),
+                            Schedule = row.Field<int>("f_schedule_id") == 0 ? "" :
+                                SchedulesWrapper.CurrentTable()
+                                .Table.AsEnumerable().FirstOrDefault(
+                                arg => arg.Field<int>("f_schedule_id") ==
+                                row.Field<int>("f_schedule_id"))["f_schedule_name"].ToString(),
                         })
 				});
 			return orders;
@@ -397,8 +402,9 @@ namespace SupRealClient.TabsSingleton
 			row["f_other_org"] = ""; //todo: разобраться
 			row["f_org_id"] = orderElement.OrganizationId;
 			row["f_position"] = orderElement.Position;
+            row["f_oe_templates"] = AndoverEntityListHelper.EntitiesToString(orderElement.Templates);
             row["f_oe_areas"] = AndoverEntityListHelper.AndoverEntitiesToString(orderElement.Areas);
-            row["f_schedule_id"] = 0;
+            row["f_schedule_id"] = orderElement.ScheduleId;
             AddRow(row);
 		}
 
@@ -423,8 +429,9 @@ namespace SupRealClient.TabsSingleton
 			row["f_other_org"] = ""; //todo: разобраться
 			row["f_org_id"] = orderElement.OrganizationId;
 			row["f_position"] = orderElement.Position;
+            row["f_oe_templates"] = AndoverEntityListHelper.EntitiesToString(orderElement.Templates);
             row["f_oe_areas"] = AndoverEntityListHelper.AndoverEntitiesToString(orderElement.Areas);
-            row["f_schedule_id"] = 0;
+            row["f_schedule_id"] = orderElement.ScheduleId;
             StandartCols(row, orderElement);
 			row.EndEdit();
 		}

@@ -447,14 +447,30 @@ namespace SupRealClient.Models.AddUpdateModel
     {
         public override event Action<object> OnClose;
 
+        private ObservableCollection<Template> setAllTemplates;
+        private ObservableCollection<Template> setAppointTemplates;
         private ObservableCollection<Area> setAllZones;
         private ObservableCollection<Area> setAppointZones;
+        private Template currentAllTemplate;
+        private Template currentAppointTemplate;
         private Area currentAllZone;
         private Area currentAppointZone;
 
+        public ObservableCollection<Template> SetAllTemplates
+        {
+            get { return setAllTemplates; }
+            set { setAllTemplates = value; }
+        }
+
+        public ObservableCollection<Template> SetAppointTemplates
+        {
+            get { return setAppointTemplates; }
+            set { setAppointTemplates = value; }
+        }
+
         public ObservableCollection<Area> SetAllZones
         {
-            get { return setAllZones;}
+            get { return setAllZones; }
             set { setAllZones = value; }
         }
 
@@ -462,6 +478,18 @@ namespace SupRealClient.Models.AddUpdateModel
         {
             get { return setAppointZones; }
             set { setAppointZones = value; }
+        }
+
+        public Template CurrentAllTemplate
+        {
+            get { return currentAllTemplate; }
+            set { currentAllTemplate = value; }
+        }
+
+        public Template CurrentAppointTemplate
+        {
+            get { return currentAppointTemplate; }
+            set { currentAppointTemplate = value; }
         }
 
         public Area CurrentAllZone
@@ -474,6 +502,54 @@ namespace SupRealClient.Models.AddUpdateModel
         {
             get { return currentAppointZone; }
             set { currentAppointZone = value; }
+        }
+
+        public Template ToAppointTemplates()
+        {
+            if (CurrentAllTemplate != null)
+            {
+                int i = SetAllTemplates.IndexOf((Template)CurrentAllTemplate);
+                SetAppointTemplates.Add((Template)CurrentAllTemplate);
+                SetAllTemplates.Remove((Template)CurrentAllTemplate);
+                if (SetAllTemplates.Count > i)
+                {
+                    CurrentAllTemplate = SetAllTemplates[i];
+                }
+                else if (SetAllTemplates.Count == 0)
+                {
+                    CurrentAllTemplate = null;
+                }
+                else
+                {
+                    CurrentAllTemplate = SetAllTemplates[i - 1];
+                }
+            }
+
+            return (Template)CurrentAllTemplate;
+        }
+
+        public Template ToAllTemplatesCommand()
+        {
+            if (CurrentAppointTemplate != null)
+            {
+                int i = SetAppointTemplates.IndexOf(CurrentAppointTemplate);
+                SetAllTemplates.Add(CurrentAppointTemplate);
+                SetAppointTemplates.Remove(CurrentAppointTemplate);
+                if (SetAppointTemplates.Count > i)
+                {
+                    CurrentAppointTemplate = SetAppointTemplates[i];
+                }
+                else if (SetAppointTemplates.Count == 0)
+                {
+                    CurrentAppointTemplate = null;
+                }
+                else
+                {
+                    CurrentAppointTemplate = SetAppointTemplates[i - 1];
+                }
+            }
+
+            return CurrentAppointTemplate;
         }
 
         public Area ToAppointZones()
@@ -527,13 +603,49 @@ namespace SupRealClient.Models.AddUpdateModel
         public AddUpdateZonesToBidModel(OrderElement orderElement)
         {
             CurrentItem = orderElement;
+            SetAppointTemplates = new ObservableCollection<Template>(orderElement.Templates) ??
+                new ObservableCollection<Template>();
             SetAppointZones = new ObservableCollection<Area>(orderElement.Areas) ??
                 new ObservableCollection<Area>();
             Query();
         }
 
+        public int ScheduleId
+        {
+            get { return ((OrderElement)CurrentItem).ScheduleId; }
+            set { ((OrderElement)CurrentItem).ScheduleId = value; }
+        }
+
         private void Query()
         {
+            SetAllTemplates = new ObservableCollection<Template>(
+               from templates in TemplatesWrapper.CurrentTable().Table.AsEnumerable()
+               where templates.Field<int>("f_template_id") != 0 &&
+               CommonHelper.NotDeleted(templates)
+               select new Template
+               {
+                   Id = templates.Field<int>("f_template_id"),
+                   Name = templates.Field<string>("f_template_name"),
+                   Descript = templates.Field<string>("f_template_description")
+               });
+
+            SetAppointTemplates = new ObservableCollection<Template>();
+
+            var templateIds = AndoverEntityListHelper.StringToEntityIds(
+                ((OrderElement)CurrentItem).TemplateIdList);
+            foreach (var id in templateIds)
+            {
+                var template = SetAllTemplates.FirstOrDefault(t => t.Id == id);
+                if (template != null)
+                {
+                    SetAllTemplates.Remove(template);
+                    SetAppointTemplates.Add(template);
+                }
+            }
+
+            CurrentAllTemplate = SetAllTemplates.Count > 0 ? SetAllTemplates[0] : null;
+            CurrentAppointTemplate = SetAppointTemplates.Count > 0 ? SetAppointTemplates[0] : null;
+
             SetAllZones = new ObservableCollection<Area>(
                 from areas in AreasWrapper.CurrentTable().Table.AsEnumerable()
                 where areas.Field<int>("f_area_id") != 0 &&
@@ -568,6 +680,7 @@ namespace SupRealClient.Models.AddUpdateModel
 
         public override void Ok()
         {
+            ((OrderElement)CurrentItem).Templates = SetAppointTemplates;
             ((OrderElement)CurrentItem).Areas = SetAppointZones;
             OnClose?.Invoke(CurrentItem);
         }
@@ -702,6 +815,17 @@ namespace SupRealClient.Models.AddUpdateModel
     // TODO - вынести в отдельный класс. Переписать более универсально (принимать/возвращать IdEntity и AndoverEntity(создать класс))
     public static class AndoverEntityListHelper
     {
+        public static string EntitiesToString(IEnumerable<Template> templates)
+        {
+            var sb = new StringBuilder();
+            foreach (var template in templates)
+            {
+                sb.Append(template.Id);
+                sb.Append(";");
+            }
+            return sb.ToString();
+        }
+
         public static string AndoverEntitiesToString(IEnumerable<Area> areas)
         {
             var sb = new StringBuilder();
@@ -713,6 +837,26 @@ namespace SupRealClient.Models.AddUpdateModel
                 sb.Append(";");
             }
             return sb.ToString();
+        }
+
+        public static IEnumerable<int> StringToEntityIds(string ids)
+        {
+            var result = new List<int>();
+
+            string[] idArray = ids.Split(new[] { ';' },
+                StringSplitOptions.RemoveEmptyEntries);
+            foreach (var idStr in idArray)
+            {
+                int id;
+                if (!int.TryParse(idStr, out id))
+                {
+                    continue;
+                }
+
+                result.Add(id);
+            }
+
+            return result;
         }
 
         public static IEnumerable<KeyValuePair<int, int>> StringToAndoverEntityIds(string areas)

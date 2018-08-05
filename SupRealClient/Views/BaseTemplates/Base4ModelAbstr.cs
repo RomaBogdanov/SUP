@@ -731,6 +731,7 @@ namespace SupRealClient.Views
 
             List<CardArea> list = new List<CardArea>();
 
+            // TODO - добавить шаблоны
             // создаём связь: карта - зоны доступа
             foreach (var order in orders)
             {

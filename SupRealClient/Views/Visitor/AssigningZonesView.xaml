@@ -3,11 +3,10 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        xmlns:local="clr-namespace:SupRealClient.Views.Visitor"
         xmlns:mah="http://metro.mahapps.com/winfx/xaml/controls"
         mc:Ignorable="d"
-        Title="Назначение зон" 
-        Height="500" Width="600"
+        Title="Назначение областей доступа" 
+        Height="800" Width="600"
         ResizeMode="NoResize">
     <Grid>
         <Grid.RowDefinitions>
@@ -22,59 +21,67 @@
             <RowDefinition/>
             <RowDefinition/>
             <RowDefinition/>
+            <RowDefinition/>
+            <RowDefinition/>
+            <RowDefinition/>
+            <RowDefinition/>
+            <RowDefinition/>
+            <RowDefinition/>
+            <RowDefinition/>
+            <RowDefinition/>
         </Grid.RowDefinitions>
         <Grid.ColumnDefinitions>
-            <ColumnDefinition/>
-            <ColumnDefinition Width="0.3*"/>
-            <ColumnDefinition/>
+            <ColumnDefinition Width="56*"/>
+            <ColumnDefinition Width="73*"/>
+            <ColumnDefinition Width="39*"/>
+            <ColumnDefinition Width="129*"/>
         </Grid.ColumnDefinitions>
-        
+
         <TextBlock
             Grid.Row="0"
             Grid.Column="0"
-            Text="Все доступные зоны"
+            Text="Все доступные шаблоны"
             FontSize="15"
-            Style="{StaticResource TextBLockStyle}"/>
-        
+            Style="{StaticResource TextBLockStyle}" Grid.ColumnSpan="2" Margin="2"/>
+
         <TextBlock
             Grid.Row="0"
-            Grid.Column="2"
-            Text="Назначенные зоны"
+            Grid.Column="3"
+            Text="Назначенные шаблоны"
             FontSize="15"
-            Style="{StaticResource TextBLockStyle}"/>
-        
+            Style="{StaticResource TextBLockStyle}" Margin="2"/>
+
         <DataGrid
             Grid.Row="1"
             Grid.RowSpan="7"
             Grid.Column="0"
             AutoGenerateColumns="False"
             CanUserAddRows="False"
-            ItemsSource="{Binding SetAllZones, Mode=TwoWay}"
-            SelectedItem="{Binding CurrentAllZone, Mode=TwoWay}"
+            ItemsSource="{Binding SetAllTemplates, Mode=TwoWay}"
+            SelectedItem="{Binding CurrentAllTemplate, Mode=TwoWay}"
             BorderBrush="Black"
-            BorderThickness="1">
+            BorderThickness="1" Grid.ColumnSpan="2">
             <DataGrid.Columns>
-                <DataGridTextColumn Header="Названиие" Binding="{Binding Name}" Width="100"/>
-                <DataGridTextColumn Header="Описание" Binding="{Binding Descript}" Width="*"/>
+                <DataGridTextColumn Header="Названиие" Binding="{Binding Name}" />
             </DataGrid.Columns>
         </DataGrid>
-        
+
         <Button
             Grid.Row="2"
-            Grid.Column="1"
+            Grid.Column="2"
             Width="50"
             Style="{StaticResource ButtonStyle}"
-            Command="{Binding ToAppointZones}">
+            Command="{Binding ToAppointTemplates}" Margin="14,0">
             <Image
-                Source="../../Resources/Перенести.ico"/>    
+                Source="../../Resources/Перенести.ico"/>
         </Button>
 
         <Button
             Grid.Row="3"
-            Grid.Column="1"
+            Grid.Column="2"
             Width="50"
             Style="{StaticResource ButtonStyle}"
-            Command="{Binding ToAllZones}">
+            Command="{Binding ToAllTemplates}" Margin="14,0">
             <Image
                 Source="../../Resources/Вернуть.ico"/>
         </Button>
@@ -82,7 +89,72 @@
         <DataGrid
             Grid.Row="1"
             Grid.RowSpan="7"
+            Grid.Column="3"
+            AutoGenerateColumns="False"
+            CanUserAddRows="False"
+            ItemsSource="{Binding SetAppointTemplates, Mode=TwoWay}"
+            SelectedItem="{Binding CurrentAppointTemplate, Mode=TwoWay}"
+            BorderBrush="Black"
+            BorderThickness="1">
+            <DataGrid.Columns>
+                <DataGridTextColumn Header="Название" Binding="{Binding Name}"/>
+            </DataGrid.Columns>
+        </DataGrid>
+
+        <TextBlock
+            Grid.Row="8"
+            Grid.Column="0"
+            Text="Все доступные области доступа"
+            FontSize="15"
+            Style="{StaticResource TextBLockStyle}" Grid.ColumnSpan="2" Margin="2"/>
+
+        <TextBlock
+            Grid.Row="8"
+            Grid.Column="3"
+            Text="Назначенные области доступа"
+            FontSize="15"
+            Style="{StaticResource TextBLockStyle}" Margin="2"/>
+
+        <DataGrid
+            Grid.Row="9"
+            Grid.RowSpan="7"
+            Grid.Column="0"
+            AutoGenerateColumns="False"
+            CanUserAddRows="False"
+            ItemsSource="{Binding SetAllZones, Mode=TwoWay}"
+            SelectedItem="{Binding CurrentAllZone, Mode=TwoWay}"
+            BorderBrush="Black"
+            BorderThickness="1" Grid.ColumnSpan="2">
+            <DataGrid.Columns>
+                <DataGridTextColumn Header="Названиие" Binding="{Binding Name}" Width="100"/>
+                <DataGridTextColumn Header="Описание" Binding="{Binding Descript}" Width="*"/>
+            </DataGrid.Columns>
+        </DataGrid>
+
+        <Button
+            Grid.Row="10"
             Grid.Column="2"
+            Width="50"
+            Style="{StaticResource ButtonStyle}"
+            Command="{Binding ToAppointZones}" Margin="14,0">
+            <Image
+                Source="../../Resources/Перенести.ico"/>
+        </Button>
+
+        <Button
+            Grid.Row="11"
+            Grid.Column="2"
+            Width="50"
+            Style="{StaticResource ButtonStyle}"
+            Command="{Binding ToAllZones}" Margin="14,0">
+            <Image
+                Source="../../Resources/Вернуть.ico"/>
+        </Button>
+
+        <DataGrid
+            Grid.Row="9"
+            Grid.RowSpan="7"
+            Grid.Column="3"
             AutoGenerateColumns="False"
             CanUserAddRows="False"
             ItemsSource="{Binding SetAppointZones, Mode=TwoWay}"
@@ -94,33 +166,59 @@
                 <DataGridTextColumn Header="Описание" Binding="{Binding Descript}" Width="*"/>
             </DataGrid.Columns>
         </DataGrid>
-        
+
         <TextBlock
-            Grid.Row="8"
+            Grid.Row="16"
             Grid.Column="0"
-            Grid.ColumnSpan="3"
-            Text="Назначенные двери"
+            Grid.ColumnSpan="2"
+            Text="Расписания"
             FontSize="15"
             HorizontalAlignment="Left"
-            Style="{StaticResource TextBLockStyle}"/>
-        
-        <TextBox
-            Grid.Row="9"
-            Grid.Column="0"
-            Grid.ColumnSpan="3"
-            Margin="5"
-            Style="{StaticResource TextBoxStyle}"/>
-        
+            Style="{StaticResource TextBLockStyle}" Margin="2,12,0,11"/>
+
         <Grid
-            Grid.Row="10"
+            Grid.Row="17"
             Grid.Column="0"
-            Grid.ColumnSpan="3">
+            Grid.ColumnSpan="4">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="8*"/>
+                <ColumnDefinition/>
+                <ColumnDefinition/>
+            </Grid.ColumnDefinitions>
+            <TextBox
+                Grid.Row="0"
+                Grid.Column="0"
+                Margin="2"
+                Text="{Binding Schedule}"
+                Style="{StaticResource TextBoxStyle}"/>
+
+            <Button
+                Command="{Binding SchedulesCommand}"
+                Grid.Row="0"
+                Grid.Column="1"
+                Content="..."
+                Margin="2"
+                Style="{StaticResource ButtonStyle}"/>
+
+            <Button
+                Command="{Binding ClearCommand}"
+                Grid.Row="0"
+                Grid.Column="2"
+                Content="X"
+                Margin="2"
+                Style="{StaticResource ButtonStyle}"/>
+        </Grid>
+
+        <Grid
+            Grid.Row="18"
+            Grid.Column="0"
+            Grid.ColumnSpan="4">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition/>
                 <ColumnDefinition/>
                 <ColumnDefinition/>
             </Grid.ColumnDefinitions>
-            
+
             <Button
                 Grid.Column="1"
                 Style="{StaticResource ButtonStyle}"
