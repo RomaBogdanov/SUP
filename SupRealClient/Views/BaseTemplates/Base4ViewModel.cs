@@ -249,12 +249,14 @@ namespace SupRealClient.Views
         private void AddCom()
         {
             this.Model.Add();
+            (Parent as Window)?.Activate();
             ScrollCurrentItem?.Invoke();
         }        
 
         private void UpdateCom()
         {
             this.Model.Update();
+            (Parent as Window)?.Activate();
             ScrollCurrentItem?.Invoke();
         }
         private bool CanExecuteUpdate()
@@ -273,6 +275,7 @@ namespace SupRealClient.Views
         {
             this.SearchingText = string.Empty;
             this.Model.Search();
+            (Parent as Window)?.Activate();
         }
         private void FartherCom()
         {
