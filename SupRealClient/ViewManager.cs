@@ -7,6 +7,7 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
 using System.Windows;
+using System.Windows.Forms;
 
 namespace SupRealClient
 {
@@ -278,8 +279,16 @@ namespace SupRealClient
                     window.GetType().ToString().Contains("AddItem1View") ||
                     window.GetType().ToString().Contains("Search1View") ||
                     window.GetType().ToString().Contains("AddUpdateRegionView") ||
-                    window.GetType().ToString().Contains("AddUpdateCardView"))
+                    window.GetType().ToString().Contains("AddUpdateCardView") ||
+                    (window.ParentWindow is VisitorsListWindView && window.GetType().ToString().Contains("VisitorsView")))
                 {
+                    //(window as Window).WindowStartupLocation = WindowStartupLocation.CenterScreen;
+
+                    Window oWind = window as Window;
+                    Screen screen = Screen.FromHandle(new System.Windows.Interop.WindowInteropHelper(oWind).Handle);
+                    oWind.Left = screen.Bounds.X + ((screen.Bounds.Width - oWind.ActualWidth) / 2);
+                    oWind.Top = screen.Bounds.Y + ((screen.Bounds.Height - oWind.ActualHeight) / 2);
+
                     (window as Window).ShowDialog();
                 }                    
                 else
