@@ -343,6 +343,9 @@
     <Compile Include="Views\Base4Analogs\Base4SchedulesWindView.xaml.cs">
       <DependentUpon>Base4SchedulesWindView.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Views\Base4Analogs\BidsListWindView.xaml.cs">
+      <DependentUpon>BidsListWindView.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Views\BaseTemplates\Base4ModelAbstr.cs" />
     <Compile Include="Views\BaseTemplates\Base4ViewModel.cs" />
     <Compile Include="Views\BaseTemplates\DoorsListModel.cs" />
@@ -351,6 +354,7 @@
     <Compile Include="Views\BaseTemplates\Наследники Base4ModelAbstr\DocumentsListModel.cs" />
     <Compile Include="Views\BaseTemplates\IBase4Model.cs" />
     <Compile Include="Views\BaseTemplates\Наследники Base4ModelAbstr\NationsListModel.cs" />
+    <Compile Include="Views\BaseTemplates\Наследники Base4ModelAbstr\OrdersListModel.cs" />
     <Compile Include="Views\BaseTemplates\Наследники Base4ModelAbstr\OrganizationsListModel.cs" />
     <Compile Include="Views\BaseTemplates\Наследники Base4ModelAbstr\RegionsListModel.cs" />
     <Compile Include="Views\BaseTemplates\Наследники Base4ModelAbstr\VisitorsListModel.cs" />
@@ -651,6 +655,10 @@
     <Page Include="Views\Base4Analogs\Base4SchedulesWindView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\Base4Analogs\BidsListWindView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
     </Page>
     <Page Include="Views\DocumentImagesView.xaml">
       <SubType>Designer</SubType>

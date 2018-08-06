@@ -15,6 +15,7 @@
   <Item Name="BaseOrgsView" />
   <Item Name="ChildOrgsView" />
   <Item Name="VisitorsListWindView" />
+  <Item Name="BidsListWindView" />
   <Item Name="VisitorsView" CanMinimize="false" />
   <Item Name="AddUpdateCabinetView" />
   <Item Name="VisitorsDocumentView" />

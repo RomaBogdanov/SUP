@@ -159,8 +159,9 @@ namespace SupRealClient.ViewModels
         public ICommand ListChildOrgs { get; set; }
         public ICommand ListBaseOrgs { get; set; }
         public ICommand ListVisitorsClick { get; set; }
+	    public ICommand ListBidsClick { get; set; }
 
-        public ICommand ListSpacesClick { get; set; } = new RelayCommand(arg =>
+		public ICommand ListSpacesClick { get; set; } = new RelayCommand(arg =>
                 ViewManager.Instance.OpenWindow("Base4SpacesWindView"));
         public ICommand ListDoorsClick { get; set; } = new RelayCommand(arg =>
                 ViewManager.Instance.OpenWindow("Base4DoorsWindView"));
@@ -230,6 +231,8 @@ namespace SupRealClient.ViewModels
                 ViewManager.Instance.OpenWindow("Base4BaseOrgsWindView"));
             ListVisitorsClick = new RelayCommand(arg => 
                 ViewManager.Instance.OpenWindow("VisitorsListWindView"));
+		 ListBidsClick = new RelayCommand(arg => 
+                ViewManager.Instance.OpenWindow("BidsListWindView"));
             UserExit = new RelayCommand(arg => UserExitProc());
             setupStorage.ChangeUserExit += arg => IsUserEnter = !arg;
             Close = new RelayCommand(arg => ExitApp());
