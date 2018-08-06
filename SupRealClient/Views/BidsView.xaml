@@ -1568,7 +1568,7 @@
                 Command="{Binding EditCommand}"
                 IsEnabled="{Binding NavigateButtonEnable, UpdateSourceTrigger=PropertyChanged}"
                 Style="{StaticResource VisitorsSquareButtonStyle}"
-                ToolTip="F2">
+                ToolTip="Ctrl+D">
                 <Grid>
                     <Grid.RowDefinitions>
                         <RowDefinition />
