@@ -201,7 +201,7 @@ namespace SupRealClient.Views
 			{
 				btnPrevious.Command.Execute(null);
 				e.Handled = true;
-			} else if (e.Key == Key.F2)
+			} else if (e.Key == Key.F2 || e.Key == Key.D && Keyboard.IsKeyDown(Key.LeftCtrl))
 			{
 				btnEditOrder.Command.Execute(null);
 				e.Handled = true;
