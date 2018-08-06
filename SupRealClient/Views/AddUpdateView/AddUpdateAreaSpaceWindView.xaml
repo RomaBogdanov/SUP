@@ -6,7 +6,7 @@
         xmlns:local="clr-namespace:SupRealClient.Views"
         xmlns:mah="http://metro.mahapps.com/winfx/xaml/controls"
         mc:Ignorable="d"
-        Title="{Binding Path=Caption, Mode=OneTime}" Height="230" Width="300">
+        Title="{Binding Path=Title, Mode=OneTime}" Height="230" Width="300">
     <Grid>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="4*"/>

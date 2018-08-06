@@ -29,7 +29,8 @@ namespace SupRealClient.Views
             AddUpdateAbstrModel model = new AddDoorModel();
             AddUpdateBaseViewModel viewModel = new AddUpdateDoorViewModel
             {
-                Model = model
+                Model = model,
+                Title = @"Добавление двери"                
             };
             AddUpdateDoorWindView view = new AddUpdateDoorWindView();
             view.DataContext = viewModel;
@@ -43,7 +44,8 @@ namespace SupRealClient.Views
             AddUpdateAbstrModel model = new UpdateDoorModel(CurrentItem);
             AddUpdateBaseViewModel viewModel = new AddUpdateDoorViewModel
             {
-                Model = model
+                Model = model,
+                Title = @"Редактирование двери"
             };
             AddUpdateDoorWindView view = new AddUpdateDoorWindView();
             view.DataContext = viewModel;

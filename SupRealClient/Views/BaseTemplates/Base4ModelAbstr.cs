@@ -835,7 +835,8 @@ namespace SupRealClient.Views
             AddUpdateAbstrModel model = new UpdateAreaModel(CurrentItem);
             AddUpdateBaseViewModel viewModel = new AddUpdateBaseViewModel
             {
-                Model = model
+                Model = model,
+                Title = @"Редактирование области доступа"
             };
             AddUpdateAreaWindView view = new AddUpdateAreaWindView();
             view.DataContext = viewModel;
@@ -924,7 +925,8 @@ namespace SupRealClient.Views
             AddUpdateAbstrModel model = new AddAreaSpaceModel();
             AddUpdateBaseViewModel viewModel = new AddUpdateAreaSpaceViewModel
             {
-                Model = model
+                Model = model,
+                Title = @"Добавить связь"
             };
             AddUpdateAreaSpaceWindView view = new AddUpdateAreaSpaceWindView();
             view.DataContext = viewModel;
@@ -938,7 +940,8 @@ namespace SupRealClient.Views
             AddUpdateAbstrModel model = new UpdateAreaSpaceModel(CurrentItem);
             AddUpdateBaseViewModel viewModel = new AddUpdateAreaSpaceViewModel
             {
-                Model = model
+                Model = model,
+                Title = @"Редактирование связи"
             };
             AddUpdateAreaSpaceWindView view = new AddUpdateAreaSpaceWindView();
             view.DataContext = viewModel;
@@ -1019,7 +1022,8 @@ namespace SupRealClient.Views
             AddUpdateAbstrModel model = new UpdateAccessPointModel(CurrentItem);
             AddUpdateBaseViewModel viewModel = new AddUpdateBaseViewModel
             {
-                Model = model
+                Model = model,
+                Title = @"Редактирование точки доступа"
             };
             AddUpdateAccessPointWindView view = new AddUpdateAccessPointWindView();
             view.DataContext = viewModel;
@@ -1112,7 +1116,8 @@ namespace SupRealClient.Views
             AddUpdateAbstrModel model = new AddRealKeyModel();
             AddUpdateBaseViewModel viewModel = new AddUpdateBaseViewModel
             {
-                Model = model
+                Model = model,
+                Title = @"Добавить ключ"
             };
             AddUpdateKeyWindView view = new AddUpdateKeyWindView();
             view.DataContext = viewModel;
@@ -1195,7 +1200,8 @@ namespace SupRealClient.Views
             AddUpdateAbstrModel model = new UpdateScheduleModel(CurrentItem);
             AddUpdateBaseViewModel viewModel = new AddUpdateBaseViewModel
             {
-                Model = model
+                Model = model,
+                Title = @"Редактирование расписания"
             };
             AddUpdateScheduleWindView view = new AddUpdateScheduleWindView();
             view.DataContext = viewModel;
@@ -1284,7 +1290,8 @@ namespace SupRealClient.Views
             AddUpdateAbstrModel model = new AddAccessLevelModel();
             AddUpdateBaseViewModel viewModel = new AddUpdateAccessLevelViewModel
             {
-                Model = model
+                Model = model,
+                Title = @"Добавить область доступа"
             };
             AddUpdateAccessLevelWindView view = new AddUpdateAccessLevelWindView();
             view.DataContext = viewModel;
@@ -1298,7 +1305,8 @@ namespace SupRealClient.Views
             AddUpdateAbstrModel model = new UpdateAccessLevelModel(CurrentItem);
             AddUpdateBaseViewModel viewModel = new AddUpdateAccessLevelViewModel
             {
-                Model = model
+                Model = model,
+                Title = @"Редактирование области доступа"
             };
             AddUpdateAccessLevelWindView view = new AddUpdateAccessLevelWindView();
             view.DataContext = viewModel;
@@ -1386,7 +1394,8 @@ namespace SupRealClient.Views
             AddUpdateAbstrModel model = new AddCarModel();
             AddUpdateBaseViewModel viewModel = new AddUpdateBaseViewModel
             {
-                Model = model
+                Model = model,
+                Title = @"Добавить транспорт"
             };
             AddUpdateCarWindView view = new AddUpdateCarWindView();
             view.DataContext = viewModel;
