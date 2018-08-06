@@ -108,7 +108,8 @@ namespace SupRealClient.Views
 				}
 
 	            SelectedDocument = -1;
-            }
+	            OnPropertyChanged(nameof(VisibleTabItem_Employee));
+			}
         }
 
         /// <summary>
@@ -187,7 +188,8 @@ namespace SupRealClient.Views
 			    OnPropertyChanged(nameof(IsRedactMode));
 			    OnPropertyChanged(nameof(VisibleTabItem_Employee));
 			    OnPropertyChanged(nameof(IsRedactMode_Inverce));
-			    EditingVisitorCommentMode = false;
+			    OnPropertyChanged(nameof(IsNotFormular));
+				EditingVisitorCommentMode = false;
 		    }
 	    }
 
@@ -303,12 +305,10 @@ namespace SupRealClient.Views
 		{
 		    get
 		    {
-			    if (!IsRedactMode)
-				    return true;
-				else if (CurrentItem.OrganizationIsMaster)
-				    return false;
-			    else
-				    return true;
+			    //if (!IsRedactMode)
+				   // return true;
+				//else 
+			    return (CurrentItem.OrganizationIsBasic);
 		    }
 	    }
 
@@ -322,7 +322,37 @@ namespace SupRealClient.Views
 		    }
 	    }
 
-		public bool Enable
+	    public bool IsNotFormular
+	    {
+		    get
+		    {
+				//if (!IsRedactMode)
+				//{
+				// return (string.IsNullOrEmpty(CurrentItem.Telephone) ||
+				//         string.IsNullOrEmpty(CurrentItem.Nation) ||
+				//         !CurrentItem.MainDocuments.Any());
+				//}
+				//else
+				//{
+				// if (!CurrentItem.IsNotFormular)
+				//  return (string.IsNullOrEmpty(CurrentItem.Telephone) ||
+				//          string.IsNullOrEmpty(CurrentItem.Nation) ||
+				//          !CurrentItem.MainDocuments.Any());
+				// else
+				//  return CurrentItem.IsNotFormular;
+				//}
+
+			    return CurrentItem.IsNotFormular;
+
+		    }
+		    set
+		    {
+			    CurrentItem.IsNotFormular = value;
+			    OnPropertyChanged(nameof(IsNotFormular));
+			}
+	    }
+
+	    public bool Enable
         { get; set; }
 
         public ICommand BeginCommand { get; set; }
@@ -675,7 +705,7 @@ namespace SupRealClient.Views
             CurrentItem.OrganizationId = result.Id;
             CurrentItem.Organization = OrganizationsHelper.
                 GenerateFullName(result.Id, true);
-			CurrentItem.OrganizationIsMaster = OrganizationsHelper.GetMasterParametr(result.Id, true);
+			CurrentItem.OrganizationIsBasic = OrganizationsHelper.GetBasicParametr(result.Id, true);
 
 
 
@@ -709,7 +739,8 @@ namespace SupRealClient.Views
 		        case "Organization":
 			        CurrentItem.OrganizationId = -1;
 			        CurrentItem.Organization = "";
-			        break;
+			        CurrentItem.OrganizationIsBasic = true;
+					break;
 		        case "DocType":
 			        CurrentItem.DocumentId = -1;
 			        CurrentItem.DocType = "";
@@ -736,7 +767,9 @@ namespace SupRealClient.Views
 	        }
 
 	        OnPropertyChanged("CurrentItem");
-        }
+
+	        OnPropertyChanged(nameof(VisibleTabItem_Employee));
+		}
 
         private void Begin()
         {
@@ -1418,17 +1451,13 @@ namespace SupRealClient.Views
         }
 
         protected bool Validate()
-        {
-            if (string.IsNullOrEmpty(CurrentItem.Family) ||
-                string.IsNullOrEmpty(CurrentItem.Name) ||
-                string.IsNullOrEmpty(CurrentItem.Patronymic) ||
-                string.IsNullOrEmpty(CurrentItem.Organization))
-            {
-                MessageBox.Show("Не все поля заполнены корректно!");
-                return false;
-            }
+		{
+			if (!Validate_BaseData())
+			{
+				return false;
+			}
 
-	        if (!CurrentItem.IsAgree)
+			if (!CurrentItem.IsAgree)
 	        {
 		        MessageBox.Show("Нет согласия на обработку персональных данных!");
 		        return false;
@@ -1459,12 +1488,8 @@ namespace SupRealClient.Views
 		/// <returns></returns>
 		protected bool? Validate_AndUse_IsAgree()
 	    {
-		    if (string.IsNullOrEmpty(CurrentItem.Family) ||
-		        string.IsNullOrEmpty(CurrentItem.Name) ||
-		        string.IsNullOrEmpty(CurrentItem.Patronymic) ||
-		        string.IsNullOrEmpty(CurrentItem.Organization))
+		    if (!Validate_BaseData())
 		    {
-			    MessageBox.Show("Не все поля заполнены корректно!");
 			    return false;
 		    }
 
@@ -1507,12 +1532,49 @@ namespace SupRealClient.Views
 	    protected bool Validate_BaseData()
 	    {
 		    if (string.IsNullOrEmpty(CurrentItem.Family) ||
-		        string.IsNullOrEmpty(CurrentItem.Name) ||
-		        string.IsNullOrEmpty(CurrentItem.Patronymic) ||
-		        string.IsNullOrEmpty(CurrentItem.Organization))
+		        string.IsNullOrWhiteSpace(CurrentItem.Family) ||
+
+				string.IsNullOrEmpty(CurrentItem.Name) ||
+		        string.IsNullOrWhiteSpace(CurrentItem.Name) ||
+
+				string.IsNullOrEmpty(CurrentItem.Patronymic) ||
+		        string.IsNullOrWhiteSpace(CurrentItem.Patronymic) ||
+
+				string.IsNullOrEmpty(CurrentItem.Organization) ||
+		        string.IsNullOrWhiteSpace(CurrentItem.Organization))
 		    {
-			    MessageBox.Show("Не все поля заполнены корректно!");
-			    return false;
+			    StringBuilder stringBuilder = new StringBuilder();
+
+
+				if (string.IsNullOrEmpty(CurrentItem.Family) ||
+			        string.IsNullOrWhiteSpace(CurrentItem.Family))
+				{
+					stringBuilder.Append("Фамилия" + Environment.NewLine);
+				}
+
+			    if (string.IsNullOrEmpty(CurrentItem.Name) ||
+			        string.IsNullOrWhiteSpace(CurrentItem.Name))
+			    {
+				    stringBuilder.Append("Имя" + Environment.NewLine);
+			    }
+
+			    if (string.IsNullOrEmpty(CurrentItem.Patronymic) ||
+			        string.IsNullOrWhiteSpace(CurrentItem.Patronymic))
+			    {
+				    stringBuilder.Append("Отчество" + Environment.NewLine);
+			    }
+
+			    if (string.IsNullOrEmpty(CurrentItem.Organization) ||
+			        string.IsNullOrWhiteSpace(CurrentItem.Organization))
+			    {
+				    stringBuilder.Append("Организация" + Environment.NewLine);
+			    }
+
+			    string generatedText = stringBuilder.ToString();
+
+				MessageBox.Show("Следующие поля заполнены корректно!" + Environment.NewLine + generatedText);
+
+				return false;
 		    }
 
 		    return true;
@@ -1927,7 +1989,9 @@ namespace SupRealClient.Views
                         .Table.AsEnumerable().FirstOrDefault(arg =>
                         arg.Field<int>("f_cabinet_id") ==
                         visitors.Field<int>("f_cabinet_id"))?["f_cabinet_desc"],
-                });
+	                OrganizationIsBasic = OrganizationsHelper.GetBasicParametr(visitors.Field<int>("f_org_id"), true)
+
+		});
             if (Set.Count > 0)
             {
                 OrdersCardsToVisitor(0);

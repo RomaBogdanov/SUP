@@ -110,6 +110,7 @@ namespace SupRealClient.Views
 						.Table.AsEnumerable().FirstOrDefault(arg =>
 						arg.Field<int>("f_cabinet_id") ==
 						visitors.Field<int>("f_cabinet_id"))?["f_cabinet_desc"],
+	                OrganizationIsBasic = OrganizationsHelper.GetBasicParametr(visitors.Field<int>("f_org_id"), true)
 				}
                 );
         }
