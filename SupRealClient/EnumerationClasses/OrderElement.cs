@@ -263,14 +263,13 @@ namespace SupRealClient.EnumerationClasses
 			}
 		}
 
-		private string passes = "";
-
+		private string _passes = "";
 		public string Passes
 		{
-			get { return passes; }
+			get => _passes;
 			set
 			{
-				passes = value;
+				_passes = value;
 				OnPropertyChanged();
 			}
 		}
@@ -280,8 +279,30 @@ namespace SupRealClient.EnumerationClasses
 		/// </summary>
 		public bool IsDisable { get; set; }
 
-		public bool IsBlock { get; set; }
-		public bool IsCardIssued { get; set; }
+		private bool _isBlock;
+
+		public bool IsBlock
+		{
+			get { return _isBlock; }
+			set
+			{
+				_isBlock = value;
+				OnPropertyChanged();
+			}
+		}
+
+		private bool _isCardIssued;
+
+		public bool IsCardIssued
+		{
+			get { return _isCardIssued; }
+			set
+			{
+				_isCardIssued = value;
+				OnPropertyChanged();
+			}
+		}
+
 		private string blockingNote;
 
 		public string BlockingNote

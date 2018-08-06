@@ -370,6 +370,7 @@ namespace SupRealClient.TabsSingleton
 							Passes = row.Field<string>("f_passes"),
 							IsBlock = VisitorsWrapper.CurrentTable().Table.AsEnumerable().Where(item => item.Field<int>("f_visitor_id") == row.Field<int>("f_visitor_id")).FirstOrDefault().Field<string>("f_persona_non_grata").ToUpper() == "Y",
 							IsCardIssued = true,
+							Reason = row.Field<string>("f_other_org"),
 							TemplateIdList = row.Field<string>("f_oe_templates"),
                             AreaIdList = row.Field<string>("f_oe_areas"),
                             ScheduleId = row.Field<int>("f_schedule_id"),
@@ -401,7 +402,7 @@ namespace SupRealClient.TabsSingleton
 			row["f_disabled"] = orderElement.IsDisable ? "Y" : "N";
 			row["f_not_remaind"] = "N"; //todo: разобраться
 			row["f_full_role"] = "N"; //todo: разобраться
-			row["f_other_org"] = ""; //todo: разобраться
+			row["f_other_org"] = orderElement.Reason;  //todo: переименовать столбец в БД на reason
 			row["f_org_id"] = orderElement.OrganizationId;
 			row["f_position"] = orderElement.Position;
             row["f_oe_templates"] = AndoverEntityListHelper.EntitiesToString(orderElement.Templates);
@@ -428,7 +429,7 @@ namespace SupRealClient.TabsSingleton
 			row["f_disabled"] = orderElement.IsDisable ? "Y" : "N";
 			row["f_not_remaind"] = "N"; //todo: разобраться
 			row["f_full_role"] = "N"; //todo: разобраться
-			row["f_other_org"] = ""; //todo: разобраться
+			row["f_other_org"] = orderElement.Reason; //todo: переименовать столбец в БД на reason
 			row["f_org_id"] = orderElement.OrganizationId;
 			row["f_position"] = orderElement.Position;
             row["f_oe_templates"] = AndoverEntityListHelper.EntitiesToString(orderElement.Templates);
@@ -457,7 +458,18 @@ namespace SupRealClient.TabsSingleton
 						From = ordEls.Field<DateTime>("f_time_from"),
 						To = ordEls.Field<DateTime>("f_time_to"),
 						IsDisable = ordEls.Field<string>("f_disabled").ToUpper() == "Y" ? true : false,
-						Passes = ordEls.Field<string>("f_passes")
+						Passes = ordEls.Field<string>("f_passes"),
+						Reason = ordEls.Field<string>("f_other_org"),
+						IsBlock = VisitorsWrapper.CurrentTable().Table.AsEnumerable().Where(item => item.Field<int>("f_visitor_id") == ordEls.Field<int>("f_visitor_id")).FirstOrDefault().Field<string>("f_persona_non_grata").ToUpper() == "Y",
+						IsCardIssued = true,
+						TemplateIdList = ordEls.Field<string>("f_oe_templates"),
+						AreaIdList = ordEls.Field<string>("f_oe_areas"),
+						ScheduleId = ordEls.Field<int>("f_schedule_id"),
+						Schedule = ordEls.Field<int>("f_schedule_id") == 0 ? "" :
+							SchedulesWrapper.CurrentTable()
+								.Table.AsEnumerable().FirstOrDefault(
+									arg => arg.Field<int>("f_schedule_id") ==
+									       ordEls.Field<int>("f_schedule_id"))["f_schedule_name"].ToString(),
 					});
 
 			return orderElements;
