@@ -368,7 +368,8 @@ namespace SupRealClient.TabsSingleton
 							To = row.Field<DateTime>("f_time_to"),
 							IsDisable = row.Field<string>("f_disabled").ToUpper() == "Y" ? true : false,
 							Passes = row.Field<string>("f_passes"),
-                            TemplateIdList = row.Field<string>("f_oe_templates"),
+							IsBlock = VisitorsWrapper.CurrentTable().Table.AsEnumerable().Where(item => item.Field<int>("f_visitor_id") == row.Field<int>("f_visitor_id")).FirstOrDefault().Field<string>("f_persona_non_grata").ToUpper() == "Y",
+							TemplateIdList = row.Field<string>("f_oe_templates"),
                             AreaIdList = row.Field<string>("f_oe_areas"),
                             ScheduleId = row.Field<int>("f_schedule_id"),
                             Schedule = row.Field<int>("f_schedule_id") == 0 ? "" :
