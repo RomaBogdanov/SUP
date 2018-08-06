@@ -27,14 +27,11 @@ namespace SupRealClient.Views
     {
         Base1ViewModel viewModel = new Base3ViewModel();
 
-        int memCountRows = 0;
         DataGridColumnHeader headerCliked = null;
 
         public Base3View()
         {
             DataContext = viewModel;
-
-            baseTab.SelectionChanged -= baseTab_SelectionChanged;
         }
 
         public void Init()
@@ -64,70 +61,44 @@ namespace SupRealClient.Views
 
         private void UserControl_PreviewKeyDown(object sender, KeyEventArgs e)
         {
-            if (e.Key == Key.Up)
+            if (Keyboard.Modifiers == ModifierKeys.None)
             {
-                baseTab.SelectionChanged += baseTab_SelectionChanged;
-                btnUp.Command.Execute(null);
-                e.Handled = true;
-            }
-            else if (e.Key == Key.Down)
-            {
-                baseTab.SelectionChanged += baseTab_SelectionChanged;
-                btnDown.Command.Execute(null);
-                e.Handled = true;
-            }
-            else if (e.Key == Key.Enter)
-            {
-                btnUpdate.Command.Execute(null);
-            }
-            else if (e.Key == Key.Insert)
-            {
-                ((ISuperBaseViewModel)DataContext).Add.Execute(null);
-            }
-            else if (e.Key == Key.Home)
-            {
-                ((ISuperBaseViewModel)DataContext).Begin.Execute(null);
-            }
-            else if (e.Key == Key.End)
-            {
-                ((ISuperBaseViewModel)DataContext).End.Execute(null);
-            }
-            else if (e.Key == Key.Space)
-            {
-                if (btnOk.Visibility == Visibility.Visible && btnOk.IsEnabled)
+                if (e.Key == Key.Up)
                 {
-                    btnOk.Command?.Execute(null);
+                    btnUp.Command.Execute(null);
                     e.Handled = true;
                 }
-            }
-        }
-
-        private void baseTab_SelectionChanged(object sender, SelectionChangedEventArgs e)
-        {
-            baseTabCurrentItemScrollIntoView();
-            baseTab.SelectionChanged -= baseTab_SelectionChanged;
-        }
-
-        void baseTabCurrentItemScrollIntoView()
-        {
-            if (baseTab.CurrentItem != null)
-            {
-                baseTab.ScrollIntoView(baseTab.CurrentItem);
-                baseTab.UpdateLayout();
-                baseTab.ScrollIntoView(baseTab.CurrentItem);
-            }
-        }
-
-        private void baseTab_LoadingRow(object sender, DataGridRowEventArgs e)
-        {
-            if (memCountRows + 1 == baseTab.Items.Count)
-            {
-                memCountRows = 0;
-                baseTab.SelectedItems.Clear();
-                baseTab.SelectionChanged += baseTab_SelectionChanged;
-                baseTab.SelectedItem = baseTab.Items[baseTab.Items.Count - 1];
-            }
-        }
+                else if (e.Key == Key.Down)
+                {
+                    btnDown.Command.Execute(null);
+                    e.Handled = true;
+                }
+                else if (e.Key == Key.Enter)
+                {
+                    btnUpdate.Command.Execute(null);
+                }
+                else if (e.Key == Key.Insert)
+                {
+                    ((ISuperBaseViewModel)DataContext).Add.Execute(null);
+                }
+                else if (e.Key == Key.Home)
+                {
+                    ((ISuperBaseViewModel)DataContext).Begin.Execute(null);
+                }
+                else if (e.Key == Key.End)
+                {
+                    ((ISuperBaseViewModel)DataContext).End.Execute(null);
+                }
+                else if (e.Key == Key.Space)
+                {
+                    if (btnOk.Visibility == Visibility.Visible && btnOk.IsEnabled)
+                    {
+                        btnOk.Command?.Execute(null);
+                        e.Handled = true;
+                    }
+                }
+            }                
+        }        
 
         private void BaseTab_OnKeyDown(object sender, KeyEventArgs e)
         {
@@ -140,31 +111,53 @@ namespace SupRealClient.Views
         public void SelectSearchBox()
         {
             tbxSearch.Focus();
-        }
-
-        private void Button_PreviewMouseLeftButtonDown(object sender, MouseButtonEventArgs e)
-        {
-            if (((Button)sender).Name == "butAdd")
-                memCountRows = baseTab.Items.Count;
-            else
-                baseTab.SelectionChanged += baseTab_SelectionChanged;
-        }
+        }              
 
         private void UserControl_IsVisibleChanged(object sender, DependencyPropertyChangedEventArgs e)
         {
             Window parentWindow = Window.GetWindow(this);
-            if (parentWindow.Visibility == System.Windows.Visibility.Hidden)
+            if (parentWindow.Visibility == System.Windows.Visibility.Visible)
             {
                 tbxSearch.Text = string.Empty;
-                baseTab.SelectedItems?.Clear();
-                baseTab.SelectionChanged += baseTab_SelectionChanged;
+                SortItemsSource();
+            }
+        }
+      
+        private void baseTab_Loaded(object sender, RoutedEventArgs e)
+        {
+            SortItemsSource();
+        }
 
-                if (baseTab.Columns.Count > 0)
-                    SortDataGrid(baseTab, 0, ListSortDirection.Ascending);
+        private void dgColumnHeader_PreviewMouseLeftButtonUp(object sender, MouseButtonEventArgs e)
+        {
+            headerCliked = sender as DataGridColumnHeader;
+        }
+
+        private void baseTab_Sorted(object sender, RoutedEventArgs e)
+        {
+            if (headerCliked != null)
+            {
+                baseTab.CurrentColumn = headerCliked.Column;
+                headerCliked = null;
             }
         }
 
-        static void SortDataGrid(DataGrid dataGrid, int columnIndex = 0, ListSortDirection sortDirection = ListSortDirection.Ascending)
+        void SortItemsSource()
+        {
+            if (baseTab.Columns.Count > 0)
+            {
+                SortDataGrid(baseTab, 0, ListSortDirection.Ascending);
+            }
+
+            if (baseTab.Items.Count > 0)
+            {
+                baseTab.SelectedItem = baseTab.Items[0];
+            }
+            // Refresh items to display sort
+            baseTab.Items?.Refresh();
+        }
+
+        void SortDataGrid(DataGrid dataGrid, int columnIndex = 0, ListSortDirection sortDirection = ListSortDirection.Ascending)
         {
             var column = dataGrid.Columns[columnIndex];
 
@@ -181,45 +174,21 @@ namespace SupRealClient.Views
             }
             column.SortDirection = sortDirection;
 
-            if (dataGrid.Items.Count > 0)
-                dataGrid.SelectedItem = dataGrid.Items[0];
-
             dataGrid.CurrentColumn = dataGrid.Columns[columnIndex];
-
-            // Refresh items to display sort
-            dataGrid.Items.Refresh();
         }
 
-        private void baseTab_Loaded(object sender, RoutedEventArgs e)
+        public void ScrollIntoViewCurrentItem()
         {
-            if (baseTab.Columns.Count > 0)
-                SortDataGrid(baseTab, 0, ListSortDirection.Ascending);
-        }
-
-        private void dgColumnHeader_PreviewMouseLeftButtonUp(object sender, MouseButtonEventArgs e)
-        {
-            headerCliked = sender as DataGridColumnHeader;
-        }
-
-        private void baseTab_Sorted(object sender, RoutedEventArgs e)
-        {
-            if (headerCliked != null)
+            if (baseTab.Items.Count > 0)
             {
-                baseTab.CurrentColumn = headerCliked.Column;
+                var row = baseTab.CurrentItem;
+                if (row == null)
+                    return;
 
-                if (!string.IsNullOrEmpty(tbxSearch.Text))
-                {
-                    tbxSearch.Text = tbxSearch.Text;
-                    baseTabCurrentItemScrollIntoView();
-                }
-
-                headerCliked = null;
+                baseTab.ScrollIntoView(row);
+                baseTab.UpdateLayout();
+                baseTab.ScrollIntoView(row);
             }
-        }
-
-        private void tbxSearch_TextChanged(object sender, TextChangedEventArgs e)
-        {
-            baseTabCurrentItemScrollIntoView();
         }
     }
 }

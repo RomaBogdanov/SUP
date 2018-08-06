@@ -24,6 +24,9 @@ namespace SupRealClient.Views
             InitializeComponent();
             base4.tbxSearch.Focus();
             AfterInitialize();
+
+            ((Base4ViewModel<EnumerationClasses.AreaSpace>)base4.DataContext)
+              .ScrollCurrentItem = base4.ScrollIntoViewCurrentItem;
             base4.Focus();
         }
 

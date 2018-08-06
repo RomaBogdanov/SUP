@@ -58,7 +58,7 @@ namespace SupRealClient.ViewModels
         {
             this.model = model;
             var isAdding = model.Data.Id <= 0;
-            Caption = isAdding ? "Добавление региона" : "Редактирование региона";
+            Caption = isAdding ? "Добавить регион" : "Редактирование региона";
 
             Name = model.Data.Name;
             countryId = model.Data.CountryId;

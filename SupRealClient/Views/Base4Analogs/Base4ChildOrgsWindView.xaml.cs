@@ -25,7 +25,9 @@ namespace SupRealClient.Views
             base4.tbxSearch.Focus();
             AfterInitialize();
             ((Base4ViewModel<EnumerationClasses.Organization>)base4.DataContext)
-                .OkVisibility = Visibility.Hidden;           
+                .OkVisibility = Visibility.Hidden;
+            ((Base4ViewModel<EnumerationClasses.Organization>)base4.DataContext)
+                .ScrollCurrentItem = base4.ScrollIntoViewCurrentItem;
             base4.btnUpdate.Visibility = Visibility.Collapsed; // Скрыть кнопку "Правка".
             ChangeCommandKeyGestureCtrlD();
             

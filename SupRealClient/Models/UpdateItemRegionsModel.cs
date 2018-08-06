@@ -49,7 +49,7 @@ namespace SupRealClient.Models
                 MessageBox.Show("Заполните поле Название");
                 return;
             }
-            if (data.Name.IsNullOrEmptyOrWhiteSpaces())
+            if (data.Country.IsNullOrEmptyOrWhiteSpaces())
             {
                 MessageBox.Show("Заполните поле Страна");
                 return;

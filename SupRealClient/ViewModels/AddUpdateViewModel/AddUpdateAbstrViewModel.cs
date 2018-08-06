@@ -46,8 +46,8 @@ namespace SupRealClient.ViewModels.AddUpdateViewModel
 
         public object CurrentItem
         {
-            get => Model.CurrentItem;
-	        set
+            get { return Model.CurrentItem; }
+            set
             {
                 Model.CurrentItem = value;
                 OnPropertyChanged();
@@ -56,8 +56,8 @@ namespace SupRealClient.ViewModels.AddUpdateViewModel
 
         public string OkCaption
         {
-            get => okCaption;
-	        set
+            get { return okCaption; }
+            set
             {
                 okCaption = value;
                 OnPropertyChanged();
@@ -66,8 +66,8 @@ namespace SupRealClient.ViewModels.AddUpdateViewModel
 
         public string Title
         {
-            get => title;
-	        set
+            get { return title; }
+            set
             {
                 title = value;
                 OnPropertyChanged();
@@ -129,9 +129,9 @@ namespace SupRealClient.ViewModels.AddUpdateViewModel
 	    public AddUpdateBidsViewModel(AddUpdateAbstrModel model) : base()
 	    {
 		    Model = model;
-			ChooseVisitor = new RelayCommand(arg => ChooseVisitorCommand());
-		    ChooseOrganization = new RelayCommand(arg => ChooseOrganizationCommand());
-		    ChooseCatcher = new RelayCommand(arg => ChooseCatcherCommand());
+			ChooseVisitor = new RelayCommand(arg => VisitorNameCommand());
+		    ChooseOrganization = new RelayCommand(arg => OrganizationNameCommand());
+		    ChooseCatcher = new RelayCommand(arg => CatcherNameCommand());
 		    UpdateZones = new RelayCommand(arg => UpdateZonesCommand());
 
 		    ClearVisitor = new RelayCommand(arg => ClearVisitorCommand());
@@ -141,7 +141,7 @@ namespace SupRealClient.ViewModels.AddUpdateViewModel
 		    ClearZones = new RelayCommand(arg => ClearZonesCommand());
 		}
 
-		private void ChooseVisitorCommand()
+		private void VisitorNameCommand()
         {
             VisitorsModelResult result = ViewManager.Instance.OpenWindowModal(
                 "VisitorsListWindViewOk", null) as VisitorsModelResult;
@@ -156,7 +156,7 @@ namespace SupRealClient.ViewModels.AddUpdateViewModel
 			CurrentItem = CurrentItem;
         }
 
-	    private void ChooseOrganizationCommand()
+	    private void OrganizationNameCommand()
 	    {
 		    BaseModelResult result = ViewManager.Instance.OpenWindowModal(
 				"Base4OrganizationsWindView", null) as BaseModelResult;
@@ -168,7 +168,7 @@ namespace SupRealClient.ViewModels.AddUpdateViewModel
 		    CurrentItem = CurrentItem;
 		}
 
-        private void ChooseCatcherCommand()
+        private void CatcherNameCommand()
         {
             VisitorsModelResult result = ViewManager.Instance.OpenWindowModal(
                 "VisitorsListWindViewOk", null) as VisitorsModelResult;
@@ -184,10 +184,11 @@ namespace SupRealClient.ViewModels.AddUpdateViewModel
         {
             // todo: переделать нормально
             AddUpdateAbstrModel zonesModel = new AddUpdateZonesToBidModel(
-                CurrentOrderElement.Areas);
+                CurrentOrderElement);
             AddUpdateBaseViewModel viewModel = new AddUpdateZonesToBidViewModel
             {
-                Model = zonesModel
+                Model = zonesModel,
+                Schedule = CurrentOrderElement.Schedule
             };
             AssigningZonesView wind = new AssigningZonesView
             {
@@ -195,14 +196,19 @@ namespace SupRealClient.ViewModels.AddUpdateViewModel
             };
             viewModel.Model.OnClose += wind.Handling_OnClose;
             wind.ShowDialog();
-            if (wind.WindowResult as ObservableCollection<Area> == null)
+            if (wind.WindowResult as OrderElement == null)
             {
                 return;
             }
-            CurrentOrderElement.Areas = wind.WindowResult as 
-                ObservableCollection<Area>;
+            CurrentOrderElement.Templates = (wind.WindowResult as OrderElement).Templates;
+            CurrentOrderElement.TemplateIdList =
+                AndoverEntityListHelper.EntitiesToString(CurrentOrderElement.Templates);
+            CurrentOrderElement.Areas = (wind.WindowResult as OrderElement).Areas;
+            CurrentOrderElement.AreaIdList =
+                AndoverEntityListHelper.AndoverEntitiesToString(CurrentOrderElement.Areas);
+            CurrentOrderElement.ScheduleId = (wind.WindowResult as OrderElement).ScheduleId;
             string st = "";
-            foreach (var area in wind.WindowResult as ObservableCollection<Area>)
+            foreach (var area in (wind.WindowResult as OrderElement).Areas)
             {
                 st += area.Name + ", ";
             }
@@ -244,11 +250,20 @@ namespace SupRealClient.ViewModels.AddUpdateViewModel
 
 	    protected override void OkCommand()
 	    {
-		    if (!CurrentOrderElement.IsOrderElementDataCorrect(out string errorMessage))
+		    if (string.IsNullOrEmpty(CurrentOrderElement.Visitor) ||
+		        string.IsNullOrEmpty(CurrentOrderElement.Position) ||
+		        string.IsNullOrEmpty(CurrentOrderElement.Catcher) ||
+		        string.IsNullOrEmpty(CurrentOrderElement.Organization))
 		    {
-			    MessageBox.Show(errorMessage, "Ошибка");
+			    MessageBox.Show("Не все поля заполнены.", "Ошибка");
 				return;
 		    }
+
+			if (!CommonHelper.IsPositionCorrect(CurrentOrderElement.Position))
+			{
+				MessageBox.Show("Некорретно введена должность.", "Ошибка");
+				return;
+			}
 
 			base.OkCommand();
 	    }
@@ -256,8 +271,62 @@ namespace SupRealClient.ViewModels.AddUpdateViewModel
 
     public class AddUpdateZonesToBidViewModel : AddUpdateBaseViewModel
     {
+        private string schedule;
+
+        private ObservableCollection<Template> setAllTemplates;
+        private ObservableCollection<Template> setAppointTemplates;
         private ObservableCollection<Area> setAllZones;
         private ObservableCollection<Area> setAppointZones;
+
+        public string Schedule
+        {
+            get { return schedule; }
+            set
+            {
+                schedule = value;
+                OnPropertyChanged();
+            }
+        }
+
+        public ObservableCollection<Template> SetAllTemplates
+        {
+            get { return ((AddUpdateZonesToBidModel)this.Model).SetAllTemplates; }
+            set
+            {
+                ((AddUpdateZonesToBidModel)this.Model).SetAllTemplates = value;
+                OnPropertyChanged();
+            }
+        }
+
+        public ObservableCollection<Template> SetAppointTemplates
+        {
+            get { return ((AddUpdateZonesToBidModel)this.Model).SetAppointTemplates; }
+            set
+            {
+                ((AddUpdateZonesToBidModel)this.Model).SetAppointTemplates = value;
+                OnPropertyChanged();
+            }
+        }
+
+        public Template CurrentAllTemplate
+        {
+            get { return ((AddUpdateZonesToBidModel)this.Model).CurrentAllTemplate; }
+            set
+            {
+                ((AddUpdateZonesToBidModel)this.Model).CurrentAllTemplate = value;
+                OnPropertyChanged();
+            }
+        }
+
+        public Template CurrentAppointTemplate
+        {
+            get { return ((AddUpdateZonesToBidModel)this.Model).CurrentAppointTemplate; }
+            set
+            {
+                ((AddUpdateZonesToBidModel)this.Model).CurrentAppointTemplate = value;
+                OnPropertyChanged();
+            }
+        }
 
         public ObservableCollection<Area> SetAllZones
         {
@@ -279,6 +348,16 @@ namespace SupRealClient.ViewModels.AddUpdateViewModel
             }
         }
 
+        public Area CurrentAllZone
+        {
+            get { return ((AddUpdateZonesToBidModel)this.Model).CurrentAllZone; }
+            set
+            {
+                ((AddUpdateZonesToBidModel)this.Model).CurrentAllZone = value;
+                OnPropertyChanged();
+            }
+        }
+
         public Area CurrentAppointZone
         {
             get { return ((AddUpdateZonesToBidModel)this.Model).CurrentAppointZone; }
@@ -288,6 +367,11 @@ namespace SupRealClient.ViewModels.AddUpdateViewModel
                 OnPropertyChanged();
             }
         }
+
+        public ICommand ToAppointTemplates { get; set; }
+        public ICommand ToAllTemplates { get; set; }
+        public ICommand SchedulesCommand { get; set; }
+        public ICommand ClearCommand { get; set; }
 
         /// <summary>
         /// Отработка кнопки перевода в список назначенных зон
@@ -301,18 +385,51 @@ namespace SupRealClient.ViewModels.AddUpdateViewModel
 
         public AddUpdateZonesToBidViewModel() : base()
         {
+            ToAppointTemplates = new RelayCommand(arg => ToAppointTemplatesCommand());
+            ToAllTemplates = new RelayCommand(arg => ToAllTemplatesCommand());
             ToAppointZones = new RelayCommand(arg => ToAppointZonesCommand());
             ToAllZones = new RelayCommand(arg => ToAllZonesCommand());
+
+            SchedulesCommand = new RelayCommand(arg => SchedulesList());
+            ClearCommand = new RelayCommand(arg => Clear());
+        }
+
+        private void ToAppointTemplatesCommand()
+        {
+            CurrentAllTemplate = ((AddUpdateZonesToBidModel)this.Model).ToAppointTemplates();
+        }
+
+        private void ToAllTemplatesCommand()
+        {
+            CurrentAppointTemplate = ((AddUpdateZonesToBidModel)this.Model).ToAllTemplatesCommand();
         }
 
         private void ToAppointZonesCommand()
         {
-            CurrentItem = ((AddUpdateZonesToBidModel) this.Model).ToAppointZones();
+            CurrentAllZone = ((AddUpdateZonesToBidModel) this.Model).ToAppointZones();
         }
 
         private void ToAllZonesCommand()
         {
             CurrentAppointZone = ((AddUpdateZonesToBidModel) this.Model).ToAllZonesCommand();
+        }
+
+        private void SchedulesList()
+        {
+            var result = ViewManager.Instance.OpenWindowModal(
+                 "Base4SchedulesWindView", null) as BaseModelResult;
+            if (result == null)
+            {
+                return;
+            }
+            ((AddUpdateZonesToBidModel)this.Model).ScheduleId = result.Id <= 0 ? 0 : result.Id;
+            Schedule = result.Name;
+        }
+
+        private void Clear()
+        {
+            ((AddUpdateZonesToBidModel)this.Model).ScheduleId = 0;
+            Schedule = "";
         }
     }
 

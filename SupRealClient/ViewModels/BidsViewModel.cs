@@ -678,8 +678,7 @@ namespace SupRealClient.ViewModels
 		{
 			OrderElement currentOrderElement = CurrentVirtueOrder.FirstOrderElement;
 
-			AddUpdateAbstrModel zonesModel = new AddUpdateZonesToBidModel(
-				currentOrderElement.Areas);
+			AddUpdateAbstrModel zonesModel = new AddUpdateZonesToBidModel(currentOrderElement);
 			AddUpdateBaseViewModel viewModel = new AddUpdateZonesToBidViewModel
 			{
 				Model = zonesModel
