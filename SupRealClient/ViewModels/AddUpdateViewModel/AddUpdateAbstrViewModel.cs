@@ -410,7 +410,7 @@ namespace SupRealClient.ViewModels.AddUpdateViewModel
         private void SchedulesList()
         {
             var result = ViewManager.Instance.OpenWindowModal(
-                 "Base4SchedulesWindView", null) as BaseModelResult;
+                 "Base4SchedulesWindViewOk", null) as BaseModelResult;
             if (result == null)
             {
                 return;
@@ -475,7 +475,7 @@ namespace SupRealClient.ViewModels.AddUpdateViewModel
 
         private void SpaceList(string direction)
         {
-            var result = ViewManager.Instance.OpenWindowModal("Base4SpacesWindView") as BaseModelResult;
+            var result = ViewManager.Instance.OpenWindowModal("Base4SpacesWindViewOk") as BaseModelResult;
 
             if (result == null)
             {
@@ -496,7 +496,7 @@ namespace SupRealClient.ViewModels.AddUpdateViewModel
 
         private void AccessPointList()
         {
-            var result = ViewManager.Instance.OpenWindowModal("Base4AccessPointsWindView") as BaseModelResult;
+            var result = ViewManager.Instance.OpenWindowModal("Base4AccessPointsWindViewOk") as BaseModelResult;
 
             if (result == null)
             {
@@ -574,7 +574,7 @@ namespace SupRealClient.ViewModels.AddUpdateViewModel
 
         private void AreaList()
         {
-            var result = ViewManager.Instance.OpenWindowModal("Base4AreasWindView") as BaseModelResult;
+            var result = ViewManager.Instance.OpenWindowModal("Base4AreasWindViewOk") as BaseModelResult;
 
             if (result == null)
             {
@@ -594,7 +594,7 @@ namespace SupRealClient.ViewModels.AddUpdateViewModel
 
         private void ScheduleList()
         {
-            var result = ViewManager.Instance.OpenWindowModal("Base4SchedulesWindView") as BaseModelResult;
+            var result = ViewManager.Instance.OpenWindowModal("Base4SchedulesWindViewOk") as BaseModelResult;
 
             if (result == null)
             {
@@ -669,7 +669,7 @@ namespace SupRealClient.ViewModels.AddUpdateViewModel
 
         private void AreaList()
         {
-            var result = ViewManager.Instance.OpenWindowModal("Base4AreasWindView") as BaseModelResult;
+            var result = ViewManager.Instance.OpenWindowModal("Base4AreasWindViewOk") as BaseModelResult;
 
             if (result == null)
             {
@@ -689,7 +689,7 @@ namespace SupRealClient.ViewModels.AddUpdateViewModel
 
         private void SpaceList()
         {
-            var result = ViewManager.Instance.OpenWindowModal("Base4SpacesWindView") as BaseModelResult;
+            var result = ViewManager.Instance.OpenWindowModal("Base4SpacesWindViewOk") as BaseModelResult;
 
             if (result == null)
             {
