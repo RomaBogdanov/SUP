@@ -281,6 +281,7 @@ namespace SupRealClient.EnumerationClasses
 		public bool IsDisable { get; set; }
 
 		public bool IsBlock { get; set; }
+		public bool IsCardIssued { get; set; }
 		private string blockingNote;
 
 		public string BlockingNote
