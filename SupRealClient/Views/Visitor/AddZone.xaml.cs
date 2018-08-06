@@ -30,6 +30,11 @@ namespace SupRealClient.Views.Visitor
         {
             InitializeComponent();
         }
+
+        public void Handling_OnClose(object result = null)
+        {
+            this.Close();
+        }
     }
     /*
     public class AddZoneViewModel : INotifyPropertyChanged
@@ -79,10 +84,12 @@ namespace SupRealClient.Views.Visitor
             // todo: попытка обойти ограничение нашей реализации фабрики
             // todo: связанное с тем, что нужно текущей форме задать другой
             // todo: Model, по хорошему, надо придумать стандартный механизм.
+            this.Close();
             Base4CardsWindView wind = new Base4CardsWindView();
             ((Base4ViewModel<Card>) wind.base4.DataContext).Model = 
                 new CardsActiveListModel<Card>(visitorId, 
                 new ObservableCollection<Order>(Set.Where(arg => arg.IsChecked)));
+            ((Base4ViewModel<Card>)wind.base4.DataContext).Model.OnClose += wind.Handling_OnClose2;
             wind.Show();
         }
 

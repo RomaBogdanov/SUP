@@ -30,6 +30,12 @@ namespace SupRealClient.Views
             base4.Focus();
         }
 
+        // TODO - переделать. Сделано для того, чтобы окно закрывалось при вызове Close из модели
+        public void Handling_OnClose2(object result = null)
+        {
+            this.Close();
+        }
+
         private void CreateColumns()
         {
             DataGridTextColumn dataGridTextColumn = new DataGridTextColumn
