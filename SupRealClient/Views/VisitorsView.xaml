@@ -501,7 +501,8 @@
                                 ItemsSource="{Binding Path=CurrentItem.MainDocuments, Mode=OneWay}">
                                     <i:Interaction.Triggers>
                                         <i:EventTrigger EventName="MouseDoubleClick">
-                                            <i:InvokeCommandAction Command="{Binding OpenMainDocumentCommand}"/>
+                                            <i:InvokeCommandAction 
+	                                            Command="{Binding OpenMainDocumentCommand}"/>
                                         </i:EventTrigger>
                                     </i:Interaction.Triggers>
                                 </ListBox>

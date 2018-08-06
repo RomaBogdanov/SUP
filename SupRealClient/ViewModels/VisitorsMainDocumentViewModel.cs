@@ -6,6 +6,7 @@ using System.Windows.Forms;
 using System.Linq;
 using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Data;
 using System.Windows.Media.Imaging;
 using RegulaLib;
@@ -32,10 +33,33 @@ namespace SupRealClient.ViewModels
         private DateTime birthDate= DateTime.Now;
 		private string comment = "";
 
-	 private string image = "";
+	 private Guid image ;
+	    private List<Guid> _imageCache = new List<Guid>();
+	    private ObservableCollection<Guid> _images=new ObservableCollection<Guid>();
 
-	private List<Guid> imageCache = new List<Guid>();
-        private int selectedImage = -1;
+
+		public List<Guid> imageCache
+	    {
+		    get { return _imageCache; }
+		    set
+		    {
+			    _imageCache = value;
+				OnPropertyChanged(nameof(imageCache));
+		    }
+	    }
+
+	    public ObservableCollection<Guid> Images
+	    {
+		    get { return _images; }
+		    set
+		    {
+			    _images = value;
+			    OnPropertyChanged(nameof(Images));
+		    }
+	    }
+
+
+		private int selectedImage = -1;
 
         public bool Editable { get; private set; }
 	public CPerson Person { get; private set; }
@@ -169,7 +193,7 @@ namespace SupRealClient.ViewModels
             }
         }
 
-		public string Image
+		public Guid Image
 		{
 			get { return image; }
 			set
@@ -260,6 +284,9 @@ namespace SupRealClient.ViewModels
 				var guid = ImagesHelper.LoadImage(dlg.FileName);
 				imageCache.Add(guid);
 				SetImage(imageCache.Count - 1);
+				Images.Add(guid);
+
+				OnPropertyChanged(nameof(imageCache));
 			}
 		}
 
@@ -298,7 +325,8 @@ namespace SupRealClient.ViewModels
 	        {
 		        return;
 	        }
-            Image = ImagesHelper.GetImagePath(imageCache[selectedImage]);
+			//Image = ImagesHelper.GetImagePath(imageCache[selectedImage]);
+	        Image = imageCache[selectedImage];
         }
 
         private void OkExecute()
