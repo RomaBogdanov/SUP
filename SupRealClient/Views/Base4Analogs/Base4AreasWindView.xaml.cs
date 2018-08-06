@@ -19,12 +19,14 @@ namespace SupRealClient.Views
     /// </summary>
     public partial class Base4AreasWindView
     {
-        public Base4AreasWindView()
+        public Base4AreasWindView(Visibility okVisibility)
         {
             InitializeComponent();
             base4.tbxSearch.Focus();
             AfterInitialize();
 
+            ((Base4ViewModel<EnumerationClasses.Area>)base4.DataContext)
+              .OkVisibility = okVisibility;
             ((Base4ViewModel<EnumerationClasses.Area>)base4.DataContext)
               .ScrollCurrentItem = base4.ScrollIntoViewCurrentItem;
             base4.Focus();

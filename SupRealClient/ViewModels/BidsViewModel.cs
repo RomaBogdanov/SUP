@@ -723,7 +723,13 @@ namespace SupRealClient.ViewModels
 		{
 			if (item is OrderElement orderElement)
 			{
-				//todo:Открытие окна посетителя
+				VisitsModel model = new VisitsModel();
+
+				model.CurrentItem = model.Find(orderElement.VisitorId);
+				VisitorsView view = new VisitorsView();
+				Views.VisitsViewModel vm = new Views.VisitsViewModel(view) { Model = model };
+				view.DataContext = vm;
+				view.ShowDialog();
 			}
 		}
 	}

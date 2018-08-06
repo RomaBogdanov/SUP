@@ -276,10 +276,16 @@ namespace SupRealClient
                 if (window.GetType().ToString().Contains("AddUpdateOrgsView") ||
                     window.GetType().ToString().Contains("OrganizationsWindView") ||
                     window.GetType().ToString().Contains("AddItem1View") ||
-                    window.GetType().ToString().Contains("Search1View"))
+                    window.GetType().ToString().Contains("Search1View") ||
+                    window.GetType().ToString().Contains("AddUpdateRegionView") ||
+                    window.GetType().ToString().Contains("AddUpdateCardView"))
+                {
                     (window as Window).ShowDialog();
+                }                    
                 else
+                {
                     (window as Window).Show();
+                }                   
             }
             (window as Window).Activate();
         }
@@ -306,7 +312,9 @@ namespace SupRealClient
                 case "CardsWindView":
                     return new CardsWindView();
                 case "Base4CardsWindView":
-                    return new Base4CardsWindView();
+                    return new Base4CardsWindView(Visibility.Hidden);
+                case "Base4CardsWindViewOk":
+                    return new Base4CardsWindView(Visibility.Visible);
                 case "OrganizationsWindView":
                     return new OrganizationsWindView();
                 case "Base4ZonesWindView":
@@ -329,9 +337,9 @@ namespace SupRealClient
                     return new VisitorsView(true);
                 case @"VisitorsListWindView":
                     return new VisitorsListWindView(Visibility.Hidden);
-		 case @"BidsListWindView":
+		        case @"BidsListWindView":
                     return new BidsListWindView(Visibility.Hidden);
-		 case @"BidsListWindViewOk":
+		        case @"BidsListWindViewOk":
                     return new BidsListWindView(Visibility.Visible);
                 case @"VisitorsListWindViewOk":
                     return new VisitorsListWindView(Visibility.Visible);
@@ -354,38 +362,64 @@ namespace SupRealClient
                 //Base4OrganizationsLargeWindView
                 case "Base4RegionsWindView":
                     return new Base4RegionsWindView(Visibility.Hidden);
+                case "Base4RegionsWindViewOk":
+                    return new Base4RegionsWindView(Visibility.Visible);
                 case "Base4BaseOrgsWindView":
                     return new Base4BaseOrgsWindView();
                 case "Base4ChildOrgsWindView":
                     return new Base4ChildOrgsWindView();
                 case "Base4SpacesWindView":
-                    return new Base4SpacesWindView();
+                    return new Base4SpacesWindView(Visibility.Hidden);
+                case "Base4SpacesWindViewOk":
+                    return new Base4SpacesWindView(Visibility.Visible);
                 case "Base4DoorsWindView":
-                    return new Base4DoorsWindView();
+                    return new Base4DoorsWindView(Visibility.Hidden);
+                case "Base4DoorsWindViewOk":
+                    return new Base4DoorsWindView(Visibility.Visible);
                 case "Base4AreasWindView":
-                    return new Base4AreasWindView();
+                    return new Base4AreasWindView(Visibility.Hidden);
+                case "Base4AreasWindViewOk":
+                    return new Base4AreasWindView(Visibility.Visible);
                 case "Base4AreasSpacesWindView":
-                    return new Base4AreasSpacesWindView();
+                    return new Base4AreasSpacesWindView(Visibility.Hidden);
+                case "Base4AreasSpacesWindViewOk":
+                    return new Base4AreasSpacesWindView(Visibility.Visible);
                 case "Base4AccessPointsWindView":
-                    return new Base4AccessPointsWindView();
+                    return new Base4AccessPointsWindView(Visibility.Hidden);
+                case "Base4AccessPointsWindViewOk":
+                    return new Base4AccessPointsWindView(Visibility.Visible);
                 case "Base4KeysWindView":
-                    return new Base4KeysWindView();
+                    return new Base4KeysWindView(Visibility.Hidden);
+                case "Base4KeysWindViewOk":
+                    return new Base4KeysWindView(Visibility.Visible);
                 case "Base4KeyCasesWindView":
-                    return new Base4KeyCasesWindView();
+                    return new Base4KeyCasesWindView(Visibility.Hidden);
+                case "Base4KeyCasesWindViewOk":
+                    return new Base4KeyCasesWindView(Visibility.Visible);
                 case "Base4KeyHoldersWindView":
-                    return new Base4KeyHoldersWindView();
+                    return new Base4KeyHoldersWindView(Visibility.Hidden);
+                case "Base4KeyHoldersWindViewOk":
+                    return new Base4KeyHoldersWindView(Visibility.Visible);
                 case "Base4SchedulesWindView":
-                    return new Base4SchedulesWindView();
+                    return new Base4SchedulesWindView(Visibility.Hidden);
+                case "Base4SchedulesWindViewOk":
+                    return new Base4SchedulesWindView(Visibility.Visible);
                 case "Base4AccessLevelsWindView":
-                    return new Base4AccessLevelsWindView();
+                    return new Base4AccessLevelsWindView(Visibility.Hidden);
+                case "Base4AccessLevelsWindViewOk":
+                    return new Base4AccessLevelsWindView(Visibility.Visible);
                 case "Base4CarsWindView":
-                    return new Base4CarsWindView();
+                    return new Base4CarsWindView(Visibility.Hidden);
+                case "Base4CarsWindViewOk":
+                    return new Base4CarsWindView(Visibility.Visible);
                 case "Base4EquipmentsWindView":
                     return new Base4EquipmentsWindView();
                 case "BidsView":
                     return new BidsView(); // Окно "Заявки".
                 case "Base4TemplatesWindView":
-                    return new Base4TemplatesWindView();
+                    return new Base4TemplatesWindView(Visibility.Hidden);
+                case "Base4TemplatesWindViewOk":
+                    return new Base4TemplatesWindView(Visibility.Visible);
                 default:
                     break;
             }

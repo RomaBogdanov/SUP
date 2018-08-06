@@ -85,7 +85,7 @@ namespace SupRealClient.Views.Visitor
             // todo: связанное с тем, что нужно текущей форме задать другой
             // todo: Model, по хорошему, надо придумать стандартный механизм.
             this.Close();
-            Base4CardsWindView wind = new Base4CardsWindView();
+            Base4CardsWindView wind = new Base4CardsWindView(Visibility.Visible);
             ((Base4ViewModel<Card>) wind.base4.DataContext).Model = 
                 new CardsActiveListModel<Card>(visitorId, 
                 new ObservableCollection<Order>(Set.Where(arg => arg.IsChecked)));
