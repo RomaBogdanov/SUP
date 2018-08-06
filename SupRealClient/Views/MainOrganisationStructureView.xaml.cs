@@ -22,7 +22,7 @@ namespace SupRealClient.Views
 
         private void TreeView_OnSelectedItemChanged(object sender, RoutedPropertyChangedEventArgs<object> e)
         {
-            ((MainOrganizationViewModel) DataContext).SelectedObject = e.NewValue;
+            ((MainOrganizationViewModel)DataContext).SelectedObject = e.NewValue;
         }
 
         private void TreeViewSelectedItemChanged(object sender, RoutedEventArgs e)
@@ -40,6 +40,16 @@ namespace SupRealClient.Views
             if (e.Key == Key.Enter)
             {
                 ((MainOrganizationViewModel)DataContext).Next();
+            }
+        }
+
+        private void MetroWindow_IsVisibleChanged(object sender, DependencyPropertyChangedEventArgs e)
+        {
+            Window oWindow = Window.GetWindow(this);
+            if (oWindow.Visibility == System.Windows.Visibility.Hidden)
+            {
+                tbSearch.Text = string.Empty;
+                tbSearch.Focus();              
             }
         }
     }

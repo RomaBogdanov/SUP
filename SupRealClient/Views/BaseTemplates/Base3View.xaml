@@ -54,8 +54,6 @@
 	        SelectedValue="{Binding Path=SelectedValue, Mode=TwoWay}"	
             CurrentColumn="{Binding Path=CurrentColumn, Mode=TwoWay}" 
             Style="{StaticResource AzureDataGrid1}"         
-            SelectionChanged="baseTab_SelectionChanged"
-            LoadingRow="baseTab_LoadingRow"
             KeyDown="BaseTab_OnKeyDown" 
             Loaded="baseTab_Loaded" 
             Sorted="baseTab_Sorted">
@@ -81,7 +79,7 @@
             Grid.Column="0"
             Grid.ColumnSpan="6" 
             Margin="1" 
-            Text="{Binding Path=SearchingText, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" TextChanged="tbxSearch_TextChanged"/>
+            Text="{Binding Path=SearchingText, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
 
         <Button 
             Name="butAdd"
@@ -90,8 +88,7 @@
             Margin="1" 
             Command="{Binding Path=Add}" 
             Style="{StaticResource ButtonStyle}" 
-            ToolTip="Insert"
-            PreviewMouseLeftButtonDown="Button_PreviewMouseLeftButtonDown"
+            ToolTip="Insert"           
             KeyDown="BaseTab_OnKeyDown">
             <Grid>
                 <Grid.ColumnDefinitions>
@@ -221,7 +218,6 @@
             Command="{Binding Path=Begin}" 
             Style="{StaticResource ButtonStyle}" 
             ToolTip="Home"
-            PreviewMouseLeftButtonDown="Button_PreviewMouseLeftButtonDown"
             KeyDown="BaseTab_OnKeyDown">
             <Grid>
                 <Grid.ColumnDefinitions>
@@ -249,7 +245,6 @@
             Command="{Binding Path=Prev}" 
             Style="{StaticResource ButtonStyle}" 
             ToolTip="↑"
-            PreviewMouseLeftButtonDown="Button_PreviewMouseLeftButtonDown"
             KeyDown="BaseTab_OnKeyDown">
             <Grid>
                 <Grid.ColumnDefinitions>
@@ -277,7 +272,6 @@
             Command="{Binding Path=Next}" 
             Style="{StaticResource ButtonStyle}" 
             ToolTip="↓"
-            PreviewMouseLeftButtonDown="Button_PreviewMouseLeftButtonDown"
             KeyDown="BaseTab_OnKeyDown">
             <Grid>
                 <Grid.ColumnDefinitions>
@@ -304,7 +298,6 @@
             Command="{Binding Path=End}" 
             Style="{StaticResource ButtonStyle}" 
             ToolTip="End"
-            PreviewMouseLeftButtonDown="Button_PreviewMouseLeftButtonDown"
             KeyDown="BaseTab_OnKeyDown">
             <Grid>
                 <Grid.ColumnDefinitions>

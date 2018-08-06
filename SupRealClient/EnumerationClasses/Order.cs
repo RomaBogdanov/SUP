@@ -10,9 +10,18 @@ namespace SupRealClient.EnumerationClasses
 {
 	public class Order : IdEntity
 	{
-		public Order()
+		/// <summary>
+		/// Конструктор
+		/// </summary>
+		/// <param name="autoCreateFirstElement">Создать ли автоматически первый элемент заявки</param>
+		public Order(bool autoCreateFirstElement = false)
 		{
 			OrderElements = new ObservableCollection<OrderElement>();
+
+			if (autoCreateFirstElement)
+			{
+				OrderElements.Add(new OrderElement(false));
+			}
 
 			OnChangeId += Order_OnChangeId;
 		}
@@ -58,6 +67,23 @@ namespace SupRealClient.EnumerationClasses
 
 		private int organizationId;
 		private int agreeId;
+
+		/// <summary>
+		/// Первый элемент заявки
+		/// Если лист элементов пуст, возвращает null
+		/// </summary>
+		public OrderElement FirstOrderElement
+		{
+			get
+			{
+				if (OrderElements.Count >= 1)
+				{
+					return OrderElements[0];
+				}
+
+				return null;
+			}
+		}
 
 		/// <summary>
 		/// Номер заявки.
@@ -180,19 +206,6 @@ namespace SupRealClient.EnumerationClasses
 		public string Agree { get; set; } = ""; // Полное имя согласовавшего
 		public string Note { get; set; } = ""; // Примечание
 
-		public int OrganizationId
-		{
-			get { return organizationId; }
-			set
-			{
-				organizationId = value;
-				Organization = OrganizationsWrapper.CurrentTable().Table
-					.AsEnumerable().FirstOrDefault(arg =>
-						arg.Field<int>("f_org_id") == organizationId)["f_org_name"]
-					.ToString();
-			}
-		}
-
 		public string Organization { get; set; } = "";
 
 		/// <summary>
@@ -232,5 +245,44 @@ namespace SupRealClient.EnumerationClasses
 
 		public ObservableCollection<OrderElement> AddedOrderElements { get; set; } =
 			new ObservableCollection<OrderElement>();
+
+		public bool IsOrderDataCorrect(OrderType orderType,out string errorMessage)
+		{
+			if (OrderElements.Count < 1)
+			{
+				errorMessage = "Заявка не содержит ни одного элемента.";
+				return false;
+			}
+
+			if (orderType != EnumerationClasses.OrderType.Single && From > To)
+			{
+				errorMessage = "Неверные даты. Дата начала заявки раньше даты конца заявки.";
+				return false;
+			}
+
+			for (int i = 0; i < OrderElements.Count; i++)
+			{
+				if (orderType == EnumerationClasses.OrderType.Virtue)
+				{
+					if (string.IsNullOrEmpty(OrderElements[i].Reason))
+					{
+						errorMessage = "Отсутсвует обоснование.";
+						return false;
+					}
+				}
+
+				if (!OrderElements[i].IsOrderElementDataCorrect(out errorMessage))
+				{
+					if (orderType != EnumerationClasses.OrderType.Virtue)
+					{
+						errorMessage = "Ошибка в элементе заявки " + (i + 1) + ": " + errorMessage;
+					}
+					return false;
+				}
+			}
+
+			errorMessage = null;
+			return true;
+		}
 	}
 }
