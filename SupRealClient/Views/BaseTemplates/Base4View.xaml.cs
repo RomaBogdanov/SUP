@@ -1,4 +1,5 @@
-﻿using System.ComponentModel;
+﻿using System;
+using System.ComponentModel;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Controls.Primitives;
@@ -182,5 +183,13 @@ namespace SupRealClient.Views
     {
         public int OrganizationId { get; set; }
         public string Organization { get; set; }
+		public bool IsBlock { get; set; }
+		public bool IsCardIssue { get; set; }
     }
+	public class OrdersModelResult : BaseModelResult
+	{
+		public DateTime OrderDate { get; set; }
+		public string Notes { get; set; }
+	}
+
 }
