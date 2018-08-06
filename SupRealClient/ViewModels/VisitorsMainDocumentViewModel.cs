@@ -35,7 +35,7 @@ namespace SupRealClient.ViewModels
 
 	 private Guid image ;
 	    private List<Guid> _imageCache = new List<Guid>();
-	    private ObservableCollection<Guid> _images=new ObservableCollection<Guid>();
+	    private ObservableCollection<string> _images=new ObservableCollection<string>();
 
 
 		public List<Guid> imageCache
@@ -48,7 +48,7 @@ namespace SupRealClient.ViewModels
 		    }
 	    }
 
-	    public ObservableCollection<Guid> Images
+	    public ObservableCollection<string> Images
 	    {
 		    get { return _images; }
 		    set
@@ -284,7 +284,7 @@ namespace SupRealClient.ViewModels
 				var guid = ImagesHelper.LoadImage(dlg.FileName);
 				imageCache.Add(guid);
 				SetImage(imageCache.Count - 1);
-				Images.Add(guid);
+				Images.Add(ImagesHelper.GetImagePath(guid));
 
 				OnPropertyChanged(nameof(imageCache));
 			}

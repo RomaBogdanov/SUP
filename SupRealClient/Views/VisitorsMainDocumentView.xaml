@@ -410,7 +410,7 @@
 						</ListView.ItemsPanel>
 						<ListView.ItemTemplate>
 							<DataTemplate>
-								<Image Name="ImageControl" Margin="5" MaxWidth="290" Width="100" Height="100"  Source="{Binding Path, Converter={StaticResource GuidToStringConverter}}" MinHeight="50" >
+								<Image Name="ImageControl" Margin="5" MaxWidth="290" Width="100" Height="100"  Source="{Binding}" MinHeight="50" >
 								</Image>
 							</DataTemplate>
 						</ListView.ItemTemplate>
