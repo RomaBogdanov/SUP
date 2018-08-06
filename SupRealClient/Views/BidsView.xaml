@@ -270,7 +270,7 @@
                                         <DataTrigger Binding="{Binding IsBlock}" Value="True">
                                             <Setter Property="Background" Value="#33ff0000" />
                                         </DataTrigger>
-                                        <DataTrigger Binding="{Binding IsBlock}" Value="False">
+                                        <DataTrigger Binding="{Binding IsCardIssued}" Value="True">
                                             <Setter Property="Background" Value="#33008800" />
                                         </DataTrigger>
                                     </Style.Triggers>
@@ -515,11 +515,11 @@
                             <Grid.ColumnDefinitions>
                                 <ColumnDefinition Width="130" />
                                 <ColumnDefinition Width="180" />
-                                <ColumnDefinition Width="50" />
-                                <ColumnDefinition Width="180" />
-                                <ColumnDefinition Width="100" />
-                                <ColumnDefinition Width="100" />
-                                <ColumnDefinition Width="100" />
+                                <ColumnDefinition Width="30" />
+                                <ColumnDefinition Width="160" />
+                                <ColumnDefinition Width="150" />
+                                <ColumnDefinition Width="185" />
+                                <ColumnDefinition Width="120" />
                                 <ColumnDefinition />
                             </Grid.ColumnDefinitions>
 
@@ -552,23 +552,84 @@
                             <Button
                                 Name="btnTempOrderAdd"
                                 Grid.Column="4"
-                                Margin="10"
+                                Height="40"
+                                Margin="10,10,10,10"
                                 Command="{Binding AddPersonCommand}"
-                                Content="Добавить"
                                 PreviewKeyDown="UiElement_PreviewKeyDown"
-                                Visibility="{Binding AddUpdVisib, Mode=TwoWay}" />
+                                Style="{StaticResource VisitorsSquareButtonStyle}"
+                                Visibility="{Binding AddUpdVisib, Mode=TwoWay}">
+                                <Button.Content>
+                                    <Grid>
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition />
+                                            <ColumnDefinition />
+                                        </Grid.ColumnDefinitions>
+                                        <Image
+                                            Grid.Column="0"
+                                            Margin="0,-4,0,-1"
+                                            Source="../Resources/Добавить1 (2).ico" />
+                                        <TextBlock
+                                            Grid.Column="1"
+                                            FontSize="12"
+                                            Style="{StaticResource TextBLockStyle}"
+                                            Text="Добавить" />
+                                    </Grid>
+                                </Button.Content>
+
+                            </Button>
+
+
                             <Button
                                 Grid.Column="5"
-                                Margin="10"
+                                Height="40"
+                                Margin="0,10,0,10"
                                 Command="{Binding UpdatePersonCommand}"
-                                Content="Редактировать"
-                                Visibility="{Binding AddUpdVisib, Mode=TwoWay}" />
+                                Style="{StaticResource VisitorsSquareButtonStyle}"
+                                Visibility="{Binding AddUpdVisib, Mode=TwoWay}">
+                                <Button.Content>
+                                    <Grid>
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition />
+                                            <ColumnDefinition />
+                                        </Grid.ColumnDefinitions>
+                                        <Image
+                                            Grid.Column="0"
+                                            Margin="0,-4,0,-1"
+                                            Source="../Resources/Редактировать (2).ico" />
+                                        <TextBlock
+                                            Grid.Column="1"
+                                            FontSize="12"
+                                            Style="{StaticResource TextBLockStyle}"
+                                            Text="Редактировать" />
+                                    </Grid>
+                                </Button.Content>
+                            </Button>
+
                             <Button
                                 Grid.Column="6"
-                                Margin="10"
+                                Height="40"
+                                Margin="10,10,0,10"
                                 Command="{Binding DeletePersonCommand}"
-                                Content="Удалить"
-                                Visibility="{Binding AddUpdVisib, Mode=TwoWay}" />
+                                Style="{StaticResource VisitorsSquareButtonStyle}"
+                                Visibility="{Binding AddUpdVisib, Mode=TwoWay}">
+                                <Button.Content>
+                                    <Grid>
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition />
+                                            <ColumnDefinition />
+                                        </Grid.ColumnDefinitions>
+                                        <Image
+                                            Grid.Column="0"
+                                            Margin="0,-4,0,-1"
+                                            Source="../Resources/NewRemove.png" />
+                                        <TextBlock
+                                            Grid.Column="1"
+                                            FontSize="12"
+                                            Style="{StaticResource TextBLockStyle}"
+                                            Text="Удалить" />
+                                    </Grid>
+                                </Button.Content>
+                            </Button>
 
                         </Grid>
 
@@ -681,7 +742,7 @@
                                         <DataTrigger Binding="{Binding IsBlock}" Value="True">
                                             <Setter Property="Background" Value="#33ff0000" />
                                         </DataTrigger>
-                                        <DataTrigger Binding="{Binding IsBlock}" Value="False">
+                                        <DataTrigger Binding="{Binding IsCardIssued}" Value="True">
                                             <Setter Property="Background" Value="#33008800" />
                                         </DataTrigger>
                                     </Style.Triggers>
