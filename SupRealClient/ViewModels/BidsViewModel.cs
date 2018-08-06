@@ -654,6 +654,8 @@ namespace SupRealClient.ViewModels
 			currentOrderElement.VisitorId = result.Id;
 			currentOrderElement.Position = currentOrderElement.VisitorMainPosition;
 			currentOrderElement.OrganizationId = result.OrganizationId;
+			currentOrderElement.IsBlock = result.IsBlock;
+			currentOrderElement.IsCardIssued = result.IsCardIssue;
 
 			CurrentVirtueOrder = CurrentVirtueOrder;
 		}

@@ -182,5 +182,7 @@ namespace SupRealClient.Views
     {
         public int OrganizationId { get; set; }
         public string Organization { get; set; }
+		public bool IsBlock { get; set; }
+		public bool IsCardIssue { get; set; }
     }
 }

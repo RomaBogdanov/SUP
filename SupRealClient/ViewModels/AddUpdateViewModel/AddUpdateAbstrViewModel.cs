@@ -152,6 +152,8 @@ namespace SupRealClient.ViewModels.AddUpdateViewModel
             CurrentOrderElement.VisitorId = result.Id;
 	        CurrentOrderElement.Position = CurrentOrderElement.VisitorMainPosition;
 		    CurrentOrderElement.OrganizationId = result.OrganizationId;
+	        CurrentOrderElement.IsBlock = result.IsBlock;
+	        CurrentOrderElement.IsCardIssued = result.IsCardIssue;
 
 			CurrentItem = CurrentItem;
         }

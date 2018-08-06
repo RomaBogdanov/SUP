@@ -54,7 +54,9 @@ namespace SupRealClient.Views
                 Id = CurrentItem.Id,
                 Name = CurrentItem.FullName,
                 OrganizationId = CurrentItem.OrganizationId,
-                Organization = CurrentItem.Organization
+                Organization = CurrentItem.Organization,
+				IsBlock = CurrentItem.IsAccessDenied,
+				IsCardIssue = true // todo: получить из данных пользователя
             };
         }
 
