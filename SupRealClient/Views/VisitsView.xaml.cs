@@ -147,7 +147,17 @@ namespace SupRealClient.Views
             }
         }
 
-        public bool ButtonEnable
+	    public bool CommentTextEnable
+		{
+		    get { return Model.CommentTextEnable; }
+		    set
+		    {
+			    Model.CommentTextEnable = value;
+			    OnPropertyChanged(nameof(CommentTextEnable));
+		    }
+	    }
+
+		public bool ButtonEnable
         {
             get { return Model.ButtonEnable; }
             set
@@ -1031,12 +1041,12 @@ namespace SupRealClient.Views
 		    {
 			    EditingVisitorCommentMode = true;
 			    _bufer_CurrentItem_Comment = CurrentItem.Comment;
-			    TextEnable = true;
+			    CommentTextEnable = true;
 			}
 		    else
 		    {
 			    EditingVisitorCommentMode = false;
-		    }
+			}
 		}
 
 	    private void SavingEditedVisitorComment()
@@ -1050,7 +1060,7 @@ namespace SupRealClient.Views
 		private void EndEditingVisitorComment()
 	    {
 			EditingVisitorCommentMode = false;
-		    TextEnable = false;
+		    CommentTextEnable = false;
 	    }
 
 
@@ -1118,37 +1128,62 @@ namespace SupRealClient.Views
 	    private void TestingNameVisitorsDocument(object sender, CancelEventArgs e)
 	    {
 		    if (sender is VisitorsDocumentViewModel)
-		    {
-			    VisitorsDocumentViewModel visitorsDocumentViewModel = sender as VisitorsDocumentViewModel;
-
-			    if (visitorsDocumentViewModel.Name == _nameDocument_PhotoImageType)
+			{
+				VisitorsDocumentViewModel visitorsDocumentViewModel = sender as VisitorsDocumentViewModel;
+				if (Model is NewVisitsModel)
 			    {
-				    e.Cancel = false;
-				    if (PhotoSource!="")
-					    MessageBox.Show("Документ с названием " +"\"" + visitorsDocumentViewModel.Name + "\"" + " уже имеется");
-					else
-					    MessageBox.Show("Документ с названием " + "\"" + visitorsDocumentViewModel.Name + "\"" + " невозможно добавить, так как данное название используется только для документа, содержащий личную фотографию");
-					return;
-			    }
+				
 
-			    if (visitorsDocumentViewModel.Name == _nameDocument_SignatureImageType)
-			    {
-				    e.Cancel = false;
-				    if (Signature != "")
+				    if (visitorsDocumentViewModel.Name == _nameDocument_PhotoImageType)
+				    {
+					    e.Cancel = false;
+					    if (PhotoSource != "")
+						    MessageBox.Show("Документ с названием " + "\"" + visitorsDocumentViewModel.Name + "\"" + " уже имеется");
+					    else
+						    MessageBox.Show("Документ с названием " + "\"" + visitorsDocumentViewModel.Name + "\"" +
+						                    " невозможно добавить, так как данное название используется только для документа, содержащий личную фотографию");
+					    return;
+				    }
+
+				    if (visitorsDocumentViewModel.Name == _nameDocument_SignatureImageType)
+				    {
+					    e.Cancel = false;
+					    if (Signature != "")
+						    MessageBox.Show("Документ с названием " + "\"" + visitorsDocumentViewModel.Name + "\"" + " уже имеется");
+					    else
+						    MessageBox.Show("Документ с названием " + "\"" + visitorsDocumentViewModel.Name + "\"" +
+						                    " невозможно добавить, так как данное название используется только для документа, содержащий скан личной подписи");
+					    return;
+				    }
+
+				    VisitorsDocument findingItem =
+					    CurrentItem?.Documents?.FirstOrDefault(item => item.Name == visitorsDocumentViewModel.Name);
+				    if (findingItem != null)
+				    {
+					    e.Cancel = false;
 					    MessageBox.Show("Документ с названием " + "\"" + visitorsDocumentViewModel.Name + "\"" + " уже имеется");
-				    else
-					    MessageBox.Show("Документ с названием " + "\"" + visitorsDocumentViewModel.Name + "\"" + " невозможно добавить, так как данное название используется только для документа, содержащий скан личной подписи");
-					return;
+				    }
 			    }
-
-			    VisitorsDocument findingItem =
-				    CurrentItem?.Documents?.FirstOrDefault(item => item.Name == visitorsDocumentViewModel.Name);
-			    if (findingItem != null)
+			    else
 			    {
-				    e.Cancel = false;
-				    MessageBox.Show("Документ с названием " + "\"" + visitorsDocumentViewModel.Name + "\"" + " уже имеется");
-			    }
+				    if (Model is EditVisitsModel)
+					{
+						if (visitorsDocumentViewModel.Name == _nameDocument_PhotoImageType)
+						{
+								MessageBox.Show("Документ с названием " + "\"" + visitorsDocumentViewModel.Name + "\"" +
+								                " невозможно добавить, так как данное название используется только для документа, содержащий личную фотографию");
+							return;
+						}
 
+						if (visitorsDocumentViewModel.Name == _nameDocument_SignatureImageType)
+						{
+								MessageBox.Show("Документ с названием " + "\"" + visitorsDocumentViewModel.Name + "\"" +
+								                " невозможно добавить, так как данное название используется только для документа, содержащий скан личной подписи");
+							return;
+						}
+
+					}
+			    }
 
 
 		    }
@@ -1177,7 +1212,8 @@ namespace SupRealClient.Views
         ObservableCollection<EnumerationClasses.Visitor> Set { get; set; }
         EnumerationClasses.Visitor CurrentItem { get; set; }
         bool TextEnable { get; set; }
-        VisitorsEnableOrVisible VisitorsEnable { get; set; }
+	    bool CommentTextEnable { get; set; }
+		VisitorsEnableOrVisible VisitorsEnable { get; set; }
         VisitorsEnableOrVisible VisitorsVisible { get; set; }
         bool ButtonEnable { get; set; }
         bool AccessVisibility { get; set; }
@@ -1254,7 +1290,13 @@ namespace SupRealClient.Views
 
         public abstract bool AccessVisibility { get; set; }
 
-        public virtual EnumerationClasses.Visitor Begin()
+	    public virtual bool CommentTextEnable
+	    {
+		    get { return true; }
+		    set { }
+	    }
+
+		public virtual EnumerationClasses.Visitor Begin()
         {
             throw new NotImplementedException();
         }
@@ -1302,7 +1344,8 @@ namespace SupRealClient.Views
             return false;
         }
 
-        public string GetDepartmenstList(int? id)
+
+	    public string GetDepartmenstList(int? id)
         {
             var departmentList = new List<string>();
             while (id.HasValue && id.Value > 0)
@@ -1775,7 +1818,9 @@ namespace SupRealClient.Views
     public class VisitsModel : BaseVisitsModel
     {
 	    private bool _textEnable = false;
-	    public override event Action<object> OnClose;
+	    private bool _сommentTextEnable = false;
+
+		public override event Action<object> OnClose;
 		public int selectedIndex { get; set; }
 
 
@@ -1797,7 +1842,13 @@ namespace SupRealClient.Views
             set { }
         }
 
-        public VisitsModel()
+		public override bool CommentTextEnable
+		{
+			get { return _сommentTextEnable; }
+			set { _сommentTextEnable = value; }
+		}
+
+		public VisitsModel()
         {
             visitorsEnable =
             new VisitorsEnableOrVisible
@@ -2199,7 +2250,7 @@ namespace SupRealClient.Views
             set { }
         }
 
-        public NewVisitsModel()
+		public NewVisitsModel()
         {
             visitorsEnable =
             new VisitorsEnableOrVisible

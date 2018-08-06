@@ -108,7 +108,6 @@ namespace SupRealClient.Views
 			{
 				((UIElement)sender).MoveFocus(_focusMover);
 				e.Handled = true;
-				
 			}
 		}
 
