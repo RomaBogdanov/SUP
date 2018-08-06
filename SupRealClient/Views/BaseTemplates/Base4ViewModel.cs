@@ -143,7 +143,20 @@ namespace SupRealClient.Views
                 if (Model != null && value != null && value.SortDirection != null)
                 {
                     Model.CurrentColumn = value;
+
+                    if (SelectedIndex < 0 && SetCollection.Count > 0)
+                    {
+                        SelectedIndex = 0;
+                    }
                     OnPropertyChanged();
+                                        
+                    if (!string.IsNullOrEmpty(searchingText))
+                    {
+                        FartherEnabled = _model?.Searching(
+                            this.searchingText.ToUpper()) ?? false;
+                    }
+
+                    ScrollCurrentItem?.Invoke();
                 }
             }
         }
@@ -155,13 +168,13 @@ namespace SupRealClient.Views
             {
                 if (Model != null) Model.Set = value;
                 OnPropertyChanged();
-                OnPropertyChanged("CollectionView");
+                OnPropertyChanged("SetCollection");
             }
         }
 
-        public CollectionView CollectionView
+        public CollectionView SetCollection
         {
-            get { return Model?.CollectionView; }
+            get { return Model?.SetCollection; }
         }
 
         public int SelectedIndex
@@ -197,7 +210,7 @@ namespace SupRealClient.Views
         public Base4ViewModel()
         {
             Add = new RelayCommand(obj => AddCom());
-            Update = new RelayCommand(obj => UpdateCom());
+            Update = new RelayCommand(obj => UpdateCom(), oCanExecute => CanExecuteUpdate());
             Search = new RelayCommand(obj => SearchCom());
             Farther = new RelayCommand(obj => FartherCom());
             Begin = new RelayCommand(obj => BeginCom());
@@ -236,16 +249,33 @@ namespace SupRealClient.Views
         private void AddCom()
         {
             this.Model.Add();
+            (Parent as Window)?.Activate();
             ScrollCurrentItem?.Invoke();
-        }
+        }        
+
         private void UpdateCom()
         {
             this.Model.Update();
+            (Parent as Window)?.Activate();
             ScrollCurrentItem?.Invoke();
         }
+        private bool CanExecuteUpdate()
+        {
+            bool result = true;
+
+            if (CurrentItem == null)
+            {
+                result = false;
+            }
+
+            return result;
+        }
+
         private void SearchCom()
         {
+            this.SearchingText = string.Empty;
             this.Model.Search();
+            (Parent as Window)?.Activate();
         }
         private void FartherCom()
         {
@@ -299,7 +329,7 @@ namespace SupRealClient.Views
                 int memIndexSel = SelectedIndex;
                 this.Model.Remove();
 
-                int countItem = CollectionView.Count;
+                int countItem = SetCollection.Count;
                 if (countItem > 0)
                 {
                     if (memIndexSel < countItem)

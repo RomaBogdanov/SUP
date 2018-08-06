@@ -7,12 +7,12 @@ namespace SupRealClient.EnumerationClasses
         public string Type { get; set; }
         public string Seria { get; set; }
         public string Num { get; set; }
-        public DateTime Date { get; set; }
+	    public DateTime Date { get; set; } = DateTime.Now;
         public string Org { get; set; }
-        public DateTime DateTo { get; set; }
-        public string Code { get; set; }
-        public DateTime BirthDate { get; set; }
-        public string Comment { get; set; }
+        public DateTime DateTo { get; set; } = DateTime.Now;
+		public string Code { get; set; }
+        public DateTime BirthDate { get; set; } = DateTime.Now;
+		public string Comment { get; set; }
 
         public override string ToString()
         {

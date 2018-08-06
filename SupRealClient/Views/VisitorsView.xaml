@@ -273,7 +273,7 @@
 				Grid.Column="1"
 				Margin="10,11"
 				VerticalAlignment="Stretch"
-				IsEnabled="{Binding Path=TextEnable, Mode=TwoWay}"
+				IsEnabled="{Binding Path=CommentTextEnable, Mode=TwoWay}"
 				Style="{StaticResource TextBoxStyle}"
 				TabIndex="7"
 				Text="{Binding Path=CurrentItem.Comment, Mode=TwoWay}" />

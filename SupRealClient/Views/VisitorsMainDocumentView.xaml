@@ -89,12 +89,11 @@
 							Grid.Column="0"
 							Margin="2"
 							IsReadOnly="True"
-							KeyUp="TextBox_OnKeyUp"
 							Style="{StaticResource TextBoxStyle}"
-							TabIndex="0"
+							IsTabStop="False"
 							Text="{Binding Path=DocType, Mode=TwoWay}" />
 
-						<Button
+						<Button x:Name="button_SetDocumentType"
 							Grid.Column="1"
 							Width="25"
 							Height="25"
@@ -103,7 +102,8 @@
 							Content="..."
 							IsEnabled="{Binding Path=Editable, Mode=OneTime}"
 							Style="{StaticResource VisitorsSquareButtonStyle}"
-							TabIndex="1" />
+							KeyUp="MoveNextFocusControl"
+							TabIndex="0" />
 
 						<Button
 							Grid.Column="2"
@@ -114,7 +114,7 @@
 							Content="X"
 							IsEnabled="{Binding Path=Editable, Mode=OneTime}"
 							Style="{StaticResource VisitorsSquareButtonStyle}"
-							TabIndex="2" />
+							IsTabStop="False" />
 					</Grid>
 
 					<TextBlock
@@ -132,9 +132,9 @@
 						Grid.ColumnSpan="2"
 						Margin="2"
 						IsReadOnly="{Binding Path=Editable, Converter={StaticResource InverseBooleanConverter}, Mode=OneTime}"
-						KeyUp="TextBox_OnKeyUp"
+						KeyUp="MoveNextFocusControl"
 						Style="{StaticResource TextBoxStyle}"
-						TabIndex="3"
+						TabIndex="1"
 						Text="{Binding Path=Seria, Mode=TwoWay}" />
 
 					<TextBlock
@@ -152,9 +152,9 @@
 						Grid.ColumnSpan="2"
 						Margin="2"
 						IsReadOnly="{Binding Path=Editable, Converter={StaticResource InverseBooleanConverter}, Mode=OneTime}"
-						KeyUp="TextBox_OnKeyUp"
+						KeyUp="MoveNextFocusControl"
 						Style="{StaticResource TextBoxStyle}"
-						TabIndex="4"
+						TabIndex="2"
 						Text="{Binding Path=Num, Mode=TwoWay}" />
 
 					<TextBlock
@@ -173,9 +173,9 @@
 						Height="76"
 						Margin="2"
 						IsReadOnly="{Binding Path=Editable, Converter={StaticResource InverseBooleanConverter}, Mode=OneTime}"
-						KeyUp="TextBox_OnKeyUp"
+						KeyUp="MoveNextFocusControl"
 						Style="{StaticResource TextBoxStyle}"
-						TabIndex="5"
+						TabIndex="3"
 						Text="{Binding Path=Org, Mode=TwoWay}"
 						TextWrapping="Wrap" />
 
@@ -188,15 +188,15 @@
 						Style="{StaticResource TextBLockStyle}"
 						Text="Код:" />
 
-					<TextBox
+					<TextBox x:Name="textBox_Code"
 						Grid.Row="9"
 						Grid.Column="0"
 						Grid.ColumnSpan="2"
 						Margin="2"
 						IsReadOnly="{Binding Path=Editable, Converter={StaticResource InverseBooleanConverter}, Mode=OneTime}"
-						KeyUp="TextBox_OnKeyUp"
+						KeyUp="MoveNextFocusControl"
 						Style="{StaticResource TextBoxStyle}"
-						TabIndex="6"
+						TabIndex="4"
 						Text="{Binding Path=Code, Mode=TwoWay}" />
 
 					<TextBlock
@@ -222,16 +222,18 @@
                         KeyUp="TextBox_OnKeyUp">
                     </DatePicker>-->
 
-					<DatePicker
+					<DatePicker x:Name="datePicker_Date"
+								IsTabStop="False"
 						Grid.Row="11"
 						Grid.Column="0"
 						Grid.ColumnSpan="2"
 						Margin="2"
 						IsEnabled="{Binding Path=Editable, Mode=OneTime}"
-						KeyUp="TextBox_OnKeyUp"
+						KeyUp="MoveNextFocusControl"
 						SelectedDate="{Binding Path=Date, Mode=TwoWay}"
-						TabIndex="7"
+						TabIndex="5"
 						Text="Дата">
+						<!--PreviewMouseDoubleClick="DatePicker_PreviewMouseDoubleClick" TextInput="datePicker_Date_TextInput" FocusableChanged="datePicker_Date_FocusableChanged"-->
 						<DatePicker.Resources>
 							<Style TargetType="{x:Type DatePickerTextBox}">
 								<Setter Property="Control.Template">
@@ -240,7 +242,8 @@
 											<wpfx:MaskedTextBox
 												x:Name="PART_TextBox"
 												Mask="00/00/0000"
-												Text="{Binding Path=SelectedDate, ConverterCulture={x:Static gl:CultureInfo.CurrentCulture}, StringFormat=dd/MM/yyyy, RelativeSource={RelativeSource AncestorType={x:Type DatePicker}}}" />
+												Text="{Binding Path=SelectedDate, ConverterCulture={x:Static gl:CultureInfo.CurrentCulture}, StringFormat=dd/MM/yyyy, RelativeSource={RelativeSource AncestorType={x:Type DatePicker}}}" 
+												GotFocus="datePicker_Date_GotFocus"/>
 										</ControlTemplate>
 									</Setter.Value>
 								</Setter>
@@ -269,14 +272,15 @@
                         KeyUp="TextBox_OnKeyUp">
                     </DatePicker>-->
 					<DatePicker
+						x:Name="datePicker_DateTo"
 						Grid.Row="13"
 						Grid.Column="0"
 						Grid.ColumnSpan="2"
 						Margin="2"
 						IsEnabled="{Binding Path=Editable, Mode=OneTime}"
-						KeyUp="TextBox_OnKeyUp"
+						KeyUp="MoveNextFocusControl"
 						SelectedDate="{Binding Path=DateTo, Mode=TwoWay}"
-						TabIndex="8"
+						TabIndex="6"
 						Text="Дата до">
 						<DatePicker.Resources>
 							<Style TargetType="{x:Type DatePickerTextBox}">
@@ -315,14 +319,15 @@
                         KeyUp="TextBox_OnKeyUp">
                     </DatePicker>-->
 					<DatePicker
+						x:Name="datePicker_BirthDate"
 						Grid.Row="15"
 						Grid.Column="0"
 						Grid.ColumnSpan="2"
 						Margin="2"
 						IsEnabled="{Binding Path=Editable, Mode=OneTime}"
-						KeyUp="TextBox_OnKeyUp"
+						KeyUp="MoveNextFocusControl"
 						SelectedDate="{Binding Path=BirthDate, Mode=TwoWay}"
-						TabIndex="9"
+						TabIndex="7"
 						Text="Дата рождения">
 						<DatePicker.Resources>
 							<Style TargetType="{x:Type DatePickerTextBox}">
@@ -355,9 +360,9 @@
 						Height="76"
 						Margin="2"
 						IsReadOnly="{Binding Path=Editable, Converter={StaticResource InverseBooleanConverter}, Mode=OneTime}"
-						KeyUp="TextBox_OnKeyUp"
+						KeyUp="MoveNextFocusControl"
 						Style="{StaticResource TextBoxStyle}"
-						TabIndex="10"
+						TabIndex="8"
 						Text="{Binding Path=Comment, Mode=TwoWay}"
 						TextWrapping="Wrap" />
 				</Grid>
@@ -494,14 +499,14 @@
 				</Grid>
 			</mah:MetroTabItem>
 		</mah:MetroAnimatedTabControl>
-		<Button
+		<Button x:Name="button_Ok"
 			Grid.Row="1"
 			Grid.Column="1"
 			Margin="2"
 			Command="{Binding Path=Ok}"
 			IsEnabled="{Binding Path=Editable, Mode=OneTime}"
 			Style="{StaticResource ButtonStyle}"
-			TabIndex="16">
+			TabIndex="9">
 			<Grid Width="140">
 				<Grid.ColumnDefinitions>
 					<ColumnDefinition />
@@ -523,7 +528,7 @@
 			Margin="2"
 			Command="{Binding Path=Cancel}"
 			Style="{StaticResource ButtonStyle}"
-			TabIndex="17">
+			TabIndex="10">
 			<Grid Width="140">
 				<Grid.ColumnDefinitions>
 					<ColumnDefinition />

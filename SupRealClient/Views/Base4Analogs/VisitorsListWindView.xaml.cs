@@ -23,6 +23,8 @@ namespace SupRealClient.Views
             AfterInitialize();
             ((Base4ViewModel<EnumerationClasses.Visitor>)base4.DataContext)
                 .OkVisibility = okVisibility;
+            ((Base4ViewModel<EnumerationClasses.Visitor>)base4.DataContext)
+                .ScrollCurrentItem = base4.ScrollIntoViewCurrentItem;
         }
 
         partial void CreateColumns()

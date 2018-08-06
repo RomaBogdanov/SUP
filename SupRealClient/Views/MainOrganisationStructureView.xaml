@@ -7,7 +7,8 @@
         xmlns:viewModels="clr-namespace:SupRealClient.ViewModels"
         mc:Ignorable="d"
         Title="Структура главных организаций" Height="400" Width="500"
-        ResizeMode="NoResize">
+        ResizeMode="NoResize" 
+        IsVisibleChanged="MetroWindow_IsVisibleChanged">
 
     <mah:MetroWindow.InputBindings>
         <KeyBinding Key="Escape" Command="{Binding OkCommand}"/>

@@ -26,6 +26,8 @@ namespace SupRealClient.Views
             AfterInitialize();
             ((Base4ViewModel<EnumerationClasses.Organization>)base4.DataContext)
                 .OkVisibility = Visibility.Hidden;
+            ((Base4ViewModel<EnumerationClasses.Organization>)base4.DataContext)
+                .ScrollCurrentItem = base4.ScrollIntoViewCurrentItem;
             base4.btnUpdate.Visibility = Visibility.Collapsed;
             base4.Focus();
         }

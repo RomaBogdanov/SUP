@@ -157,10 +157,11 @@ namespace SupRealClient
             ReopenWindow(window.WindowName, window, parent);
         }
 
-        public object OpenRegions(int countryId)
+        public object OpenRegions(int countryId, IWindow parent = null)
         {
             var window = new Base4RegionsWindView(Visibility.Visible);
             window.SetCountry(countryId);
+            window.ParentWindow = parent;
             return OpenWindowModal(window);
         }
 
@@ -328,6 +329,10 @@ namespace SupRealClient
                     return new VisitorsView(true);
                 case @"VisitorsListWindView":
                     return new VisitorsListWindView(Visibility.Hidden);
+		 case @"BidsListWindView":
+                    return new BidsListWindView(Visibility.Hidden);
+		 case @"BidsListWindViewOk":
+                    return new BidsListWindView(Visibility.Visible);
                 case @"VisitorsListWindViewOk":
                     return new VisitorsListWindView(Visibility.Visible);
                 case "Base4CabinetsWindView":

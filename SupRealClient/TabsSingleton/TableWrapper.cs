@@ -458,8 +458,16 @@ namespace SupRealClient.TabsSingleton
 						To = ordEls.Field<DateTime>("f_time_to"),
 						Reason = ordEls.Field<string>("f_other_org"),
 						IsDisable = ordEls.Field<string>("f_disabled").ToUpper() == "Y" ? true : false,
-						Passes = ordEls.Field<string>("f_passes")
-					});
+						Passes = ordEls.Field<string>("f_passes"),
+                        TemplateIdList = ordEls.Field<string>("f_oe_templates"),
+                        AreaIdList = ordEls.Field<string>("f_oe_areas"),
+                        ScheduleId = ordEls.Field<int>("f_schedule_id"),
+                        Schedule = ordEls.Field<int>("f_schedule_id") == 0 ? "" :
+                            SchedulesWrapper.CurrentTable()
+                                .Table.AsEnumerable().FirstOrDefault(
+                                    arg => arg.Field<int>("f_schedule_id") ==
+                                           ordEls.Field<int>("f_schedule_id"))["f_schedule_name"].ToString(),
+                    });
 
 			return orderElements;
 		}

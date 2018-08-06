@@ -31,7 +31,7 @@ namespace SupRealClient.Views
         public AddUpdateRegionView()
         {
             InitializeComponent();
-            DataContext = new AddUpdateOrgsViewModel();
+            DataContext = new AddUpdateOrgsViewModel(this);
         }
 
         private void MetroWindow_Loaded(object sender, RoutedEventArgs e)

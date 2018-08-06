@@ -16,6 +16,8 @@ namespace SupRealClient.Views
             AfterInitialize();
             ((Base4ViewModel<EnumerationClasses.Region>)base4.DataContext)
                 .OkVisibility = visibility;
+            ((Base4ViewModel<EnumerationClasses.Region>)base4.DataContext)
+                .ScrollCurrentItem = base4.ScrollIntoViewCurrentItem;
             base4.Focus();
         }
 
@@ -44,6 +46,18 @@ namespace SupRealClient.Views
         private void SetDefaultColumn()
         {
             base4.baseTab.CurrentColumn = base4.baseTab.Columns[0];
+        }
+
+        private void MetroWindow_IsVisibleChanged(object sender, DependencyPropertyChangedEventArgs e)
+        {
+            Title = @"Регионы";
+            if (Visibility == Visibility.Visible)
+            {
+                if (ParentWindow is AddUpdateOrgsView)
+                {
+                    Title = @"Выбор региона";
+                }
+            }
         }
     }
 }

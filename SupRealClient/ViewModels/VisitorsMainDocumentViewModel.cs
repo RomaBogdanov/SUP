@@ -17,18 +17,20 @@ namespace SupRealClient.ViewModels
     public class VisitorsMainDocumentViewModel : INotifyPropertyChanged
     {
         public event PropertyChangedEventHandler PropertyChanged;
-        private VisitorsMainDocumentModel model;
+	    public event Action<string> _MoveNextFocusingElement;
+
+		private VisitorsMainDocumentModel model;
 
         private int documentId = -1;
         private string docType = "";
         private string seria = "";
         private string num = "";
-        private DateTime date;
-        private DateTime dateTo;
-        private string org = "";
+        private DateTime date=DateTime.Now;
+        private DateTime dateTo= DateTime.Now;
+		private string org = "";
         private string code = "";
-        private DateTime birthDate;
-        private string comment = "";
+        private DateTime birthDate= DateTime.Now;
+		private string comment = "";
 
 	 private string image = "";
 
@@ -192,8 +194,10 @@ namespace SupRealClient.ViewModels
 
         public VisitorsMainDocumentViewModel(bool editable)
         {
-            Editable = editable;
-        }
+			//Изменение
+			//Editable = editable;
+			Editable = true;
+		}
 
 	    public void SetModel(VisitorsMainDocumentModel model, CPerson person)
 	    {
@@ -337,7 +341,9 @@ namespace SupRealClient.ViewModels
             documentId = result.Id;
             DocType = result.Name;
             OnPropertyChanged("DocType");
-        }
+
+	        _MoveNextFocusingElement?.Invoke("SetDocumentType");
+		}
 
         private void Clear()
         {

@@ -22,7 +22,7 @@ namespace SupRealClient.Views
         public AddUpdateOrgsView(IAddUpdateOrgsModel model)
         {
             model.OnClose += Handling_OnClose;
-            DataContext = new AddUpdateOrgsViewModel();
+            DataContext = new AddUpdateOrgsViewModel(this);
             ((AddUpdateOrgsViewModel)DataContext).SetModel(model);
             InitializeComponent();
             
@@ -35,7 +35,7 @@ namespace SupRealClient.Views
         public AddUpdateOrgsView()
         {
             InitializeComponent();            
-            DataContext = new AddUpdateOrgsViewModel();
+            DataContext = new AddUpdateOrgsViewModel(this);
         }
 
         private void MetroWindow_Loaded(object sender, RoutedEventArgs e)
@@ -44,6 +44,16 @@ namespace SupRealClient.Views
 
             if (!butFullName.IsEnabled)
                  this.Background = Brushes.LightGreen;
+
+            TypeTextBox.KeyUp -= TextBox_OnKeyUp;
+        }
+
+        /// <summary>
+        /// Для не раскрытия списка TypeTextBox, при открытии формы с помощью Ctrl+D
+        /// </summary>
+        private void TypeTextBox_PreviewKeyDown(object sender, KeyEventArgs e)
+        {
+            TypeTextBox.KeyUp += TextBox_OnKeyUp;
         }
 
         private void TextBox_OnKeyUp(object sender, KeyEventArgs e)
@@ -54,6 +64,7 @@ namespace SupRealClient.Views
                 if (elementWithFocus != null)
                 {
                     elementWithFocus.MoveFocus(_focusMover);
+                    e.Handled = true;
                 }
             }
             else if (sender is ComboBox && ((ComboBox)sender).Name == "TypeTextBox")
@@ -82,12 +93,12 @@ namespace SupRealClient.Views
             }
         }
 
-        int selectionStartType;
         void TypeTextBoxTextChanged(object sender, KeyEventArgs e)
         {
             if (e.Key == Key.Left || e.Key == Key.Right || e.Key == Key.Escape)
                 return;
-            
+
+            int selectionStartType;
             var textBox = (TypeTextBox.Template.FindName("PART_EditableTextBox",
                            TypeTextBox) as TextBox);    
 
@@ -107,8 +118,7 @@ namespace SupRealClient.Views
 
             textBox.SelectionStart = selectionStartType;            
         }
-
-        int selectionStartName;
+        
         void NameTextBoxTextChanged(object sender, KeyEventArgs e)
         {
             if (e.Key == Key.Left || e.Key == Key.Right || e.Key == Key.Escape)
@@ -117,6 +127,7 @@ namespace SupRealClient.Views
             var textBox = (NameTextBox.Template.FindName("PART_EditableTextBox",
                            NameTextBox) as TextBox);
 
+            int selectionStartName;
             if (e.Key != Key.Up && e.Key != Key.Down)
             {
                 selectionStartName = textBox.SelectionStart;
@@ -132,6 +143,6 @@ namespace SupRealClient.Views
                 NameTextBox.IsDropDownOpen = false;
 
             textBox.SelectionStart = selectionStartName;
-        }        
+        }
     } 
 }

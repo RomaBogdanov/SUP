@@ -14,7 +14,7 @@ namespace SupRealClient.Views
         Action ScrollCurrentItem { get; set; }
 
         ObservableCollection<T> Set { get; set; }
-        CollectionView CollectionView { get; }
+        CollectionView SetCollection { get; }
         T CurrentItem { get; set; }
         int SelectedIndex { get; set; }
         DataGridColumn CurrentColumn { get; set; }

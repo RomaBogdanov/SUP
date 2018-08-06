@@ -51,10 +51,10 @@ namespace SupRealClient.ViewModels
         /// <param name="addItem1Model"></param>
         private void SetTitle(IAddItem1Model addItem1Model)
         {
-            this.Caption = addItem1Model is AddItemDocumentsModel ? "Добавление документа" :
+            this.Caption = addItem1Model is AddItemDocumentsModel ? "Добавить документ" :
                 addItem1Model is UpdateItemDocumentsModel ? "Редактирование документа" :
-                addItem1Model is AddItemNationsModel ? "Добавление" :
-                addItem1Model is UpdateItemNationsModel ? "Редактирование" :
+                addItem1Model is AddItemNationsModel ? "Добавить страну" :
+                addItem1Model is UpdateItemNationsModel ? "Редактирование страны" :
                 string.Empty;
         }
 
