@@ -101,36 +101,6 @@ namespace SupRealClient.Views
 		}
 
 		/// <summary>
-		/// Обработка нажатия клавиш в окне
-		/// </summary>
-		/// <param name="sender"></param>
-		/// <param name="e"></param>
-		private void MainWindow_PreviewKeyDown(object sender, KeyEventArgs e)
-		{
-			if (e.Key == Key.Escape)
-			{
-				Close();
-				e.Handled = true;
-			}
-
-			if (e.Key == Key.Enter && !EnterUiElementsSequence.Any(x => x.Equals(_previousEnterUiElement)))
-			{
-				switch (comboMenu.SelectedIndex)
-				{
-					case 0:
-						dpSingleOrderDate.Focus();
-						break;
-					case 1:
-						cbTempOrderUnlimited.Focus();
-						break;
-					case 2:
-						cbVirtOrderUnlimited.Focus();
-						break;
-				}
-			}
-		}
-
-		/// <summary>
 		/// Реакция на нажатие Enter
 		/// Для кнопок первое нажатие активирует кнопку, а второе - переводит фокус на следующий элемент
 		/// </summary>
@@ -190,6 +160,74 @@ namespace SupRealClient.Views
 		private void tableItem_MouseDoubleClick(object sender, MouseButtonEventArgs e)
 		{
 			((BidsViewModel) DataContext).OpenUserWindow(((DataGridRow)sender).Item);
+		}
+
+		/// <summary>
+		/// Обработка нажатия клавиш в окне
+		/// </summary>
+		/// <param name="sender"></param>
+		/// <param name="e"></param>
+		private void MainWindow_PreviewKeyDown(object sender, KeyEventArgs e)
+		{
+			if (e.Key == Key.Escape)
+			{
+				if (btnCancel.IsEnabled) 
+				{
+					btnCancel.Command.Execute(null);
+				}
+				else
+				{
+					Close();
+				}
+				e.Handled = true;
+			} else if (e.Key == Key.S && Keyboard.IsKeyDown(Key.LeftCtrl) && btnOk.IsEnabled)
+			{
+				btnOk.Command.Execute(null);
+			} else if (e.Key == Key.Left && Keyboard.IsKeyDown(Key.LeftCtrl) || e.Key == Key.Home)
+			{
+				btnToFirst.Command.Execute(null);
+				e.Handled = true;
+			} else if (e.Key == Key.Right && Keyboard.IsKeyDown(Key.LeftCtrl) || e.Key == Key.End)
+			{
+				btnToLast.Command.Execute(null);
+				e.Handled = true;
+			}
+			else if (e.Key == Key.Up && Keyboard.IsKeyDown(Key.LeftCtrl))
+			{
+				btnNext.Command.Execute(null);
+				e.Handled = true;
+			}
+			else if (e.Key == Key.Down && Keyboard.IsKeyDown(Key.LeftCtrl))
+			{
+				btnPrevious.Command.Execute(null);
+				e.Handled = true;
+			} else if (e.Key == Key.F2 || e.Key == Key.D && Keyboard.IsKeyDown(Key.LeftCtrl))
+			{
+				btnEditOrder.Command.Execute(null);
+				e.Handled = true;
+			} else if (e.Key == Key.F5)
+			{
+				btnReload.Command.Execute(null);
+				e.Handled = true;
+			} else if (e.Key == Key.Insert)
+			{
+				btnAddOrder.Command.Execute(null);
+				e.Handled = true;
+			} else if (e.Key == Key.Enter && !EnterUiElementsSequence.Any(x => x.Equals(_previousEnterUiElement)))
+			{
+				switch (comboMenu.SelectedIndex)
+				{
+					case 0:
+						dpSingleOrderDate.Focus();
+						break;
+					case 1:
+						cbTempOrderUnlimited.Focus();
+						break;
+					case 2:
+						cbVirtOrderUnlimited.Focus();
+						break;
+				}
+			}
 		}
 	}
 }
