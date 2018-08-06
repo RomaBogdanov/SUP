@@ -56,12 +56,12 @@ namespace SupRealClient.ViewModels
 				bidsModel.OnRefresh += BidsModel_OnRefresh;
 			}
 		}
-		public OrderElement UpdateVisitor
+		public OrderElement SelectedElement
 		{
-			get { return BidsModel?.UpdateVisitor; }
+			get { return BidsModel?.SelectedElement; }
 			set
 			{
-				BidsModel.UpdateVisitor = value;
+				BidsModel.SelectedElement = value;
 				OnPropertyChanged();
 			}
 		}
@@ -431,7 +431,7 @@ namespace SupRealClient.ViewModels
 		private void UpdatePerson()
 		{
 			BidsModel.UpdatePerson();
-			UpdateVisitor = BidsModel.UpdateVisitor;
+			SelectedElement = BidsModel.SelectedElement;
 		}
 
 		/// <summary>
@@ -440,6 +440,7 @@ namespace SupRealClient.ViewModels
 		private void DeletePerson()
 		{
 			BidsModel.DeletePerson();
+			SelectedElement = BidsModel.SelectedElement;
 		}
 
 		private void Begin()
@@ -530,6 +531,8 @@ namespace SupRealClient.ViewModels
 			BidsModel = new EditBidsModel(CurrentSingleOrder,
 				CurrentTemporaryOrder, CurrentVirtueOrder, CurrentOrder);
 
+			SelectedElement = BidsModel.SelectedElement;
+
 			ChangeCurrentSelectedOrder();
 
 			TextEnable = true; // При открытии окна поля недоступны.
@@ -539,22 +542,31 @@ namespace SupRealClient.ViewModels
 
 		private void Ok()
 		{
-			BidsModel.Ok();
-
+			Order currentOrder;
 			switch (CurrentOrderType)
 			{
 				case OrderType.Single:
-					CurrentSelectedOrder = BidsModel.CurrentSingleOrder;
+					currentOrder = BidsModel.CurrentSingleOrder;
 					break;
 				case OrderType.Temp:
-					CurrentSelectedOrder = BidsModel.CurrentTemporaryOrder;
+					currentOrder= BidsModel.CurrentTemporaryOrder;
 					break;
 				case OrderType.Virtue:
-					CurrentSelectedOrder = BidsModel.CurrentVirtueOrder;
+					currentOrder = BidsModel.CurrentVirtueOrder;
 					break;
 				default:
 					throw new ArgumentOutOfRangeException();
 			}
+
+			if (!currentOrder.IsOrderDataCorrect(CurrentOrderType,out string errorMessage))
+			{
+				MessageBox.Show(errorMessage, "Ошибка");
+				return;
+			}
+
+			BidsModel.Ok();
+
+			CurrentSelectedOrder = currentOrder;
 
 			BidsModel = new BidsModel();
 
@@ -696,6 +708,14 @@ namespace SupRealClient.ViewModels
 			}
 
 			CurrentVirtueOrder = CurrentVirtueOrder;
+		}
+
+		public void OpenUserWindow(object item)
+		{
+			if (item is OrderElement orderElement)
+			{
+				//todo:Открытие окна посетителя
+			}
 		}
 	}
 }

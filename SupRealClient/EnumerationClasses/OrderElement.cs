@@ -6,6 +6,7 @@ using System.ComponentModel;
 using System.Runtime.CompilerServices;
 using SupRealClient.Annotations;
 using SupRealClient.TabsSingleton;
+using SupRealClient.Common;
 
 namespace SupRealClient.EnumerationClasses
 {
@@ -304,9 +305,6 @@ namespace SupRealClient.EnumerationClasses
 			}
 		}
 
-
-
-
 		public event PropertyChangedEventHandler PropertyChanged;
 
 		[NotifyPropertyChangedInvocator]
@@ -328,5 +326,47 @@ namespace SupRealClient.EnumerationClasses
 
 		public ObservableCollection<Area> DeletedAreas { get; set; } =
 			new ObservableCollection<Area>();
+
+		public bool IsOrderElementDataCorrect(out string errorMessage)
+		{
+			if (VisitorId == 0)
+			{
+				errorMessage = "Не выбран посетитель.";
+				return false;
+			}
+
+			if (OrganizationId == 0)
+			{
+				errorMessage = "Не выбрана организация.";
+				return false;
+			}
+
+			if (string.IsNullOrEmpty(Position))
+			{
+				errorMessage = "Не указана должность.";
+				return false;
+			}
+
+			if (string.IsNullOrEmpty(Passes))
+			{
+				errorMessage = "Необходимо выбрать хотя бы один проход.";
+				return false;
+			}
+
+			if (From.TimeOfDay > To.TimeOfDay)
+			{
+				errorMessage = " \"Время от\" не может быть позже, чем \"Время до\"";
+				return false;
+			}
+
+			if (!CommonHelper.IsPositionCorrect(Position))
+			{
+				errorMessage = "Неверно введена должность.";
+				return false;
+			}
+
+			errorMessage = null;
+			return true;
+		}
 	}
 }

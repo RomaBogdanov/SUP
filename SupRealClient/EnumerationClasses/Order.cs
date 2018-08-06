@@ -18,7 +18,7 @@ namespace SupRealClient.EnumerationClasses
 		{
 			OrderElements = new ObservableCollection<OrderElement>();
 
-			if (autoCreateFirstElement == true)
+			if (autoCreateFirstElement)
 			{
 				OrderElements.Add(new OrderElement(false));
 			}
@@ -245,5 +245,44 @@ namespace SupRealClient.EnumerationClasses
 
 		public ObservableCollection<OrderElement> AddedOrderElements { get; set; } =
 			new ObservableCollection<OrderElement>();
+
+		public bool IsOrderDataCorrect(OrderType orderType,out string errorMessage)
+		{
+			if (OrderElements.Count < 1)
+			{
+				errorMessage = "Заявка не содержит ни одного элемента.";
+				return false;
+			}
+
+			if (orderType != EnumerationClasses.OrderType.Single && From > To)
+			{
+				errorMessage = "Неверные даты. Дата начала заявки раньше даты конца заявки.";
+				return false;
+			}
+
+			for (int i = 0; i < OrderElements.Count; i++)
+			{
+				if (orderType == EnumerationClasses.OrderType.Virtue)
+				{
+					if (string.IsNullOrEmpty(OrderElements[i].Reason))
+					{
+						errorMessage = "Отсутсвует обоснование.";
+						return false;
+					}
+				}
+
+				if (!OrderElements[i].IsOrderElementDataCorrect(out errorMessage))
+				{
+					if (orderType != EnumerationClasses.OrderType.Virtue)
+					{
+						errorMessage = "Ошибка в элементе заявки " + (i + 1) + ": " + errorMessage;
+					}
+					return false;
+				}
+			}
+
+			errorMessage = null;
+			return true;
+		}
 	}
 }
