@@ -248,11 +248,11 @@ namespace SupRealClient.EnumerationClasses
 
 		public bool IsOrderDataCorrect(OrderType orderType,out string errorMessage)
 		{
-			if (OrderElements.Count < 1)
-			{
-				errorMessage = "Заявка не содержит ни одного элемента.";
-				return false;
-			}
+			//if (OrderElements.Count < 1)
+			//{
+			//	errorMessage = "Заявка не содержит ни одного элемента.";
+			//	return false;
+			//}
 
 			if (orderType != EnumerationClasses.OrderType.Single && From > To)
 			{
@@ -266,7 +266,7 @@ namespace SupRealClient.EnumerationClasses
 				{
 					if (string.IsNullOrEmpty(OrderElements[i].Reason))
 					{
-						errorMessage = "Отсутсвует обоснование.";
+						errorMessage = "Отсутсвует основание.";
 						return false;
 					}
 				}
