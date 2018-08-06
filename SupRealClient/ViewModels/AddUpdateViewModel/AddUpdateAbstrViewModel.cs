@@ -46,8 +46,8 @@ namespace SupRealClient.ViewModels.AddUpdateViewModel
 
         public object CurrentItem
         {
-            get => Model.CurrentItem;
-	        set
+            get { return Model.CurrentItem; }
+            set
             {
                 Model.CurrentItem = value;
                 OnPropertyChanged();
@@ -56,8 +56,8 @@ namespace SupRealClient.ViewModels.AddUpdateViewModel
 
         public string OkCaption
         {
-            get => okCaption;
-	        set
+            get { return okCaption; }
+            set
             {
                 okCaption = value;
                 OnPropertyChanged();
@@ -66,8 +66,8 @@ namespace SupRealClient.ViewModels.AddUpdateViewModel
 
         public string Title
         {
-            get => title;
-	        set
+            get { return title; }
+            set
             {
                 title = value;
                 OnPropertyChanged();
@@ -129,9 +129,9 @@ namespace SupRealClient.ViewModels.AddUpdateViewModel
 	    public AddUpdateBidsViewModel(AddUpdateAbstrModel model) : base()
 	    {
 		    Model = model;
-			ChooseVisitor = new RelayCommand(arg => ChooseVisitorCommand());
-		    ChooseOrganization = new RelayCommand(arg => ChooseOrganizationCommand());
-		    ChooseCatcher = new RelayCommand(arg => ChooseCatcherCommand());
+			ChooseVisitor = new RelayCommand(arg => VisitorNameCommand());
+		    ChooseOrganization = new RelayCommand(arg => OrganizationNameCommand());
+		    ChooseCatcher = new RelayCommand(arg => CatcherNameCommand());
 		    UpdateZones = new RelayCommand(arg => UpdateZonesCommand());
 
 		    ClearVisitor = new RelayCommand(arg => ClearVisitorCommand());
@@ -141,7 +141,7 @@ namespace SupRealClient.ViewModels.AddUpdateViewModel
 		    ClearZones = new RelayCommand(arg => ClearZonesCommand());
 		}
 
-		private void ChooseVisitorCommand()
+		private void VisitorNameCommand()
         {
             VisitorsModelResult result = ViewManager.Instance.OpenWindowModal(
                 "VisitorsListWindViewOk", null) as VisitorsModelResult;
@@ -158,7 +158,7 @@ namespace SupRealClient.ViewModels.AddUpdateViewModel
 			CurrentItem = CurrentItem;
         }
 
-	    private void ChooseOrganizationCommand()
+	    private void OrganizationNameCommand()
 	    {
 		    BaseModelResult result = ViewManager.Instance.OpenWindowModal(
 				"Base4OrganizationsWindView", null) as BaseModelResult;
@@ -170,7 +170,7 @@ namespace SupRealClient.ViewModels.AddUpdateViewModel
 		    CurrentItem = CurrentItem;
 		}
 
-        private void ChooseCatcherCommand()
+        private void CatcherNameCommand()
         {
             VisitorsModelResult result = ViewManager.Instance.OpenWindowModal(
                 "VisitorsListWindViewOk", null) as VisitorsModelResult;

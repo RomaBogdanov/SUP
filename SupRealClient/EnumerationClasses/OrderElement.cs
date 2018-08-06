@@ -263,14 +263,13 @@ namespace SupRealClient.EnumerationClasses
 			}
 		}
 
-		private string passes = "";
-
+		private string _passes = "";
 		public string Passes
 		{
-			get { return passes; }
+			get => _passes;
 			set
 			{
-				passes = value;
+				_passes = value;
 				OnPropertyChanged();
 			}
 		}
@@ -280,9 +279,32 @@ namespace SupRealClient.EnumerationClasses
 		/// </summary>
 		public bool IsDisable { get; set; }
 
-		public bool IsBlock { get; set; }
+		private bool _isBlock;
+
+		public bool IsBlock
+		{
+			get { return _isBlock; }
+			set
+			{
+				_isBlock = value;
+				OnPropertyChanged();
+			}
+		}
+
+		private bool _isCardIssued;
+
+		public bool IsCardIssued
+		{
+			get { return _isCardIssued; }
+			set
+			{
+				_isCardIssued = value;
+				OnPropertyChanged();
+			}
+		}
 
 		private string blockingNote;
+
 		public string BlockingNote
 		{
 			get { return blockingNote; }
@@ -293,20 +315,19 @@ namespace SupRealClient.EnumerationClasses
 			}
 		}
 
+        private string _reason;
 
-		private string _reason;
+        public string Reason
+        {
+            get => _reason;
+            set
+            {
+                _reason = value;
+                OnPropertyChanged();
+            }
+        }
 
-		public string Reason
-		{
-			get => _reason;
-			set
-			{
-				_reason = value;
-				OnPropertyChanged();
-			}
-		}
-
-		public event PropertyChangedEventHandler PropertyChanged;
+        public event PropertyChangedEventHandler PropertyChanged;
 
 		[NotifyPropertyChangedInvocator]
 		protected virtual void OnPropertyChanged([CallerMemberName] string propertyName = null)
@@ -360,46 +381,46 @@ namespace SupRealClient.EnumerationClasses
 
         public string AreaIdList { get; set; } = "";
 
-		public bool IsOrderElementDataCorrect(out string errorMessage)
-		{
-			if (VisitorId == 0)
-			{
-				errorMessage = "Не выбран посетитель.";
-				return false;
-			}
+        public bool IsOrderElementDataCorrect(out string errorMessage)
+        {
+            if (VisitorId == 0)
+            {
+                errorMessage = "Не выбран посетитель.";
+                return false;
+            }
 
-			if (OrganizationId == 0)
-			{
-				errorMessage = "Не выбрана организация.";
-				return false;
-			}
+            if (OrganizationId == 0)
+            {
+                errorMessage = "Не выбрана организация.";
+                return false;
+            }
 
-			if (string.IsNullOrEmpty(Position))
-			{
-				errorMessage = "Не указана должность.";
-				return false;
-			}
+            if (string.IsNullOrEmpty(Position))
+            {
+                errorMessage = "Не указана должность.";
+                return false;
+            }
 
-			if (string.IsNullOrEmpty(Passes))
-			{
-				errorMessage = "Необходимо выбрать хотя бы один проход.";
-				return false;
-			}
+            if (string.IsNullOrEmpty(Passes))
+            {
+                errorMessage = "Необходимо выбрать хотя бы один проход.";
+                return false;
+            }
 
-			if (From.TimeOfDay > To.TimeOfDay)
-			{
-				errorMessage = " \"Время от\" не может быть позже, чем \"Время до\"";
-				return false;
-			}
+            if (From.TimeOfDay > To.TimeOfDay)
+            {
+                errorMessage = " \"Время от\" не может быть позже, чем \"Время до\"";
+                return false;
+            }
 
-			if (!CommonHelper.IsPositionCorrect(Position))
-			{
-				errorMessage = "Неверно введена должность.";
-				return false;
-			}
+            if (!CommonHelper.IsPositionCorrect(Position))
+            {
+                errorMessage = "Неверно введена должность.";
+                return false;
+            }
 
-			errorMessage = null;
-			return true;
-		}
-	}
+            errorMessage = null;
+            return true;
+        }
+    }
 }
