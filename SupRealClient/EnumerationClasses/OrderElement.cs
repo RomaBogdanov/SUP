@@ -263,14 +263,13 @@ namespace SupRealClient.EnumerationClasses
 			}
 		}
 
-		private string passes = "";
-
+		private string _passes = "";
 		public string Passes
 		{
-			get { return passes; }
+			get => _passes;
 			set
 			{
-				passes = value;
+				_passes = value;
 				OnPropertyChanged();
 			}
 		}

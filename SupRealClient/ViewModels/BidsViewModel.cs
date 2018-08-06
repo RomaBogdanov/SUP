@@ -678,10 +678,13 @@ namespace SupRealClient.ViewModels
 		{
 			OrderElement currentOrderElement = CurrentVirtueOrder.FirstOrderElement;
 
-			AddUpdateAbstrModel zonesModel = new AddUpdateZonesToBidModel(currentOrderElement);
+			// todo: переделать нормально
+			AddUpdateAbstrModel zonesModel = new AddUpdateZonesToBidModel(
+				currentOrderElement);
 			AddUpdateBaseViewModel viewModel = new AddUpdateZonesToBidViewModel
 			{
-				Model = zonesModel
+				Model = zonesModel,
+				Schedule = currentOrderElement.Schedule
 			};
 			AssigningZonesView wind = new AssigningZonesView
 			{
@@ -689,14 +692,19 @@ namespace SupRealClient.ViewModels
 			};
 			viewModel.Model.OnClose += wind.Handling_OnClose;
 			wind.ShowDialog();
-			if (wind.WindowResult as ObservableCollection<Area> == null)
+			if (wind.WindowResult as OrderElement == null)
 			{
 				return;
 			}
-			currentOrderElement.Areas = wind.WindowResult as
-				ObservableCollection<Area>;
+			currentOrderElement.Templates = (wind.WindowResult as OrderElement).Templates;
+			currentOrderElement.TemplateIdList =
+				AndoverEntityListHelper.EntitiesToString(currentOrderElement.Templates);
+			currentOrderElement.Areas = (wind.WindowResult as OrderElement).Areas;
+			currentOrderElement.AreaIdList =
+				AndoverEntityListHelper.AndoverEntitiesToString(currentOrderElement.Areas);
+			currentOrderElement.ScheduleId = (wind.WindowResult as OrderElement).ScheduleId;
 			string st = "";
-			foreach (var area in wind.WindowResult as ObservableCollection<Area>)
+			foreach (var area in (wind.WindowResult as OrderElement).Areas)
 			{
 				st += area.Name + ", ";
 			}
