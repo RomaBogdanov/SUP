@@ -21,12 +21,6 @@ namespace SupRealClient.Views
 
 		public override void Add()
 		{
-			//Visitor.AddVisitorView wind = new Visitor.AddVisitorView();
-			//wind.Show();
-			//ViewManager.Instance.OpenWindow("VisitorsViewNew");
-			/*VisitorsView.Instance.Show();
-			VisitorsView.Instance.NewVisitor();*/
-			//object res = ViewManager.Instance.OpenWindowModal("VisitorsView");
 			ViewManager.Instance.OpenWindow("BidsView", this.Parent);
 		}
 
@@ -52,7 +46,8 @@ namespace SupRealClient.Views
 			{
 				Id = CurrentItem.Id,
 				Name = CurrentItem.RegNumber,
-				OrderDate = CurrentItem.OrderDate,
+				From = CurrentItem.From,
+				To = CurrentItem.To,
 				Notes = CurrentItem.Note
 			};
 		}
@@ -67,7 +62,8 @@ namespace SupRealClient.Views
 				{
 					Id = orders.Field<int>("f_ord_id"),
 					RegNumber = orders.Field<int>("f_reg_number").ToString(),
-					OrderDate = orders.Field<DateTime>("f_ord_date"),
+					From = orders.Field<DateTime>("f_date_from"),
+					To = orders.Field<DateTime>("f_date_to"),
 					Note = orders.Field<string>("f_notes")
 				}
 			);
@@ -83,7 +79,8 @@ namespace SupRealClient.Views
 			return new Dictionary<string, string>
 			{
 				{"RegNumber", "Номер заявки"},
-				{"OrderDate", "Дата заявки"},
+				{"From", "Дата начала"},
+				{"To", "Дата окончания"},
 				{"Note", "Примечание"},
 			};
 		}
