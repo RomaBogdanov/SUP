@@ -29,6 +29,17 @@ namespace SupRealClient.ViewModels
         }
         private string _description;
 
+        public string Title
+        {
+            get { return title; }
+            set
+            {
+                title = value;
+                OnPropertyChanged();
+            }
+        }
+        private string title;
+
         public IModel Model
         {
             get { return _model; }
