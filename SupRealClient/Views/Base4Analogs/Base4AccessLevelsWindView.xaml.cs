@@ -1,4 +1,5 @@
-﻿using System.Windows.Controls;
+﻿using System.Windows;
+using System.Windows.Controls;
 using System.Windows.Data;
 
 namespace SupRealClient.Views
@@ -8,12 +9,14 @@ namespace SupRealClient.Views
     /// </summary>
     public partial class Base4AccessLevelsWindView
     {
-        public Base4AccessLevelsWindView()
+        public Base4AccessLevelsWindView(Visibility okVisibility)
         {
             InitializeComponent();
             base4.tbxSearch.Focus();
             AfterInitialize();
 
+            ((Base4ViewModel<EnumerationClasses.AccessLevel>)base4.DataContext)
+               .OkVisibility = okVisibility;
             ((Base4ViewModel<EnumerationClasses.AccessLevel>)base4.DataContext)
                .ScrollCurrentItem = base4.ScrollIntoViewCurrentItem;
             base4.Focus();

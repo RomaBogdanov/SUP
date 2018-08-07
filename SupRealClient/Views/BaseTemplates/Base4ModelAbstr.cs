@@ -627,6 +627,7 @@ namespace SupRealClient.Views
                     Lost = c.Field<DateTime?>("f_lost_date") > d
                         ? c.Field<DateTime?>("f_lost_date") : null,
                     State = s.Field<string>("f_state_text"),
+                    StateId = c.Field<int>("f_state_id"),
                     ReceiversName =
                         (cardsPersons.FirstOrDefault(p =>
                         p.IdCardHi == c.Field<int>("f_object_id_hi") &&
@@ -691,8 +692,10 @@ namespace SupRealClient.Views
             //base.Ok();
             // todo: обязательно просмотреть ситуацию стандартного использования данной кнопки.
             //MessageBox.Show("Test");
+            Card selectedCard = CurrentItem;
+
             CardsWrapper cards = CardsWrapper.CurrentTable();
-            DataRow row = cards.Table.Rows.Find(CurrentItem.Id);
+            DataRow row = cards.Table.Rows.Find(selectedCard.Id);
             row.BeginEdit();
             row["f_rec_operator"] = Authorizer.AppAuthorizer.Id;
             row["f_rec_date"] = DateTime.Now;
@@ -701,8 +704,8 @@ namespace SupRealClient.Views
 
             // todo: Добавляем карту и персону в список визитов. Всё под рефакторинг!!!
             DataRow row1 = VisitsWrapper.CurrentTable().Table.NewRow();
-            row1["f_card_id_hi"] = CurrentItem.CardIdHi;
-            row1["f_card_id_lo"] = CurrentItem.CardIdLo;
+            row1["f_card_id_hi"] = selectedCard.CardIdHi;
+            row1["f_card_id_lo"] = selectedCard.CardIdLo;
             row1["f_visitor_id"] = visitorId; //todo: проставить id визитёра
             row1["f_time_out"] = DateTime.Now; //todo: пока непонятно, что за дата
             row1["f_time_in"] = DateTime.Now; //todo: пока непонятно, что за дата
@@ -710,6 +713,7 @@ namespace SupRealClient.Views
             row1["f_date_from"] = DateTime.Now; //todo: пока непонятно, что за дата
             row1["f_date_to"] = DateTime.Now; //todo: пока непонятно, что за дата
             row1["f_order_id"] = 1; //todo: номер заявки, проставить, хотя тут непонятно, потому что карта может выставляться по нескольким заявкам.
+            row1["f_orders"] = AndoverEntityListHelper.EntitiesToString(orders);
             row1["f_rec_date"] = DateTime.Now;
             row1["f_rec_operator"] = Authorizer.AppAuthorizer.Id;
             row1["f_reason"] = "резон"; //todo: пока непонятно, что с полем делать
@@ -720,23 +724,47 @@ namespace SupRealClient.Views
             VisitsWrapper.CurrentTable().Table.Rows.Add(row1);
 
             List<CardArea> list = new List<CardArea>();
-
-            // TODO - добавить шаблоны
-            // создаём связь: карта - зоны доступа
             foreach (var order in orders)
             {
                 var ordels = order.OrderElements.Where(arg => arg.VisitorId == visitorId);
                 foreach (var orderElement in ordels)
                 {
-                    foreach (var orderElementArea in orderElement.Areas)
+                    foreach (var id in
+                        AndoverEntityListHelper.StringToEntityIds(orderElement.TemplateIdList))
                     {
-                        list.Add(new CardArea
+                        DataRow template = TemplatesWrapper.CurrentTable().Table.Rows.Find(id);
+                        foreach (var area in AndoverEntityListHelper.StringToAndoverEntityIds(
+                            template.Field<string>("f_template_areas")))
                         {
-                            AreaIdHi = orderElementArea.ObjectIdHi,
-                            AreaIdLo = orderElementArea.ObjectIdLo,
-                            CardIdHi = (int)row["f_card_id_hi"],
-                            CardIdLo = (int)row["f_card_id_lo"]
-                        }); 
+                            if (list.FirstOrDefault(l => l.AreaIdHi == area.Key &&
+                                l.AreaIdLo == area.Value) == null)
+                            {
+                                list.Add(new CardArea
+                                {
+                                    AreaIdHi = area.Key,
+                                    AreaIdLo = area.Value,
+                                    CardIdHi = (int)row1["f_card_id_hi"],
+                                    CardIdLo = (int)row1["f_card_id_lo"]
+                                });
+                            }
+                        }
+                    }
+
+                    foreach (var orderElementArea in AndoverEntityListHelper.
+                        StringToAndoverEntityIds(orderElement.AreaIdList))
+                    {
+                        if (list.FirstOrDefault(l =>
+                            l.AreaIdHi == orderElementArea.Key &&
+                            l.AreaIdLo == orderElementArea.Value) == null)
+                        {
+                            list.Add(new CardArea
+                            {
+                                AreaIdHi = orderElementArea.Key,
+                                AreaIdLo = orderElementArea.Value,
+                                CardIdHi = (int)row1["f_card_id_hi"],
+                                CardIdLo = (int)row1["f_card_id_lo"]
+                            });
+                        }
                     }
                 }
             }
@@ -753,43 +781,19 @@ namespace SupRealClient.Views
                 CardAreaWrapper.CurrentTable().Table.Rows.Add(r);
             });
 
-            Close();
-            /*
-            // работа с Андовер
-            ObservableCollection<Card> set;
-            ObservableCollection<AndoverTestViewModel.AccessPointEx> zones;
+            // TODO - здесь выгрузить в Andover
+            // Предположительно понадобятся поля:
+            // - row["f_card_num"] 
+            // - список областей доступа (получить из list)
+            // - список расписаний (orderElement.Schedule)
 
-            zones = new ObservableCollection<AndoverTestViewModel.AccessPointEx>(
-                from accpnt in AccessPointsWrapper.CurrentTable().Table.AsEnumerable()
-                where accpnt.Field<int>("f_access_point_id") != 0 &&
-                      CommonHelper.NotDeleted(accpnt)
-                select new AndoverTestViewModel.AccessPointEx
-                {
-                    Id = accpnt.Field<int>("f_access_point_id"),
-                    Name = accpnt.Field<string>("f_access_point_name"),
-                    Descript = accpnt.Field<string>("f_access_point_description"),
-                    SpaceIn = accpnt.Field<string>("f_access_point_space_in"),
-                    SpaceOut = accpnt.Field<string>("f_access_point_space_out"),
-                    Path = accpnt.Field<string>("f_access_point_path"),
-                });*/
-            
-
-            /*CardsWrapper cards = CardsWrapper.CurrentTable();
-            DataRow row = cards.Table.Rows.Find(card.Id);
-            row.BeginEdit();
-            row["f_card_num"] = data.CurdNum;
-            row["f_card_text"] = data.NumMAFW;
-            row["f_comment"] = data.Comment;
-            row["f_rec_operator"] = Authorizer.AppAuthorizer.Id;
-            row["f_rec_date"] = data.CreateDate;
-            row.EndEdit();
-            Cancel();*/
+            this.Close();
         }
 
         protected override void DoQuery()
         {
             base.DoQuery();
-            Set = new ObservableCollection<T>(Set.Where(arg => arg.State.ToUpper() == "АКТИВЕН"));
+            Set = new ObservableCollection<T>(Set.Where(arg => arg.StateId == 1));
         }
 
         public override bool Remove()
@@ -831,7 +835,8 @@ namespace SupRealClient.Views
             AddUpdateAbstrModel model = new UpdateAreaModel(CurrentItem);
             AddUpdateBaseViewModel viewModel = new AddUpdateBaseViewModel
             {
-                Model = model
+                Model = model,
+                Title = @"Редактирование области доступа"
             };
             AddUpdateAreaWindView view = new AddUpdateAreaWindView();
             view.DataContext = viewModel;
@@ -920,7 +925,8 @@ namespace SupRealClient.Views
             AddUpdateAbstrModel model = new AddAreaSpaceModel();
             AddUpdateBaseViewModel viewModel = new AddUpdateAreaSpaceViewModel
             {
-                Model = model
+                Model = model,
+                Title = @"Добавить связь"
             };
             AddUpdateAreaSpaceWindView view = new AddUpdateAreaSpaceWindView();
             view.DataContext = viewModel;
@@ -934,7 +940,8 @@ namespace SupRealClient.Views
             AddUpdateAbstrModel model = new UpdateAreaSpaceModel(CurrentItem);
             AddUpdateBaseViewModel viewModel = new AddUpdateAreaSpaceViewModel
             {
-                Model = model
+                Model = model,
+                Title = @"Редактирование связи"
             };
             AddUpdateAreaSpaceWindView view = new AddUpdateAreaSpaceWindView();
             view.DataContext = viewModel;
@@ -1015,7 +1022,8 @@ namespace SupRealClient.Views
             AddUpdateAbstrModel model = new UpdateAccessPointModel(CurrentItem);
             AddUpdateBaseViewModel viewModel = new AddUpdateBaseViewModel
             {
-                Model = model
+                Model = model,
+                Title = @"Редактирование точки доступа"
             };
             AddUpdateAccessPointWindView view = new AddUpdateAccessPointWindView();
             view.DataContext = viewModel;
@@ -1108,7 +1116,8 @@ namespace SupRealClient.Views
             AddUpdateAbstrModel model = new AddRealKeyModel();
             AddUpdateBaseViewModel viewModel = new AddUpdateBaseViewModel
             {
-                Model = model
+                Model = model,
+                Title = @"Добавить ключ"
             };
             AddUpdateKeyWindView view = new AddUpdateKeyWindView();
             view.DataContext = viewModel;
@@ -1191,7 +1200,8 @@ namespace SupRealClient.Views
             AddUpdateAbstrModel model = new UpdateScheduleModel(CurrentItem);
             AddUpdateBaseViewModel viewModel = new AddUpdateBaseViewModel
             {
-                Model = model
+                Model = model,
+                Title = @"Редактирование расписания"
             };
             AddUpdateScheduleWindView view = new AddUpdateScheduleWindView();
             view.DataContext = viewModel;
@@ -1280,7 +1290,8 @@ namespace SupRealClient.Views
             AddUpdateAbstrModel model = new AddAccessLevelModel();
             AddUpdateBaseViewModel viewModel = new AddUpdateAccessLevelViewModel
             {
-                Model = model
+                Model = model,
+                Title = @"Добавить область доступа"
             };
             AddUpdateAccessLevelWindView view = new AddUpdateAccessLevelWindView();
             view.DataContext = viewModel;
@@ -1294,7 +1305,8 @@ namespace SupRealClient.Views
             AddUpdateAbstrModel model = new UpdateAccessLevelModel(CurrentItem);
             AddUpdateBaseViewModel viewModel = new AddUpdateAccessLevelViewModel
             {
-                Model = model
+                Model = model,
+                Title = @"Редактирование области доступа"
             };
             AddUpdateAccessLevelWindView view = new AddUpdateAccessLevelWindView();
             view.DataContext = viewModel;
@@ -1382,7 +1394,8 @@ namespace SupRealClient.Views
             AddUpdateAbstrModel model = new AddCarModel();
             AddUpdateBaseViewModel viewModel = new AddUpdateBaseViewModel
             {
-                Model = model
+                Model = model,
+                Title = @"Добавить транспорт"
             };
             AddUpdateCarWindView view = new AddUpdateCarWindView();
             view.DataContext = viewModel;

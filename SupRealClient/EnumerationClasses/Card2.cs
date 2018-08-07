@@ -9,6 +9,7 @@ namespace SupRealClient.EnumerationClasses
     public class Card2 : IdEntity
     {
         public string Card { get; set; }
+        public string CardNumber { get; set; }
         public DateTime From { get; set; }
         public DateTime To { get; set; }
         public DateTime Change { get; set; }

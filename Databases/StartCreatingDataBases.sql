@@ -1040,14 +1040,15 @@ CREATE TABLE vis_visits
     f_rec_operator_back            int,
     f_rec_date_back                DATE,
     f_card_status                  nvarchar(1),
-    f_eff_zonen_text               nvarchar(1000))
+    f_eff_zonen_text               nvarchar(1000),
+	f_orders                       nvarchar(MAX))
 
 ALTER TABLE vis_visits
 ADD PRIMARY KEY (f_visit_id)
 
 if not exists(select * from vis_visits where f_visit_id = '0')
 begin
-	insert into vis_visits values ( '0', '', '', '', '', '', '', '', '', '', 'N', '', '', '', '', '', '', '')
+	insert into vis_visits values ( '0', '', '', '', '', '', '', '', '', '', 'N', '', '', '', '', '', '', '', '')
 end
 go
 

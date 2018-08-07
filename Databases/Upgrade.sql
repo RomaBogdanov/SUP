@@ -58,3 +58,16 @@ go
 UPDATE vis_order_elements SET f_oe_templates='', f_oe_areas='', f_schedule_id=0
 go
 
+
+-- Обновление таблицы vis_visits
+
+use Visitors;
+go
+
+ALTER TABLE vis_visits
+ADD
+	f_orders                       nvarchar(MAX)
+go
+
+UPDATE vis_visits SET f_orders=''
+go

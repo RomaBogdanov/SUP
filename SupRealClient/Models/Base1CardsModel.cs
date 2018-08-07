@@ -99,6 +99,7 @@ namespace SupRealClient.Models
                             Comment = c.Field<string>("f_comment"),
                             Lost = c.Field<DateTime?>("f_lost_date") > d
                                 ? c.Field<DateTime?>("f_lost_date") : null,
+                            StateId = c.Field<int>("f_state_id"),
                             State = s.Field<string>("f_state_text"),
                             ReceiversName = 
                                 (cardsPersons.FirstOrDefault(p => 

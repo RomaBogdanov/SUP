@@ -11,6 +11,7 @@ namespace SupRealClient.EnumerationClasses
         public DateTime CreateDate { get; set; }
         public int NumMAFW { get; set; }
         public string Comment { get; set; }
+        public int StateId { get; set; }
         public string State { get; set; }
         public string ReceiversName { get; set; }
         public DateTime? Lost { get; set; }
