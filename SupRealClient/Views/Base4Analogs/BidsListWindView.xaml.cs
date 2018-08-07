@@ -13,18 +13,18 @@ namespace SupRealClient.Views
 		public BidsListWindView(Visibility okVisibility)
 		{
 			InitializeComponent();
-			var viewModel = new Base4ViewModel<EnumerationClasses.Order>
+			var viewModel = new Base4ViewModel<Order>
 			{
 				OkCaption = "OK",
 				Parent = this,
-				//Model = new OrdersListModel<Order>()<EnumerationClasses.Order>()
+				Model = new OrdersListModel<Order>()
 			};
 			viewModel.Model.OnClose += Handling_OnClose;
 			base4.DataContext = viewModel;
 			AfterInitialize();
-			((Base4ViewModel<EnumerationClasses.Order>) base4.DataContext)
+			((Base4ViewModel<Order>) base4.DataContext)
 				.OkVisibility = okVisibility;
-			((Base4ViewModel<EnumerationClasses.Order>) base4.DataContext)
+			((Base4ViewModel<Order>) base4.DataContext)
 				.ScrollCurrentItem = base4.ScrollIntoViewCurrentItem;
 		}
 
@@ -32,20 +32,26 @@ namespace SupRealClient.Views
 		{
 			DataGridTextColumn dataGridTextColumn = new DataGridTextColumn
 			{
-				Header = "ФИО",
-				Binding = new Binding("FullName")
+				Header = "Номер заявки",
+				Binding = new Binding("RegNumber")
 			};
 			base4.baseTab.Columns.Add(dataGridTextColumn);
 			dataGridTextColumn = new DataGridTextColumn
 			{
-				Header = "Организация",
-				Binding = new Binding("Organization")
+				Header = "Дата начала",
+				Binding = new Binding("From")
+			};
+			base4.baseTab.Columns.Add(dataGridTextColumn);
+			dataGridTextColumn = new DataGridTextColumn
+			{
+				Header = "Дата окончания",
+				Binding = new Binding("To")
 			};
 			base4.baseTab.Columns.Add(dataGridTextColumn);
 			dataGridTextColumn = new DataGridTextColumn
 			{
 				Header = "Примечание",
-				Binding = new Binding("Comment")
+				Binding = new Binding("Note")
 			};
 			base4.baseTab.Columns.Add(dataGridTextColumn);
 		}

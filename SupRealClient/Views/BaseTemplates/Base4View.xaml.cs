@@ -188,7 +188,8 @@ namespace SupRealClient.Views
     }
 	public class OrdersModelResult : BaseModelResult
 	{
-		public DateTime OrderDate { get; set; }
+		public DateTime From { get; set; }
+		public DateTime To { get; set; }
 		public string Notes { get; set; }
 	}
 

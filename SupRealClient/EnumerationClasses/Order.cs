@@ -13,7 +13,6 @@ namespace SupRealClient.EnumerationClasses
 		/// <summary>
 		/// Конструктор
 		/// </summary>
-		/// <param name="autoCreateFirstElement">Создать ли автоматически первый элемент заявки</param>
 		public Order()
 		{
 			OrderElements = new ObservableCollection<OrderElement>();
