@@ -6,7 +6,7 @@
         xmlns:local="clr-namespace:SupRealClient.Views.Visitor"
         xmlns:mah="http://metro.mahapps.com/winfx/xaml/controls"
         mc:Ignorable="d"
-        Title="Добавление зон к пропуску" 
+        Title="Выдача пропуска по заявкам" 
         Height="300" Width="500"
         ResizeMode="NoResize">
     
