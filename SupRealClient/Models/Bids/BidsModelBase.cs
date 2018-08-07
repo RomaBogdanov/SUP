@@ -279,7 +279,8 @@ namespace SupRealClient.Models
 		/// </summary>
 		public void Search()
 		{
-			//todo: наверно, надо удалить, потому что обработка на уровне ViewModel
+			ViewManager.Instance.OpenWindowModal("BidsListWindView", null);
+			OnRefresh?.Invoke();
 		}
 
 		/// <summary>
