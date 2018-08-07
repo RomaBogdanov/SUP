@@ -365,6 +365,8 @@ namespace SupRealClient.Models
 			{
 				DataContext = viewModel
 			};
+			view.Owner = Application.Current.Windows.OfType<Window>().SingleOrDefault(x => x.IsActive);
+			view.WindowStartupLocation = WindowStartupLocation.CenterOwner;
 			model.OnClose += view.Handling_OnClose;
 			view.ShowDialog();
 			VisitorsModelResult result = view.WindowResult as VisitorsModelResult;
@@ -391,6 +393,8 @@ namespace SupRealClient.Models
 			{
 				DataContext = viewModel
 			};
+			view.Owner = Application.Current.Windows.OfType<Window>().SingleOrDefault(x => x.IsActive);
+			view.WindowStartupLocation = WindowStartupLocation.CenterOwner;
 			model.OnClose += view.Handling_OnClose;
 			view.ShowDialog();
 			VisitorsModelResult result = view.WindowResult as VisitorsModelResult;
