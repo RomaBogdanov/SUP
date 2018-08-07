@@ -33,8 +33,9 @@ namespace SupRealClient.Views
         }
 
         // TODO - переделать. Сделано для того, чтобы окно закрывалось при вызове Close из модели
-        public void Handling_OnClose2(object result = null)
+        public void Handling_OnClose2(object result)
         {
+            this.WindowResult = result;
             this.Close();
         }
 
