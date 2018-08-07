@@ -50,7 +50,7 @@
             Padding="0"
             FontSize="16"
             IsEnabled="{Binding IsEnabled, UpdateSourceTrigger=PropertyChanged}"
-            SelectedIndex="0"
+            SelectedIndex="{Binding IsSelectedIndex, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"
             Style="{StaticResource MetroComboBox1}">
             <ComboBoxItem Content="Разовые заявки" Tag="0" />
             <ComboBoxItem Content="Временные заявки" Tag="1" />
@@ -240,6 +240,7 @@
                             Grid.Row="2"
                             AutoGenerateColumns="False"
                             CanUserAddRows="{Binding IsCanAddRows, Mode=TwoWay}"
+                            CanUserResizeColumns="False"
                             IsReadOnly="True"
                             ItemsSource="{Binding Path=CurrentSingleOrder.OrderElements}"
                             SelectedItem="{Binding SelectedElement, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}">
@@ -265,7 +266,6 @@
                             </DataGrid.Columns>
                             <DataGrid.RowStyle>
                                 <Style TargetType="DataGridRow">
-                                    <EventSetter Event="MouseDoubleClick" Handler="tableItem_MouseDoubleClick" />
                                     <Style.Triggers>
                                         <DataTrigger Binding="{Binding IsBlock}" Value="True">
                                             <Setter Property="Background" Value="#33ff0000" />
@@ -719,6 +719,7 @@
                             Grid.Row="2"
                             AutoGenerateColumns="False"
                             CanUserAddRows="{Binding IsCanAddRows, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                            CanUserResizeColumns="False"
                             IsReadOnly="True"
                             ItemsSource="{Binding Path=CurrentTemporaryOrder.OrderElements}"
                             SelectedItem="{Binding SelectedElement, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}">
@@ -741,7 +742,6 @@
                             </DataGrid.Columns>
                             <DataGrid.RowStyle>
                                 <Style TargetType="DataGridRow">
-                                    <EventSetter Event="MouseDoubleClick" Handler="tableItem_MouseDoubleClick" />
                                     <Style.Triggers>
                                         <DataTrigger Binding="{Binding IsBlock}" Value="True">
                                             <Setter Property="Background" Value="#33ff0000" />
@@ -1471,6 +1471,7 @@
             <mah:MetroTabItem IsEnabled="{Binding IsEnabled, UpdateSourceTrigger=PropertyChanged}">
                 <DataGrid
                     AutoGenerateColumns="False"
+                    CanUserResizeColumns="False"
                     IsReadOnly="True"
                     ItemsSource="{Binding Path=OrdersSet}">
                     <DataGrid.Columns>

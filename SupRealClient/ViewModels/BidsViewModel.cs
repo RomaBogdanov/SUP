@@ -17,13 +17,13 @@ namespace SupRealClient.ViewModels
 
 		private IBidsModel bidsModel;
 
-		private bool _isEnabled = false;
 
 		/// <summary>
 		/// Выбранная заявка перед добавлением новой. Может быть тип "Временная", "Разовая", "На основании"
 		/// </summary>
 		private Order CurrentSelectedOrder { get; set; }
 
+		private bool _isEnabled = false;
 		/// <summary>
 		/// Доступность вкладок TabControl.
 		/// </summary>
@@ -34,6 +34,17 @@ namespace SupRealClient.ViewModels
 			{
 				_isEnabled = value;
 				OnPropertyChanged(nameof(IsEnabled));
+			}
+		}
+
+		private int _isSelectedIndex = 0;
+		public int IsSelectedIndex
+		{
+			get { return _isSelectedIndex; }
+			set
+			{
+				_isSelectedIndex = value;
+				OnPropertyChanged(nameof(IsSelectedIndex));
 			}
 		}
 
@@ -56,6 +67,7 @@ namespace SupRealClient.ViewModels
 				bidsModel.OnRefresh += BidsModel_OnRefresh;
 			}
 		}
+
 		public OrderElement SelectedElement
 		{
 			get { return BidsModel?.SelectedElement; }
@@ -165,7 +177,7 @@ namespace SupRealClient.ViewModels
 				if (BidsModel != null)
 				{
 					BidsModel.CurrentOrder = value;
-					OnPropertyChanged();
+					OnPropertyChanged(nameof(CurrentOrder));
 				}
 			}
 		}
@@ -183,7 +195,7 @@ namespace SupRealClient.ViewModels
 					BidsModel.OrderType = OrderType.Temp;
 				}
 
-				OnPropertyChanged();
+				OnPropertyChanged(nameof(IsTempOrder));
 			}
 		}
 
@@ -201,7 +213,7 @@ namespace SupRealClient.ViewModels
 					BidsModel.OrderType = OrderType.Single;
 				}
 
-				OnPropertyChanged();
+				OnPropertyChanged(nameof(IsSingleOrder));
 			}
 		}
 
@@ -219,7 +231,7 @@ namespace SupRealClient.ViewModels
 					BidsModel.OrderType = OrderType.Virtue;
 				}
 
-				OnPropertyChanged();
+				OnPropertyChanged(nameof(IsVirtueOrder));
 			}
 		}
 
@@ -354,7 +366,7 @@ namespace SupRealClient.ViewModels
 		public BidsViewModel()
 		{
 			// Задать размеры и положение формы.
-			WinSet = new ChildWinSet() { Left = 0 };
+			WinSet = new ChildWinSet() {Left = 0};
 			WinSet.Left = WinSet.Width;
 
 			// Инициализация команд.
@@ -443,10 +455,26 @@ namespace SupRealClient.ViewModels
 			BidsModel.DeletePerson();
 			SelectedElement = BidsModel.SelectedElement;
 		}
+
 		private void DoubleClick()
 		{
-			
+			switch (CurrentOrderType)
+			{
+				case OrderType.None:
+					//IsSelectedIndex = 0;
+					break;
+				case OrderType.Single:
+					CurrentOrder = null;
+					break;
+				case OrderType.Temp:
+					CurrentOrder = null;
+					break;
+				case OrderType.Virtue:
+					CurrentOrder = null;
+					break;
+			}
 		}
+
 		private void Begin()
 		{
 			BidsModel.Begin();
@@ -558,7 +586,7 @@ namespace SupRealClient.ViewModels
 					currentOrder = BidsModel.CurrentSingleOrder;
 					break;
 				case OrderType.Temp:
-					currentOrder= BidsModel.CurrentTemporaryOrder;
+					currentOrder = BidsModel.CurrentTemporaryOrder;
 					break;
 				case OrderType.Virtue:
 					currentOrder = BidsModel.CurrentVirtueOrder;
@@ -567,7 +595,7 @@ namespace SupRealClient.ViewModels
 					throw new ArgumentOutOfRangeException();
 			}
 
-			if (!currentOrder.IsOrderDataCorrect(CurrentOrderType,out string errorMessage))
+			if (!currentOrder.IsOrderDataCorrect(CurrentOrderType, out string errorMessage))
 			{
 				MessageBox.Show(errorMessage, "Ошибка");
 				return;
@@ -711,6 +739,7 @@ namespace SupRealClient.ViewModels
 			{
 				return;
 			}
+
 			currentOrderElement.Templates = (wind.WindowResult as OrderElement).Templates;
 			currentOrderElement.TemplateIdList =
 				AndoverEntityListHelper.EntitiesToString(currentOrderElement.Templates);
@@ -744,7 +773,7 @@ namespace SupRealClient.ViewModels
 
 				model.CurrentItem = model.Find(orderElement.VisitorId);
 				VisitorsView view = new VisitorsView();
-				Views.VisitsViewModel vm = new Views.VisitsViewModel(view) { Model = model };
+				Views.VisitsViewModel vm = new Views.VisitsViewModel(view) {Model = model};
 				view.DataContext = vm;
 				view.ShowDialog();
 			}

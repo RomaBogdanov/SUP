@@ -1,11 +1,11 @@
--- С 04.08.2018 ВСЕ ИЗМЕНЕНИЯ В БД ДОЛЖНЫ ЗАНОСИТЬСЯ В ЭТОТ СКРИПТ
--- ЧТОБЫ БЫЛА ВОЗМОЖНОСТЬ "НАКАТИТЬ" БАЗУ ДО АКТУАЛЬНОЙ, НЕ ПЕРЕСОЗДАВАЯ ЕЕ
+-- РЎ 04.08.2018 Р’РЎР• РР—РњР•РќР•РќРРЇ Р’ Р‘Р” Р”РћР›Р–РќР« Р—РђРќРћРЎРРўР¬РЎРЇ Р’ Р­РўРћРў РЎРљР РРџРў
+-- Р§РўРћР‘Р« Р‘Р«Р›Рђ Р’РћР—РњРћР–РќРћРЎРўР¬ "РќРђРљРђРўРРўР¬" Р‘РђР—РЈ Р”Рћ РђРљРўРЈРђР›Р¬РќРћР™, РќР• РџР•Р Р•РЎРћР—Р”РђР’РђРЇ Р•Р•
 
--- Скрипт обновления Баз данных.
+-- РЎРєСЂРёРїС‚ РѕР±РЅРѕРІР»РµРЅРёСЏ Р‘Р°Р· РґР°РЅРЅС‹С….
 
 
--- Создание vis_templates
--- Таблица списка шаблонов.
+-- РЎРѕР·РґР°РЅРёРµ vis_templates
+-- РўР°Р±Р»РёС†Р° СЃРїРёСЃРєР° С€Р°Р±Р»РѕРЅРѕРІ.
 
 use Visitors;
 go
@@ -19,7 +19,7 @@ CREATE TABLE vis_templates
     f_template_name                nvarchar(50),
 	f_template_description         nvarchar(200),
 	f_template_areas               nvarchar(MAX),
-    f_deleted                      CHAR(1),
+    f_deleted                      nvarchar(1),
     f_rec_date                     DATE,
     f_rec_operator                 int)
 
@@ -33,7 +33,7 @@ end
 go
 
 
--- Удаление таблицы vis_areas_order_elements
+-- РЈРґР°Р»РµРЅРёРµ С‚Р°Р±Р»РёС†С‹ vis_areas_order_elements
 
 use Visitors;
 go
@@ -43,7 +43,7 @@ if OBJECT_ID('vis_areas_order_elements') is not null
 go
 
 
--- Обновление таблицы vis_order_elements
+-- РћР±РЅРѕРІР»РµРЅРёРµ С‚Р°Р±Р»РёС†С‹ vis_order_elements
 
 use Visitors;
 go
@@ -59,7 +59,7 @@ UPDATE vis_order_elements SET f_oe_templates='', f_oe_areas='', f_schedule_id=0
 go
 
 
--- Обновление таблицы vis_visits
+-- РћР±РЅРѕРІР»РµРЅРёРµ С‚Р°Р±Р»РёС†С‹ vis_visits
 
 use Visitors;
 go
@@ -70,4 +70,16 @@ ADD
 go
 
 UPDATE vis_visits SET f_orders=''
+go
+
+-- РћР±РЅРѕРІР»РµРЅРёРµ С‚Р°Р±Р»РёС†С‹ vis_visitors
+use Visitors;
+go
+
+ALTER TABLE vis_visitors
+ADD
+	f_no_formular nvarchar(1) DEFAULT 'N'
+go
+
+UPDATE vis_visitors SET f_no_formular='N'
 go
