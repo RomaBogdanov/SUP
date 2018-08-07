@@ -56,7 +56,8 @@
             Style="{StaticResource AzureDataGrid1}"         
             KeyDown="BaseTab_OnKeyDown" 
             Loaded="baseTab_Loaded" 
-            Sorted="baseTab_Sorted">
+            Sorted="baseTab_Sorted"
+            PreviewKeyDown="baseTab_PreviewKeyDown">
             <DataGrid.InputBindings>
                 <KeyBinding Key="Delete" Command="{Binding Remove}"/>
             </DataGrid.InputBindings>
@@ -79,7 +80,8 @@
             Grid.Column="0"
             Grid.ColumnSpan="6" 
             Margin="1" 
-            Text="{Binding Path=SearchingText, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
+            Text="{Binding Path=SearchingText, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+            PreviewKeyDown="baseTab_PreviewKeyDown"/>
 
         <Button 
             Name="butAdd"
