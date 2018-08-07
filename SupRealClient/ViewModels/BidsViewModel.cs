@@ -37,14 +37,14 @@ namespace SupRealClient.ViewModels
 			}
 		}
 
-		private int _isSelectedIndex = 0;
-		public int IsSelectedIndex
+		private int _selectedIndex = 0;
+		public int SelectedIndex
 		{
-			get { return _isSelectedIndex; }
+			get { return _selectedIndex; }
 			set
 			{
-				_isSelectedIndex = value;
-				OnPropertyChanged(nameof(IsSelectedIndex));
+				_selectedIndex = value;
+				OnPropertyChanged(nameof(SelectedIndex));
 			}
 		}
 
@@ -68,6 +68,16 @@ namespace SupRealClient.ViewModels
 			}
 		}
 
+		private Order _selectedOrder;
+		public Order SelectedOrder
+		{
+			get { return _selectedOrder; }
+			set
+			{
+				_selectedOrder = value;
+				OnPropertyChanged(nameof(SelectedOrder));
+			}
+		}
 		public OrderElement SelectedElement
 		{
 			get { return BidsModel?.SelectedElement; }
@@ -455,16 +465,32 @@ namespace SupRealClient.ViewModels
 			SelectedElement = BidsModel.SelectedElement;
 		}
 
-		private void DoubleClickElement(object orderElementParameter)
+		private void DoubleClickElement(object arg)
 		{
-			OrderElement orderElement = (OrderElement) orderElementParameter;
-			VisitsModel model = new VisitsModel();
+			if (arg is OrderElement)
+			{
+				OrderElement orderElement = (OrderElement)arg;
+				VisitsModel model = new VisitsModel();
 
-			model.CurrentItem = model.Find(orderElement.VisitorId);
-			VisitorsView view = new VisitorsView();
-			Views.VisitsViewModel vm = new Views.VisitsViewModel(view) { Model = model };
-			view.DataContext = vm;
-			view.ShowDialog();
+				model.CurrentItem = model.Find(orderElement.VisitorId);
+				VisitorsView view = new VisitorsView();
+				Views.VisitsViewModel vm = new Views.VisitsViewModel(view) { Model = model };
+				view.DataContext = vm;
+				view.ShowDialog();
+			}
+
+			if (arg is Order)
+			{
+				CurrentSelectedOrder = (Order)arg;
+
+				SelectedIndex = CurrentSelectedOrder.TypeId - 1;
+
+				IsSingleOrder = SelectedIndex == 0;
+				IsTempOrder = SelectedIndex == 1;
+				IsVirtueOrder = SelectedIndex == 2;
+				
+				ApplyCurrentSelectedOrder();
+			}
 		}
 
 		private void Begin()

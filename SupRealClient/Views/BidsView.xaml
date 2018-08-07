@@ -50,7 +50,7 @@
             Padding="0"
             FontSize="16"
             IsEnabled="{Binding IsEnabled, UpdateSourceTrigger=PropertyChanged}"
-            SelectedIndex="{Binding IsSelectedIndex, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"
+            SelectedIndex="{Binding SelectedIndex, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"
             Style="{StaticResource MetroComboBox1}">
             <ComboBoxItem Content="Разовые заявки" Tag="0" />
             <ComboBoxItem Content="Временные заявки" Tag="1" />
@@ -1479,7 +1479,8 @@
                     AutoGenerateColumns="False"
                     CanUserResizeColumns="False"
                     IsReadOnly="True"
-                    ItemsSource="{Binding Path=OrdersSet}">
+                    ItemsSource="{Binding Path=OrdersSet}"
+                    SelectedItem="{Binding SelectedOrder, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}">
                     <DataGrid.Columns>
                         <DataGridTextColumn Binding="{Binding RegNumber}" Header="№ заявки" />
                         <DataGridTextColumn Binding="{Binding From}" Header="Дата начала" />
@@ -1497,7 +1498,10 @@
                         <DataGridTextColumn Binding="{Binding Note}" Header="Примечание" />
                     </DataGrid.Columns>
                     <DataGrid.InputBindings>
-                        <MouseBinding Command="{Binding DoubleClickCommand}" MouseAction="LeftDoubleClick" />
+                        <MouseBinding
+                            Command="{Binding DoubleClickCommand}"
+                            CommandParameter="{Binding SelectedOrder}"
+                            MouseAction="LeftDoubleClick" />
                     </DataGrid.InputBindings>
                 </DataGrid>
             </mah:MetroTabItem>
