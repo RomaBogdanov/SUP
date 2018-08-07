@@ -9,6 +9,10 @@ namespace SupRealClient.Views
     /// </summary>
     public partial class VisitorsListWindView
     {
+		/// <summary>
+		/// Автоматический конструктор, сам создает viewmodel и model
+		/// </summary>
+		/// <param name="okVisibility"></param>
         public VisitorsListWindView(Visibility okVisibility)
         {
             InitializeComponent();
@@ -27,6 +31,9 @@ namespace SupRealClient.Views
                 .ScrollCurrentItem = base4.ScrollIntoViewCurrentItem;
         }
 
+		/// <summary>
+		/// Стандартный конструктор
+		/// </summary>
 	    public VisitorsListWindView()
 	    {
 		    InitializeComponent();

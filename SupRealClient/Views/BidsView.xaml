@@ -782,7 +782,7 @@
                             <TextBox
                                 Grid.Column="1"
                                 Margin="2"
-                                IsEnabled="{Binding TextEnable, UpdateSourceTrigger=PropertyChanged}"
+                                IsEnabled="False"
                                 Style="{StaticResource TextBoxStyle}"
                                 Text="{Binding CurrentTemporaryOrder.Signed, Mode=TwoWay}" />
 
@@ -806,7 +806,7 @@
                             <TextBox
                                 Grid.Column="4"
                                 Margin="2"
-                                IsEnabled="{Binding TextEnable, UpdateSourceTrigger=PropertyChanged}"
+                                IsEnabled="False"
                                 Style="{StaticResource TextBoxStyle}"
                                 Text="{Binding CurrentTemporaryOrder.Agree, Mode=TwoWay}" />
 
