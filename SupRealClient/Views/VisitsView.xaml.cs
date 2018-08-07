@@ -803,8 +803,9 @@ namespace SupRealClient.Views
             var window = new ReturnBid()
             {
                 DataContext = new ReturnBidViewModel(SelectedCard >= 0 ?
-                    CurrentItem.Cards[SelectedCard] : null)
+                    CurrentItem.Cards[SelectedCard] : null, CurrentItem.Id)
             };
+            (window.DataContext as ReturnBidViewModel).OnClose += window.Handling_OnClose;
 
             window.ShowDialog();
         }
@@ -2102,7 +2103,8 @@ namespace SupRealClient.Views
                     join visit in VisitsWrapper.CurrentTable().Table.AsEnumerable()
                     on new { a = card.Field<int>("f_object_id_hi"), b = card.Field<int>("f_object_id_lo") }
                     equals new { a = visit.Field<int>("f_card_id_hi"), b = visit.Field<int>("f_card_id_lo") }
-                    where visit.Field<int>("f_visitor_id") == Set[index].Id
+                    where visit.Field<int>("f_visitor_id") == Set[index].Id &&
+                    visit.Field<string>("f_deleted") == "N"
                     select new Card2
                     {
                         Card = card.Field<string>("f_card_name"),
