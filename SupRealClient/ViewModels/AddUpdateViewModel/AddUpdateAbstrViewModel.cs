@@ -272,7 +272,7 @@ namespace SupRealClient.ViewModels.AddUpdateViewModel
 	    {
 		    if (!CurrentOrderElement.IsOrderElementDataCorrect(out string errorMessage))
 		    {
-			    MessageBox.Show(errorMessage, "Ошибка");
+			    MessageBox.Show(errorMessage, "Ошибка", MessageBoxButton.OK, MessageBoxImage.Error);
 				return;
 		    }
 
