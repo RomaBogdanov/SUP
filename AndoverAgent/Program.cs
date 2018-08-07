@@ -38,9 +38,10 @@ namespace AndoverAgent
                                 Console.WriteLine("Соединение с БД нормальное");
                             }
                         }
-                        catch (Exception)
+                        catch (Exception ex)
                         {
                             Console.WriteLine("Соединение с БД настроено неправильно");
+				Console.WriteLine(ex.Message);
                         }
                         continue;
                     }

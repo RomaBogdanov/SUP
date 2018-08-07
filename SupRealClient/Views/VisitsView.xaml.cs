@@ -472,10 +472,10 @@ namespace SupRealClient.Views
 
 			    if (regulaView?.Result ?? false)
 			    {
+				    FillCurrentItemFieldsFromScan(e.Person);
 				    AddMainDocumentFromScan(e.Person);
 				    AddPortraitAndSignatureFromScan(e.Person);
-				    FillCurrentItemFieldsFromScan(e.Person);
-
+					
 				    OnPropertyChanged(nameof(CurrentItem));
 			    }
 		    }
@@ -497,6 +497,7 @@ namespace SupRealClient.Views
 			    Num = person.DocumentNumber?.Value,
 			    Seria = person.DocumentSeria?.Value,
 			    Code = person.DocumentDeliveryPlaceCode?.Value,
+			    Org = person.DocumentDeliveryPlace?.Value,
 			    Images = GetScansByDocNumber(person, person.DocumentNumber?.Value)
 		    };
 
@@ -528,7 +529,22 @@ namespace SupRealClient.Views
 
 		    if (!isContains)
 		    {
-			    (view as Window)?.Invoke(() => { Model.AddMainDocument(document); });
+			    (view as Window)?.Invoke(() =>
+			    {
+				   // Model.AddMainDocument(document);
+				    //костыль
+				    var window = new VisitorsMainDocumentView(
+					    new VisitorsMainDocumentModel(
+						    document), true, CurrentItem.Person);
+				    window.ShowDialog();
+				    var editDocument = window.WindowResult as VisitorsMainDocument;
+
+				    if (editDocument == null)
+				    {
+					    return;
+				    }
+				    Model.AddMainDocument(editDocument);
+			    });
 		    }
 	    }
 

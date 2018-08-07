@@ -19,6 +19,8 @@ using SupRealClient.Views.AddUpdateView;
 using System.Collections;
 using System.Windows.Data;
 using System.ComponentModel;
+using System.Windows;
+using MessageBox = System.Windows.Forms.MessageBox;
 
 namespace SupRealClient.Views
 {
@@ -838,7 +840,18 @@ namespace SupRealClient.Views
                 "Данные будут выгружены из Andover. Старые данные будут удалены. Продолжить?",
                 "Внимание", MessageBoxButtons.YesNo) == DialogResult.Yes)
             {
-            }
+	            ClientConnector clientConnector = ClientConnector.CurrentConnector;
+	            if (clientConnector.ImportFromAndover())
+	            {
+		            System.Windows.MessageBox.Show("Из Andover были загружены данные", "",
+			            MessageBoxButton.OK, MessageBoxImage.Information);
+	            }
+	            else
+	            {
+		            System.Windows.MessageBox.Show("Загрузка из Andover не удалась!", "Ошибка",
+			            MessageBoxButton.OK, MessageBoxImage.Error);
+	            }
+			}
         }
 
         public override void Update()
@@ -1025,7 +1038,18 @@ namespace SupRealClient.Views
                 "Данные будут выгружены из Andover. Старые данные будут удалены. Продолжить?",
                 "Внимание", MessageBoxButtons.YesNo) == DialogResult.Yes)
             {
-            }
+	            ClientConnector clientConnector = ClientConnector.CurrentConnector;
+	            if (clientConnector.ImportFromAndover())
+	            {
+		            System.Windows.MessageBox.Show("Из Andover были загружены данные", "",
+			            MessageBoxButton.OK, MessageBoxImage.Information);
+	            }
+	            else
+	            {
+		            System.Windows.MessageBox.Show("Загрузка из Andover не удалась!", "Ошибка",
+			            MessageBoxButton.OK, MessageBoxImage.Error);
+	            }
+			}
         }
 
         public override void Update()
@@ -1197,16 +1221,27 @@ namespace SupRealClient.Views
             Begin();
         }
 
-        public override void Add()
-        {
-            if (MessageBox.Show(
-                "Данные будут выгружены из Andover. Старые данные будут удалены. Продолжить?",
-                "Внимание", MessageBoxButtons.YesNo) == DialogResult.Yes)
-            {
-            }
-        }
+	    public override void Add()
+	    {
+		    if (MessageBox.Show(
+			        "Данные будут выгружены из Andover. Старые данные будут удалены. Продолжить?",
+			        "Внимание", MessageBoxButtons.YesNo) == DialogResult.Yes)
+		    {
+			    ClientConnector clientConnector = ClientConnector.CurrentConnector;
+			    if (clientConnector.ImportFromAndover())
+			    {
+				    System.Windows.MessageBox.Show("Из Andover были загружены", "",
+					    MessageBoxButton.OK, MessageBoxImage.Information);
+			    }
+			    else
+			    {
+				    System.Windows.MessageBox.Show("Загрузка из Andover не удалась!", "Ошибка",
+					    MessageBoxButton.OK, MessageBoxImage.Error);
+			    }
+			}
+	    }
 
-        public override void Update()
+	    public override void Update()
         {
             AddUpdateAbstrModel model = new UpdateScheduleModel(CurrentItem);
             AddUpdateBaseViewModel viewModel = new AddUpdateBaseViewModel
