@@ -909,25 +909,24 @@ namespace SupRealClient.Views
 		                indexEditingVisit = (model as EditVisitsModel).IndexEditingVisit;
 	                else
 		                flag_GoEnd = true;
-					
-	    //            if (!flag_GoEnd && indexEditingVisit >= 0)
-					//{
-					//	Model = new VisitsModel();
-					//	CurrentItem = (Model as VisitsModel).GoingTo(indexEditingVisit);
-					//}
-	    //            else
-	    //            {
-		   //             if (flag_GoEnd)
-		   //             {
-			  //              Model = new VisitsModel();
-			  //              CurrentItem = (Model as VisitsModel).End();
-		   //             }
-		   //             else
-		   //             {
-					//		Model = new VisitsModel();
-					//	}
-	    //            }
-	                Model = new VisitsModel();
+
+					if (!flag_GoEnd && indexEditingVisit >= 0)
+					{
+						Model = new VisitsModel(indexEditingVisit);
+						//CurrentItem = (Model as VisitsModel).GoingTo(indexEditingVisit);
+					}
+					else
+					{
+						if (flag_GoEnd)
+						{
+							Model = new VisitsModel(true);
+						}
+						else
+						{
+							Model = new VisitsModel();
+						}
+					}
+					//Model = new VisitsModel();
 				}
 
 				IsRedactMode = false;
@@ -1952,7 +1951,7 @@ namespace SupRealClient.Views
 	    private bool _сommentTextEnable = false;
 
 		public override event Action<object> OnClose;
-		public int selectedIndex { get; set; }
+	    public int selectedIndex { get; set; } = 0;
 
 
 		public override bool TextEnable
@@ -2026,9 +2025,9 @@ namespace SupRealClient.Views
 			    };
 		    VisitorsWrapper.CurrentTable().OnChanged += Query;
 		    OrganizationsWrapper.CurrentTable().OnChanged += Query;
-		    Query();
+		    Query(loadingVisitorIndex);
 
-		    GoingTo(loadingVisitorIndex);
+		    //GoingTo(loadingVisitorIndex);
 	    }
 
 	    public VisitsModel(bool moveToEnd)
@@ -2041,74 +2040,114 @@ namespace SupRealClient.Views
 			    };
 		    VisitorsWrapper.CurrentTable().OnChanged += Query;
 		    OrganizationsWrapper.CurrentTable().OnChanged += Query;
-		    Query();
+		    Query(moveToEnd);
 
-		    if (moveToEnd)
-			    End();
+
 	    }
 
-		private void Query()
-        {
-            Set = new ObservableCollection<EnumerationClasses.Visitor>(
-                from visitors in VisitorsWrapper.CurrentTable().Table.AsEnumerable()
-                where visitors.Field<int>("f_visitor_id") != 0
-                select new EnumerationClasses.Visitor
-                {
-                    Id = visitors.Field<int>("f_visitor_id"),
-                    FullName = visitors.Field<string>("f_full_name"),
-                    Family = visitors.Field<string>("f_family"),
-                    Name = visitors.Field<string>("f_fst_name"),
-                    Patronymic = visitors.Field<string>("f_sec_name"),
-                    OrganizationId = visitors.Field<int>("f_org_id"),
-                    Organization = OrganizationsHelper.
-                                   GenerateFullName(visitors.Field<int>("f_org_id"), true),
-                    Comment = visitors.Field<string>("f_vr_text"),
-                    IsAccessDenied = CommonHelper.StringToBool(visitors.Field<string>(
-                        "f_persona_non_grata")),
-                    IsCanHaveVisitors = CommonHelper.StringToBool(visitors.Field<string>(
-                        "f_can_have_visitors")),
-					IsNotFormular = CommonHelper.StringToBool( visitors.Field<string>("f_no_formular")),
-					Telephone = visitors.Field<string>("f_phones"),
-                    Nation = (string)CountriesWrapper.CurrentTable()
-                        .Table.AsEnumerable()
-                        .FirstOrDefault(arg => arg.Field<int>("f_cntr_id") ==
-                        visitors.Field<int>("f_cntr_id"))?["f_cntr_name"],
-                    DocType = (string)DocumentsWrapper.CurrentTable().Table
-                        .AsEnumerable().FirstOrDefault(arg =>
-                        arg.Field<int>("f_doc_id") ==
-                        visitors.Field<int>("f_doc_id"))?["f_doc_name"],
-                    DocSeria = visitors.Field<string>("f_doc_seria"),
-                    DocNum = visitors.Field<string>("f_doc_num"),
-                    DocDate = visitors.Field<DateTime>("f_doc_date"),
-                    DocCode = visitors.Field<string>("f_doc_code"),
-                    DocPlace = visitors.Field<string>("f_doc_org"),
-                    IsAgree = CommonHelper.StringToBool(visitors.Field<string>(
-                        "f_personal_data_agreement")),
-                    AgreeToDate = visitors.Field<DateTime>("f_personal_data_last_date"),
-                    Operator = GetOperator(visitors.Field<int>("f_rec_operator_pass"),
-                        visitors.Field<DateTime>("f_rec_date_pass")),
-                    Department = GetDepartmenstList(visitors.Field<int>("f_dep_id")),
-                    Position = visitors.Field<string>("f_job"),
-                    IsRightSign = CommonHelper.StringToBool(visitors.Field<string>(
-                        "f_can_sign_orders")),
-                    IsAgreement = CommonHelper.StringToBool(visitors.Field<string>(
-                        "f_can_adjust_orders")),
-                    Cabinet = (string)CabinetsWrapper.CurrentTable()
-                        .Table.AsEnumerable().FirstOrDefault(arg =>
-                        arg.Field<int>("f_cabinet_id") ==
-                        visitors.Field<int>("f_cabinet_id"))?["f_cabinet_desc"],
-	                OrganizationIsBasic = OrganizationsHelper.GetBasicParametr(visitors.Field<int>("f_org_id"), true)
+	    private void LoadingSets()
+		{
+			Set = new ObservableCollection<EnumerationClasses.Visitor>(
+				 from visitors in VisitorsWrapper.CurrentTable().Table.AsEnumerable()
+				 where visitors.Field<int>("f_visitor_id") != 0
+				 select new EnumerationClasses.Visitor
+				 {
+					 Id = visitors.Field<int>("f_visitor_id"),
+					 FullName = visitors.Field<string>("f_full_name"),
+					 Family = visitors.Field<string>("f_family"),
+					 Name = visitors.Field<string>("f_fst_name"),
+					 Patronymic = visitors.Field<string>("f_sec_name"),
+					 OrganizationId = visitors.Field<int>("f_org_id"),
+					 Organization = OrganizationsHelper.
+									GenerateFullName(visitors.Field<int>("f_org_id"), true),
+					 Comment = visitors.Field<string>("f_vr_text"),
+					 IsAccessDenied = CommonHelper.StringToBool(visitors.Field<string>(
+						 "f_persona_non_grata")),
+					 IsCanHaveVisitors = CommonHelper.StringToBool(visitors.Field<string>(
+						 "f_can_have_visitors")),
+					 IsNotFormular = CommonHelper.StringToBool(visitors.Field<string>("f_no_formular")),
+					 Telephone = visitors.Field<string>("f_phones"),
+					 Nation = (string)CountriesWrapper.CurrentTable()
+						 .Table.AsEnumerable()
+						 .FirstOrDefault(arg => arg.Field<int>("f_cntr_id") ==
+						 visitors.Field<int>("f_cntr_id"))?["f_cntr_name"],
+					 DocType = (string)DocumentsWrapper.CurrentTable().Table
+						 .AsEnumerable().FirstOrDefault(arg =>
+						 arg.Field<int>("f_doc_id") ==
+						 visitors.Field<int>("f_doc_id"))?["f_doc_name"],
+					 DocSeria = visitors.Field<string>("f_doc_seria"),
+					 DocNum = visitors.Field<string>("f_doc_num"),
+					 DocDate = visitors.Field<DateTime>("f_doc_date"),
+					 DocCode = visitors.Field<string>("f_doc_code"),
+					 DocPlace = visitors.Field<string>("f_doc_org"),
+					 IsAgree = CommonHelper.StringToBool(visitors.Field<string>(
+						 "f_personal_data_agreement")),
+					 AgreeToDate = visitors.Field<DateTime>("f_personal_data_last_date"),
+					 Operator = GetOperator(visitors.Field<int>("f_rec_operator_pass"),
+						 visitors.Field<DateTime>("f_rec_date_pass")),
+					 Department = GetDepartmenstList(visitors.Field<int>("f_dep_id")),
+					 Position = visitors.Field<string>("f_job"),
+					 IsRightSign = CommonHelper.StringToBool(visitors.Field<string>(
+						 "f_can_sign_orders")),
+					 IsAgreement = CommonHelper.StringToBool(visitors.Field<string>(
+						 "f_can_adjust_orders")),
+					 Cabinet = (string)CabinetsWrapper.CurrentTable()
+						 .Table.AsEnumerable().FirstOrDefault(arg =>
+						 arg.Field<int>("f_cabinet_id") ==
+						 visitors.Field<int>("f_cabinet_id"))?["f_cabinet_desc"],
+					 OrganizationIsBasic = OrganizationsHelper.GetBasicParametr(visitors.Field<int>("f_org_id"), true)
 
-		});
-            if (Set.Count > 0)
+				 });
+		}
+
+	    private void Query()
+	    {
+		    LoadingSets();
+
+			if (Set.Count > 0)
             {
-                OrdersCardsToVisitor(0);
-                DocumentsToVisitor(0);
-                CurrentItem = Set[0];
+	            if (selectedIndex >= Set.Count)
+		            selectedIndex = 0;
+
+				OrdersCardsToVisitor(selectedIndex);
+                DocumentsToVisitor(selectedIndex);
+                CurrentItem = Set[selectedIndex];
             }
         }
 
-        public override EnumerationClasses.Visitor Begin()
+		private void Query(int visitorIndex)
+		{
+			LoadingSets();
+
+			if (Set.Count > 0)
+			{
+				if (visitorIndex >= Set.Count)
+					selectedIndex = 0;
+				else
+					selectedIndex = visitorIndex;
+
+				OrdersCardsToVisitor(selectedIndex);
+				DocumentsToVisitor(selectedIndex);
+				CurrentItem = Set[selectedIndex];
+			}
+		}
+
+	    private void Query(bool moveToEnd)
+	    {
+		    LoadingSets();
+
+		    if (Set.Count > 0)
+		    {
+			    if (moveToEnd)
+				    selectedIndex = Set.Count-1;
+
+			    OrdersCardsToVisitor(selectedIndex);
+			    DocumentsToVisitor(selectedIndex);
+			    CurrentItem = Set[selectedIndex];
+		    }
+	    }
+
+		public override EnumerationClasses.Visitor Begin()
         {
             if (Set.Count > 0)
             {
