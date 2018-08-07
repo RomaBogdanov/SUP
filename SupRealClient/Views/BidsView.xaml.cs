@@ -38,7 +38,6 @@ namespace SupRealClient.Views
 
 			_enterUiElementsSequenceTempOrder = new List<UIElement>
 			{
-				cbTempOrderUnlimited,
 				btnTempOrderAdd,
 				dpTempOrderDateFrom,
 				dpTempOrderDateTo,
@@ -51,7 +50,6 @@ namespace SupRealClient.Views
 
 			_enterUiElementsSequenceVirtOrder = new List<UIElement>
 			{
-				cbVirtOrderUnlimited,
 				dpVirtOrderFrom,
 				dpVirtOrderTo,
 				tbVirtOrderReason,
@@ -68,7 +66,13 @@ namespace SupRealClient.Views
 			btnCancel.Click += EndEditingButtonClick;
 		}
 
-		private List<UIElement> EnterUiElementsSequence
+        public void SetToVirtue()
+        {
+            comboMenu.SelectedIndex = 2;
+            (this.DataContext as BidsViewModel).SetToVirtue();
+        }
+
+        private List<UIElement> EnterUiElementsSequence
 		{
 			get
 			{
@@ -222,10 +226,10 @@ namespace SupRealClient.Views
 						dpSingleOrderDate.Focus();
 						break;
 					case 1:
-						cbTempOrderUnlimited.Focus();
+						btnTempOrderAdd.Focus();
 						break;
 					case 2:
-						cbVirtOrderUnlimited.Focus();
+						dpVirtOrderFrom.Focus();
 						break;
 				}
 			}

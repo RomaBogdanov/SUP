@@ -1,21 +1,9 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using System.ComponentModel;
 using System.Data;
 using System.Linq;
-using System.Runtime.CompilerServices;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
 using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Shapes;
-using SupRealClient.Annotations;
 using SupRealClient.EnumerationClasses;
 using SupRealClient.TabsSingleton;
 
@@ -36,31 +24,21 @@ namespace SupRealClient.Views.Visitor
             this.Close();
         }
     }
-    /*
-    public class AddZoneViewModel : INotifyPropertyChanged
+
+    public class AddZoneViewModel : Base4ViewModel<Order>
     {
-        private AddZoneModel model;
+        public ICommand Virtue { get; set; }
 
-        public AddZoneModel Model
+        public AddZoneViewModel()
         {
-            get { return model; }
-            set
-            {
-                model = value;
-                
-            }
+            Virtue = new RelayCommand(obj => VirtueCommand());
         }
 
-
-
-        public event PropertyChangedEventHandler PropertyChanged;
-
-        [NotifyPropertyChangedInvocator]
-        protected virtual void OnPropertyChanged([CallerMemberName] string propertyName = null)
+        private void VirtueCommand()
         {
-            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
+            (Model as AddZoneModel).Virtue();
         }
-    }*/
+    }
 
     public class AddZoneModel : Base4ModelAbstr<Order>
     {
@@ -96,6 +74,14 @@ namespace SupRealClient.Views.Visitor
         public override void Update()
         {
             
+        }
+
+        public void Virtue()
+        {
+            var wind = new BidsView();
+            
+            wind.Show();
+            wind.SetToVirtue();
         }
 
         protected override void DoQuery()

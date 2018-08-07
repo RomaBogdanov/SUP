@@ -6,7 +6,7 @@
         xmlns:local="clr-namespace:SupRealClient.Views.Visitor"
         xmlns:mah="http://metro.mahapps.com/winfx/xaml/controls"
         mc:Ignorable="d"
-        Title="Добавление зон к пропуску" 
+        Title="Выдача пропуска по заявкам" 
         Height="300" Width="500"
         ResizeMode="NoResize">
     
@@ -43,6 +43,29 @@
                 <DataGridTextColumn Header="Принимающее лицо" Binding="{Binding Path=Catcher}" Width="*" IsReadOnly="True" />
             </DataGrid.Columns>
         </DataGrid>
+
+        <Button
+            Grid.Row="2"
+            Grid.Column="0"
+            Margin="5"
+            Style="{StaticResource ButtonStyle}"
+            Command="{Binding Path=Virtue}">
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="40"/>
+                    <ColumnDefinition/>
+                </Grid.ColumnDefinitions>
+
+                <Image
+                    Grid.Column="0"
+                    Source="../../Resources/Далее.ico"/>
+
+                <TextBlock
+                    Grid.Column="1"
+                    Text="На основании заявки"
+                    Style="{StaticResource TextBLockStyle}"/>
+            </Grid>
+        </Button>
 
         <Button
             Grid.Row="2"

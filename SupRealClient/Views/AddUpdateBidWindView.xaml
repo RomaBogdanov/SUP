@@ -211,7 +211,7 @@
             Margin="2"
             IsEnabled="False"
             Style="{StaticResource TextBoxStyle}"
-            Text="{Binding CurrentItem.Passes, Mode=TwoWay}" />
+            Text="{Binding CurrentItem.Passes, Mode=OneWay}" />
         <Button
             Name="btnSelectPass"
             Grid.Row="13"

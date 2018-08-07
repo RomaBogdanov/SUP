@@ -235,11 +235,10 @@
                             </Button>
 
                         </Grid>
-
                         <DataGrid
                             Grid.Row="2"
                             AutoGenerateColumns="False"
-                            CanUserAddRows="{Binding IsCanAddRows, Mode=TwoWay}"
+                            CanUserAddRows="{Binding IsCanAddRows, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                             CanUserResizeColumns="False"
                             IsReadOnly="True"
                             ItemsSource="{Binding Path=CurrentSingleOrder.OrderElements}"
@@ -248,19 +247,16 @@
                                 <DataGridTextColumn Header="№" />
                                 <DataGridTextColumn
                                     Width="*"
-                                    Binding="{Binding Visitor, UpdateSourceTrigger=PropertyChanged}"
+                                    Binding="{Binding Visitor}"
                                     Header="Посетитель" />
-                                <DataGridTextColumn
-                                    Width="*"
-                                    Binding="{Binding Organization}"
-                                    Header="Организация" />
-                                <DataGridTextColumn
-                                    Width="*"
-                                    Binding="{Binding Catcher, UpdateSourceTrigger=PropertyChanged}"
-                                    Header="Принимающее лицо" />
-                                <DataGridTextColumn Binding="{Binding From}" Header="Время от" />
-                                <DataGridTextColumn Binding="{Binding To}" Header="Время до" />
-                                <DataGridCheckBoxColumn Binding="{Binding IsDisable}" Header="Не активен" />
+                                <DataGridTextColumn Binding="{Binding Organization}" Header="Организация" />
+                                <DataGridTextColumn Binding="{Binding Position}" Header="Должность посетителя" />
+                                <DataGridTextColumn Width="*" Binding="{Binding Catcher}">
+                                    <DataGridTextColumn.Header>
+                                        <TextBlock Text="Принимающее лицо посетителя" TextWrapping="Wrap" />
+                                    </DataGridTextColumn.Header>
+                                </DataGridTextColumn>
+                                <DataGridCheckBoxColumn Header="Не активен" />
                                 <DataGridTextColumn Binding="{Binding Passes}" Header="Проходы" />
                                 <DataGridCheckBoxColumn Binding="{Binding IsBlock}" Header="Заблокирован" />
                             </DataGrid.Columns>
@@ -541,20 +537,6 @@
                                 Style="{StaticResource TextBoxStyle}"
                                 Text="{Binding CurrentTemporaryOrder.RegNumber, Mode=TwoWay}" />
 
-                            <CheckBox
-                                Name="cbTempOrderUnlimited"
-                                Grid.Column="2"
-                                HorizontalAlignment="Center"
-                                VerticalAlignment="Center"
-                                IsEnabled="{Binding TextEnable, UpdateSourceTrigger=PropertyChanged}"
-                                PreviewKeyDown="UiElement_PreviewKeyDown" />
-
-                            <TextBlock
-                                Grid.Column="3"
-                                HorizontalAlignment="Left"
-                                Style="{StaticResource TextBLockStyle}"
-                                Text="Бессрочная заявка" />
-
                             <Button
                                 Name="btnTempOrderAdd"
                                 Grid.Column="4"
@@ -733,7 +715,7 @@
                                     Binding="{Binding Visitor}"
                                     Header="Посетитель" />
                                 <DataGridTextColumn Binding="{Binding Organization}" Header="Организация" />
-                                <DataGridTextColumn Binding="{Binding Organization}" Header="Должность посетителя" />
+                                <DataGridTextColumn Binding="{Binding Position}" Header="Должность посетителя" />
                                 <DataGridTextColumn Width="*" Binding="{Binding Catcher}">
                                     <DataGridTextColumn.Header>
                                         <TextBlock Text="Принимающее лицо посетителя" TextWrapping="Wrap" />
@@ -1041,20 +1023,6 @@
                             IsEnabled="False"
                             Style="{StaticResource TextBoxStyle}"
                             Text="{Binding CurrentVirtueOrder.RegNumber, Mode=TwoWay}" />
-
-                        <CheckBox
-                            Name="cbVirtOrderUnlimited"
-                            Grid.Column="2"
-                            HorizontalAlignment="Center"
-                            VerticalAlignment="Center"
-                            IsEnabled="{Binding TextEnable, UpdateSourceTrigger=PropertyChanged}"
-                            PreviewKeyDown="UiElement_PreviewKeyDown" />
-
-                        <TextBlock
-                            Grid.Column="3"
-                            HorizontalAlignment="Left"
-                            Style="{StaticResource TextBLockStyle}"
-                            Text="Бессрочная заявка" />
                     </Grid>
 
                     <Grid Grid.Row="1">
@@ -1474,7 +1442,7 @@
                 </Grid>
             </mah:MetroTabItem>
 
-            <mah:MetroTabItem IsEnabled="{Binding IsEnabled, UpdateSourceTrigger=PropertyChanged}">
+            <mah:MetroTabItem IsEnabled="{Binding IsEnabled, UpdateSourceTrigger=PropertyChanged}" IsSelected="{Binding IsNoneOrder, Mode=TwoWay}">
                 <DataGrid
                     AutoGenerateColumns="False"
                     CanUserResizeColumns="False"
@@ -1675,7 +1643,7 @@
                 Grid.Column="0"
                 Margin="2"
                 Command="{Binding NewCommand}"
-                IsEnabled="{Binding NavigateButtonEnable, UpdateSourceTrigger=PropertyChanged}"
+                IsEnabled="{Binding EditButtonEnable, UpdateSourceTrigger=PropertyChanged}"
                 Style="{StaticResource VisitorsSquareButtonStyle}"
                 ToolTip="Insert">
                 <Grid>
@@ -1700,7 +1668,7 @@
                 Grid.Column="1"
                 Margin="2"
                 Command="{Binding EditCommand}"
-                IsEnabled="{Binding NavigateButtonEnable, UpdateSourceTrigger=PropertyChanged}"
+                IsEnabled="{Binding EditButtonEnable, UpdateSourceTrigger=PropertyChanged}"
                 Style="{StaticResource VisitorsSquareButtonStyle}"
                 ToolTip="Ctrl+D">
                 <Grid>
