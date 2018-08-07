@@ -83,7 +83,7 @@ namespace SupRealClient.Views
 						"f_persona_non_grata")),
 					IsCanHaveVisitors = CommonHelper.StringToBool(visitors.Field<string>(
 						"f_can_have_visitors")),
-					IsNotFormular = true,
+	                IsNotFormular = CommonHelper.StringToBool(visitors.Field<string>("f_no_formular")),
 					Telephone = visitors.Field<string>("f_phones"),
 					Nation = (string)CountriesWrapper.CurrentTable()
 						.Table.AsEnumerable()

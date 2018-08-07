@@ -11,7 +11,7 @@ namespace SupRealClient.Views
     /// <summary>
     /// Логика взаимодействия для AddUpdateCabinetView.xaml
     /// </summary>
-    public partial class AddUpdateCabinetView : Window
+    public partial class AddUpdateCabinetView
     {
         bool isUpdate;
         Cabinet cabinet;

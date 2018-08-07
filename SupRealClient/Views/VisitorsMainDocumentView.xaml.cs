@@ -25,23 +25,26 @@ namespace SupRealClient.Views
             model.OnClose += Handling_OnClose;
             DataContext = new VisitorsMainDocumentViewModel(editable);
             ((VisitorsMainDocumentViewModel)DataContext).SetModel(model, person);
-	        ((VisitorsMainDocumentViewModel) DataContext)._MoveNextFocusingElement += MovingNextFocusingElement;
+	        ((VisitorsMainDocumentViewModel)DataContext)._MoveNextFocusingElement += MovingNextFocusingElement;
+			((VisitorsMainDocumentViewModel)DataContext)._TestDatePickerEvent += TestingDatePickerEvent;
 			InitializeComponent();
 
             AfterInitialize();
 
-	        button_SetDocumentType.Focus();
+	        textBox_DocType.Focus();
 		}
 
-        /// <summary>
-        /// Конструктор - заглушка
-        /// </summary>
-        public VisitorsMainDocumentView()
+		/// <summary>
+		/// Конструктор - заглушка
+		/// </summary>
+		public VisitorsMainDocumentView()
         {
             InitializeComponent();
             DataContext = new VisitorsMainDocumentViewModel(false);
 	        ((VisitorsMainDocumentViewModel)DataContext)._MoveNextFocusingElement += MovingNextFocusingElement;
-			button_SetDocumentType.Focus();
+	        ((VisitorsMainDocumentViewModel)DataContext)._TestDatePickerEvent += TestingDatePickerEvent;
+
+	        textBox_DocType.Focus();
 
         }
 
@@ -95,14 +98,38 @@ namespace SupRealClient.Views
 		    }
 	    }
 
+	    private void KeyUp_LoadDocType(object sender, KeyEventArgs e)
+	    {
+		    ((VisitorsMainDocumentViewModel) DataContext).DocumentsListModel();
+	    }
+
 
 		private void MovingNextFocusingElement(string e)
 	    {
 			if(e== "SetDocumentType")
 				button_SetDocumentType.MoveFocus(_focusMover);
 		}
-		
-	    private MaskedTextBox GetMaskedTextBox(DatePicker datePicker)
+
+	    private void TestingDatePickerEvent()
+	    {
+		    MaskedTextBox maskedTextBox = GetMaskedTextBox(datePicker_Date);
+		    if (maskedTextBox.IsMaskFull && maskedTextBox.IsMaskCompleted)
+			    ((VisitorsMainDocumentViewModel) DataContext).Date_Correct =
+				    maskedTextBox.IsMaskFull && maskedTextBox.IsMaskCompleted;
+
+		    maskedTextBox = GetMaskedTextBox(datePicker_DateTo);
+		    if (maskedTextBox.IsMaskFull && maskedTextBox.IsMaskCompleted)
+			    ((VisitorsMainDocumentViewModel)DataContext).DateTo_Correct =
+				    maskedTextBox.IsMaskFull && maskedTextBox.IsMaskCompleted;
+
+		    maskedTextBox = GetMaskedTextBox(datePicker_BirthDate);
+		    if (maskedTextBox.IsMaskFull && maskedTextBox.IsMaskCompleted)
+			    ((VisitorsMainDocumentViewModel)DataContext).BirthDate_Correct =
+				    maskedTextBox.IsMaskFull && maskedTextBox.IsMaskCompleted;
+
+		}
+
+		private MaskedTextBox GetMaskedTextBox(DatePicker datePicker)
 	    {
 		    DatePickerTextBox datePickerTextBox = (DatePickerTextBox)datePicker?.Template?.FindName("PART_TextBox", datePicker);
 		    return  (MaskedTextBox)datePickerTextBox?.Template?.FindName("PART_TextBox", datePickerTextBox);

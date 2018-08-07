@@ -55,7 +55,9 @@
 		<Grid
 			Grid.Row="0"
 			Grid.Column="0"
-			Grid.IsSharedSizeScope="True">
+			Grid.IsSharedSizeScope="True"
+			KeyboardNavigation.IsTabStop="False"
+			KeyboardNavigation.TabNavigation="Continue">
 			<Grid.ColumnDefinitions>
 				<ColumnDefinition />
 				<ColumnDefinition />
@@ -74,7 +76,6 @@
 				Text="Фамилия" />
 
             <TextBox
-	            TabIndex="0"
                 Text="{Binding Path=CurrentItem.Family, Mode=TwoWay}"
                 Grid.Row="1"
                 Grid.Column="0"
@@ -90,7 +91,6 @@
 				Text="Имя" />
 
             <TextBox
-	            TabIndex="1"
                 Text="{Binding Path=CurrentItem.Name, Mode=TwoWay}"
                 Grid.Row="1"
                 Grid.Column="1"
@@ -106,7 +106,6 @@
 				Text="Отчество" />
 
             <TextBox x:Name="textbox_Patronymic"
-	            TabIndex="2"
                 Text="{Binding Path=CurrentItem.Patronymic, Mode=TwoWay}"
                 Grid.Row="1"
                 Grid.Column="2"
@@ -163,7 +162,8 @@
 			Background="#00000000"
 			Command="{Binding AddImageSourceCommand}"
 			IsEnabled="{Binding Path=ButtonEnable, Mode=TwoWay}"
-			ToolTip="Добавить фото">
+			ToolTip="Добавить фото"
+			IsTabStop="False">
 			<Grid Width="180" Height="240">
 				<Grid.RowDefinitions>
 					<RowDefinition Height="40" />
@@ -201,7 +201,8 @@
 		<Grid
 			Grid.Row="1"
 			Grid.Column="0"
-			Grid.IsSharedSizeScope="True">
+			Grid.IsSharedSizeScope="True"
+			>
 			<Grid.ColumnDefinitions>
 				<ColumnDefinition Width="120" />
 				<ColumnDefinition />
@@ -231,11 +232,10 @@
 				IsEnabled="{Binding Path=TextEnable, Mode=TwoWay}"
 				IsReadOnly="True"
 				Style="{StaticResource TextBoxStyle}"
-				TabIndex="4"
-				Text="{Binding Path=CurrentItem.Organization, Mode=TwoWay}" />
+				Text="{Binding Path=CurrentItem.Organization, Mode=TwoWay}" 
+				IsTabStop="False"/>
 
             <Button x:Name="button_LoadOrganization"
-	            TabIndex="5"
 				Focusable="True"
                 Command="{Binding Path=OrganizationCommand}"
                 Grid.Row="0"
@@ -273,9 +273,8 @@
 				Grid.Column="1"
 				Margin="10,11"
 				VerticalAlignment="Stretch"
-				IsEnabled="{Binding Path=CommentTextEnable, Mode=TwoWay}"
+				IsEnabled="{Binding Path=CommentTextEnable, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
 				Style="{StaticResource TextBoxStyle}"
-				TabIndex="7"
 				Text="{Binding Path=CurrentItem.Comment, Mode=TwoWay}" />
 			<Grid Grid.Row="1" Grid.Column="2" Grid.ColumnSpan="2"
 			      Visibility="{Binding IsRedactMode_Inverce, Converter={StaticResource BooleanToVisibilityConverter}}">
@@ -328,14 +327,12 @@
 					Margin="10,11"
 					Content="Принимающее лицо"
 					IsChecked="{Binding Path=CurrentItem.IsCanHaveVisitors, Mode=TwoWay}"
-					IsEnabled="{Binding Path=TextEnable, Mode=TwoWay}"
-					TabIndex="11" />
+					IsEnabled="{Binding Path=TextEnable, Mode=TwoWay}" />
 
                 <CheckBox x:Name="checkBoxNoForm" 
-	                TabIndex="12"
 	                Grid.Column="2" Grid.ColumnSpan="2" Grid.Row="2" HorizontalAlignment="Center" 
                     Content="Нет формуляра"
-                    IsChecked="{Binding Path=IsNotFormular, Mode=TwoWay}"
+                    IsChecked="{Binding Path=CurrentItem.IsNotFormular, Mode=TwoWay}"
                     IsEnabled="{Binding Path=TextEnable, Mode=TwoWay}" Margin="0,11" 
                     KeyUp="MoveNextFocusControl_ToName"/>
 	            <!--IsChecked="{Binding Path=CurrentItem.IsNotFormular, Mode=TwoWay}"-->
@@ -348,7 +345,7 @@
 			Grid.RowSpan="2"
 			Grid.Column="0"
 			Grid.ColumnSpan="2">
-			<mah:MetroAnimatedTabControl Margin="5,10,5,0" TabIndex="21">
+			<mah:MetroAnimatedTabControl Margin="5,10,5,0">
 				<mah:MetroTabItem Header="Основная">
 					<ScrollViewer CanContentScroll="True" ScrollViewer.VerticalScrollBarVisibility="Auto">
 						<Grid>
@@ -383,7 +380,6 @@
 								VerticalAlignment="Stretch"
 								IsEnabled="{Binding Path=TextEnable, Mode=TwoWay}"
 								Style="{StaticResource TextBoxStyle}"
-								TabIndex="22"
 								Text="{Binding Path=CurrentItem.Telephone, Mode=TwoWay}" />
 
 							<TextBlock
@@ -404,10 +400,12 @@
 								IsEnabled="{Binding Path=TextEnable, Mode=TwoWay}"
 								IsReadOnly="True"
 								Style="{StaticResource TextBoxStyle}"
-								TabIndex="23"
+								IsTabStop="False"
 								Text="{Binding Path=CurrentItem.Nation, Mode=TwoWay}" />
 
-							<Grid Grid.Row="1" Grid.Column="2">
+							<Grid Grid.Row="1" Grid.Column="2"
+							      KeyboardNavigation.IsTabStop="False"
+							      KeyboardNavigation.TabNavigation="Local">
 								<Grid.ColumnDefinitions>
 									<ColumnDefinition />
 									<ColumnDefinition />
@@ -422,8 +420,7 @@
 									Content="..."
 									IsEnabled="{Binding Path=ButtonEnable, Mode=TwoWay}"
 									Visibility="{Binding Path=ButtonEnable, Mode=TwoWay, Converter={StaticResource BooleanToVisibilityConverter}}"
-									Style="{StaticResource VisitorsSquareButtonStyle}"
-									TabIndex="24" />
+									Style="{StaticResource VisitorsSquareButtonStyle}"/>
 
 								<Button
 									Grid.Column="1"
@@ -458,7 +455,6 @@
 								IsEnabled="{Binding Path=TextEnable, Mode=TwoWay}"
 								ItemsSource="{Binding Path=PositionList}"
 								SelectedValue="{Binding Path=CurrentItem.Position, Mode=OneWay}"
-								TabIndex="26"
 								Text="{Binding Path=CurrentItem.Position, Mode=TwoWay}" />
 
 							<Grid
@@ -490,7 +486,7 @@
 									Text="Документы" />
 
                                 <ListBox
-                                TabIndex="27"
+                                TabIndex="13"
                                 Grid.Row="1"
                                 Grid.Column="0"
                                 Grid.RowSpan="2"
@@ -524,7 +520,7 @@
 										Content="Просмотр"
 										IsEnabled="{Binding Path=ButtonEnable, Converter={StaticResource InverseBooleanConverter}, Mode=TwoWay}"
 										Style="{StaticResource ButtonStyle}"
-										TabIndex="28" />
+										TabIndex="14" />
 
 									<Button
 										Grid.Column="2"
@@ -535,7 +531,7 @@
 										Content="+"
 										IsEnabled="{Binding Path=ButtonEnable, Mode=TwoWay}"
 										Style="{StaticResource ButtonStyle}"
-										TabIndex="29" />
+										IsTabStop="False"/>
 
 									<Button
 										Grid.Column="3"
@@ -546,7 +542,7 @@
 										Content="..."
 										IsEnabled="{Binding Path=ButtonEnable, Mode=TwoWay}"
 										Style="{StaticResource ButtonStyle}"
-										TabIndex="30" />
+										IsTabStop="False"/>
 
 									<Button
 										Grid.Column="6"
@@ -557,7 +553,7 @@
 										Content="X"
 										IsEnabled="{Binding Path=ButtonEnable, Mode=TwoWay}"
 										Style="{StaticResource ButtonStyle}"
-										TabIndex="31" />
+										IsTabStop="False"/>
 
 								</Grid>
 
@@ -574,7 +570,6 @@
 
                                     <CheckBox x:Name="checkBox_Consent" 
 									Tag="Consent to the processing of personal data"
-	                                TabIndex="34"
                                     IsChecked="{Binding Path=CurrentItem.IsAgree, Mode=TwoWay}"
                                     Grid.Column="0"
                                     HorizontalAlignment="Center"
@@ -596,7 +591,7 @@
 										Text="Дата" />
 
                                     <DatePicker
-                                    TabIndex="35"
+                                    IsTabStop="False"
                                     Grid.Column="3"
                                     SelectedDate="{Binding Path=CurrentItem.AgreeToDate, Mode=TwoWay}"
                                     IsEnabled="{Binding Path=TextEnable, Mode=TwoWay}"
@@ -622,7 +617,8 @@
                 <mah:MetroTabItem 
                     Header="Пропуска"
                     Visibility="{Binding AccessVisibility,
-                    Converter={StaticResource BooleanToVisibilityConverter}}">
+                    Converter={StaticResource BooleanToVisibilityConverter}}"
+	                TabIndex="21">
                     <DataGrid 
                         ItemsSource="{Binding Path=CurrentItem.Cards}"
                         SelectedIndex="{Binding Path=SelectedCard}"
@@ -656,7 +652,8 @@
                 <mah:MetroTabItem 
                     Header="Заявки" 
                     Visibility="{Binding AccessVisibility, 
-                    Converter={StaticResource BooleanToVisibilityConverter}}">
+                    Converter={StaticResource BooleanToVisibilityConverter}}"
+	                TabIndex="22">
                     <DataGrid Style="{StaticResource AzureDataGrid1}" 
                               ItemsSource="{Binding Path=CurrentItem.Orders}"
                               SelectedIndex="{Binding Path=SelectedOrder}"
@@ -678,7 +675,8 @@
                 </mah:MetroTabItem>
                 <mah:MetroTabItem Header="Сотрудник"
                                   Visibility="{Binding VisibleTabItem_Employee, Converter={StaticResource BooleanToVisibilityConverter}}">
-                    <ScrollViewer CanContentScroll="True" ScrollViewer.VerticalScrollBarVisibility="Auto">
+                    <ScrollViewer CanContentScroll="True" ScrollViewer.VerticalScrollBarVisibility="Auto"
+                                  TabIndex="23">
                         <Grid>
                             <Grid.ColumnDefinitions>
                                 <ColumnDefinition/>
@@ -900,7 +898,8 @@
 						</Grid>
 					</ScrollViewer>
 				</mah:MetroTabItem>
-				<mah:MetroTabItem Header="Документы">
+				<mah:MetroTabItem Header="Документы"
+				                  TabIndex="24">
 					<Grid>
 						<Grid.RowDefinitions>
 							<RowDefinition Height="40" />
@@ -949,7 +948,7 @@
 								Command="{Binding OpenDocumentCommand}"
 								Content="Просмотр"
 								IsEnabled="{Binding Path=ButtonEnable, Converter={StaticResource InverseBooleanConverter}, Mode=TwoWay}"
-								Style="{StaticResource VisitorsSquareButtonStyle}"
+								Style="{StaticResource ButtonStyle}"
 								TabIndex="61" />
 							<Button
 								Name="Button_OpenDocument_InRedactMode"
@@ -959,7 +958,7 @@
 								Command="{Binding OpenDocumentCommand}"
 								Content="Просмотр"
 								IsEnabled="{Binding Path=EnableButton_OpenDocument_InRedactMode, Mode=TwoWay}"
-								Style="{StaticResource VisitorsSquareButtonStyle}"
+								Style="{StaticResource ButtonStyle}"
 								TabIndex="61"
 								Visibility="{Binding VisibleButton_OpenDocument_InRedactMode, Converter={StaticResource BooleanToVisibilityConverter}}" />
 							<Button
@@ -1248,7 +1247,8 @@
                     IsEnabled="{Binding Path=VisitorsEnable.AcceptButtonEnable, Mode=TwoWay}"
                     Visibility="{Binding Path=VisitorsVisible.AcceptButtonEnable, 
                     Converter={StaticResource BooleanToVisibilityConverter}}"
-                    Style="{StaticResource VisitorsSquareButtonStyle}">
+                    Style="{StaticResource VisitorsSquareButtonStyle}"
+                    TabIndex="{Binding Path=TabIndex, RelativeSource={RelativeSource AncestorType={x:Type mah:MetroWindow}}}">
                 <Grid>
                     <Grid.RowDefinitions>
                         <RowDefinition/>
@@ -1273,7 +1273,8 @@
 				IsEnabled="{Binding Path=VisitorsEnable.CancelButtonEnable, Mode=TwoWay}"
 				Style="{StaticResource VisitorsSquareButtonStyle}"
 				ToolTip="Esc"
-				Visibility="{Binding Path=VisitorsVisible.CancelButtonEnable, Converter={StaticResource BooleanToVisibilityConverter}}">
+				Visibility="{Binding Path=VisitorsVisible.CancelButtonEnable, Converter={StaticResource BooleanToVisibilityConverter}}"
+				TabIndex="{Binding Path=TabIndex, RelativeSource={RelativeSource AncestorType={x:Type mah:MetroWindow}}}">
 				<Grid>
 					<Grid.RowDefinitions>
 						<RowDefinition />
