@@ -108,13 +108,51 @@ namespace SupRealClient.Views
 				}
 
 	            SelectedDocument = -1;
-            }
+	            OnPropertyChanged(nameof(VisibleTabItem_Employee));
+	            OnPropertyChanged(nameof(CommentTextEnable));
+	            OnPropertyChanged(nameof(Name));
+	            OnPropertyChanged(nameof(Family));
+	            OnPropertyChanged(nameof(Patronymic));
+			}
         }
 
-        /// <summary>
-        /// Объект со списком свойств Enable для кнопок
-        /// </summary>
-        public VisitorsEnableOrVisible VisitorsEnable
+	    public string Name
+	    {
+		    get { return CurrentItem.Name; }
+		    set
+		    {
+				if(!string.IsNullOrWhiteSpace(value))
+					CurrentItem.Name = value;
+				OnPropertyChanged(nameof(Name));
+		    }
+	    }
+
+	    public string Family
+		{
+		    get { return CurrentItem.Family; }
+		    set
+			{
+				if (!string.IsNullOrWhiteSpace(value))
+					CurrentItem.Family = value;
+			    OnPropertyChanged(nameof(Family));
+		    }
+	    }
+
+	    public string Patronymic
+		{
+		    get { return CurrentItem.Patronymic; }
+		    set
+			{
+				if (!string.IsNullOrWhiteSpace(value))
+					CurrentItem.Patronymic = value;
+			    OnPropertyChanged(nameof(Patronymic));
+		    }
+	    }
+
+		/// <summary>
+		/// Объект со списком свойств Enable для кнопок
+		/// </summary>
+		public VisitorsEnableOrVisible VisitorsEnable
         {
             get { return Model.VisitorsEnable; }
             set
@@ -187,7 +225,8 @@ namespace SupRealClient.Views
 			    OnPropertyChanged(nameof(IsRedactMode));
 			    OnPropertyChanged(nameof(VisibleTabItem_Employee));
 			    OnPropertyChanged(nameof(IsRedactMode_Inverce));
-			    EditingVisitorCommentMode = false;
+			    OnPropertyChanged(nameof(IsNotFormular));
+				EditingVisitorCommentMode = false;
 		    }
 	    }
 
@@ -243,7 +282,10 @@ namespace SupRealClient.Views
                 {
                     Model.CurrentItem = value;
                     OnPropertyChanged();
-                }
+	                OnPropertyChanged(nameof(CurrentItem));
+	                OnPropertyChanged(nameof(PhotoSource));
+	                OnPropertyChanged(nameof(Signature));
+				}
             }
         }
 
@@ -303,12 +345,10 @@ namespace SupRealClient.Views
 		{
 		    get
 		    {
-			    if (!IsRedactMode)
-				    return true;
-				else if (CurrentItem.OrganizationIsMaster)
-				    return false;
-			    else
-				    return true;
+			    //if (!IsRedactMode)
+				   // return true;
+				//else 
+			    return (CurrentItem.OrganizationIsBasic);
 		    }
 	    }
 
@@ -322,7 +362,17 @@ namespace SupRealClient.Views
 		    }
 	    }
 
-		public bool Enable
+	    public bool IsNotFormular
+	    {
+		    get => CurrentItem.IsNotFormular;
+		    set
+		    {
+			    CurrentItem.IsNotFormular = value;
+			    OnPropertyChanged(nameof(IsNotFormular));
+			}
+	    }
+
+	    public bool Enable
         { get; set; }
 
         public ICommand BeginCommand { get; set; }
@@ -613,9 +663,9 @@ namespace SupRealClient.Views
 	    /// <param name="person"></param>
 	    private void FillCurrentItemFieldsFromScan(CPerson person)
 	    {
-		    CurrentItem.Name = person.Name?.Value;
-		    CurrentItem.Family = person.Surname?.Value;
-		    CurrentItem.Patronymic = person.Patronymic?.Value;
+		    Name = person.Name?.Value;
+		    Family = person.Surname?.Value;
+		    Patronymic = person.Patronymic?.Value;
 		    CurrentItem.FullName = person.SurnmameAndName?.Value;
 		    CurrentItem.BirthDate = person.DateOfBirth?.Value;
 		    CurrentItem.DocType = person.DocumentClassCode?.Value;
@@ -691,7 +741,7 @@ namespace SupRealClient.Views
             CurrentItem.OrganizationId = result.Id;
             CurrentItem.Organization = OrganizationsHelper.
                 GenerateFullName(result.Id, true);
-			CurrentItem.OrganizationIsMaster = OrganizationsHelper.GetMasterParametr(result.Id, true);
+			CurrentItem.OrganizationIsBasic = OrganizationsHelper.GetBasicParametr(result.Id, true);
 
 
 
@@ -725,7 +775,8 @@ namespace SupRealClient.Views
 		        case "Organization":
 			        CurrentItem.OrganizationId = -1;
 			        CurrentItem.Organization = "";
-			        break;
+			        CurrentItem.OrganizationIsBasic = true;
+					break;
 		        case "DocType":
 			        CurrentItem.DocumentId = -1;
 			        CurrentItem.DocType = "";
@@ -752,7 +803,9 @@ namespace SupRealClient.Views
 	        }
 
 	        OnPropertyChanged("CurrentItem");
-        }
+
+	        OnPropertyChanged(nameof(VisibleTabItem_Employee));
+		}
 
         private void Begin()
         {
@@ -786,7 +839,7 @@ namespace SupRealClient.Views
 	    private void Extradite()
         {
             Base4ViewModel<Order> viewModel =
-                new Base4ViewModel<Order>
+                new AddZoneViewModel
                 {
                     Model = new AddZoneModel(CurrentItem.Orders, CurrentItem.Id)
                 };
@@ -823,8 +876,12 @@ namespace SupRealClient.Views
         private void Edit()
         {
 	        _documentScaner?.Connect();
+	        int indexEditingVisit = -1;
+	        if (model is VisitsModel)
+		        indexEditingVisit = (model as VisitsModel).selectedIndex;
 			Model = new EditVisitsModel(Set, CurrentItem);
-	        IsRedactMode = true;
+	        (Model as EditVisitsModel).IndexEditingVisit = indexEditingVisit;
+			IsRedactMode = true;
 		}
 
         private void Find()
@@ -845,11 +902,37 @@ namespace SupRealClient.Views
                 if (view.ParentWindow is VisitorsListWindView)
                     view.CloseWindow(new CancelEventArgs());
                 else
-                    Model = new VisitsModel();
+                {
+	                bool flag_GoEnd = false;
+	                int indexEditingVisit = -1;
+	                if (model is EditVisitsModel)
+		                indexEditingVisit = (model as EditVisitsModel).IndexEditingVisit;
+	                else
+		                flag_GoEnd = true;
+					
+	    //            if (!flag_GoEnd && indexEditingVisit >= 0)
+					//{
+					//	Model = new VisitsModel();
+					//	CurrentItem = (Model as VisitsModel).GoingTo(indexEditingVisit);
+					//}
+	    //            else
+	    //            {
+		   //             if (flag_GoEnd)
+		   //             {
+			  //              Model = new VisitsModel();
+			  //              CurrentItem = (Model as VisitsModel).End();
+		   //             }
+		   //             else
+		   //             {
+					//		Model = new VisitsModel();
+					//	}
+	    //            }
+	                Model = new VisitsModel();
+				}
 
-	            IsRedactMode = false;
+				IsRedactMode = false;
 
-            }                
+			}                
         }
 
         private void Cancel()
@@ -1138,7 +1221,9 @@ namespace SupRealClient.Views
 				#endregion
 
 			    EnableButton_OpenDocument_InRedactMode = true;
+				return; 
 			}
+		    EnableButton_OpenDocument_InRedactMode = false;
 		}
 
 		#region Realization events
@@ -1148,7 +1233,7 @@ namespace SupRealClient.Views
 		    if (sender is VisitorsDocumentViewModel)
 			{
 				VisitorsDocumentViewModel visitorsDocumentViewModel = sender as VisitorsDocumentViewModel;
-				if (Model is NewVisitsModel)
+				if ((sender as VisitorsDocumentViewModel).Model.Data.Id==-1)
 			    {
 				
 
@@ -1184,8 +1269,6 @@ namespace SupRealClient.Views
 			    }
 			    else
 			    {
-				    if (Model is EditVisitsModel)
-					{
 						if (visitorsDocumentViewModel.Name == _nameDocument_PhotoImageType)
 						{
 								MessageBox.Show("Документ с названием " + "\"" + visitorsDocumentViewModel.Name + "\"" +
@@ -1199,8 +1282,6 @@ namespace SupRealClient.Views
 								                " невозможно добавить, так как данное название используется только для документа, содержащий скан личной подписи");
 							return;
 						}
-
-					}
 			    }
 
 
@@ -1439,19 +1520,15 @@ namespace SupRealClient.Views
         protected virtual void UpdateCards() { }
 
         protected bool Validate()
-        {
-            if (string.IsNullOrEmpty(CurrentItem.Family) ||
-                string.IsNullOrEmpty(CurrentItem.Name) ||
-                string.IsNullOrEmpty(CurrentItem.Patronymic) ||
-                string.IsNullOrEmpty(CurrentItem.Organization))
-            {
-                MessageBox.Show("Не все поля заполнены корректно!");
-                return false;
-            }
+		{
+			if (!Validate_BaseData())
+			{
+				return false;
+			}
 
-	        if (!CurrentItem.IsAgree)
+			if (!CurrentItem.IsAgree)
 	        {
-		        MessageBox.Show("Нет согласия на обработку персональных данных!");
+		        MessageBox.Show("Нет согласия на обработку персональных данных!", "Внимание", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
 		        return false;
 	        }
 
@@ -1460,13 +1537,13 @@ namespace SupRealClient.Views
                 string.IsNullOrEmpty(CurrentItem.Nation) ||
                 !CurrentItem.MainDocuments.Any()))
             {
-                MessageBox.Show("Не все поля вкладки Основная заполнены!");
+                MessageBox.Show("Не все поля вкладки Основная заполнены!", "Внимание", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
                 return false;
             }
 
             if (!ValidateDocumentDates() &&
                 MessageBox.Show("В документах разные даты рождения. Все равно сохранить?",
-                "Внимание", MessageBoxButtons.YesNo) == DialogResult.No)
+                "Внимание", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.No)
             {
                 return false;
             }
@@ -1480,12 +1557,8 @@ namespace SupRealClient.Views
 		/// <returns></returns>
 		protected bool? Validate_AndUse_IsAgree()
 	    {
-		    if (string.IsNullOrEmpty(CurrentItem.Family) ||
-		        string.IsNullOrEmpty(CurrentItem.Name) ||
-		        string.IsNullOrEmpty(CurrentItem.Patronymic) ||
-		        string.IsNullOrEmpty(CurrentItem.Organization))
+		    if (!Validate_BaseData())
 		    {
-			    MessageBox.Show("Не все поля заполнены корректно!");
 			    return false;
 		    }
 
@@ -1494,8 +1567,8 @@ namespace SupRealClient.Views
 			    DialogResult result =
 				    MessageBox.Show(
 					    "Нет согласия на обработку персональных данных! " + Environment.NewLine +
-					    "При подтвердении сохранения будут сохранены ФИО посетителя и название организации", "Внимание",
-					    MessageBoxButtons.OKCancel);
+					    "При подтвердении сохранения будут сохранены ФИО посетителя и название организации, а остальные данные будут удалены!", "Внимание",
+					    MessageBoxButtons.OKCancel, MessageBoxIcon.Exclamation);
 
 			    if (result == DialogResult.OK)
 			    {
@@ -1511,13 +1584,13 @@ namespace SupRealClient.Views
 		         string.IsNullOrEmpty(CurrentItem.Nation) ||
 		         !CurrentItem.MainDocuments.Any()))
 		    {
-			    MessageBox.Show("Не все поля вкладки Основная заполнены!");
+			    MessageBox.Show("Не все поля вкладки Основная заполнены!", "Внимание", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
 			    return false;
 		    }
 
 		    if (!ValidateDocumentDates() &&
 		        MessageBox.Show("В документах разные даты рождения. Все равно сохранить?",
-			        "Внимание", MessageBoxButtons.YesNo) == DialogResult.No)
+			        "Внимание", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.No)
 		    {
 			    return false;
 		    }
@@ -1528,12 +1601,49 @@ namespace SupRealClient.Views
 	    protected bool Validate_BaseData()
 	    {
 		    if (string.IsNullOrEmpty(CurrentItem.Family) ||
-		        string.IsNullOrEmpty(CurrentItem.Name) ||
-		        string.IsNullOrEmpty(CurrentItem.Patronymic) ||
-		        string.IsNullOrEmpty(CurrentItem.Organization))
+		        string.IsNullOrWhiteSpace(CurrentItem.Family) ||
+
+				string.IsNullOrEmpty(CurrentItem.Name) ||
+		        string.IsNullOrWhiteSpace(CurrentItem.Name) ||
+
+				string.IsNullOrEmpty(CurrentItem.Patronymic) ||
+		        string.IsNullOrWhiteSpace(CurrentItem.Patronymic) ||
+
+				string.IsNullOrEmpty(CurrentItem.Organization) ||
+		        string.IsNullOrWhiteSpace(CurrentItem.Organization))
 		    {
-			    MessageBox.Show("Не все поля заполнены корректно!");
-			    return false;
+			    StringBuilder stringBuilder = new StringBuilder();
+
+
+				if (string.IsNullOrEmpty(CurrentItem.Family) ||
+			        string.IsNullOrWhiteSpace(CurrentItem.Family))
+				{
+					stringBuilder.Append("• Фамилия" + Environment.NewLine);
+				}
+
+			    if (string.IsNullOrEmpty(CurrentItem.Name) ||
+			        string.IsNullOrWhiteSpace(CurrentItem.Name))
+			    {
+				    stringBuilder.Append("• Имя" + Environment.NewLine);
+			    }
+
+			    if (string.IsNullOrEmpty(CurrentItem.Patronymic) ||
+			        string.IsNullOrWhiteSpace(CurrentItem.Patronymic))
+			    {
+				    stringBuilder.Append("• Отчество" + Environment.NewLine);
+			    }
+
+			    if (string.IsNullOrEmpty(CurrentItem.Organization) ||
+			        string.IsNullOrWhiteSpace(CurrentItem.Organization))
+			    {
+				    stringBuilder.Append("• Организация" + Environment.NewLine);
+			    }
+
+			    string generatedText = stringBuilder.ToString();
+
+				MessageBox.Show("Следующие поля заполнены корректно:" + Environment.NewLine + generatedText, "Внимание", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+
+				return false;
 		    }
 
 		    return true;
@@ -1546,8 +1656,8 @@ namespace SupRealClient.Views
 			    DialogResult result =
 				    MessageBox.Show(
 					    "Нет согласия на обработку персональных данных! " + Environment.NewLine +
-					    "При подтвердении сохранения будут сохранены ФИО посетителя и название организации", "Внимание",
-					    MessageBoxButtons.OKCancel);
+						"При подтвердении сохранения будут сохранены ФИО посетителя и название организации, а остальные данные будут удалены!", "Внимание",
+					    MessageBoxButtons.OKCancel, MessageBoxIcon.Exclamation);
 			    if (result == DialogResult.OK)
 			    {
 				    return null;
@@ -1566,7 +1676,7 @@ namespace SupRealClient.Views
 		         string.IsNullOrEmpty(CurrentItem.Nation) ||
 		         !CurrentItem.MainDocuments.Any()))
 		    {
-			    MessageBox.Show("Не все поля вкладки Основная заполнены!");
+			    MessageBox.Show("Не все поля вкладки Основная заполнены!","Внимание", MessageBoxButtons.OK,MessageBoxIcon.Exclamation);
 			    return false;
 		    }
 
@@ -1577,7 +1687,7 @@ namespace SupRealClient.Views
 	    {
 		    if (!ValidateDocumentDates() &&
 		        MessageBox.Show("В документах разные даты рождения. Все равно сохранить?",
-			        "Внимание", MessageBoxButtons.YesNo) == DialogResult.No)
+			        "Внимание", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.No)
 		    {
 			    return false;
 		    }
@@ -1906,8 +2016,38 @@ namespace SupRealClient.Views
                 OrdersCardsToVisitor(index);
             }
         }
+	    public VisitsModel(int loadingVisitorIndex)
+	    {
+		    visitorsEnable =
+			    new VisitorsEnableOrVisible
+			    {
+				    AcceptButtonEnable = false,
+				    CancelButtonEnable = false
+			    };
+		    VisitorsWrapper.CurrentTable().OnChanged += Query;
+		    OrganizationsWrapper.CurrentTable().OnChanged += Query;
+		    Query();
 
-        private void Query()
+		    GoingTo(loadingVisitorIndex);
+	    }
+
+	    public VisitsModel(bool moveToEnd)
+	    {
+		    visitorsEnable =
+			    new VisitorsEnableOrVisible
+			    {
+				    AcceptButtonEnable = false,
+				    CancelButtonEnable = false
+			    };
+		    VisitorsWrapper.CurrentTable().OnChanged += Query;
+		    OrganizationsWrapper.CurrentTable().OnChanged += Query;
+		    Query();
+
+		    if (moveToEnd)
+			    End();
+	    }
+
+		private void Query()
         {
             Set = new ObservableCollection<EnumerationClasses.Visitor>(
                 from visitors in VisitorsWrapper.CurrentTable().Table.AsEnumerable()
@@ -1927,8 +2067,8 @@ namespace SupRealClient.Views
                         "f_persona_non_grata")),
                     IsCanHaveVisitors = CommonHelper.StringToBool(visitors.Field<string>(
                         "f_can_have_visitors")),
-                    IsNotFormular = true,
-                    Telephone = visitors.Field<string>("f_phones"),
+					IsNotFormular = CommonHelper.StringToBool( visitors.Field<string>("f_no_formular")),
+					Telephone = visitors.Field<string>("f_phones"),
                     Nation = (string)CountriesWrapper.CurrentTable()
                         .Table.AsEnumerable()
                         .FirstOrDefault(arg => arg.Field<int>("f_cntr_id") ==
@@ -1957,7 +2097,9 @@ namespace SupRealClient.Views
                         .Table.AsEnumerable().FirstOrDefault(arg =>
                         arg.Field<int>("f_cabinet_id") ==
                         visitors.Field<int>("f_cabinet_id"))?["f_cabinet_desc"],
-                });
+	                OrganizationIsBasic = OrganizationsHelper.GetBasicParametr(visitors.Field<int>("f_org_id"), true)
+
+		});
             if (Set.Count > 0)
             {
                 OrdersCardsToVisitor(0);
@@ -2018,7 +2160,20 @@ namespace SupRealClient.Views
             return CurrentItem;
         }
 
-        public override EnumerationClasses.Visitor Next()
+	    public EnumerationClasses.Visitor GoingTo(int index)
+	    {
+		    if (index < Set.Count)
+		    {
+			    selectedIndex = index;
+			    OrdersCardsToVisitor(selectedIndex);
+			    DocumentsToVisitor(selectedIndex);
+			    CurrentItem = Set[selectedIndex];
+		    }
+
+		    return CurrentItem;
+	    }
+
+	    public override EnumerationClasses.Visitor Next()
         {
             if (Set.Count > 0 && selectedIndex < Set.Count - 1)
             {
@@ -2079,7 +2234,6 @@ namespace SupRealClient.Views
                                     From = row.Field<DateTime>("f_time_from"),
                                     To = row.Field<DateTime>("f_time_to"),
                                     IsDisable = row.Field<string>("f_disabled").ToUpper() == "Y" ? true : false,
-                                    Passes = row.Field<string>("f_passes"),
                                     IsBlock = CommonHelper.StringToBool(VisitorsWrapper.CurrentTable().Table.AsEnumerable().
                                         Where(item => item.Field<int>("f_visitor_id") == row.Field<int>("f_visitor_id")).
                                         FirstOrDefault().Field<string>("f_persona_non_grata")),
@@ -2295,13 +2449,19 @@ namespace SupRealClient.Views
 		private bool _buttonEnable = true;
 		public override event Action<object> OnClose;
 
-        public override bool TextEnable
+		public override bool TextEnable
         {
             get { return true; }
             set { }
         }
 
-        public override bool ButtonEnable
+		public override bool CommentTextEnable
+		{
+			get { return true; }
+			set { }
+		}
+
+		public override bool ButtonEnable
         {
             get { return _buttonEnable; }
 	        set { _buttonEnable = value; }
@@ -2336,18 +2496,18 @@ namespace SupRealClient.Views
             CurrentItem.Documents = new ObservableCollection<VisitorsDocument>();
             Set.Add(CurrentItem);
         }
-        
-        public override bool Ok()
-        {
-	        bool? validate = Validate_AndUse_IsAgree();
 
-			if (validate!=null && !validate.Value)
-            {
-                return false;
-            }
+		public override bool Ok()
+		{
+			bool? validate = Validate_AndUse_IsAgree();
+
+			if (validate != null && !validate.Value)
+			{
+				return false;
+			}
 
 			if (validate == null)
-	        {
+			{
 
 
 				//DataRow row = VisitorsWrapper.CurrentTable().Table.NewRow();
@@ -2411,103 +2571,113 @@ namespace SupRealClient.Views
 				//return true;
 
 
-			        CurrentItem.Comment = "";
-			        CurrentItem.IsAccessDenied = false;
-			        CurrentItem.IsCanHaveVisitors = false;
-			        CurrentItem.Telephone = "";
-			        CurrentItem.NationId = 0;
-			        CurrentItem.DocumentId = 0;
-			        CurrentItem.DocSeria = "";
-			        CurrentItem.DocNum = "";
-			        CurrentItem.DocDate = DateTime.MinValue;
-			        CurrentItem.DocCode = "";
-			        CurrentItem.DocPlace = "";
-			        CurrentItem.Position = "";
-			        CurrentItem.IsRightSign = false;
-			        CurrentItem.IsAgreement = false;
-			        CurrentItem.CabinetId = 0;
-			        CurrentItem.DepartmentId = 0;
+				CurrentItem.Comment = "";
+				CurrentItem.IsAccessDenied = false;
+				CurrentItem.IsCanHaveVisitors = false;
+				CurrentItem.Telephone = "";
+				CurrentItem.NationId = 0;
+				CurrentItem.DocumentId = 0;
+				CurrentItem.DocSeria = "";
+				CurrentItem.DocNum = "";
+				CurrentItem.DocDate = DateTime.MinValue;
+				CurrentItem.DocCode = "";
+				CurrentItem.DocPlace = "";
+				CurrentItem.Position = "";
+				CurrentItem.IsRightSign = false;
+				CurrentItem.IsAgreement = false;
+				CurrentItem.CabinetId = 0;
+				CurrentItem.DepartmentId = 0;
 
-		        for (int index = 0; index < CurrentItem.MainDocuments.Count; index++)
-		        {
-			        this.RemoveMainDocument(0);
+				for (int index = 0; index < CurrentItem.MainDocuments.Count; index++)
+				{
+					this.RemoveMainDocument(0);
 				}
 
-		        for (int index = 0; index < CurrentItem.Documents.Count; index++)
-		        {
-			        this.RemoveDocument(0);
-		        }
+				for (int index = 0; index < CurrentItem.Documents.Count; index++)
+				{
+					this.RemoveDocument(0);
+				}
 
-		        this.RemoveImageSource(ImageType.Photo);
-		        this.RemoveImageSource(ImageType.Signature);
+				this.RemoveImageSource(ImageType.Photo);
+				this.RemoveImageSource(ImageType.Signature);
 
 				CurrentItem.MainDocuments.Clear();
-		        CurrentItem.Documents.Clear();
+				CurrentItem.Documents.Clear();
 
 			}
 
-		        DataRow row = VisitorsWrapper.CurrentTable().Table.NewRow();
+			DataRow row = VisitorsWrapper.CurrentTable().Table.NewRow();
 
-		        row["f_rec_date_pass"] = DateTime.Now;
-		        row["f_is_short_data"] = CommonHelper.BoolToString(false);
-		        row["f_rec_operator_pass"] = Authorizer.AppAuthorizer.Id;
-		        row["f_full_name"] = CommonHelper.CreateFullName(CurrentItem.Family,
-			        CurrentItem.Name, CurrentItem.Patronymic);
+			row["f_rec_date_pass"] = DateTime.Now;
+			row["f_is_short_data"] = CommonHelper.BoolToString(false);
+			row["f_rec_operator_pass"] = Authorizer.AppAuthorizer.Id;
+			row["f_full_name"] = CommonHelper.CreateFullName(CurrentItem.Family,
+				CurrentItem.Name, CurrentItem.Patronymic);
+			row["f_no_formular"] = CommonHelper.BoolToString(CurrentItem.IsNotFormular);
 
-		        row["f_deleted"] = CommonHelper.BoolToString(false);
-		        row["f_rec_date"] = DateTime.Now;
-		        row["f_rec_operator"] = Authorizer.AppAuthorizer.Id;
 
-		        row["f_family"] = CurrentItem.Family;
-		        row["f_fst_name"] = CurrentItem.Name;
-		        row["f_sec_name"] = CurrentItem.Patronymic;
-		        row["f_org_id"] = CurrentItem.OrganizationId >= 0 ? CurrentItem.OrganizationId : 0;
-		        row["f_vr_text"] = CurrentItem.Comment ?? "";
+			row["f_deleted"] = CommonHelper.BoolToString(false);
+			row["f_rec_date"] = DateTime.Now;
+			row["f_rec_operator"] = Authorizer.AppAuthorizer.Id;
 
-		        row["f_persona_non_grata"] =
-			        CommonHelper.BoolToString(CurrentItem.IsAccessDenied);
-		        row["f_can_have_visitors"] =
-			        CommonHelper.BoolToString(CurrentItem.IsCanHaveVisitors);
-		        row["f_personal_data_agreement"] =
-			        CommonHelper.BoolToString(CurrentItem.IsAgree);
-		        row["f_personal_data_last_date"] = CurrentItem.AgreeToDate;
-		        row["f_birth_date"] = Convert.ToDateTime(CurrentItem.BirthDate);
-		        row["f_phones"] = CurrentItem.Telephone ?? "";
-		        row["f_cntr_id"] = CurrentItem.NationId >= 0 ? CurrentItem.NationId : 0;
-		        row["f_doc_id"] = CurrentItem.DocumentId >= 0 ? CurrentItem.DocumentId : 0;
-		        row["f_doc_seria"] = CurrentItem.DocSeria ?? "";
-		        row["f_doc_num"] = CurrentItem.DocNum ?? "";
-		        row["f_doc_date"] = CurrentItem.DocDate;
-		        row["f_doc_code"] = CurrentItem.DocCode;
-		        row["f_doc_org"] = CurrentItem.DocPlace ?? "";
-		        row["f_job"] = CurrentItem.Position ?? "";
-		        row["f_can_sign_orders"] =
-			        CommonHelper.BoolToString(CurrentItem.IsRightSign);
-		        row["f_can_adjust_orders"] =
-			        CommonHelper.BoolToString(CurrentItem.IsAgreement);
+			row["f_family"] = CurrentItem.Family;
+			row["f_fst_name"] = CurrentItem.Name;
+			row["f_sec_name"] = CurrentItem.Patronymic;
+			row["f_org_id"] = CurrentItem.OrganizationId >= 0 ? CurrentItem.OrganizationId : 0;
+			row["f_vr_text"] = CurrentItem.Comment ?? "";
 
-		        row["f_dep_id"] = CurrentItem.DepartmentId >= 0 ? CurrentItem.DepartmentId : 0;
-		        row["f_cabinet_id"] = CurrentItem.CabinetId >= 0 ? CurrentItem.CabinetId : 0;
-		        VisitorsWrapper.CurrentTable().Table.Rows.Add(row);
+			row["f_persona_non_grata"] =
+				CommonHelper.BoolToString(CurrentItem.IsAccessDenied);
+			row["f_can_have_visitors"] =
+				CommonHelper.BoolToString(CurrentItem.IsCanHaveVisitors);
+			row["f_personal_data_agreement"] =
+				CommonHelper.BoolToString(CurrentItem.IsAgree);
+			row["f_personal_data_last_date"] = CurrentItem.AgreeToDate;
+			row["f_birth_date"] = Convert.ToDateTime(CurrentItem.BirthDate);
+			row["f_phones"] = CurrentItem.Telephone ?? "";
+			row["f_cntr_id"] = CurrentItem.NationId >= 0 ? CurrentItem.NationId : 0;
+			row["f_doc_id"] = CurrentItem.DocumentId >= 0 ? CurrentItem.DocumentId : 0;
+			row["f_doc_seria"] = CurrentItem.DocSeria ?? "";
+			row["f_doc_num"] = CurrentItem.DocNum ?? "";
+			row["f_doc_date"] = CurrentItem.DocDate;
+			row["f_doc_code"] = CurrentItem.DocCode;
+			row["f_doc_org"] = CurrentItem.DocPlace ?? "";
+			row["f_job"] = CurrentItem.Position ?? "";
+			row["f_can_sign_orders"] =
+				CommonHelper.BoolToString(CurrentItem.IsRightSign);
+			row["f_can_adjust_orders"] =
+				CommonHelper.BoolToString(CurrentItem.IsAgreement);
 
-		        SaveAdditionalData((int) row["f_visitor_id"]);
-		        OnClose?.Invoke(CurrentItem);
-		        return true;
-        }
-    }
+			row["f_dep_id"] = CurrentItem.DepartmentId >= 0 ? CurrentItem.DepartmentId : 0;
+			row["f_cabinet_id"] = CurrentItem.CabinetId >= 0 ? CurrentItem.CabinetId : 0;
+			VisitorsWrapper.CurrentTable().Table.Rows.Add(row);
+
+			SaveAdditionalData((int) row["f_visitor_id"]);
+			OnClose?.Invoke(CurrentItem);
+			return true;
+		}
+	}
 
     public class EditVisitsModel : BaseVisitsModel
     {
 	    private bool _buttonEnable = true;
 		public EnumerationClasses.Visitor OldVisitor { get; set; }
 
-        public override bool TextEnable
+	    public int IndexEditingVisit { get; set; } = -1;
+
+		public override bool TextEnable
         {
             get { return true; }
             set { }
         }
 
-        public override bool ButtonEnable
+	    public override bool CommentTextEnable
+	    {
+		    get { return true; }
+		    set { }
+	    }
+
+		public override bool ButtonEnable
         {
             get { return _buttonEnable; }
 	        set { _buttonEnable = value; }
@@ -2620,6 +2790,15 @@ namespace SupRealClient.Views
 			if (OldVisitor.OrganizationId != CurrentItem.OrganizationId)
 				row["f_org_id"] = CurrentItem.OrganizationId >= 0 ?
 					CurrentItem.OrganizationId : 0;
+	        if (OldVisitor.IsNotFormular != CurrentItem.IsNotFormular)
+	        {
+				row["f_no_formular"] = CommonHelper.BoolToString(CurrentItem.IsNotFormular);
+			}
+			
+
+
+
+
 			if (OldVisitor.Comment != CurrentItem.Comment)
 				row["f_vr_text"] = CurrentItem.Comment;
 			if (OldVisitor.IsAccessDenied != CurrentItem.IsAccessDenied)

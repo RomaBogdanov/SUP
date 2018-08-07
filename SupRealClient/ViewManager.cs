@@ -277,6 +277,7 @@ namespace SupRealClient
                 if (window.GetType().ToString().Contains("AddUpdateOrgsView") ||
                     window.GetType().ToString().Contains("OrganizationsWindView") ||
                     window.GetType().ToString().Contains("AddItem1View") ||
+                    window.GetType().ToString().Contains("AddUpdateCabinetView") ||
                     window.GetType().ToString().Contains("Search1View") ||
                     window.GetType().ToString().Contains("AddUpdateRegionView") ||
                     window.GetType().ToString().Contains("AddUpdateCardView") ||

@@ -13,9 +13,12 @@ namespace SupRealClient.ViewModels
 {
 	public class BidsViewModel : ViewModelBase
 	{
-		#region Properties
+        #region Properties
 
-		private IBidsModel bidsModel;
+        // Открыта из выдачи пропусков по заявке по кнопке "на основании заявки" 
+        private bool isToVirtue = false;
+
+        private IBidsModel bidsModel;
 
 
 		/// <summary>
@@ -23,27 +26,27 @@ namespace SupRealClient.ViewModels
 		/// </summary>
 		private Order CurrentSelectedOrder { get; set; }
 
-		private bool _isEnabled = false;
+		private bool isEnabled = false;
 		/// <summary>
 		/// Доступность вкладок TabControl.
 		/// </summary>
 		public bool IsEnabled
 		{
-			get { return _isEnabled; }
+			get { return isEnabled; }
 			set
 			{
-				_isEnabled = value;
+				isEnabled = value;
 				OnPropertyChanged(nameof(IsEnabled));
 			}
 		}
 
-		private int _selectedIndex = 0;
+		private int selectedIndex = 0;
 		public int SelectedIndex
 		{
-			get { return _selectedIndex; }
+			get { return selectedIndex; }
 			set
 			{
-				_selectedIndex = value;
+				selectedIndex = value;
 				OnPropertyChanged(nameof(SelectedIndex));
 			}
 		}
@@ -68,13 +71,13 @@ namespace SupRealClient.ViewModels
 			}
 		}
 
-		private Order _selectedOrder;
+		private Order selectedOrder;
 		public Order SelectedOrder
 		{
-			get { return _selectedOrder; }
+			get { return selectedOrder; }
 			set
 			{
-				_selectedOrder = value;
+				selectedOrder = value;
 				OnPropertyChanged(nameof(SelectedOrder));
 			}
 		}
@@ -192,84 +195,89 @@ namespace SupRealClient.ViewModels
 			}
 		}
 
-		private bool isTempOrder;
+		public bool IsNoneOrder
+		{
+			get { return CurrentOrderType == OrderType.None; }
+			set
+			{
+				if (value)
+				{
+					EditButtonEnable = false;
+					CurrentOrderType = OrderType.None;
+				}
+
+				OnPropertyChanged(nameof(IsNoneOrder));
+			}
+		}
 
 		public bool IsTempOrder
 		{
-			get { return isTempOrder; }
+			get { return CurrentOrderType == OrderType.Temp; }
 			set
 			{
-				isTempOrder = value;
-				if (isTempOrder)
+				if (value)
 				{
-					BidsModel.OrderType = OrderType.Temp;
+					EditButtonEnable = true;
+					CurrentOrderType = OrderType.Temp;
 				}
 
 				OnPropertyChanged(nameof(IsTempOrder));
 			}
 		}
 
-		private bool isSingleOrder;
-
-
 		public bool IsSingleOrder
 		{
-			get { return isSingleOrder; }
+			get { return CurrentOrderType == OrderType.Single; }
 			set
 			{
-				isSingleOrder = value;
-				if (isSingleOrder)
+				if (value)
 				{
-					BidsModel.OrderType = OrderType.Single;
+					EditButtonEnable = true;
+					CurrentOrderType = OrderType.Single;
 				}
-
 				OnPropertyChanged(nameof(IsSingleOrder));
 			}
 		}
 
-		private bool isVirtueOrder;
-
-
 		public bool IsVirtueOrder
 		{
-			get { return isVirtueOrder; }
+			get { return CurrentOrderType == OrderType.Virtue; }
 			set
 			{
-				isVirtueOrder = value;
-				if (IsVirtueOrder)
+				if (value)
 				{
-					BidsModel.OrderType = OrderType.Virtue;
+					EditButtonEnable = true;
+					CurrentOrderType = OrderType.Virtue;
 				}
-
 				OnPropertyChanged(nameof(IsVirtueOrder));
 			}
 		}
 
+		private OrderType currentOrderType = OrderType.None;
 		/// <summary>
 		/// Свойство для определения текущей открытой вкладки.
 		/// </summary>
 		private OrderType CurrentOrderType
 		{
-			get
+			get { return currentOrderType; }
+			set
 			{
-				if (IsTempOrder)
+				if (value != currentOrderType)
 				{
-					return OrderType.Temp;
-				}
+					currentOrderType = value;
+					if (BidsModel != null)
+					{
+						BidsModel.OrderType = currentOrderType;
+					}
 
-				if (IsSingleOrder)
-				{
-					return OrderType.Single;
+					OnPropertyChanged(nameof(IsSingleOrder));
+					OnPropertyChanged(nameof(IsTempOrder));
+					OnPropertyChanged(nameof(IsVirtueOrder));
+					OnPropertyChanged(nameof(IsNoneOrder));
 				}
-
-				if (IsVirtueOrder)
-				{
-					return OrderType.Virtue;
-				}
-
-				return OrderType.None;
 			}
 		}
+
 
 		public bool IsCanAddRows
 		{
@@ -341,29 +349,50 @@ namespace SupRealClient.ViewModels
 			}
 		}
 
-		private bool _acceptButtonEnable = false;
+		private bool acceptButtonEnable = false;
 
 		/// <summary>
 		/// Доступность кнопок Применить и Отмена.
 		/// </summary>
 		public bool AcceptButtonEnable
 		{
-			get { return _acceptButtonEnable; }
+			get { return acceptButtonEnable; }
 			set
 			{
-				_acceptButtonEnable = value;
-				NavigateButtonEnable = !value;
+				acceptButtonEnable = value;
 				OnPropertyChanged();
 			}
 		}
+
+		private bool navigateButtonEnable = false;
 
 		/// <summary>
 		/// Доступность кнопок нижнего ряда, кроме кнопок Применить, Отмена.
 		/// </summary>
 		public bool NavigateButtonEnable
 		{
-			get { return !_acceptButtonEnable; }
-			set { OnPropertyChanged(); }
+			get { return navigateButtonEnable; }
+			set
+			{
+				navigateButtonEnable = value;
+				OnPropertyChanged();
+			}
+		}
+
+		private bool editButtonEnable = false;
+
+		public bool EditButtonEnable
+		{
+			get
+			{
+				return editButtonEnable;
+			}
+			set
+			{
+				editButtonEnable = value;
+
+				OnPropertyChanged();
+			}
 		}
 
 		/// <summary>
@@ -404,13 +433,23 @@ namespace SupRealClient.ViewModels
 
 			SignerCommand = new RelayCommand(arg => Signer());;
 			AgreerCommand = new RelayCommand(arg => Agreer());
+			
+			CurrentOrderType = OrderType.Single;
 
 			TextEnable = false; // При открытии окна поля недоступны.
 			AcceptButtonEnable = false; // При открытии кнопки применить и отмена недоступны.
+			NavigateButtonEnable = true;
+			EditButtonEnable = true;
 			IsEnabled = true;
 		}
 
-		private void BidsModel_OnRefresh()
+        public void SetToVirtue()
+        {
+            isToVirtue = true;
+            New();
+        }
+
+        private void BidsModel_OnRefresh()
 		{
 			CurrentTemporaryOrder = BidsModel.CurrentTemporaryOrder;
 			CurrentTemporaryOrder.OrderElements = BidsModel.CurrentTemporaryOrder.OrderElements;
@@ -572,6 +611,8 @@ namespace SupRealClient.ViewModels
 
 			TextEnable = true; // При открытии окна поля недоступны.
 			AcceptButtonEnable = true; // При открытии кнопки применить и отмена недоступны.
+			NavigateButtonEnable = false;
+			EditButtonEnable = false;
 			IsEnabled = false;
 		}
 
@@ -589,6 +630,8 @@ namespace SupRealClient.ViewModels
 
 			TextEnable = true; // При открытии окна поля недоступны.
 			AcceptButtonEnable = true; // При открытии кнопки применить и отмена недоступны.
+			NavigateButtonEnable = false;
+			EditButtonEnable = false;
 			IsEnabled = false;
 		}
 
@@ -613,22 +656,25 @@ namespace SupRealClient.ViewModels
 					throw new ArgumentOutOfRangeException();
 			}
 
-			if (!currentOrder.IsOrderDataCorrect(CurrentOrderType, out string errorMessage))
+			if (currentOrder != null)
 			{
-				MessageBox.Show(errorMessage, "Ошибка");
-				return;
+				if (!currentOrder.IsOrderDataCorrect(CurrentOrderType, out string errorMessage))
+				{
+					MessageBox.Show(errorMessage, "Ошибка", MessageBoxButton.OK, MessageBoxImage.Error);
+					return;
+				}
+				BidsModel.Ok();
+
+				CurrentSelectedOrder = currentOrder;
+
+				BidsModel = new BidsModel();
+
+				ApplyCurrentSelectedOrder();
 			}
-
-			BidsModel.Ok();
-
-			CurrentSelectedOrder = currentOrder;
-
-			BidsModel = new BidsModel();
-
-			ApplyCurrentSelectedOrder();
-
 			TextEnable = false;
-			AcceptButtonEnable = false;
+			AcceptButtonEnable = false; // При открытии кнопки применить и отмена недоступны.
+			NavigateButtonEnable = true;
+			EditButtonEnable = true;
 			IsEnabled = true;
 		}
 
@@ -686,6 +732,8 @@ namespace SupRealClient.ViewModels
 
 			TextEnable = false; // При открытии окна поля недоступны.
 			AcceptButtonEnable = false; // При открытии кнопки применить и отмена недоступны.
+			NavigateButtonEnable = true;
+			EditButtonEnable = true;
 			IsEnabled = true;
 		}
 
@@ -701,8 +749,22 @@ namespace SupRealClient.ViewModels
 
 		private void ChooseVisitorForVirtue()
 		{
-			VisitorsModelResult result = ViewManager.Instance.OpenWindowModal(
-				"VisitorsListWindViewOk", null) as VisitorsModelResult;
+			var model = new VisitorsListModel<Visitor>();
+			var viewModel = new Base4ViewModel<Visitor>()
+			{
+				OkCaption = "OK",
+				Model = model
+			};
+			var view = new VisitorsListWindView()
+			{
+				DataContext = viewModel
+			};
+			view.Owner = Application.Current.Windows.OfType<Window>().SingleOrDefault(x => x.IsActive);
+			view.WindowStartupLocation = WindowStartupLocation.CenterOwner;
+			model.OnClose += view.Handling_OnClose;
+			view.ShowDialog();
+			VisitorsModelResult result = view.WindowResult as VisitorsModelResult;
+
 			if (result == null)
 			{
 				return;
@@ -721,8 +783,20 @@ namespace SupRealClient.ViewModels
 
 		private void ChooseOrganizationForVirtue()
 		{
-			BaseModelResult result = ViewManager.Instance.OpenWindowModal(
-				"Base4OrganizationsWindView", null) as BaseModelResult;
+			var model = new OrganizationsListModel<Organization>();
+			var viewModel = new Base4ViewModel<Organization>()
+			{
+				Model = model
+			};
+			var view = new Base4OrganizationsWindView()
+			{
+				DataContext = viewModel
+			};
+			view.Owner = Application.Current.Windows.OfType<Window>().SingleOrDefault(x => x.IsActive);
+			view.WindowStartupLocation = WindowStartupLocation.CenterOwner;
+			// model.OnClose += view.Handling_OnClose;
+			view.ShowDialog();
+			BaseModelResult result = view.WindowResult as BaseModelResult;
 			if (result == null)
 			{
 				return;
@@ -751,6 +825,8 @@ namespace SupRealClient.ViewModels
 			{
 				DataContext = viewModel
 			};
+			wind.Owner = Application.Current.Windows.OfType<Window>().SingleOrDefault(x => x.IsActive);
+			wind.WindowStartupLocation = WindowStartupLocation.CenterOwner;
 			viewModel.Model.OnClose += wind.Handling_OnClose;
 			wind.ShowDialog();
 			if (wind.WindowResult as OrderElement == null)
@@ -765,20 +841,6 @@ namespace SupRealClient.ViewModels
 			currentOrderElement.AreaIdList =
 				AndoverEntityListHelper.AndoverEntitiesToString(currentOrderElement.Areas);
 			currentOrderElement.ScheduleId = (wind.WindowResult as OrderElement).ScheduleId;
-			string st = "";
-			foreach (var area in (wind.WindowResult as OrderElement).Areas)
-			{
-				st += area.Name + ", ";
-			}
-
-			if (st.Length - 2 >= 0)
-			{
-				currentOrderElement.Passes = st.Remove(st.Length - 2);
-			}
-			else
-			{
-				currentOrderElement.Passes = "";
-			}
 
 			CurrentVirtueOrder = CurrentVirtueOrder;
 		}

@@ -684,6 +684,12 @@ namespace SupRealClient.Models.AddUpdateModel
             ((OrderElement)CurrentItem).Areas = SetAppointZones;
             OnClose?.Invoke(CurrentItem);
         }
+
+	    public override void Cancel()
+	    {
+		    OnClose?.Invoke(CurrentItem);
+		}
+
     }
 
     public abstract class AddUpdateTemplateModel : AddUpdateAbstrModel
