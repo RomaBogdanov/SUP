@@ -12,6 +12,7 @@ using SupRealClient.EnumerationClasses;
 using SupRealClient.Views;
 using SupRealClient.TabsSingleton;
 using System.Data;
+using System.Linq;
 using SupRealClient.Common;
 
 namespace SupRealClient.ViewModels.AddUpdateViewModel
@@ -101,7 +102,6 @@ namespace SupRealClient.ViewModels.AddUpdateViewModel
         protected virtual void CancelCommand()
         {
             Model.Cancel();
-
         }
     }
 
@@ -143,8 +143,21 @@ namespace SupRealClient.ViewModels.AddUpdateViewModel
 
 		private void VisitorNameCommand()
 		{
-			VisitorsModelResult result = ViewManager.Instance.OpenWindowModal(
-				"VisitorsListWindViewOk", null) as VisitorsModelResult;
+			var model = new VisitorsListModel<Visitor>();
+			var viewModel = new Base4ViewModel<Visitor>()
+			{
+				OkCaption = "OK",
+				Model = model
+			};
+			var view = new VisitorsListWindView()
+			{
+				DataContext = viewModel
+			};
+			view.Owner = Application.Current.Windows.OfType<Window>().SingleOrDefault(x => x.IsActive);
+			view.WindowStartupLocation = WindowStartupLocation.CenterOwner;
+			model.OnClose += view.Handling_OnClose;
+			view.ShowDialog();
+			VisitorsModelResult result = view.WindowResult as VisitorsModelResult;
 
 			if (result == null)
 	        {
@@ -161,8 +174,21 @@ namespace SupRealClient.ViewModels.AddUpdateViewModel
 
 	    private void OrganizationNameCommand()
 	    {
-		    BaseModelResult result = ViewManager.Instance.OpenWindowModal(
-				"Base4OrganizationsWindView", null) as BaseModelResult;
+		    var model = new OrganizationsListModel<Organization>();
+		    var viewModel = new Base4ViewModel<Organization>()
+		    {
+			    Model = model
+		    };
+		    var view = new Base4OrganizationsWindView()
+		    {
+			    DataContext = viewModel
+		    };
+		    view.Owner = Application.Current.Windows.OfType<Window>().SingleOrDefault(x => x.IsActive);
+		    view.WindowStartupLocation = WindowStartupLocation.CenterOwner;
+		   // model.OnClose += view.Handling_OnClose;
+		    view.ShowDialog();
+		    BaseModelResult result = view.WindowResult as BaseModelResult;
+
 		    if (result == null)
 		    {
 			    return;
@@ -184,7 +210,9 @@ namespace SupRealClient.ViewModels.AddUpdateViewModel
 	        {
 		        DataContext = viewModel
 	        };
-	        model.OnClose += view.Handling_OnClose;
+	        view.Owner = Application.Current.Windows.OfType<Window>().SingleOrDefault(x => x.IsActive);
+	        view.WindowStartupLocation = WindowStartupLocation.CenterOwner;
+			model.OnClose += view.Handling_OnClose;
 	        view.ShowDialog();
 	        VisitorsModelResult result = view.WindowResult as VisitorsModelResult;
 
@@ -210,9 +238,11 @@ namespace SupRealClient.ViewModels.AddUpdateViewModel
             {
                 DataContext = viewModel
             };
+	        wind.Owner = Application.Current.Windows.OfType<Window>().SingleOrDefault(x => x.IsActive);
+	        wind.WindowStartupLocation = WindowStartupLocation.CenterOwner;
             viewModel.Model.OnClose += wind.Handling_OnClose;
             wind.ShowDialog();
-            if (wind.WindowResult as OrderElement == null)
+            if (!(wind.WindowResult is OrderElement))
             {
                 return;
             }
@@ -272,7 +302,7 @@ namespace SupRealClient.ViewModels.AddUpdateViewModel
 	    {
 		    if (!CurrentOrderElement.IsOrderElementDataCorrect(out string errorMessage))
 		    {
-			    MessageBox.Show(errorMessage, "Ошибка");
+			    MessageBox.Show(errorMessage, "Ошибка", MessageBoxButton.OK, MessageBoxImage.Error);
 				return;
 		    }
 

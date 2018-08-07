@@ -2,10 +2,12 @@
 using System.Collections.ObjectModel;
 using System.Linq;
 using System.Windows;
+using System.Windows.Forms;
 using SupRealClient.EnumerationClasses;
 using SupRealClient.Models.AddUpdateModel;
 using SupRealClient.ViewModels.AddUpdateViewModel;
 using SupRealClient.Views;
+using Application = System.Windows.Application;
 using MessageBox = System.Windows.Forms.MessageBox;
 
 namespace SupRealClient.Models
@@ -319,7 +321,7 @@ namespace SupRealClient.Models
 		{
 			if (SelectedElement == null)
 			{
-				MessageBox.Show("Не выбран посетитель для редактирования данных по нему");
+				MessageBox.Show("Не выбран посетитель для редактирования данных по нему","Ошибка",MessageBoxButtons.OK,MessageBoxIcon.Error);
 				return;
 			}
 
@@ -363,6 +365,8 @@ namespace SupRealClient.Models
 			{
 				DataContext = viewModel
 			};
+			view.Owner = Application.Current.Windows.OfType<Window>().SingleOrDefault(x => x.IsActive);
+			view.WindowStartupLocation = WindowStartupLocation.CenterOwner;
 			model.OnClose += view.Handling_OnClose;
 			view.ShowDialog();
 			VisitorsModelResult result = view.WindowResult as VisitorsModelResult;
@@ -389,6 +393,8 @@ namespace SupRealClient.Models
 			{
 				DataContext = viewModel
 			};
+			view.Owner = Application.Current.Windows.OfType<Window>().SingleOrDefault(x => x.IsActive);
+			view.WindowStartupLocation = WindowStartupLocation.CenterOwner;
 			model.OnClose += view.Handling_OnClose;
 			view.ShowDialog();
 			VisitorsModelResult result = view.WindowResult as VisitorsModelResult;
@@ -460,6 +466,7 @@ namespace SupRealClient.Models
 			};
 			AddUpdateBidWindView view = new AddUpdateBidWindView();
 			view.Owner = Application.Current.Windows.OfType<Window>().SingleOrDefault(x => x.IsActive);
+			view.WindowStartupLocation = WindowStartupLocation.CenterOwner;
 			view.Title = "Добавить посетителя";
 			view.DataContext = viewModel;
 			model.OnClose += view.Handling_OnClose;

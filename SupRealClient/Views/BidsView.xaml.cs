@@ -38,7 +38,6 @@ namespace SupRealClient.Views
 
 			_enterUiElementsSequenceTempOrder = new List<UIElement>
 			{
-				cbTempOrderUnlimited,
 				btnTempOrderAdd,
 				dpTempOrderDateFrom,
 				dpTempOrderDateTo,
@@ -51,7 +50,6 @@ namespace SupRealClient.Views
 
 			_enterUiElementsSequenceVirtOrder = new List<UIElement>
 			{
-				cbVirtOrderUnlimited,
 				dpVirtOrderFrom,
 				dpVirtOrderTo,
 				tbVirtOrderReason,
@@ -228,10 +226,10 @@ namespace SupRealClient.Views
 						dpSingleOrderDate.Focus();
 						break;
 					case 1:
-						cbTempOrderUnlimited.Focus();
+						btnTempOrderAdd.Focus();
 						break;
 					case 2:
-						cbVirtOrderUnlimited.Focus();
+						dpVirtOrderFrom.Focus();
 						break;
 				}
 			}

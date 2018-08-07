@@ -345,7 +345,6 @@ namespace SupRealClient.ViewModels
 		}
 
 		private bool _acceptButtonEnable = false;
-
 		/// <summary>
 		/// Доступность кнопок Применить и Отмена.
 		/// </summary>
@@ -360,13 +359,14 @@ namespace SupRealClient.ViewModels
 			}
 		}
 
+		private bool _isNavigateButtonsEnable;
 		/// <summary>
 		/// Доступность кнопок нижнего ряда, кроме кнопок Применить, Отмена.
 		/// </summary>
 		public bool NavigateButtonEnable
 		{
-			get { return !_acceptButtonEnable; }
-			set { OnPropertyChanged(); }
+			get => !_acceptButtonEnable;
+			set => OnPropertyChanged();
 		}
 
 		/// <summary>
@@ -622,20 +622,21 @@ namespace SupRealClient.ViewModels
 					throw new ArgumentOutOfRangeException();
 			}
 
-			if (!currentOrder.IsOrderDataCorrect(CurrentOrderType, out string errorMessage))
+			if (currentOrder != null)
 			{
-				MessageBox.Show(errorMessage, "Ошибка");
-				return;
+				if (!currentOrder.IsOrderDataCorrect(CurrentOrderType, out string errorMessage))
+				{
+					MessageBox.Show(errorMessage, "Ошибка", MessageBoxButton.OK, MessageBoxImage.Error);
+					return;
+				}
+				BidsModel.Ok();
+
+				CurrentSelectedOrder = currentOrder;
+
+				BidsModel = new BidsModel();
+
+				ApplyCurrentSelectedOrder();
 			}
-
-			BidsModel.Ok();
-
-			CurrentSelectedOrder = currentOrder;
-
-			BidsModel = new BidsModel();
-
-			ApplyCurrentSelectedOrder();
-
 			TextEnable = false;
 			AcceptButtonEnable = false;
 			IsEnabled = true;
@@ -710,8 +711,22 @@ namespace SupRealClient.ViewModels
 
 		private void ChooseVisitorForVirtue()
 		{
-			VisitorsModelResult result = ViewManager.Instance.OpenWindowModal(
-				"VisitorsListWindViewOk", null) as VisitorsModelResult;
+			var model = new VisitorsListModel<Visitor>();
+			var viewModel = new Base4ViewModel<Visitor>()
+			{
+				OkCaption = "OK",
+				Model = model
+			};
+			var view = new VisitorsListWindView()
+			{
+				DataContext = viewModel
+			};
+			view.Owner = Application.Current.Windows.OfType<Window>().SingleOrDefault(x => x.IsActive);
+			view.WindowStartupLocation = WindowStartupLocation.CenterOwner;
+			model.OnClose += view.Handling_OnClose;
+			view.ShowDialog();
+			VisitorsModelResult result = view.WindowResult as VisitorsModelResult;
+
 			if (result == null)
 			{
 				return;
@@ -730,8 +745,20 @@ namespace SupRealClient.ViewModels
 
 		private void ChooseOrganizationForVirtue()
 		{
-			BaseModelResult result = ViewManager.Instance.OpenWindowModal(
-				"Base4OrganizationsWindView", null) as BaseModelResult;
+			var model = new OrganizationsListModel<Organization>();
+			var viewModel = new Base4ViewModel<Organization>()
+			{
+				Model = model
+			};
+			var view = new Base4OrganizationsWindView()
+			{
+				DataContext = viewModel
+			};
+			view.Owner = Application.Current.Windows.OfType<Window>().SingleOrDefault(x => x.IsActive);
+			view.WindowStartupLocation = WindowStartupLocation.CenterOwner;
+			// model.OnClose += view.Handling_OnClose;
+			view.ShowDialog();
+			BaseModelResult result = view.WindowResult as BaseModelResult;
 			if (result == null)
 			{
 				return;
@@ -760,6 +787,8 @@ namespace SupRealClient.ViewModels
 			{
 				DataContext = viewModel
 			};
+			wind.Owner = Application.Current.Windows.OfType<Window>().SingleOrDefault(x => x.IsActive);
+			wind.WindowStartupLocation = WindowStartupLocation.CenterOwner;
 			viewModel.Model.OnClose += wind.Handling_OnClose;
 			wind.ShowDialog();
 			if (wind.WindowResult as OrderElement == null)
