@@ -786,7 +786,7 @@ namespace SupRealClient.Views
 	    private void Extradite()
         {
             Base4ViewModel<Order> viewModel =
-                new Base4ViewModel<Order>
+                new AddZoneViewModel
                 {
                     Model = new AddZoneModel(CurrentItem.Orders, CurrentItem.Id)
                 };

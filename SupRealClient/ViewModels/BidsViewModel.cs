@@ -13,9 +13,12 @@ namespace SupRealClient.ViewModels
 {
 	public class BidsViewModel : ViewModelBase
 	{
-		#region Properties
+        #region Properties
 
-		private IBidsModel bidsModel;
+        // Открыта из выдачи пропусков по заявке по кнопке "на основании заявки" 
+        private bool isToVirtue = false;
+
+        private IBidsModel bidsModel;
 
 
 		/// <summary>
@@ -410,7 +413,13 @@ namespace SupRealClient.ViewModels
 			IsEnabled = true;
 		}
 
-		private void BidsModel_OnRefresh()
+        public void SetToVirtue()
+        {
+            isToVirtue = true;
+            New();
+        }
+
+        private void BidsModel_OnRefresh()
 		{
 			CurrentTemporaryOrder = BidsModel.CurrentTemporaryOrder;
 			CurrentTemporaryOrder.OrderElements = BidsModel.CurrentTemporaryOrder.OrderElements;

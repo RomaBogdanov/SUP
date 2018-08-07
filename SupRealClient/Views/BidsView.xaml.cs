@@ -68,7 +68,13 @@ namespace SupRealClient.Views
 			btnCancel.Click += EndEditingButtonClick;
 		}
 
-		private List<UIElement> EnterUiElementsSequence
+        public void SetToVirtue()
+        {
+            comboMenu.SelectedIndex = 2;
+            (this.DataContext as BidsViewModel).SetToVirtue();
+        }
+
+        private List<UIElement> EnterUiElementsSequence
 		{
 			get
 			{

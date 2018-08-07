@@ -46,6 +46,29 @@
 
         <Button
             Grid.Row="2"
+            Grid.Column="0"
+            Margin="5"
+            Style="{StaticResource ButtonStyle}"
+            Command="{Binding Path=Virtue}">
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="40"/>
+                    <ColumnDefinition/>
+                </Grid.ColumnDefinitions>
+
+                <Image
+                    Grid.Column="0"
+                    Source="../../Resources/Далее.ico"/>
+
+                <TextBlock
+                    Grid.Column="1"
+                    Text="На основании заявки"
+                    Style="{StaticResource TextBLockStyle}"/>
+            </Grid>
+        </Button>
+
+        <Button
+            Grid.Row="2"
             Grid.Column="1"
             Margin="5"
             Style="{StaticResource ButtonStyle}"
