@@ -41,6 +41,8 @@ namespace AndoverAgent
                         catch (Exception)
                         {
                             Console.WriteLine("Соединение с БД настроено неправильно");
+				Console.WriteLine(ConfigurationManager.
+					ConnectionStrings["Continuum"].ConnectionString);
                         }
                         continue;
                     }
