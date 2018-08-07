@@ -281,7 +281,7 @@ namespace SupRealClient.EnumerationClasses
 					}
 				}
 
-				if (!OrderElements[i].IsOrderElementDataCorrect(out errorMessage))
+				if (!OrderElements[i].IsOrderElementDataCorrect(out errorMessage, orderType == EnumerationClasses.OrderType.Virtue))
 				{
 					if (orderType != EnumerationClasses.OrderType.Virtue)
 					{

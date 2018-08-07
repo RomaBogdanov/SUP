@@ -381,7 +381,7 @@ namespace SupRealClient.EnumerationClasses
 
         public string AreaIdList { get; set; } = "";
 
-        public bool IsOrderElementDataCorrect(out string errorMessage)
+        public bool IsOrderElementDataCorrect(out string errorMessage, bool isVirtueOrder = false)
         {
             if (VisitorId == 0)
             {
@@ -401,13 +401,19 @@ namespace SupRealClient.EnumerationClasses
                 return false;
             }
 
-            if (string.IsNullOrEmpty(Passes))
-            {
-                errorMessage = "Необходимо выбрать хотя бы один проход.";
-                return false;
-            }
+	        if (!isVirtueOrder && string.IsNullOrEmpty(Catcher))
+	        {
+				errorMessage = "Не указано принимающее лицо.";
+		        return false;
+			}
 
-            if (From.TimeOfDay > To.TimeOfDay)
+			if (string.IsNullOrEmpty(Passes))
+			{
+				errorMessage = "Необходимо выбрать хотя бы один проход.";
+				return false;
+			}
+
+			if (From.TimeOfDay > To.TimeOfDay)
             {
                 errorMessage = " \"Время от\" не может быть позже, чем \"Время до\"";
                 return false;
