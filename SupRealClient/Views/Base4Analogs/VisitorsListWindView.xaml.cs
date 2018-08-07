@@ -27,7 +27,13 @@ namespace SupRealClient.Views
                 .ScrollCurrentItem = base4.ScrollIntoViewCurrentItem;
         }
 
-        partial void CreateColumns()
+	    public VisitorsListWindView()
+	    {
+		    InitializeComponent();
+		    AfterInitialize();
+	    }
+
+		partial void CreateColumns()
         {
             DataGridTextColumn dataGridTextColumn = new DataGridTextColumn
             {
