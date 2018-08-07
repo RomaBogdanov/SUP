@@ -157,11 +157,6 @@ namespace SupRealClient.Views
 			_previousEnterUiElement = null;
 		}
 
-		private void tableItem_MouseDoubleClick(object sender, MouseButtonEventArgs e)
-		{
-			((BidsViewModel) DataContext).OpenUserWindow(((DataGridRow)sender).Item);
-		}
-
 		/// <summary>
 		/// Обработка нажатия клавиш в окне
 		/// </summary>

@@ -277,7 +277,10 @@
                                 </Style>
                             </DataGrid.RowStyle>
                             <DataGrid.InputBindings>
-                                <MouseBinding Command="{Binding DoubleClickCommand}" MouseAction="LeftDoubleClick" />
+                                <MouseBinding
+                                    Command="{Binding DoubleClickCommand}"
+                                    CommandParameter="{Binding SelectedElement}"
+                                    MouseAction="LeftDoubleClick" />
                             </DataGrid.InputBindings>
                         </DataGrid>
 
@@ -753,7 +756,10 @@
                                 </Style>
                             </DataGrid.RowStyle>
                             <DataGrid.InputBindings>
-                                <MouseBinding Command="{Binding DoubleClickCommand}" MouseAction="LeftDoubleClick" />
+                                <MouseBinding
+                                    Command="{Binding DoubleClickCommand}"
+                                    CommandParameter="{Binding SelectedElement}"
+                                    MouseAction="LeftDoubleClick" />
                             </DataGrid.InputBindings>
                         </DataGrid>
 

@@ -370,7 +370,7 @@ namespace SupRealClient.ViewModels
 			WinSet.Left = WinSet.Width;
 
 			// Инициализация команд.
-			DoubleClickCommand = new RelayCommand(arg => DoubleClick());
+			DoubleClickCommand = new RelayCommand( arg => DoubleClickElement(arg));
 			BeginCommand = new RelayCommand(arg => Begin());
 			PrevCommand = new RelayCommand(arg => Prev());
 			NextCommand = new RelayCommand(arg => Next());
@@ -455,23 +455,16 @@ namespace SupRealClient.ViewModels
 			SelectedElement = BidsModel.SelectedElement;
 		}
 
-		private void DoubleClick()
+		private void DoubleClickElement(object orderElementParameter)
 		{
-			switch (CurrentOrderType)
-			{
-				case OrderType.None:
-					//IsSelectedIndex = 0;
-					break;
-				case OrderType.Single:
-					CurrentOrder = null;
-					break;
-				case OrderType.Temp:
-					CurrentOrder = null;
-					break;
-				case OrderType.Virtue:
-					CurrentOrder = null;
-					break;
-			}
+			OrderElement orderElement = (OrderElement) orderElementParameter;
+			VisitsModel model = new VisitsModel();
+
+			model.CurrentItem = model.Find(orderElement.VisitorId);
+			VisitorsView view = new VisitorsView();
+			Views.VisitsViewModel vm = new Views.VisitsViewModel(view) { Model = model };
+			view.DataContext = vm;
+			view.ShowDialog();
 		}
 
 		private void Begin()
@@ -762,20 +755,6 @@ namespace SupRealClient.ViewModels
 			}
 
 			CurrentVirtueOrder = CurrentVirtueOrder;
-		}
-
-		public void OpenUserWindow(object item)
-		{
-			if (item is OrderElement orderElement)
-			{
-				VisitsModel model = new VisitsModel();
-
-				model.CurrentItem = model.Find(orderElement.VisitorId);
-				VisitorsView view = new VisitorsView();
-				Views.VisitsViewModel vm = new Views.VisitsViewModel(view) {Model = model};
-				view.DataContext = vm;
-				view.ShowDialog();
-			}
 		}
 	}
 }
