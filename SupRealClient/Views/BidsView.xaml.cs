@@ -209,7 +209,13 @@ namespace SupRealClient.Views
 			{
 				btnReload.Command.Execute(null);
 				e.Handled = true;
-			} else if (e.Key == Key.Insert)
+			}
+			else if (e.Key == Key.F && Keyboard.IsKeyDown(Key.LeftCtrl))
+			{
+				btnFind.Command.Execute(null);
+				e.Handled = true;
+			}
+			else if (e.Key == Key.Insert)
 			{
 				btnAddOrder.Command.Execute(null);
 				e.Handled = true;
