@@ -18,7 +18,9 @@ namespace SupRealClient.Common
 
         public static bool NotDeleted(DataRow row)
         {
-            return row.Field<string>("f_deleted")?.ToUpper() != "Y";
+	        //return row.Field<string>("f_deleted").ToUpper() != "Y";
+	        object value = row.Field<string>("f_deleted");
+	        return value != null && value is string ? ((string)value).ToUpper() != "Y" : true;
         }
 
         public static string CreateFullName(string family, string name,

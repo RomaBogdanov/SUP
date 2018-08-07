@@ -1442,7 +1442,7 @@
                 </Grid>
             </mah:MetroTabItem>
 
-            <mah:MetroTabItem IsEnabled="{Binding IsEnabled, UpdateSourceTrigger=PropertyChanged}">
+            <mah:MetroTabItem IsEnabled="{Binding IsEnabled, UpdateSourceTrigger=PropertyChanged}" IsSelected="{Binding IsNoneOrder, Mode=TwoWay}">
                 <DataGrid
                     AutoGenerateColumns="False"
                     CanUserResizeColumns="False"
@@ -1643,7 +1643,7 @@
                 Grid.Column="0"
                 Margin="2"
                 Command="{Binding NewCommand}"
-                IsEnabled="{Binding NavigateButtonEnable, UpdateSourceTrigger=PropertyChanged}"
+                IsEnabled="{Binding EditButtonEnable, UpdateSourceTrigger=PropertyChanged}"
                 Style="{StaticResource VisitorsSquareButtonStyle}"
                 ToolTip="Insert">
                 <Grid>
@@ -1668,7 +1668,7 @@
                 Grid.Column="1"
                 Margin="2"
                 Command="{Binding EditCommand}"
-                IsEnabled="{Binding NavigateButtonEnable, UpdateSourceTrigger=PropertyChanged}"
+                IsEnabled="{Binding EditButtonEnable, UpdateSourceTrigger=PropertyChanged}"
                 Style="{StaticResource VisitorsSquareButtonStyle}"
                 ToolTip="Ctrl+D">
                 <Grid>

@@ -17,7 +17,7 @@ namespace SupRealClient.ViewModels
     public class VisitorsDocumentViewModel : INotifyPropertyChanged
     {
         public event PropertyChangedEventHandler PropertyChanged;
-        private VisitorsDocumentModel model;
+	    public VisitorsDocumentModel Model { get; set; }
         private string name = "";
         private ObservableCollection<string> images =
             new ObservableCollection<string>();
@@ -54,8 +54,12 @@ namespace SupRealClient.ViewModels
             {
                 if (value != null)
                 {
-                    name = value;
-                    OnPropertyChanged("Name");
+	                if (!string.IsNullOrWhiteSpace(value))
+	                {
+		                name = value;
+	                }
+
+	                OnPropertyChanged(nameof(Name));
                 }
 
 	            Change_Condition_SaveChangesButton();
@@ -119,7 +123,7 @@ namespace SupRealClient.ViewModels
 
         public void SetModel(VisitorsDocumentModel model)
         {
-            this.model = model;
+            this.Model = model;
             Caption = model.Data.Id == -1 ? "Добавление документа" :
                 "Редактирование документа";
             this.Name = model.Data.Name;
@@ -137,7 +141,7 @@ namespace SupRealClient.ViewModels
             this.Ok = new RelayCommand(arg => { RealizationSaving(); });
             this.Cancel = new RelayCommand(arg =>
             {
-		            this.model.Cancel();
+		            this.Model.Cancel();
             });
 
             AddImageCommand = new RelayCommand(arg => AddImage());
@@ -150,11 +154,11 @@ namespace SupRealClient.ViewModels
 	    public void RealizationSaving()
 	    {
 		    System.ComponentModel.CancelEventArgs cancelEventArgs = new System.ComponentModel.CancelEventArgs(true);
-		    _TestingNameVisitorsDocument?.Invoke(this, cancelEventArgs);
+			_TestingNameVisitorsDocument?.Invoke(this, cancelEventArgs);
 
 		    if (cancelEventArgs.Cancel)
 		    {
-			    this.model.Ok(
+			    this.Model.Ok(
 				    new VisitorsDocument
 				    {
 					    Name = Name,

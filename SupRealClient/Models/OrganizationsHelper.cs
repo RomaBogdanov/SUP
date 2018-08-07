@@ -105,7 +105,7 @@ namespace SupRealClient.Models
                         arg => arg.Field<int>("f_region_id") ==
                         orgs.Field<int>("f_region_id"))["f_region_name"].ToString(),
                     SynId = orgs.Field<int>("f_syn_id"),
-	                IsMaster_ToString = orgs.Field<string>("f_is_master")
+	                IsBasic = CommonHelper.StringToBool(orgs.Field<string>("f_is_basic"))
 				}).FirstOrDefault();
 
             return GenerateFullName(org, calculated);
@@ -139,13 +139,13 @@ namespace SupRealClient.Models
 							    arg => arg.Field<int>("f_region_id") ==
 							           orgs.Field<int>("f_region_id"))["f_region_name"].ToString(),
 				    SynId = orgs.Field<int>("f_syn_id"),
-				    IsMaster_ToString = orgs.Field<string>("f_is_master")
-			    }).FirstOrDefault();
+				    IsBasic = CommonHelper.StringToBool(orgs.Field<string>("f_is_basic"))
+				}).FirstOrDefault();
 
 		    return org;
 	    }
 
-	    public static bool GetMasterParametr(int id, bool calculated = false)
+	    public static bool GetBasicParametr(int id, bool calculated = false)
 	    {
 		    if (id <= 0)
 		    {
@@ -173,10 +173,11 @@ namespace SupRealClient.Models
 							    arg => arg.Field<int>("f_region_id") ==
 							           orgs.Field<int>("f_region_id"))["f_region_name"].ToString(),
 				    SynId = orgs.Field<int>("f_syn_id"),
-				    IsMaster_ToString = orgs.Field<string>("f_is_master")
+
+				    IsBasic = CommonHelper.StringToBool(orgs.Field<string>("f_is_basic"))
 			    }).FirstOrDefault();
 
-		    return org.IsMaster;
+		    return org.IsBasic;
 	    }
 
 		public static string GenerateFullName(Organization organization)

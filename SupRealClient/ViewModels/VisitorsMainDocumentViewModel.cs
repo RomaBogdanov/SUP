@@ -6,7 +6,9 @@ using System.Windows.Forms;
 using System.Linq;
 using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Data;
+using System.Text;
 using System.Windows.Media.Imaging;
 using RegulaLib;
 using SupRealClient.TabsSingleton;
@@ -30,17 +32,46 @@ namespace SupRealClient.ViewModels
 		private string org = "";
         private string code = "";
         private DateTime birthDate= DateTime.Now;
+
+	    private bool _date_Correct;
+	    private bool _dateTo_Correct;
+	    private bool _birthDate_Correct;
+
 		private string comment = "";
+	    private string _image ;
+	    private List<Guid> _imageCache = new List<Guid>();
+	    private ObservableCollection<string> _images=new ObservableCollection<string>();
+	    public event Action _TestDatePickerEvent;
 
-	 private string image = "";
 
-	private List<Guid> imageCache = new List<Guid>();
-        private int selectedImage = -1;
+		public List<Guid> imageCache
+	    {
+		    get { return _imageCache; }
+		    set
+		    {
+			    _imageCache = value;
+				OnPropertyChanged(nameof(imageCache));
+		    }
+	    }
+
+	    public ObservableCollection<string> Images
+	    {
+		    get { return _images; }
+		    set
+		    {
+			    _images = value;
+			    OnPropertyChanged(nameof(Images));
+		    }
+	    }
+
+
+		private int selectedImage = -1;
 
         public bool Editable { get; private set; }
-	public CPerson Person { get; private set; }
 
-	public string Caption { get; private set; }
+		public CPerson Person { get; private set; }
+
+		public string Caption { get; private set; }
 
         public string DocType
         {
@@ -49,8 +80,8 @@ namespace SupRealClient.ViewModels
             {
                 if (value != null)
                 {
-                    docType = value;
-                    OnPropertyChanged("DocType");
+						docType = value;
+					OnPropertyChanged("DocType");
                 }
             }
         }
@@ -62,8 +93,8 @@ namespace SupRealClient.ViewModels
             {
                 if (value != null)
                 {
-                    seria = value;
-                    OnPropertyChanged("Seria");
+	                seria = value;
+					OnPropertyChanged("Seria");
                 }
             }
         }
@@ -75,7 +106,7 @@ namespace SupRealClient.ViewModels
             {
                 if (value != null)
                 {
-                    num = value;
+						num = value;
                     OnPropertyChanged("Num");
                 }
             }
@@ -107,14 +138,58 @@ namespace SupRealClient.ViewModels
             }
         }
 
-        public string Org
+	    public DateTime BirthDate
+	    {
+		    get { return birthDate; }
+		    set
+		    {
+			    if (value != null)
+			    {
+				    birthDate = value;
+				    OnPropertyChanged("BirthDate");
+			    }
+		    }
+	    }
+
+	    public bool Date_Correct
+	    {
+		    get { return _date_Correct; }
+		    set
+		    {
+			    _date_Correct = value;
+				OnPropertyChanged(nameof(Date_Correct));
+		    }
+	    }
+
+	    public bool DateTo_Correct
+		{
+		    get { return _dateTo_Correct; }
+		    set
+		    {
+			    _dateTo_Correct = value;
+				    OnPropertyChanged(nameof(Date_Correct));
+		    }
+	    }
+
+	    public bool BirthDate_Correct
+		{
+		    get { return _birthDate_Correct; }
+		    set
+		    {
+				    _birthDate_Correct = value;
+				    OnPropertyChanged(nameof(Date_Correct));
+		    }
+	    }
+
+		public string Org
         {
             get { return org; }
             set
             {
                 if (value != null)
                 {
-                    org = value;
+	                if (!string.IsNullOrWhiteSpace(value))
+						org = value;
                     OnPropertyChanged("Org");
                 }
             }
@@ -129,19 +204,6 @@ namespace SupRealClient.ViewModels
                 {
                     code = value;
                     OnPropertyChanged("Code");
-                }
-            }
-        }
-
-        public DateTime BirthDate
-        {
-            get { return birthDate; }
-            set
-            {
-                if (value != null)
-                {
-                    birthDate = value;
-                    OnPropertyChanged("BirthDate");
                 }
             }
         }
@@ -171,10 +233,10 @@ namespace SupRealClient.ViewModels
 
 		public string Image
 		{
-			get { return image; }
+			get { return _image; }
 			set
 			{
-				image = value;
+				_image = value;
 				OnPropertyChanged("Image");
 			}
 		}
@@ -191,12 +253,14 @@ namespace SupRealClient.ViewModels
 
         public ICommand Ok { get; set; }
         public ICommand Cancel { get; set; }
+		public ICommand OpenDocumentImagesCommand { get; set; }
 
-        public VisitorsMainDocumentViewModel(bool editable)
+
+		public VisitorsMainDocumentViewModel(bool editable)
         {
 			//Изменение
-			//Editable = editable;
-			Editable = true;
+			Editable = editable;
+			//Editable = true;
 		}
 
 	    public void SetModel(VisitorsMainDocumentModel model, CPerson person)
@@ -223,12 +287,21 @@ namespace SupRealClient.ViewModels
 		    if (model.Data.Images.Any())
 		    {
 			    imageCache = model.Data.Images;
+
+			    foreach (var imageGuid in imageCache)
+			    {
+					Images.Add(ImagesHelper.GetImagePath(imageGuid));
+				}
 		    }
 		    else
 		    {
 			    imageCache = DocumentsHelper.CacheImages(model.Data.Id);
-			  
-		    }
+
+			    foreach (var imageGuid in imageCache)
+			    {
+				    Images.Add(ImagesHelper.GetImagePath(imageGuid));
+			    }
+			}
 		    
 		    if (imageCache.Any())
 		    {
@@ -246,6 +319,9 @@ namespace SupRealClient.ViewModels
 
 		    PrevCommand = new RelayCommand(arg => Prev());
 		    NextCommand = new RelayCommand(arg => Next());
+
+		    OpenDocumentImagesCommand = new RelayCommand(arg => OpeningDocumentImages());
+
 	    }
 
 	    protected virtual void OnPropertyChanged(string propertyName) =>
@@ -260,6 +336,9 @@ namespace SupRealClient.ViewModels
 				var guid = ImagesHelper.LoadImage(dlg.FileName);
 				imageCache.Add(guid);
 				SetImage(imageCache.Count - 1);
+				Images.Add(ImagesHelper.GetImagePath(guid));
+
+				OnPropertyChanged(nameof(imageCache));
 			}
 		}
 
@@ -272,6 +351,7 @@ namespace SupRealClient.ViewModels
 
 		    int selected = SelectedImage;
 			imageCache.RemoveAt(selected);
+		    Images.RemoveAt(selected);
 			SetImage(selected <= imageCache.Count - 1 ? selected : selected - 1);
 		}
 
@@ -298,21 +378,69 @@ namespace SupRealClient.ViewModels
 	        {
 		        return;
 	        }
-            Image = ImagesHelper.GetImagePath(imageCache[selectedImage]);
+			//Image = ImagesHelper.GetImagePath(imageCache[selectedImage]);
+	        Image = ImagesHelper.GetImagePath( imageCache[selectedImage]);
         }
 
         private void OkExecute()
         {
-            if (DocType == null || DocType == "" ||
-                Num == null || Num == "" ||
-                Date == null || Date == DateTime.MinValue ||
-                Org == null || Org == "")
+	        StringBuilder stringBuilder = new StringBuilder();
+			if (DocType == null || DocType == "" || string.IsNullOrWhiteSpace(DocType) ||
+				Num == null || Num == "" || string.IsNullOrWhiteSpace(Num) ||
+                Date == null || Date == DateTime.MinValue)
             {
-                MessageBox.Show("Не все поля заполнены!");
+	            
+
+
+	            if (DocType == null || DocType == "" || string.IsNullOrWhiteSpace(DocType))
+	            {
+		            stringBuilder.Append("• Тип документа" + Environment.NewLine);
+	            }
+
+	            if (Num == null || Num == "" || string.IsNullOrWhiteSpace(Num))
+	            {
+		            stringBuilder.Append("• Номер документа" + Environment.NewLine);
+	            }
+
+	            if (Date == null || Date == DateTime.MinValue )
+	            {
+		            stringBuilder.Append("• Дата выдачи" + Environment.NewLine);
+	            }
+
+	            string generatedText = stringBuilder.ToString();
+				MessageBox.Show("Нужно заполнить следующие поля:" + Environment.NewLine + generatedText, "Внимание", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
                 return;
             }
 
-            this.model.Ok(
+	        _TestDatePickerEvent?.Invoke();
+
+
+			if (!Date_Correct ||
+	            !DateTo_Correct ||
+	            !BirthDate_Correct)
+			{
+				stringBuilder.Clear();
+
+				if (!Date_Correct)
+		        {
+			        stringBuilder.Append("• Дата выдачи" + Environment.NewLine);
+		        }
+
+		        if (!DateTo_Correct)
+		        {
+			        stringBuilder.Append("• Действителен до" + Environment.NewLine);
+		        }
+
+		        if (!BirthDate_Correct)
+		        {
+			        stringBuilder.Append("• Дата рождения" + Environment.NewLine);
+		        }
+				string generatedText = stringBuilder.ToString();
+				MessageBox.Show("Следующие поля с датами заполнены не корректно:" + Environment.NewLine + generatedText, "Внимание", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+		        return;
+	        }
+
+			this.model.Ok(
                 new VisitorsMainDocument
                 {
                     Type = DocType,
@@ -330,7 +458,19 @@ namespace SupRealClient.ViewModels
                 });
         }
 
-        private void DocumentsListModel()
+	    private void OpeningDocumentImages()
+	    {
+		    if (selectedImage >= 0 && selectedImage< imageCache.Count)
+		    {
+			    DocumentImageView documentImageView = new DocumentImageView();
+			    documentImageView.DocumentImage = ImagesHelper.GetImagePath(imageCache[selectedImage]);
+			    documentImageView.ShowDialog();
+		    }
+
+	    }
+
+
+	    public void DocumentsListModel()
         {
             var result = ViewManager.Instance.OpenWindowModal(
                 "Base4DocumentsWindViewOk", null) as BaseModelResult;
