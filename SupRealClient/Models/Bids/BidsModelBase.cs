@@ -474,6 +474,5 @@ namespace SupRealClient.Models
 			return view.WindowResult;
 		}
 
-
 	}
 }

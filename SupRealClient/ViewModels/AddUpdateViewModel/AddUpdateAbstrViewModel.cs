@@ -256,33 +256,6 @@ namespace SupRealClient.ViewModels.AddUpdateViewModel
             CurrentOrderElement.AreaIdList =
                 AndoverEntityListHelper.AndoverEntitiesToString(CurrentOrderElement.Areas);
             CurrentOrderElement.ScheduleId = (wind.WindowResult as OrderElement).ScheduleId;
-            string st = "";
-            foreach (var area in element.Templates)
-            {
-                st += area.Name + ", ";
-            }
-
-	        if ((element.Templates == null || element.Templates.Count < 1) && (element.Areas != null && element.Areas.Count > 0))
-	        {
-		        st = OrderElement.OnlyZonesPassesString;
-	        }
-	        if ((element.Areas != null && element.Areas.Count > 0) && (element.Templates != null && element.Templates.Count > 0))
-	        {
-		        st += " " + OrderElement.BothPassesString;
-	        }
-	        if ((element.Areas == null || element.Areas.Count < 1) && (element.Templates == null || element.Templates.Count < 1))
-	        {
-		        st = OrderElement.NoPassesString;
-	        }
-
-			if (st.Length - 2 >= 0)
-	        {
-		        CurrentOrderElement.Passes = st.Remove(st.Length - 2);
-			}
-	        else
-	        {
-		        CurrentOrderElement.Passes = OrderElement.NoPassesString;
-	        }
         }
 
 	    private void ClearVisitorCommand()
