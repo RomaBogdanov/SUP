@@ -2273,7 +2273,6 @@ namespace SupRealClient.Views
                                     From = row.Field<DateTime>("f_time_from"),
                                     To = row.Field<DateTime>("f_time_to"),
                                     IsDisable = row.Field<string>("f_disabled").ToUpper() == "Y" ? true : false,
-                                    Passes = row.Field<string>("f_passes"),
                                     IsBlock = CommonHelper.StringToBool(VisitorsWrapper.CurrentTable().Table.AsEnumerable().
                                         Where(item => item.Field<int>("f_visitor_id") == row.Field<int>("f_visitor_id")).
                                         FirstOrDefault().Field<string>("f_persona_non_grata")),
