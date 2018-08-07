@@ -71,6 +71,7 @@
             SelectedIndex="{Binding Path=SelectedImage}"
 	        SelectedItem="{Binding Path=SelectedItem}"
 	        >
+			
 			<!--<ListBox.InputBindings>
 		        <MouseBinding MouseAction="LeftDoubleClick" Command="{Binding OpenDocumentCommand}"/>
 			</ListBox.InputBindings>-->
