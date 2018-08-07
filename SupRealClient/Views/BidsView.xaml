@@ -738,6 +738,7 @@
                             </DataGrid.Columns>
                             <DataGrid.RowStyle>
                                 <Style TargetType="DataGridRow">
+                                    <EventSetter Event="MouseDoubleClick" Handler="tableItem_MouseDoubleClick" />
                                     <Style.Triggers>
                                         <DataTrigger Binding="{Binding IsBlock}" Value="True">
                                             <Setter Property="Background" Value="#33ff0000" />
