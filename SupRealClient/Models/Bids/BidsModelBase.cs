@@ -61,6 +61,8 @@ namespace SupRealClient.Models
 		{
 			switch (OrderType)
 			{
+				case OrderType.None:
+					break;
 				case OrderType.Temp:
 				{
 					if (TemporaryOrdersSet.Count > 0)
@@ -100,6 +102,8 @@ namespace SupRealClient.Models
 		{
 			switch (OrderType)
 			{
+				case OrderType.None:
+					break;
 				case OrderType.Temp:
 				{
 					if (TemporaryOrdersSet.Count > 0 && TemporaryOrdersSet
@@ -133,9 +137,6 @@ namespace SupRealClient.Models
 
 					break;
 				}
-
-				default:
-					throw new Exception("Unexpected Case");
 			}
 		}
 
@@ -146,6 +147,8 @@ namespace SupRealClient.Models
 		{
 			switch (OrderType)
 			{
+				case OrderType.None:
+					break;
 				case OrderType.Temp:
 				{
 					if (TemporaryOrdersSet.Count > 0 && TemporaryOrdersSet
@@ -182,8 +185,6 @@ namespace SupRealClient.Models
 
 					break;
 				}
-				default:
-					throw new Exception("Unexpected Case");
 			}
 		}
 
@@ -194,6 +195,8 @@ namespace SupRealClient.Models
 		{
 			switch (OrderType)
 			{
+				case OrderType.None:
+					break;
 				case OrderType.Temp:
 				{
 					if (TemporaryOrdersSet.Count > 0)
@@ -224,8 +227,6 @@ namespace SupRealClient.Models
 
 					break;
 				}
-				default:
-					throw new Exception("Unexpected Case");
 			}
 		}
 
@@ -290,7 +291,7 @@ namespace SupRealClient.Models
 		/// </summary>
 		public void Reload()
 		{
-			//todo: наверно, надо удалить, потому что обработка на уровне ViewModel
+			OnRefresh?.Invoke();
 		}
 
 		/// <summary>

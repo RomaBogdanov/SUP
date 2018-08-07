@@ -23,27 +23,27 @@ namespace SupRealClient.ViewModels
 		/// </summary>
 		private Order CurrentSelectedOrder { get; set; }
 
-		private bool _isEnabled = false;
+		private bool isEnabled = false;
 		/// <summary>
 		/// Доступность вкладок TabControl.
 		/// </summary>
 		public bool IsEnabled
 		{
-			get { return _isEnabled; }
+			get { return isEnabled; }
 			set
 			{
-				_isEnabled = value;
+				isEnabled = value;
 				OnPropertyChanged(nameof(IsEnabled));
 			}
 		}
 
-		private int _selectedIndex = 0;
+		private int selectedIndex = 0;
 		public int SelectedIndex
 		{
-			get { return _selectedIndex; }
+			get { return selectedIndex; }
 			set
 			{
-				_selectedIndex = value;
+				selectedIndex = value;
 				OnPropertyChanged(nameof(SelectedIndex));
 			}
 		}
@@ -68,13 +68,13 @@ namespace SupRealClient.ViewModels
 			}
 		}
 
-		private Order _selectedOrder;
+		private Order selectedOrder;
 		public Order SelectedOrder
 		{
-			get { return _selectedOrder; }
+			get { return selectedOrder; }
 			set
 			{
-				_selectedOrder = value;
+				selectedOrder = value;
 				OnPropertyChanged(nameof(SelectedOrder));
 			}
 		}
@@ -192,84 +192,89 @@ namespace SupRealClient.ViewModels
 			}
 		}
 
-		private bool isTempOrder;
+		public bool IsNoneOrder
+		{
+			get { return CurrentOrderType == OrderType.None; }
+			set
+			{
+				if (value)
+				{
+					EditButtonEnable = false;
+					CurrentOrderType = OrderType.None;
+				}
+
+				OnPropertyChanged(nameof(IsNoneOrder));
+			}
+		}
 
 		public bool IsTempOrder
 		{
-			get { return isTempOrder; }
+			get { return CurrentOrderType == OrderType.Temp; }
 			set
 			{
-				isTempOrder = value;
-				if (isTempOrder)
+				if (value)
 				{
-					BidsModel.OrderType = OrderType.Temp;
+					EditButtonEnable = true;
+					CurrentOrderType = OrderType.Temp;
 				}
 
 				OnPropertyChanged(nameof(IsTempOrder));
 			}
 		}
 
-		private bool isSingleOrder;
-
-
 		public bool IsSingleOrder
 		{
-			get { return isSingleOrder; }
+			get { return CurrentOrderType == OrderType.Single; }
 			set
 			{
-				isSingleOrder = value;
-				if (isSingleOrder)
+				if (value)
 				{
-					BidsModel.OrderType = OrderType.Single;
+					EditButtonEnable = true;
+					CurrentOrderType = OrderType.Single;
 				}
-
 				OnPropertyChanged(nameof(IsSingleOrder));
 			}
 		}
 
-		private bool isVirtueOrder;
-
-
 		public bool IsVirtueOrder
 		{
-			get { return isVirtueOrder; }
+			get { return CurrentOrderType == OrderType.Virtue; }
 			set
 			{
-				isVirtueOrder = value;
-				if (IsVirtueOrder)
+				if (value)
 				{
-					BidsModel.OrderType = OrderType.Virtue;
+					EditButtonEnable = true;
+					CurrentOrderType = OrderType.Virtue;
 				}
-
 				OnPropertyChanged(nameof(IsVirtueOrder));
 			}
 		}
 
+		private OrderType currentOrderType = OrderType.None;
 		/// <summary>
 		/// Свойство для определения текущей открытой вкладки.
 		/// </summary>
 		private OrderType CurrentOrderType
 		{
-			get
+			get { return currentOrderType; }
+			set
 			{
-				if (IsTempOrder)
+				if (value != currentOrderType)
 				{
-					return OrderType.Temp;
-				}
+					currentOrderType = value;
+					if (BidsModel != null)
+					{
+						BidsModel.OrderType = currentOrderType;
+					}
 
-				if (IsSingleOrder)
-				{
-					return OrderType.Single;
+					OnPropertyChanged(nameof(IsSingleOrder));
+					OnPropertyChanged(nameof(IsTempOrder));
+					OnPropertyChanged(nameof(IsVirtueOrder));
+					OnPropertyChanged(nameof(IsNoneOrder));
 				}
-
-				if (IsVirtueOrder)
-				{
-					return OrderType.Virtue;
-				}
-
-				return OrderType.None;
 			}
 		}
+
 
 		public bool IsCanAddRows
 		{
@@ -341,29 +346,50 @@ namespace SupRealClient.ViewModels
 			}
 		}
 
-		private bool _acceptButtonEnable = false;
+		private bool acceptButtonEnable = false;
+
 		/// <summary>
 		/// Доступность кнопок Применить и Отмена.
 		/// </summary>
 		public bool AcceptButtonEnable
 		{
-			get { return _acceptButtonEnable; }
+			get { return acceptButtonEnable; }
 			set
 			{
-				_acceptButtonEnable = value;
-				NavigateButtonEnable = !value;
+				acceptButtonEnable = value;
 				OnPropertyChanged();
 			}
 		}
 
-		private bool _isNavigateButtonsEnable;
+		private bool navigateButtonEnable = false;
+
 		/// <summary>
 		/// Доступность кнопок нижнего ряда, кроме кнопок Применить, Отмена.
 		/// </summary>
 		public bool NavigateButtonEnable
 		{
-			get => !_acceptButtonEnable;
-			set => OnPropertyChanged();
+			get { return navigateButtonEnable; }
+			set
+			{
+				navigateButtonEnable = value;
+				OnPropertyChanged();
+			}
+		}
+
+		private bool editButtonEnable = false;
+
+		public bool EditButtonEnable
+		{
+			get
+			{
+				return editButtonEnable;
+			}
+			set
+			{
+				editButtonEnable = value;
+
+				OnPropertyChanged();
+			}
 		}
 
 		/// <summary>
@@ -404,9 +430,13 @@ namespace SupRealClient.ViewModels
 
 			SignerCommand = new RelayCommand(arg => Signer());;
 			AgreerCommand = new RelayCommand(arg => Agreer());
+			
+			CurrentOrderType = OrderType.Single;
 
 			TextEnable = false; // При открытии окна поля недоступны.
 			AcceptButtonEnable = false; // При открытии кнопки применить и отмена недоступны.
+			NavigateButtonEnable = true;
+			EditButtonEnable = true;
 			IsEnabled = true;
 		}
 
@@ -572,6 +602,8 @@ namespace SupRealClient.ViewModels
 
 			TextEnable = true; // При открытии окна поля недоступны.
 			AcceptButtonEnable = true; // При открытии кнопки применить и отмена недоступны.
+			NavigateButtonEnable = false;
+			EditButtonEnable = false;
 			IsEnabled = false;
 		}
 
@@ -589,6 +621,8 @@ namespace SupRealClient.ViewModels
 
 			TextEnable = true; // При открытии окна поля недоступны.
 			AcceptButtonEnable = true; // При открытии кнопки применить и отмена недоступны.
+			NavigateButtonEnable = false;
+			EditButtonEnable = false;
 			IsEnabled = false;
 		}
 
@@ -629,7 +663,9 @@ namespace SupRealClient.ViewModels
 				ApplyCurrentSelectedOrder();
 			}
 			TextEnable = false;
-			AcceptButtonEnable = false;
+			AcceptButtonEnable = false; // При открытии кнопки применить и отмена недоступны.
+			NavigateButtonEnable = true;
+			EditButtonEnable = true;
 			IsEnabled = true;
 		}
 
@@ -687,6 +723,8 @@ namespace SupRealClient.ViewModels
 
 			TextEnable = false; // При открытии окна поля недоступны.
 			AcceptButtonEnable = false; // При открытии кнопки применить и отмена недоступны.
+			NavigateButtonEnable = true;
+			EditButtonEnable = true;
 			IsEnabled = true;
 		}
 
