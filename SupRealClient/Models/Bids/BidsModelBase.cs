@@ -352,8 +352,21 @@ namespace SupRealClient.Models
 		/// </summary>
 		public void Agreer()
 		{
-			VisitorsModelResult result = ViewManager.Instance.OpenWindowModal(
-				"VisitorsListWindViewOk", null) as VisitorsModelResult;
+			var model = new VisitorsListModel<Visitor>();
+			model.FilterThatCanAgree();
+			var viewModel = new Base4ViewModel<Visitor>()
+			{
+				OkCaption = "OK",
+				Model = model
+			};
+			var view = new VisitorsListWindView()
+			{
+				DataContext = viewModel
+			};
+			model.OnClose += view.Handling_OnClose;
+			view.ShowDialog();
+			VisitorsModelResult result = view.WindowResult as VisitorsModelResult;
+
 			if (result == null) return;
 			CurrentTemporaryOrder.AgreeId = result.Id;
 			CurrentTemporaryOrder.Agree = result.Name;
@@ -365,8 +378,21 @@ namespace SupRealClient.Models
 		/// </summary>
 		public void Signer()
 		{
-			VisitorsModelResult result = ViewManager.Instance.OpenWindowModal(
-				"VisitorsListWindViewOk", null) as VisitorsModelResult;
+			var model = new VisitorsListModel<Visitor>();
+			model.FilterThatCanSign();
+			var viewModel = new Base4ViewModel<Visitor>()
+			{
+				OkCaption = "OK",
+				Model = model
+			};
+			var view = new VisitorsListWindView()
+			{
+				DataContext = viewModel
+			};
+			model.OnClose += view.Handling_OnClose;
+			view.ShowDialog();
+			VisitorsModelResult result = view.WindowResult as VisitorsModelResult;
+
 			if (result == null) return;
 			switch (OrderType)
 			{

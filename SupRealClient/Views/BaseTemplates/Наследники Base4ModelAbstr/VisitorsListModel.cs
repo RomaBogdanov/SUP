@@ -114,6 +114,42 @@ namespace SupRealClient.Views
                 );
         }
 
+	    public void FilterThatCanHaveVisitors()
+	    {
+		    for (int i = 0; i < Set.Count; i++)
+		    {
+				if (Set[i].IsCanHaveVisitors == false)
+				{
+					Set.RemoveAt(i);
+					i--;
+				}
+		    }
+	    }
+
+	    public void FilterThatCanSign()
+	    {
+			for (int i = 0; i < Set.Count; i++)
+			{
+				if (Set[i].IsRightSign == false)
+				{
+					Set.RemoveAt(i);
+					i--;
+				}
+			}
+		}
+
+	    public void FilterThatCanAgree()
+	    {
+		    for (int i = 0; i < Set.Count; i++)
+		    {
+			    if (Set[i].IsAgreement == false)
+			    {
+				    Set.RemoveAt(i);
+				    i--;
+			    }
+		    }
+		}
+
         public override long GetId(int index)
         {
             return Rows[index].Field<int>("f_visitor_id");

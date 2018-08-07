@@ -379,8 +379,7 @@ namespace SupRealClient.ViewModels
 			UpdatePersonCommand = new RelayCommand(arg => UpdatePerson());
 			DeletePersonCommand = new RelayCommand(arg => DeletePerson());
 
-			SignerCommand = new RelayCommand(arg => Signer());
-			//SignerTempCommand = new RelayCommand(arg => SignerTemp());
+			SignerCommand = new RelayCommand(arg => Signer());;
 			AgreerCommand = new RelayCommand(arg => Agreer());
 
 			TextEnable = false; // При открытии окна поля недоступны.
