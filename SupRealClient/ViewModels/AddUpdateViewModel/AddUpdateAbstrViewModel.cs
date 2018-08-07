@@ -102,7 +102,6 @@ namespace SupRealClient.ViewModels.AddUpdateViewModel
         protected virtual void CancelCommand()
         {
             Model.Cancel();
-
         }
     }
 
