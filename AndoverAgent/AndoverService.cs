@@ -7,6 +7,7 @@ using System.Diagnostics;
 using System.IO;
 using System.Text;
 using System.Threading;
+using System.Windows;
 
 namespace AndoverAgent
 {
@@ -1631,7 +1632,15 @@ namespace AndoverAgent
 						    break;
 				    }
 
-				    cmd.ExecuteScalar();
+				    try
+				    {
+					    cmd.ExecuteScalar();
+				    }
+				    catch (Exception)
+				    {
+					    MessageBox.Show("Не удалось обновить таблицы в ContinuumCopyDb","Предупреждение",MessageBoxButton.OK,MessageBoxImage.Warning);
+				    }
+
 			    }
 		    }
 	    }
