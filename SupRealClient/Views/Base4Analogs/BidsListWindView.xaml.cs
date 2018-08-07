@@ -17,7 +17,7 @@ namespace SupRealClient.Views
 			{
 				OkCaption = "OK",
 				Parent = this,
-				//Model = new OrdersListModel<Order>()<EnumerationClasses.Order>()
+				Model = new OrdersListModel<Order>()
 			};
 			viewModel.Model.OnClose += Handling_OnClose;
 			base4.DataContext = viewModel;
@@ -32,20 +32,20 @@ namespace SupRealClient.Views
 		{
 			DataGridTextColumn dataGridTextColumn = new DataGridTextColumn
 			{
-				Header = "ФИО",
-				Binding = new Binding("FullName")
+				Header = "Номер заявки",
+				Binding = new Binding("RegNumber")
 			};
 			base4.baseTab.Columns.Add(dataGridTextColumn);
 			dataGridTextColumn = new DataGridTextColumn
 			{
-				Header = "Организация",
-				Binding = new Binding("Organization")
+				Header = "Дата",
+				Binding = new Binding("OrderDate")
 			};
 			base4.baseTab.Columns.Add(dataGridTextColumn);
 			dataGridTextColumn = new DataGridTextColumn
 			{
 				Header = "Примечание",
-				Binding = new Binding("Comment")
+				Binding = new Binding("Note")
 			};
 			base4.baseTab.Columns.Add(dataGridTextColumn);
 		}

@@ -66,7 +66,7 @@ namespace SupRealClient.Views
 				select new T
 				{
 					Id = orders.Field<int>("f_ord_id"),
-					RegNumber = orders.Field<string>("f_reg_number"),
+					RegNumber = orders.Field<int>("f_reg_number").ToString(),
 					OrderDate = orders.Field<DateTime>("f_ord_date"),
 					Note = orders.Field<string>("f_notes")
 				}
@@ -82,9 +82,9 @@ namespace SupRealClient.Views
 		{
 			return new Dictionary<string, string>
 			{
-				{"FullName", "ФИО"},
-				{"Organization", "Организация"},
-				{"Comment", "Примечание"},
+				{"RegNumber", "Номер заявки"},
+				{"OrderDate", "Дата заявки"},
+				{"Note", "Примечание"},
 			};
 		}
 
