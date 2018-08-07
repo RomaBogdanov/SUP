@@ -450,7 +450,8 @@ namespace AndoverAgent
 									State = reader["State"] is DBNull ?
 									null : (short?)reader["State"],
 									ForceLock = reader["ForceLock"] is DBNull ?
-									null : (byte?)reader["ForceLock"]
+									null : (byte?)reader["ForceLock"],
+									Path = reader["path_value"] is DBNull ? null : (string)reader["path_value"]
 								});
 							}
 						}
@@ -854,7 +855,8 @@ namespace AndoverAgent
 									DefaultMidnightValue = reader["DefaultMidnightValue"] is DBNull ?
 									null : (byte[])reader["DefaultMidnightValue"],
 									ClearPastEvents = reader["ClearPastEvents"] is DBNull ?
-									null : (bool?)reader["ClearPastEvents"]
+									null : (bool?)reader["ClearPastEvents"],
+									Path = reader["path_value"] is DBNull ? null : (string)reader["path_value"]
 								});
 							}
 						}
@@ -1355,7 +1357,7 @@ namespace AndoverAgent
 				{
 					Thread.Sleep(int.Parse(ConfigurationManager.AppSettings["TryTimeout"]));
 				}
-				catch (Exception)
+				catch (Exception ex)
 				{
 					return false;
 				}
@@ -1528,11 +1530,14 @@ namespace AndoverAgent
 			sb.AppendLine(string.Format(" Alias : {0}", person.Alias));
 			//sb.AppendLine(string.Format(" CardNumber : {0}", person.CardNum));
 			sb.AppendLine(" AreaLinks : ");
-			foreach (var areaLink in person.Areas)
+			for (var i = 0; i < person.Areas.Count; i++)
 			{
+				var areaLink = person.Areas[i];
+				var schedule = person.Schedules[0];
 				sb.AppendLine(string.Format(
-				    "  {0} : Enabled : False : : 01.01.1989 ;0 ", areaLink));
+					"  {0} : Enabled : False :{1} : 01.01.1989 ;0 ", areaLink,schedule));
 			}
+
 			sb.AppendLine(" EndAreaLinks");
 			sb.AppendLine("EndObject");
 			sb.AppendLine();
