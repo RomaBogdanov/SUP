@@ -219,6 +219,10 @@ namespace SupRealClient.ViewModels.AddUpdateViewModel
 	        {
 		        CurrentOrderElement.Passes = st.Remove(st.Length - 2);
 			}
+	        else
+	        {
+		        CurrentOrderElement.Passes = "";
+	        }
         }
 
 	    private void ClearVisitorCommand()

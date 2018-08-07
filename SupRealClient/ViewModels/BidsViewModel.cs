@@ -715,6 +715,10 @@ namespace SupRealClient.ViewModels
 			{
 				currentOrderElement.Passes = st.Remove(st.Length - 2);
 			}
+			else
+			{
+				currentOrderElement.Passes = "";
+			}
 
 			CurrentVirtueOrder = CurrentVirtueOrder;
 		}
