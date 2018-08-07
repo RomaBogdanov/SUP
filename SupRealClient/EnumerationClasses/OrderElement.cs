@@ -263,7 +263,10 @@ namespace SupRealClient.EnumerationClasses
 			}
 		}
 
-		private string _passes = "";
+		private string _passes = NoPassesString;
+		public const string OnlyZonesPassesString= "Назначены зоны доступа";
+		public const string BothPassesString = "+ зоны доступа";
+		public const string NoPassesString = "Доступ не назначен";
 		public string Passes
 		{
 			get => _passes;

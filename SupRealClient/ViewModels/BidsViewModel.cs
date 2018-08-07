@@ -787,6 +787,8 @@ namespace SupRealClient.ViewModels
 				return;
 			}
 
+			OrderElement element = wind.WindowResult as OrderElement;
+
 			currentOrderElement.Templates = (wind.WindowResult as OrderElement).Templates;
 			currentOrderElement.TemplateIdList =
 				AndoverEntityListHelper.EntitiesToString(currentOrderElement.Templates);
@@ -795,9 +797,21 @@ namespace SupRealClient.ViewModels
 				AndoverEntityListHelper.AndoverEntitiesToString(currentOrderElement.Areas);
 			currentOrderElement.ScheduleId = (wind.WindowResult as OrderElement).ScheduleId;
 			string st = "";
-			foreach (var area in (wind.WindowResult as OrderElement).Areas)
+			foreach (var area in element.Templates)
 			{
 				st += area.Name + ", ";
+			}
+			if ((element.Templates == null || element.Templates.Count < 1) && (element.Areas != null && element.Areas.Count > 0))
+			{
+				st = OrderElement.OnlyZonesPassesString;
+			}
+			if ((element.Areas != null && element.Areas.Count > 0) && (element.Templates != null && element.Templates.Count > 0))
+			{
+				st += " " + OrderElement.BothPassesString;
+			}
+			if ((element.Areas == null || element.Areas.Count < 1) && (element.Templates == null || element.Templates.Count < 1))
+			{
+				st = OrderElement.NoPassesString;
 			}
 
 			if (st.Length - 2 >= 0)
@@ -806,7 +820,7 @@ namespace SupRealClient.ViewModels
 			}
 			else
 			{
-				currentOrderElement.Passes = "";
+				currentOrderElement.Passes = OrderElement.NoPassesString;
 			}
 
 			CurrentVirtueOrder = CurrentVirtueOrder;
