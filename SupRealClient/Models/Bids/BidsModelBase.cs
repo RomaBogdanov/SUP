@@ -462,6 +462,7 @@ namespace SupRealClient.Models
 			};
 			AddUpdateBidWindView view = new AddUpdateBidWindView();
 			view.Owner = Application.Current.Windows.OfType<Window>().SingleOrDefault(x => x.IsActive);
+			view.WindowStartupLocation = WindowStartupLocation.CenterOwner;
 			view.Title = "Добавить посетителя";
 			view.DataContext = viewModel;
 			model.OnClose += view.Handling_OnClose;
