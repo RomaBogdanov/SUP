@@ -342,7 +342,6 @@ namespace SupRealClient.ViewModels
 		}
 
 		private bool _acceptButtonEnable = false;
-
 		/// <summary>
 		/// Доступность кнопок Применить и Отмена.
 		/// </summary>
@@ -357,13 +356,14 @@ namespace SupRealClient.ViewModels
 			}
 		}
 
+		private bool _isNavigateButtonsEnable;
 		/// <summary>
 		/// Доступность кнопок нижнего ряда, кроме кнопок Применить, Отмена.
 		/// </summary>
 		public bool NavigateButtonEnable
 		{
-			get { return !_acceptButtonEnable; }
-			set { OnPropertyChanged(); }
+			get => !_acceptButtonEnable;
+			set => OnPropertyChanged();
 		}
 
 		/// <summary>
@@ -613,20 +613,21 @@ namespace SupRealClient.ViewModels
 					throw new ArgumentOutOfRangeException();
 			}
 
-			if (!currentOrder.IsOrderDataCorrect(CurrentOrderType, out string errorMessage))
+			if (currentOrder != null)
 			{
-				MessageBox.Show(errorMessage, "Ошибка");
-				return;
+				if (!currentOrder.IsOrderDataCorrect(CurrentOrderType, out string errorMessage))
+				{
+					MessageBox.Show(errorMessage, "Ошибка", MessageBoxButton.OK, MessageBoxImage.Error);
+					return;
+				}
+				BidsModel.Ok();
+
+				CurrentSelectedOrder = currentOrder;
+
+				BidsModel = new BidsModel();
+
+				ApplyCurrentSelectedOrder();
 			}
-
-			BidsModel.Ok();
-
-			CurrentSelectedOrder = currentOrder;
-
-			BidsModel = new BidsModel();
-
-			ApplyCurrentSelectedOrder();
-
 			TextEnable = false;
 			AcceptButtonEnable = false;
 			IsEnabled = true;
