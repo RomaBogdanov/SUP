@@ -42,12 +42,14 @@
             Height="25"
             Width="25"
             Content="..."
+            Command="{Binding OpenCardsCommand}"
             Style="{StaticResource ButtonStyle}"/>
         
         <Button
             Grid.Row="2"
             Grid.Column="1"
             Margin="5"
+            Command="{Binding ReturnCardCommand}"
             Style="{StaticResource ButtonStyle}">
             <Grid>
                 <Grid.ColumnDefinitions>
@@ -61,7 +63,7 @@
 
                 <TextBlock
                     Grid.Column="1"
-                    Text="Далее"
+                    Text="Возврат"
                     Style="{StaticResource TextBLockStyle}"/>
             </Grid>
         </Button>
@@ -71,6 +73,7 @@
             Grid.Column="2"
             Grid.ColumnSpan="2"
             Margin="5"
+            Command="{Binding CancelCommand}"
             Style="{StaticResource ButtonStyle}">
             <Grid>
                 <Grid.ColumnDefinitions>

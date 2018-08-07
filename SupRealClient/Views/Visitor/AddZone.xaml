@@ -71,6 +71,7 @@
             Grid.Row="2"
             Grid.Column="2"
             Margin="5"
+            Command="{Binding Path=Close}"
             Style="{StaticResource ButtonStyle}">
             <Grid>
                 <Grid.ColumnDefinitions>

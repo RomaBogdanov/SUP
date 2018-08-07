@@ -716,6 +716,7 @@ namespace SupRealClient.Views
             row1["f_orders"] = AndoverEntityListHelper.EntitiesToString(orders);
             row1["f_rec_date"] = DateTime.Now;
             row1["f_rec_operator"] = Authorizer.AppAuthorizer.Id;
+            row1["f_deleted"] = "N";
             row1["f_reason"] = "резон"; //todo: пока непонятно, что с полем делать
             row1["f_rec_operator_back"] = 0; //todo: скорее всего, оператор принявший карту обратно
             row1["f_rec_date_back"] = DateTime.MinValue; //todo: скорее всего, время возврата карты обратно
@@ -805,6 +806,16 @@ namespace SupRealClient.Views
             //row["f_deleted"] = CommonHelper.BoolToString(true);
 
             return true;
+        }
+    }
+
+    public class CardsIssuedListModel<T> : CardsListModel<T>
+        where T : Card, new()
+    {
+        protected override void DoQuery()
+        {
+            base.DoQuery();
+            Set = new ObservableCollection<T>(Set.Where(arg => arg.StateId == 3));
         }
     }
 
