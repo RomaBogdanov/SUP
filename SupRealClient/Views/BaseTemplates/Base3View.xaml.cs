@@ -134,6 +134,7 @@ namespace SupRealClient.Views
             Window parentWindow = Window.GetWindow(this);
             if (parentWindow.Visibility == System.Windows.Visibility.Visible)
             {
+                tbxSearch.Focus();
                 tbxSearch.Text = string.Empty;
                 SortItemsSource();
             }
