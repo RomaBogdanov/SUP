@@ -234,19 +234,18 @@ namespace SupRealClient.ViewModels
 				{
 					return OrderType.Temp;
 				}
-				else if (IsSingleOrder)
+
+				if (IsSingleOrder)
 				{
 					return OrderType.Single;
 				}
-				else
+
+				if (IsVirtueOrder)
 				{
-					if (IsVirtueOrder)
-					{
-						return OrderType.Virtue;
-					}
+					return OrderType.Virtue;
 				}
 
-				return OrderType.Single;
+				return OrderType.None;
 			}
 		}
 
@@ -278,6 +277,7 @@ namespace SupRealClient.ViewModels
 			}
 		}
 
+		public ICommand DoubleClickCommand { get; set; }
 		public ICommand BeginCommand { get; set; }
 		public ICommand PrevCommand { get; set; }
 		public ICommand NextCommand { get; set; }
@@ -358,6 +358,7 @@ namespace SupRealClient.ViewModels
 			WinSet.Left = WinSet.Width;
 
 			// Инициализация команд.
+			DoubleClickCommand = new RelayCommand(arg => DoubleClick());
 			BeginCommand = new RelayCommand(arg => Begin());
 			PrevCommand = new RelayCommand(arg => Prev());
 			NextCommand = new RelayCommand(arg => Next());
@@ -442,7 +443,10 @@ namespace SupRealClient.ViewModels
 			BidsModel.DeletePerson();
 			SelectedElement = BidsModel.SelectedElement;
 		}
-
+		private void DoubleClick()
+		{
+			
+		}
 		private void Begin()
 		{
 			BidsModel.Begin();
@@ -488,6 +492,8 @@ namespace SupRealClient.ViewModels
 		{
 			switch (CurrentOrderType)
 			{
+				case OrderType.None:
+					break;
 				case OrderType.Single:
 					CurrentSelectedOrder = CurrentSingleOrder;
 					break;
@@ -497,14 +503,14 @@ namespace SupRealClient.ViewModels
 				case OrderType.Virtue:
 					CurrentSelectedOrder = CurrentVirtueOrder;
 					break;
-				default:
-					throw new ArgumentOutOfRangeException();
 			}
 
 			BidsModel = new NewBidsModel(CurrentOrderType);
 
 			switch (CurrentOrderType)
 			{
+				case OrderType.None:
+					break;
 				case OrderType.Single:
 					CurrentSingleOrder = BidsModel.CurrentSingleOrder;
 					break;
@@ -545,6 +551,9 @@ namespace SupRealClient.ViewModels
 			Order currentOrder;
 			switch (CurrentOrderType)
 			{
+				case OrderType.None:
+					currentOrder = null;
+					break;
 				case OrderType.Single:
 					currentOrder = BidsModel.CurrentSingleOrder;
 					break;
@@ -581,6 +590,8 @@ namespace SupRealClient.ViewModels
 		{
 			switch (CurrentOrderType)
 			{
+				case OrderType.None:
+					break;
 				case OrderType.Temp:
 					CurrentTemporaryOrder = BidsModel.TemporaryOrdersSet.FirstOrDefault(x => x.Id == CurrentSelectedOrder.Id);
 					CurrentSelectedOrder = BidsModel.CurrentTemporaryOrder;
@@ -602,6 +613,8 @@ namespace SupRealClient.ViewModels
 		{
 			switch (CurrentOrderType)
 			{
+				case OrderType.None:
+					break;
 				case OrderType.Temp:
 					CurrentTemporaryOrder = BidsModel.CurrentTemporaryOrder;
 					CurrentSelectedOrder = BidsModel.CurrentTemporaryOrder; // Запомнить временную заявку перед добавлением новой.
