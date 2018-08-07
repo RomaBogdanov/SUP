@@ -395,6 +395,9 @@ namespace SupHost.Andover
                 row["f_rec_date"] = date;
                 row["f_rec_operator"] = info.Id;
                 row["f_create_date"] = person.ActivationDate;
+                row["f_rec_date"] = date;
+                row["f_lost_date"] = DateTime.MinValue;
+                row["f_comment"] = "";
                 row["f_card_num"] = person.NonABACardNumber;
                 row["f_object_id_hi"] = person.ObjectIdHi;
                 row["f_object_id_lo"] = person.ObjectIdLo;

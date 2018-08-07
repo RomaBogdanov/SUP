@@ -1,4 +1,4 @@
-﻿/*EXEC msdb.dbo.sp_delete_database_backuphistory @database_name = N'Visitors'
+/*EXEC msdb.dbo.sp_delete_database_backuphistory @database_name = N'Visitors'
 GO
 
 USE master
@@ -68,7 +68,7 @@ create table vis_access_level
 	f_schedule_id_hi int, -- id расписания
 	f_schedule_id_lo int, -- id расписания
 	f_access_level_note nvarchar(100), -- заметка по уровню доступа
-	f_deleted                      CHAR(1),
+	f_deleted                      nvarchar(1),
     f_rec_date                     DATE,
     f_rec_operator                 int,
 )
@@ -99,7 +99,7 @@ create table vis_access_points
 	f_access_point_space_out_id_lo int,
 	f_access_point_space_in        nvarchar(128), -- ? метка по внутреннему помещению. Пока непонятно, что привязывать.
 	f_access_point_space_out       nvarchar(128), -- ? метка по внешнему помещению. Пока непонятно, что привязывать.
-	f_deleted                      CHAR(1),
+	f_deleted                      nvarchar(1),
     f_rec_date                     DATE,
     f_rec_operator                 int,
     f_object_id_hi                 int,
@@ -149,7 +149,7 @@ create table vis_areas
 	f_area_id                      int not null,
 	f_area_name                    nvarchar(128),
 	f_area_descript                nvarchar(200),
-	f_deleted                      CHAR(1),
+	f_deleted                      nvarchar(1),
     f_rec_date                     DATE,
     f_rec_operator                 int,
     f_object_id_hi                 int,
@@ -200,7 +200,7 @@ create table vis_areas_spaces
 	f_area_id_hi int, -- id области доступа
 	f_area_id_lo int, -- id области доступа
 	f_space_id int, -- id помещения
-	f_deleted                      CHAR(1),
+	f_deleted                      nvarchar(1),
     f_rec_date                     DATE,
     f_rec_operator                 int,
 )
@@ -226,7 +226,7 @@ CREATE TABLE vis_cabinets
     f_cabinet_num                  nvarchar(50),
     f_cabinet_desc                 nvarchar(200),
     f_door_num                     nvarchar(20),
-    f_deleted                      CHAR(1),
+    f_deleted                      nvarchar(1),
     f_rec_date                     DATE,
     f_rec_operator                 int,
     f_door_num_int                 int)
@@ -292,7 +292,7 @@ CREATE TABLE vis_cards
 	f_card_name                    nvarchar(128),
     f_card_text                    nvarchar(200),
     f_last_visit_id                int,
-    f_deleted                      CHAR(1),
+    f_deleted                      nvarchar(1),
     f_rec_date                     DATE,
     f_rec_operator                 int,
     f_create_date                  DATE,
@@ -330,7 +330,7 @@ create table vis_card_area
 	f_card_id_lo int, -- id карты
 	f_area_id_hi int, -- id области доступа
 	f_area_id_lo int, -- id области доступа
-	f_deleted                      CHAR(1),
+	f_deleted                      nvarchar(1),
     f_rec_date                     DATE,
     f_rec_operator                 int
 )
@@ -358,7 +358,7 @@ create table vis_cars
 	f_org_id int, -- номер организации
 	f_visitor_id int, -- номер водителя
 	f_color nvarchar(25), -- цвет машины
-	f_deleted                      CHAR(1),
+	f_deleted                      nvarchar(1),
     f_rec_date                     DATE,
     f_rec_operator                 int
 )
@@ -381,7 +381,7 @@ if OBJECT_ID('vis_countries') is not null
 CREATE TABLE vis_countries
     (f_cntr_id                     int NOT NULL,
     f_cntr_name                    nvarchar(50),
-    f_deleted                      CHAR(1),
+    f_deleted                      nvarchar(1),
     f_rec_date                     DATE,
     f_rec_operator                 int)
 
@@ -405,7 +405,7 @@ CREATE TABLE vis_departaments
     f_org_id                       int,
     f_dep_name                     nvarchar(100),
     f_short_dep_name               nvarchar(15),
-    f_deleted                      CHAR(1),
+    f_deleted                      nvarchar(1),
     f_rec_date                     DATE,
     f_rec_operator                 int,
     f_parent_id                    int)
@@ -428,7 +428,7 @@ if OBJECT_ID('vis_documents') is not null
 CREATE TABLE vis_documents
     (f_doc_id                      int NOT NULL,
     f_doc_name                     nvarchar(40),
-    f_deleted                      CHAR(1),
+    f_deleted                      nvarchar(1),
     f_rec_date                     DATE,
     f_rec_operator                 int)
 
@@ -457,7 +457,7 @@ CREATE TABLE vis_doors
 	f_space_out int, -- id внешнего помещения.
 	f_access_point_id_hi int, -- id точки доступа.
 	f_access_point_id_lo int, -- id точки доступа.
-	f_deleted                      CHAR(1),
+	f_deleted                      nvarchar(1),
     f_rec_date                     DATE,
     f_rec_operator                 int
 )
@@ -500,7 +500,7 @@ create table vis_key_case
 	f_key_holder_num nvarchar(25), -- номер ключницы
 	f_cell_num int, -- номер ячейки
 	f_descript nvarchar(200), -- описание
-	f_deleted                      CHAR(1),
+	f_deleted                      nvarchar(1),
     f_rec_date                     DATE,
     f_rec_operator                 int
 )
@@ -525,7 +525,7 @@ create table vis_key_holder
 	f_key_holder_num nvarchar(25), -- номер ключницы
 	f_descript nvarchar(200), -- описание
 	f_count int, -- количество ячеек в ключнице
-	f_deleted                      CHAR(1),
+	f_deleted                      nvarchar(1),
     f_rec_date                     DATE,
     f_rec_operator                 int
 )
@@ -552,7 +552,7 @@ create table vis_keys
 	f_door_id int, -- номер двери, к которой привязан ключ
 	f_key_holder_id int, -- номер ключницы, в которой ключ
 	f_key_case_id int, -- номер пенала, в котором ключ
-	f_deleted                      CHAR(1),
+	f_deleted                      nvarchar(1),
     f_rec_date                     DATE,
     f_rec_operator                 int
 )
@@ -641,14 +641,14 @@ CREATE TABLE vis_order_elements
     f_time_to                      DATETIME,
     f_passes                       nvarchar(1000),
     f_disabled                     nvarchar(1),
-    f_deleted                      CHAR(1),
+    f_deleted                      nvarchar(1),
     f_rec_date                     DATE,
     f_rec_operator                 int,
     f_not_remaind                  nvarchar(1),
     f_full_role                    nvarchar(1),
     f_other_org                    nvarchar(200),
     f_org_id                       INT,--организация
-    f_position                     NVARCHAR(200),--должность
+    f_position                     nvarchar(200),--должность
 	f_oe_templates                 nvarchar(MAX),
 	f_oe_areas                     nvarchar(MAX),
 	f_schedule_id                  int
@@ -672,7 +672,7 @@ if OBJECT_ID('vis_orderlist') is not null
 CREATE TABLE vis_orderlist
     (f_ord_id                      int,
     f_visit_id                     int,
-    f_deleted                      CHAR(1),
+    f_deleted                      nvarchar(1),
     f_orderlist_id                 int NOT NULL)
 
 ALTER TABLE vis_orderlist
@@ -702,13 +702,13 @@ CREATE TABLE vis_orders
     f_adjusted_with                int,
     f_notes                        nvarchar(150),
     f_disabled                     nvarchar(1),
-    f_deleted                      CHAR(1),
+    f_deleted                      nvarchar(1),
     f_rec_date                     DATETIME,--время последнего редактирования заявки
     f_rec_operator                 int,--id оператора который последним внес изменеия в заявку
     f_temp_posted                  nvarchar(1),
     f_new_rec_date                 DATETIME,--время создания заявки
     f_new_rec_operator             INT,--id оператора создателя заявки
-    f_barcode                      NVARCHAR(200),--штрихкод СЭД(система электронного документооборота)
+    f_barcode                      nvarchar(200),--штрихкод СЭД(система электронного документооборота)
     f_image_id                     INT--ссылка на изображение
   )
 
@@ -734,7 +734,7 @@ CREATE TABLE vis_organizations
     f_has_free_access              nvarchar(1),
     f_is_master                    nvarchar(1),
     f_is_basic                     nvarchar(1),
-    f_deleted                      CHAR(1),
+    f_deleted                      nvarchar(1),
     f_rec_date                     DATE,
     f_rec_operator                 int,
     f_syn_id                       int,
@@ -762,7 +762,7 @@ CREATE TABLE vis_regions
     (f_region_id                   int NOT NULL,
     f_region_name                  nvarchar(50),
     f_cntr_id                      int,
-    f_deleted                      CHAR(1),
+    f_deleted                      nvarchar(1),
     f_rec_date                     DATE,
     f_rec_operator                 int)
 
@@ -780,9 +780,9 @@ go
 create table vis_schedules
 (
 	f_schedule_id                  int not null,
-    f_schedule_name                VARCHAR(128),
+    f_schedule_name                nvarchar(128),
 	f_schedule_description         nvarchar(200),
-    f_deleted                      CHAR(1),
+    f_deleted                      nvarchar(1),
     f_rec_date                     DATE,
     f_rec_operator                 int,
     f_object_id_hi                 int,
@@ -835,7 +835,7 @@ CREATE TABLE vis_spaces
 	f_num_build nvarchar(50), --номер помещения дан в текстовом виде для большего обобщения, в теории будет эквивалентем названию помещения на этапе строительства
 	f_descript nvarchar(200), -- описание помещения
 	f_note nvarchar(200), -- примечание по помещению
-	f_deleted                      CHAR(1),
+	f_deleted                      nvarchar(1),
     f_rec_date                     DATE,
     f_rec_operator                 int
 	)
@@ -858,7 +858,7 @@ if OBJECT_ID('vis_spr_cardstates') is not null
 CREATE TABLE vis_spr_cardstates
     (f_state_id                    int NOT NULL,
     f_state_text                   nvarchar(50),
-    f_deleted                      CHAR(1),
+    f_deleted                      nvarchar(1),
     f_rec_date                     DATE,
     f_rec_operator                 int)
 
@@ -888,7 +888,7 @@ if OBJECT_ID('vis_spr_order_types') is not null
 CREATE TABLE vis_spr_order_types
     (f_order_type_id               int NOT NULL,
     f_order_text                   nvarchar(50),
-    f_deleted                      CHAR(1),
+    f_deleted                      nvarchar(1),
     f_rec_date                     DATE,
     f_rec_operator                 int)
 
@@ -922,7 +922,7 @@ CREATE TABLE vis_templates
     f_template_name                nvarchar(50),
 	f_template_description         nvarchar(200),
 	f_template_areas               nvarchar(MAX),
-    f_deleted                      CHAR(1),
+    f_deleted                      nvarchar(1),
     f_rec_date                     DATE,
     f_rec_operator                 int)
 
@@ -964,7 +964,7 @@ CREATE TABLE vis_visitors
     f_can_adjust_orders            nvarchar(1),
     f_can_have_visitors            nvarchar(1),
     f_persona_non_grata            nvarchar(1),
-    f_deleted                      CHAR(1),
+    f_deleted                      nvarchar(1),
     f_rec_date                     DATE,
     f_rec_operator                 int,
     f_org_id                       int,
@@ -972,9 +972,11 @@ CREATE TABLE vis_visitors
     f_rec_operator_pass            int,
     f_cabinet_id                   int,
     f_full_name                    nvarchar(100),
-    f_personal_data_agreement      CHAR(1),
+    f_personal_data_agreement      nvarchar(1),
     f_personal_data_last_date      DATE,
-    f_doc_code                     nvarchar(20))
+    f_doc_code                     nvarchar(20),
+	f_no_formular nvarchar(1) DEFAULT 'N'
+	)
 
 ALTER TABLE vis_visitors
 ADD PRIMARY KEY (f_visitor_id)
@@ -1004,7 +1006,7 @@ CREATE TABLE vis_visitors_documents
     f_doc_code                     nvarchar(20),
 	f_birth_date                   DATE,
 	f_comment                      nvarchar(100),
-    f_deleted                      CHAR(1))
+    f_deleted                      nvarchar(1))
 
 ALTER TABLE vis_visitors_documents
 ADD PRIMARY KEY (f_vd_id)
@@ -1033,7 +1035,7 @@ CREATE TABLE vis_visits
     f_date_from                    DATE,
     f_date_to                      DATE,
     f_order_id                     int,
-    f_deleted                      CHAR(1),
+    f_deleted                      nvarchar(1),
     f_rec_date                     DATE,
     f_rec_operator                 int,
     f_reason                       nvarchar(1000),
@@ -1061,7 +1063,7 @@ if OBJECT_ID('vis_zone_types') is not null
 CREATE TABLE vis_zone_types
     (f_zone_type_id                int NOT NULL,
     f_zone_type_name               nvarchar(50) NOT NULL,
-    f_deleted                      CHAR(1),
+    f_deleted                      nvarchar(1),
     f_rec_date                     DATE,
     f_rec_operator                 int,
     f_comment                      nvarchar(200))
@@ -1085,9 +1087,9 @@ if OBJECT_ID('vis_zones') is not null
 CREATE TABLE vis_zones
     (f_zone_id                     int NOT NULL,
     f_zone_type_id                 int,
-    f_zone_name                    CHAR(100),
+    f_zone_name                    nvarchar(100),
     f_comment                      nvarchar(200),
-    f_deleted                      CHAR(1),
+    f_deleted                      nvarchar(1),
     f_rec_date                     DATE,
     f_rec_operator                 int,
     f_zone_num                     int,
@@ -1215,7 +1217,7 @@ CREATE TABLE vis_image
     f_visitor_id                   int,
     f_image_type                   int,
     f_data                         VARBINARY(MAX),
-    f_deleted                      CHAR(1))
+    f_deleted                      nvarchar(1))
 
 ALTER TABLE vis_image
 ADD PRIMARY KEY (f_image_id)
@@ -1230,7 +1232,7 @@ CREATE TABLE vis_image_document
     (f_img_doc_id                  int NOT NULL,
     f_image_id                     int,
     f_doc_id                       int,
-    f_deleted                      CHAR(1))
+    f_deleted                      nvarchar(1))
 
 ALTER TABLE vis_image_document
 ADD PRIMARY KEY (f_img_doc_id)

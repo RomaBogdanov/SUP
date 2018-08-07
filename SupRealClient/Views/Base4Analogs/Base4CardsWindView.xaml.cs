@@ -19,15 +19,24 @@ namespace SupRealClient.Views
     /// </summary>
     public partial class Base4CardsWindView
     {
-        public Base4CardsWindView()
+        public Base4CardsWindView(Visibility okVisibility)
         {
             InitializeComponent();
             base4.tbxSearch.Focus();
             AfterInitialize();
 
             ((Base4ViewModel<EnumerationClasses.Card>)base4.DataContext)
+                .OkVisibility = okVisibility;
+            ((Base4ViewModel<EnumerationClasses.Card>)base4.DataContext)
                 .ScrollCurrentItem = base4.ScrollIntoViewCurrentItem;
             base4.Focus();
+        }
+
+        // TODO - переделать. Сделано для того, чтобы окно закрывалось при вызове Close из модели
+        public void Handling_OnClose2(object result)
+        {
+            this.WindowResult = result;
+            this.Close();
         }
 
         private void CreateColumns()

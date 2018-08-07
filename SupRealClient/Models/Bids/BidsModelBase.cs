@@ -2,10 +2,12 @@
 using System.Collections.ObjectModel;
 using System.Linq;
 using System.Windows;
+using System.Windows.Forms;
 using SupRealClient.EnumerationClasses;
 using SupRealClient.Models.AddUpdateModel;
 using SupRealClient.ViewModels.AddUpdateViewModel;
 using SupRealClient.Views;
+using Application = System.Windows.Application;
 using MessageBox = System.Windows.Forms.MessageBox;
 
 namespace SupRealClient.Models
@@ -279,7 +281,8 @@ namespace SupRealClient.Models
 		/// </summary>
 		public void Search()
 		{
-			//todo: наверно, надо удалить, потому что обработка на уровне ViewModel
+			ViewManager.Instance.OpenWindowModal("BidsListWindView", null);
+			OnRefresh?.Invoke();
 		}
 
 		/// <summary>
@@ -318,7 +321,7 @@ namespace SupRealClient.Models
 		{
 			if (SelectedElement == null)
 			{
-				MessageBox.Show("Не выбран посетитель для редактирования данных по нему");
+				MessageBox.Show("Не выбран посетитель для редактирования данных по нему","Ошибка",MessageBoxButtons.OK,MessageBoxIcon.Error);
 				return;
 			}
 
@@ -351,8 +354,23 @@ namespace SupRealClient.Models
 		/// </summary>
 		public void Agreer()
 		{
-			VisitorsModelResult result = ViewManager.Instance.OpenWindowModal(
-				"VisitorsListWindViewOk", null) as VisitorsModelResult;
+			var model = new VisitorsListModel<Visitor>();
+			model.FilterThatCanAgree();
+			var viewModel = new Base4ViewModel<Visitor>()
+			{
+				OkCaption = "OK",
+				Model = model
+			};
+			var view = new VisitorsListWindView()
+			{
+				DataContext = viewModel
+			};
+			view.Owner = Application.Current.Windows.OfType<Window>().SingleOrDefault(x => x.IsActive);
+			view.WindowStartupLocation = WindowStartupLocation.CenterOwner;
+			model.OnClose += view.Handling_OnClose;
+			view.ShowDialog();
+			VisitorsModelResult result = view.WindowResult as VisitorsModelResult;
+
 			if (result == null) return;
 			CurrentTemporaryOrder.AgreeId = result.Id;
 			CurrentTemporaryOrder.Agree = result.Name;
@@ -364,8 +382,23 @@ namespace SupRealClient.Models
 		/// </summary>
 		public void Signer()
 		{
-			VisitorsModelResult result = ViewManager.Instance.OpenWindowModal(
-				"VisitorsListWindViewOk", null) as VisitorsModelResult;
+			var model = new VisitorsListModel<Visitor>();
+			model.FilterThatCanSign();
+			var viewModel = new Base4ViewModel<Visitor>()
+			{
+				OkCaption = "OK",
+				Model = model
+			};
+			var view = new VisitorsListWindView()
+			{
+				DataContext = viewModel
+			};
+			view.Owner = Application.Current.Windows.OfType<Window>().SingleOrDefault(x => x.IsActive);
+			view.WindowStartupLocation = WindowStartupLocation.CenterOwner;
+			model.OnClose += view.Handling_OnClose;
+			view.ShowDialog();
+			VisitorsModelResult result = view.WindowResult as VisitorsModelResult;
+
 			if (result == null) return;
 			switch (OrderType)
 			{
@@ -433,6 +466,7 @@ namespace SupRealClient.Models
 			};
 			AddUpdateBidWindView view = new AddUpdateBidWindView();
 			view.Owner = Application.Current.Windows.OfType<Window>().SingleOrDefault(x => x.IsActive);
+			view.WindowStartupLocation = WindowStartupLocation.CenterOwner;
 			view.Title = "Добавить посетителя";
 			view.DataContext = viewModel;
 			model.OnClose += view.Handling_OnClose;

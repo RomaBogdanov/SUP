@@ -19,12 +19,14 @@ namespace SupRealClient.Views
     /// </summary>
     public partial class Base4KeyHoldersWindView
     {
-        public Base4KeyHoldersWindView()
+        public Base4KeyHoldersWindView(Visibility okVisibility)
         {
             InitializeComponent();
             base4.tbxSearch.Focus();
             AfterInitialize();
 
+            ((Base4ViewModel<EnumerationClasses.KeyHolder>)base4.DataContext)
+              .OkVisibility = okVisibility;
             ((Base4ViewModel<EnumerationClasses.KeyHolder>)base4.DataContext)
               .ScrollCurrentItem = base4.ScrollIntoViewCurrentItem;
             base4.Focus();

@@ -684,6 +684,12 @@ namespace SupRealClient.Models.AddUpdateModel
             ((OrderElement)CurrentItem).Areas = SetAppointZones;
             OnClose?.Invoke(CurrentItem);
         }
+
+	    public override void Cancel()
+	    {
+		    OnClose?.Invoke(CurrentItem);
+		}
+
     }
 
     public abstract class AddUpdateTemplateModel : AddUpdateAbstrModel
@@ -815,12 +821,12 @@ namespace SupRealClient.Models.AddUpdateModel
     // TODO - вынести в отдельный класс. Переписать более универсально (принимать/возвращать IdEntity и AndoverEntity(создать класс))
     public static class AndoverEntityListHelper
     {
-        public static string EntitiesToString(IEnumerable<Template> templates)
+        public static string EntitiesToString(IEnumerable<IdEntity> entities)
         {
             var sb = new StringBuilder();
-            foreach (var template in templates)
+            foreach (var entitiy in entities)
             {
-                sb.Append(template.Id);
+                sb.Append(entitiy.Id);
                 sb.Append(";");
             }
             return sb.ToString();

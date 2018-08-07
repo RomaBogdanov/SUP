@@ -50,7 +50,7 @@
             Padding="0"
             FontSize="16"
             IsEnabled="{Binding IsEnabled, UpdateSourceTrigger=PropertyChanged}"
-            SelectedIndex="0"
+            SelectedIndex="{Binding SelectedIndex, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"
             Style="{StaticResource MetroComboBox1}">
             <ComboBoxItem Content="Разовые заявки" Tag="0" />
             <ComboBoxItem Content="Временные заявки" Tag="1" />
@@ -235,11 +235,11 @@
                             </Button>
 
                         </Grid>
-
                         <DataGrid
                             Grid.Row="2"
                             AutoGenerateColumns="False"
-                            CanUserAddRows="{Binding IsCanAddRows, Mode=TwoWay}"
+                            CanUserAddRows="{Binding IsCanAddRows, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                            CanUserResizeColumns="False"
                             IsReadOnly="True"
                             ItemsSource="{Binding Path=CurrentSingleOrder.OrderElements}"
                             SelectedItem="{Binding SelectedElement, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}">
@@ -247,25 +247,21 @@
                                 <DataGridTextColumn Header="№" />
                                 <DataGridTextColumn
                                     Width="*"
-                                    Binding="{Binding Visitor, UpdateSourceTrigger=PropertyChanged}"
+                                    Binding="{Binding Visitor}"
                                     Header="Посетитель" />
-                                <DataGridTextColumn
-                                    Width="*"
-                                    Binding="{Binding Organization}"
-                                    Header="Организация" />
-                                <DataGridTextColumn
-                                    Width="*"
-                                    Binding="{Binding Catcher, UpdateSourceTrigger=PropertyChanged}"
-                                    Header="Принимающее лицо" />
-                                <DataGridTextColumn Binding="{Binding From}" Header="Время от" />
-                                <DataGridTextColumn Binding="{Binding To}" Header="Время до" />
-                                <DataGridCheckBoxColumn Binding="{Binding IsDisable}" Header="Не активен" />
+                                <DataGridTextColumn Binding="{Binding Organization}" Header="Организация" />
+                                <DataGridTextColumn Binding="{Binding Position}" Header="Должность посетителя" />
+                                <DataGridTextColumn Width="*" Binding="{Binding Catcher}">
+                                    <DataGridTextColumn.Header>
+                                        <TextBlock Text="Принимающее лицо посетителя" TextWrapping="Wrap" />
+                                    </DataGridTextColumn.Header>
+                                </DataGridTextColumn>
+                                <DataGridCheckBoxColumn Header="Не активен" />
                                 <DataGridTextColumn Binding="{Binding Passes}" Header="Проходы" />
                                 <DataGridCheckBoxColumn Binding="{Binding IsBlock}" Header="Заблокирован" />
                             </DataGrid.Columns>
                             <DataGrid.RowStyle>
                                 <Style TargetType="DataGridRow">
-                                    <EventSetter Event="MouseDoubleClick" Handler="tableItem_MouseDoubleClick" />
                                     <Style.Triggers>
                                         <DataTrigger Binding="{Binding IsBlock}" Value="True">
                                             <Setter Property="Background" Value="#33ff0000" />
@@ -276,6 +272,12 @@
                                     </Style.Triggers>
                                 </Style>
                             </DataGrid.RowStyle>
+                            <DataGrid.InputBindings>
+                                <MouseBinding
+                                    Command="{Binding DoubleClickCommand}"
+                                    CommandParameter="{Binding SelectedElement}"
+                                    MouseAction="LeftDoubleClick" />
+                            </DataGrid.InputBindings>
                         </DataGrid>
 
                         <StackPanel Grid.Row="3">
@@ -535,20 +537,6 @@
                                 Style="{StaticResource TextBoxStyle}"
                                 Text="{Binding CurrentTemporaryOrder.RegNumber, Mode=TwoWay}" />
 
-                            <CheckBox
-                                Name="cbTempOrderUnlimited"
-                                Grid.Column="2"
-                                HorizontalAlignment="Center"
-                                VerticalAlignment="Center"
-                                IsEnabled="{Binding TextEnable, UpdateSourceTrigger=PropertyChanged}"
-                                PreviewKeyDown="UiElement_PreviewKeyDown" />
-
-                            <TextBlock
-                                Grid.Column="3"
-                                HorizontalAlignment="Left"
-                                Style="{StaticResource TextBLockStyle}"
-                                Text="Бессрочная заявка" />
-
                             <Button
                                 Name="btnTempOrderAdd"
                                 Grid.Column="4"
@@ -716,6 +704,7 @@
                             Grid.Row="2"
                             AutoGenerateColumns="False"
                             CanUserAddRows="{Binding IsCanAddRows, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                            CanUserResizeColumns="False"
                             IsReadOnly="True"
                             ItemsSource="{Binding Path=CurrentTemporaryOrder.OrderElements}"
                             SelectedItem="{Binding SelectedElement, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}">
@@ -726,7 +715,7 @@
                                     Binding="{Binding Visitor}"
                                     Header="Посетитель" />
                                 <DataGridTextColumn Binding="{Binding Organization}" Header="Организация" />
-                                <DataGridTextColumn Binding="{Binding Organization}" Header="Должность посетителя" />
+                                <DataGridTextColumn Binding="{Binding Position}" Header="Должность посетителя" />
                                 <DataGridTextColumn Width="*" Binding="{Binding Catcher}">
                                     <DataGridTextColumn.Header>
                                         <TextBlock Text="Принимающее лицо посетителя" TextWrapping="Wrap" />
@@ -748,6 +737,12 @@
                                     </Style.Triggers>
                                 </Style>
                             </DataGrid.RowStyle>
+                            <DataGrid.InputBindings>
+                                <MouseBinding
+                                    Command="{Binding DoubleClickCommand}"
+                                    CommandParameter="{Binding SelectedElement}"
+                                    MouseAction="LeftDoubleClick" />
+                            </DataGrid.InputBindings>
                         </DataGrid>
 
                         <Grid Grid.Row="3">
@@ -769,7 +764,7 @@
                             <TextBox
                                 Grid.Column="1"
                                 Margin="2"
-                                IsEnabled="{Binding TextEnable, UpdateSourceTrigger=PropertyChanged}"
+                                IsEnabled="False"
                                 Style="{StaticResource TextBoxStyle}"
                                 Text="{Binding CurrentTemporaryOrder.Signed, Mode=TwoWay}" />
 
@@ -793,7 +788,7 @@
                             <TextBox
                                 Grid.Column="4"
                                 Margin="2"
-                                IsEnabled="{Binding TextEnable, UpdateSourceTrigger=PropertyChanged}"
+                                IsEnabled="False"
                                 Style="{StaticResource TextBoxStyle}"
                                 Text="{Binding CurrentTemporaryOrder.Agree, Mode=TwoWay}" />
 
@@ -1028,20 +1023,6 @@
                             IsEnabled="False"
                             Style="{StaticResource TextBoxStyle}"
                             Text="{Binding CurrentVirtueOrder.RegNumber, Mode=TwoWay}" />
-
-                        <CheckBox
-                            Name="cbVirtOrderUnlimited"
-                            Grid.Column="2"
-                            HorizontalAlignment="Center"
-                            VerticalAlignment="Center"
-                            IsEnabled="{Binding TextEnable, UpdateSourceTrigger=PropertyChanged}"
-                            PreviewKeyDown="UiElement_PreviewKeyDown" />
-
-                        <TextBlock
-                            Grid.Column="3"
-                            HorizontalAlignment="Left"
-                            Style="{StaticResource TextBLockStyle}"
-                            Text="Бессрочная заявка" />
                     </Grid>
 
                     <Grid Grid.Row="1">
@@ -1461,8 +1442,13 @@
                 </Grid>
             </mah:MetroTabItem>
 
-            <mah:MetroTabItem IsEnabled="{Binding IsEnabled, UpdateSourceTrigger=PropertyChanged}" Tag="3">
-                <DataGrid AutoGenerateColumns="False" ItemsSource="{Binding Path=OrdersSet}">
+            <mah:MetroTabItem IsEnabled="{Binding IsEnabled, UpdateSourceTrigger=PropertyChanged}">
+                <DataGrid
+                    AutoGenerateColumns="False"
+                    CanUserResizeColumns="False"
+                    IsReadOnly="True"
+                    ItemsSource="{Binding Path=OrdersSet}"
+                    SelectedItem="{Binding SelectedOrder, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}">
                     <DataGrid.Columns>
                         <DataGridTextColumn Binding="{Binding RegNumber}" Header="№ заявки" />
                         <DataGridTextColumn Binding="{Binding From}" Header="Дата начала" />
@@ -1479,6 +1465,12 @@
                             Header="Подписывающее лицо" />
                         <DataGridTextColumn Binding="{Binding Note}" Header="Примечание" />
                     </DataGrid.Columns>
+                    <DataGrid.InputBindings>
+                        <MouseBinding
+                            Command="{Binding DoubleClickCommand}"
+                            CommandParameter="{Binding SelectedOrder}"
+                            MouseAction="LeftDoubleClick" />
+                    </DataGrid.InputBindings>
                 </DataGrid>
             </mah:MetroTabItem>
 

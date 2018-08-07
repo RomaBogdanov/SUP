@@ -38,7 +38,6 @@ namespace SupRealClient.Views
 
 			_enterUiElementsSequenceTempOrder = new List<UIElement>
 			{
-				cbTempOrderUnlimited,
 				btnTempOrderAdd,
 				dpTempOrderDateFrom,
 				dpTempOrderDateTo,
@@ -51,7 +50,6 @@ namespace SupRealClient.Views
 
 			_enterUiElementsSequenceVirtOrder = new List<UIElement>
 			{
-				cbVirtOrderUnlimited,
 				dpVirtOrderFrom,
 				dpVirtOrderTo,
 				tbVirtOrderReason,
@@ -157,11 +155,6 @@ namespace SupRealClient.Views
 			_previousEnterUiElement = null;
 		}
 
-		private void tableItem_MouseDoubleClick(object sender, MouseButtonEventArgs e)
-		{
-			((BidsViewModel) DataContext).OpenUserWindow(((DataGridRow)sender).Item);
-		}
-
 		/// <summary>
 		/// Обработка нажатия клавиш в окне
 		/// </summary>
@@ -209,7 +202,13 @@ namespace SupRealClient.Views
 			{
 				btnReload.Command.Execute(null);
 				e.Handled = true;
-			} else if (e.Key == Key.Insert)
+			}
+			else if (e.Key == Key.F && Keyboard.IsKeyDown(Key.LeftCtrl))
+			{
+				btnFind.Command.Execute(null);
+				e.Handled = true;
+			}
+			else if (e.Key == Key.Insert)
 			{
 				btnAddOrder.Command.Execute(null);
 				e.Handled = true;
@@ -221,10 +220,10 @@ namespace SupRealClient.Views
 						dpSingleOrderDate.Focus();
 						break;
 					case 1:
-						cbTempOrderUnlimited.Focus();
+						btnTempOrderAdd.Focus();
 						break;
 					case 2:
-						cbVirtOrderUnlimited.Focus();
+						dpVirtOrderFrom.Focus();
 						break;
 				}
 			}

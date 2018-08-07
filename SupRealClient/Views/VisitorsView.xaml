@@ -631,7 +631,7 @@
                         </i:Interaction.Triggers>
                         <DataGrid.Columns>
                             <DataGridTextColumn 
-                                Header="Пропуск" Binding="{Binding Path=Card}"/>
+                                Header="Пропуск" Binding="{Binding Path=CardNumber}"/>
                             <DataGridTextColumn 
                                 Header="Когда выдан" Binding="{Binding Path=From}"/>
                             <DataGridTextColumn 
