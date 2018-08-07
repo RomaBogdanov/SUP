@@ -21,7 +21,7 @@ namespace AndoverAgent
         public List<Container> GetContainers()
         {
             Console.WriteLine("GetContainers() executed");
-
+		ActualizationContinuumCopyDb(EContinuumDbTableType.Container);
             var result = new List<Container>();
 
             try
@@ -132,8 +132,8 @@ namespace AndoverAgent
         public List<Device> GetDevices()
         {
             Console.WriteLine("GetDevices() executed");
-
-            var result = new List<Device>();
+	        ActualizationContinuumCopyDb(EContinuumDbTableType.Device);
+			var result = new List<Device>();
 
             try
             {
@@ -397,8 +397,8 @@ namespace AndoverAgent
         public List<Area> GetAreas()
         {
             Console.WriteLine("GetAreas() executed");
-
-            var result = new List<Area>();
+	        ActualizationContinuumCopyDb(EContinuumDbTableType.Area);
+		var result = new List<Area>();
 
             try
             {
@@ -472,8 +472,8 @@ namespace AndoverAgent
         public List<Personnel> GetPersons()
         {
             Console.WriteLine("GetPersons() executed");
-
-            var result = new List<Personnel>();
+	        ActualizationContinuumCopyDb(EContinuumDbTableType.Personnel);
+			var result = new List<Personnel>();
 
             try
             {
@@ -737,8 +737,8 @@ namespace AndoverAgent
         public List<Schedule> GetSchedules()
         {
             Console.WriteLine("GetSchedules() executed");
-
-            var result = new List<Schedule>();
+	        ActualizationContinuumCopyDb(EContinuumDbTableType.Schedule);
+			var result = new List<Schedule>();
 
             try
             {
@@ -876,8 +876,8 @@ namespace AndoverAgent
         public List<AreaLink> GetAreaLinks()
         {
             Console.WriteLine("GetAreaLinks() executed");
-
-            var result = new List<AreaLink>();
+	        ActualizationContinuumCopyDb(EContinuumDbTableType.AreaLink);
+			var result = new List<AreaLink>();
 
             try
             {
@@ -945,8 +945,8 @@ namespace AndoverAgent
         public List<Door> GetDoors()
         {
             Console.WriteLine("GetDoors() executed");
-
-            var result = new List<Door>();
+	        ActualizationContinuumCopyDb(EContinuumDbTableType.Door);
+			var result = new List<Door>();
 
             try
             {
@@ -1242,8 +1242,8 @@ namespace AndoverAgent
         public List<DoorList> GetDoorLists()
         {
             Console.WriteLine("GetDoorLists() executed");
-
-            var result = new List<DoorList>();
+	        ActualizationContinuumCopyDb(EContinuumDbTableType.DoorList);
+			var result = new List<DoorList>();
 
             try
             {
@@ -1350,7 +1350,7 @@ namespace AndoverAgent
                     Thread.Sleep(200);
                     return true;
                 }
-                catch (IOException)
+                catch (IOException ex)
                 {
                     Thread.Sleep(int.Parse(ConfigurationManager.AppSettings["TryTimeout"]));
                 }
@@ -1593,5 +1593,48 @@ namespace AndoverAgent
                 Console.WriteLine(ex.Message);
             }
         }
+
+	    private static void ActualizationContinuumCopyDb(EContinuumDbTableType tableType)
+	    {
+		    using (var connection = new SqlConnection(
+			    ConfigurationManager.ConnectionStrings[
+				    "Continuum"].ConnectionString))
+		    {
+			    connection.Open();
+			    using (var cmd = connection.CreateCommand())
+			    {
+				    switch (tableType)
+				    {
+					    case EContinuumDbTableType.Area:
+						    cmd.CommandText = "execute pr_GetArea;";
+						    break;
+					    case EContinuumDbTableType.AreaLink:
+						    cmd.CommandText = "execute pr_GetArea;";
+						    break;
+					    case EContinuumDbTableType.Container:
+						    cmd.CommandText = "execute dbo.pr_GetCommon;";
+						    break;
+					    case EContinuumDbTableType.Device:
+						    cmd.CommandText = "execute dbo.pr_GetCommon;";
+						    break;
+					    case EContinuumDbTableType.Door:
+						    cmd.CommandText = "execute pr_GetDoor;";
+						    break;
+					    case EContinuumDbTableType.DoorList:
+						    cmd.CommandText = "execute pr_GetDoor;";
+						    break;
+					    case EContinuumDbTableType.Personnel:
+						    cmd.CommandText = "execute pr_GetPersonnel;";
+						    break;
+					    case EContinuumDbTableType.Schedule:
+						    cmd.CommandText = "execute pr_GetSchedule;";
+						    break;
+				    }
+
+				    cmd.ExecuteScalar();
+			    }
+		    }
+	    }
     }
-}
+    }
+
