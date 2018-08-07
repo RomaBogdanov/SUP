@@ -142,10 +142,11 @@ namespace SupRealClient.ViewModels.AddUpdateViewModel
 		}
 
 		private void VisitorNameCommand()
-        {
-            VisitorsModelResult result = ViewManager.Instance.OpenWindowModal(
-                "VisitorsListWindViewOk", null) as VisitorsModelResult;
-	        if (result == null)
+		{
+			VisitorsModelResult result = ViewManager.Instance.OpenWindowModal(
+				"VisitorsListWindViewOk", null) as VisitorsModelResult;
+
+			if (result == null)
 	        {
 		        return;
 	        }
@@ -172,8 +173,21 @@ namespace SupRealClient.ViewModels.AddUpdateViewModel
 
         private void CatcherNameCommand()
         {
-            VisitorsModelResult result = ViewManager.Instance.OpenWindowModal(
-                "VisitorsListWindViewOk", null) as VisitorsModelResult;
+	        var model = new VisitorsListModel<Visitor>();
+	        model.FilterThatCanHaveVisitors();
+	        var viewModel = new Base4ViewModel<Visitor>()
+	        {
+		        OkCaption = "OK",
+		        Model = model
+	        };
+	        var view = new VisitorsListWindView()
+	        {
+		        DataContext = viewModel
+	        };
+	        model.OnClose += view.Handling_OnClose;
+	        view.ShowDialog();
+	        VisitorsModelResult result = view.WindowResult as VisitorsModelResult;
+
 	        if (result == null)
 	        {
 				return;

@@ -8,6 +8,10 @@
 		/// <summary>
 		///  Разовая заявка
 		/// </summary>
+		None,
+		/// <summary>
+		///  Разовая заявка
+		/// </summary>
 		Single,
 
 		/// <summary>

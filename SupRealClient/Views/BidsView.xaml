@@ -50,7 +50,7 @@
             Padding="0"
             FontSize="16"
             IsEnabled="{Binding IsEnabled, UpdateSourceTrigger=PropertyChanged}"
-            SelectedIndex="0"
+            SelectedIndex="{Binding SelectedIndex, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"
             Style="{StaticResource MetroComboBox1}">
             <ComboBoxItem Content="Разовые заявки" Tag="0" />
             <ComboBoxItem Content="Временные заявки" Tag="1" />
@@ -240,6 +240,7 @@
                             Grid.Row="2"
                             AutoGenerateColumns="False"
                             CanUserAddRows="{Binding IsCanAddRows, Mode=TwoWay}"
+                            CanUserResizeColumns="False"
                             IsReadOnly="True"
                             ItemsSource="{Binding Path=CurrentSingleOrder.OrderElements}"
                             SelectedItem="{Binding SelectedElement, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}">
@@ -265,7 +266,6 @@
                             </DataGrid.Columns>
                             <DataGrid.RowStyle>
                                 <Style TargetType="DataGridRow">
-                                    <EventSetter Event="MouseDoubleClick" Handler="tableItem_MouseDoubleClick" />
                                     <Style.Triggers>
                                         <DataTrigger Binding="{Binding IsBlock}" Value="True">
                                             <Setter Property="Background" Value="#33ff0000" />
@@ -276,6 +276,12 @@
                                     </Style.Triggers>
                                 </Style>
                             </DataGrid.RowStyle>
+                            <DataGrid.InputBindings>
+                                <MouseBinding
+                                    Command="{Binding DoubleClickCommand}"
+                                    CommandParameter="{Binding SelectedElement}"
+                                    MouseAction="LeftDoubleClick" />
+                            </DataGrid.InputBindings>
                         </DataGrid>
 
                         <StackPanel Grid.Row="3">
@@ -716,6 +722,7 @@
                             Grid.Row="2"
                             AutoGenerateColumns="False"
                             CanUserAddRows="{Binding IsCanAddRows, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                            CanUserResizeColumns="False"
                             IsReadOnly="True"
                             ItemsSource="{Binding Path=CurrentTemporaryOrder.OrderElements}"
                             SelectedItem="{Binding SelectedElement, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}">
@@ -738,7 +745,6 @@
                             </DataGrid.Columns>
                             <DataGrid.RowStyle>
                                 <Style TargetType="DataGridRow">
-                                    <EventSetter Event="MouseDoubleClick" Handler="tableItem_MouseDoubleClick" />
                                     <Style.Triggers>
                                         <DataTrigger Binding="{Binding IsBlock}" Value="True">
                                             <Setter Property="Background" Value="#33ff0000" />
@@ -749,6 +755,12 @@
                                     </Style.Triggers>
                                 </Style>
                             </DataGrid.RowStyle>
+                            <DataGrid.InputBindings>
+                                <MouseBinding
+                                    Command="{Binding DoubleClickCommand}"
+                                    CommandParameter="{Binding SelectedElement}"
+                                    MouseAction="LeftDoubleClick" />
+                            </DataGrid.InputBindings>
                         </DataGrid>
 
                         <Grid Grid.Row="3">
@@ -770,7 +782,7 @@
                             <TextBox
                                 Grid.Column="1"
                                 Margin="2"
-                                IsEnabled="{Binding TextEnable, UpdateSourceTrigger=PropertyChanged}"
+                                IsEnabled="False"
                                 Style="{StaticResource TextBoxStyle}"
                                 Text="{Binding CurrentTemporaryOrder.Signed, Mode=TwoWay}" />
 
@@ -794,7 +806,7 @@
                             <TextBox
                                 Grid.Column="4"
                                 Margin="2"
-                                IsEnabled="{Binding TextEnable, UpdateSourceTrigger=PropertyChanged}"
+                                IsEnabled="False"
                                 Style="{StaticResource TextBoxStyle}"
                                 Text="{Binding CurrentTemporaryOrder.Agree, Mode=TwoWay}" />
 
@@ -1462,8 +1474,13 @@
                 </Grid>
             </mah:MetroTabItem>
 
-            <mah:MetroTabItem IsEnabled="{Binding IsEnabled, UpdateSourceTrigger=PropertyChanged}" Tag="3">
-                <DataGrid AutoGenerateColumns="False" ItemsSource="{Binding Path=OrdersSet}">
+            <mah:MetroTabItem IsEnabled="{Binding IsEnabled, UpdateSourceTrigger=PropertyChanged}">
+                <DataGrid
+                    AutoGenerateColumns="False"
+                    CanUserResizeColumns="False"
+                    IsReadOnly="True"
+                    ItemsSource="{Binding Path=OrdersSet}"
+                    SelectedItem="{Binding SelectedOrder, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}">
                     <DataGrid.Columns>
                         <DataGridTextColumn Binding="{Binding RegNumber}" Header="№ заявки" />
                         <DataGridTextColumn Binding="{Binding From}" Header="Дата начала" />
@@ -1480,6 +1497,12 @@
                             Header="Подписывающее лицо" />
                         <DataGridTextColumn Binding="{Binding Note}" Header="Примечание" />
                     </DataGrid.Columns>
+                    <DataGrid.InputBindings>
+                        <MouseBinding
+                            Command="{Binding DoubleClickCommand}"
+                            CommandParameter="{Binding SelectedOrder}"
+                            MouseAction="LeftDoubleClick" />
+                    </DataGrid.InputBindings>
                 </DataGrid>
             </mah:MetroTabItem>
 
