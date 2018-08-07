@@ -69,7 +69,7 @@ namespace SupRealClient.EnumerationClasses
 		/// </summary>
 		public int OrderId
 		{
-			get { return orderId; }
+			get => orderId;
 			set
 			{
 				orderId = value;
@@ -93,7 +93,7 @@ namespace SupRealClient.EnumerationClasses
 		/// </summary>
 		public int VisitorId
 		{
-			get { return visitorId; }
+			get => visitorId;
 			set
 			{
 				visitorId = value;
@@ -176,7 +176,7 @@ namespace SupRealClient.EnumerationClasses
 		/// </summary>
 		public int CatcherId
 		{
-			get { return catcherId; }
+			get => catcherId;
 			set
 			{
 				catcherId = value;
@@ -209,7 +209,7 @@ namespace SupRealClient.EnumerationClasses
 
 		public DateTime From
 		{
-			get { return from; }
+			get => from;
 			set
 			{
 				from = value;
