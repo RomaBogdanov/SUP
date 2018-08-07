@@ -794,20 +794,6 @@ namespace SupRealClient.ViewModels
 			currentOrderElement.AreaIdList =
 				AndoverEntityListHelper.AndoverEntitiesToString(currentOrderElement.Areas);
 			currentOrderElement.ScheduleId = (wind.WindowResult as OrderElement).ScheduleId;
-			string st = "";
-			foreach (var area in (wind.WindowResult as OrderElement).Areas)
-			{
-				st += area.Name + ", ";
-			}
-
-			if (st.Length - 2 >= 0)
-			{
-				currentOrderElement.Passes = st.Remove(st.Length - 2);
-			}
-			else
-			{
-				currentOrderElement.Passes = "";
-			}
 
 			CurrentVirtueOrder = CurrentVirtueOrder;
 		}
