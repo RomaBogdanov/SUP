@@ -276,6 +276,9 @@
                                     </Style.Triggers>
                                 </Style>
                             </DataGrid.RowStyle>
+                            <DataGrid.InputBindings>
+                                <MouseBinding Command="{Binding DoubleClickCommand}" MouseAction="LeftDoubleClick" />
+                            </DataGrid.InputBindings>
                         </DataGrid>
 
                         <StackPanel Grid.Row="3">
@@ -749,6 +752,9 @@
                                     </Style.Triggers>
                                 </Style>
                             </DataGrid.RowStyle>
+                            <DataGrid.InputBindings>
+                                <MouseBinding Command="{Binding DoubleClickCommand}" MouseAction="LeftDoubleClick" />
+                            </DataGrid.InputBindings>
                         </DataGrid>
 
                         <Grid Grid.Row="3">
@@ -1462,8 +1468,11 @@
                 </Grid>
             </mah:MetroTabItem>
 
-            <mah:MetroTabItem IsEnabled="{Binding IsEnabled, UpdateSourceTrigger=PropertyChanged}" Tag="3">
-                <DataGrid AutoGenerateColumns="False" ItemsSource="{Binding Path=OrdersSet}">
+            <mah:MetroTabItem IsEnabled="{Binding IsEnabled, UpdateSourceTrigger=PropertyChanged}">
+                <DataGrid
+                    AutoGenerateColumns="False"
+                    IsReadOnly="True"
+                    ItemsSource="{Binding Path=OrdersSet}">
                     <DataGrid.Columns>
                         <DataGridTextColumn Binding="{Binding RegNumber}" Header="№ заявки" />
                         <DataGridTextColumn Binding="{Binding From}" Header="Дата начала" />
@@ -1480,6 +1489,9 @@
                             Header="Подписывающее лицо" />
                         <DataGridTextColumn Binding="{Binding Note}" Header="Примечание" />
                     </DataGrid.Columns>
+                    <DataGrid.InputBindings>
+                        <MouseBinding Command="{Binding DoubleClickCommand}" MouseAction="LeftDoubleClick" />
+                    </DataGrid.InputBindings>
                 </DataGrid>
             </mah:MetroTabItem>
 
