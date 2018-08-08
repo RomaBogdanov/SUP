@@ -322,7 +322,6 @@ namespace SupRealClient.Models
 		{
 			if (SelectedElement == null)
 			{
-				MessageBox.Show("Не выбран посетитель для редактирования данных по нему","Ошибка",MessageBoxButtons.OK,MessageBoxIcon.Error);
 				return;
 			}
 
@@ -356,7 +355,7 @@ namespace SupRealClient.Models
 		public void Agreer()
 		{
 			var model = new VisitorsListModel<Visitor>();
-			model.FilterThatCanAgree();
+			model.IsRequiredCanAgree = true;
 			var viewModel = new Base4ViewModel<Visitor>()
 			{
 				OkCaption = "OK",
@@ -384,7 +383,7 @@ namespace SupRealClient.Models
 		public void Signer()
 		{
 			var model = new VisitorsListModel<Visitor>();
-			model.FilterThatCanSign();
+			model.IsRequiredCanSign = true;
 			var viewModel = new Base4ViewModel<Visitor>()
 			{
 				OkCaption = "OK",

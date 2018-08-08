@@ -21,7 +21,43 @@ namespace SupRealClient.Views
             Begin();
         }
 
-        #region BtnHandlers
+	    private bool _isRequeiredCanHaveVisitors;
+	    private bool _isRequiredCanSign;
+	    private bool _isRequiredCanAgree;
+		public bool IsRequeiredCanHaveVisitors
+		{
+			get => _isRequeiredCanHaveVisitors;
+			set
+			{
+				_isRequeiredCanHaveVisitors = value;
+				DoQuery();
+				Begin();
+			}
+		}
+
+	    public bool IsRequiredCanSign
+	    {
+		    get { return _isRequiredCanSign; }
+		    set
+		    {
+			    _isRequiredCanSign = value;
+			    DoQuery();
+				Begin();
+		    }
+	    }
+
+	    public bool IsRequiredCanAgree
+	    {
+		    get { return _isRequiredCanAgree; }
+		    set
+		    {
+			    _isRequiredCanAgree = value;
+				DoQuery();
+				Begin();
+			}
+	    }
+
+	    #region BtnHandlers
 
         public override void Add()
         {
@@ -122,43 +158,35 @@ namespace SupRealClient.Views
 	                OrganizationIsBasic = OrganizationsHelper.GetBasicParametr(visitors.Field<int>("f_org_id"), true)
 				}
                 );
+	        FilterSet();
         }
 
-	    public void FilterThatCanHaveVisitors()
+		private void FilterSet()
 	    {
+
 		    for (int i = 0; i < Set.Count; i++)
 		    {
-				if (Set[i].IsCanHaveVisitors == false)
+				if (IsRequeiredCanHaveVisitors && Set[i].IsCanHaveVisitors == false)
 				{
 					Set.RemoveAt(i);
 					i--;
+					continue;
 				}
-		    }
-	    }
 
-	    public void FilterThatCanSign()
-	    {
-			for (int i = 0; i < Set.Count; i++)
-			{
-				if (Set[i].IsRightSign == false)
-				{
-					Set.RemoveAt(i);
-					i--;
-				}
-			}
-		}
+			    if (IsRequiredCanSign && Set[i].IsRightSign == false)
+			    {
+				    Set.RemoveAt(i);
+				    i--;
+					continue;
+			    }
 
-	    public void FilterThatCanAgree()
-	    {
-		    for (int i = 0; i < Set.Count; i++)
-		    {
-			    if (Set[i].IsAgreement == false)
+			    if (IsRequiredCanAgree && Set[i].IsAgreement == false)
 			    {
 				    Set.RemoveAt(i);
 				    i--;
 			    }
-		    }
-		}
+			}
+	    }
 
         public override long GetId(int index)
         {
