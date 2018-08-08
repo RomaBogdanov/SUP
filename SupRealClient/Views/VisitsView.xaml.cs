@@ -1081,7 +1081,7 @@ namespace SupRealClient.Views
                 return;
             }
 
-            if (IsRedactMode)
+            if (IsRedactMode && CurrentItem.Documents[SelectedDocument].IsCanAddChanges)
             {
                 EditDocument();
                 return;
@@ -1210,7 +1210,7 @@ namespace SupRealClient.Views
 
 	        }
 
-			Generate_VisitorDocument(document.DocumentName, document.Images);
+			Generate_VisitorDocument(document.DocumentName, document.Images, false);
 
 	        OnPropertyChanged(nameof(EnableButton_OpenDocument));
 	        OnPropertyChanged(nameof(EnableButton_OpenMainDocument));
@@ -1236,7 +1236,7 @@ namespace SupRealClient.Views
             Model.EditMainDocument(SelectedMainDocument, document);
 
 			Remove_VisitorDocument(document.DocumentName);
-	        Generate_VisitorDocument(document.DocumentName, document.Images);
+	        Generate_VisitorDocument(document.DocumentName, document.Images, false);
 
 	        OnPropertyChanged(nameof(EnableButton_OpenDocument));
 	        OnPropertyChanged(nameof(EnableButton_OpenMainDocument));
@@ -1369,15 +1369,16 @@ namespace SupRealClient.Views
 		 //   EnableButton_OpenDocument = false;
 		}
 
-	    private void Generate_VisitorDocument(string name, List<Guid> listGuids )
+	    private void Generate_VisitorDocument(string name, List<Guid> listGuids, bool canAddChange=true )
 	    {
 		    VisitorsDocument visitorsDocument = new VisitorsDocument()
 		    {
 			    Name = name,
 			    TypeId = 0,
 			    Images = new List<Guid>(listGuids),
-			    IsChanged = true
-		    };
+			    IsChanged = true,
+				IsCanAddChanges = canAddChange
+			};
 		    (view as Window)?.Dispatcher.Invoke(() => {
 
 				Model.AddDocument(visitorsDocument);
