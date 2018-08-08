@@ -319,7 +319,7 @@ namespace SupRealClient.EnumerationClasses
 		public string Passes
 		{
 			get => _passes;
-			private set
+			set
 			{
 				_passes = value;
 				OnPropertyChanged();
@@ -477,9 +477,9 @@ namespace SupRealClient.EnumerationClasses
 		        return false;
 			}
 
-			if (string.IsNullOrEmpty(Passes))
+			if (string.IsNullOrEmpty(Passes) || Passes == NoPassesString)
 			{
-				errorMessage = "Необходимо выбрать хотя бы один проход.";
+				errorMessage = "Необходимо назначить доступ. Поле \"Проходы\".";
 				return false;
 			}
 

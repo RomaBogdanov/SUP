@@ -5,6 +5,7 @@ using SupRealClient.TabsSingleton;
 using System.Data;
 using SupRealClient.Common;
 using System.Collections.Generic;
+using System.Windows;
 using SupRealClient.Models;
 
 namespace SupRealClient.Views
@@ -42,8 +43,16 @@ namespace SupRealClient.Views
         public override void Update()
         {
             if (CurrentItem != null)
-            { 
-                ViewManager.Instance.OpenWindow("VisitorsView", this.Parent);
+            {
+	            VisitsModel model = new VisitsModel();
+
+	            model.CurrentItem = model.Find(CurrentItem.Id);
+	            VisitorsView view = new VisitorsView();
+	            view.Owner = Application.Current.Windows.OfType<Window>().SingleOrDefault(x => x.IsActive);
+	            view.WindowStartupLocation = WindowStartupLocation.CenterOwner;
+	            VisitsViewModel vm = new VisitsViewModel(view) { Model = model };
+	            view.DataContext = vm;
+	            view.ShowDialog();
             }
         }
 
