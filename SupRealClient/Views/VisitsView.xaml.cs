@@ -688,7 +688,7 @@ namespace SupRealClient.Views
 		    CurrentItem.BirthDate = person.DateOfBirth?.Value;
 		    CurrentItem.DocType = person.DocumentClassCode?.Value;
 		    CurrentItem.DocNum = person.DocumentNumber?.Value;
-		    CurrentItem.Department = person.DocumentDeliveryPlace?.Value;
+		    CurrentItem.DocPlace = person.DocumentDeliveryPlace?.Value;
 		    CurrentItem.DocCode = person.DocumentDeliveryPlaceCode?.Value;
 		    CurrentItem.Person = person;
 
