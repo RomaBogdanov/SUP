@@ -64,7 +64,7 @@ namespace SupRealClient.Views
 				select new T
 				{
 					RegNumber = orders.Field<int>("f_reg_number").ToString(),
-					IsDisable = orders.Field<string>("f_disabled") == "",
+					IsDisable = orders.Field<string>("f_disabled") == "Y",
 					From = orders.Field<DateTime>("f_date_from"),
 					To = orders.Field<DateTime>("f_date_to"),
 					Signed = VisitorsWrapper.CurrentTable().Table.AsEnumerable().FirstOrDefault(arg => arg.Field<int>("f_visitor_id") == orders.Field<int>("f_signed_by"))["f_full_name"].ToString(),

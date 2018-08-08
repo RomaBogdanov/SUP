@@ -41,7 +41,7 @@ namespace SupRealClient.Views
 			dataGridCheckBoxColumn = new DataGridCheckBoxColumn
 			{
 				Header = "Неактивна",
-				Binding = new Binding("IsDisabled")
+				Binding = new Binding("IsDisable")
 			};
 			base4.baseTab.Columns.Add(dataGridCheckBoxColumn);
 			dataGridTextColumn = new DataGridTextColumn
