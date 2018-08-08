@@ -1,4 +1,16 @@
-﻿using System;
+﻿using MahApps.Metro.Controls;
+using RegulaLib;
+using SupClientConnectionLib;
+using SupContract;
+using SupRealClient.Annotations;
+using SupRealClient.Common;
+using SupRealClient.Common.Interfaces;
+using SupRealClient.EnumerationClasses;
+using SupRealClient.Models;
+using SupRealClient.TabsSingleton;
+using SupRealClient.ViewModels;
+using SupRealClient.Views.Visitor;
+using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
@@ -29,10 +41,10 @@ using MessageBox = System.Windows.Forms.MessageBox;
 
 namespace SupRealClient.Views
 {
-    /// <summary>
-    /// Interaction logic for VisitsView.xaml
-    /// </summary>
-    public partial class VisitsView
+	/// <summary>
+	/// Interaction logic for VisitsView.xaml
+	/// </summary>
+	public partial class VisitsView
     {
         public VisitsView()
         {
@@ -68,14 +80,16 @@ namespace SupRealClient.Views
         private int selectedOrder = -1;
         private const string _nameDocument_PhotoImageType = "Личная фотография";
 	    private const string _nameDocument_SignatureImageType = "Личная подпись";
-	    private bool _visibleButton_OpenDocument_InRedactMode = false;
-	    private bool _enableButton_OpenDocument_InRedactMode = false;
+		private bool _visibleButtonOpenDocument = false;
+	    private bool _enableButtonOpenDocument = false;
+	    private bool _enableButtonOpenMainDocument = false;
 		private bool _isRedactMode = false;
 	    private bool _editingVisitorCommentMode = false;
 	    private string _bufer_CurrentItem_Comment = "";
 
 
 		public event Action<string> MoveNextFocusingElement;
+	    public event Action<bool> RedactModeEvent;
 
 		public CollectionView PositionList { get; private set; }
 
@@ -121,8 +135,8 @@ namespace SupRealClient.Views
 	    {
 		    get { return CurrentItem.Name; }
 		    set
-		    {
-				if(!string.IsNullOrWhiteSpace(value))
+			{
+				if (string.IsNullOrEmpty(value) || !string.IsNullOrWhiteSpace(value))
 					CurrentItem.Name = value;
 				OnPropertyChanged(nameof(Name));
 		    }
@@ -133,10 +147,10 @@ namespace SupRealClient.Views
 		    get { return CurrentItem.Family; }
 		    set
 			{
-				if (!string.IsNullOrWhiteSpace(value))
+				if (string.IsNullOrEmpty(value) ||  !string.IsNullOrWhiteSpace(value))
 					CurrentItem.Family = value;
 			    OnPropertyChanged(nameof(Family));
-		    }
+			}
 	    }
 
 	    public string Patronymic
@@ -144,12 +158,21 @@ namespace SupRealClient.Views
 		    get { return CurrentItem.Patronymic; }
 		    set
 			{
-				if (!string.IsNullOrWhiteSpace(value))
+				if (string.IsNullOrEmpty(value) || !string.IsNullOrWhiteSpace(value))
 					CurrentItem.Patronymic = value;
 			    OnPropertyChanged(nameof(Patronymic));
 		    }
 	    }
 
+	    public string BirthDate
+	    {
+		    get { return CurrentItem.BirthDate; }
+		    set
+		    {
+			    CurrentItem.BirthDate = value;
+				OnPropertyChanged(nameof(BirthDate));
+		    }
+	    }
 		/// <summary>
 		/// Объект со списком свойств Enable для кнопок
 		/// </summary>
@@ -222,13 +245,17 @@ namespace SupRealClient.Views
 		    set
 		    {
 			    _isRedactMode = value;
-			    VisibleButton_OpenDocument_InRedactMode = _isRedactMode;
-			    OnPropertyChanged(nameof(IsRedactMode));
+			    OnPropertyChanged(nameof(EnableButton_OpenDocument));
+			    OnPropertyChanged(nameof(EnableButton_OpenMainDocument));
+				OnPropertyChanged(nameof(IsRedactMode));
 			    OnPropertyChanged(nameof(VisibleTabItem_Employee));
 			    OnPropertyChanged(nameof(IsRedactMode_Inverce));
+				OnPropertyChanged(nameof(OpeningButtons_ToRedactComments));
 			    OnPropertyChanged(nameof(IsNotFormular));
 				EditingVisitorCommentMode = false;
-		    }
+
+			    RedactModeEvent?.Invoke(_isRedactMode);
+			}
 	    }
 
 	    public bool IsRedactMode_Inverce
@@ -236,27 +263,46 @@ namespace SupRealClient.Views
 		    get { return !_isRedactMode; }
 	    }
 
-
-		public bool VisibleButton_OpenDocument_InRedactMode
+	    public bool OpeningButtons_ToRedactComments
 	    {
-		    get { return _visibleButton_OpenDocument_InRedactMode; }
-		    set
-		    {
-			    _visibleButton_OpenDocument_InRedactMode = value;
-			    OnPropertyChanged(nameof(VisibleButton_OpenDocument_InRedactMode));
-			}
+		    get { return IsRedactMode_Inverce && CurrentItem.IsAgree; }
 	    }
 
-	    public bool EnableButton_OpenDocument_InRedactMode
-	    {
-		    get { return _enableButton_OpenDocument_InRedactMode; }
-		    set
-		    {
-			    _enableButton_OpenDocument_InRedactMode = value;
-			    OnPropertyChanged(nameof(EnableButton_OpenDocument_InRedactMode));
-		    }
-	    }
+		//public bool VisibleButton_OpenDocument
+		//{
+		//	get { return CurrentItem?.Documents.Count > 0; }
+		//}
 
+	 //   public bool VisibleButton_OpenMainDocument
+	 //   {
+		//    get { return CurrentItem?.MainDocuments.Count > 0; }
+	 //   }
+
+		//EnableButton_OpenDocument_InRedactMode
+		public bool EnableButton_OpenDocument
+		{
+			//get => true;
+			get { return CurrentItem?.Documents.Count > 0 && SelectedDocument >= 0; }
+			//get { return _enableButtonOpenDocument; }
+			//set
+			//{
+			// _enableButtonOpenDocument = value;
+			// OnPropertyChanged(nameof(EnableButton_OpenDocument));
+			//}
+		}
+
+		//EnableButton_OpenDocument_InRedactMode
+		public bool EnableButton_OpenMainDocument
+	    {
+			//get => true;
+			get { return CurrentItem?.MainDocuments.Count > 0 && SelectedMainDocument >= 0; }
+			//  get { return _enableButtonOpenMainDocument; }
+			//  set
+			//  {
+			//_enableButtonOpenMainDocument = value;
+			//   OnPropertyChanged(nameof(EnableButton_OpenMainDocument));
+			//  }
+		}
 
 		public ObservableCollection<EnumerationClasses.Visitor> Set
         {
@@ -279,13 +325,23 @@ namespace SupRealClient.Views
             }
             set
             {
-                if (Model != null)
-                {
-                    Model.CurrentItem = value;
-                    OnPropertyChanged();
-	                OnPropertyChanged(nameof(CurrentItem));
-	                OnPropertyChanged(nameof(PhotoSource));
-	                OnPropertyChanged(nameof(Signature));
+	            if (Model != null)
+	            {
+		            Model.CurrentItem = value;
+		            OnPropertyChanged();
+
+
+		            OnPropertyChanged(nameof(Name));
+		            OnPropertyChanged(nameof(Family));
+		            OnPropertyChanged(nameof(Patronymic));
+		            OnPropertyChanged(nameof(CurrentItem));
+		            OnPropertyChanged(nameof(PhotoSource));
+		            OnPropertyChanged(nameof(Signature));
+		            OnPropertyChanged(nameof(BirthDate));
+		            OnPropertyChanged(nameof(VisibleTabItem_Employee));
+		            OnPropertyChanged(nameof(CommentTextEnable));
+		            OnPropertyChanged(nameof(EnableButton_OpenDocument));
+		            OnPropertyChanged(nameof(EnableButton_OpenMainDocument));
 				}
             }
         }
@@ -297,7 +353,9 @@ namespace SupRealClient.Views
             {
                 selectedMainDocument = value;
                 OnPropertyChanged();
-            }
+	            OnPropertyChanged(nameof(EnableButton_OpenDocument));
+	            OnPropertyChanged(nameof(EnableButton_OpenMainDocument));
+			}
         }
 
         public int SelectedDocument
@@ -309,7 +367,9 @@ namespace SupRealClient.Views
                 OnPropertyChanged();
 	            OnPropertyChanged(nameof(SelectedDocument));
 				Change_ButtonEnable();
-            }
+	            OnPropertyChanged(nameof(EnableButton_OpenDocument));
+	            OnPropertyChanged(nameof(EnableButton_OpenMainDocument));
+			}
         }
 
         public int SelectedCard
@@ -953,7 +1013,7 @@ namespace SupRealClient.Views
 			}                
         }
 
-        private void Cancel()
+        public void Cancel()
         {
             if (Model is NewVisitsModel)
             {
@@ -1002,12 +1062,16 @@ namespace SupRealClient.Views
 			        AddImageToDocuments(_nameDocument_SignatureImageType, fileName);
 			}
 	        }
-        }
+			
+	        OnPropertyChanged(nameof(EnableButton_OpenDocument));
+		}
 
         private void RemoveImageSource(ImageType imageType, string name)
         {
             Model.RemoveImageSource(imageType);
 	        RemoveImageToDocuments(name);
+
+	        OnPropertyChanged(nameof(EnableButton_OpenDocument));
 		}
 
         private void OpenDocument()
@@ -1017,7 +1081,7 @@ namespace SupRealClient.Views
                 return;
             }
 
-            if (EnableButton_OpenDocument_InRedactMode)
+            if (IsRedactMode)
             {
                 EditDocument();
                 return;
@@ -1043,7 +1107,9 @@ namespace SupRealClient.Views
             }
 
             Model.AddDocument(document);
-        }
+	        OnPropertyChanged(nameof(EnableButton_OpenDocument));
+	        OnPropertyChanged(nameof(EnableButton_OpenMainDocument));
+		}
 
 
 
@@ -1067,7 +1133,9 @@ namespace SupRealClient.Views
             }
 
             Model.EditDocument(SelectedDocument, document);
-        }
+	        OnPropertyChanged(nameof(EnableButton_OpenDocument));
+	        OnPropertyChanged(nameof(EnableButton_OpenMainDocument));
+		}
 
         private void RemoveDocument()
         {
@@ -1078,6 +1146,9 @@ namespace SupRealClient.Views
 
 	        VisitorsDocument deleteItem = CurrentItem?.Documents?[SelectedDocument];
 	        Model.RemoveDocument(SelectedDocument);
+	        OnPropertyChanged(nameof(EnableButton_OpenDocument));
+	        OnPropertyChanged(nameof(EnableButton_OpenMainDocument));
+
 			if (deleteItem != null)
 	        {
 		        switch (deleteItem.Name)
@@ -1091,7 +1162,7 @@ namespace SupRealClient.Views
 				}
 			}
 
-        }
+		}
 
         internal void OpenMainDocument()
         {
@@ -1100,7 +1171,7 @@ namespace SupRealClient.Views
                 return;
             }
 	    
-            if (ButtonEnable)
+            if (IsRedactMode)
             {
                 EditMainDocument();
                 return;
@@ -1125,7 +1196,25 @@ namespace SupRealClient.Views
             }
 
             Model.AddMainDocument(document);
-        }
+	        if (CurrentItem.MainDocuments.Count > 0)
+	        {
+		        var pasportMainDocument =
+			        CurrentItem.MainDocuments.FirstOrDefault(item => item.Type == BaseVisitsModel.NameTypeDocument_Pasport);
+		        if (pasportMainDocument != null)
+			        BirthDate =  pasportMainDocument.BirthDate.ToString();
+		        else
+		        {
+			        pasportMainDocument = CurrentItem.MainDocuments.First();
+					BirthDate = pasportMainDocument.BirthDate.ToString();
+				}
+
+	        }
+
+			Generate_VisitorDocument(document.DocumentName, document.Images);
+
+	        OnPropertyChanged(nameof(EnableButton_OpenDocument));
+	        OnPropertyChanged(nameof(EnableButton_OpenMainDocument));
+		}
 
 		private void EditMainDocument()
         {
@@ -1145,7 +1234,28 @@ namespace SupRealClient.Views
             }
 
             Model.EditMainDocument(SelectedMainDocument, document);
-        }
+
+			Remove_VisitorDocument(document.DocumentName);
+	        Generate_VisitorDocument(document.DocumentName, document.Images);
+
+	        OnPropertyChanged(nameof(EnableButton_OpenDocument));
+	        OnPropertyChanged(nameof(EnableButton_OpenMainDocument));
+
+			if (CurrentItem.MainDocuments.Count > 0)
+	        {
+		        var pasportMainDocument =
+			        CurrentItem.MainDocuments.FirstOrDefault(item => item.Type == BaseVisitsModel.NameTypeDocument_Pasport);
+		        if (pasportMainDocument != null)
+			        BirthDate = pasportMainDocument.BirthDate.ToString();
+		        else
+		        {
+			        pasportMainDocument = CurrentItem.MainDocuments.First();
+			        BirthDate = pasportMainDocument.BirthDate.ToString();
+		        }
+
+	        }
+
+		}
 
         private void RemoveMainDocument()
         {
@@ -1153,8 +1263,30 @@ namespace SupRealClient.Views
             {
                 return;
             }
-            Model.RemoveMainDocument(SelectedMainDocument);
-        }
+
+			if(SelectedMainDocument< CurrentItem.MainDocuments.Count)
+				Remove_VisitorDocument(CurrentItem.MainDocuments[SelectedMainDocument].DocumentName);
+
+	        Model.RemoveMainDocument(SelectedMainDocument);
+
+
+	        OnPropertyChanged(nameof(EnableButton_OpenDocument));
+	        OnPropertyChanged(nameof(EnableButton_OpenMainDocument));
+
+			if (CurrentItem.MainDocuments.Count > 0)
+	        {
+		        var pasportMainDocument =
+			        CurrentItem.MainDocuments.FirstOrDefault(item => item.Type == BaseVisitsModel.NameTypeDocument_Pasport);
+		        if (pasportMainDocument != null)
+			        BirthDate = pasportMainDocument.BirthDate.ToString();
+		        else
+		        {
+			        pasportMainDocument = CurrentItem.MainDocuments.First();
+			        BirthDate = pasportMainDocument.BirthDate.ToString();
+		        }
+
+	        }
+		}
 
 	    private void ActivateEditingVisitorComment()
 	    {
@@ -1191,17 +1323,7 @@ namespace SupRealClient.Views
 		    RemoveImageToDocuments(name);
 
 			Guid id = ImagesHelper.LoadImage(fileName);
-			VisitorsDocument visitorsDocument = new VisitorsDocument()
-			{
-				Name = name,
-				TypeId = 0,
-				Images = new List<Guid>() {id},
-				IsChanged = true
-			};
-
-		   (view as Window)?.Dispatcher.Invoke(()=>{
-			   CurrentItem.Documents.Add(visitorsDocument);
-		   });
+		    Generate_VisitorDocument(name, new List<Guid>(){ id });
 		}
 
 	    private void RemoveImageToDocuments(string name)
@@ -1211,44 +1333,66 @@ namespace SupRealClient.Views
 			    return;
 		    }
 
-		    VisitorsDocument deleteItem = CurrentItem?.Documents?.FirstOrDefault(item => item.Name == name);
-		    CurrentItem?.Documents?.Remove(deleteItem);
+		    Remove_VisitorDocument(name);
 	    }
 
 	    private void Change_ButtonEnable()
 	    {
-		    if (Model is NewVisitsModel || Model is EditVisitsModel)
-		    {
-				// Здесь учитывается инверсия значения переменное "ButtonEnable" при использовании классов NewVisitsModel или EditVisitsModel
-				// Поэтому когда нужно активировать кнопку ButtonEnable = false
-				// Поэтому когда нужно заблокиравать кнопку ButtonEnable = true
-				if (SelectedDocument < 0)
-			    {
-				    EnableButton_OpenDocument_InRedactMode = false;
-				    return;
-			    }
+		 //   if (Model is NewVisitsModel || Model is EditVisitsModel)
+		 //   {
+			//	// Здесь учитывается инверсия значения переменное "ButtonEnable" при использовании классов NewVisitsModel или EditVisitsModel
+			//	// Поэтому когда нужно активировать кнопку ButtonEnable = false
+			//	// Поэтому когда нужно заблокиравать кнопку ButtonEnable = true
+			//	if (SelectedDocument < 0)
+			//    {
+			//	    EnableButton_OpenDocument = false;
+			//	    return;
+			//    }
 
-				#region НЕ ИСПОЛЬЗУЕТСЯ Модуль блокирования кнопки "Просмотр", если в списке прикрепленных сканов выбраны пункты "Личная фотография" или "Личная подпись"
-				//   VisitorsDocument deleteItem = CurrentItem?.Documents?[SelectedDocument];
-				//   if (deleteItem != null)
-				//   {
-				//    if (deleteItem.Name != _nameDocument_PhotoImageType && deleteItem.Name != _nameDocument_SignatureImageType)
-				//    {
-				//	    ButtonEnable = false;
-				//	    return;
-				//    }
-				//	 }
-				// 
-				// ButtonEnable = true;
-				#endregion
+			//	#region НЕ ИСПОЛЬЗУЕТСЯ Модуль блокирования кнопки "Просмотр", если в списке прикрепленных сканов выбраны пункты "Личная фотография" или "Личная подпись"
+			//	//   VisitorsDocument deleteItem = CurrentItem?.Documents?[SelectedDocument];
+			//	//   if (deleteItem != null)
+			//	//   {
+			//	//    if (deleteItem.Name != _nameDocument_PhotoImageType && deleteItem.Name != _nameDocument_SignatureImageType)
+			//	//    {
+			//	//	    ButtonEnable = false;
+			//	//	    return;
+			//	//    }
+			//	//	 }
+			//	// 
+			//	// ButtonEnable = true;
+			//	#endregion
 
-			    EnableButton_OpenDocument_InRedactMode = true;
-				return; 
-			}
-		    EnableButton_OpenDocument_InRedactMode = false;
+			//    EnableButton_OpenDocument = true;
+			//	return; 
+			//}
+		 //   EnableButton_OpenDocument = false;
 		}
 
-		#region Realization events
+	    private void Generate_VisitorDocument(string name, List<Guid> listGuids )
+	    {
+		    VisitorsDocument visitorsDocument = new VisitorsDocument()
+		    {
+			    Name = name,
+			    TypeId = 0,
+			    Images = new List<Guid>(listGuids),
+			    IsChanged = true
+		    };
+		    (view as Window)?.Dispatcher.Invoke(() => {
+
+				Model.AddDocument(visitorsDocument);
+			});
+		}
+
+	    private void Remove_VisitorDocument(string name)
+	    {
+		    VisitorsDocument deleteItem = CurrentItem?.Documents?.FirstOrDefault(item => item.Name == name);
+		    int? index = CurrentItem?.Documents?.IndexOf(deleteItem);
+		    if (index != null && index >= 0 && deleteItem != null)
+			    Model.RemoveDocument(index.Value);
+		}
+
+	    #region Realization events
 
 	    private void TestingNameVisitorsDocument(object sender, CancelEventArgs e)
 	    {
@@ -1325,7 +1469,8 @@ namespace SupRealClient.Views
 
     public interface IVisitsModel
     {
-        event ModelPropertyChanged OnModelPropertyChanged;
+	   
+		event ModelPropertyChanged OnModelPropertyChanged;
         event Action<object> OnClose;
         string PhotoSource { get; }
         string Signature { get; }
@@ -1359,8 +1504,10 @@ namespace SupRealClient.Views
     }
 
     public abstract class BaseVisitsModel : IVisitsModel
-    {
-        public event ModelPropertyChanged OnModelPropertyChanged;
+	{
+		public const string NameTypeDocument_Pasport = "Паспорт";
+
+		public event ModelPropertyChanged OnModelPropertyChanged;
         public virtual event Action<object> OnClose;
 
         private EnumerationClasses.Visitor currentItem;
@@ -1631,9 +1778,6 @@ namespace SupRealClient.Views
 				string.IsNullOrEmpty(CurrentItem.Name) ||
 		        string.IsNullOrWhiteSpace(CurrentItem.Name) ||
 
-				string.IsNullOrEmpty(CurrentItem.Patronymic) ||
-		        string.IsNullOrWhiteSpace(CurrentItem.Patronymic) ||
-
 				string.IsNullOrEmpty(CurrentItem.Organization) ||
 		        string.IsNullOrWhiteSpace(CurrentItem.Organization))
 		    {
@@ -1652,11 +1796,11 @@ namespace SupRealClient.Views
 				    stringBuilder.Append("• Имя" + Environment.NewLine);
 			    }
 
-			    if (string.IsNullOrEmpty(CurrentItem.Patronymic) ||
-			        string.IsNullOrWhiteSpace(CurrentItem.Patronymic))
-			    {
-				    stringBuilder.Append("• Отчество" + Environment.NewLine);
-			    }
+			    //if (string.IsNullOrEmpty(CurrentItem.Patronymic) ||
+			    //    string.IsNullOrWhiteSpace(CurrentItem.Patronymic))
+			    //{
+				   // stringBuilder.Append("• Отчество" + Environment.NewLine);
+			    //}
 
 			    if (string.IsNullOrEmpty(CurrentItem.Organization) ||
 			        string.IsNullOrWhiteSpace(CurrentItem.Organization))
@@ -1843,30 +1987,52 @@ namespace SupRealClient.Views
             ImagesHelper.AddImages(id, images);
         }
 
-        protected string GetBirthDate(EnumerationClasses.Visitor visitor)
-        {
-            DateTime? birthDate = null;
-            foreach (var document in visitor.MainDocuments)
-            {
-                if (document.BirthDate > DateTime.MinValue)
-                {
-                    if (!birthDate.HasValue)
-                    {
-                        birthDate = document.BirthDate;
-                    }
-                    else
-                    {
-                        if (!document.BirthDate.Equals(birthDate))
-                        {
-                            return "В документах указаны разные даты рождения";
-                        }
-                    }
-                }
-            }
-            return birthDate.HasValue ? birthDate.Value.ToShortDateString() : "";
-        }
+		protected string GetBirthDate(EnumerationClasses.Visitor visitor)
+		{
+			DateTime birthDate;
+			//DateTime? birthDate = null;
+			//foreach (var document in visitor.MainDocuments)
+			//{
+			//	if (document.BirthDate > DateTime.MinValue)
+			//	{
+			//		if (!birthDate.HasValue)
+			//		{
+			//			birthDate = document.BirthDate;
+			//		}
+			//		else
+			//		{
+			//			if (!document.BirthDate.Equals(birthDate))
+			//			{
+			//				return "В документах указаны разные даты рождения";
+			//			}
+			//		}
+			//	}
+			//}
 
-        private bool ValidateDocumentDates()
+
+				if (visitor.MainDocuments.Count > 0)
+				{
+
+					var pasportMainDocument =
+						visitor.MainDocuments.FirstOrDefault(item => item.Type == BaseVisitsModel.NameTypeDocument_Pasport);
+					if (pasportMainDocument != null)
+						birthDate = pasportMainDocument.BirthDate;
+					else
+					{
+						pasportMainDocument = visitor.MainDocuments.First();
+						birthDate = pasportMainDocument.BirthDate;
+					}
+				}
+				else
+				{
+					//return "В документах указаны разные даты рождения";
+					return "";
+				}
+
+			return birthDate.ToShortDateString();
+		}
+
+		private bool ValidateDocumentDates()
         {
             DateTime? birthDate = null;
             foreach (var document in CurrentItem.MainDocuments)
