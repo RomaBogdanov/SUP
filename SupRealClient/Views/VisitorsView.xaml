@@ -277,7 +277,7 @@
 				Style="{StaticResource TextBoxStyle}"
 				Text="{Binding Path=CurrentItem.Comment, Mode=TwoWay}" />
 			<Grid Grid.Row="1" Grid.Column="2" Grid.ColumnSpan="2"
-			      Visibility="{Binding IsRedactMode_Inverce, Converter={StaticResource BooleanToVisibilityConverter}}">
+			      Visibility="{Binding OpeningButtons_ToRedactComments, UpdateSourceTrigger=PropertyChanged}">
 				<Grid.ColumnDefinitions>
 					<ColumnDefinition></ColumnDefinition>
 					<ColumnDefinition></ColumnDefinition>

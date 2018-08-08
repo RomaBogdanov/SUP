@@ -30,6 +30,8 @@ namespace SupRealClient.Views
 			{
 				DataContext = _viewModel;
 			}
+
+			this.PreviewKeyDown += Window_PreviewKeyDown;
 		}
 
 		public object DocumentImage

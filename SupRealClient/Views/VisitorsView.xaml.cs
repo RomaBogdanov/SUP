@@ -47,6 +47,7 @@ namespace SupRealClient.Views
 					//(this.DataContext as VisitsViewModel).Model.OnClose += Handling_OnClose;
 				}
 			};
+			LoadAllEvents();
 		}
 
 		private void MovingNextFocusingElement(string e)
@@ -151,7 +152,7 @@ namespace SupRealClient.Views
 
 		private void VisitorsView_PreviewKeyDown(object sender, KeyEventArgs e)
 		{
-			if (e.Key == Key.Escape)
+			if (e.Key == Key.Escape && DataContext is VisitsViewModel && !(DataContext as VisitsViewModel).IsRedactMode)
 			{
 				Close();
 			}

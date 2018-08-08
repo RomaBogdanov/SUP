@@ -225,6 +225,7 @@ namespace SupRealClient.Views
 			    OnPropertyChanged(nameof(IsRedactMode));
 			    OnPropertyChanged(nameof(VisibleTabItem_Employee));
 			    OnPropertyChanged(nameof(IsRedactMode_Inverce));
+				OnPropertyChanged(nameof(OpeningButtons_ToRedactComments));
 			    OnPropertyChanged(nameof(IsNotFormular));
 				EditingVisitorCommentMode = false;
 		    }
@@ -233,6 +234,11 @@ namespace SupRealClient.Views
 	    public bool IsRedactMode_Inverce
 	    {
 		    get { return !_isRedactMode; }
+	    }
+
+	    public bool OpeningButtons_ToRedactComments
+	    {
+		    get { return IsRedactMode_Inverce && CurrentItem.IsAgree; }
 	    }
 
 
@@ -1605,9 +1611,6 @@ namespace SupRealClient.Views
 				string.IsNullOrEmpty(CurrentItem.Name) ||
 		        string.IsNullOrWhiteSpace(CurrentItem.Name) ||
 
-				string.IsNullOrEmpty(CurrentItem.Patronymic) ||
-		        string.IsNullOrWhiteSpace(CurrentItem.Patronymic) ||
-
 				string.IsNullOrEmpty(CurrentItem.Organization) ||
 		        string.IsNullOrWhiteSpace(CurrentItem.Organization))
 		    {
@@ -1626,11 +1629,11 @@ namespace SupRealClient.Views
 				    stringBuilder.Append("• Имя" + Environment.NewLine);
 			    }
 
-			    if (string.IsNullOrEmpty(CurrentItem.Patronymic) ||
-			        string.IsNullOrWhiteSpace(CurrentItem.Patronymic))
-			    {
-				    stringBuilder.Append("• Отчество" + Environment.NewLine);
-			    }
+			    //if (string.IsNullOrEmpty(CurrentItem.Patronymic) ||
+			    //    string.IsNullOrWhiteSpace(CurrentItem.Patronymic))
+			    //{
+				   // stringBuilder.Append("• Отчество" + Environment.NewLine);
+			    //}
 
 			    if (string.IsNullOrEmpty(CurrentItem.Organization) ||
 			        string.IsNullOrWhiteSpace(CurrentItem.Organization))

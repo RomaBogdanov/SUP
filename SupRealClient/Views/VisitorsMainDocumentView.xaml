@@ -367,7 +367,7 @@
 						Grid.ColumnSpan="2"
 						Height="76"
 						Margin="2"
-						IsReadOnly="{Binding Path=Editable, Mode=OneTime}"
+						IsReadOnly="{Binding Path=Editable, Mode=OneTime, UpdateSourceTrigger=PropertyChanged}"
 						KeyUp="MoveNextFocusControl"
 						Style="{StaticResource TextBoxStyle}"
 						

@@ -29,6 +29,8 @@ namespace SupRealClient.Views
 
             AfterInitialize();
             NameTextBox.Focus();
+
+	        this.PreviewKeyDown += Window_PreviewKeyDown;
         }
 
 		private void VisitorsDocumentView__TestingNameVisitorsDocument(object sender, System.ComponentModel.CancelEventArgs e)
@@ -44,7 +46,9 @@ namespace SupRealClient.Views
             InitializeComponent();
             NameTextBox.Focus();
             DataContext = new VisitorsDocumentViewModel();
-        }
+
+	        this.PreviewKeyDown += Window_PreviewKeyDown;
+		}
 
         private void TextBox_OnKeyDown(object sender, KeyEventArgs e)
         {

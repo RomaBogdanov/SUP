@@ -15,6 +15,8 @@ namespace SupRealClient.Views
             InitializeComponent();
 
             AfterInitialize();
-        }
+
+			
+		}
     }
 }
