@@ -2281,7 +2281,8 @@ namespace SupRealClient.Views
                                 .AsEnumerable().FirstOrDefault(arg =>
                                 arg.Field<int>("f_visitor_id") ==
                                 OrdElem.Field<int>("f_catcher_id"))?["f_full_name"],
-                            OrderType = "В разработке",
+							TypeId =  Ord.Field<int>("f_order_type_id"),
+                            //OrderType = SprOrderTypesWrapper.CurrentTable().Table.AsEnumerable().FirstOrDefault(arg => arg.Field<int>("f_order_type_id") == Ord.Field<int>("f_order_type_id"))?.Field<string>("f_order_text"),
                             Passes = OrdElem.Field<string>("f_passes"),
                             OrderElements = new ObservableCollection<OrderElement>(
                                 from row in OrderElementsWrapper.CurrentTable().Table.AsEnumerable()
