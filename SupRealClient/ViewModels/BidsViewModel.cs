@@ -220,6 +220,10 @@ namespace SupRealClient.ViewModels
 					EditButtonEnable = false;
 					CurrentOrderType = OrderType.None;
 				}
+				else
+				{
+					EditButtonEnable = true;
+				}
 
 				OnPropertyChanged(nameof(IsNoneOrder));
 			}
