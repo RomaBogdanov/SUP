@@ -494,7 +494,6 @@ namespace SupRealClient.Views
 	    {
 			if(_documentScaner!=null)
 				_documentScaner.ScanFinished -= Scaner_ScanFinished;
-			if(_documentScaner!=null)
 				_documentScaner?.Dispose();
 	    }
 
