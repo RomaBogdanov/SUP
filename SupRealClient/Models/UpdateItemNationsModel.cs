@@ -34,7 +34,7 @@ namespace SupRealClient.Models
         {
             if (string.IsNullOrEmpty(data.Field))
             {
-                MessageBox.Show("Заполните поле - 'Отредактировать страну'");
+                MessageBox.Show("Заполните поле «Отредактировать страну»", "Информация", MessageBoxButton.OK, MessageBoxImage.Information);
                 return;
             }
 
@@ -53,7 +53,7 @@ namespace SupRealClient.Models
                     x["f_cntr_name"].ToString() == data.Field.ToString() &&
                     (int)x["f_cntr_id"] != nation.Id) != null)
                 {
-                    MessageBox.Show("Такая организация уже записана!");
+                    MessageBox.Show("Такая организация уже существует!", "Предупреждение", MessageBoxButton.OK, MessageBoxImage.Warning);
                     return;
                 }
 
@@ -67,7 +67,7 @@ namespace SupRealClient.Models
             }
             else
             {
-                MessageBox.Show("Такая страна уже записана!");
+                MessageBox.Show("Такая страна уже существует!", "Предупреждение", MessageBoxButton.OK, MessageBoxImage.Warning);
             }
         }
     }
