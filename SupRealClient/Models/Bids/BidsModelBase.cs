@@ -322,7 +322,6 @@ namespace SupRealClient.Models
 		{
 			if (SelectedElement == null)
 			{
-				MessageBox.Show("Не выбран посетитель для редактирования данных по нему","Ошибка",MessageBoxButtons.OK,MessageBoxIcon.Error);
 				return;
 			}
 

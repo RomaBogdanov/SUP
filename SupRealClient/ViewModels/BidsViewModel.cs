@@ -3,22 +3,25 @@ using System.Windows.Input;
 using System.Collections.ObjectModel;
 using System.Linq;
 using System.Windows;
+using System.Windows.Forms;
 using SupRealClient.EnumerationClasses;
 using SupRealClient.Models;
 using SupRealClient.Models.AddUpdateModel;
 using SupRealClient.ViewModels.AddUpdateViewModel;
 using SupRealClient.Views;
+using Application = System.Windows.Application;
+using MessageBox = System.Windows.MessageBox;
 
 namespace SupRealClient.ViewModels
 {
 	public class BidsViewModel : ViewModelBase
 	{
-        #region Properties
+		#region Properties
 
-        // Открыта из выдачи пропусков по заявке по кнопке "на основании заявки" 
-        private bool isToVirtue = false;
+		// Открыта из выдачи пропусков по заявке по кнопке "на основании заявки" 
+		private bool isToVirtue = false;
 
-        private IBidsModel bidsModel;
+		private IBidsModel bidsModel;
 
 
 		/// <summary>
@@ -87,8 +90,15 @@ namespace SupRealClient.ViewModels
 			set
 			{
 				BidsModel.SelectedElement = value;
+				IsSelectedElementExist = IsSelectedElementExist;
 				OnPropertyChanged();
 			}
+		}
+
+		public bool IsSelectedElementExist
+		{
+			get { return SelectedElement != null; }
+			private set { OnPropertyChanged(); }
 		}
 
 		public ObservableCollection<Order> SingleOrdersSet
@@ -500,8 +510,19 @@ namespace SupRealClient.ViewModels
 		/// </summary>
 		private void DeletePerson()
 		{
-			BidsModel.DeletePerson();
-			SelectedElement = BidsModel.SelectedElement;
+			if (SelectedElement == null)
+			{
+				return;
+			}
+
+			MessageBoxResult dialogResult = MessageBox.Show("Вы уверены, что хотите удалить этот элемент заявки?", "Внимание",
+				MessageBoxButton.OKCancel, MessageBoxImage.Question);
+			if (dialogResult == MessageBoxResult.OK)
+			{
+				BidsModel.DeletePerson();
+				SelectedElement = BidsModel.SelectedElement;
+			}
+			
 		}
 
 		private void DoubleClickElement(object arg)
