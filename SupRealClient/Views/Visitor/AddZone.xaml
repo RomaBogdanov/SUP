@@ -35,7 +35,8 @@
             Grid.Column="0"
             Grid.ColumnSpan="3"
             ItemsSource="{Binding Path=Set, Mode=TwoWay}"
-            AutoGenerateColumns="False">
+            AutoGenerateColumns="False"
+            CanUserAddRows="False">
             <DataGrid.Columns>
                 <DataGridCheckBoxColumn Header="Выдача" Binding="{Binding Path=IsChecked, Mode=TwoWay}" />
                 <DataGridTextColumn Header="Номер" Binding="{Binding Path=RegNumber, Mode=TwoWay}" IsReadOnly="True" />

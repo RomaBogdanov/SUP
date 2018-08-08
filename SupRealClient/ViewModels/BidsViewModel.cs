@@ -468,6 +468,13 @@ namespace SupRealClient.ViewModels
             New();
         }
 
+        public void SetToOrder(Order order)
+        {
+            // TODO - здесь нужно установить текущим переданный Order
+            //BidsModel.CurrentSingleOrder = order;
+            //OnPropertyChanged(nameof(SelectedOrder));
+        }
+
         private void BidsModel_OnRefresh()
 		{
 			CurrentTemporaryOrder = BidsModel.CurrentTemporaryOrder;
@@ -543,6 +550,8 @@ namespace SupRealClient.ViewModels
 
 				model.CurrentItem = model.Find(orderElement.VisitorId);
 				VisitorsView view = new VisitorsView();
+				view.Width = WinSet.Width;
+				view.Height = WinSet.Height;
 				view.Owner = Application.Current.Windows.OfType<Window>().SingleOrDefault(x => x.IsActive);
 				view.WindowStartupLocation = WindowStartupLocation.CenterOwner;
 				Views.VisitsViewModel vm = new Views.VisitsViewModel(view) { Model = model };

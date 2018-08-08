@@ -141,7 +141,7 @@ namespace SupRealClient.EnumerationClasses
 					return Number.ToString();
 				}
 
-				return Number + "-" + Type[0];
+				return Convert.ToDateTime(NewRecDate).Year%100 + "-" + Number + "-" + Type[0];
 			}
 			set
 			{
@@ -233,7 +233,6 @@ namespace SupRealClient.EnumerationClasses
 		public int ImageId { get; set; } // id исходника скана заявки
 		public string Catcher { get; set; } = ""; // провожающий
 
-		public string OrderType { get; set; } = ""; // тип заявки
 		public string Passes { get; set; } = "";
 
 		private int signedId;
@@ -364,5 +363,7 @@ namespace SupRealClient.EnumerationClasses
 			errorMessage = null;
 			return true;
 		}
-	}
+
+        public bool HasCard { get; set; }
+    }
 }

@@ -27,13 +27,13 @@ namespace SupRealClient.Models
         {
             if (data.Name.IsNullOrEmptyOrWhiteSpaces())
             {
-                MessageBox.Show("Заполните поле Название");
+                MessageBox.Show("Заполните поле «Название»", "Информация", MessageBoxButton.OK, MessageBoxImage.Information);
                 return;
             }
 
             if (data.Country.IsNullOrEmptyOrWhiteSpaces())
             {
-                MessageBox.Show("Заполните поле Страна");
+                MessageBox.Show("Заполните поле «Страна»", "Информация", MessageBoxButton.OK, MessageBoxImage.Information);
                 return;
             }
 
@@ -61,7 +61,7 @@ namespace SupRealClient.Models
             }
             else
             {
-                MessageBox.Show("Такой регион уже записан!");
+                MessageBox.Show("Такой регион уже существует!", "Предупреждение", MessageBoxButton.OK, MessageBoxImage.Warning);
             }
         }
     }

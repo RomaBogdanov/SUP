@@ -70,7 +70,7 @@ namespace SupRealClient.ViewModels
             }
             else
             {
-                MessageBox.Show("Выберите посещение из списка!");
+                MessageBox.Show("Выберите посещение из списка!", "Информация", MessageBoxButton.OK, MessageBoxImage.Information);
             }
         }
     }
