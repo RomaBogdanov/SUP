@@ -94,7 +94,7 @@
 							IsEnabled="{Binding Editable, Mode=OneWay}"
 							IsReadOnly="True"
 							IsTabStop="False"
-							KeyUp="KeyUp_LoadDocType"
+							KeyDown="KeyUp_LoadDocType"
 							Style="{StaticResource TextBoxStyle}"
 							Text="{Binding Path=DocType, UpdateSourceTrigger=PropertyChanged}" />
 
@@ -237,7 +237,7 @@
 						Margin="2"
 						IsEnabled="{Binding Path=Editable, Mode=OneTime}"
 						IsTabStop="False"
-						KeyDown="MoveNextFocusControl"
+						KeyUp="MoveNextFocusControl"
 						SelectedDate="{Binding Path=Date, Mode=TwoWay}"
 						TabIndex="{Binding Path=TabIndex, RelativeSource={RelativeSource AncestorType={x:Type mah:MetroWindow}}}"
 						Text="Дата">
@@ -286,7 +286,7 @@
 						Grid.ColumnSpan="2"
 						Margin="2"
 						IsEnabled="{Binding Path=Editable, Mode=OneTime}"
-						KeyDown="MoveNextFocusControl"
+						KeyUp="MoveNextFocusControl"
 						SelectedDate="{Binding Path=DateTo, Mode=TwoWay}"
 						TabIndex="{Binding Path=TabIndex, RelativeSource={RelativeSource AncestorType={x:Type mah:MetroWindow}}}"
 						Text="Дата до">
@@ -333,7 +333,7 @@
 						Grid.ColumnSpan="2"
 						Margin="2"
 						IsEnabled="{Binding Path=Editable, Mode=OneTime}"
-						KeyDown="MoveNextFocusControl"
+						KeyUp="MoveNextFocusControl"
 						SelectedDate="{Binding Path=BirthDate, Mode=TwoWay}"
 						TabIndex="{Binding Path=TabIndex, RelativeSource={RelativeSource AncestorType={x:Type mah:MetroWindow}}}"
 						Text="Дата рождения">
@@ -345,7 +345,8 @@
 											<wpfx:MaskedTextBox
 												x:Name="PART_TextBox"
 												Mask="00/00/0000"
-												Text="{Binding Path=SelectedDate, ConverterCulture={x:Static gl:CultureInfo.CurrentCulture}, StringFormat=dd/MM/yyyy, RelativeSource={RelativeSource AncestorType={x:Type DatePicker}}}" />
+												Text="{Binding Path=SelectedDate, ConverterCulture={x:Static gl:CultureInfo.CurrentCulture}, StringFormat=dd/MM/yyyy, RelativeSource={RelativeSource AncestorType={x:Type DatePicker}}}" 
+												/>
 										</ControlTemplate>
 									</Setter.Value>
 								</Setter>
@@ -361,7 +362,7 @@
 						Style="{StaticResource TextBLockStyle}"
 						Text="Примечание:" />
 
-					<TextBox
+					<TextBox x:Name="textBox_Comment"
 						Grid.Row="17"
 						Grid.Column="0"
 						Grid.ColumnSpan="2"

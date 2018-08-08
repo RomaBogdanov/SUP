@@ -44,6 +44,7 @@ namespace SupRealClient.ViewModels
 	    private bool _editable = false;
 
 		public event Action _TestDatePickerEvent;
+	    public event Action<string> _DateNotCorrect;
 
 
 		public List<Guid> imageCache
@@ -129,8 +130,21 @@ namespace SupRealClient.ViewModels
             {
                 if (value != null)
                 {
-                    date = value;
-                    OnPropertyChanged("Date");
+	                if (value.Date <= DateTime.Now.Date)
+	                {
+		                date = value;
+		                Date_Correct = true;
+					}
+	                else
+	                {
+		                Date_Correct = false;
+						MessageBox.Show("Веденная дата выдачи документа неправильна, так как введенная дата будет в будующем.", "Внимание",MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+		                MessageBox.Show("Дата выдачи документа будет исправлено на сегоднешнее", "Внимание", MessageBoxButtons.OK, MessageBoxIcon.Information);
+						_DateNotCorrect?.Invoke(nameof(Date));
+
+					}
+					
+                    OnPropertyChanged(nameof(Date));
                 }
             }
         }
@@ -141,9 +155,22 @@ namespace SupRealClient.ViewModels
             set
             {
                 if (value != null)
-                {
-                    dateTo = value;
-                    OnPropertyChanged("DateTo");
+				{
+					if (value.Date >= DateTime.Now.Date)
+					{
+						dateTo = value;
+						DateTo_Correct = true;
+					}
+					else
+					{
+						DateTo_Correct = false;
+						_DateNotCorrect?.Invoke(nameof(DateTo));
+						MessageBox.Show("Веденная дата действия документа неправильна, так как введенная дата уже прошла.", "Внимание", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+						MessageBox.Show("Дата действия документа будет исправлено на сегоднешнее", "Внимание", MessageBoxButtons.OK, MessageBoxIcon.Information);
+						_DateNotCorrect?.Invoke(nameof(DateTo));
+					}
+
+					OnPropertyChanged(nameof(DateTo));
                 }
             }
         }
@@ -155,8 +182,21 @@ namespace SupRealClient.ViewModels
 		    {
 			    if (value != null)
 			    {
-				    birthDate = value;
-				    OnPropertyChanged("BirthDate");
+				    if (value.Date <= DateTime.Now.Date)
+				    {
+					    birthDate = value;
+					    BirthDate_Correct = true;
+					}
+				    else
+				    {
+					    BirthDate_Correct = false;
+					    _DateNotCorrect?.Invoke(nameof(BirthDate));
+						MessageBox.Show("Веденная дата рождения неправильна, так как введенная дата будет в будующем.",
+						    "Внимание", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+					    MessageBox.Show("Дата рождения будет исправлено на сегоднешнее", "Внимание", MessageBoxButtons.OK, MessageBoxIcon.Information);
+					}
+
+				    OnPropertyChanged(nameof(BirthDate));
 			    }
 		    }
 	    }
@@ -177,7 +217,7 @@ namespace SupRealClient.ViewModels
 		    set
 		    {
 			    _dateTo_Correct = value;
-				    OnPropertyChanged(nameof(Date_Correct));
+				    OnPropertyChanged(nameof(DateTo_Correct));
 		    }
 	    }
 
@@ -187,7 +227,7 @@ namespace SupRealClient.ViewModels
 		    set
 		    {
 				    _birthDate_Correct = value;
-				    OnPropertyChanged(nameof(Date_Correct));
+				    OnPropertyChanged(nameof(BirthDate_Correct));
 		    }
 	    }
 
