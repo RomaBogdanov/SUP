@@ -1641,9 +1641,9 @@ namespace AndoverAgent
 					{
 						cmd.ExecuteScalar();
 					}
-					catch (Exception)
+					catch (Exception ex)
 					{
-						MessageBox.Show("Не удалось обновить таблицы в ContinuumCopyDb", "Предупреждение", MessageBoxButton.OK, MessageBoxImage.Warning);
+						MessageBox.Show($"Не удалось обновить таблицы в ContinuumCopyDb.\n Причина:\n {ex.Message}", "Предупреждение", MessageBoxButton.OK, MessageBoxImage.Warning);
 					}
 
 				}
