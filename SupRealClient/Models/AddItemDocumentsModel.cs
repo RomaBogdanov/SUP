@@ -25,7 +25,7 @@ namespace SupRealClient.Models
 			if (!string.IsNullOrWhiteSpace(data.Field))
 			{
 				DataRow row = documents.Table.NewRow();
-				row["f_doc_name"] = data.Field;
+				row["f_doc_name"] = data.Field.TrimStart();
 				row["f_deleted"] = "N";
 				row["f_rec_date"] = DateTime.Now;
 				row["f_rec_operator"] = Authorizer.AppAuthorizer.Id;
