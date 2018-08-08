@@ -107,20 +107,21 @@ namespace SupRealClient.EnumerationClasses
         public int KeyCaseId { get; set; } // номер пенала, в котором находится ключ
     }
 
-    public class Schedule : IdEntity
-    {
-        public int ObjectIdHi { get; set; }
-        public int ObjectIdLo { get; set; }
-        public string Name { get; set; }
-        public string Descript { get; set; }
+	public class Schedule : IdEntity
+	{
+		public int ObjectIdHi { get; set; }
+		public int ObjectIdLo { get; set; }
+		public string Name { get; set; }
+		public string Descript { get; set; }
+		public string Path { get; set; }
 
-        public object Clone()
-        {
-            return this.MemberwiseClone();
-        }
-    }
+		public object Clone()
+		{
+			return this.MemberwiseClone();
+		}
+	}
 
-    public class AccessLevel : IdEntity
+	public class AccessLevel : IdEntity
     {
         public int AreaIdHi { get; set; }
         public int AreaIdLo { get; set; }

@@ -60,7 +60,8 @@
             SelectedItem="{Binding Path=CurrentItem, Mode=TwoWay}"
             SelectedValue="{Binding Path=SelectedValue, Mode=TwoWay}"
             Sorted="baseTab_Sorted"
-            Style="{StaticResource AzureDataGrid1}">
+            Style="{StaticResource AzureDataGrid1}"
+            PreviewKeyDown="baseTab_PreviewKeyDown">
             <DataGrid.ColumnHeaderStyle>
                 <Style BasedOn="{StaticResource SelectionColumnHeader}" TargetType="DataGridColumnHeader">
                     <EventSetter Event="PreviewMouseLeftButtonUp" Handler="dgColumnHeader_PreviewMouseLeftButtonUp" />
@@ -84,7 +85,8 @@
             Grid.Column="0"
             Grid.ColumnSpan="6"
             Margin="1"
-            Text="{Binding Path=SearchingText, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+            Text="{Binding Path=SearchingText, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" 
+            PreviewKeyDown="baseTab_PreviewKeyDown"/>
 
         <Button
             Name="butAdd"

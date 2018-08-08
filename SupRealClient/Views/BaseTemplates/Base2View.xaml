@@ -13,7 +13,6 @@
         <KeyBinding Gesture="Ctrl+D" Command="{Binding Update}"  />
         <KeyBinding Gesture="Ctrl+F" Command="{Binding Search}"  />
         <KeyBinding Gesture="Ctrl+G" Command="{Binding Farther}" />
-        <KeyBinding Gesture="Ctrl+Enter" Command="{Binding Ok}" />
     </UserControl.InputBindings>    
     <!--<UserControl.DataContext>
         <local:Organizations1ViewModel />
@@ -64,7 +63,8 @@
             CanUserAddRows="False" 
             LoadingRow="baseTab_LoadingRow" 
             Loaded="baseTab_Loaded"
-            Sorted="baseTab_Sorted">            
+            Sorted="baseTab_Sorted"
+            PreviewKeyDown="baseTab_PreviewKeyDown">            
             <!-- TODO - вернуть SelectedValue="{Binding Path=SelectedValue, Mode=TwoWay}"  -->
             <DataGrid.ColumnHeaderStyle>
                 <Style TargetType="DataGridColumnHeader" BasedOn="{StaticResource SelectionColumnHeader}">
@@ -100,7 +100,8 @@
             Margin="1" 
             Text="{Binding Path=SearchingText, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" 
             FontSize="{Binding FontSize}" 
-            Style="{StaticResource TextBoxStyle}"/>
+            Style="{StaticResource TextBoxStyle}"
+            PreviewKeyDown="baseTab_PreviewKeyDown"/>
 
         <Button 
             Grid.Row="3" 
@@ -322,6 +323,7 @@
         </Button>
 
         <Button 
+            x:Name="btnOk"
             Grid.Row="3" 
             Grid.Column="8" 
             Margin="1" 

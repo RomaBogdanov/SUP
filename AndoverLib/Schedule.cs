@@ -152,5 +152,8 @@ namespace AndoverLib
 
         [DataMember]
         public bool? ClearPastEvents { get; set; }
-    }
+
+	[DataMember]
+	public string Path { get; set; }
+	}
 }

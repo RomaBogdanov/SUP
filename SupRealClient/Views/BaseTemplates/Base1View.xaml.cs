@@ -67,9 +67,13 @@ namespace SupRealClient.Views
                     btnDown.Command.Execute(null);
                     e.Handled = true;
                 }
-                else if (e.Key == Key.Enter)
+                else if (e.Key == Key.Enter &&
+                         btnUpdate.IsEnabled &&
+                         btnUpdate.Visibility == Visibility.Visible &&
+                         btnOk.Visibility != Visibility.Visible)
                 {
                     btnUpdate.Command.Execute(null);
+                    e.Handled = true;
                 }
                 else if (e.Key == Key.Insert)
                 {
@@ -94,11 +98,24 @@ namespace SupRealClient.Views
             }            
         }
 
+        private void baseTab_PreviewKeyDown(object sender, KeyEventArgs e)
+        {
+            if (btnOk.Visibility == Visibility.Visible &&
+                Keyboard.Modifiers == ModifierKeys.None &&
+                e.Key == Key.Enter &&
+                baseTab.CurrentItem != null)
+            {
+                btnOk.Command.Execute(null);
+                e.Handled = true;
+            }
+        }
+
         private void UserControl_IsVisibleChanged(object sender, System.Windows.DependencyPropertyChangedEventArgs e)
         {
             Window parentWindow = Window.GetWindow(this);
             if (parentWindow.Visibility == System.Windows.Visibility.Visible)
             {
+                tbxSearch.Focus();
                 tbxSearch.Text = string.Empty;
                 SortItemsSource();
             }

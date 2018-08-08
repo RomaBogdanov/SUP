@@ -48,9 +48,34 @@ namespace SupRealClient.Views
             Window oWindow = Window.GetWindow(this);
             if (oWindow.Visibility == System.Windows.Visibility.Hidden)
             {
+                tbSearch.Focus();
                 tbSearch.Text = string.Empty;
-                tbSearch.Focus();              
+
+                MainOrganizationViewModel vm = DataContext as MainOrganizationViewModel;
+                if (vm != null && vm.Organizations.Count > 0)
+                {
+                    vm.Organizations[0].IsExpanded = true;
+                    vm.Organizations[0].IsSelected = true;
+                }                
             }
+        }
+
+        private void MetroWindow_PreviewKeyDown(object sender, KeyEventArgs e)
+        {
+            if (Keyboard.Modifiers == ModifierKeys.None)
+            {
+                if (e.Key == Key.Up || 
+                    e.Key == Key.Down || 
+                    e.Key == Key.Left ||
+                    e.Key == Key.Right)
+                {
+                    treeView.Focus();
+                }
+                else
+                {
+                    tbSearch.Focus();
+                }
+            }            
         }
     }
 }

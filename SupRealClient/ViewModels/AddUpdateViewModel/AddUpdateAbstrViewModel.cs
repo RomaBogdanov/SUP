@@ -246,27 +246,16 @@ namespace SupRealClient.ViewModels.AddUpdateViewModel
             {
                 return;
             }
-            CurrentOrderElement.Templates = (wind.WindowResult as OrderElement).Templates;
+
+	        OrderElement element = wind.WindowResult as OrderElement;
+
+			CurrentOrderElement.Templates = (wind.WindowResult as OrderElement).Templates;
             CurrentOrderElement.TemplateIdList =
                 AndoverEntityListHelper.EntitiesToString(CurrentOrderElement.Templates);
             CurrentOrderElement.Areas = (wind.WindowResult as OrderElement).Areas;
             CurrentOrderElement.AreaIdList =
                 AndoverEntityListHelper.AndoverEntitiesToString(CurrentOrderElement.Areas);
             CurrentOrderElement.ScheduleId = (wind.WindowResult as OrderElement).ScheduleId;
-            string st = "";
-            foreach (var area in (wind.WindowResult as OrderElement).Areas)
-            {
-                st += area.Name + ", ";
-            }
-
-	        if (st.Length - 2 >= 0)
-	        {
-		        CurrentOrderElement.Passes = st.Remove(st.Length - 2);
-			}
-	        else
-	        {
-		        CurrentOrderElement.Passes = "";
-	        }
         }
 
 	    private void ClearVisitorCommand()

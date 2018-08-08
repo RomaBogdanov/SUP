@@ -4,6 +4,7 @@ using System.Data;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Runtime.CompilerServices;
+using System.Windows;
 using SupRealClient.Annotations;
 using SupRealClient.TabsSingleton;
 using SupRealClient.Common;
@@ -69,7 +70,7 @@ namespace SupRealClient.EnumerationClasses
 		/// </summary>
 		public int OrderId
 		{
-			get { return orderId; }
+			get => orderId;
 			set
 			{
 				orderId = value;
@@ -93,15 +94,22 @@ namespace SupRealClient.EnumerationClasses
 		/// </summary>
 		public int VisitorId
 		{
-			get { return visitorId; }
+			get => visitorId;
 			set
 			{
 				visitorId = value;
 				DataRow row = VisitorsWrapper.CurrentTable().Table
 					.AsEnumerable().FirstOrDefault(arg =>
 						arg.Field<int>("f_visitor_id") == visitorId);
-				Visitor = row["f_full_name"].ToString();
-				VisitorMainPosition = row["f_job"].ToString();
+				if (row != null)
+				{
+					Visitor = row["f_full_name"].ToString();
+					VisitorMainPosition = row["f_job"].ToString();
+				}
+				else
+				{
+					MessageBox.Show("Поле посетителя ссылается на несуществующего в базе посетителя по id = " + visitorId, "Ошибка", MessageBoxButton.OK, MessageBoxImage.Error);
+				}
 			}
 		}
 
@@ -129,10 +137,18 @@ namespace SupRealClient.EnumerationClasses
 			set
 			{
 				organizationId = value ?? 0;
-				Organization = OrganizationsWrapper.CurrentTable().Table
+				DataRow row = OrganizationsWrapper.CurrentTable().Table
 					.AsEnumerable().FirstOrDefault(arg =>
-						arg.Field<int>("f_org_id") == organizationId)["f_org_name"]
-					.ToString();
+						arg.Field<int>("f_org_id") == organizationId);
+				if (row != null)
+				{
+					Organization = row["f_org_name"]?.ToString();
+				}
+				else
+				{
+					MessageBox.Show("Поле организации ссылается на несуществующую в базе организацию по id = " + organizationId, "Ошибка", MessageBoxButton.OK, MessageBoxImage.Error);
+					Organization = "";
+				}
 			}
 		}
 
@@ -146,17 +162,17 @@ namespace SupRealClient.EnumerationClasses
 		/// </summary>
 		public string VisitorMainPosition { get; set; } = "";
 
-		private string position = "";
+		private string _position = "";
 
 		/// <summary>
 		/// Должность сотрудника в заявке
 		/// </summary>
 		public string Position
 		{
-			get => position;
+			get => _position;
 			set
 			{
-				position = value;
+				_position = value;
 				OnPropertyChanged();
 			}
 		}
@@ -166,13 +182,23 @@ namespace SupRealClient.EnumerationClasses
 		/// </summary>
 		public int CatcherId
 		{
-			get { return catcherId; }
+			get => catcherId;
 			set
 			{
 				catcherId = value;
-				Catcher = VisitorsWrapper.CurrentTable().Table.AsEnumerable()
+				DataRow row = VisitorsWrapper.CurrentTable().Table.AsEnumerable()
 					.FirstOrDefault(arg => arg.Field<int>("f_visitor_id") ==
-					                       catcherId)["f_full_name"].ToString();
+					                       catcherId);
+				if (row != null)
+				{
+					Catcher = row["f_full_name"]?.ToString();
+				}
+				else
+				{
+					MessageBox.Show("Поле принимающего лица ссылается на несуществующего в базе посетителя по id = " + catcherId, "Ошибка", MessageBoxButton.OK, MessageBoxImage.Error);
+					Catcher = "";
+				}
+				
 			}
 		}
 
@@ -190,7 +216,7 @@ namespace SupRealClient.EnumerationClasses
 
 		public DateTime From
 		{
-			get { return from; }
+			get => from;
 			set
 			{
 				from = value;
@@ -263,7 +289,40 @@ namespace SupRealClient.EnumerationClasses
 			}
 		}
 
-		private string _passes = "";
+		private string _passes = NoPassesString;
+		public const string OnlyZonesPassesString= "Назначены зоны доступа";
+		public const string BothPassesString = "+ зоны доступа";
+		public const string NoPassesString = "Доступ не назначен";
+
+		private void SetupPassesString()
+		{
+			string st = "";
+			foreach (var area in Templates)
+			{
+				st += area.Name + ", ";
+			}
+
+			if (st.Length - 2 >= 0)
+			{
+				st = st.Remove(st.Length - 2);
+			}
+
+			if ((Templates == null || Templates.Count < 1) && (Areas != null && Areas.Count > 0))
+			{
+				st = OnlyZonesPassesString;
+			}
+			if ((Areas != null && Areas.Count > 0) && (Templates != null && Templates.Count > 0))
+			{
+				st += " " + BothPassesString;
+			}
+			if ((Areas == null || Areas.Count < 1) && (Templates == null || Templates.Count < 1))
+			{
+				st = NoPassesString;
+			}
+
+			Passes = st;
+		}
+
 		public string Passes
 		{
 			get => _passes;
@@ -340,13 +399,31 @@ namespace SupRealClient.EnumerationClasses
 			return this.MemberwiseClone();
 		}
 
-        public ObservableCollection<Template> Templates { get; set; } =
-            new ObservableCollection<Template>();
+		private ObservableCollection<Template> _templates = new ObservableCollection<Template>();
+		public ObservableCollection<Template> Templates
+		{
+			get => _templates;
+			set
+			{
+				_templates = value;
+				SetupPassesString();
+			}
+		}
 
-        public ObservableCollection<Area> Areas { get; set; } =
-			new ObservableCollection<Area>();
+		private ObservableCollection<Area> _areas = new ObservableCollection<Area>();
 
-        private string schedule = "";
+		public ObservableCollection<Area> Areas
+		{
+			get => _areas;
+			set
+			{
+				_areas = value;
+				SetupPassesString();
+			}
+		}
+
+
+		private string schedule = "";
 
         /// <summary>
         /// Название расписания
@@ -407,9 +484,9 @@ namespace SupRealClient.EnumerationClasses
 		        return false;
 			}
 
-			if (string.IsNullOrEmpty(Passes))
+			if (string.IsNullOrEmpty(Passes) || Passes == NoPassesString)
 			{
-				errorMessage = "Необходимо выбрать хотя бы один проход.";
+				errorMessage = "Необходимо назначить доступ. Поле \"Проходы\".";
 				return false;
 			}
 
