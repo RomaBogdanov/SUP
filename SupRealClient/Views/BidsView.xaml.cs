@@ -4,6 +4,7 @@ using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
+using SupRealClient.EnumerationClasses;
 using SupRealClient.ViewModels;
 
 namespace SupRealClient.Views
@@ -70,6 +71,11 @@ namespace SupRealClient.Views
         {
             comboMenu.SelectedIndex = 2;
             (this.DataContext as BidsViewModel).SetToVirtue();
+        }
+
+        public void SetToOrder(Order order)
+        {
+            (this.DataContext as BidsViewModel).SetToOrder(order);
         }
 
         private List<UIElement> EnterUiElementsSequence

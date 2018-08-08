@@ -32,7 +32,8 @@ namespace SupRealClient.Views
             AfterInitialize();
 
 	        textBox_DocType.Focus();
-		}
+	        this.PreviewKeyDown += Window_PreviewKeyDown_AndStop;
+        }
 
 		/// <summary>
 		/// Конструктор - заглушка
@@ -45,8 +46,8 @@ namespace SupRealClient.Views
 	        ((VisitorsMainDocumentViewModel)DataContext)._TestDatePickerEvent += TestingDatePickerEvent;
 
 	        textBox_DocType.Focus();
-
-        }
+	        this.PreviewKeyDown += Window_PreviewKeyDown_AndStop;
+		}
 
         private void MoveNextFocusControl(object sender, KeyEventArgs e)
         {
@@ -99,8 +100,11 @@ namespace SupRealClient.Views
 	    }
 
 	    private void KeyUp_LoadDocType(object sender, KeyEventArgs e)
-	    {
-		    ((VisitorsMainDocumentViewModel) DataContext).DocumentsListModel();
+		{
+			if (e.Key == Key.Enter)
+			{
+				((VisitorsMainDocumentViewModel)DataContext).DocumentsListModel();
+			}
 	    }
 
 
@@ -147,5 +151,14 @@ namespace SupRealClient.Views
 		{
 			int i = 0;
 		}
+
+	    private void Window_PreviewKeyDown_AndStop(object sender, KeyEventArgs e)
+	    {
+		    if (e.Key == Key.Escape)
+		    {
+			    e.Handled = false;
+			    Close();
+		    }
+	    }
 	}
 }

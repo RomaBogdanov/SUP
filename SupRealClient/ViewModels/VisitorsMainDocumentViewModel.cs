@@ -41,7 +41,9 @@ namespace SupRealClient.ViewModels
 	    private string _image ;
 	    private List<Guid> _imageCache = new List<Guid>();
 	    private ObservableCollection<string> _images=new ObservableCollection<string>();
-	    public event Action _TestDatePickerEvent;
+	    private bool _editable = false;
+
+		public event Action _TestDatePickerEvent;
 
 
 		public List<Guid> imageCache
@@ -67,7 +69,15 @@ namespace SupRealClient.ViewModels
 
 		private int selectedImage = -1;
 
-        public bool Editable { get; private set; }
+	    public bool Editable
+	    {
+		    get { return _editable; }
+		    set
+		    {
+			    _editable = value;
+				OnPropertyChanged(nameof(Editable));
+		    }
+	    }
 
 		public CPerson Person { get; private set; }
 

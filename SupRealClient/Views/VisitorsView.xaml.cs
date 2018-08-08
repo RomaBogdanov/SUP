@@ -36,6 +36,7 @@ namespace SupRealClient.Views
 				{
 					this.DataContext = new VisitsViewModel(this);
 					(DataContext as VisitsViewModel).MoveNextFocusingElement += MovingNextFocusingElement;
+					(DataContext as VisitsViewModel).RedactModeEvent += VisitorsView_RedactModeEvent; ;
 					this.Height = (this.DataContext as VisitsViewModel).WinSet.Height;
 					this.Width = (this.DataContext as VisitsViewModel).WinSet.Width;
 					this.Left = (this.DataContext as VisitsViewModel).WinSet.Left;
@@ -46,6 +47,7 @@ namespace SupRealClient.Views
 					//(this.DataContext as VisitsViewModel).Model.OnClose += Handling_OnClose;
 				}
 			};
+			LoadAllEvents();
 		}
 
 		private void MovingNextFocusingElement(string e)
@@ -53,6 +55,15 @@ namespace SupRealClient.Views
 			if (e == "OrganizationsList")
 			{
 				checkBoxNoForm.Focus();
+			}
+		}
+
+		private void VisitorsView_RedactModeEvent(bool redactMode)
+		{
+			if (redactMode)
+			{
+				textBox_Family.Focus();
+				panel_TabItems.SelectedIndex = 0;
 			}
 		}
 
@@ -107,6 +118,26 @@ namespace SupRealClient.Views
 			{
 				((UIElement) sender).MoveFocus(_focusMover);
 				e.Handled = true;
+
+				Controlling_TabControl();
+			}
+			if (e.Key == Key.Tab)
+			{
+				switch ((sender as FrameworkElement).Name)
+				{
+					case "button_Cancel":
+					case "textBox_Telephones":
+					case "button_SelectNation":
+					case "comboBox_Position":
+					case "checkBox_Consent":
+					case "datePicker_AgreeToDate":
+					{
+
+						Controlling_TabControl();
+					}
+						break;
+					default: return;
+				}
 			}
 		}
 
@@ -115,6 +146,25 @@ namespace SupRealClient.Views
 			if (e.Key == Key.Enter)
 			{
 				MoveNextFocusControl_ToName((sender as FrameworkElement).Name);
+				Controlling_TabControl();
+			}
+			if (e.Key == Key.Tab)
+			{
+				switch ((sender as FrameworkElement).Name)
+				{
+					case "button_Cancel":
+					case "textBox_Telephones":
+					case "button_SelectNation":
+					case "comboBox_Position":
+					case "checkBox_Consent":
+					case "datePicker_AgreeToDate":
+					{
+
+						Controlling_TabControl();
+					}
+						break;
+					default: return;
+				}
 			}
 		}
 
@@ -138,9 +188,9 @@ namespace SupRealClient.Views
 					button_Ok.Focus();
 				}
 					break;
-				default:
-					break;
+				default: return;
 			}
+
 		}
 
 		private void LoadAllEvents()
@@ -150,10 +200,41 @@ namespace SupRealClient.Views
 
 		private void VisitorsView_PreviewKeyDown(object sender, KeyEventArgs e)
 		{
-			if (e.Key == Key.Escape)
+			if (button_Ok.IsEnabled == false && e.Key == Key.Escape)
 			{
-				Close();
+				if(DataContext is VisitsViewModel)
+					if (!(DataContext as VisitsViewModel).IsRedactMode)
+					{
+						Close();
+					}
+					else
+					{
+						(DataContext as VisitsViewModel).Cancel();
+					}
+
 			}
+		}
+
+		private void GotFocus_FirstTabItemControls(object sender, RoutedEventArgs e)
+		{
+			Controlling_TabControl();
+		}
+
+		private void Controlling_TabControl()
+		{
+			if (DataContext is VisitsViewModel)
+				if ((DataContext as VisitsViewModel).IsRedactMode)
+				{
+					if (panel_TabItems.SelectedIndex != 0)
+					{
+						panel_TabItems.SelectedIndex = 0;
+					}
+				}
+		}
+
+		private void UIElement_OnGotKeyboardFocus(object sender, KeyboardFocusChangedEventArgs e)
+		{
+			Controlling_TabControl();
 		}
 	}
 }

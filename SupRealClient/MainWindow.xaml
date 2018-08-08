@@ -1,383 +1,383 @@
 ﻿<mah:MetroWindow
-    x:Class="SupRealClient.MainWindow"
-    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-    xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
-    xmlns:local="clr-namespace:SupRealClient.ViewModels"
-    xmlns:mah="http://metro.mahapps.com/winfx/xaml/controls"
-    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-    x:Name="window"
-    Title="Система учёта посетителей"
-    Width="945"
-    FontSize="18"
-    ResizeMode="CanMinimize"
-    StateChanged="Window_StateChanged"
-    mc:Ignorable="d">
-    <mah:MetroWindow.Style>
-        <Style TargetType="mah:MetroWindow">
-            <Style.Triggers>
-                <DataTrigger Binding="{Binding ElementName=aaa, Path=Visibility}" Value="Collapsed">
-                    <Setter Property="WindowState" Value="Normal" />
-                </DataTrigger>
-                <DataTrigger Binding="{Binding ElementName=aaa, Path=Visibility}" Value="Visible">
-                    <Setter Property="WindowState" Value="Maximized" />
-                </DataTrigger>
-            </Style.Triggers>
-        </Style>
-    </mah:MetroWindow.Style>
-    <mah:MetroWindow.InputBindings>
-        <KeyBinding Command="{Binding OpenVisitorsCommand}" Gesture="Alt+P" />
-        <KeyBinding Command="{Binding OpenVisitsCommand}" Gesture="Alt+V" />
-        <KeyBinding Command="{Binding OpenBidsCommand}" Gesture="Alt+O" />
-        <KeyBinding Command="{Binding OpenBidsCommand}" Gesture="Alt+R" />
-        <KeyBinding Command="{Binding UserExit}" Gesture="Ctrl+F4" />
-    </mah:MetroWindow.InputBindings>
-    <mah:MetroWindow.RightWindowCommands>
-        <mah:WindowCommands>
-            <Grid>
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="90" />
-                    <ColumnDefinition Width="60" />
-                    <ColumnDefinition />
-                </Grid.ColumnDefinitions>
+	x:Class="SupRealClient.MainWindow"
+	xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+	xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+	xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+	xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
+	xmlns:local="clr-namespace:SupRealClient.ViewModels"
+	xmlns:mah="http://metro.mahapps.com/winfx/xaml/controls"
+	xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+	x:Name="window"
+	Title="Система учёта посетителей"
+	Width="945"
+	FontSize="18"
+	ResizeMode="CanMinimize"
+	StateChanged="Window_StateChanged"
+	mc:Ignorable="d">
+	<mah:MetroWindow.Style>
+		<Style TargetType="mah:MetroWindow">
+			<Style.Triggers>
+				<DataTrigger Binding="{Binding ElementName=aaa, Path=Visibility}" Value="Collapsed">
+					<Setter Property="WindowState" Value="Normal" />
+				</DataTrigger>
+				<DataTrigger Binding="{Binding ElementName=aaa, Path=Visibility}" Value="Visible">
+					<Setter Property="WindowState" Value="Maximized" />
+				</DataTrigger>
+			</Style.Triggers>
+		</Style>
+	</mah:MetroWindow.Style>
+	<mah:MetroWindow.InputBindings>
+		<KeyBinding Command="{Binding OpenVisitorsCommand}" Gesture="Alt+P" />
+		<KeyBinding Command="{Binding OpenVisitsCommand}" Gesture="Alt+V" />
+		<KeyBinding Command="{Binding OpenBidsCommand}" Gesture="Alt+O" />
+		<KeyBinding Command="{Binding OpenBidsCommand}" Gesture="Alt+R" />
+		<KeyBinding Command="{Binding UserExit}" Gesture="Ctrl+F4" />
+	</mah:MetroWindow.InputBindings>
+	<mah:MetroWindow.RightWindowCommands>
+		<mah:WindowCommands>
+			<Grid>
+				<Grid.ColumnDefinitions>
+					<ColumnDefinition Width="90" />
+					<ColumnDefinition Width="60" />
+					<ColumnDefinition />
+				</Grid.ColumnDefinitions>
 
-                <TextBlock
-                    Grid.Column="0"
-                    Margin="2"
-                    VerticalAlignment="Center"
-                    FontSize="{Binding ElementName=FontSizeLixtBox, Path=SelectedItem.Content}"
-                    Text="Шрифт" />
+				<TextBlock
+					Grid.Column="0"
+					Margin="2"
+					VerticalAlignment="Center"
+					FontSize="{Binding ElementName=FontSizeLixtBox, Path=SelectedItem.Content}"
+					Text="Шрифт" />
 
-                <ComboBox
-                    x:Name="FontSizeLixtBox"
-                    Grid.Column="1"
-                    Margin="2"
-                    SelectedIndex="1">
-                    <ComboBoxItem Content="12" FontSize="12" />
-                    <ComboBoxItem Content="14" FontSize="14" />
-                    <ComboBoxItem Content="16" FontSize="16" />
-                    <ComboBoxItem Content="18" FontSize="18" />
-                </ComboBox>
+				<ComboBox
+					x:Name="FontSizeLixtBox"
+					Grid.Column="1"
+					Margin="2"
+					SelectedIndex="1">
+					<ComboBoxItem Content="12" FontSize="12" />
+					<ComboBoxItem Content="14" FontSize="14" />
+					<ComboBoxItem Content="16" FontSize="16" />
+					<ComboBoxItem Content="18" FontSize="18" />
+				</ComboBox>
 
-                <Button
-                    Grid.Column="2"
-                    Margin="2"
-                    Padding="0"
-                    Content="Настройки"
-                    FontSize="{Binding ElementName=FontSizeLixtBox, Path=SelectedItem.Content}" />
-            </Grid>
-        </mah:WindowCommands>
-    </mah:MetroWindow.RightWindowCommands>
-    <i:Interaction.Triggers>
-        <i:EventTrigger EventName="Closing">
-            <i:InvokeCommandAction Command="{Binding Close}" />
-        </i:EventTrigger>
-    </i:Interaction.Triggers>
-    <Window.DataContext>
-        <local:MainWindowViewModel />
-    </Window.DataContext>
-    <Grid>
-        <Grid.RowDefinitions>
-            <RowDefinition Height="45" />
-            <RowDefinition Height="60" />
-            <RowDefinition Height="*" />
-        </Grid.RowDefinitions>
-        <Grid.ColumnDefinitions>
-            <ColumnDefinition />
-            <ColumnDefinition />
-        </Grid.ColumnDefinitions>
+				<Button
+					Grid.Column="2"
+					Margin="2"
+					Padding="0"
+					Content="Настройки"
+					FontSize="{Binding ElementName=FontSizeLixtBox, Path=SelectedItem.Content}" />
+			</Grid>
+		</mah:WindowCommands>
+	</mah:MetroWindow.RightWindowCommands>
+	<i:Interaction.Triggers>
+		<i:EventTrigger EventName="Closing">
+			<i:InvokeCommandAction Command="{Binding Close}" />
+		</i:EventTrigger>
+	</i:Interaction.Triggers>
+	<Window.DataContext>
+		<local:MainWindowViewModel />
+	</Window.DataContext>
+	<Grid>
+		<Grid.RowDefinitions>
+			<RowDefinition Height="45" />
+			<RowDefinition Height="60" />
+			<RowDefinition Height="*" />
+		</Grid.RowDefinitions>
+		<Grid.ColumnDefinitions>
+			<ColumnDefinition />
+			<ColumnDefinition />
+		</Grid.ColumnDefinitions>
 
-        <Menu
-            Grid.RowSpan="1"
-            Grid.Column="0"
-            Margin="10,5"
-            Padding="0"
-            VerticalAlignment="Center"
-            Background="White"
-            FontSize="{Binding ElementName=FontSizeLixtBox, Path=SelectedItem.Content}"
-            Visibility="{Binding Path=DataVisibility, Mode=OneWay}">
-            <MenuItem Header="Действия">
-                <MenuItem Header="Отчёт" IsEnabled="False" />
-                <MenuItem Header="Сохранить" IsEnabled="False" />
-                <Separator />
-                <MenuItem Header="Просмотр" IsEnabled="False" />
-                <MenuItem Header="Печать" IsEnabled="False" />
-                <Separator />
-                <MenuItem Header="Регистрация" IsEnabled="False" />
-                <MenuItem Header="Сменить пароль" IsEnabled="False" />
-                <Separator />
-                <MenuItem
-                    Command="{Binding Path=UserExit}"
-                    Header="Выход"
-                    IsEnabled="{Binding Path=IsUserEnter, Mode=TwoWay}" />
-            </MenuItem>
-            <MenuItem Header="Списки">
-                <MenuItem Command="{Binding Path=ListOrganizationsClick}" Header="Организации" />
-                <MenuItem Command="{Binding Path=ListChildOrgs}" Header="Дочерние акционерные общества" />
-                <MenuItem Command="{Binding Path=ListBaseOrgs}" Header="Главные организации" />
-                <MenuItem Command="{Binding Path=ListBaseOrgsStructClick}" Header="Структура главных организаций" />
-                <MenuItem Command="{Binding Path=ListNationsClick}" Header="Гражданства" />
-                <MenuItem Command="{Binding Path=ListDocumentsClick}" Header="Документы" />
-                <MenuItem Command="{Binding Path=ListVisitorsClick}" Header="Посетители" />
-                <MenuItem Command="{Binding Path=ListBidsClick}" Header="Заявки" />
-                <MenuItem Command="{Binding Path=ListCardsClick}" Header="Пропуска" />
-                <MenuItem Command="{Binding Path=ListRegionsClick}" Header="Регионы" />
+		<Menu
+			Grid.RowSpan="1"
+			Grid.Column="0"
+			Margin="10,5"
+			Padding="0"
+			VerticalAlignment="Center"
+			Background="White"
+			FontSize="{Binding ElementName=FontSizeLixtBox, Path=SelectedItem.Content}"
+			Visibility="{Binding Path=DataVisibility, Mode=OneWay}">
+			<MenuItem Header="Действия">
+				<MenuItem Header="Отчёт" IsEnabled="False" />
+				<MenuItem Header="Сохранить" IsEnabled="False" />
+				<Separator />
+				<MenuItem Header="Просмотр" IsEnabled="False" />
+				<MenuItem Header="Печать" IsEnabled="False" />
+				<Separator />
+				<MenuItem Header="Регистрация" IsEnabled="False" />
+				<MenuItem Header="Сменить пароль" IsEnabled="False" />
+				<Separator />
+				<MenuItem
+					Command="{Binding Path=UserExit}"
+					Header="Выход"
+					IsEnabled="{Binding Path=IsUserEnter, Mode=TwoWay}" />
+			</MenuItem>
+			<MenuItem Header="Списки">
+				<MenuItem Command="{Binding Path=ListOrganizationsClick}" Header="Организации" />
+				<MenuItem Command="{Binding Path=ListChildOrgs}" Header="Дочерние акционерные общества" />
+				<MenuItem Command="{Binding Path=ListBaseOrgs}" Header="Главные организации" />
+				<MenuItem Command="{Binding Path=ListBaseOrgsStructClick}" Header="Структура главных организаций" />
+				<MenuItem Command="{Binding Path=ListNationsClick}" Header="Гражданства" />
+				<MenuItem Command="{Binding Path=ListDocumentsClick}" Header="Документы" />
+				<MenuItem Command="{Binding Path=ListVisitorsClick}" Header="Посетители" />
+				<MenuItem Command="{Binding Path=ListBidsClick}" Header="Заявки" />
+				<MenuItem Command="{Binding Path=ListCardsClick}" Header="Пропуска" />
+				<MenuItem Command="{Binding Path=ListRegionsClick}" Header="Регионы" />
 
-                <MenuItem Command="{Binding Path=ListSpacesClick}" Header="Помещения" />
-                <MenuItem Command="{Binding Path=ListDoorsClick}" Header="Двери" />
-                <MenuItem Command="{Binding Path=ListAreasClick}" Header="Области доступа" />
-                <MenuItem Command="{Binding Path=ListAreasSpacesClick}" Header="Области доступа Помещения" />
-                <MenuItem Command="{Binding Path=ListAccessPointsClick}" Header="Точки доступа" />
-                <MenuItem Command="{Binding Path=ListKeysClick}" Header="Ключи" />
-                <MenuItem Command="{Binding Path=ListKeyHoldersClick}" Header="Ключницы" />
-                <MenuItem Command="{Binding Path=ListKeyCasesClick}" Header="Штыри" />
-                <MenuItem Command="{Binding Path=ListSchedulesClick}" Header="Расписания" />
-                <MenuItem Command="{Binding Path=ListAccessLevelsClick}" Header="Уровни доступа" />
-                <MenuItem Command="{Binding Path=ListCarsClick}" Header="Автотранспорт" />
-                <MenuItem Command="{Binding Path=ListTemplatesClick}" Header="Шаблоны" />
-            </MenuItem>
-            <MenuItem Header="Сервис">
-                <MenuItem Header="Очистка базы данных..." IsEnabled="False" />
-                <MenuItem Header="Настройки..." IsEnabled="False" />
-                <MenuItem
-                    Command="{Binding Path=LogsClick}"
-                    Header="Логи"
-                    IsEnabled="True" />
-                <MenuItem
-                    Command="{Binding Path=AndoverImportClick}"
-                    Header="Загрузить из Andover"
-                    IsEnabled="True" />
-            </MenuItem>
-            <MenuItem Header="Окно">
-                <MenuItem Header="Посетители" IsEnabled="False" />
-                <MenuItem Header="Посещения" IsEnabled="False" />
-                <MenuItem Header="Заявки" IsEnabled="False" />
-                <Separator />
-                <MenuItem Header="Горизонтальной мозаикой" IsEnabled="False" />
-                <MenuItem Header="Вертикальной мозаикой" IsEnabled="False" />
-                <MenuItem Header="Каскадом" IsEnabled="False" />
-                <Separator />
-                <MenuItem Header="Закрыть окно" IsEnabled="False" />
-                <MenuItem Header="Закрыть всё" IsEnabled="False" />
-            </MenuItem>
-            <MenuItem Header="Справка">
-                <MenuItem Header="Содержание" IsEnabled="False" />
-                <Separator />
-                <MenuItem Command="{Binding Path=OpenAboutWindow}" Header="О программе..." />
-            </MenuItem>
-        </Menu>
+				<MenuItem Command="{Binding Path=ListSpacesClick}" Header="Помещения" />
+				<MenuItem Command="{Binding Path=ListDoorsClick}" Header="Двери" />
+				<MenuItem Command="{Binding Path=ListAreasClick}" Header="Области доступа" />
+				<MenuItem Command="{Binding Path=ListAreasSpacesClick}" Header="Области доступа Помещения" />
+				<MenuItem Command="{Binding Path=ListAccessPointsClick}" Header="Точки доступа" />
+				<MenuItem Command="{Binding Path=ListKeysClick}" Header="Ключи" />
+				<MenuItem Command="{Binding Path=ListKeyHoldersClick}" Header="Ключницы" />
+				<MenuItem Command="{Binding Path=ListKeyCasesClick}" Header="Штыри" />
+				<MenuItem Command="{Binding Path=ListSchedulesClick}" Header="Расписания" />
+				<MenuItem Command="{Binding Path=ListAccessLevelsClick}" Header="Уровни доступа" />
+				<MenuItem Command="{Binding Path=ListCarsClick}" Header="Автотранспорт" />
+				<MenuItem Command="{Binding Path=ListTemplatesClick}" Header="Шаблоны" />
+			</MenuItem>
+			<MenuItem Header="Сервис">
+				<MenuItem Header="Очистка базы данных..." IsEnabled="False" />
+				<MenuItem Header="Настройки..." IsEnabled="False" />
+				<MenuItem
+					Command="{Binding Path=LogsClick}"
+					Header="Логи"
+					IsEnabled="True" />
+				<MenuItem
+					Command="{Binding Path=AndoverImportClick}"
+					Header="Загрузить из Andover"
+					IsEnabled="True" />
+			</MenuItem>
+			<MenuItem Header="Окно">
+				<MenuItem Header="Посетители" IsEnabled="False" />
+				<MenuItem Header="Посещения" IsEnabled="False" />
+				<MenuItem Header="Заявки" IsEnabled="False" />
+				<Separator />
+				<MenuItem Header="Горизонтальной мозаикой" IsEnabled="False" />
+				<MenuItem Header="Вертикальной мозаикой" IsEnabled="False" />
+				<MenuItem Header="Каскадом" IsEnabled="False" />
+				<Separator />
+				<MenuItem Header="Закрыть окно" IsEnabled="False" />
+				<MenuItem Header="Закрыть всё" IsEnabled="False" />
+			</MenuItem>
+			<MenuItem Header="Справка">
+				<MenuItem Header="Содержание" IsEnabled="False" />
+				<Separator />
+				<MenuItem Command="{Binding Path=OpenAboutWindow}" Header="О программе..." />
+			</MenuItem>
+		</Menu>
 
-        <Grid
-            Grid.Row="0"
-            Grid.Column="1"
-            Visibility="{Binding Path=DataVisibility, Mode=OneWay}">
-            <StackPanel
-                Margin="0,0,20,0"
-                HorizontalAlignment="Right"
-                VerticalAlignment="Center">
-                <TextBlock
-                    Width="Auto"
-                    Padding="0"
-                    Background="Transparent"
-                    FontSize="{Binding ElementName=FontSizeLixtBox, Path=SelectedItem.Content}"
-                    Text="{Binding StringFormat=Оператор: {0}, Path=AuthorizedUser}" />
-                <TextBlock
-                    Width="Auto"
-                    Margin="0,0,0,0"
-                    Background="Transparent"
-                    FontSize="{Binding ElementName=FontSizeLixtBox, Path=SelectedItem.Content}"
-                    Text="{Binding StringFormat=Онлайн: {0}, Path=AuthorizedUserOnline, UpdateSourceTrigger=PropertyChanged}" />
-            </StackPanel>
-        </Grid>
+		<Grid
+			Grid.Row="0"
+			Grid.Column="1"
+			Visibility="{Binding Path=DataVisibility, Mode=OneWay}">
+			<StackPanel
+				Margin="0,0,20,0"
+				HorizontalAlignment="Right"
+				VerticalAlignment="Center">
+				<TextBlock
+					Width="Auto"
+					Padding="0"
+					Background="Transparent"
+					FontSize="{Binding ElementName=FontSizeLixtBox, Path=SelectedItem.Content}"
+					Text="{Binding StringFormat=Оператор: {0}, Path=AuthorizedUser}" />
+				<TextBlock
+					Width="Auto"
+					Margin="0,0,0,0"
+					Background="Transparent"
+					FontSize="{Binding ElementName=FontSizeLixtBox, Path=SelectedItem.Content}"
+					Text="{Binding StringFormat=Онлайн: {0}, Path=AuthorizedUserOnline, UpdateSourceTrigger=PropertyChanged}" />
+			</StackPanel>
+		</Grid>
 
-        <!-- Версия сборки
+		<!-- Версия сборки
         <StackPanel Orientation="Horizontal" Grid.Row="0" Grid.Column="1" HorizontalAlignment="Right" Margin="2,2,15,2">
             <TextBlock Text="Версия: " Foreground="Gray" FontStyle="Italic"/>
             <TextBlock Text="{Binding AppVersion}" Foreground="Gray" FontStyle="Italic"/>
         </StackPanel>-->
 
-        <Grid
-            Grid.Row="1"
-            Grid.Column="0"
-            Grid.ColumnSpan="2"
-            Margin="5"
-            Visibility="{Binding Path=DataVisibility, Mode=OneWay}">
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition />
-                <ColumnDefinition />
-                <ColumnDefinition />
-                <ColumnDefinition />
-                <ColumnDefinition />
-                <ColumnDefinition />
-                <ColumnDefinition />
-                <ColumnDefinition />
-            </Grid.ColumnDefinitions>
-            <Button
-                Grid.Column="0"
-                Margin="3"
-                HorizontalContentAlignment="Left"
-                Command="{Binding OpenVisitorsCommand}"
-                FontSize="{Binding ElementName=FontSizeLixtBox, Path=SelectedItem.Content}"
-                IsEnabled="True"
-                Style="{DynamicResource SquareButtonStyle}">
-                <Button.ToolTip>
-                    <TextBlock FontSize="16" Text="Посетители (Alt+P)" />
-                </Button.ToolTip>
-                <Button.Content>
-                    <Grid HorizontalAlignment="Left">
-                        <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="0.5*" />
-                            <ColumnDefinition />
-                        </Grid.ColumnDefinitions>
-                        <Image
-                            Grid.Column="0"
-                            Height="32"
-                            HorizontalAlignment="Left"
-                            Source="Resources/Посетители.jpg" />
-                        <TextBlock
-                            Grid.Column="1"
-                            Margin="0,0,0,0"
-                            Padding="0"
-                            HorizontalAlignment="Left"
-                            VerticalAlignment="Center"
-                            Text="Посетители" />
-                    </Grid>
-                </Button.Content>
-            </Button>
-            <Button
-                Grid.Column="1"
-                Margin="3"
-                HorizontalContentAlignment="Left"
-                Command="{Binding OpenBidsCommand}"
-                FontSize="{Binding ElementName=FontSizeLixtBox, Path=SelectedItem.Content}"
-                IsEnabled="True"
-                Style="{DynamicResource SquareButtonStyle}">
-                <Button.ToolTip>
-                    <TextBlock FontSize="16" Text="Заявки (Alt+O)" />
-                </Button.ToolTip>
-                <Grid HorizontalAlignment="Left">
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="0.5*" />
-                        <ColumnDefinition />
-                    </Grid.ColumnDefinitions>
-                    <Image
-                        Grid.Column="0"
-                        Height="32"
-                        HorizontalAlignment="Left"
-                        Source="Resources/Заявки.png" />
-                    <TextBlock
-                        Grid.Column="1"
-                        Margin="2,0,0,0"
-                        HorizontalAlignment="Left"
-                        VerticalAlignment="Center"
-                        Text="Заявки" />
-                </Grid>
-            </Button>
-            <Button
-                Grid.Column="2"
-                Margin="3"
-                HorizontalContentAlignment="Left"
-                Command="{Binding OpenVisitsCommand}"
-                FontSize="{Binding ElementName=FontSizeLixtBox, Path=SelectedItem.Content}"
-                IsEnabled="True"
-                Style="{DynamicResource SquareButtonStyle}">
-                <Button.ToolTip>
-                    <TextBlock FontSize="16" Text="Посещения (Alt+V)" />
-                </Button.ToolTip>
-                <StackPanel HorizontalAlignment="Left" Orientation="Horizontal">
-                    <Image Height="32" Source="Resources/Посещения.png" />
-                    <TextBlock
-                        Margin="2,0,0,0"
-                        HorizontalAlignment="Left"
-                        VerticalAlignment="Center"
-                        Text="Посещения" />
-                </StackPanel>
-            </Button>
-            <Button
-                Grid.Column="3"
-                Margin="3"
-                HorizontalContentAlignment="Left"
-                FontSize="{Binding ElementName=FontSizeLixtBox, Path=SelectedItem.Content}"
-                IsEnabled="False"
-                Style="{DynamicResource SquareButtonStyle}">
-                <Button.ToolTip>
-                    <TextBlock FontSize="16" Text="Отчет" />
-                </Button.ToolTip>
-                <StackPanel HorizontalAlignment="Left" Orientation="Horizontal">
-                    <Image Height="32" Source="Resources/Отчёт.png" />
-                    <TextBlock
-                        Margin="2,0,0,0"
-                        HorizontalAlignment="Left"
-                        VerticalAlignment="Center"
-                        Text="Отчёт" />
-                </StackPanel>
-            </Button>
-            <Button
-                Grid.Column="4"
-                Margin="3"
-                HorizontalContentAlignment="Left"
-                FontSize="{Binding ElementName=FontSizeLixtBox, Path=SelectedItem.Content}"
-                IsEnabled="False"
-                Style="{DynamicResource SquareButtonStyle}">
-                <StackPanel Orientation="Horizontal">
-                    <Image
-                        Grid.Row="0"
-                        Height="32"
-                        HorizontalAlignment="Left"
-                        Source="Resources/Сохранить.png" />
-                    <TextBlock
-                        Grid.Row="1"
-                        Margin="2,0,0,0"
-                        VerticalAlignment="Center"
-                        Text="Сохранить" />
-                </StackPanel>
-            </Button>
-            <Button
-                Grid.Column="5"
-                Margin="3"
-                HorizontalContentAlignment="Left"
-                FontSize="{Binding ElementName=FontSizeLixtBox, Path=SelectedItem.Content}"
-                IsEnabled="False"
-                Style="{DynamicResource SquareButtonStyle}">
-                <StackPanel HorizontalAlignment="Left" Orientation="Horizontal">
-                    <Image
-                        Grid.Row="0"
-                        Height="32"
-                        Source="Resources/Наименования.png" />
-                    <TextBlock
-                        Grid.Row="1"
-                        Margin="2,0,0,0"
-                        VerticalAlignment="Center"
-                        Text="Наименование" />
-                </StackPanel>
-            </Button>
-            <Button
-                Grid.Column="6"
-                Margin="3"
-                HorizontalContentAlignment="Left"
-                FontSize="{Binding ElementName=FontSizeLixtBox, Path=SelectedItem.Content}"
-                IsEnabled="False"
-                Style="{DynamicResource SquareButtonStyle}">
-                <StackPanel HorizontalAlignment="Left" Orientation="Horizontal">
-                    <Image Height="32" Source="Resources/Регистрация3.jpg" />
-                    <TextBlock
-                        Margin="2,0,0,0"
-                        VerticalAlignment="Center"
-                        Text="Регистрация" />
-                </StackPanel>
-            </Button>
-            <Button
-                Grid.Column="7"
-                Margin="3"
-                HorizontalContentAlignment="Center"
-                Command="{Binding TestCommand}"
-                Content="Тест"
-                FontSize="{Binding ElementName=FontSizeLixtBox, Path=SelectedItem.Content}"
-                Style="{DynamicResource SquareButtonStyle}" />
-        </Grid>
+		<Grid
+			Grid.Row="1"
+			Grid.Column="0"
+			Grid.ColumnSpan="2"
+			Margin="5"
+			Visibility="{Binding Path=DataVisibility, Mode=OneWay}">
+			<Grid.ColumnDefinitions>
+				<ColumnDefinition />
+				<ColumnDefinition />
+				<ColumnDefinition />
+				<ColumnDefinition />
+				<ColumnDefinition />
+				<ColumnDefinition />
+				<ColumnDefinition />
+				<ColumnDefinition />
+			</Grid.ColumnDefinitions>
+			<Button
+				Grid.Column="0"
+				Margin="3"
+				HorizontalContentAlignment="Left"
+				Command="{Binding OpenVisitorsCommand}"
+				FontSize="{Binding ElementName=FontSizeLixtBox, Path=SelectedItem.Content}"
+				IsEnabled="True"
+				Style="{DynamicResource SquareButtonStyle}">
+				<Button.ToolTip>
+					<TextBlock FontSize="16" Text="Посетители (Alt+P)" />
+				</Button.ToolTip>
+				<Button.Content>
+					<Grid HorizontalAlignment="Left">
+						<Grid.ColumnDefinitions>
+							<ColumnDefinition Width="0.5*" />
+							<ColumnDefinition />
+						</Grid.ColumnDefinitions>
+						<Image
+							Grid.Column="0"
+							Height="32"
+							HorizontalAlignment="Left"
+							Source="Resources/Посетители.jpg" />
+						<TextBlock
+							Grid.Column="1"
+							Margin="0,0,0,0"
+							Padding="0"
+							HorizontalAlignment="Left"
+							VerticalAlignment="Center"
+							Text="Посетители" />
+					</Grid>
+				</Button.Content>
+			</Button>
+			<Button
+				Grid.Column="1"
+				Margin="3"
+				HorizontalContentAlignment="Left"
+				Command="{Binding OpenBidsCommand}"
+				FontSize="{Binding ElementName=FontSizeLixtBox, Path=SelectedItem.Content}"
+				IsEnabled="True"
+				Style="{DynamicResource SquareButtonStyle}">
+				<Button.ToolTip>
+					<TextBlock FontSize="16" Text="Заявки (Alt+O)" />
+				</Button.ToolTip>
+				<Grid HorizontalAlignment="Left">
+					<Grid.ColumnDefinitions>
+						<ColumnDefinition Width="0.5*" />
+						<ColumnDefinition />
+					</Grid.ColumnDefinitions>
+					<Image
+						Grid.Column="0"
+						Height="32"
+						HorizontalAlignment="Left"
+						Source="Resources/Заявки.png" />
+					<TextBlock
+						Grid.Column="1"
+						Margin="2,0,0,0"
+						HorizontalAlignment="Left"
+						VerticalAlignment="Center"
+						Text="Заявки" />
+				</Grid>
+			</Button>
+			<Button
+				Grid.Column="2"
+				Margin="3"
+				HorizontalContentAlignment="Left"
+				Command="{Binding OpenVisitsCommand}"
+				FontSize="{Binding ElementName=FontSizeLixtBox, Path=SelectedItem.Content}"
+				IsEnabled="True"
+				Style="{DynamicResource SquareButtonStyle}">
+				<Button.ToolTip>
+					<TextBlock FontSize="16" Text="Посещения (Alt+V)" />
+				</Button.ToolTip>
+				<StackPanel HorizontalAlignment="Left" Orientation="Horizontal">
+					<Image Height="32" Source="Resources/Посещения.png" />
+					<TextBlock
+						Margin="2,0,0,0"
+						HorizontalAlignment="Left"
+						VerticalAlignment="Center"
+						Text="Посещения" />
+				</StackPanel>
+			</Button>
+			<Button
+				Grid.Column="3"
+				Margin="3"
+				HorizontalContentAlignment="Left"
+				FontSize="{Binding ElementName=FontSizeLixtBox, Path=SelectedItem.Content}"
+				IsEnabled="False"
+				Style="{DynamicResource SquareButtonStyle}">
+				<Button.ToolTip>
+					<TextBlock FontSize="16" Text="Отчет" />
+				</Button.ToolTip>
+				<StackPanel HorizontalAlignment="Left" Orientation="Horizontal">
+					<Image Height="32" Source="Resources/Отчёт.png" />
+					<TextBlock
+						Margin="2,0,0,0"
+						HorizontalAlignment="Left"
+						VerticalAlignment="Center"
+						Text="Отчёт" />
+				</StackPanel>
+			</Button>
+			<Button
+				Grid.Column="4"
+				Margin="3"
+				HorizontalContentAlignment="Left"
+				FontSize="{Binding ElementName=FontSizeLixtBox, Path=SelectedItem.Content}"
+				IsEnabled="False"
+				Style="{DynamicResource SquareButtonStyle}">
+				<StackPanel Orientation="Horizontal">
+					<Image
+						Grid.Row="0"
+						Height="32"
+						HorizontalAlignment="Left"
+						Source="Resources/Сохранить.png" />
+					<TextBlock
+						Grid.Row="1"
+						Margin="2,0,0,0"
+						VerticalAlignment="Center"
+						Text="Сохранить" />
+				</StackPanel>
+			</Button>
+			<Button
+				Grid.Column="5"
+				Margin="3"
+				HorizontalContentAlignment="Left"
+				FontSize="{Binding ElementName=FontSizeLixtBox, Path=SelectedItem.Content}"
+				IsEnabled="False"
+				Style="{DynamicResource SquareButtonStyle}">
+				<StackPanel HorizontalAlignment="Left" Orientation="Horizontal">
+					<Image
+						Grid.Row="0"
+						Height="32"
+						Source="Resources/Наименования.png" />
+					<TextBlock
+						Grid.Row="1"
+						Margin="2,0,0,0"
+						VerticalAlignment="Center"
+						Text="Наименование" />
+				</StackPanel>
+			</Button>
+			<Button
+				Grid.Column="6"
+				Margin="3"
+				HorizontalContentAlignment="Left"
+				FontSize="{Binding ElementName=FontSizeLixtBox, Path=SelectedItem.Content}"
+				IsEnabled="False"
+				Style="{DynamicResource SquareButtonStyle}">
+				<StackPanel HorizontalAlignment="Left" Orientation="Horizontal">
+					<Image Height="32" Source="Resources/Регистрация3.jpg" />
+					<TextBlock
+						Margin="2,0,0,0"
+						VerticalAlignment="Center"
+						Text="Регистрация" />
+				</StackPanel>
+			</Button>
+			<Button
+				Grid.Column="7"
+				Margin="3"
+				HorizontalContentAlignment="Center"
+				Command="{Binding TestCommand}"
+				Content="Тест"
+				FontSize="{Binding ElementName=FontSizeLixtBox, Path=SelectedItem.Content}"
+				Style="{DynamicResource SquareButtonStyle}" />
+		</Grid>
 
-        <!--<DockPanel
+		<!--<DockPanel
             Grid.Row="1"
             Grid.RowSpan="3"
             Grid.Column="0"
@@ -391,14 +391,14 @@
             <Button DockPanel.Dock="Top" Content="Регистрация" IsEnabled="False" />
             <Button DockPanel.Dock="Top" Style="{DynamicResource ButtonStyle}"/>
         </DockPanel>-->
-        <!--<local:Authorize1View Grid.Row="2"></local:Authorize1View>-->
+		<!--<local:Authorize1View Grid.Row="2"></local:Authorize1View>-->
 
-        <ContentControl
-            x:Name="aaa"
-            Grid.Row="2"
-            Grid.ColumnSpan="2"
-            Content="{Binding Path=Control}"
-            FontSize="{Binding ElementName=FontSizeLixtBox, Path=SelectedItem.Content}"
-            Visibility="{Binding Path=LoginVisibility, Mode=OneWay}" />
-    </Grid>
+		<ContentControl
+			x:Name="aaa"
+			Grid.Row="2"
+			Grid.ColumnSpan="2"
+			Content="{Binding Path=Control}"
+			FontSize="{Binding ElementName=FontSizeLixtBox, Path=SelectedItem.Content}"
+			Visibility="{Binding Path=LoginVisibility, Mode=OneWay}" />
+	</Grid>
 </mah:MetroWindow>
