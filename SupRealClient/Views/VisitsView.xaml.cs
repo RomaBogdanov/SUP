@@ -944,12 +944,14 @@ namespace SupRealClient.Views
 
         private void OpenOrder()
         {
-            if (SelectedOrder < 0)
+            if (SelectedOrder < 0 || CurrentItem == null)
             {
                 return;
             }
 
-            ViewManager.Instance.OpenWindow("BidsView");
+            var wnd = new BidsView();
+            wnd.Show();
+            wnd.SetToOrder(CurrentItem.Orders[SelectedOrder]);
         }
 
         private void Edit()
