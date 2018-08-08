@@ -277,7 +277,7 @@
 				Style="{StaticResource TextBoxStyle}"
 				Text="{Binding Path=CurrentItem.Comment, Mode=TwoWay}" />
 			<Grid Grid.Row="1" Grid.Column="2" Grid.ColumnSpan="2"
-			      Visibility="{Binding OpeningButtons_ToRedactComments, UpdateSourceTrigger=PropertyChanged}">
+			      Visibility="{Binding OpeningButtons_ToRedactComments, Converter={StaticResource BooleanToVisibilityConverter}, UpdateSourceTrigger=PropertyChanged}">
 				<Grid.ColumnDefinitions>
 					<ColumnDefinition></ColumnDefinition>
 					<ColumnDefinition></ColumnDefinition>
@@ -575,7 +575,8 @@
                                     HorizontalAlignment="Center"
                                     IsEnabled="{Binding Path=TextEnable, Mode=TwoWay}"
                                     VerticalAlignment="Center"
-	                                KeyUp="MoveNextFocusControl_ToName"/>
+	                                KeyUp="MoveNextFocusControl_ToName"
+                                    Content="Согласие на обработку персональных данных"/>
 
 									<TextBlock
 										Grid.Column="1"
@@ -583,7 +584,8 @@
 										HorizontalAlignment="Left"
 										VerticalAlignment="Stretch"
 										Style="{StaticResource TextBLockStyle}"
-										Text="Согласие на обработку персональных данных" />
+										Text="Согласие на обработку персональных данных" 
+										Visibility="Hidden"/>
 
 									<TextBlock
 										Grid.Column="2"
