@@ -66,7 +66,7 @@ namespace SupRealClient.Views.Visitor
             Base4CardsWindView wind = new Base4CardsWindView(Visibility.Visible);
             ((Base4ViewModel<Card>) wind.base4.DataContext).Model = 
                 new CardsActiveListModel<Card>(visitorId, 
-                new ObservableCollection<Order>(Set.Where(arg => arg.IsChecked)));
+                new ObservableCollection<Order>() {Set[selectedIndex]});
             ((Base4ViewModel<Card>)wind.base4.DataContext).Model.OnClose += wind.Handling_OnClose2;
             wind.Show();
         }
