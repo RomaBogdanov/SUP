@@ -22,14 +22,14 @@ namespace SupRealClient.Views
 
         public override void Add()
         {
-            ViewManager.Instance.Add(new AddItemNationsModel(), Parent);
+            ViewManager.Instance.Add(new AddItemNationsModel(Parent), Parent);
         }
 
         public override void Update()
         {
             if (CurrentItem != null)
             {
-                ViewManager.Instance.Update(new UpdateItemNationsModel(CurrentItem), Parent);
+                ViewManager.Instance.Update(new UpdateItemNationsModel(CurrentItem, Parent), Parent);
             }
         }
 

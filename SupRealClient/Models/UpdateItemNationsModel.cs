@@ -6,6 +6,9 @@ using SupClientConnectionLib;
 using SupRealClient.EnumerationClasses;
 using SupRealClient.Common.Data;
 using SupRealClient.TabsSingleton;
+using SupRealClient.Common;
+using SupRealClient.Common.Interfaces;
+using SupRealClient.Views;
 
 namespace SupRealClient.Models
 {
@@ -15,14 +18,16 @@ namespace SupRealClient.Models
     class UpdateItemNationsModel : IAddItem1Model
     {
         private Nation nation;
+        IWindow parent;
 
         public FieldData Data { get { return new FieldData { Field = nation.CountryName }; } }
 
         public event Action OnClose;
 
-        public UpdateItemNationsModel(Nation nation)
+        public UpdateItemNationsModel(Nation nation, IWindow parent = null)
         {
             this.nation = nation;
+            this.parent = parent;
         }
 
         public void Cancel()
@@ -42,21 +47,13 @@ namespace SupRealClient.Models
 
             var rows = (from object row in countries.Table.Rows select row as DataRow).ToList();
 
-            var IsNotExistNation =
-                rows.FirstOrDefault(
-                    r =>
-                        r.Field<string>("f_cntr_name").ToUpper() == data.Field.ToUpper()) == null;
+            var sameRow = rows.FirstOrDefault(
+                  r =>
+                      r.Field<string>("f_cntr_name").ToUpper() == data.Field.ToUpper() &&
+                      r.Field<int>("f_cntr_id") != nation.Id);                        
 
-            if (IsNotExistNation)
+            if (sameRow == null)
             {
-                if (countries.Table.AsEnumerable().FirstOrDefault(x => 
-                    x["f_cntr_name"].ToString() == data.Field.ToString() &&
-                    (int)x["f_cntr_id"] != nation.Id) != null)
-                {
-                    MessageBox.Show("Такая организация уже записана!");
-                    return;
-                }
-
                 DataRow dataRow = countries.Table.Rows.Find(nation.Id);
                 dataRow.BeginEdit();
                 dataRow["f_cntr_name"] = data.Field;
@@ -64,6 +61,29 @@ namespace SupRealClient.Models
                 dataRow["f_rec_operator"] = Authorizer.AppAuthorizer.Id;
                 dataRow.EndEdit();
                 Cancel();
+            }
+            else if (sameRow.Field<string>("f_deleted") == CommonHelper.BoolToString(true))
+            {
+                int Id = sameRow.Field<int>("f_cntr_id");
+                DataRow row = countries.Table.Rows.Find(Id);
+                row.BeginEdit();
+                row["f_deleted"] = CommonHelper.BoolToString(false);
+                row.EndEdit();
+
+                Cancel();
+
+                DataRow oldRow = countries.Table.Rows.Find(nation.Id);
+                oldRow.BeginEdit();
+                oldRow["f_deleted"] = CommonHelper.BoolToString(true);
+                oldRow.EndEdit();
+
+                Base4ViewModel<Nation> NationViewModel = (parent as Base4NationsWindView)?.base4.DataContext as Base4ViewModel<Nation>;
+                if (NationViewModel != null)
+                {
+                    NationViewModel.CurrentItem = NationViewModel.Set.FirstOrDefault(
+                                                                    r =>
+                                                                        r.Id == Id);
+                }
             }
             else
             {
