@@ -20,6 +20,7 @@ using SupRealClient.Common;
 using SupRealClient.Common.Interfaces;
 using SupRealClient.EnumerationClasses;
 using SupRealClient.Models;
+using SupRealClient.Models.AddUpdateModel;
 using SupRealClient.TabsSingleton;
 using SupRealClient.ViewModels;
 using SupRealClient.Views.Visitor;
@@ -2003,7 +2004,7 @@ namespace SupRealClient.Views
 			set { _сommentTextEnable = value; }
 		}
 
-		public VisitsModel()
+        public VisitsModel()
         {
             visitorsEnable =
             new VisitorsEnableOrVisible
@@ -2338,8 +2339,22 @@ namespace SupRealClient.Views
                             .AsEnumerable().FirstOrDefault(arg => arg.Field<int>
                             ("f_ord_id") == visit.Field<int>("f_order_id"))
                             ?["f_reg_number"].ToString(),
-                        Comment = visit.Field<string>("f_visit_text")
+                        Comment = visit.Field<string>("f_visit_text"),
+                        OrderId = visit.Field<int>("f_order_id"),
+                        Orders = visit.Field<string>("f_orders"),
                     });
+            }
+            foreach (var order in Set[index].Orders)
+            {
+                foreach (var card in Set[index].Cards)
+                {
+                    if (card.OrderId == order.Id ||
+                        AndoverEntityListHelper.StringToEntityIds(card.Orders).Contains(order.Id))
+                    {
+                        order.HasCard = true;
+                        break;
+                    }
+                }
             }
         }
 

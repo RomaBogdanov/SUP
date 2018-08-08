@@ -364,5 +364,7 @@ namespace SupRealClient.EnumerationClasses
 			errorMessage = null;
 			return true;
 		}
-	}
+
+        public bool HasCard { get; set; }
+    }
 }
