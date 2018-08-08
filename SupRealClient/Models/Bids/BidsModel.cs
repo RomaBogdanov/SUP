@@ -36,7 +36,7 @@ namespace SupRealClient.Models
 			}
 
 			VirtueOrdersSet = new ObservableCollection<Order>(OrdersSet.Where(
-				arg => arg.Type == "На основании"));
+				arg => arg.Type == "На основании" || arg.Type == "Бессрочная")); // todo: убрать костыль на проверку с бессрочностью, но убедившись, что типы заявок совпадают в базе и в коде
 			if (VirtueOrdersSet.Count > 0)
 			{
 				CurrentVirtueOrder = VirtueOrdersSet[0];
