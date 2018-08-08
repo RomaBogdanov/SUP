@@ -1,4 +1,5 @@
-﻿using SupRealClient.EnumerationClasses;
+﻿using System.Windows.Input;
+using SupRealClient.EnumerationClasses;
 using SupRealClient.ViewModels;
 
 namespace SupRealClient.Views
@@ -18,5 +19,14 @@ namespace SupRealClient.Views
 
 			
 		}
-    }
+
+	    private void Window_PreviewKeyDown_AndStop(object sender, KeyEventArgs e)
+	    {
+		    if (e.Key == Key.Escape)
+		    {
+			    e.Handled = false;
+			    Close();
+		    }
+	    }
+	}
 }
