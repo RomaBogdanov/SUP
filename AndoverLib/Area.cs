@@ -55,5 +55,8 @@ namespace AndoverLib
 
         [DataMember]
         public byte? ForceLock { get; set; }
-    }
+
+	[DataMember]
+	public string Path { get; set; }
+	}
 }
