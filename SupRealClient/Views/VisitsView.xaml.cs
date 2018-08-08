@@ -1166,7 +1166,7 @@ namespace SupRealClient.Views
 
 		}
 
-        internal void OpenMainDocument()
+        public void OpenMainDocument()
         {
             if (SelectedMainDocument < 0)
             {

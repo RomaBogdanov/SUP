@@ -187,6 +187,11 @@ namespace SupRealClient.Views
 					button_Ok.Focus();
 				}
 					break;
+				case "listBox_MainDocument":
+				{
+					(DataContext as VisitsViewModel)?.OpenMainDocument();
+				}
+					break;
 				default: return;
 			}
 
