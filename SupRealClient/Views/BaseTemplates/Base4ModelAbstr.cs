@@ -678,243 +678,225 @@ namespace SupRealClient.Views
         }
     }
 
-    public class CardsActiveListModel<T> : CardsListModel<T>
-        where T : Card, new()
-    {
-        private int visitorId;
-        private ObservableCollection<Order> orders;
+	public class CardsActiveListModel<T> : CardsListModel<T>
+		where T : Card, new()
+	{
+		private int visitorId;
+		private ObservableCollection<Order> orders;
 
-        public CardsActiveListModel(int visitorId, ObservableCollection<Order> orders) : base()
-        {
-            this.visitorId = visitorId;
-            this.orders = orders;
-        }
+		public CardsActiveListModel(int visitorId, ObservableCollection<Order> orders) : base()
+		{
+			this.visitorId = visitorId;
+			this.orders = orders;
+		}
 
-	    public override void Ok()
-	    {
-		    //base.Ok();
-		    // todo: обязательно просмотреть ситуацию стандартного использования данной кнопки.
-		    //MessageBox.Show("Test");
-		    Card selectedCard = CurrentItem;
+		public override void Ok()
+		{
+			//base.Ok();
+			// todo: обязательно просмотреть ситуацию стандартного использования данной кнопки.
+			//MessageBox.Show("Test");
+			Card selectedCard = CurrentItem;
 
-		    if (selectedCard==null)
-		    {
-			    MessageBox.Show("Не выбран пропуск!", "Предупреждение", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-			    return;
-		    }
+			if (selectedCard == null)
+			{
+				MessageBox.Show("Не выбран пропуск!", "Предупреждение", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+				return;
+			}
 
-            // todo: Добавляем карту и персону в список визитов. Всё под рефакторинг!!!
-            DataRow row1 = VisitsWrapper.CurrentTable().Table.NewRow();
-            row1["f_card_id_hi"] = selectedCard.CardIdHi;
-            row1["f_card_id_lo"] = selectedCard.CardIdLo;
-            row1["f_visitor_id"] = visitorId; //todo: проставить id визитёра
-            row1["f_time_out"] = DateTime.Now; //todo: пока непонятно, что за дата
-            row1["f_time_in"] = DateTime.Now; //todo: пока непонятно, что за дата
-            row1["f_visit_text"] = "текст"; //todo: пока непонятно, что за текст
-            row1["f_date_from"] = DateTime.Now; //todo: пока непонятно, что за дата
-            row1["f_date_to"] = DateTime.Now; //todo: пока непонятно, что за дата
-            row1["f_order_id"] = (orders!= null && orders.Count >0) ? orders[0].Id : 1; //todo: номер заявки, проставить, хотя тут непонятно, потому что карта может выставляться по нескольким заявкам.
-            row1["f_orders"] = AndoverEntityListHelper.EntitiesToString(orders);
-            row1["f_rec_date"] = DateTime.Now;
-            row1["f_rec_operator"] = Authorizer.AppAuthorizer.Id;
-            row1["f_deleted"] = "N";
-            row1["f_reason"] = "резон"; //todo: пока непонятно, что с полем делать
-            row1["f_rec_operator_back"] = 0; //todo: скорее всего, оператор принявший карту обратно
-            row1["f_rec_date_back"] = DateTime.MinValue; //todo: скорее всего, время возврата карты обратно
-            row1["f_card_status"] = 3; // текущий статус карты
-            row1["f_eff_zonen_text"] = "хм"; //todo: вообще непонятно
-            VisitsWrapper.CurrentTable().Table.Rows.Add(row1);
-
-		    // todo: Добавляем карту и персону в список визитов. Всё под рефакторинг!!!
-		    DataRow row1 = VisitsWrapper.CurrentTable().Table.NewRow();
-		    row1["f_card_id_hi"] = selectedCard.CardIdHi;
-		    row1["f_card_id_lo"] = selectedCard.CardIdLo;
-		    row1["f_visitor_id"] = visitorId; //todo: проставить id визитёра
-		    row1["f_time_out"] = DateTime.Now; //todo: пока непонятно, что за дата
-		    row1["f_time_in"] = DateTime.Now; //todo: пока непонятно, что за дата
-		    row1["f_visit_text"] = "текст"; //todo: пока непонятно, что за текст
-		    row1["f_date_from"] = DateTime.Now; //todo: пока непонятно, что за дата
-		    row1["f_date_to"] = DateTime.Now; //todo: пока непонятно, что за дата
-		    row1["f_order_id"] =
-			    1; //todo: номер заявки, проставить, хотя тут непонятно, потому что карта может выставляться по нескольким заявкам.
-		    row1["f_orders"] = AndoverEntityListHelper.EntitiesToString(orders);
-		    row1["f_rec_date"] = DateTime.Now;
-		    row1["f_rec_operator"] = Authorizer.AppAuthorizer.Id;
-		    row1["f_deleted"] = "N";
-		    row1["f_reason"] = "резон"; //todo: пока непонятно, что с полем делать
-		    row1["f_rec_operator_back"] = 0; //todo: скорее всего, оператор принявший карту обратно
-		    row1["f_rec_date_back"] = DateTime.MinValue; //todo: скорее всего, время возврата карты обратно
-		    row1["f_card_status"] = 3; // текущий статус карты
-		    row1["f_eff_zonen_text"] = "хм"; //todo: вообще непонятно
-		    VisitsWrapper.CurrentTable().Table.Rows.Add(row1);
-
-		    List<CardArea> list = new List<CardArea>();
-		    foreach (var order in orders)
-		    {
-			    var ordels = order.OrderElements.Where(arg => arg.VisitorId == visitorId);
-			    foreach (var orderElement in ordels)
-			    {
-				    foreach (var id in
-					    AndoverEntityListHelper.StringToEntityIds(orderElement.TemplateIdList))
-				    {
-					    DataRow template = TemplatesWrapper.CurrentTable().Table.Rows.Find(id);
-					    foreach (var area in AndoverEntityListHelper.StringToAndoverEntityIds(
-						    template.Field<string>("f_template_areas")))
-					    {
-						    if (list.FirstOrDefault(l => l.AreaIdHi == area.Key &&
-						                                 l.AreaIdLo == area.Value) == null)
-						    {
-							    list.Add(new CardArea
-							    {
-								    AreaIdHi = area.Key,
-								    AreaIdLo = area.Value,
-								    CardIdHi = (int) row1["f_card_id_hi"],
-								    CardIdLo = (int) row1["f_card_id_lo"]
-							    });
-						    }
-					    }
-				    }
-
-				    foreach (var orderElementArea in AndoverEntityListHelper.StringToAndoverEntityIds(orderElement.AreaIdList))
-				    {
-					    if (list.FirstOrDefault(l =>
-						        l.AreaIdHi == orderElementArea.Key &&
-						        l.AreaIdLo == orderElementArea.Value) == null)
-					    {
-						    list.Add(new CardArea
-						    {
-							    AreaIdHi = orderElementArea.Key,
-							    AreaIdLo = orderElementArea.Value,
-							    CardIdHi = (int) row1["f_card_id_hi"],
-							    CardIdLo = (int) row1["f_card_id_lo"]
-						    });
-					    }
-				    }
-			    }
-		    }
-
-		    list.ForEach(arg =>
-		    {
-			    DataRow r = CardAreaWrapper.CurrentTable().Table.NewRow();
-			    r["f_card_id_hi"] = arg.CardIdHi;
-			    r["f_card_id_lo"] = arg.CardIdLo;
-			    r["f_area_id_hi"] = arg.AreaIdHi;
-			    r["f_area_id_lo"] = arg.AreaIdLo;
-			    r["f_deleted"] = "N";
-			    r["f_rec_date"] = DateTime.Now;
-			    r["f_rec_operator"] = Authorizer.AppAuthorizer.Id;
-			    CardAreaWrapper.CurrentTable().Table.Rows.Add(r);
-		    });
-
-		    // TODO - здесь выгрузить в Andover
-		    // Предположительно понадобятся поля:
-		    // - row["f_card_num"] 
-		    // - список областей доступа (получить из list)
-		    // - список расписаний (orderElement.Schedule)
-		    var schedulesHash = new Dictionary<string, int>();
-		    foreach (var order in orders)
-		    {
-			    foreach (var orderElement in order.OrderElements)
-			    {
-				    if (orderElement.VisitorId == visitorId)
-				    {
-					    schedulesHash[orderElement.Schedule] = orderElement.ScheduleId;
-				    }
-			    }
-		    }
-		    //Выбор расписания.
-
-		    var scheduleChoiceWindow = new ScheduleChoiceView(schedulesHash.Keys.ToList());
-		    scheduleChoiceWindow.ShowDialog();
-
-		    if (string.IsNullOrEmpty(scheduleChoiceWindow.SelectedSchedule))
-		    {
-			    //this.Close();
-			    //return;
-		    }
-
-		    var selectedSchedule = GetSchedule(schedulesHash, scheduleChoiceWindow.SelectedSchedule);
-		    var data = new AndoverExportData
-		    {
-			    Card = selectedCard.Name,
-			    Doors = GetAreasPathByCardAreas(list),
-			    Schedules = new List<string> {selectedSchedule.Path},
-		    };
-		    var clientConnector = ClientConnector.CurrentConnector;
-
-		    if (clientConnector.ExportToAndover(data))
-		    {
-			    System.Windows.MessageBox.Show("Пропуск был выгружен в Andover", "Информация",
-				    MessageBoxButton.OK, MessageBoxImage.Information);
-		    }
-		    else
-		    {
-			    System.Windows.MessageBox.Show("Выгрузка пропуска в Andover не удалась!", "Ошибка",
-				    MessageBoxButton.OK, MessageBoxImage.Error);
-		    }
+			// todo: Добавляем карту и персону в список визитов. Всё под рефакторинг!!!
+			DataRow row1 = VisitsWrapper.CurrentTable().Table.NewRow();
+			row1["f_card_id_hi"] = selectedCard.CardIdHi;
+			row1["f_card_id_lo"] = selectedCard.CardIdLo;
+			row1["f_visitor_id"] = visitorId; //todo: проставить id визитёра
+			row1["f_time_out"] = DateTime.Now; //todo: пока непонятно, что за дата
+			row1["f_time_in"] = DateTime.Now; //todo: пока непонятно, что за дата
+			row1["f_visit_text"] = "текст"; //todo: пока непонятно, что за текст
+			row1["f_date_from"] = DateTime.Now; //todo: пока непонятно, что за дата
+			row1["f_date_to"] = DateTime.Now; //todo: пока непонятно, что за дата
+			row1["f_order_id"] =
+				(orders != null && orders.Count > 0)
+					? orders[0].Id
+					: 1; //todo: номер заявки, проставить, хотя тут непонятно, потому что карта может выставляться по нескольким заявкам.
+			row1["f_orders"] = AndoverEntityListHelper.EntitiesToString(orders);
+			row1["f_rec_date"] = DateTime.Now;
+			row1["f_rec_operator"] = Authorizer.AppAuthorizer.Id;
+			row1["f_deleted"] = "N";
+			row1["f_reason"] = "резон"; //todo: пока непонятно, что с полем делать
+			row1["f_rec_operator_back"] = 0; //todo: скорее всего, оператор принявший карту обратно
+			row1["f_rec_date_back"] = DateTime.MinValue; //todo: скорее всего, время возврата карты обратно
+			row1["f_card_status"] = 3; // текущий статус карты
+			row1["f_eff_zonen_text"] = "хм"; //todo: вообще непонятно
+			VisitsWrapper.CurrentTable().Table.Rows.Add(row1);
 
 
-		    this.Close();
-	    }
 
-	    private List<string> GetAreasPathByCardAreas(List<CardArea> cardAreas)
-	    {
-		    var result = new List<string>();
-		    var areasTable = AreasWrapper.CurrentTable();
+			List<CardArea> list = new List<CardArea>();
+			foreach (var order in orders)
+			{
+				var ordels = order.OrderElements.Where(arg => arg.VisitorId == visitorId);
+				foreach (var orderElement in ordels)
+				{
+					foreach (var id in
+						AndoverEntityListHelper.StringToEntityIds(orderElement.TemplateIdList))
+					{
+						DataRow template = TemplatesWrapper.CurrentTable().Table.Rows.Find(id);
+						foreach (var area in AndoverEntityListHelper.StringToAndoverEntityIds(
+							template.Field<string>("f_template_areas")))
+						{
+							if (list.FirstOrDefault(l => l.AreaIdHi == area.Key &&
+							                             l.AreaIdLo == area.Value) == null)
+							{
+								list.Add(new CardArea
+								{
+									AreaIdHi = area.Key,
+									AreaIdLo = area.Value,
+									CardIdHi = (int) row1["f_card_id_hi"],
+									CardIdLo = (int) row1["f_card_id_lo"]
+								});
+							}
+						}
+					}
 
-		    foreach (DataRow row in areasTable.Table.Rows)
-		    {
-			    foreach (var cardArea in cardAreas)
-			    {
-				    if ((int) row["f_object_id_hi"] == cardArea.AreaIdHi && (int) row["f_object_id_lo"] == cardArea.AreaIdLo)
-				    {
-					    result.Add((string) row["f_area_path"] + (string) row["f_area_name"]);
-				    }
-			    }
+					foreach (var orderElementArea in AndoverEntityListHelper.StringToAndoverEntityIds(orderElement.AreaIdList))
+					{
+						if (list.FirstOrDefault(l =>
+							    l.AreaIdHi == orderElementArea.Key &&
+							    l.AreaIdLo == orderElementArea.Value) == null)
+						{
+							list.Add(new CardArea
+							{
+								AreaIdHi = orderElementArea.Key,
+								AreaIdLo = orderElementArea.Value,
+								CardIdHi = (int) row1["f_card_id_hi"],
+								CardIdLo = (int) row1["f_card_id_lo"]
+							});
+						}
+					}
+				}
+			}
 
-		    }
+			list.ForEach(arg =>
+			{
+				DataRow r = CardAreaWrapper.CurrentTable().Table.NewRow();
+				r["f_card_id_hi"] = arg.CardIdHi;
+				r["f_card_id_lo"] = arg.CardIdLo;
+				r["f_area_id_hi"] = arg.AreaIdHi;
+				r["f_area_id_lo"] = arg.AreaIdLo;
+				r["f_deleted"] = "N";
+				r["f_rec_date"] = DateTime.Now;
+				r["f_rec_operator"] = Authorizer.AppAuthorizer.Id;
+				CardAreaWrapper.CurrentTable().Table.Rows.Add(r);
+			});
 
-		    return result;
-	    }
+			// TODO - здесь выгрузить в Andover
+			// Предположительно понадобятся поля:
+			// - row["f_card_num"] 
+			// - список областей доступа (получить из list)
+			// - список расписаний (orderElement.Schedule)
+			var schedulesHash = new Dictionary<string, int>();
+			foreach (var order in orders)
+			{
+				foreach (var orderElement in order.OrderElements)
+				{
+					if (orderElement.VisitorId == visitorId)
+					{
+						schedulesHash[orderElement.Schedule] = orderElement.ScheduleId;
+					}
+				}
+			}
+			//Выбор расписания.
+
+			var scheduleChoiceWindow = new ScheduleChoiceView(schedulesHash.Keys.ToList());
+			scheduleChoiceWindow.ShowDialog();
+
+			if (string.IsNullOrEmpty(scheduleChoiceWindow.SelectedSchedule))
+			{
+				this.Close();
+				return;
+			}
+
+			var selectedSchedule = GetSchedule(schedulesHash, scheduleChoiceWindow.SelectedSchedule);
+			var data = new AndoverExportData
+			{
+				Card = selectedCard.Name,
+				Doors = GetAreasPathByCardAreas(list),
+				Schedules = new List<string> {selectedSchedule.Path},
+			};
+			var clientConnector = ClientConnector.CurrentConnector;
+
+			if (clientConnector.ExportToAndover(data))
+			{
+				System.Windows.MessageBox.Show("Пропуск был выгружен в Andover", "Информация",
+					MessageBoxButton.OK, MessageBoxImage.Information);
+			}
+			else
+			{
+				System.Windows.MessageBox.Show("Выгрузка пропуска в Andover не удалась!", "Ошибка",
+					MessageBoxButton.OK, MessageBoxImage.Error);
+			}
 
 
-	    private Schedule GetSchedule(Dictionary<string, int> schedulesHash, string selectedSchedule)
-	    {
-		    var _schedulesWrapper = SchedulesWrapper.CurrentTable();
+			this.Close();
+		}
 
-		    var schedulesList = new List<Schedule>(
-			    from sched in _schedulesWrapper.Table.AsEnumerable()
-			    where sched.Field<int>("f_schedule_id") == schedulesHash[selectedSchedule] &&
-			          !string.Equals(sched.Field<string>("f_deleted").Trim().ToLower(), "y") &&
-			          CommonHelper.NotDeleted(sched)
-			    select new Schedule
-			    {
-				    Id = sched.Field<int>("f_schedule_id"),
-				    Name = sched.Field<string>("f_schedule_name"),
-				    Path = sched.Field<string>("f_schedule_path")
-			    });
-		    return schedulesList.Count == 0 ? new Schedule() : schedulesList.First();
-	    }
+		private List<string> GetAreasPathByCardAreas(List<CardArea> cardAreas)
+		{
+			var result = new List<string>();
+			var areasTable = AreasWrapper.CurrentTable();
 
-	    protected override void DoQuery()
-        {
-            base.DoQuery();
-            Set = new ObservableCollection<T>(Set.Where(arg => arg.StateId == 1));
-        }
+			foreach (DataRow row in areasTable.Table.Rows)
+			{
+				foreach (var cardArea in cardAreas)
+				{
+					if ((int) row["f_object_id_hi"] == cardArea.AreaIdHi && (int) row["f_object_id_lo"] == cardArea.AreaIdLo)
+					{
+						result.Add((string) row["f_area_path"] + (string) row["f_area_name"]);
+					}
+				}
 
-        public override bool Remove()
-        {
-            //TODO: доработать функционал, для проверок отмены удаления
+			}
 
-            //DataRow row =
-            //    CardsWrapper.CurrentTable().Table.Rows.Find(currentItem.Id);
-            //row["f_deleted"] = CommonHelper.BoolToString(true);
+			return result;
+		}
 
-            return true;
-        }
-    }
 
-    public class CardsIssuedListModel<T> : CardsListModel<T>
+		private Schedule GetSchedule(Dictionary<string, int> schedulesHash, string selectedSchedule)
+		{
+			var _schedulesWrapper = SchedulesWrapper.CurrentTable();
+
+			var schedulesList = new List<Schedule>(
+				from sched in _schedulesWrapper.Table.AsEnumerable()
+				where sched.Field<int>("f_schedule_id") == schedulesHash[selectedSchedule] &&
+				      !string.Equals(sched.Field<string>("f_deleted").Trim().ToLower(), "y") &&
+				      CommonHelper.NotDeleted(sched)
+				select new Schedule
+				{
+					Id = sched.Field<int>("f_schedule_id"),
+					Name = sched.Field<string>("f_schedule_name"),
+					Path = sched.Field<string>("f_schedule_path")
+				});
+			return schedulesList.Count == 0 ? new Schedule() : schedulesList.First();
+		}
+
+		protected override void DoQuery()
+		{
+			base.DoQuery();
+			Set = new ObservableCollection<T>(Set.Where(arg => arg.StateId == 1));
+		}
+
+		public override bool Remove()
+		{
+			//TODO: доработать функционал, для проверок отмены удаления
+
+			//DataRow row =
+			//    CardsWrapper.CurrentTable().Table.Rows.Find(currentItem.Id);
+			//row["f_deleted"] = CommonHelper.BoolToString(true);
+
+			return true;
+		}
+	}
+
+	public class CardsIssuedListModel<T> : CardsListModel<T>
         where T : Card, new()
     {
         protected override void DoQuery()
