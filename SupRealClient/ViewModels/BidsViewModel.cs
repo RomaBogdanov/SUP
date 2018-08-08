@@ -3,22 +3,25 @@ using System.Windows.Input;
 using System.Collections.ObjectModel;
 using System.Linq;
 using System.Windows;
+using System.Windows.Forms;
 using SupRealClient.EnumerationClasses;
 using SupRealClient.Models;
 using SupRealClient.Models.AddUpdateModel;
 using SupRealClient.ViewModels.AddUpdateViewModel;
 using SupRealClient.Views;
+using Application = System.Windows.Application;
+using MessageBox = System.Windows.MessageBox;
 
 namespace SupRealClient.ViewModels
 {
 	public class BidsViewModel : ViewModelBase
 	{
-        #region Properties
+		#region Properties
 
-        // Открыта из выдачи пропусков по заявке по кнопке "на основании заявки" 
-        private bool isToVirtue = false;
+		// Открыта из выдачи пропусков по заявке по кнопке "на основании заявки" 
+		private bool isToVirtue = false;
 
-        private IBidsModel bidsModel;
+		private IBidsModel bidsModel;
 
 
 		/// <summary>
@@ -47,6 +50,11 @@ namespace SupRealClient.ViewModels
 			set
 			{
 				selectedIndex = value;
+
+				if (SelectedIndex == 0) CurrentOrderType = OrderType.Single;
+				if (SelectedIndex == 1) CurrentOrderType = OrderType.Temp;
+				if (SelectedIndex == 2) CurrentOrderType = OrderType.Virtue;
+
 				OnPropertyChanged(nameof(SelectedIndex));
 			}
 		}
@@ -87,8 +95,15 @@ namespace SupRealClient.ViewModels
 			set
 			{
 				BidsModel.SelectedElement = value;
+				IsSelectedElementExist = IsSelectedElementExist;
 				OnPropertyChanged();
 			}
+		}
+
+		public bool IsSelectedElementExist
+		{
+			get { return SelectedElement != null; }
+			private set { OnPropertyChanged(); }
 		}
 
 		public ObservableCollection<Order> SingleOrdersSet
@@ -500,8 +515,19 @@ namespace SupRealClient.ViewModels
 		/// </summary>
 		private void DeletePerson()
 		{
-			BidsModel.DeletePerson();
-			SelectedElement = BidsModel.SelectedElement;
+			if (SelectedElement == null)
+			{
+				return;
+			}
+
+			MessageBoxResult dialogResult = MessageBox.Show("Вы уверены, что хотите удалить этот элемент заявки?", "Внимание",
+				MessageBoxButton.OKCancel, MessageBoxImage.Question);
+			if (dialogResult == MessageBoxResult.OK)
+			{
+				BidsModel.DeletePerson();
+				SelectedElement = BidsModel.SelectedElement;
+			}
+			
 		}
 
 		private void DoubleClickElement(object arg)
@@ -682,10 +708,7 @@ namespace SupRealClient.ViewModels
 
 		private void ApplyCurrentSelectedOrder()
 		{
-			if (CurrentSelectedOrder == null)
-			{
-				CurrentSelectedOrder = BidsModel.CurrentSingleOrder;
-			}
+			CheckOrderType();
 
 			switch (CurrentOrderType)
 			{
@@ -708,6 +731,33 @@ namespace SupRealClient.ViewModels
 			}
 		}
 
+		private void CheckOrderType()
+		{
+			if (CurrentSelectedOrder == null)
+			{
+				return;
+			}
+			if (CurrentSelectedOrder.TypeId - 1 != selectedIndex)
+			{
+				switch (CurrentOrderType)
+				{
+					case OrderType.None:
+						break;
+					case OrderType.Temp:
+						CurrentSelectedOrder = BidsModel.CurrentTemporaryOrder; ; // Запомнить временную заявку перед добавлением новой.
+						break;
+					case OrderType.Single:
+						CurrentSelectedOrder = BidsModel.CurrentSingleOrder; ; // Запомнить разовую заявку перед добавлением новой.
+						break;
+					case OrderType.Virtue:
+						CurrentSelectedOrder = BidsModel.CurrentVirtueOrder;// Запомнить заявку на основании перед добавлением новой.
+						break;
+					default:
+						throw new ArgumentOutOfRangeException();
+				}
+			}
+		}
+
 		private void ChangeCurrentSelectedOrder()
 		{
 			switch (CurrentOrderType)
@@ -725,6 +775,29 @@ namespace SupRealClient.ViewModels
 				case OrderType.Virtue:
 					CurrentVirtueOrder = BidsModel.CurrentVirtueOrder;
 					CurrentSelectedOrder = BidsModel.CurrentVirtueOrder; // Запомнить заявку на основании перед добавлением новой.
+					break;
+				default:
+					throw new ArgumentOutOfRangeException();
+			}
+		}
+
+		private void ChangeCurrentSelectedOrder1()
+		{
+			switch (CurrentOrderType)
+			{
+				case OrderType.None:
+					break;
+				case OrderType.Temp:
+					CurrentSelectedOrder = BidsModel.CurrentTemporaryOrder; // Запомнить временную заявку перед добавлением новой.
+					CurrentTemporaryOrder = CurrentSelectedOrder;
+					break;
+				case OrderType.Single:
+					CurrentSelectedOrder = BidsModel.CurrentSingleOrder; // Запомнить разовую заявку перед добавлением новой.
+					CurrentSingleOrder = CurrentSelectedOrder;
+					break;
+				case OrderType.Virtue:
+					CurrentSelectedOrder = BidsModel.CurrentVirtueOrder; // Запомнить заявку на основании перед добавлением новой.
+					CurrentVirtueOrder = CurrentSelectedOrder;
 					break;
 				default:
 					throw new ArgumentOutOfRangeException();
@@ -754,7 +827,11 @@ namespace SupRealClient.ViewModels
 			BidsModel = new BidsModel();
 
 			BidsModel.Reload();
-			
+
+			if (CurrentSelectedOrder == null)
+			{
+				ChangeCurrentSelectedOrder1();
+			}
 			ApplyCurrentSelectedOrder();
 		}
 

@@ -200,7 +200,7 @@ namespace SupRealClient.ViewModels.AddUpdateViewModel
         private void CatcherNameCommand()
         {
 	        var model = new VisitorsListModel<Visitor>();
-	        model.FilterThatCanHaveVisitors();
+	        model.IsRequeiredCanHaveVisitors = true;
 	        var viewModel = new Base4ViewModel<Visitor>()
 	        {
 		        OkCaption = "OK",
