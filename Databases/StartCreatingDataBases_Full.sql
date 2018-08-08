@@ -1,4 +1,4 @@
-/*EXEC msdb.dbo.sp_delete_database_backuphistory @database_name = N'Visitors'
+﻿/*EXEC msdb.dbo.sp_delete_database_backuphistory @database_name = N'Visitors'
 GO
 
 USE master
@@ -646,7 +646,7 @@ CREATE TABLE vis_order_elements
     f_rec_operator                 int,
     f_not_remaind                  nvarchar(1),
     f_full_role                    nvarchar(1),
-    f_other_org                    nvarchar(200),
+    f_other_org                    nvarchar(1024),
     f_org_id                       INT,--организация
     f_position                     nvarchar(200),--должность
 	f_oe_templates                 nvarchar(MAX),

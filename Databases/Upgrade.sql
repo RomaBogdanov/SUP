@@ -1,4 +1,4 @@
--- С 04.08.2018 ВСЕ ИЗМЕНЕНИЯ В БД ДОЛЖНЫ ЗАНОСИТЬСЯ В ЭТОТ СКРИПТ
+﻿-- С 04.08.2018 ВСЕ ИЗМЕНЕНИЯ В БД ДОЛЖНЫ ЗАНОСИТЬСЯ В ЭТОТ СКРИПТ
 -- ЧТОБЫ БЫЛА ВОЗМОЖНОСТЬ "НАКАТИТЬ" БАЗУ ДО АКТУАЛЬНОЙ, НЕ ПЕРЕСОЗДАВАЯ ЕЕ
 
 -- Скрипт обновления Баз данных.
@@ -53,6 +53,9 @@ ADD
 	f_oe_templates                 nvarchar(MAX),
 	f_oe_areas                     nvarchar(MAX),
 	f_schedule_id                  int
+go
+
+ALTER TABLE visitors.dbo.vis_order_elements ALTER COLUMN f_other_org nvarchar(1024);
 go
 
 UPDATE vis_order_elements SET f_oe_templates='', f_oe_areas='', f_schedule_id=0
