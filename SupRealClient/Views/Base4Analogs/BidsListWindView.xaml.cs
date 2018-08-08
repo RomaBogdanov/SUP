@@ -30,22 +30,44 @@ namespace SupRealClient.Views
 
 		partial void CreateColumns()
 		{
-			DataGridTextColumn dataGridTextColumn = new DataGridTextColumn
+			DataGridTextColumn dataGridTextColumn = null;
+			DataGridCheckBoxColumn dataGridCheckBoxColumn = null;
+			dataGridTextColumn = new DataGridTextColumn
 			{
-				Header = "Номер заявки",
+				Header = "№",
 				Binding = new Binding("RegNumber")
 			};
 			base4.baseTab.Columns.Add(dataGridTextColumn);
+			dataGridCheckBoxColumn = new DataGridCheckBoxColumn
+			{
+				Header = "Неактивна",
+				Binding = new Binding("IsDisabled")
+			};
+			base4.baseTab.Columns.Add(dataGridCheckBoxColumn);
 			dataGridTextColumn = new DataGridTextColumn
 			{
 				Header = "Дата начала",
 				Binding = new Binding("From")
 			};
+			dataGridTextColumn.Binding.StringFormat = "dd.MM.yyyy";
 			base4.baseTab.Columns.Add(dataGridTextColumn);
 			dataGridTextColumn = new DataGridTextColumn
 			{
 				Header = "Дата окончания",
 				Binding = new Binding("To")
+			};
+			dataGridTextColumn.Binding.StringFormat = "dd.MM.yyyy";
+			base4.baseTab.Columns.Add(dataGridTextColumn);
+			dataGridTextColumn = new DataGridTextColumn
+			{
+				Header = "Подписано",
+				Binding = new Binding("Signed")
+			};
+			base4.baseTab.Columns.Add(dataGridTextColumn);
+			dataGridTextColumn = new DataGridTextColumn
+			{
+				Header = "Согласовано",
+				Binding = new Binding("Agree")
 			};
 			base4.baseTab.Columns.Add(dataGridTextColumn);
 			dataGridTextColumn = new DataGridTextColumn

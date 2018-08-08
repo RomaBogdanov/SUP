@@ -383,7 +383,7 @@
                                 Margin="5"
                                 HorizontalAlignment="Left"
                                 Style="{StaticResource TextBLockStyle}"
-                                Text="Заявка не активна" />
+                                Text="Заявка неактивна" />
 
                             <TextBlock
                                 Grid.Column="3"
@@ -874,7 +874,7 @@
                                 Margin="5"
                                 HorizontalAlignment="Left"
                                 Style="{StaticResource TextBLockStyle}"
-                                Text="Заявка не активна" />
+                                Text="Заявка неактивна" />
 
                             <TextBlock
                                 Grid.Column="3"
@@ -1332,7 +1332,7 @@
                             Margin="5"
                             HorizontalAlignment="Left"
                             Style="{StaticResource TextBLockStyle}"
-                            Text="Заявка не активна" />
+                            Text="Заявка неактивна" />
 
                         <TextBlock
                             Grid.Column="3"
@@ -1454,18 +1454,20 @@
                     SelectedItem="{Binding SelectedOrder, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}">
                     <DataGrid.Columns>
                         <DataGridTextColumn Binding="{Binding RegNumber}" Header="№ заявки" />
-                        <DataGridTextColumn Binding="{Binding From}" Header="Дата начала" />
-                        <DataGridTextColumn Binding="{Binding To}" Header="Дата окончания" />
+                        <DataGridCheckBoxColumn Binding="{Binding IsDisable}" Header="Неактивна" />
+                        <DataGridTextColumn Binding="{Binding From, StringFormat=dd.MM.yyyy}" Header="Дата начала" />
+                        <DataGridTextColumn Binding="{Binding To, StringFormat=dd.MM.yyyy}" Header="Дата окончания" />
 
                         <DataGridTextColumn
                             Width="*"
                             Binding="{Binding Signed}"
-                            Header="Подписывающее лицо" />
+                            Header="Подписано" />
                         <DataGridTextColumn
                             Width="*"
                             Binding="{Binding Agree}"
-                            Header="Согласовавшее лицо" />
+                            Header="Согласовано" />
                         <DataGridTextColumn Binding="{Binding Note}" Header="Примечание" />
+                        <DataGridTextColumn Binding="{Binding RecDate, StringFormat=dd.MM.yyyy HH:mm:ss}" Header="Последнее изменение" />
                     </DataGrid.Columns>
                     <DataGrid.InputBindings>
                         <MouseBinding

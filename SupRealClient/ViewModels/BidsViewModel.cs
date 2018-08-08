@@ -682,11 +682,6 @@ namespace SupRealClient.ViewModels
 
 		private void ApplyCurrentSelectedOrder()
 		{
-			if (CurrentSelectedOrder == null)
-			{
-				CurrentSelectedOrder = BidsModel.CurrentSingleOrder;
-			}
-
 			switch (CurrentOrderType)
 			{
 				case OrderType.None:
@@ -731,6 +726,26 @@ namespace SupRealClient.ViewModels
 			}
 		}
 
+		private void ChangeCurrentSelectedOrder1()
+		{
+			switch (CurrentOrderType)
+			{
+				case OrderType.None:
+					break;
+				case OrderType.Temp:
+					CurrentSelectedOrder = BidsModel.CurrentTemporaryOrder; // Запомнить временную заявку перед добавлением новой.
+					break;
+				case OrderType.Single:
+					CurrentSelectedOrder = BidsModel.CurrentSingleOrder; // Запомнить разовую заявку перед добавлением новой.
+					break;
+				case OrderType.Virtue:
+					CurrentSelectedOrder = BidsModel.CurrentVirtueOrder; // Запомнить заявку на основании перед добавлением новой.
+					break;
+				default:
+					throw new ArgumentOutOfRangeException();
+			}
+		}
+
 		private void Cancel()
 		{
 			BidsModel = new BidsModel();
@@ -754,7 +769,8 @@ namespace SupRealClient.ViewModels
 			BidsModel = new BidsModel();
 
 			BidsModel.Reload();
-			
+
+			ChangeCurrentSelectedOrder1();
 			ApplyCurrentSelectedOrder();
 		}
 
