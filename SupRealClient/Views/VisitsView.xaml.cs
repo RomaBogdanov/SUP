@@ -522,9 +522,9 @@ namespace SupRealClient.Views
 			    if (regulaView?.Result ?? false)
 			    {
 				    FillCurrentItemFieldsFromScan(e.Person);
-				    AddDocumentFromScan(e.Person);
+				    AddMainDocumentFromScan(e.Person);
 				    AddPortraitAndSignatureFromScan(e.Person);
-					
+				    AddDocument(e.Person);
 				    OnPropertyChanged(nameof(CurrentItem));
 			    }
 		    }
@@ -533,26 +533,28 @@ namespace SupRealClient.Views
 	    private void AddPortraitAndSignatureFromScan(CPerson person)
 	    {
 		    AddImageSource(ImageType.Photo,null,person);
-		}
+	}
+
+	    private void AddDocument(CPerson person)
+	    {
+		    //document
+		    var visitorDocument = new VisitorsDocument()
+		    {
+			    Name =
+				    $"{person?.Name?.Value} {person?.Surname?.Value} {person?.Patronymic?.Value} {person?.DocumentSeria?.Value} {person?.DocumentNumber?.Value}",
+			    TypeId = 0,
+			    Images = GetScansByDocNumber(person, person?.DocumentNumber?.Value),
+			    IsChanged = true
+		    };
+		    (view as Window)?.Invoke(() => { Model.AddDocument(visitorDocument);});
+	    }
 
 	    /// <summary>
 	    /// Добавление отсканированного документа.
 	    /// </summary>
 	    /// <param name="person"></param>
-	    private void AddDocumentFromScan(CPerson person)
+	    private void AddMainDocumentFromScan(CPerson person)
 	    {
-			//document
-		    var visitorDocument = new VisitorsDocument()
-		    {
-			    Name = $"{person?.Name?.Value} {person?.Surname?.Value} {person?.Patronymic?.Value} {person?.DocumentSeria?.Value} {person?.DocumentNumber?.Value}",
-			    TypeId = 0,
-			    Images = GetScansByDocNumber(person, person?.DocumentNumber?.Value),
-			    IsChanged = true
-		    };
-
-		    CurrentItem.Documents.Add(visitorDocument);
-
-			//MainDocument
 			var document = new VisitorsMainDocument
 		    {
 			    Num = person.DocumentNumber?.Value,
@@ -607,7 +609,7 @@ namespace SupRealClient.Views
 				    Model.AddMainDocument(editDocument);
 			    });
 		    }
-	    }
+		}
 
 	    /// <summary>
 	    /// Сканы документа по номеру.
@@ -1196,7 +1198,9 @@ namespace SupRealClient.Views
 				IsChanged = true
 			};
 
-			CurrentItem.Documents.Add(visitorsDocument);
+		   (view as Window)?.Dispatcher.Invoke(()=>{
+			   CurrentItem.Documents.Add(visitorsDocument);
+		   });
 		}
 
 	    private void RemoveImageToDocuments(string name)
