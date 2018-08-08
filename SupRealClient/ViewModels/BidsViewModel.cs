@@ -550,6 +550,8 @@ namespace SupRealClient.ViewModels
 
 				model.CurrentItem = model.Find(orderElement.VisitorId);
 				VisitorsView view = new VisitorsView();
+				view.Width = WinSet.Width;
+				view.Height = WinSet.Height;
 				view.Owner = Application.Current.Windows.OfType<Window>().SingleOrDefault(x => x.IsActive);
 				view.WindowStartupLocation = WindowStartupLocation.CenterOwner;
 				Views.VisitsViewModel vm = new Views.VisitsViewModel(view) { Model = model };
