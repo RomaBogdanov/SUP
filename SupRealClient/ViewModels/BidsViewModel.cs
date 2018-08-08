@@ -733,6 +733,10 @@ namespace SupRealClient.ViewModels
 
 		private void CheckOrderType()
 		{
+			if (CurrentSelectedOrder == null)
+			{
+				return;
+			}
 			if (CurrentSelectedOrder.TypeId - 1 != selectedIndex)
 			{
 				switch (CurrentOrderType)
