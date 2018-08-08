@@ -1210,11 +1210,11 @@ namespace SupRealClient.Views
 
 	        }
 
+			Generate_VisitorDocument(document.DocumentName, document.Images);
+
 	        OnPropertyChanged(nameof(EnableButton_OpenDocument));
 	        OnPropertyChanged(nameof(EnableButton_OpenMainDocument));
-
-			Generate_VisitorDocument(document.DocumentName, document.Images);
-        }
+		}
 
 		private void EditMainDocument()
         {
@@ -1378,8 +1378,10 @@ namespace SupRealClient.Views
 			    Images = new List<Guid>(listGuids),
 			    IsChanged = true
 		    };
+		    (view as Window)?.Dispatcher.Invoke(() => {
 
-		    Model.AddDocument(visitorsDocument);
+				Model.AddDocument(visitorsDocument);
+			});
 		}
 
 	    private void Remove_VisitorDocument(string name)
