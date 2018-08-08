@@ -29,6 +29,8 @@ namespace SupRealClient.Views
 
             AfterInitialize();
             NameTextBox.Focus();
+
+	        this.PreviewKeyDown += Window_PreviewKeyDown_AndStop;
         }
 
 		private void VisitorsDocumentView__TestingNameVisitorsDocument(object sender, System.ComponentModel.CancelEventArgs e)
@@ -44,9 +46,20 @@ namespace SupRealClient.Views
             InitializeComponent();
             NameTextBox.Focus();
             DataContext = new VisitorsDocumentViewModel();
-        }
 
-        private void TextBox_OnKeyDown(object sender, KeyEventArgs e)
+	        this.PreviewKeyDown += Window_PreviewKeyDown_AndStop;
+		}
+
+	    private void Window_PreviewKeyDown_AndStop(object sender, KeyEventArgs e)
+	    {
+		    if (e.Key == Key.Escape)
+		    {
+			    e.Handled = false;
+			    Close();
+		    }
+	    }
+
+		private void TextBox_OnKeyDown(object sender, KeyEventArgs e)
         {
             if (e.Key == Key.Enter)
             {

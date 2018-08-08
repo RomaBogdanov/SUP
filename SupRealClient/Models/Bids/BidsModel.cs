@@ -20,7 +20,10 @@ namespace SupRealClient.Models
 		private void Query()
 		{
 			OrdersSet = (ObservableCollection<Order>) OrdersWrapper.CurrentTable().StandartQuery();
-			maxOrderNumber = OrdersSet.Count > 0 ? OrdersSet.Max(arg => arg.Number) : 0;
+			var currentYearOrders = OrdersSet.Where(arg =>
+				(arg.NewRecDate != null) &&
+				Convert.ToDateTime(arg.NewRecDate).Year == DateTime.Now.Year);
+			maxOrderNumber = OrdersSet.Count > 0 ? currentYearOrders.Max(arg => arg.Number) : 0;
 			SingleOrdersSet = new ObservableCollection<Order>(OrdersSet.Where(
 				arg => arg.Type == "Разовая"));
 			if (SingleOrdersSet.Count > 0)
@@ -36,7 +39,7 @@ namespace SupRealClient.Models
 			}
 
 			VirtueOrdersSet = new ObservableCollection<Order>(OrdersSet.Where(
-				arg => arg.Type == "На основании"));
+				arg => arg.Type == "На основании" || arg.Type == "Бессрочная")); // todo: убрать костыль на проверку с бессрочностью, но убедившись, что типы заявок совпадают в базе и в коде
 			if (VirtueOrdersSet.Count > 0)
 			{
 				CurrentVirtueOrder = VirtueOrdersSet[0];

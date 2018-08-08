@@ -127,7 +127,7 @@
                                                     <wpfx:MaskedTextBox
                                                         x:Name="PART_TextBox"
                                                         Mask="00/00/0000"
-                                                        Text="{Binding Path=SelectedDate, ConverterCulture={x:Static gl:CultureInfo.CurrentCulture}, StringFormat=dd/MM/yyyy, RelativeSource={RelativeSource AncestorType={x:Type DatePicker}}}" />
+                                                        Text="{Binding Path=SelectedDate, ConverterCulture={x:Static gl:CultureInfo.CurrentCulture}, StringFormat=dd.MM.yyyy, RelativeSource={RelativeSource AncestorType={x:Type DatePicker}}}" />
                                                 </ControlTemplate>
                                             </Setter.Value>
                                         </Setter>
@@ -640,7 +640,7 @@
                                                     <wpfx:MaskedTextBox
                                                         x:Name="PART_TextBox"
                                                         Mask="00/00/0000"
-                                                        Text="{Binding Path=SelectedDate, ConverterCulture={x:Static gl:CultureInfo.CurrentCulture}, StringFormat=dd/MM/yyyy, RelativeSource={RelativeSource AncestorType={x:Type DatePicker}}}" />
+                                                        Text="{Binding Path=SelectedDate, ConverterCulture={x:Static gl:CultureInfo.CurrentCulture}, StringFormat=dd.MM.yyyy, RelativeSource={RelativeSource AncestorType={x:Type DatePicker}}}" />
                                                 </ControlTemplate>
                                             </Setter.Value>
                                         </Setter>
@@ -674,7 +674,7 @@
                                                     <wpfx:MaskedTextBox
                                                         x:Name="PART_TextBox"
                                                         Mask="00/00/0000"
-                                                        Text="{Binding Path=SelectedDate, ConverterCulture={x:Static gl:CultureInfo.CurrentCulture}, StringFormat=dd/MM/yyyy, RelativeSource={RelativeSource AncestorType={x:Type DatePicker}}}" />
+                                                        Text="{Binding Path=SelectedDate, ConverterCulture={x:Static gl:CultureInfo.CurrentCulture}, StringFormat=dd.MM.yyyy, RelativeSource={RelativeSource AncestorType={x:Type DatePicker}}}" />
                                                 </ControlTemplate>
                                             </Setter.Value>
                                         </Setter>
@@ -1017,7 +1017,7 @@
                                                 <wpfx:MaskedTextBox
                                                     x:Name="PART_TextBox"
                                                     Mask="00/00/0000"
-                                                    Text="{Binding Path=SelectedDate, ConverterCulture={x:Static gl:CultureInfo.CurrentCulture}, StringFormat=dd/MM/yyyy, RelativeSource={RelativeSource AncestorType={x:Type DatePicker}}}" />
+                                                    Text="{Binding Path=SelectedDate, ConverterCulture={x:Static gl:CultureInfo.CurrentCulture}, StringFormat=dd.MM.yyyy, RelativeSource={RelativeSource AncestorType={x:Type DatePicker}}}" />
                                             </ControlTemplate>
                                         </Setter.Value>
                                     </Setter>
@@ -1045,7 +1045,7 @@
                                                 <wpfx:MaskedTextBox
                                                     x:Name="PART_TextBox"
                                                     Mask="00/00/0000"
-                                                    Text="{Binding Path=SelectedDate, ConverterCulture={x:Static gl:CultureInfo.CurrentCulture}, StringFormat=dd/MM/yyyy, RelativeSource={RelativeSource AncestorType={x:Type DatePicker}}}" />
+                                                    Text="{Binding Path=SelectedDate, ConverterCulture={x:Static gl:CultureInfo.CurrentCulture}, StringFormat=dd.MM.yyyy, RelativeSource={RelativeSource AncestorType={x:Type DatePicker}}}" />
                                             </ControlTemplate>
                                         </Setter.Value>
                                     </Setter>

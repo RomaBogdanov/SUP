@@ -703,13 +703,27 @@ namespace SupRealClient.Views
 			    return;
 		    }
 
-		    CardsWrapper cards = CardsWrapper.CurrentTable();
-		    DataRow row = cards.Table.Rows.Find(selectedCard.Id);
-		    row.BeginEdit();
-		    row["f_rec_operator"] = Authorizer.AppAuthorizer.Id;
-		    row["f_rec_date"] = DateTime.Now;
-		    row["f_state_id"] = 3;
-		    row.EndEdit();
+            // todo: Добавляем карту и персону в список визитов. Всё под рефакторинг!!!
+            DataRow row1 = VisitsWrapper.CurrentTable().Table.NewRow();
+            row1["f_card_id_hi"] = selectedCard.CardIdHi;
+            row1["f_card_id_lo"] = selectedCard.CardIdLo;
+            row1["f_visitor_id"] = visitorId; //todo: проставить id визитёра
+            row1["f_time_out"] = DateTime.Now; //todo: пока непонятно, что за дата
+            row1["f_time_in"] = DateTime.Now; //todo: пока непонятно, что за дата
+            row1["f_visit_text"] = "текст"; //todo: пока непонятно, что за текст
+            row1["f_date_from"] = DateTime.Now; //todo: пока непонятно, что за дата
+            row1["f_date_to"] = DateTime.Now; //todo: пока непонятно, что за дата
+            row1["f_order_id"] = (orders!= null && orders.Count >0) ? orders[0].Id : 1; //todo: номер заявки, проставить, хотя тут непонятно, потому что карта может выставляться по нескольким заявкам.
+            row1["f_orders"] = AndoverEntityListHelper.EntitiesToString(orders);
+            row1["f_rec_date"] = DateTime.Now;
+            row1["f_rec_operator"] = Authorizer.AppAuthorizer.Id;
+            row1["f_deleted"] = "N";
+            row1["f_reason"] = "резон"; //todo: пока непонятно, что с полем делать
+            row1["f_rec_operator_back"] = 0; //todo: скорее всего, оператор принявший карту обратно
+            row1["f_rec_date_back"] = DateTime.MinValue; //todo: скорее всего, время возврата карты обратно
+            row1["f_card_status"] = 3; // текущий статус карты
+            row1["f_eff_zonen_text"] = "хм"; //todo: вообще непонятно
+            VisitsWrapper.CurrentTable().Table.Rows.Add(row1);
 
 		    // todo: Добавляем карту и персону в список визитов. Всё под рефакторинг!!!
 		    DataRow row1 = VisitsWrapper.CurrentTable().Table.NewRow();

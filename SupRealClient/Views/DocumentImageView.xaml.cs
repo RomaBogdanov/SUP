@@ -30,12 +30,29 @@ namespace SupRealClient.Views
 			{
 				DataContext = _viewModel;
 			}
+
+			_viewModel.Closing += ViewModel_Closing;
+		}
+
+		private void ViewModel_Closing()
+		{
+			_viewModel.Closing -= ViewModel_Closing;
+			Close();
 		}
 
 		public object DocumentImage
 		{
 			get =>_viewModel.DocumentImage; 
 			set => _viewModel.DocumentImage = value;
+		}
+
+		private void Window_PreviewKeyDown_AndStop(object sender, KeyEventArgs e)
+		{
+			if (e.Key == Key.Escape)
+			{
+				e.Handled = false;
+				Close();
+			}
 		}
 	}
 }
