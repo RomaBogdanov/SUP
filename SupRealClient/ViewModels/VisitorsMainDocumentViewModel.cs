@@ -274,8 +274,8 @@ namespace SupRealClient.ViewModels
 		    this.Num = model.Data.Num;
 		    this.Date = model.Data.Date;
 		    this.DateTo = model.Data.DateTo;
-		    //this.Org = model.Data.Org;
-		    Org = person?.DocumentDeliveryPlace?.Value;
+		    this.Org = model.Data.Org;
+		    //Org = person?.DocumentDeliveryPlace?.Value;
 		this.Code = model.Data.Code;
 		    this.Comment = model.Data.Comment;
 		    this.BirthDate = model.Data.BirthDate;

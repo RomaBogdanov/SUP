@@ -22,11 +22,16 @@ namespace SupRealClient.Andover
 
         private ObservableCollection<Card> set;
         private ObservableCollection<AccessPointEx> zones;
+	private ObservableCollection<Schedule> _schedulesList;
 
-        private CardsWrapper cardsWrapper = CardsWrapper.CurrentTable();
+
+	private CardsWrapper cardsWrapper = CardsWrapper.CurrentTable();
         private AccessPointsWrapper accessPointsWrapper = AccessPointsWrapper.CurrentTable();
+	private SchedulesWrapper _schedulesWrapper = SchedulesWrapper.CurrentTable();
 
-        private Card currentItem;
+
+
+	private Card currentItem;
         private int selectedIndex;
 
         public AndoverTestViewModel()
@@ -60,8 +65,17 @@ namespace SupRealClient.Andover
                 OnPropertyChanged();
             }
         }
+	    public ObservableCollection<Schedule> SchedulesList
+	    {
+		    get { return _schedulesList; }
+		    set
+		    {
+			    _schedulesList = value;
+			    OnPropertyChanged();
+		    }
+	    }
 
-        public Card CurrentItem
+		public Card CurrentItem
         {
             get { return currentItem; }
             set
@@ -125,19 +139,20 @@ namespace SupRealClient.Andover
         {
             Set = new ObservableCollection<Card>(
                 from c in cardsWrapper.Table.AsEnumerable()
-                where c.Field<int>("f_card_id") != 0 &&
-                CommonHelper.NotDeleted(c)
+                where c.Field<int>("f_card_id") != 0 && !string.Equals(c.Field<string>("f_deleted").Trim().ToLower(), "y") &&
+		CommonHelper.NotDeleted(c)
                 select new Card
                 {
                     Id = c.Field<int>("f_card_id"),
                     CurdNum = c.Field<int>("f_card_num"),
                     Name = c.Field<string>("f_card_name"),
                     Comment = c.Field<string>("f_comment"),
+		
                 });
 
             Zones = new ObservableCollection<AccessPointEx>(
                 from accpnt in accessPointsWrapper.Table.AsEnumerable()
-                where accpnt.Field<int>("f_access_point_id") != 0 &&
+                where accpnt.Field<int>("f_access_point_id") != 0 && !string.Equals(accpnt.Field<string>("f_deleted").Trim().ToLower(), "y") &&
                 CommonHelper.NotDeleted(accpnt)
                 select new AccessPointEx
                 {
@@ -148,7 +163,18 @@ namespace SupRealClient.Andover
                     SpaceOut = accpnt.Field<string>("f_access_point_space_out"),
                     Path = accpnt.Field<string>("f_access_point_path"),
                 });
-        }
+
+	        SchedulesList = new ObservableCollection<Schedule>(
+		        from sched in _schedulesWrapper.Table.AsEnumerable()
+		        where sched.Field<int>("f_schedule_id") != 0 && !string.Equals(sched.Field<string>("f_deleted").Trim().ToLower(), "y") &&
+		              CommonHelper.NotDeleted(sched)
+		        select new Schedule
+		        {
+			        Id = sched.Field<int>("f_schedule_id"),
+			        Name = sched.Field<string>("f_schedule_name"),
+			        Path = sched.Field<string>("f_schedule_path")
+			});
+		}
 
         private void OkCom()
         {
@@ -164,6 +190,7 @@ namespace SupRealClient.Andover
             {
                 Card = card.Name,
                 Doors = accesPoints.Select(p => p.Name).ToList(),
+		Schedules = SchedulesList.Select(x=>x.Path).ToList()
             };
 
             ClientConnector clientConnector = ClientConnector.CurrentConnector;

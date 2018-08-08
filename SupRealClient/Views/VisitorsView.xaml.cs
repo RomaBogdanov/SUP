@@ -35,7 +35,6 @@ namespace SupRealClient.Views
 				if (this.DataContext == null)
 				{
 					this.DataContext = new VisitsViewModel(this);
-					DataContext = new VisitsViewModel(this);
 					(DataContext as VisitsViewModel).MoveNextFocusingElement += MovingNextFocusingElement;
 					this.Height = (this.DataContext as VisitsViewModel).WinSet.Height;
 					this.Width = (this.DataContext as VisitsViewModel).WinSet.Width;
