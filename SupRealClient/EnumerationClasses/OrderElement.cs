@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Data;
 using System.Collections.ObjectModel;
@@ -105,6 +106,7 @@ namespace SupRealClient.EnumerationClasses
 				{
 					Visitor = row["f_full_name"].ToString();
 					VisitorMainPosition = row["f_job"].ToString();
+					SetupCardState();
 				}
 				else
 				{
@@ -207,6 +209,25 @@ namespace SupRealClient.EnumerationClasses
 		/// </summary>
 		public string Catcher { get; private set; } = "";
 
+
+		private string _reason;
+
+		/// <summary>
+		/// Оснвование. Использование дял заявок на основании
+		/// </summary>
+		public string Reason
+		{
+			get => _reason;
+			set
+			{
+				_reason = value;
+				OnPropertyChanged();
+			}
+		}
+
+
+		#region Dates
+
 		/// <summary>
 		/// Заблокировано ли для изменений время
 		/// </summary>
@@ -289,8 +310,38 @@ namespace SupRealClient.EnumerationClasses
 			}
 		}
 
+		#endregion
+
+		#region Passes
+		public string TemplateIdList { get; set; } = "";
+
+		public string AreaIdList { get; set; } = "";
+
+		private ObservableCollection<Template> _templates = new ObservableCollection<Template>();
+		public ObservableCollection<Template> Templates
+		{
+			get => _templates;
+			set
+			{
+				_templates = value;
+				SetupPassesString();
+			}
+		}
+
+		private ObservableCollection<Area> _areas = new ObservableCollection<Area>();
+
+		public ObservableCollection<Area> Areas
+		{
+			get => _areas;
+			set
+			{
+				_areas = value;
+				SetupPassesString();
+			}
+		}
+
 		private string _passes = NoPassesString;
-		public const string OnlyZonesPassesString= "Назначены зоны доступа";
+		public const string OnlyZonesPassesString = "Назначены зоны доступа";
 		public const string BothPassesString = "+ зоны доступа";
 		public const string NoPassesString = "Доступ не назначен";
 
@@ -333,6 +384,11 @@ namespace SupRealClient.EnumerationClasses
 			}
 		}
 
+
+		#endregion
+
+		#region Block
+
 		/// <summary>
 		/// Показывает, что элемент не активен.
 		/// </summary>
@@ -349,6 +405,132 @@ namespace SupRealClient.EnumerationClasses
 				OnPropertyChanged();
 			}
 		}
+		private string blockingNote;
+
+		public string BlockingNote
+		{
+			get { return blockingNote; }
+			set
+			{
+				blockingNote = value;
+				OnPropertyChanged();
+			}
+		}
+
+		#endregion
+
+		#region CardState
+
+		private CardState _cardState = CardState.Inactive;
+		private string _cardStateString;
+
+		public void SetupCardState()
+		{
+			IEnumerable<DataRow> allVisits = VisitsWrapper.CurrentTable().Table.AsEnumerable().Where(arg => 
+				arg.Field<int>("f_visitor_id") == visitorId &&
+				arg.Field<int>("f_order_id") == orderId);
+			if (!allVisits.Any())
+			{
+				CardState = CardState.Inactive;
+				return;
+			}
+
+			IEnumerable<DataRow> notDeletedVisits = allVisits.Where(arg => arg.Field<string>("f_deleted").ToUpper() != "Y").ToList();
+
+			if (!notDeletedVisits.Any())
+			{
+				CardState = CardState.Returnded;
+				return;
+			}
+
+			List<int> cardIdLo = new List<int>();
+			List<int> cardIdHi = new List<int>();
+			foreach (DataRow dataRow in notDeletedVisits)
+			{
+				cardIdHi.Add(dataRow.Field<int>("f_card_id_hi"));
+				cardIdLo.Add(dataRow.Field<int>("f_card_id_lo"));
+			}
+
+			CardState newCardState = CardState.Inactive;
+
+			for (int i=0; i< cardIdLo.Count; i++)
+			{
+				DataRow row = CardsWrapper.CurrentTable().Table.AsEnumerable().FirstOrDefault(arg =>
+					arg.Field<int>("f_object_id_lo") == cardIdLo[i] &&
+					arg.Field<int>("f_object_id_hi") == cardIdHi[i]);
+				if (row == null)
+				{
+					continue;
+				}
+
+				CardState thisCardState = (CardState) row.Field<int>("f_state_id");
+				if (thisCardState == CardState.Issued)
+				{
+					newCardState = CardState.Issued;
+					break;
+				}
+
+				if (thisCardState == CardState.Lost)
+				{
+					if (newCardState == CardState.Inactive)
+					{
+						newCardState = CardState.Lost;
+					}
+					continue;
+				}
+
+				if (thisCardState == CardState.Active)
+				{
+					newCardState = CardState.Active;
+				}
+			}
+
+			CardState = newCardState;
+		}
+
+		public CardState CardState
+		{
+			get => _cardState;
+			set
+			{
+				_cardState = value;
+				switch (_cardState)
+				{
+					case CardState.Unknown:
+						CardStateString = "Неизвестно";
+						break;
+					case CardState.Active:
+						CardStateString = "Активен";
+						break;
+					case CardState.Inactive:
+						CardStateString = "Неактивен";
+						break;
+					case CardState.Issued:
+						CardStateString = "Выдан";
+						break;
+					case CardState.Lost:
+						CardStateString = "Утерян";
+						break;
+					case CardState.Returnded:
+						CardStateString = "Возвращена";
+						break;
+					default:
+						CardStateString = "Неизвестно";
+						break;
+				}
+				OnPropertyChanged();
+			}
+		}
+
+		public string CardStateString
+		{
+			get => _cardStateString;
+			private set
+			{
+				_cardStateString = value;
+				OnPropertyChanged();
+			}
+		}
 
 		private bool _isCardIssued;
 
@@ -362,29 +544,7 @@ namespace SupRealClient.EnumerationClasses
 			}
 		}
 
-		private string blockingNote;
-
-		public string BlockingNote
-		{
-			get { return blockingNote; }
-			set
-			{
-				blockingNote = value;
-				OnPropertyChanged();
-			}
-		}
-
-        private string _reason;
-
-        public string Reason
-        {
-            get => _reason;
-            set
-            {
-                _reason = value;
-                OnPropertyChanged();
-            }
-        }
+		#endregion
 
         public event PropertyChangedEventHandler PropertyChanged;
 
@@ -397,29 +557,6 @@ namespace SupRealClient.EnumerationClasses
 		public object Clone()
 		{
 			return this.MemberwiseClone();
-		}
-
-		private ObservableCollection<Template> _templates = new ObservableCollection<Template>();
-		public ObservableCollection<Template> Templates
-		{
-			get => _templates;
-			set
-			{
-				_templates = value;
-				SetupPassesString();
-			}
-		}
-
-		private ObservableCollection<Area> _areas = new ObservableCollection<Area>();
-
-		public ObservableCollection<Area> Areas
-		{
-			get => _areas;
-			set
-			{
-				_areas = value;
-				SetupPassesString();
-			}
 		}
 
 
@@ -450,14 +587,24 @@ namespace SupRealClient.EnumerationClasses
                 DataRow row = SchedulesWrapper.CurrentTable().Table
                     .AsEnumerable().FirstOrDefault(arg =>
                         arg.Field<int>("f_schedule_id") == scheduleId);
-                Schedule = row["f_schedule_name"].ToString();
+	            if (row != null)
+	            {
+		            Schedule = row["f_schedule_name"].ToString();
+				}
+	            else
+	            {
+					MessageBox.Show("Поле расписания ссылается на несуществующее в базе расписание по id = " + scheduleId, "Ошибка", MessageBoxButton.OK, MessageBoxImage.Error);
+		            Catcher = "";
+				}
             }
         }
 
-        public string TemplateIdList { get; set; } = "";
-
-        public string AreaIdList { get; set; } = "";
-
+		/// <summary>
+		/// Проверяет корректность и полноту данных элемента заявки
+		/// </summary>
+		/// <param name="errorMessage">Если данные некорректные, содержит в себе строку ошибки</param>
+		/// <param name="isVirtueOrder"></param>
+		/// <returns></returns>
         public bool IsOrderElementDataCorrect(out string errorMessage, bool isVirtueOrder = false)
         {
             if (VisitorId == 0)
@@ -490,7 +637,7 @@ namespace SupRealClient.EnumerationClasses
 				return false;
 			}
 
-			if (From.TimeOfDay > To.TimeOfDay)
+			if (From > To)
             {
                 errorMessage = " \"Время от\" не может быть позже, чем \"Время до\"";
                 return false;

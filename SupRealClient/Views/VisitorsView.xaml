@@ -623,7 +623,7 @@
 										Style="{StaticResource TextBLockStyle}"
 										Text="Дата" />
 
-									<DatePicker
+                                    <DatePicker
 										x:Name="datePicker_AgreeToDate"
 										Grid.Column="3"
 										GotFocus="GotFocus_FirstTabItemControls"
@@ -632,89 +632,93 @@
 										KeyUp="MoveNextFocusControl"
 										SelectedDate="{Binding Path=CurrentItem.AgreeToDate, Mode=TwoWay}"
 										Text="Дата">
-										<DatePicker.Resources>
-											<Style TargetType="{x:Type DatePickerTextBox}">
-												<Setter Property="Control.Template">
-													<Setter.Value>
-														<ControlTemplate>
-															<wpfx:MaskedTextBox
-																x:Name="PART_TextBox"
-																Mask="00/00/0000"
-																Text="{Binding Path=SelectedDate, ConverterCulture={x:Static gl:CultureInfo.CurrentCulture}, StringFormat=dd/MM/yyyy, RelativeSource={RelativeSource AncestorType={x:Type DatePicker}}}" />
-														</ControlTemplate>
-													</Setter.Value>
-												</Setter>
-											</Style>
-										</DatePicker.Resources>
-									</DatePicker>
-								</Grid>
-							</Grid>
-						</Grid>
-					</ScrollViewer>
-				</mah:MetroTabItem>
-				<mah:MetroTabItem
-					Header="Пропуска"
-					TabIndex="21"
-					Visibility="{Binding AccessVisibility, Converter={StaticResource BooleanToVisibilityConverter}}">
-					<DataGrid
-						CanUserAddRows="False"
-						ItemsSource="{Binding Path=CurrentItem.Cards}"
-						SelectedIndex="{Binding Path=SelectedCard}"
-						Style="{StaticResource AzureDataGrid1}">
-						<i:Interaction.Triggers>
-							<i:EventTrigger EventName="MouseDoubleClick">
-								<i:InvokeCommandAction Command="{Binding ReturnCommand}" />
-							</i:EventTrigger>
-						</i:Interaction.Triggers>
-						<DataGrid.Columns>
-							<DataGridTextColumn Binding="{Binding Path=CardNumber}" Header="Пропуск" />
-							<DataGridTextColumn Binding="{Binding Path=From}" Header="Когда выдан" />
-							<DataGridTextColumn Binding="{Binding Path=To}" Header="Срок по" />
-							<DataGridTextColumn Binding="{Binding Path=Change}" Header="Изменён" />
-							<DataGridTextColumn
-								Width="*"
-								Binding="{Binding Path=Operator}"
-								Header="Оператор" />
-							<DataGridTextColumn Binding="{Binding Path=OrderNum}" Header="№ заявки" />
-							<DataGridTextColumn Binding="{Binding Path=Comment}" Header="Дополнительно" />
-						</DataGrid.Columns>
-					</DataGrid>
-				</mah:MetroTabItem>
-				<mah:MetroTabItem
-					Header="Заявки"
-					TabIndex="22"
-					Visibility="{Binding AccessVisibility, Converter={StaticResource BooleanToVisibilityConverter}}">
-					<DataGrid
-						CanUserAddRows="False"
-						ItemsSource="{Binding Path=CurrentItem.Orders}"
-						SelectedIndex="{Binding Path=SelectedOrder}"
-						Style="{StaticResource AzureDataGrid1}">
-						<i:Interaction.Triggers>
-							<i:EventTrigger EventName="MouseDoubleClick">
-								<i:InvokeCommandAction Command="{Binding OpenOrderCommand}" />
-							</i:EventTrigger>
-						</i:Interaction.Triggers>
-						<DataGrid.Columns>
-							<DataGridTextColumn Binding="{Binding Path=RegNumber}" Header="№ заявки" />
-							<DataGridTextColumn Binding="{Binding Path=From}" Header="Дата/время от" />
-							<DataGridTextColumn Binding="{Binding Path=To}" Header="Дата/время до" />
-							<DataGridTextColumn Binding="{Binding Path=Catcher}" Header="Принимающее лицо" />
-							<DataGridTextColumn Binding="{Binding Path=OrderType}" Header="Тип заявки" />
-							<DataGridTextColumn Binding="{Binding Path=Passes}" Header="Проходы" />
-						</DataGrid.Columns>
-					</DataGrid>
-				</mah:MetroTabItem>
-				<mah:MetroTabItem Header="Сотрудник" Visibility="{Binding VisibleTabItem_Employee, Converter={StaticResource BooleanToVisibilityConverter}}">
-					<ScrollViewer
-						CanContentScroll="True"
-						ScrollViewer.VerticalScrollBarVisibility="Auto"
-						TabIndex="23">
-						<Grid>
-							<Grid.ColumnDefinitions>
-								<ColumnDefinition />
-								<ColumnDefinition />
-								<ColumnDefinition Width="60" />
-							</Grid.ColumnDefinitions>
+                                        <DatePicker.Resources>
+                                            <Style TargetType="{x:Type DatePickerTextBox}">
+                                                <Setter Property="Control.Template">
+                                                    <Setter.Value>
+                                                        <ControlTemplate>
+                                                            <wpfx:MaskedTextBox x:Name="PART_TextBox" Mask="00/00/0000" 
+                                    Text="{ Binding Path=SelectedDate,ConverterCulture={x:Static gl:CultureInfo.CurrentCulture}, StringFormat=dd/MM/yyyy, RelativeSource={RelativeSource AncestorType={x:Type DatePicker}}}" />
+                                                        </ControlTemplate>
+                                                    </Setter.Value>
+                                                </Setter>
+                                            </Style>
+                                        </DatePicker.Resources>
+                                    </DatePicker>
+                                </Grid>
+                            </Grid>
+                        </Grid>
+                    </ScrollViewer>
+                </mah:MetroTabItem>
+                <mah:MetroTabItem 
+                    Header="Пропуска"
+                    Visibility="{Binding AccessVisibility,
+                    Converter={StaticResource BooleanToVisibilityConverter}}"
+	                TabIndex="21">
+                    <DataGrid 
+                        ItemsSource="{Binding Path=CurrentItem.Cards}"
+                        SelectedIndex="{Binding Path=SelectedCard}"
+                        CanUserAddRows="False"
+                        Style="{StaticResource AzureDataGrid1}">
+                        <i:Interaction.Triggers>
+                            <i:EventTrigger EventName="MouseDoubleClick">
+                                <i:InvokeCommandAction Command="{Binding ReturnCommand}"/>
+                            </i:EventTrigger>
+                        </i:Interaction.Triggers>
+                        <DataGrid.Columns>
+                            <DataGridTextColumn 
+                                Header="Пропуск" Binding="{Binding Path=CardNumber}"/>
+                            <DataGridTextColumn 
+                                Header="Когда выдан" Binding="{Binding Path=From}"/>
+                            <DataGridTextColumn 
+                                Header="Срок по" Binding="{Binding Path=To}"/>
+                            <DataGridTextColumn 
+                                Header="Изменён" Binding="{Binding Path=Change}"/>
+                            <DataGridTextColumn 
+                                Header="Оператор" 
+                                Width="*" 
+                                Binding="{Binding Path=Operator}"/>
+                            <DataGridTextColumn 
+                                Header="№ заявки" Binding="{Binding Path=OrderNum}"/>
+                            <DataGridTextColumn 
+                                Header="Дополнительно" Binding="{Binding Path=Comment}"/>
+                        </DataGrid.Columns>
+                    </DataGrid>
+                </mah:MetroTabItem>
+                <mah:MetroTabItem 
+                    Header="Заявки" 
+                    Visibility="{Binding AccessVisibility, 
+                    Converter={StaticResource BooleanToVisibilityConverter}}"
+	                TabIndex="22">
+                    <DataGrid Style="{StaticResource AzureDataGrid1}" 
+                              ItemsSource="{Binding Path=CurrentItem.Orders}"
+                              SelectedIndex="{Binding Path=SelectedOrder}"
+                              CanUserAddRows="False">
+                        <i:Interaction.Triggers>
+                            <i:EventTrigger EventName="MouseDoubleClick">
+                                <i:InvokeCommandAction Command="{Binding OpenOrderCommand}"/>
+                            </i:EventTrigger>
+                        </i:Interaction.Triggers>
+                        <DataGrid.Columns>
+                            <DataGridTextColumn Header="№ заявки" Binding="{Binding Path=RegNumber}"/>
+                            <DataGridTextColumn Header="Дата/время от" Binding="{Binding Path=From}"/>
+                            <DataGridTextColumn Header="Дата/время до" Binding="{Binding Path=To}"/>
+                            <DataGridTextColumn Header="Принимающее лицо" Binding="{Binding Path=Catcher}"/>
+                            <DataGridTextColumn Header="Тип заявки" Binding="{Binding Path=OrderType}"/>
+                            <DataGridTextColumn Header="Проходы" Binding="{Binding Path=Passes}"/>
+                            <DataGridCheckBoxColumn Header="Выдан пропуск" Binding="{Binding Path=HasCard}"/>
+                        </DataGrid.Columns>
+                    </DataGrid>
+                </mah:MetroTabItem>
+                <mah:MetroTabItem Header="Сотрудник" Visibility="{Binding VisibleTabItem_Employee, Converter={StaticResource BooleanToVisibilityConverter}}">
+                    <ScrollViewer CanContentScroll="True" ScrollViewer.VerticalScrollBarVisibility="Auto"
+                                  TabIndex="23">
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition/>
+                                <ColumnDefinition/>
+                                <ColumnDefinition Width="60"/>
+                            </Grid.ColumnDefinitions>
 
 							<Grid.RowDefinitions>
 								<RowDefinition />

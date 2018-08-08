@@ -141,7 +141,7 @@ namespace SupRealClient.EnumerationClasses
 					return Number.ToString();
 				}
 
-				return Number + "-" + Type[0];
+				return Convert.ToDateTime(NewRecDate).Year%100 + "-" + Number + "-" + Type[0];
 			}
 			set
 			{
@@ -364,5 +364,7 @@ namespace SupRealClient.EnumerationClasses
 			errorMessage = null;
 			return true;
 		}
-	}
+
+        public bool HasCard { get; set; }
+    }
 }

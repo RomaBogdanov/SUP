@@ -22,6 +22,20 @@ using System.Windows;
 using System.Windows.Data;
 using System.Windows.Forms;
 using System.Windows.Input;
+using System.Windows.Threading;
+using MahApps.Metro.Controls;
+using RegulaLib;
+using SupClientConnectionLib;
+using SupContract;
+using SupRealClient.Annotations;
+using SupRealClient.Common;
+using SupRealClient.Common.Interfaces;
+using SupRealClient.EnumerationClasses;
+using SupRealClient.Models;
+using SupRealClient.Models.AddUpdateModel;
+using SupRealClient.TabsSingleton;
+using SupRealClient.ViewModels;
+using SupRealClient.Views.Visitor;
 using KeyEventArgs = System.Windows.Input.KeyEventArgs;
 using MessageBox = System.Windows.Forms.MessageBox;
 
@@ -569,9 +583,9 @@ namespace SupRealClient.Views
 			    if (regulaView?.Result ?? false)
 			    {
 				    FillCurrentItemFieldsFromScan(e.Person);
-				    AddDocumentFromScan(e.Person);
+				    AddMainDocumentFromScan(e.Person);
 				    AddPortraitAndSignatureFromScan(e.Person);
-					
+				    AddDocument(e.Person);
 				    OnPropertyChanged(nameof(CurrentItem));
 			    }
 		    }
@@ -580,26 +594,28 @@ namespace SupRealClient.Views
 	    private void AddPortraitAndSignatureFromScan(CPerson person)
 	    {
 		    AddImageSource(ImageType.Photo,null,person);
-		}
+	}
+
+	    private void AddDocument(CPerson person)
+	    {
+		    //document
+		    var visitorDocument = new VisitorsDocument()
+		    {
+			    Name =
+				    $"{person?.Name?.Value} {person?.Surname?.Value} {person?.Patronymic?.Value} {person?.DocumentSeria?.Value} {person?.DocumentNumber?.Value}",
+			    TypeId = 0,
+			    Images = GetScansByDocNumber(person, person?.DocumentNumber?.Value),
+			    IsChanged = true
+		    };
+		    (view as Window)?.Invoke(() => { Model.AddDocument(visitorDocument);});
+	    }
 
 	    /// <summary>
 	    /// Добавление отсканированного документа.
 	    /// </summary>
 	    /// <param name="person"></param>
-	    private void AddDocumentFromScan(CPerson person)
+	    private void AddMainDocumentFromScan(CPerson person)
 	    {
-			//document
-		    var visitorDocument = new VisitorsDocument()
-		    {
-			    Name = $"{person?.Name?.Value} {person?.Surname?.Value} {person?.Patronymic?.Value} {person?.DocumentSeria?.Value} {person?.DocumentNumber?.Value}",
-			    TypeId = 0,
-			    Images = GetScansByDocNumber(person, person?.DocumentNumber?.Value),
-			    IsChanged = true
-		    };
-
-		    CurrentItem.Documents.Add(visitorDocument);
-
-			//MainDocument
 			var document = new VisitorsMainDocument
 		    {
 			    Num = person.DocumentNumber?.Value,
@@ -654,7 +670,7 @@ namespace SupRealClient.Views
 				    Model.AddMainDocument(editDocument);
 			    });
 		    }
-	    }
+		}
 
 	    /// <summary>
 	    /// Сканы документа по номеру.
@@ -733,7 +749,7 @@ namespace SupRealClient.Views
 		    CurrentItem.BirthDate = person.DateOfBirth?.Value;
 		    CurrentItem.DocType = person.DocumentClassCode?.Value;
 		    CurrentItem.DocNum = person.DocumentNumber?.Value;
-		    CurrentItem.Department = person.DocumentDeliveryPlace?.Value;
+		    CurrentItem.DocPlace = person.DocumentDeliveryPlace?.Value;
 		    CurrentItem.DocCode = person.DocumentDeliveryPlaceCode?.Value;
 		    CurrentItem.Person = person;
 
@@ -2152,7 +2168,7 @@ namespace SupRealClient.Views
 			set { _сommentTextEnable = value; }
 		}
 
-		public VisitsModel()
+        public VisitsModel()
         {
             visitorsEnable =
             new VisitorsEnableOrVisible
@@ -2487,8 +2503,22 @@ namespace SupRealClient.Views
                             .AsEnumerable().FirstOrDefault(arg => arg.Field<int>
                             ("f_ord_id") == visit.Field<int>("f_order_id"))
                             ?["f_reg_number"].ToString(),
-                        Comment = visit.Field<string>("f_visit_text")
+                        Comment = visit.Field<string>("f_visit_text"),
+                        OrderId = visit.Field<int>("f_order_id"),
+                        Orders = visit.Field<string>("f_orders"),
                     });
+            }
+            foreach (var order in Set[index].Orders)
+            {
+                foreach (var card in Set[index].Cards)
+                {
+                    if (card.OrderId == order.Id ||
+                        AndoverEntityListHelper.StringToEntityIds(card.Orders).Contains(order.Id))
+                    {
+                        order.HasCard = true;
+                        break;
+                    }
+                }
             }
         }
 
