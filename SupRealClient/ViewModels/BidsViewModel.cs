@@ -682,6 +682,11 @@ namespace SupRealClient.ViewModels
 
 		private void ApplyCurrentSelectedOrder()
 		{
+			if (CurrentSelectedOrder == null)
+			{
+				CurrentSelectedOrder = BidsModel.CurrentSingleOrder;
+			}
+
 			switch (CurrentOrderType)
 			{
 				case OrderType.None:
@@ -746,7 +751,11 @@ namespace SupRealClient.ViewModels
 
 		private void Reload()
 		{
+			BidsModel = new BidsModel();
+
 			BidsModel.Reload();
+			
+			ApplyCurrentSelectedOrder();
 		}
 
 		private void ChooseVisitorForVirtue()

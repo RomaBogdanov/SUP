@@ -1453,16 +1453,15 @@
                         <DataGridTextColumn Binding="{Binding RegNumber}" Header="№ заявки" />
                         <DataGridTextColumn Binding="{Binding From}" Header="Дата начала" />
                         <DataGridTextColumn Binding="{Binding To}" Header="Дата окончания" />
-                        <DataGridTextColumn Width="*" Binding="{Binding Catcher}">
-                            <DataGridTextColumn.Header>
-                                <TextBlock Text="Принимающее лицо посетителя" TextWrapping="Wrap" />
-                            </DataGridTextColumn.Header>
-                        </DataGridTextColumn>
-                        <DataGridTextColumn Binding="{Binding Organization}" Header="Подразделение организация" />
+
                         <DataGridTextColumn
                             Width="*"
                             Binding="{Binding Signed}"
                             Header="Подписывающее лицо" />
+                        <DataGridTextColumn
+                            Width="*"
+                            Binding="{Binding Agree}"
+                            Header="Согласовавшее лицо" />
                         <DataGridTextColumn Binding="{Binding Note}" Header="Примечание" />
                     </DataGrid.Columns>
                     <DataGrid.InputBindings>
