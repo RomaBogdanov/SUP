@@ -714,7 +714,7 @@ namespace SupRealClient.Views
             row1["f_visit_text"] = "текст"; //todo: пока непонятно, что за текст
             row1["f_date_from"] = DateTime.Now; //todo: пока непонятно, что за дата
             row1["f_date_to"] = DateTime.Now; //todo: пока непонятно, что за дата
-            row1["f_order_id"] = 1; //todo: номер заявки, проставить, хотя тут непонятно, потому что карта может выставляться по нескольким заявкам.
+            row1["f_order_id"] = (orders!= null && orders.Count >0) ? orders[0].Id : 1; //todo: номер заявки, проставить, хотя тут непонятно, потому что карта может выставляться по нескольким заявкам.
             row1["f_orders"] = AndoverEntityListHelper.EntitiesToString(orders);
             row1["f_rec_date"] = DateTime.Now;
             row1["f_rec_operator"] = Authorizer.AppAuthorizer.Id;
