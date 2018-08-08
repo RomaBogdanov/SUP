@@ -178,7 +178,6 @@
                                             Text="Добавить" />
                                     </Grid>
                                 </Button.Content>
-
                             </Button>
 
 
@@ -187,6 +186,7 @@
                                 Height="40"
                                 Margin="0,10,0,10"
                                 Command="{Binding UpdatePersonCommand}"
+                                IsEnabled="{Binding IsSelectedElementExist}"
                                 Style="{StaticResource VisitorsSquareButtonStyle}"
                                 Visibility="{Binding AddUpdVisib, Mode=TwoWay}">
                                 <Button.Content>
@@ -213,6 +213,7 @@
                                 Height="40"
                                 Margin="10,10,0,10"
                                 Command="{Binding DeletePersonCommand}"
+                                IsEnabled="{Binding IsSelectedElementExist}"
                                 Style="{StaticResource VisitorsSquareButtonStyle}"
                                 Visibility="{Binding AddUpdVisib, Mode=TwoWay}">
                                 <Button.Content>
@@ -256,22 +257,10 @@
                                         <TextBlock Text="Принимающее лицо посетителя" TextWrapping="Wrap" />
                                     </DataGridTextColumn.Header>
                                 </DataGridTextColumn>
-                                <DataGridCheckBoxColumn Header="Не активен" />
                                 <DataGridTextColumn Binding="{Binding Passes}" Header="Проходы" />
                                 <DataGridCheckBoxColumn Binding="{Binding IsBlock}" Header="Заблокирован" />
+                                <DataGridTextColumn Binding="{Binding CardStateString, Mode=OneWay}" Header="Состояние пропуска" />
                             </DataGrid.Columns>
-                            <DataGrid.RowStyle>
-                                <Style TargetType="DataGridRow">
-                                    <Style.Triggers>
-                                        <DataTrigger Binding="{Binding IsBlock}" Value="True">
-                                            <Setter Property="Background" Value="#33ff0000" />
-                                        </DataTrigger>
-                                        <DataTrigger Binding="{Binding IsCardIssued}" Value="True">
-                                            <Setter Property="Background" Value="#33008800" />
-                                        </DataTrigger>
-                                    </Style.Triggers>
-                                </Style>
-                            </DataGrid.RowStyle>
                             <DataGrid.InputBindings>
                                 <MouseBinding
                                     Command="{Binding DoubleClickCommand}"
@@ -573,6 +562,7 @@
                                 Height="40"
                                 Margin="0,10,0,10"
                                 Command="{Binding UpdatePersonCommand}"
+                                IsEnabled="{Binding IsSelectedElementExist}"
                                 Style="{StaticResource VisitorsSquareButtonStyle}"
                                 Visibility="{Binding AddUpdVisib, Mode=TwoWay}">
                                 <Button.Content>
@@ -599,6 +589,7 @@
                                 Height="40"
                                 Margin="10,10,0,10"
                                 Command="{Binding DeletePersonCommand}"
+                                IsEnabled="{Binding IsSelectedElementExist}"
                                 Style="{StaticResource VisitorsSquareButtonStyle}"
                                 Visibility="{Binding AddUpdVisib, Mode=TwoWay}">
                                 <Button.Content>
@@ -722,22 +713,10 @@
                                         <TextBlock Text="Принимающее лицо посетителя" TextWrapping="Wrap" />
                                     </DataGridTextColumn.Header>
                                 </DataGridTextColumn>
-                                <DataGridCheckBoxColumn Header="Не активен" />
                                 <DataGridTextColumn Binding="{Binding Passes}" Header="Проходы" />
                                 <DataGridCheckBoxColumn Binding="{Binding IsBlock}" Header="Заблокирован" />
+                                <DataGridTextColumn Binding="{Binding CardStateString, Mode=OneWay}" Header="Состояние пропуска" />
                             </DataGrid.Columns>
-                            <DataGrid.RowStyle>
-                                <Style TargetType="DataGridRow">
-                                    <Style.Triggers>
-                                        <DataTrigger Binding="{Binding IsBlock}" Value="True">
-                                            <Setter Property="Background" Value="#33ff0000" />
-                                        </DataTrigger>
-                                        <DataTrigger Binding="{Binding IsCardIssued}" Value="True">
-                                            <Setter Property="Background" Value="#33008800" />
-                                        </DataTrigger>
-                                    </Style.Triggers>
-                                </Style>
-                            </DataGrid.RowStyle>
                             <DataGrid.InputBindings>
                                 <MouseBinding
                                     Command="{Binding DoubleClickCommand}"
@@ -1222,7 +1201,7 @@
                             <ColumnDefinition Width="10" />
                             <ColumnDefinition Width="40" />
                             <ColumnDefinition Width="*" />
-                            <ColumnDefinition Width="40" />
+                            <ColumnDefinition Width="200" />
                             <ColumnDefinition Width="*" />
                             <ColumnDefinition Width="10" />
                         </Grid.ColumnDefinitions>
@@ -1233,7 +1212,7 @@
                             Width="24"
                             Height="18"
                             Margin="0,10,0,9"
-                            HorizontalAlignment="Left"
+                            HorizontalAlignment="Right"
                             VerticalAlignment="Center"
                             FontSize="18"
                             IsChecked="{Binding CurrentVirtueOrder.FirstOrderElement.IsBlock, Mode=OneWay}"
@@ -1247,25 +1226,21 @@
                             Style="{StaticResource TextBLockStyle}"
                             Text="Пользователь заблокирован" />
 
-                        <CheckBox
-                            Name="cbIsCardIssued"
+                        <TextBlock
                             Grid.Column="3"
-                            Width="24"
-                            Height="18"
-                            Margin="0,10,0,9"
-                            HorizontalAlignment="Left"
-                            VerticalAlignment="Center"
-                            FontSize="18"
-                            IsChecked="{Binding CurrentVirtueOrder.FirstOrderElement.IsCardIssued, Mode=OneWay}"
-                            IsEnabled="False"
-                            PreviewKeyDown="UiElement_PreviewKeyDown" />
+                            Height="24"
+                            Margin="5"
+                            HorizontalAlignment="Right"
+                            Style="{StaticResource TextBLockStyle}"
+                            Text="Состояние пропуска" />
                         <TextBlock
                             Grid.Column="4"
                             Height="24"
                             Margin="5"
                             HorizontalAlignment="Left"
                             Style="{StaticResource TextBLockStyle}"
-                            Text="Пропуск выдан" />
+                            Text="{Binding CurrentVirtueOrder.FirstOrderElement.CardStateString, Mode=OneWay}" />
+
                     </Grid>
                     <Grid Grid.Row="4" Margin="0,10,0,0">
                         <Grid.ColumnDefinitions>
