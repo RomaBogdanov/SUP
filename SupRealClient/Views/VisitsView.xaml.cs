@@ -522,7 +522,7 @@ namespace SupRealClient.Views
 			    if (regulaView?.Result ?? false)
 			    {
 				    FillCurrentItemFieldsFromScan(e.Person);
-				    AddMainDocumentFromScan(e.Person);
+				    AddDocumentFromScan(e.Person);
 				    AddPortraitAndSignatureFromScan(e.Person);
 					
 				    OnPropertyChanged(nameof(CurrentItem));
@@ -539,9 +539,21 @@ namespace SupRealClient.Views
 	    /// Добавление отсканированного документа.
 	    /// </summary>
 	    /// <param name="person"></param>
-	    private void AddMainDocumentFromScan(CPerson person)
+	    private void AddDocumentFromScan(CPerson person)
 	    {
-		    var document = new VisitorsMainDocument
+			//document
+		    var visitorDocument = new VisitorsDocument()
+		    {
+			    Name = $"{person?.Name?.Value} {person?.Surname?.Value} {person?.Patronymic?.Value} {person?.DocumentSeria?.Value} {person?.DocumentNumber?.Value}",
+			    TypeId = 0,
+			    Images = GetScansByDocNumber(person, person?.DocumentNumber?.Value),
+			    IsChanged = true
+		    };
+
+		    CurrentItem.Documents.Add(visitorDocument);
+
+			//MainDocument
+			var document = new VisitorsMainDocument
 		    {
 			    Num = person.DocumentNumber?.Value,
 			    Seria = person.DocumentSeria?.Value,
@@ -602,6 +614,11 @@ namespace SupRealClient.Views
 	    /// </summary>
 	    private List<Guid> GetScansByDocNumber(CPerson person, string number)
 	    {
+		    if (person == null)
+		    {
+			    return new List<Guid>();
+		    }
+
 		    var result = new List<Guid>();
 		    if (person?.PagesScanHash!=null && person.PagesScanHash.Count != 0)
 		    {
@@ -972,13 +989,15 @@ namespace SupRealClient.Views
 	        {
 		        if (person.Portrait != null)
 		        {
-			        baseModel.AddImageSource(person.Portrait, ImageType.Photo);
-		        }
+			        string fileName = baseModel.AddImageSource(person.Portrait, ImageType.Photo);
+			        AddImageToDocuments(_nameDocument_PhotoImageType, fileName);
+			}
 
 		        if (person.Signature != null)
 		        {
-			        baseModel.AddImageSource(person.Signature, ImageType.Signature);
-		        }
+			        string fileName = baseModel.AddImageSource(person.Signature, ImageType.Signature);
+			        AddImageToDocuments(_nameDocument_SignatureImageType, fileName);
+			}
 	        }
         }
 
@@ -1427,9 +1446,12 @@ namespace SupRealClient.Views
 	    /// <summary>
 	    /// Загрузка портрета и подписи со сканера.
 	    /// </summary>
-	    public void AddImageSource(byte[] image, ImageType imageType)
+	    public string AddImageSource(byte[] image, ImageType imageType)
 	    {
-		    SetImageSource(ImagesHelper.GetGuidFromByteArray(image), imageType);
+		    Guid guidImage = ImagesHelper.GetGuidFromByteArray(image);
+		    string fileName = ImagesHelper.GetImagePath(guidImage);
+		    SetImageSource(guidImage, imageType);
+		    return fileName;
 	    }
 
 		public virtual void RemoveImageSource(ImageType imageType)
