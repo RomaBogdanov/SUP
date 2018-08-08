@@ -205,8 +205,11 @@ namespace SupRealClient.Views
     }
 	public class OrdersModelResult : BaseModelResult
 	{
+		public bool IsDisable { get; set; }
 		public DateTime From { get; set; }
 		public DateTime To { get; set; }
+		public string Signed { get; set; }
+		public string Agree { get; set; }
 		public string Notes { get; set; }
 	}
 

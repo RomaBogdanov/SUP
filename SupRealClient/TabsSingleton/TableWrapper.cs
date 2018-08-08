@@ -291,7 +291,7 @@ namespace SupRealClient.TabsSingleton
 			row["f_barcode"] = order.Barcode;
 			row["f_adjusted_with"] = order.AgreeId;
 			row["f_notes"] = order.Note;
-			row["f_disabled"] = "N"; // todo: судя по всему, поле показывает, что заявка неактивна.
+			row["f_disabled"] = order.IsDisable ? "Y" : "N";
 			row["f_temp_posted"] = ""; // todo: непонятное поле
 			StandartCols(row);
 			row.EndEdit();

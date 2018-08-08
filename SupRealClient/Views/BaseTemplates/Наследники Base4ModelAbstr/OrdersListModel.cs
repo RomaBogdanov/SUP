@@ -2,6 +2,7 @@
 using System.Collections.ObjectModel;
 using SupRealClient.TabsSingleton;
 using System.Data;
+using System.Linq;
 using SupRealClient.Common;
 using System.Collections.Generic;
 
@@ -44,10 +45,12 @@ namespace SupRealClient.Views
 		{
 			return new OrdersModelResult()
 			{
-				Id = CurrentItem.Id,
 				Name = CurrentItem.RegNumber,
+				IsDisable = CurrentItem.IsDisable,
 				From = CurrentItem.From,
 				To = CurrentItem.To,
+				Agree = CurrentItem.Agree,
+				Signed = CurrentItem.Signed,
 				Notes = CurrentItem.Note
 			};
 		}
@@ -60,10 +63,12 @@ namespace SupRealClient.Views
 				      CommonHelper.NotDeleted(orders)
 				select new T
 				{
-					Id = orders.Field<int>("f_ord_id"),
 					RegNumber = orders.Field<int>("f_reg_number").ToString(),
+					IsDisable = orders.Field<string>("f_disabled") == "",
 					From = orders.Field<DateTime>("f_date_from"),
 					To = orders.Field<DateTime>("f_date_to"),
+					Signed = VisitorsWrapper.CurrentTable().Table.AsEnumerable().FirstOrDefault(arg => arg.Field<int>("f_visitor_id") == orders.Field<int>("f_signed_by"))["f_full_name"].ToString(),
+					Agree = VisitorsWrapper.CurrentTable().Table.AsEnumerable().FirstOrDefault(arg => arg.Field<int>("f_visitor_id") == orders.Field<int>("f_adjusted_with"))["f_full_name"].ToString(),
 					Note = orders.Field<string>("f_notes")
 				}
 			);
@@ -79,8 +84,11 @@ namespace SupRealClient.Views
 			return new Dictionary<string, string>
 			{
 				{"RegNumber", "Номер заявки"},
+				{"IsDisable", "Неактивна"},
 				{"From", "Дата начала"},
 				{"To", "Дата окончания"},
+				{"Signed", "Подписано"},
+				{"Agree", "Согласовано"},
 				{"Note", "Примечание"},
 			};
 		}
