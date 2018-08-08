@@ -193,12 +193,12 @@ namespace SupRealClient.Views
 			}
 			else if (e.Key == Key.Up && Keyboard.IsKeyDown(Key.LeftCtrl))
 			{
-				btnNext.Command.Execute(null);
+				btnPrevious.Command.Execute(null);
 				e.Handled = true;
 			}
 			else if (e.Key == Key.Down && Keyboard.IsKeyDown(Key.LeftCtrl))
 			{
-				btnPrevious.Command.Execute(null);
+				btnNext.Command.Execute(null);
 				e.Handled = true;
 			} else if (e.Key == Key.F2 || e.Key == Key.D && Keyboard.IsKeyDown(Key.LeftCtrl))
 			{
