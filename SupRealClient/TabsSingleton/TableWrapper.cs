@@ -257,7 +257,7 @@ namespace SupRealClient.TabsSingleton
 			row["f_image_id"] = order.ImageId;
 			row["f_rec_operator"] = order.RecOperatorID;
 			row["f_new_rec_date"] = order.NewRecDate;
-			row["f_new_rec_operator"] = order.NewRecOperatorID;
+			row["f_new_rec_operator"] = Authorizer.AppAuthorizer.Id; ;
 			row["f_barcode"] = order.Barcode;
 			row["f_adjusted_with"] = order.AgreeId;
 			row["f_notes"] = order.Note;
@@ -286,10 +286,8 @@ namespace SupRealClient.TabsSingleton
 			row["f_date_to"] = order.To == null ? DateTime.MinValue : order.To;
 			row["f_signed_by"] = order.SignedId;
 			row["f_rec_date"] = order.RecDate;
-			row["f_image_id"] = order.ImageId;
 			row["f_rec_operator"] = order.RecOperatorID;
-			row["f_new_rec_date"] = order.NewRecDate;
-			row["f_new_rec_operator"] = order.NewRecOperatorID;
+			row["f_image_id"] = order.ImageId;
 			row["f_barcode"] = order.Barcode;
 			row["f_adjusted_with"] = order.AgreeId;
 			row["f_notes"] = order.Note;
@@ -343,9 +341,9 @@ namespace SupRealClient.TabsSingleton
 					From = ords.Field<DateTime>("f_date_from"),
 					To = ords.Field<DateTime>("f_date_to"),
 					SignedId = ords.Field<int>("f_signed_by"),
-					RecDate = ords.Field<DateTime>("f_rec_date"),
 					Barcode = ords.Field<string>("f_barcode"),
 					ImageId = ords.Field<int>("f_image_id"),
+					RecDate = ords.Field<DateTime>("f_rec_date"),
 					RecOperatorID = ords.Field<int>("f_rec_operator"),
 					NewRecDate = ords.Field<DateTime?>("f_new_rec_date"),
 					NewRecOperatorID = ords.Field<int>("f_new_rec_operator"),

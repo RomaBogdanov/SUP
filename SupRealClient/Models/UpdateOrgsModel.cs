@@ -75,19 +75,17 @@ namespace SupRealClient.Models
 
             var rows = (from object row in organizations.Table.Rows select row as DataRow).ToList();
 
-            var IsNotExistOrganization =
-                rows. FirstOrDefault(
-                    r =>
-                        r.Field<int>("f_org_id") != data.Id &&
+
+            var sameRow = rows.FirstOrDefault(
+                   r =>
+                       r.Field<int>("f_org_id") != data.Id &&
                         r.Field<string>("f_org_type") == data.Type &&
                         r.Field<string>("f_org_name") ==
-                            OrganizationsHelper.TrimName(data.Name) &&
-                         //OrganizationsHelper.GenerateFullName(r.Field<int>("f_org_id")) ==
-                         //   data.FullName &&
+                            OrganizationsHelper.TrimName(data.Name) &&                       
                         r.Field<int>("f_cntr_id") == data.CountryId &&
-                        r.Field<int>("f_region_id") == data.RegionId) == null;
+                        r.Field<int>("f_region_id") == data.RegionId);
 
-            if (IsNotExistOrganization)
+            if (sameRow == null)
             {                
                 DataRow row = organizations.Table.Rows.Find(organization.Id);
                 row.BeginEdit();
@@ -115,6 +113,21 @@ namespace SupRealClient.Models
                 }
                 Cancel();
             }
+            //else if (sameRow.Field<string>("f_deleted") == CommonHelper.BoolToString(true))
+            //{
+            //    int Id = sameRow.Field<int>("f_org_id");
+            //    DataRow row = organizations.Table.Rows.Find(Id);
+            //    row.BeginEdit();
+            //    row["f_deleted"] = CommonHelper.BoolToString(false);
+            //    row.EndEdit();
+                
+            //    DataRow oldRow = organizations.Table.Rows.Find(organization.Id);
+            //    oldRow.BeginEdit();
+            //    oldRow["f_deleted"] = CommonHelper.BoolToString(true);
+            //    oldRow.EndEdit();
+
+            //    Cancel();
+            //}
             else
             {
                 MessageBox.Show("Такая организация уже записана!");
