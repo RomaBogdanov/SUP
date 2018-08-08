@@ -4,6 +4,7 @@ using System.Data;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Runtime.CompilerServices;
+using System.Windows;
 using SupRealClient.Annotations;
 using SupRealClient.TabsSingleton;
 using SupRealClient.Common;
@@ -105,6 +106,10 @@ namespace SupRealClient.EnumerationClasses
 					Visitor = row["f_full_name"].ToString();
 					VisitorMainPosition = row["f_job"].ToString();
 				}
+				else
+				{
+					MessageBox.Show("Поле посетителя ссылается на несуществующего в базе посетителя по id = " + visitorId, "Ошибка", MessageBoxButton.OK, MessageBoxImage.Error);
+				}
 			}
 		}
 
@@ -141,6 +146,7 @@ namespace SupRealClient.EnumerationClasses
 				}
 				else
 				{
+					MessageBox.Show("Поле организации ссылается на несуществующую в базе организацию по id = " + organizationId, "Ошибка", MessageBoxButton.OK, MessageBoxImage.Error);
 					Organization = "";
 				}
 			}
@@ -189,6 +195,7 @@ namespace SupRealClient.EnumerationClasses
 				}
 				else
 				{
+					MessageBox.Show("Поле принимающего лица ссылается на несуществующего в базе посетителя по id = " + catcherId, "Ошибка", MessageBoxButton.OK, MessageBoxImage.Error);
 					Catcher = "";
 				}
 				

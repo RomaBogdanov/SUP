@@ -4,6 +4,7 @@ using System.Data;
 using System.Collections.ObjectModel;
 using System.Collections.Specialized;
 using System.Text.RegularExpressions;
+using System.Windows;
 using SupRealClient.TabsSingleton;
 
 namespace SupRealClient.EnumerationClasses
@@ -112,9 +113,18 @@ namespace SupRealClient.EnumerationClasses
 		{
 			get
 			{
-				return SprOrderTypesWrapper.CurrentTable().Table.AsEnumerable()
+				DataRow row = SprOrderTypesWrapper.CurrentTable().Table.AsEnumerable()
 					.FirstOrDefault(arg => arg.Field<int>("f_order_type_id") ==
-					                       TypeId)["f_order_text"].ToString();
+					                       TypeId);
+				if (row != null)
+				{
+					return row["f_order_text"].ToString();
+				}
+				else
+				{
+					MessageBox.Show("Поле типа заявки ссылается на несуществующей в базе тип по id = " + TypeId, "Ошибка", MessageBoxButton.OK, MessageBoxImage.Error);
+					return "";
+				}
 			}
 			set { }
 		}
@@ -149,32 +159,76 @@ namespace SupRealClient.EnumerationClasses
 		public DateTime From { get; set; }
 		public DateTime To { get; set; }
 
+		/// <summary>
+		/// Дата последнего изменения заявки
+		/// </summary>
 		public DateTime RecDate { get; set; }
+
+		/// <summary>
+		/// Id оператора, который совершил последнее изменение заявки
+		/// </summary>
 		public int RecOperatorID { get; set; }
+		/// <summary>
+		/// Имя оператора, который совершил последнее изменение заявки
+		/// </summary>
 		public string RecOperator
 		{
 			get
 			{
-				return UsersWrapper.CurrentTable().Table.AsEnumerable()
+				DataRow row = UsersWrapper.CurrentTable().Table.AsEnumerable()
 					.FirstOrDefault(arg => arg.Field<int>("f_user_id") ==
-					                       RecOperatorID)["f_user"].ToString();
+					                       RecOperatorID);
+				if (row != null)
+				{
+					return row["f_user"].ToString();
+				}
+				else
+				{
+					MessageBox.Show("Поле изменяющего пользователя ссылается на несуществующего в базе пользователя по id = " + RecOperatorID, "Ошибка", MessageBoxButton.OK, MessageBoxImage.Error);
+					return "";
+				}
 			}
-			set { }
 		}
 
+		/// <summary>
+		/// Дата создания заявки
+		/// </summary>
 		public DateTime? NewRecDate { get; set; }
+
+		/// <summary>
+		/// Id оператора, который создал заявку
+		/// </summary>
 		public int NewRecOperatorID { get; set; }
+
+		/// <summary>
+		/// Имя оператора, который создал заявку
+		/// </summary>
 		public string NewRecOperator
 		{
 			get
 			{
-				return UsersWrapper.CurrentTable().Table.AsEnumerable()
+				DataRow row = UsersWrapper.CurrentTable().Table.AsEnumerable()
 					.FirstOrDefault(arg => arg.Field<int>("f_user_id") ==
-					                       NewRecOperatorID)["f_user"].ToString();
+					                       NewRecOperatorID);
+				if (row != null)
+				{
+					return row["f_user"].ToString();
+				}
+				else
+				{
+					MessageBox.Show("Поле создавшего заявку пользователя ссылается на несуществующего в базе пользователя по id = " + NewRecOperatorID, "Ошибка", MessageBoxButton.OK, MessageBoxImage.Error);
+					return "";
+				}
 			}
-			set { }
 		}
+
+		/// <summary>
+		/// Штрих-код сэд (системы электронного документооборота)
+		/// </summary>
 		public string Barcode { get; set; }
+		/// <summary>
+		/// Id принимающего
+		/// </summary>
 		public int CatcherId { get; set; } = 0; // Id провожающего
 		public int ImageId { get; set; } // id исходника скана заявки
 		public string Catcher { get; set; } = ""; // провожающий
@@ -193,9 +247,17 @@ namespace SupRealClient.EnumerationClasses
 			set
 			{
 				signedId = value;
-				Signed = VisitorsWrapper.CurrentTable().Table.AsEnumerable()
+				DataRow row = VisitorsWrapper.CurrentTable().Table.AsEnumerable()
 					.FirstOrDefault(arg => arg.Field<int>("f_visitor_id") ==
-					                       signedId)["f_full_name"].ToString();
+					                       signedId);
+				if (row != null)
+				{
+					Signed = row["f_full_name"].ToString();
+				}
+				else
+				{
+					MessageBox.Show("Поле подписывающего лица ссылается на несуществующего в базе посетителя по id = " + signedId, "Ошибка", MessageBoxButton.OK, MessageBoxImage.Error);
+				}
 			}
 		}
 
@@ -207,9 +269,17 @@ namespace SupRealClient.EnumerationClasses
 			set
 			{
 				agreeId = value;
-				Agree = VisitorsWrapper.CurrentTable().Table.AsEnumerable()
+				DataRow row = VisitorsWrapper.CurrentTable().Table.AsEnumerable()
 					.FirstOrDefault(arg => arg.Field<int>("f_visitor_id") ==
-					                       agreeId)["f_visitor_id"].ToString();
+					                       agreeId);
+				if (row != null)
+				{
+					Agree = row["f_full_name"].ToString();
+				}
+				else
+				{
+					MessageBox.Show("Поле согласовывающего лица ссылается на несуществующего в базе посетителя по id = " + agreeId, "Ошибка", MessageBoxButton.OK, MessageBoxImage.Error);
+				}
 			}
 		}
 
