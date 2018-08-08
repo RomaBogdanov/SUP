@@ -15,6 +15,7 @@
     Activated="MetroWindow_Activated"
     Closing="Window_Closing"
     IsVisibleChanged="MetroWindow_IsVisibleChanged"
+    PreviewKeyDown="VisitorsView_PreviewKeyDown"
     ResizeMode="NoResize"
     mc:Ignorable="d">
 
@@ -327,7 +328,7 @@
                     Grid.Row="2"
                     Grid.Column="0"
                     Margin="10,11,0,11"
-                    Content="Вход запрещен"
+                    Content="Заблокирован"
                     IsChecked="{Binding Path=CurrentItem.IsAccessDenied, Mode=TwoWay}"
                     IsEnabled="{Binding Path=TextEnable, Mode=TwoWay}"
                     IsTabStop="False" />

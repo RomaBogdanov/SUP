@@ -150,7 +150,7 @@ namespace SupRealClient.Views
 
 		private void VisitorsView_PreviewKeyDown(object sender, KeyEventArgs e)
 		{
-			if (e.Key == Key.Escape)
+			if (button_Ok.IsEnabled == false && e.Key == Key.Escape)
 			{
 				Close();
 			}
