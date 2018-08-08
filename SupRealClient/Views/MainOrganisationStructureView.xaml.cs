@@ -47,12 +47,10 @@ namespace SupRealClient.Views
         {
             Window oWindow = Window.GetWindow(this);
             if (oWindow.Visibility == System.Windows.Visibility.Visible)
-            {
-                WindowsPositionSet();
-                
+            {                
                 tbSearch.Text = string.Empty;
                 tbSearch.Focus();
-                
+
                 MainOrganizationViewModel vm = DataContext as MainOrganizationViewModel;
                 if (vm != null && vm.Organizations.Count > 0)
                 {
@@ -79,15 +77,6 @@ namespace SupRealClient.Views
                     tbSearch.Focus();
                 }
             }            
-        }
-
-        void WindowsPositionSet()
-        {
-            ChildWinSet WinSet = new ChildWinSet() { Left = 0 };
-            this.Height = WinSet.Height;
-            this.Width = WinSet.Width;
-            this.Left = WinSet.Left;
-            this.Top = WinSet.Top;
-        }
+        }        
     }
 }

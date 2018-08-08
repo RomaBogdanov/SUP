@@ -6,10 +6,10 @@
         xmlns:local="clr-namespace:SupRealClient.Views"
         xmlns:mah="http://metro.mahapps.com/winfx/xaml/controls"
         mc:Ignorable="d"
-        Title="{Binding Path=Title, Mode=OneTime}" Height="150" Width="400"
+        Title="{Binding Path=Title, Mode=OneTime}" Height="140" Width="400"
         ResizeMode="NoResize"
         WindowStartupLocation="CenterScreen"
-        Icon="../Resources/Добавить.ico">
+        >
     
     <mah:MetroWindow.InputBindings>
         <KeyBinding Key="Return" Command="{Binding OkCommand}"/>
@@ -18,8 +18,8 @@
     
     <Grid>
         <Grid.RowDefinitions>
-            <RowDefinition/>
-            <RowDefinition/>
+            <RowDefinition Height="30"/>
+            <RowDefinition Height="30"/>
             <RowDefinition/>
         </Grid.RowDefinitions>
         
@@ -32,38 +32,71 @@
         
         <TextBlock 
             Grid.Row="0"
-            Grid.Column="0"
             Grid.ColumnSpan="4"
-            HorizontalAlignment="Center"
-            VerticalAlignment="Center"
+            FontSize="{Binding FontSize}"
+            HorizontalAlignment="Left"
+            Style="{StaticResource TextBLockStyle}"
             Text="Введите имя:"/>
         
         <TextBox
             x:Name="tbName"
             Grid.Row="1"
-            Grid.Column="0"
             Grid.ColumnSpan="4"
-            HorizontalContentAlignment="Center"
-            VerticalAlignment="Center"
-            Margin="5"
+            Margin="2"
+            FontSize="{Binding FontSize}"
+            Style="{StaticResource TextBoxStyle}"
             PreviewKeyUp="UIElement_OnPreviewKeyUp"
             Text="{Binding Description, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
-        
+
         <Button
             Grid.Row="2"
-            Grid.Column="1"
-            Margin="5"
-            Content="Ок"
+            Grid.Column="0"
+            Grid.ColumnSpan="2"
+            Margin="2"
             Command="{Binding OkCommand}"
-            Style="{DynamicResource SquareButtonStyle1}"/>
-        
+            Style="{StaticResource ButtonStyle}">
+            <Grid Width="140">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition/>
+                    <ColumnDefinition/>
+                </Grid.ColumnDefinitions>
+
+                <Image 
+                    Grid.Column="0"
+                    Source="../Resources/Принять (2).ico"/>
+
+                <TextBlock
+                    Grid.Column="1"
+                    Text="Ок"
+                    FontSize="{Binding FontSize}"
+                    Style="{StaticResource TextBLockStyle}"/>
+            </Grid>
+        </Button>
+
         <Button
             Grid.Row="2"
             Grid.Column="2"
-            Margin="5"
-            Content="Отмена"
+            Grid.ColumnSpan="2"
+            Margin="2"
             Command="{Binding CancelCommand}"
-            Style="{DynamicResource SquareButtonStyle1}"/>
+            Style="{StaticResource ButtonStyle}">
+            <Grid Width="140">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition/>
+                    <ColumnDefinition/>
+                </Grid.ColumnDefinitions>
+
+                <Image
+                    Grid.Column="0"
+                    Source="../Resources/Отмена (2).ico"/>
+
+                <TextBlock
+                    Grid.Column="1"
+                    Text="Отмена"
+                    FontSize="{Binding FontSize}"
+                    Style="{StaticResource TextBLockStyle}"/>
+            </Grid>
+        </Button>
     </Grid>
 
 </mah:MetroWindow>
