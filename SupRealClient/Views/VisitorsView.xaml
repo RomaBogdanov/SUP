@@ -670,6 +670,7 @@
                             <DataGridTextColumn Header="Принимающее лицо" Binding="{Binding Path=Catcher}"/>
                             <DataGridTextColumn Header="Тип заявки" Binding="{Binding Path=OrderType}"/>
                             <DataGridTextColumn Header="Проходы" Binding="{Binding Path=Passes}"/>
+                            <DataGridCheckBoxColumn Header="Выдан пропуск" Binding="{Binding Path=HasCard}"/>
                         </DataGrid.Columns>
                     </DataGrid>
                 </mah:MetroTabItem>
