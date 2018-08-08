@@ -61,12 +61,12 @@ namespace SupRealClient.Models
         {
             if (string.IsNullOrEmpty(data.Type))
             {
-                MessageBox.Show("Заполните поле Тип", "Информация", MessageBoxButton.OK, MessageBoxImage.Information);
+                MessageBox.Show("Заполните поле «Тип»", "Информация", MessageBoxButton.OK, MessageBoxImage.Information);
                 return;
             }
             if (string.IsNullOrEmpty(OrganizationsHelper.TrimName(data.Name)))
             {
-                MessageBox.Show("Заполните поле Название", "Информация", MessageBoxButton.OK, MessageBoxImage.Information);
+                MessageBox.Show("Заполните поле «Название»", "Информация", MessageBoxButton.OK, MessageBoxImage.Information);
                 return;
             }
 

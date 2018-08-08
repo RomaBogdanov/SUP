@@ -34,7 +34,7 @@ namespace SupRealClient.Models
         {
             if (string.IsNullOrEmpty(data.Field))
             {
-                MessageBox.Show("Заполните поле - 'Отредактировать страну'", "Информация", MessageBoxButton.OK, MessageBoxImage.Information);
+                MessageBox.Show("Заполните поле «Отредактировать страну»", "Информация", MessageBoxButton.OK, MessageBoxImage.Information);
                 return;
             }
 

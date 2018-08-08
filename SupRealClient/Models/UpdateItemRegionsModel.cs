@@ -46,12 +46,12 @@ namespace SupRealClient.Models
         {
             if (data.Name.IsNullOrEmptyOrWhiteSpaces())
             {
-                MessageBox.Show("Заполните поле Название", "Информация", MessageBoxButton.OK, MessageBoxImage.Information);
+                MessageBox.Show("Заполните поле «Название»", "Информация", MessageBoxButton.OK, MessageBoxImage.Information);
                 return;
             }
             if (data.Country.IsNullOrEmptyOrWhiteSpaces())
             {
-                MessageBox.Show("Заполните поле Страна", "Информация", MessageBoxButton.OK, MessageBoxImage.Information);
+                MessageBox.Show("Заполните поле «Страна»", "Информация", MessageBoxButton.OK, MessageBoxImage.Information);
                 return;
             }
 

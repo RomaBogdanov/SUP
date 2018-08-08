@@ -26,7 +26,7 @@ namespace SupRealClient.Models
         {
             if (string.IsNullOrEmpty(data.Field))
             {
-                MessageBox.Show("Заполните поле - 'Введите страну'", "Информация", MessageBoxButton.OK, MessageBoxImage.Information);
+                MessageBox.Show("Заполните поле «Введите страну»", "Информация", MessageBoxButton.OK, MessageBoxImage.Information);
                 return;
             }
 
