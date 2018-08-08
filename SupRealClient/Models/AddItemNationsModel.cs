@@ -26,7 +26,7 @@ namespace SupRealClient.Models
         {
             if (string.IsNullOrEmpty(data.Field))
             {
-                MessageBox.Show("Заполните поле - 'Введите страну'");
+                MessageBox.Show("Заполните поле - 'Введите страну'", "Информация", MessageBoxButton.OK, MessageBoxImage.Information);
                 return;
             }
 
@@ -51,7 +51,7 @@ namespace SupRealClient.Models
             }
             else
             {
-                MessageBox.Show("Такая страна уже записана!");
+                MessageBox.Show("Такая страна уже существует!", "Предупреждение", MessageBoxButton.OK, MessageBoxImage.Warning);
             }            
         }
     }
