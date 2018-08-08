@@ -98,7 +98,7 @@
 				IsEnabled="{Binding Path=TextEnable, Mode=TwoWay}"
 				KeyUp="MoveNextFocusControl"
 				Style="{StaticResource TextBoxStyle}"
-				Text="&#xD;&#xA;" />
+				Text="{Binding Path=Name, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"  />
 
 			<TextBlock
 				Grid.Row="0"
