@@ -5,10 +5,10 @@
 	xmlns:converters="clr-namespace:SupRealClient.Behaviour"
 	xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
 	xmlns:gl="clr-namespace:System.Globalization;assembly=mscorlib"
+	xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
 	xmlns:mah="http://metro.mahapps.com/winfx/xaml/controls"
 	xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
 	xmlns:wpfx="http://schemas.xceed.com/wpf/xaml/toolkit"
-	xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
 	Title="{Binding Path=Caption, Mode=OneTime}"
 	Width="600"
 	Height="800"
@@ -21,7 +21,7 @@
 				<ResourceDictionary Source="SupResourcesDictionary.xaml" />
 			</ResourceDictionary.MergedDictionaries>
 			<converters:InverseBooleanConverter x:Key="InverseBooleanConverter" />
-			<converters:GuidToStringConverter x:Key="GuidToStringConverter"></converters:GuidToStringConverter>
+			<converters:GuidToStringConverter x:Key="GuidToStringConverter" />
 		</ResourceDictionary>
 	</mah:MetroWindow.Resources>
 
@@ -87,17 +87,19 @@
 							<ColumnDefinition Width="Auto" />
 						</Grid.ColumnDefinitions>
 
-						<TextBox x:Name="textBox_DocType"
+						<TextBox
+							x:Name="textBox_DocType"
 							Grid.Column="0"
 							Margin="2"
+							IsEnabled="{Binding Editable, Mode=OneWay}"
 							IsReadOnly="True"
-							Style="{StaticResource TextBoxStyle}"
 							IsTabStop="False"
-							Text="{Binding Path=DocType,  UpdateSourceTrigger=PropertyChanged}" 
-						         KeyUp="KeyUp_LoadDocType"
-						    IsEnabled="{Binding Editable, Mode=OneWay}"/>
+							KeyUp="KeyUp_LoadDocType"
+							Style="{StaticResource TextBoxStyle}"
+							Text="{Binding Path=DocType, UpdateSourceTrigger=PropertyChanged}" />
 
-						<Button x:Name="button_SetDocumentType"
+						<Button
+							x:Name="button_SetDocumentType"
 							Grid.Column="1"
 							Width="25"
 							Height="25"
@@ -105,9 +107,9 @@
 							Command="{Binding DocumentsCommand}"
 							Content="..."
 							IsEnabled="{Binding Path=Editable, Mode=OneTime}"
+							KeyDown="MoveNextFocusControl"
 							Style="{StaticResource VisitorsSquareButtonStyle}"
-							KeyUp="MoveNextFocusControl"
-						        TabIndex="{Binding Path=TabIndex, RelativeSource={RelativeSource AncestorType={x:Type mah:MetroWindow}}}" />
+							TabIndex="{Binding Path=TabIndex, RelativeSource={RelativeSource AncestorType={x:Type mah:MetroWindow}}}" />
 
 						<Button
 							Grid.Column="2"
@@ -117,8 +119,8 @@
 							Command="{Binding ClearCommand}"
 							Content="X"
 							IsEnabled="{Binding Path=Editable, Mode=OneTime}"
-							Style="{StaticResource VisitorsSquareButtonStyle}"
-							IsTabStop="False" />
+							IsTabStop="False"
+							Style="{StaticResource VisitorsSquareButtonStyle}" />
 					</Grid>
 
 					<TextBlock
@@ -136,7 +138,7 @@
 						Grid.ColumnSpan="2"
 						Margin="2"
 						IsReadOnly="{Binding Path=Editable, Converter={StaticResource InverseBooleanConverter}, Mode=OneTime}"
-						KeyUp="MoveNextFocusControl"
+						KeyDown="MoveNextFocusControl"
 						Style="{StaticResource TextBoxStyle}"
 						TabIndex="{Binding Path=TabIndex, RelativeSource={RelativeSource AncestorType={x:Type mah:MetroWindow}}}"
 						Text="{Binding Path=Seria, Mode=TwoWay}" />
@@ -156,7 +158,7 @@
 						Grid.ColumnSpan="2"
 						Margin="2"
 						IsReadOnly="{Binding Path=Editable, Converter={StaticResource InverseBooleanConverter}, Mode=OneTime}"
-						KeyUp="MoveNextFocusControl"
+						KeyDown="MoveNextFocusControl"
 						Style="{StaticResource TextBoxStyle}"
 						TabIndex="{Binding Path=TabIndex, RelativeSource={RelativeSource AncestorType={x:Type mah:MetroWindow}}}"
 						Text="{Binding Path=Num, Mode=TwoWay}" />
@@ -177,7 +179,7 @@
 						Height="76"
 						Margin="2"
 						IsReadOnly="{Binding Path=Editable, Converter={StaticResource InverseBooleanConverter}, Mode=OneTime}"
-						KeyUp="MoveNextFocusControl"
+						KeyDown="MoveNextFocusControl"
 						Style="{StaticResource TextBoxStyle}"
 						TabIndex="{Binding Path=TabIndex, RelativeSource={RelativeSource AncestorType={x:Type mah:MetroWindow}}}"
 						Text="{Binding Path=Org, Mode=TwoWay}"
@@ -192,15 +194,16 @@
 						Style="{StaticResource TextBLockStyle}"
 						Text="Код:" />
 
-					<TextBox x:Name="textBox_Code"
+					<TextBox
+						x:Name="textBox_Code"
 						Grid.Row="9"
 						Grid.Column="0"
 						Grid.ColumnSpan="2"
 						Margin="2"
 						IsReadOnly="{Binding Path=Editable, Converter={StaticResource InverseBooleanConverter}, Mode=OneTime}"
-						KeyUp="MoveNextFocusControl"
+						KeyDown="MoveNextFocusControl"
 						Style="{StaticResource TextBoxStyle}"
-					    TabIndex="{Binding Path=TabIndex, RelativeSource={RelativeSource AncestorType={x:Type mah:MetroWindow}}}"
+						TabIndex="{Binding Path=TabIndex, RelativeSource={RelativeSource AncestorType={x:Type mah:MetroWindow}}}"
 						Text="{Binding Path=Code, Mode=TwoWay}" />
 
 					<TextBlock
@@ -226,19 +229,19 @@
                         KeyUp="TextBox_OnKeyUp">
                     </DatePicker>-->
 
-					<DatePicker x:Name="datePicker_Date"
-								IsTabStop="False"
+					<DatePicker
+						x:Name="datePicker_Date"
 						Grid.Row="11"
 						Grid.Column="0"
 						Grid.ColumnSpan="2"
 						Margin="2"
 						IsEnabled="{Binding Path=Editable, Mode=OneTime}"
-						KeyUp="MoveNextFocusControl"
+						IsTabStop="False"
+						KeyDown="MoveNextFocusControl"
 						SelectedDate="{Binding Path=Date, Mode=TwoWay}"
-						
-					            TabIndex="{Binding Path=TabIndex, RelativeSource={RelativeSource AncestorType={x:Type mah:MetroWindow}}}"
+						TabIndex="{Binding Path=TabIndex, RelativeSource={RelativeSource AncestorType={x:Type mah:MetroWindow}}}"
 						Text="Дата">
-						<!--PreviewMouseDoubleClick="DatePicker_PreviewMouseDoubleClick" TextInput="datePicker_Date_TextInput" FocusableChanged="datePicker_Date_FocusableChanged"-->
+						<!--  PreviewMouseDoubleClick="DatePicker_PreviewMouseDoubleClick" TextInput="datePicker_Date_TextInput" FocusableChanged="datePicker_Date_FocusableChanged"  -->
 						<DatePicker.Resources>
 							<Style TargetType="{x:Type DatePickerTextBox}">
 								<Setter Property="Control.Template">
@@ -246,10 +249,9 @@
 										<ControlTemplate>
 											<wpfx:MaskedTextBox
 												x:Name="PART_TextBox"
-												Mask="00/00/0000"
-												Text="{Binding Path=SelectedDate, ConverterCulture={x:Static gl:CultureInfo.CurrentCulture}, StringFormat=dd/MM/yyyy, RelativeSource={RelativeSource AncestorType={x:Type DatePicker}}}" 
 												GotFocus="datePicker_Date_GotFocus"
-												/>
+												Mask="00/00/0000"
+												Text="{Binding Path=SelectedDate, ConverterCulture={x:Static gl:CultureInfo.CurrentCulture}, StringFormat=dd/MM/yyyy, RelativeSource={RelativeSource AncestorType={x:Type DatePicker}}}" />
 										</ControlTemplate>
 									</Setter.Value>
 								</Setter>
@@ -284,9 +286,8 @@
 						Grid.ColumnSpan="2"
 						Margin="2"
 						IsEnabled="{Binding Path=Editable, Mode=OneTime}"
-						KeyUp="MoveNextFocusControl"
+						KeyDown="MoveNextFocusControl"
 						SelectedDate="{Binding Path=DateTo, Mode=TwoWay}"
-						
 						TabIndex="{Binding Path=TabIndex, RelativeSource={RelativeSource AncestorType={x:Type mah:MetroWindow}}}"
 						Text="Дата до">
 						<DatePicker.Resources>
@@ -332,9 +333,8 @@
 						Grid.ColumnSpan="2"
 						Margin="2"
 						IsEnabled="{Binding Path=Editable, Mode=OneTime}"
-						KeyUp="MoveNextFocusControl"
+						KeyDown="MoveNextFocusControl"
 						SelectedDate="{Binding Path=BirthDate, Mode=TwoWay}"
-						
 						TabIndex="{Binding Path=TabIndex, RelativeSource={RelativeSource AncestorType={x:Type mah:MetroWindow}}}"
 						Text="Дата рождения">
 						<DatePicker.Resources>
@@ -365,12 +365,11 @@
 						Grid.Row="17"
 						Grid.Column="0"
 						Grid.ColumnSpan="2"
-						Height="76"
-						Margin="2"
-						IsReadOnly="{Binding Path=Editable, Mode=OneTime}"
-						KeyUp="MoveNextFocusControl"
+						Margin="2,2,2,-36"
+						VerticalAlignment="Stretch"
+						IsReadOnly="{Binding Path=Editable, Converter={StaticResource InverseBooleanConverter}, Mode=TwoWay}"
+						KeyDown="MoveNextFocusControl"
 						Style="{StaticResource TextBoxStyle}"
-						
 						TabIndex="{Binding Path=TabIndex, RelativeSource={RelativeSource AncestorType={x:Type mah:MetroWindow}}}"
 						Text="{Binding Path=Comment, Mode=TwoWay}"
 						TextWrapping="Wrap" />
@@ -404,11 +403,13 @@
 						Height="350"
 						Source="{Binding Path=Image, Mode=OneWay}"
 						Stretch="UniformToFill" />-->
-					<ListView x:Name="listView"  Grid.Column="0" Grid.ColumnSpan="2"
-					          ItemsSource="{Binding Images, UpdateSourceTrigger=PropertyChanged}"
-							  SelectedItem="{Binding Image, Mode=TwoWay}"
-					          SelectedIndex="{Binding SelectedImage, Mode=TwoWay}"
-					          >
+					<ListView
+						x:Name="listView"
+						Grid.Column="0"
+						Grid.ColumnSpan="2"
+						ItemsSource="{Binding Images, UpdateSourceTrigger=PropertyChanged}"
+						SelectedIndex="{Binding SelectedImage, Mode=TwoWay}"
+						SelectedItem="{Binding Image, Mode=TwoWay}">
 						<i:Interaction.Triggers>
 							<i:EventTrigger EventName="PreviewMouseDoubleClick">
 								<i:InvokeCommandAction Command="{Binding OpenDocumentImagesCommand}" />
@@ -416,24 +417,34 @@
 						</i:Interaction.Triggers>
 						<ListView.ItemsPanel>
 							<ItemsPanelTemplate>
-								<WrapPanel Width="580"
-								           Height="540" HorizontalAlignment="Stretch" VerticalAlignment="Center"
-								           Margin="-10,0"
-								           ></WrapPanel>
+								<WrapPanel
+									Width="580"
+									Height="540"
+									Margin="-10,0"
+									HorizontalAlignment="Stretch"
+									VerticalAlignment="Center" />
 							</ItemsPanelTemplate>
 						</ListView.ItemsPanel>
 						<ListView.ItemTemplate>
 							<DataTemplate>
-								<Border BorderBrush="Black" 
-								        BorderThickness="1">
-								<Image Name="ImageControl" Margin="5" MaxWidth="290" Width="100" Height="100"  Source="{Binding}" MinHeight="50"/>
+								<Border BorderBrush="Black" BorderThickness="1">
+									<Image
+										Name="ImageControl"
+										Width="100"
+										Height="100"
+										MinHeight="50"
+										MaxWidth="290"
+										Margin="5"
+										Source="{Binding}" />
 								</Border>
 							</DataTemplate>
 						</ListView.ItemTemplate>
 					</ListView>
 
-					<Grid Grid.Row="2" Grid.Column="1" 
-					      HorizontalAlignment="Right">
+					<Grid
+						Grid.Row="2"
+						Grid.Column="1"
+						HorizontalAlignment="Right">
 						<Grid.ColumnDefinitions>
 							<ColumnDefinition />
 							<ColumnDefinition />
@@ -518,7 +529,6 @@
 							Command="{Binding Path=NextCommand}"
 							Style="{StaticResource VisitorsSquareButtonStyle}"
 							TabIndex="14"
-							
 							Visibility="Collapsed">
 							<Grid>
 								<Grid.RowDefinitions>
@@ -539,15 +549,15 @@
 				</Grid>
 			</mah:MetroTabItem>
 		</mah:MetroAnimatedTabControl>
-		<Button x:Name="button_Ok"
+		<Button
+			x:Name="button_Ok"
 			Grid.Row="1"
 			Grid.Column="1"
 			Margin="2"
 			Command="{Binding Path=Ok}"
 			IsEnabled="{Binding Path=Editable, Mode=OneTime}"
 			Style="{StaticResource ButtonStyle}"
-			
-		        TabIndex="{Binding Path=TabIndex, RelativeSource={RelativeSource AncestorType={x:Type mah:MetroWindow}}}">
+			TabIndex="{Binding Path=TabIndex, RelativeSource={RelativeSource AncestorType={x:Type mah:MetroWindow}}}">
 			<Grid Width="140">
 				<Grid.ColumnDefinitions>
 					<ColumnDefinition />

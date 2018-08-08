@@ -1,209 +1,213 @@
-﻿<mah:MetroWindow x:Class="SupRealClient.Views.VisitorsDocumentView"
-        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        xmlns:mah="http://metro.mahapps.com/winfx/xaml/controls"
-		xmlns:converter="clr-namespace:SupRealClient.Behaviour"
-        xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
-        mc:Ignorable="d"
-        Title="{Binding Path=Caption, Mode=OneTime}" 
-        Height="470" Width="300" 
-        ResizeMode="NoResize">
+﻿<mah:MetroWindow
+	x:Class="SupRealClient.Views.VisitorsDocumentView"
+	xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+	xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+	xmlns:converter="clr-namespace:SupRealClient.Behaviour"
+	xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+	xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
+	xmlns:mah="http://metro.mahapps.com/winfx/xaml/controls"
+	xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+	Title="{Binding Path=Caption, Mode=OneTime}"
+	Width="300"
+	Height="470"
+	ResizeMode="NoResize"
+	mc:Ignorable="d">
 	<mah:MetroWindow.Resources>
 
-		<converter:DocumentListElementsHeightConverter x:Key="DocumentListElementsHeightConverter"></converter:DocumentListElementsHeightConverter>
-		<converter:DocumentListElementHeightConverter x:Key="DocumentListElementHeightConverter"></converter:DocumentListElementHeightConverter>
+		<converter:DocumentListElementsHeightConverter x:Key="DocumentListElementsHeightConverter" />
+		<converter:DocumentListElementHeightConverter x:Key="DocumentListElementHeightConverter" />
 	</mah:MetroWindow.Resources>
-	<!--<-->
+	<!--  <  -->
 
 
-	<mah:MetroWindow.InputBindings>
-        <KeyBinding Key="Escape" Command="{Binding Cancel}"/>
-    </mah:MetroWindow.InputBindings>
-    
-    <Grid>
-        <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="1*"/>
-            <ColumnDefinition Width="1*"/>
-        </Grid.ColumnDefinitions>
-        <Grid.RowDefinitions>
-            <RowDefinition Height="30"/>
-            <RowDefinition Height="30"/>
-            <RowDefinition Height="30"/>
-            <RowDefinition/>
-            <RowDefinition Height="Auto"/>
-            <RowDefinition Height="Auto"/>
-        </Grid.RowDefinitions>
-        <TextBlock 
-            Grid.ColumnSpan="2"
-            Text="Название:" 
-            FontSize="15"
-            HorizontalAlignment="Left"
-            Style="{StaticResource TextBLockStyle}"/>
+	<!--<mah:MetroWindow.InputBindings>
+        <KeyBinding Key="Escape" Command="{Binding Cancel}" />
+    </mah:MetroWindow.InputBindings>-->
 
-        <TextBox 
-            x:Name="NameTextBox"
-            Grid.Row="1" 
-            Grid.Column="0"
-            Grid.ColumnSpan="2" 
-            TabIndex="0"
-	        Text="{Binding Name, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
-            Margin="2"
-            Style="{StaticResource TextBoxStyle}"
-            KeyDown="TextBox_OnKeyDown"/>
-	    <!--Text="{Binding Name, Mode=TwoWay}"-->
-	    <!--Text="{Binding Name, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"-->
+	<Grid>
+		<Grid.ColumnDefinitions>
+			<ColumnDefinition Width="1*" />
+			<ColumnDefinition Width="1*" />
+		</Grid.ColumnDefinitions>
+		<Grid.RowDefinitions>
+			<RowDefinition Height="30" />
+			<RowDefinition Height="30" />
+			<RowDefinition Height="30" />
+			<RowDefinition />
+			<RowDefinition Height="Auto" />
+			<RowDefinition Height="Auto" />
+		</Grid.RowDefinitions>
+		<TextBlock
+			Grid.ColumnSpan="2"
+			HorizontalAlignment="Left"
+			FontSize="15"
+			Style="{StaticResource TextBLockStyle}"
+			Text="Название:" />
 
-        <TextBlock 
-            Grid.Row="2" 
-            Grid.ColumnSpan="2"
-            Text="Изображения:" 
-            FontSize="15"
-            HorizontalAlignment="Left"
-            Style="{StaticResource TextBLockStyle}"/>
+		<TextBox
+			x:Name="NameTextBox"
+			Grid.Row="1"
+			Grid.Column="0"
+			Grid.ColumnSpan="2"
+			Margin="2"
+			KeyDown="TextBox_OnKeyDown"
+			Style="{StaticResource TextBoxStyle}"
+			TabIndex="0"
+			Text="{Binding Name, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+		<!--  Text="{Binding Name, Mode=TwoWay}"  -->
+		<!--  Text="{Binding Name, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"  -->
 
-        <ListBox
+		<TextBlock
+			Grid.Row="2"
+			Grid.ColumnSpan="2"
+			HorizontalAlignment="Left"
+			FontSize="15"
+			Style="{StaticResource TextBLockStyle}"
+			Text="Изображения:" />
+
+		<ListBox
 			Name="ListBoxImages"
-            Grid.Row="3"
-            Grid.ColumnSpan="2"
-            ItemsSource="{Binding Path=Images}"
-            SelectedIndex="{Binding Path=SelectedImage}"
-	        SelectedItem="{Binding Path=SelectedItem}"
-	        >
-			
+			Grid.Row="3"
+			Grid.ColumnSpan="2"
+			ItemsSource="{Binding Path=Images}"
+			SelectedIndex="{Binding Path=SelectedImage}"
+			SelectedItem="{Binding Path=SelectedItem}">
+
 			<!--<ListBox.InputBindings>
 		        <MouseBinding MouseAction="LeftDoubleClick" Command="{Binding OpenDocumentCommand}"/>
 			</ListBox.InputBindings>-->
-			<!--MouseDoubleClick=""-->
-	        <!--PreviewMouseDoubleClick=""-->
-	        <i:Interaction.Triggers>
+			<!--  MouseDoubleClick=""  -->
+			<!--  PreviewMouseDoubleClick=""  -->
+			<i:Interaction.Triggers>
 				<i:EventTrigger EventName="PreviewMouseDoubleClick">
-					<i:InvokeCommandAction Command="{Binding OpenDocumentCommand}"/>
-		        </i:EventTrigger>
-	        </i:Interaction.Triggers>
+					<i:InvokeCommandAction Command="{Binding OpenDocumentCommand}" />
+				</i:EventTrigger>
+			</i:Interaction.Triggers>
 			<!--<ListBox.Tag>
 				<MultiBinding Converter="{StaticResource DocumentListElementsHeightConverter}">
 					<Binding Path="ItemsSource"></Binding>
 					<Binding ElementName="ListBoxImages"></Binding>
 				</MultiBinding>
 			</ListBox.Tag>-->
-            <ListBox.ItemTemplate>
-                <DataTemplate>
-                    <!--<StackPanel>-->
-					<Image Name="ImageControl" Margin="-3,0,3,0" MaxWidth="290" HorizontalAlignment="Center" Height="{Binding Height, ElementName=BuferTextBlock}" Source="{Binding}" MinHeight="50" >
-						<!--Height="{Binding Height, ElementName=BuferTextBlock}"-->
-						<!--Width="290" HorizontalAlignment="Center"-->
+			<ListBox.ItemTemplate>
+				<DataTemplate>
+					<!--<StackPanel>-->
+					<Image
+						Name="ImageControl"
+						Height="{Binding Height, ElementName=BuferTextBlock}"
+						MinHeight="50"
+						MaxWidth="290"
+						Margin="-3,0,3,0"
+						HorizontalAlignment="Center"
+						Source="{Binding}">
+						<!--  Height="{Binding Height, ElementName=BuferTextBlock}"  -->
+						<!--  Width="290" HorizontalAlignment="Center"  -->
 						<Image.Tag>
-							<MultiBinding Converter="{StaticResource DocumentListElementsHeightConverter}" >
-								<Binding ElementName="ListBoxImages"></Binding>
-								<Binding Path="Images" UpdateSourceTrigger="PropertyChanged"></Binding>
-								<Binding Path="ActualHeight" ElementName="ListBoxImages"></Binding>
-								<Binding ElementName="BuferTextBlock"></Binding>
-								</MultiBinding>
+							<MultiBinding Converter="{StaticResource DocumentListElementsHeightConverter}">
+								<Binding ElementName="ListBoxImages" />
+								<Binding Path="Images" UpdateSourceTrigger="PropertyChanged" />
+								<Binding ElementName="ListBoxImages" Path="ActualHeight" />
+								<Binding ElementName="BuferTextBlock" />
+							</MultiBinding>
 						</Image.Tag>
 
 						<!--<Image.InputBindings>
 							<MouseBinding MouseAction="LeftDoubleClick" Command="{Binding OpenDocumentCommand}"/>
 						</Image.InputBindings>-->
 					</Image>
-                    <!--</StackPanel>-->
-                </DataTemplate>
-            </ListBox.ItemTemplate>
-        </ListBox>
+					<!--</StackPanel>-->
+				</DataTemplate>
+			</ListBox.ItemTemplate>
+		</ListBox>
 
-		<TextBlock Name="BuferTextBlock"></TextBlock>
+		<TextBlock Name="BuferTextBlock" />
 
 
-        <Grid Grid.Row="4" Grid.ColumnSpan="2">
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition />
-                <ColumnDefinition Width="Auto"/>
-                <ColumnDefinition Width="Auto"/>
-                <ColumnDefinition Width="Auto"/>
-            </Grid.ColumnDefinitions>
+		<Grid Grid.Row="4" Grid.ColumnSpan="2">
+			<Grid.ColumnDefinitions>
+				<ColumnDefinition />
+				<ColumnDefinition Width="Auto" />
+				<ColumnDefinition Width="Auto" />
+				<ColumnDefinition Width="Auto" />
+			</Grid.ColumnDefinitions>
 
 			<Button
-				Command="{Binding OpenDocumentCommand}"
-				TabIndex="28"
-				Grid.Column="1"
-				Margin="2"
-				Height="25"
-				Content="Просмотр"
 				Name="Button_OpenDocument"
+				Grid.Column="1"
+				Height="25"
+				Margin="2"
+				Command="{Binding OpenDocumentCommand}"
+				Content="Просмотр"
 				IsEnabled="{Binding ConditionButton_OpenDocument, Mode=OneWay}"
-				Style="{StaticResource VisitorsSquareButtonStyle}"/>
+				Style="{StaticResource VisitorsSquareButtonStyle}"
+				TabIndex="28" />
 
 			<Button
-                Command="{Binding AddImageCommand}"
-                TabIndex="2"
-                Grid.Column="2"
-                Margin="2"
-                Height="25"
-                Width="25"
-                Content="+"
-                IsEnabled="{Binding Path=ButtonEnable, Mode=TwoWay}"
-                Style="{StaticResource VisitorsSquareButtonStyle}"/>
-            <Button
-                Command="{Binding RemoveImageCommand}"
-                TabIndex="4"
-                Grid.Column="3"
-                Margin="2"
-                Height="25"
-                Width="25"
-                Content="X"
-                IsEnabled="{Binding Path=ButtonEnable, Mode=TwoWay}"
-                Style="{StaticResource VisitorsSquareButtonStyle}"/>
-        </Grid>
+				Grid.Column="2"
+				Width="25"
+				Height="25"
+				Margin="2"
+				Command="{Binding AddImageCommand}"
+				Content="+"
+				IsEnabled="{Binding Path=ButtonEnable, Mode=TwoWay}"
+				Style="{StaticResource VisitorsSquareButtonStyle}"
+				TabIndex="2" />
+			<Button
+				Grid.Column="3"
+				Width="25"
+				Height="25"
+				Margin="2"
+				Command="{Binding RemoveImageCommand}"
+				Content="X"
+				IsEnabled="{Binding Path=ButtonEnable, Mode=TwoWay}"
+				Style="{StaticResource VisitorsSquareButtonStyle}"
+				TabIndex="4" />
+		</Grid>
 
-        <Button 
-            Grid.Row="5" 
-            Grid.Column="0"
-            Command="{Binding Path=Ok}"
-            Margin="2"
-            TabIndex="6"
+		<Button
+			Grid.Row="5"
+			Grid.Column="0"
+			Margin="2"
+			Command="{Binding Path=Ok}"
 			IsEnabled="{Binding ConditionButton_SaveChanges, UpdateSourceTrigger=PropertyChanged, Mode=OneWay}"
-            Style="{StaticResource ButtonStyle}">
-            <Grid Width="140">
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition/>
-                    <ColumnDefinition/>
-                </Grid.ColumnDefinitions>
+			Style="{StaticResource ButtonStyle}"
+			TabIndex="6">
+			<Grid Width="140">
+				<Grid.ColumnDefinitions>
+					<ColumnDefinition />
+					<ColumnDefinition />
+				</Grid.ColumnDefinitions>
 
-                <Image 
-                    Grid.Column="0"
-                    Source="../Resources/Принять (2).ico"/>
+				<Image Grid.Column="0" Source="../Resources/Принять (2).ico" />
 
-                <TextBlock
-                    Grid.Column="1"
-                    Text="Ок"
-                    Style="{StaticResource TextBLockStyle}"/>
-            </Grid>
-        </Button>
+				<TextBlock
+					Grid.Column="1"
+					Style="{StaticResource TextBLockStyle}"
+					Text="Ок" />
+			</Grid>
+		</Button>
 
-        <Button 
-            Grid.Row="5" 
-            Grid.Column="1" 
-            Margin="2"
-            TabIndex="7"
-            Command="{Binding Path=Cancel}"
-            Style="{StaticResource ButtonStyle}">
-            <Grid Width="140">
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition/>
-                    <ColumnDefinition/>
-                </Grid.ColumnDefinitions>
+		<Button
+			Grid.Row="5"
+			Grid.Column="1"
+			Margin="2"
+			Command="{Binding Path=Cancel}"
+			Style="{StaticResource ButtonStyle}"
+			TabIndex="7">
+			<Grid Width="140">
+				<Grid.ColumnDefinitions>
+					<ColumnDefinition />
+					<ColumnDefinition />
+				</Grid.ColumnDefinitions>
 
-                <Image
-                    Grid.Column="0"
-                    Source="../Resources/Отмена (2).ico"/>
+				<Image Grid.Column="0" Source="../Resources/Отмена (2).ico" />
 
-                <TextBlock
-                    Grid.Column="1"
-                    Text="Отмена"
-                    Style="{StaticResource TextBLockStyle}"/>
-            </Grid>
-        </Button>
-    </Grid>
+				<TextBlock
+					Grid.Column="1"
+					Style="{StaticResource TextBLockStyle}"
+					Text="Отмена" />
+			</Grid>
+		</Button>
+	</Grid>
 </mah:MetroWindow>
 

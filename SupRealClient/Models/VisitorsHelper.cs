@@ -18,7 +18,10 @@ namespace SupRealClient.Models
                 if (!list.Contains(position) &&
                     !string.IsNullOrEmpty(position.Trim()))
                 {
-                    list.Add(position);
+					if(string.IsNullOrWhiteSpace(position.Trim()))
+						list.Add("-");
+					else
+						list.Add(position);
                 }
             }
             list.Sort((p1, p2) => p1.CompareTo(p2));
