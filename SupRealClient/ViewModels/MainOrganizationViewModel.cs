@@ -117,6 +117,12 @@ namespace SupRealClient.ViewModels
             EditCommand = new RelayCommand(Edit());
             OkCommand = new RelayCommand(Ok());
             //CancelCommand = new RelayCommand(Cancel());
+
+            if (Organizations.Count > 0)
+            {
+                Organizations[0].IsExpanded = true;
+                Organizations[0].IsSelected = true;
+            }            
         }
 
         public void Next()
@@ -149,7 +155,8 @@ namespace SupRealClient.ViewModels
 
                 var viewModel = new UnitViewModel
                 {
-                    Model = new AddDepModel(this.currentOrg, this.currentDep)
+                    Model = new AddDepModel(this.currentOrg, this.currentDep),
+                    Title = @"Новое подразделение"
                 };
                 var window = new AddDepartmentView { DataContext = viewModel };
                 viewModel.Model.OnClose += window.Close;
@@ -180,7 +187,8 @@ namespace SupRealClient.ViewModels
                     memIsExpandedIsSelectedState();
                     var viewModel1 = new UnitViewModel
                     {
-                        Model = new EditDepModel(this.currentDep)
+                        Model = new EditDepModel(this.currentDep),
+                        Title = @"Отредактировать подразделение"
                     };
                     viewModel1.Description = description;
                     var window1 = new AddDepartmentView { DataContext = viewModel1 };
