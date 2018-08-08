@@ -486,7 +486,7 @@ namespace SupRealClient.Views
 
         public override void Add()
         {
-            var wind = new AddOrgsListView(new AddChildOrgsListModel(null));
+            var wind = new AddOrgsListView(new AddChildOrgsListModel(Parent));
             wind.ShowDialog();
         }
 
