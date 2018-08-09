@@ -433,11 +433,13 @@ namespace SupRealClient.ViewModels.AddUpdateViewModel
 			    if (SetAllTemplates != null && SetAllTemplates.Contains((Template) arg))
 			    {
 				    ToAppointTemplatesCommand();
+				    return;
 			    }
 
 			    if (SetAppointTemplates != null && SetAppointTemplates.Contains((Template) arg))
 			    {
 				    ToAllTemplatesCommand();
+				    return;
 			    }
 
 		    }
@@ -447,11 +449,13 @@ namespace SupRealClient.ViewModels.AddUpdateViewModel
 			    if (SetAllZones != null && SetAllZones.Contains((Area) arg))
 			    {
 				    ToAppointZonesCommand();
+				    return;
 			    }
 
 			    if (SetAppointZones != null && SetAppointZones.Contains((Area) arg))
 			    {
 				    ToAllZonesCommand();
+				    return;
 			    }
 		    }
 	    }
