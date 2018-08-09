@@ -12,6 +12,7 @@ namespace SupRealClient.Views
 	{
 		private static VisitorsView visitorsView;
 		private TraversalRequest _focusMover = new TraversalRequest(FocusNavigationDirection.Next);
+		private int _numberFocusBranch = 0;
 
 		public static VisitorsView Instance
 		{
@@ -36,7 +37,7 @@ namespace SupRealClient.Views
 				{
 					this.DataContext = new VisitsViewModel(this);
 					(DataContext as VisitsViewModel).MoveNextFocusingElement += MovingNextFocusingElement;
-					(DataContext as VisitsViewModel).RedactModeEvent += VisitorsView_RedactModeEvent; ;
+					(DataContext as VisitsViewModel).RedactModeEvent += VisitorsView_RedactModeEvent; 
 					this.Height = (this.DataContext as VisitsViewModel).WinSet.Height;
 					this.Width = (this.DataContext as VisitsViewModel).WinSet.Width;
 					this.Left = (this.DataContext as VisitsViewModel).WinSet.Left;
@@ -61,6 +62,9 @@ namespace SupRealClient.Views
 		{
 			if (redactMode)
 			{
+				textBox_Family.Tag = 0;
+				textBox_Telephones.Tag = 0;
+				_numberFocusBranch = 0;
 				textBox_Family.Focus();
 				panel_TabItems.SelectedIndex = 0;
 			}
@@ -149,7 +153,7 @@ namespace SupRealClient.Views
 			}
 			if (e.Key == Key.Tab)
 			{
-				switch ((sender as FrameworkElement).Name)
+					switch ((sender as FrameworkElement).Name)
 				{
 					case "button_Cancel":
 					case "textBox_Telephones":
@@ -270,6 +274,66 @@ namespace SupRealClient.Views
 		private void GotFocus_FirstTabItemControls(object sender, RoutedEventArgs e)
 		{
 			Controlling_TabControl();
+
+
+			if ((sender as FrameworkElement).Name == "listBox_MainDocument")
+			{
+				if (listBox_MainDocument.Items.Count > 0 && listBox_MainDocument.SelectedItem==null)
+				{
+					listBox_MainDocument.SelectedItem = listBox_MainDocument.Items[0];
+				}
+			}
+
+			if ((sender as FrameworkElement).Name == "textBox_Telephones")
+			{
+
+				//if (((sender as FrameworkElement).Tag is int) && (int)(sender as FrameworkElement).Tag == 1)
+				//{
+				//	(sender as FrameworkElement).Tag = 0;
+				//	textBox_Family.Focus();
+				//}
+				//else
+				//{
+				//	(sender as FrameworkElement).Tag = 1;
+				//}
+
+				if (_numberFocusBranch == 0)
+				{
+					textBox_Family.Focus();
+				}
+			}
+
+			if ((sender as FrameworkElement).Name == "textBox_Family")
+			{
+				//if (((sender as FrameworkElement).Tag is int) && (int)(sender as FrameworkElement).Tag == 1)
+				//{
+				//	(sender as FrameworkElement).Tag = 0;
+				//	button_Ok.Focus();
+				//}
+				//else
+				//{
+				//	(sender as FrameworkElement).Tag = 1;
+				//}
+				if (_numberFocusBranch != 0)
+				{
+					button_Ok.Focus();
+				}
+			}
+
+
+
+			//if ((sender as FrameworkElement).Name == "button_Cancel")
+			//{
+			//	if ((button_Cancel.Tag is int) && (int)button_Cancel.Tag == 1)
+			//	{
+			//		button_Cancel.Tag = 0;
+			//		textBox_Family.Focus();
+			//	}
+			//	else
+			//	{
+			//		button_Cancel.Tag = 1;
+			//	}
+			//}
 		}
 
 		private void Controlling_TabControl()
@@ -287,6 +351,46 @@ namespace SupRealClient.Views
 		private void UIElement_OnGotKeyboardFocus(object sender, KeyboardFocusChangedEventArgs e)
 		{
 			Controlling_TabControl();
+		}
+
+		private void PrevMouseDown(object sender, MouseButtonEventArgs e)
+		{
+			if ((sender as FrameworkElement).Name == "textBox_Family")
+			{
+				textBox_Family.Tag = 0;
+				textBox_Telephones.Tag = 0;
+				_numberFocusBranch = 0;
+			}
+			if ((sender as FrameworkElement).Name == "textBox_Telephones")
+			{
+				textBox_Family.Tag = 0;
+				textBox_Telephones.Tag = 1;
+				_numberFocusBranch = 1;
+			}
+
+		}
+
+		private void ControlLostFocus(object sender, RoutedEventArgs e)
+		{
+			if ((sender as FrameworkElement).Name == "checkBoxNoForm")
+			{
+				_numberFocusBranch = 0;
+			}
+
+			if ((sender as FrameworkElement).Name == "datePicker_AgreeToDate")
+			{
+				_numberFocusBranch = 1;
+			}
+
+			if ((sender as FrameworkElement).Name == "button_Cancel")
+			{
+				if (_numberFocusBranch != 0)
+					_numberFocusBranch = 0;
+				else
+				{
+					_numberFocusBranch = 1;
+				}
+			}
 		}
 	}
 }
