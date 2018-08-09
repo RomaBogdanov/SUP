@@ -166,8 +166,7 @@ namespace SupRealClient.Models
                 }
                 else if (image.Value == ImageType.Document)
                 {
-                    imagesToSave.Add(image.Key,
-                        File.ReadAllBytes(GetImagePath(image.Key)));
+                    imagesToSave[image.Key] = File.ReadAllBytes(GetImagePath(image.Key));
                 }
                 else if (!image.Key.Equals(row["f_image_alias"]))
                 {
