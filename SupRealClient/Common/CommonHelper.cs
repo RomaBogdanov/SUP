@@ -73,7 +73,7 @@ namespace SupRealClient.Common
 			    return "";
 			}
 
-		    var match = Regex.Match(text, @"^\s*([а-яёa-z|!|@|#|$|%|^|&|*|(|)|_|+|-|=|:|?|/|'|<|>]+(\s*([-–——]\s*)?[а-яёa-z|!|@|#|$|%|^|&|*|(|)|_|+|-|=|:|?|/|'|<|>]+)*)*\s*$", RegexOptions.IgnoreCase);
+		    var match = Regex.Match(text, @"^\s*([а-яёa-z|!|@|#|$|%|^|&|*|(|)|_|+|-|=|:|?|/|'|<|>|0-9]+(\s*([-–——]\s*)?[а-яёa-z|!|@|#|$|%|^|&|*|(|)|_|+|-|=|:|?|/|'|<|>|0-9]+)*)*\s*$", RegexOptions.IgnoreCase);
 		    if (!match.Success)
 		    {
 			    return "";
@@ -83,6 +83,7 @@ namespace SupRealClient.Common
 		    result = Regex.Replace(result, @"\s+", " ");
 		    result = Regex.Replace(result, @"\s*[-–——]\s*", "-");
 		    result = Regex.Replace(result, @"[!|@|#|$|%|^|&|*|(|)|_|+|-|=|:|?|/|'|<|>]", "");
+		    result = Regex.Replace(result, @"[0-9]*", "");
 			return result;
 	    }
 
@@ -93,8 +94,9 @@ namespace SupRealClient.Common
 				return "";
 			}
 
-			var match = Regex.Match(text, @"^\s*([\d|!|@|#|$|%|^|&|*|(|)|_|+|-|=|:|?|/|'|<|>]+(\s*([-–——]\s*)?[\d|!|@|#|$|%|^|&|*|(|)|_|+|-|=|:|?|/|'|<|>]+)*)\s*$", RegexOptions.IgnoreCase);
-		    if (!match.Success)
+			var match = Regex.Match(text, @"^\s*([\d|!|@|#|$|%|^|&|*|(|)|_|+|-|=|:|?|/|'|<|>|а-яёa-z]+(\s*([-–——]\s*)?[\d|!|@|#|$|%|^|&|*|(|)|_|+|-|=|:|?|/|'|<|>|а-яёa-z]+)*)\s*$", RegexOptions.IgnoreCase);
+
+			if (!match.Success)
 		    {
 			    return "";
 		    }
@@ -103,10 +105,12 @@ namespace SupRealClient.Common
 		    result = Regex.Replace(result, @"\s+", " ");
 		    result = Regex.Replace(result, @"\s*[-–——]\s*", " - ");
 		    result = Regex.Replace(result, @"[!|@|#|$|%|^|&|*|(|)|_|+|-|=|:|?|/|'|<|>]", "");
-		    return result;
-	    }
+			result = Regex.Replace(result, @"[а-яёa-z]", "");
+			return result;
 
-	    public static string Check_SeriaCode(string text)
+		}
+
+		public static string Check_SeriaCode(string text)
 		{
 			if (string.IsNullOrEmpty(text))
 			{
