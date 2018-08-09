@@ -694,7 +694,7 @@ namespace SupRealClient.ViewModels
 			{
 				if (!currentOrder.IsOrderDataCorrect(CurrentOrderType, out string errorMessage))
 				{
-					MessageBox.Show(errorMessage, "Ошибка", MessageBoxButton.OK, MessageBoxImage.Error);
+					MessageBox.Show(errorMessage, "Ошибка", MessageBoxButton.OK, MessageBoxImage.Exclamation);
 					return;
 				}
 				BidsModel.Ok();
