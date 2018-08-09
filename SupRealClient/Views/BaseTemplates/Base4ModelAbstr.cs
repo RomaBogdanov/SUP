@@ -830,8 +830,8 @@ namespace SupRealClient.Views
 			var data = new AndoverExportData
 			{
 				Card = selectedCard.Name,
-				Doors = GetAreasPathByCardAreas(list),
-				Schedules = new List<string> {selectedSchedule.Path},
+				Doors = GetAreasNamesByCardAreas(list),
+				Schedules = new List<string> {selectedSchedule.Name},
 			};
 			var clientConnector = ClientConnector.CurrentConnector;
 
@@ -850,11 +850,11 @@ namespace SupRealClient.Views
 			this.Close();
 		}
 
-		private List<string> GetAreasPathByCardAreas(List<CardArea> cardAreas)
+		private List<string> GetAreasNamesByCardAreas(List<CardArea> cardAreas)
 		{
 			var result = new List<string>();
 			var areasTable = AreasWrapper.CurrentTable();
-			
+
 			foreach (DataRow row in areasTable.Table.Rows)
 			{
 				foreach (var cardArea in cardAreas)
@@ -863,12 +863,13 @@ namespace SupRealClient.Views
 					{
 
 						var areaName = row["f_area_name"] is DBNull ? "" : (string) row["f_area_name"];
-						var areaPath = row["f_area_path"] is DBNull ? "" : (string) row["f_area_path"];
-						result.Add(areaName + areaPath);
+						result.Add(areaName);
 					}
 				}
 			}
+
 			return result;
+
 		}
 
 		private string GetCardName(Card card)
@@ -885,8 +886,7 @@ namespace SupRealClient.Views
 
 			return null;
 		}
-
-
+		
 		private Schedule GetSchedule(Dictionary<string, int> schedulesHash, string selectedSchedule)
 		{
 			var _schedulesWrapper = SchedulesWrapper.CurrentTable();

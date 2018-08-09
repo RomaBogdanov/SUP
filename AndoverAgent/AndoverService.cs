@@ -1531,14 +1531,19 @@ namespace AndoverAgent
 			sb.AppendLine(string.Format(" Alias : {0}", person.Alias));
 			//sb.AppendLine(string.Format(" CardNumber : {0}", person.CardNum));
 			sb.AppendLine(" AreaLinks : ");
-			for (var i = 0; i < person.Areas?.Count; i++)
-			{
-				var areaLink = person.Areas[i];
-				var schedule = person.Schedules.First();
-				sb.AppendLine(string.Format(
-					"  {0} : Enabled : False :{1} : 01.01.1989 ;0 ", areaLink,schedule));
-			}
 
+			var areasPathsHash = GetAreasPathsHashByName(person.Areas);
+
+			if (areasPathsHash!=null)
+			{
+				for (var i = 0; i < person.Areas?.Count; i++)
+				{
+					var areaLink = areasPathsHash[person.Areas[i]];
+					var schedule = GetSchedulePath(person.Schedules.First());
+					sb.AppendLine(string.Format(
+						"  {0} : Enabled : False :{1} : 01.01.1989 ;0 ", areaLink, schedule));
+				}
+			}
 			sb.AppendLine(" EndAreaLinks");
 			sb.AppendLine("EndObject");
 			sb.AppendLine();
@@ -1649,6 +1654,103 @@ namespace AndoverAgent
 
 				}
 			}
+		}
+
+
+		private static string GetSchedulePath(string scheduleName)
+		{
+			try
+			{
+				using (var connection = new SqlConnection(
+				    ConfigurationManager.ConnectionStrings[
+					"Continuum"].ConnectionString))
+				{
+					connection.Open();
+
+					using (SqlCommand cmd = connection.CreateCommand())
+					{
+						cmd.CommandText = "select * from ContinuumCopy.dbo.Schedule";
+						SqlDataReader reader = cmd.ExecuteReader();
+						try
+						{
+							while (reader.Read())
+							{
+								var UiName = reader["uiName"] is DBNull ? null : (string) reader["uiName"];
+								if (!string.IsNullOrEmpty(UiName) 
+								    && string.Equals(scheduleName.Trim().ToLower(), UiName.Trim().ToLower()))
+								{
+									return reader["path_value"] is DBNull ? null : (string) reader["path_value"];
+								}
+							}
+						}
+						finally
+						{
+							reader.Close();
+						}
+					}
+				}
+			}
+			catch (Exception ex)
+			{
+				Console.WriteLine("WARNING");
+				Console.WriteLine(ex.Message);
+			}
+
+			return null;
+		}
+
+		private static Dictionary<string, string> GetAreasPathsHashByName(List<string> areasNames)
+		{
+			if (areasNames==null || areasNames.Count==0)
+			{
+				return null;
+			}
+
+			var result = new Dictionary<string,string>();
+
+			try
+			{
+				using (var connection = new SqlConnection(
+				    ConfigurationManager.ConnectionStrings[
+					"Continuum"].ConnectionString))
+				{
+					connection.Open();
+
+					using (SqlCommand cmd = connection.CreateCommand())
+					{
+						cmd.CommandText = "select * from ContinuumCopy.dbo.Area";
+						SqlDataReader reader = cmd.ExecuteReader();
+						try
+						{
+							while (reader.Read())
+							{
+								foreach (var areaName in areasNames)
+								{
+									var areaNameFromDb = reader["uiName"] is DBNull ? null : (string) reader["uiName"];
+									if (!string.IsNullOrEmpty(areaNameFromDb) && !string.IsNullOrEmpty(areaName) &&
+									    string.Equals(areaNameFromDb.Trim().ToLower(), areaName.Trim().ToLower()))
+									{
+										var path = reader["path_value"] is DBNull ? null : (string) reader["path_value"];
+										result[areaName] = path;
+									}
+								}
+							}
+						}
+						finally
+						{
+							reader.Close();
+						}
+					}
+				}
+			}
+			catch (Exception ex)
+			{
+				Console.WriteLine("ERROR");
+				Console.WriteLine(ex.Message);
+			}
+
+			return result;
+
 		}
 	}
 }
