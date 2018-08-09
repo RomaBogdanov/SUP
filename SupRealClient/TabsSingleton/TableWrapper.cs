@@ -403,8 +403,8 @@ namespace SupRealClient.TabsSingleton
 			row["f_other_org"] = orderElement.Reason;  //todo: переименовать столбец в БД на reason
 			row["f_org_id"] = orderElement.OrganizationId;
 			row["f_position"] = orderElement.Position;
-            row["f_oe_templates"] = AndoverEntityListHelper.EntitiesToString(orderElement.Templates);
-            row["f_oe_areas"] = AndoverEntityListHelper.AndoverEntitiesToString(orderElement.Areas);
+            row["f_oe_templates"] = AndoverEntityListHelper.TemplatesSchedulesToString(orderElement.Templates);
+            row["f_oe_areas"] = AndoverEntityListHelper.AreasSchedulesToString(orderElement.Areas);
             row["f_schedule_id"] = orderElement.ScheduleId;
             AddRow(row);
 		}
@@ -430,8 +430,8 @@ namespace SupRealClient.TabsSingleton
 			row["f_other_org"] = orderElement.Reason; //todo: переименовать столбец в БД на reason
 			row["f_org_id"] = orderElement.OrganizationId;
 			row["f_position"] = orderElement.Position;
-            row["f_oe_templates"] = AndoverEntityListHelper.EntitiesToString(orderElement.Templates);
-            row["f_oe_areas"] = AndoverEntityListHelper.AndoverEntitiesToString(orderElement.Areas);
+            row["f_oe_templates"] = AndoverEntityListHelper.TemplatesSchedulesToString(orderElement.Templates);
+            row["f_oe_areas"] = AndoverEntityListHelper.AreasSchedulesToString(orderElement.Areas);
             row["f_schedule_id"] = orderElement.ScheduleId;
             StandartCols(row, orderElement);
 			row.EndEdit();

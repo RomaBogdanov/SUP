@@ -631,11 +631,11 @@ namespace SupRealClient.Models.AddUpdateModel
 
             SetAppointTemplates = new ObservableCollection<Template>();
 
-            var templateIds = AndoverEntityListHelper.StringToEntityIds(
+            var templateCores = AndoverEntityListHelper.StringToTemplatesSchedules(
                 ((OrderElement)CurrentItem).TemplateIdList);
-            foreach (var id in templateIds)
+            foreach (var core in templateCores)
             {
-                var template = SetAllTemplates.FirstOrDefault(t => t.Id == id);
+                var template = SetAllTemplates.FirstOrDefault(t => t.Id == core.Id);
                 if (template != null)
                 {
                     SetAllTemplates.Remove(template);
@@ -661,12 +661,12 @@ namespace SupRealClient.Models.AddUpdateModel
 
             SetAppointZones = new ObservableCollection<Area>();
 
-            var areaIds = AndoverEntityListHelper.StringToAndoverEntityIds(
+            var areaCores = AndoverEntityListHelper.StringToAreasSchedules(
                 ((OrderElement)CurrentItem).AreaIdList);
-            foreach (var idPair in areaIds)
+            foreach (var core in areaCores)
             {
                 var area = SetAllZones.FirstOrDefault(a =>
-                    a.ObjectIdHi == idPair.Key && a.ObjectIdLo == idPair.Value);
+                    a.ObjectIdHi == core.ObjectIdHi && a.ObjectIdLo == core.ObjectIdLo);
                 if (area != null)
                 {
                     SetAllZones.Remove(area);
@@ -845,6 +845,38 @@ namespace SupRealClient.Models.AddUpdateModel
             return sb.ToString();
         }
 
+        public static string TemplatesSchedulesToString(IEnumerable<Template> templates)
+        {
+            var sb = new StringBuilder();
+            foreach (var template in templates)
+            {
+                sb.Append(template.Id);
+                sb.Append(",");
+                sb.Append(template.ScheduleIdHi);
+                sb.Append(",");
+                sb.Append(template.ScheduleIdLo);
+                sb.Append(";");
+            }
+            return sb.ToString();
+        }
+
+        public static string AreasSchedulesToString(IEnumerable<Area> areas)
+        {
+            var sb = new StringBuilder();
+            foreach (var area in areas)
+            {
+                sb.Append(area.ObjectIdHi);
+                sb.Append(",");
+                sb.Append(area.ObjectIdLo);
+                sb.Append(",");
+                sb.Append(area.ScheduleIdHi);
+                sb.Append(",");
+                sb.Append(area.ScheduleIdLo);
+                sb.Append(";");
+            }
+            return sb.ToString();
+        }
+
         public static IEnumerable<int> StringToEntityIds(string ids)
         {
             var result = new List<int>();
@@ -892,6 +924,96 @@ namespace SupRealClient.Models.AddUpdateModel
                 }
 
                 result.Add(new KeyValuePair<int, int>(idHi, idLo));
+            }
+
+            return result;
+        }
+
+        public static IEnumerable<Template> StringToTemplatesSchedules(string templates)
+        {
+            var result = new List<Template>();
+
+            string[] stringIds = templates.Split(new[] { ';' },
+                StringSplitOptions.RemoveEmptyEntries);
+            foreach (var threeId in stringIds)
+            {
+                string[] idList = threeId.Split(new[] { ',' },
+                    StringSplitOptions.RemoveEmptyEntries);
+                if (idList.Length != 3)
+                {
+                    continue;
+                }
+
+                int id;
+                if (!int.TryParse(idList[0], out id))
+                {
+                    continue;
+                }
+                int scheduleIdHi;
+                if (!int.TryParse(idList[1], out scheduleIdHi))
+                {
+                    continue;
+                }
+                int scheduleIdLo;
+                if (!int.TryParse(idList[2], out scheduleIdLo))
+                {
+                    continue;
+                }
+
+                result.Add(new Template
+                {
+                    Id = id,
+                    ScheduleIdHi = scheduleIdHi,
+                    ScheduleIdLo = scheduleIdLo
+                });
+            }
+
+            return result;
+        }
+
+        public static IEnumerable<Area> StringToAreasSchedules(string areas)
+        {
+            var result = new List<Area>();
+
+            string[] stringIds = areas.Split(new[] { ';' },
+                StringSplitOptions.RemoveEmptyEntries);
+            foreach (var fourId in stringIds)
+            {
+                string[] idList = fourId.Split(new[] { ',' },
+                    StringSplitOptions.RemoveEmptyEntries);
+                if (idList.Length != 4)
+                {
+                    continue;
+                }
+
+                int idHi;
+                if (!int.TryParse(idList[0], out idHi))
+                {
+                    continue;
+                }
+                int idLo;
+                if (!int.TryParse(idList[1], out idLo))
+                {
+                    continue;
+                }
+                int scheduleIdHi;
+                if (!int.TryParse(idList[2], out scheduleIdHi))
+                {
+                    continue;
+                }
+                int scheduleIdLo;
+                if (!int.TryParse(idList[3], out scheduleIdLo))
+                {
+                    continue;
+                }
+
+                result.Add(new Area
+                {
+                    ObjectIdHi = idHi,
+                    ObjectIdLo = idLo,
+                    ScheduleIdHi = scheduleIdHi,
+                    ScheduleIdLo = scheduleIdLo
+                });
             }
 
             return result;
