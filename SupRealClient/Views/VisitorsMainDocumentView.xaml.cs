@@ -27,6 +27,7 @@ namespace SupRealClient.Views
             ((VisitorsMainDocumentViewModel)DataContext).SetModel(model, person);
 	        ((VisitorsMainDocumentViewModel)DataContext)._MoveNextFocusingElement += MovingNextFocusingElement;
 			((VisitorsMainDocumentViewModel)DataContext)._TestDatePickerEvent += TestingDatePickerEvent;
+	        ((VisitorsMainDocumentViewModel)DataContext)._DateNotCorrect += DateNotCorrect;
 			InitializeComponent();
 
             AfterInitialize();
@@ -44,50 +45,86 @@ namespace SupRealClient.Views
             DataContext = new VisitorsMainDocumentViewModel(false);
 	        ((VisitorsMainDocumentViewModel)DataContext)._MoveNextFocusingElement += MovingNextFocusingElement;
 	        ((VisitorsMainDocumentViewModel)DataContext)._TestDatePickerEvent += TestingDatePickerEvent;
+			((VisitorsMainDocumentViewModel)DataContext)._DateNotCorrect += DateNotCorrect;
 
-	        textBox_DocType.Focus();
+			textBox_DocType.Focus();
 	        this.PreviewKeyDown += Window_PreviewKeyDown_AndStop;
 		}
 
-        private void MoveNextFocusControl(object sender, KeyEventArgs e)
-        {
-            if (e.Key == Key.Enter)
-            {
-	            if (sender is DatePicker)
-	            {
-		            MaskedTextBox maskedTextBox = GetMaskedTextBox(datePicker_Date);
-		            if (maskedTextBox.IsMaskFull && maskedTextBox.IsMaskCompleted)
-		            {
-			            switch ((sender as FrameworkElement).Name)
-			            {
-				            case nameof(datePicker_Date):
-					            GoingTo_DatePicker(datePicker_DateTo);
-					            break;
-				            case nameof(datePicker_DateTo):
-					            GoingTo_DatePicker(datePicker_BirthDate);
-					            break;
-				            case nameof(datePicker_BirthDate):
-				            {
-					            button_Ok.Focus();
-				            }
-					            break;
-			            }
-			            return;
-		            }
-		            return;
-	            }
-
-	            if ((sender as TextBox).Name == nameof(textBox_Code))
-	            {
-		            GoingTo_DatePicker(datePicker_Date);
-		            return;
-	            }
-
-
-				((UIElement)sender).MoveFocus(_focusMover);
-	            e.Handled = true;
+		private void DateNotCorrect(string nameDate)
+		{
+			switch (nameDate)
+			{
+				case "Date":
+				{
+						//GoingTo_DatePicker(datePicker_Date);
+					textBox_Code.MoveFocus(_focusMover);
+				}
+					break;
+				case "DateTo":
+				{
+						//GoingTo_DatePicker(datePicker_DateTo);
+					datePicker_Date.MoveFocus(_focusMover);
+					}
+					break;
+				case "BirthDate":
+					{
+						//GoingTo_DatePicker(datePicker_BirthDate);
+						datePicker_DateTo.MoveFocus(_focusMover);
+					}
+					break;
 			}
-        }
+		}
+
+		private void MoveNextFocusControl(object sender, KeyEventArgs e)
+	    {
+		    if (e.Key == Key.Enter)
+		    {
+			    if (sender is DatePicker)
+			    {
+				    MaskedTextBox maskedTextBox = GetMaskedTextBox(sender as DatePicker);
+				    if (maskedTextBox.IsMaskFull && maskedTextBox.IsMaskCompleted)
+				    {
+
+						switch ((sender as FrameworkElement).Name)
+					    {
+						    case nameof(datePicker_Date):
+						    {
+							    if (((VisitorsMainDocumentViewModel) DataContext).Date_Correct)
+								    GoingTo_DatePicker(datePicker_DateTo);
+						    }
+							    break;
+						    case nameof(datePicker_DateTo):
+						    {
+							    if (((VisitorsMainDocumentViewModel) DataContext).DateTo_Correct)
+								    GoingTo_DatePicker(datePicker_BirthDate);
+						    }
+							    break;
+						    case nameof(datePicker_BirthDate):
+						    {
+							    if (((VisitorsMainDocumentViewModel) DataContext).BirthDate_Correct)
+								    textBox_Comment.Focus();
+						    }
+							    break;
+					    }
+
+					    return;
+				    }
+
+				    return;
+			    }
+
+			    if ((sender as TextBox).Name == nameof(textBox_Code))
+			    {
+				    GoingTo_DatePicker(datePicker_Date);
+				    return;
+			    }
+
+
+			    ((UIElement) sender).MoveFocus(_focusMover);
+			    e.Handled = true;
+		    }
+	    }
 
 	    private void MoveNext_DatePicker(object sender, KeyEventArgs e)
 	    {

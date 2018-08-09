@@ -61,7 +61,7 @@ namespace SupRealClient.Views
                  CommonHelper.NotDeleted(vis)
                  select vis).Any())
             {
-                MessageBox.Show("Организацию невозможно удалить, т.к. она связана с посетителями!");
+                MessageBox.Show("Организацию невозможно удалить, т.к. она связана с посетителями!", "Информация", MessageBoxButton.OK, MessageBoxImage.Information);
                 return false;
             }
 
@@ -70,7 +70,7 @@ namespace SupRealClient.Views
                  CommonHelper.NotDeleted(orgs)
                  select orgs).Any())
             {
-                MessageBox.Show("Перед удалением организации удалите её синонимы!");
+                MessageBox.Show("Перед удалением организации удалите её синонимы!", "Информация", MessageBoxButton.OK, MessageBoxImage.Information);
                 return false;
             }
 

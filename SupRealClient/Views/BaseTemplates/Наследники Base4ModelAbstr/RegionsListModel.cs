@@ -49,7 +49,7 @@ namespace SupRealClient.Views
                 CommonHelper.NotDeleted(orgs)
                 select orgs).Any())
             {
-                MessageBox.Show("Регион невозможно удалить, т.к. он связан с организациями!");
+                MessageBox.Show("Регион невозможно удалить, т.к. он связан с организациями!", "Информация", MessageBoxButton.OK, MessageBoxImage.Information);
                 return false;
             }
 

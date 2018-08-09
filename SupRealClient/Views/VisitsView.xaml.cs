@@ -944,12 +944,14 @@ namespace SupRealClient.Views
 
         private void OpenOrder()
         {
-            if (SelectedOrder < 0)
+            if (SelectedOrder < 0 || CurrentItem == null)
             {
                 return;
             }
 
-            ViewManager.Instance.OpenWindow("BidsView");
+            var wnd = new BidsView();
+            wnd.Show();
+            wnd.SetToOrder(CurrentItem.Orders[SelectedOrder]);
         }
 
         private void Edit()
@@ -1081,7 +1083,7 @@ namespace SupRealClient.Views
                 return;
             }
 
-            if (IsRedactMode)
+            if (IsRedactMode && CurrentItem.Documents[SelectedDocument].IsCanAddChanges)
             {
                 EditDocument();
                 return;
@@ -1164,7 +1166,7 @@ namespace SupRealClient.Views
 
 		}
 
-        internal void OpenMainDocument()
+        public void OpenMainDocument()
         {
             if (SelectedMainDocument < 0)
             {
@@ -1210,7 +1212,7 @@ namespace SupRealClient.Views
 
 	        }
 
-			Generate_VisitorDocument(document.DocumentName, document.Images);
+			Generate_VisitorDocument(document.DocumentName, document.Images, false);
 
 	        OnPropertyChanged(nameof(EnableButton_OpenDocument));
 	        OnPropertyChanged(nameof(EnableButton_OpenMainDocument));
@@ -1236,7 +1238,7 @@ namespace SupRealClient.Views
             Model.EditMainDocument(SelectedMainDocument, document);
 
 			Remove_VisitorDocument(document.DocumentName);
-	        Generate_VisitorDocument(document.DocumentName, document.Images);
+	        Generate_VisitorDocument(document.DocumentName, document.Images, false);
 
 	        OnPropertyChanged(nameof(EnableButton_OpenDocument));
 	        OnPropertyChanged(nameof(EnableButton_OpenMainDocument));
@@ -1369,15 +1371,16 @@ namespace SupRealClient.Views
 		 //   EnableButton_OpenDocument = false;
 		}
 
-	    private void Generate_VisitorDocument(string name, List<Guid> listGuids )
+	    private void Generate_VisitorDocument(string name, List<Guid> listGuids, bool canAddChange=true )
 	    {
 		    VisitorsDocument visitorsDocument = new VisitorsDocument()
 		    {
 			    Name = name,
 			    TypeId = 0,
 			    Images = new List<Guid>(listGuids),
-			    IsChanged = true
-		    };
+			    IsChanged = true,
+				IsCanAddChanges = canAddChange
+			};
 		    (view as Window)?.Dispatcher.Invoke(() => {
 
 				Model.AddDocument(visitorsDocument);
@@ -1407,10 +1410,10 @@ namespace SupRealClient.Views
 				    {
 					    e.Cancel = false;
 					    if (PhotoSource != "")
-						    MessageBox.Show("Документ с названием " + "\"" + visitorsDocumentViewModel.Name + "\"" + " уже имеется");
+						    MessageBox.Show("Документ с названием " + "\"" + visitorsDocumentViewModel.Name + "\"" + " уже имеется", "Информация", MessageBoxButtons.OK, MessageBoxIcon.Information);
 					    else
 						    MessageBox.Show("Документ с названием " + "\"" + visitorsDocumentViewModel.Name + "\"" +
-						                    " невозможно добавить, так как данное название используется только для документа, содержащий личную фотографию");
+						                    " невозможно добавить, так как данное название используется только для документа, содержащий личную фотографию", "Информация", MessageBoxButtons.OK, MessageBoxIcon.Information);
 					    return;
 				    }
 
@@ -1418,10 +1421,10 @@ namespace SupRealClient.Views
 				    {
 					    e.Cancel = false;
 					    if (Signature != "")
-						    MessageBox.Show("Документ с названием " + "\"" + visitorsDocumentViewModel.Name + "\"" + " уже имеется");
+						    MessageBox.Show("Документ с названием " + "\"" + visitorsDocumentViewModel.Name + "\"" + " уже имеется", "Информация", MessageBoxButtons.OK, MessageBoxIcon.Information);
 					    else
 						    MessageBox.Show("Документ с названием " + "\"" + visitorsDocumentViewModel.Name + "\"" +
-						                    " невозможно добавить, так как данное название используется только для документа, содержащий скан личной подписи");
+						                    " невозможно добавить, так как данное название используется только для документа, содержащий скан личной подписи", "Информация", MessageBoxButtons.OK, MessageBoxIcon.Information);
 					    return;
 				    }
 
@@ -1430,7 +1433,7 @@ namespace SupRealClient.Views
 				    if (findingItem != null)
 				    {
 					    e.Cancel = false;
-					    MessageBox.Show("Документ с названием " + "\"" + visitorsDocumentViewModel.Name + "\"" + " уже имеется");
+					    MessageBox.Show("Документ с названием " + "\"" + visitorsDocumentViewModel.Name + "\"" + " уже имеется", "Информация", MessageBoxButtons.OK, MessageBoxIcon.Information);
 				    }
 			    }
 			    else
@@ -1438,14 +1441,14 @@ namespace SupRealClient.Views
 						if (visitorsDocumentViewModel.Name == _nameDocument_PhotoImageType)
 						{
 								MessageBox.Show("Документ с названием " + "\"" + visitorsDocumentViewModel.Name + "\"" +
-								                " невозможно добавить, так как данное название используется только для документа, содержащий личную фотографию");
+								                " невозможно добавить, так как данное название используется только для документа, содержащий личную фотографию", "Информация", MessageBoxButtons.OK, MessageBoxIcon.Information);
 							return;
 						}
 
 						if (visitorsDocumentViewModel.Name == _nameDocument_SignatureImageType)
 						{
 								MessageBox.Show("Документ с названием " + "\"" + visitorsDocumentViewModel.Name + "\"" +
-								                " невозможно добавить, так как данное название используется только для документа, содержащий скан личной подписи");
+								                " невозможно добавить, так как данное название используется только для документа, содержащий скан личной подписи", "Информация", MessageBoxButtons.OK, MessageBoxIcon.Information);
 							return;
 						}
 			    }

@@ -41,7 +41,7 @@ namespace SupRealClient.Views
                  CommonHelper.NotDeleted(docs)
                  select docs).Any())
             {
-                MessageBox.Show("Документ невозможно удалить, т.к. он связана с посетителями!");
+                MessageBox.Show("Документ невозможно удалить, т.к. он связана с посетителями!", "Информация", MessageBoxButton.OK, MessageBoxImage.Information);
                 return false;
             }
 
