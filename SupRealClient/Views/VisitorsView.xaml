@@ -329,7 +329,7 @@
 					Grid.Row="2"
 					Grid.Column="0"
 					Margin="10,11,0,11"
-					Content="Заблокирован"
+					Content="Вход запрещен"
 					IsChecked="{Binding Path=CurrentItem.IsAccessDenied, Mode=TwoWay}"
 					IsEnabled="{Binding Path=TextEnable, Mode=TwoWay}"
 					IsTabStop="False" />
