@@ -494,30 +494,7 @@ namespace SupRealClient.EnumerationClasses
 			set
 			{
 				_cardState = value;
-				switch (_cardState)
-				{
-					case CardState.Unknown:
-						CardStateString = "Неизвестно";
-						break;
-					case CardState.Active:
-						CardStateString = "Активен";
-						break;
-					case CardState.Inactive:
-						CardStateString = "Неактивен";
-						break;
-					case CardState.Issued:
-						CardStateString = "Выдан";
-						break;
-					case CardState.Lost:
-						CardStateString = "Утерян";
-						break;
-					case CardState.Returnded:
-						CardStateString = "Возвращена";
-						break;
-					default:
-						CardStateString = "Неизвестно";
-						break;
-				}
+				CardStateString = CommonHelper.CardStateToSting(_cardState);
 				OnPropertyChanged();
 			}
 		}

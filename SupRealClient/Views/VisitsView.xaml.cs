@@ -2513,16 +2513,18 @@ namespace SupRealClient.Views
                         Comment = visit.Field<string>("f_visit_text"),
                         OrderId = visit.Field<int>("f_order_id"),
                         Orders = visit.Field<string>("f_orders"),
-                    });
+						StateId = card.Field<int>("f_state_id")
+			});
             }
             foreach (var order in Set[index].Orders)
             {
+	            order.CardState = CommonHelper.CardStateToSting(CardState.Inactive);
                 foreach (var card in Set[index].Cards)
                 {
                     if (card.OrderId == order.Id ||
                         AndoverEntityListHelper.StringToEntityIds(card.Orders).Contains(order.Id))
                     {
-                        order.HasCard = true;
+                        order.CardState = CommonHelper.CardStateToSting((CardState) card.StateId);
                         break;
                     }
                 }
