@@ -5,6 +5,7 @@ using System.Configuration;
 using System.Data.SqlClient;
 using System.Diagnostics;
 using System.IO;
+using System.Linq;
 using System.Text;
 using System.Threading;
 using System.Windows;
@@ -1530,10 +1531,10 @@ namespace AndoverAgent
 			sb.AppendLine(string.Format(" Alias : {0}", person.Alias));
 			//sb.AppendLine(string.Format(" CardNumber : {0}", person.CardNum));
 			sb.AppendLine(" AreaLinks : ");
-			for (var i = 0; i < person.Areas.Count; i++)
+			for (var i = 0; i < person.Areas?.Count; i++)
 			{
 				var areaLink = person.Areas[i];
-				var schedule = person.Schedules[0];
+				var schedule = person.Schedules.First();
 				sb.AppendLine(string.Format(
 					"  {0} : Enabled : False :{1} : 01.01.1989 ;0 ", areaLink,schedule));
 			}

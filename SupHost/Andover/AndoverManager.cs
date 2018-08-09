@@ -455,50 +455,50 @@ namespace SupHost.Andover
 				return false;
 			}
 
-			var areaList = new List<DataRow>();
-			if (data.Doors.Any())
-			{
-				VisAccessPointsTableWrapper doorsTableWrapper =
-					(VisAccessPointsTableWrapper) VisAreasTableWrapper.GetTableWrapper(
-						TableName.VisAccessPoints);
+			//var areaList = new List<DataRow>();
+			//if (data.Doors.Any())
+			//{
+			//	VisAccessPointsTableWrapper doorsTableWrapper =
+			//		(VisAccessPointsTableWrapper) VisAreasTableWrapper.GetTableWrapper(
+			//			TableName.VisAccessPoints);
 
-				var doorList = new List<DataRow>();
-				foreach (DataRow row in doorsTableWrapper.GetTable().Rows)
-				{
-					if (data.Doors.Contains((string) row["f_access_point_name"]))
-					{
-						doorList.Add(row);
-					}
-				}
+			//	var doorList = new List<DataRow>();
+			//	foreach (DataRow row in doorsTableWrapper.GetTable().Rows)
+			//	{
+			//		if (data.Doors.Contains((string) row["f_access_point_name"]))
+			//		{
+			//			doorList.Add(row);
+			//		}
+			//	}
 
-				if (doorList.Any())
-				{
-					VisAreasTableWrapper areasTableWrapper =
-						(VisAreasTableWrapper) VisAreasTableWrapper.GetTableWrapper(
-							TableName.VisAreas);
-					foreach (DataRow row in areasTableWrapper.GetTable().Rows)
-					{
-						if ((int) row["f_area_id"] == 0 || string.Equals(row["f_deleted"].ToString().Trim().ToLower(), "y"))
-						{
-							continue;
-						}
+			//	if (doorList.Any())
+			//	{
+			//		VisAreasTableWrapper areasTableWrapper =
+			//			(VisAreasTableWrapper) VisAreasTableWrapper.GetTableWrapper(
+			//				TableName.VisAreas);
+			//		foreach (DataRow row in areasTableWrapper.GetTable().Rows)
+			//		{
+			//			if ((int) row["f_area_id"] == 0 || string.Equals(row["f_deleted"].ToString().Trim().ToLower(), "y"))
+			//			{
+			//				continue;
+			//			}
 
-						DataRow r = doorList.Find(d =>
-							(int) d["f_access_point_space_in_id_hi"] ==
-							(int) row["f_object_id_hi"] &&
-							(int) d["f_access_point_space_in_id_lo"] ==
-							(int) row["f_object_id_lo"] ||
-							(int) d["f_access_point_space_out_id_hi"] ==
-							(int) row["f_object_id_hi"] &&
-							(int) d["f_access_point_space_out_id_lo"] ==
-							(int) row["f_object_id_lo"]);
-						if (r != null)
-						{
-							areaList.Add(row);
-						}
-					}
-				}
-			}
+			//			DataRow r = doorList.Find(d =>
+			//				(int) d["f_access_point_space_in_id_hi"] ==
+			//				(int) row["f_object_id_hi"] &&
+			//				(int) d["f_access_point_space_in_id_lo"] ==
+			//				(int) row["f_object_id_lo"] ||
+			//				(int) d["f_access_point_space_out_id_hi"] ==
+			//				(int) row["f_object_id_hi"] &&
+			//				(int) d["f_access_point_space_out_id_lo"] ==
+			//				(int) row["f_object_id_lo"]);
+			//			if (r != null)
+			//			{
+			//				areaList.Add(row);
+			//			}
+			//		}
+			//	}
+			//}
 
 			//var schedulesList = new List<DataRow>(); // TODO
 
@@ -507,8 +507,9 @@ namespace SupHost.Andover
 				UiName = (string)card["f_card_name"],
 				Path = (string)card["f_card_path"],
 				Alias = (string)card["f_card_controller"],
-				Areas = areaList.Select(a =>
-					(string)a["f_area_path"] + (string)a["f_area_name"]).ToList(),
+				//Areas = areaList.Select(a =>
+				//	(string)a["f_area_path"] + (string)a["f_area_name"]).ToList(),
+				Areas = data.Doors,
 				Schedules = data.Schedules
 			};
 			bool result = connector.AndoverService.ExportPersonDmp(info);
