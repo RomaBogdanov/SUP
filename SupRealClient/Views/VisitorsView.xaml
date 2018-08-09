@@ -515,6 +515,24 @@
 									Style="{StaticResource TextBLockStyle}"
 									Text="Документы" />
 
+								<ListBox
+									x:Name="listBox_MainDocument"
+									Grid.Row="1"
+									Grid.RowSpan="2"
+									Grid.Column="0"
+									Grid.ColumnSpan="5"
+									BorderBrush="Black"
+									BorderThickness="1"
+									IsEnabled="{Binding Path=EnableList_MainDocument, Mode=OneWay}"
+									ItemsSource="{Binding Path=CurrentItem.MainDocuments, Mode=OneWay}"
+									KeyDown="MoveNextFocusControl_ToName"
+									SelectedIndex="{Binding Path=SelectedMainDocument}">
+									<i:Interaction.Triggers>
+										<i:EventTrigger EventName="MouseDoubleClick">
+											<i:InvokeCommandAction Command="{Binding OpenMainDocumentCommand}" />
+										</i:EventTrigger>
+									</i:Interaction.Triggers>
+								</ListBox>
 
 
 								<Grid Grid.Row="3" Grid.ColumnSpan="5">
@@ -569,23 +587,6 @@
 
 								</Grid>
 
-								<ListBox
-									x:Name="listBox_MainDocument"
-									Grid.Row="1"
-									Grid.RowSpan="2"
-									Grid.Column="0"
-									Grid.ColumnSpan="5"
-									BorderBrush="Black"
-									BorderThickness="1"
-									ItemsSource="{Binding Path=CurrentItem.MainDocuments, Mode=OneWay}"
-									KeyDown="MoveNextFocusControl_ToName"
-									SelectedIndex="{Binding Path=SelectedMainDocument}">
-									<i:Interaction.Triggers>
-										<i:EventTrigger EventName="MouseDoubleClick">
-											<i:InvokeCommandAction Command="{Binding OpenMainDocumentCommand}" />
-										</i:EventTrigger>
-									</i:Interaction.Triggers>
-								</ListBox>
 
 								<Grid
 									Grid.Row="4"

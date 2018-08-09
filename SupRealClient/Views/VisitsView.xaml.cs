@@ -245,8 +245,8 @@ namespace SupRealClient.Views
 		    set
 		    {
 			    _isRedactMode = value;
-			    OnPropertyChanged(nameof(EnableButton_OpenDocument));
-			    OnPropertyChanged(nameof(EnableButton_OpenMainDocument));
+			    Update_Fields();
+
 				OnPropertyChanged(nameof(IsRedactMode));
 			    OnPropertyChanged(nameof(VisibleTabItem_Employee));
 			    OnPropertyChanged(nameof(IsRedactMode_Inverce));
@@ -303,6 +303,30 @@ namespace SupRealClient.Views
 			//   OnPropertyChanged(nameof(EnableButton_OpenMainDocument));
 			//  }
 		}
+	    public bool EnableList_Document
+	    {
+		    //get => true;
+		    get { return CurrentItem?.Documents.Count > 0 ; }
+		    //get { return _enableButtonOpenDocument; }
+		    //set
+		    //{
+		    // _enableButtonOpenDocument = value;
+		    // OnPropertyChanged(nameof(EnableButton_OpenDocument));
+		    //}
+	    }
+
+	    //EnableButton_OpenDocument_InRedactMode
+	    public bool EnableList_MainDocument
+	    {
+		    //get => true;
+		    get { return CurrentItem?.MainDocuments.Count > 0 ; }
+		    //  get { return _enableButtonOpenMainDocument; }
+		    //  set
+		    //  {
+		    //_enableButtonOpenMainDocument = value;
+		    //   OnPropertyChanged(nameof(EnableButton_OpenMainDocument));
+		    //  }
+	    }
 
 		public ObservableCollection<EnumerationClasses.Visitor> Set
         {
@@ -340,10 +364,10 @@ namespace SupRealClient.Views
 		            OnPropertyChanged(nameof(BirthDate));
 		            OnPropertyChanged(nameof(VisibleTabItem_Employee));
 		            OnPropertyChanged(nameof(CommentTextEnable));
-		            OnPropertyChanged(nameof(EnableButton_OpenDocument));
-		            OnPropertyChanged(nameof(EnableButton_OpenMainDocument));
+					Update_Fields();
+
 				}
-            }
+			}
         }
 
         public int SelectedMainDocument
@@ -353,10 +377,10 @@ namespace SupRealClient.Views
             {
                 selectedMainDocument = value;
                 OnPropertyChanged();
-	            OnPropertyChanged(nameof(EnableButton_OpenDocument));
-	            OnPropertyChanged(nameof(EnableButton_OpenMainDocument));
+				Update_Fields();
+
 			}
-        }
+		}
 
         public int SelectedDocument
         {
@@ -367,10 +391,10 @@ namespace SupRealClient.Views
                 OnPropertyChanged();
 	            OnPropertyChanged(nameof(SelectedDocument));
 				Change_ButtonEnable();
-	            OnPropertyChanged(nameof(EnableButton_OpenDocument));
-	            OnPropertyChanged(nameof(EnableButton_OpenMainDocument));
+				Update_Fields();
+
 			}
-        }
+		}
 
         public int SelectedCard
         {
@@ -983,8 +1007,17 @@ namespace SupRealClient.Views
         }
 
         private void Ok()
-        {
-            if (Model.Ok())
+		{
+			CurrentItem.Family = CommonHelper.Check_FamilyNamePatronymic(CurrentItem.Family);
+			CurrentItem.Name = CommonHelper.Check_FamilyNamePatronymic(CurrentItem.Name);
+			CurrentItem.Patronymic = CommonHelper.Check_FamilyNamePatronymic(CurrentItem.Patronymic);
+
+			CurrentItem.Position = CommonHelper.Check_SeriaCode(CurrentItem.Position);
+
+			if (string.IsNullOrWhiteSpace(CurrentItem.Position) || string.IsNullOrEmpty(CurrentItem.Position) || CurrentItem.Position == "")
+				CurrentItem.Position = "-";
+
+			if (Model.Ok())
             {
                 if (view.ParentWindow is VisitorsListWindView)
                     view.CloseWindow(new CancelEventArgs());
@@ -996,6 +1029,7 @@ namespace SupRealClient.Views
 		                indexEditingVisit = (model as EditVisitsModel).IndexEditingVisit;
 	                else
 		                flag_GoEnd = true;
+
 
 					if (!flag_GoEnd && indexEditingVisit >= 0)
 					{
@@ -1018,12 +1052,33 @@ namespace SupRealClient.Views
 
 				IsRedactMode = false;
 
-			}                
-        }
+			}
+			else
+			{
+				OnPropertyChanged(nameof(Name));
+				OnPropertyChanged(nameof(Family));
+				OnPropertyChanged(nameof(Patronymic));
+				OnPropertyChanged(nameof(CurrentItem));
+				OnPropertyChanged(nameof(PhotoSource));
+				OnPropertyChanged(nameof(Signature));
+				OnPropertyChanged(nameof(BirthDate));
+				OnPropertyChanged(nameof(VisibleTabItem_Employee));
+				OnPropertyChanged(nameof(CommentTextEnable));
+				Update_Fields();
+
+
+			}
+		}
 
         public void Cancel()
         {
-            if (Model is NewVisitsModel)
+	        if (System.Windows.MessageBox.Show("Вы уверены, что хотите отменить изменения?", "Внимание",
+		            MessageBoxButton.OKCancel, MessageBoxImage.Question) != MessageBoxResult.OK)
+	        {
+		        return;
+	        }
+
+			if (Model is NewVisitsModel)
             {
                 if (view.ParentWindow is SupRealClient.Views.VisitorsListWindView)
                     view.CloseWindow(new CancelEventArgs());
@@ -1071,7 +1126,7 @@ namespace SupRealClient.Views
 			}
 	        }
 			
-	        OnPropertyChanged(nameof(EnableButton_OpenDocument));
+			Update_Fields();
 		}
 
         private void RemoveImageSource(ImageType imageType, string name)
@@ -1079,10 +1134,10 @@ namespace SupRealClient.Views
             Model.RemoveImageSource(imageType);
 	        RemoveImageToDocuments(name);
 
-	        OnPropertyChanged(nameof(EnableButton_OpenDocument));
+	        Update_Fields();
 		}
 
-        private void OpenDocument()
+		private void OpenDocument()
         {
             if (SelectedDocument < 0)
             {
@@ -1115,8 +1170,8 @@ namespace SupRealClient.Views
             }
 
             Model.AddDocument(document);
-	        OnPropertyChanged(nameof(EnableButton_OpenDocument));
-	        OnPropertyChanged(nameof(EnableButton_OpenMainDocument));
+
+			Update_Fields();
 		}
 
 
@@ -1141,8 +1196,8 @@ namespace SupRealClient.Views
             }
 
             Model.EditDocument(SelectedDocument, document);
-	        OnPropertyChanged(nameof(EnableButton_OpenDocument));
-	        OnPropertyChanged(nameof(EnableButton_OpenMainDocument));
+
+			Update_Fields();
 		}
 
         private void RemoveDocument()
@@ -1154,8 +1209,8 @@ namespace SupRealClient.Views
 
 	        VisitorsDocument deleteItem = CurrentItem?.Documents?[SelectedDocument];
 	        Model.RemoveDocument(SelectedDocument);
-	        OnPropertyChanged(nameof(EnableButton_OpenDocument));
-	        OnPropertyChanged(nameof(EnableButton_OpenMainDocument));
+
+			Update_Fields();
 
 			if (deleteItem != null)
 	        {
@@ -1220,8 +1275,8 @@ namespace SupRealClient.Views
 
 			Generate_VisitorDocument(document.DocumentName, document.Images, false);
 
-	        OnPropertyChanged(nameof(EnableButton_OpenDocument));
-	        OnPropertyChanged(nameof(EnableButton_OpenMainDocument));
+
+			Update_Fields();
 		}
 
 		private void EditMainDocument()
@@ -1246,8 +1301,8 @@ namespace SupRealClient.Views
 			Remove_VisitorDocument(document.DocumentName);
 	        Generate_VisitorDocument(document.DocumentName, document.Images, false);
 
-	        OnPropertyChanged(nameof(EnableButton_OpenDocument));
-	        OnPropertyChanged(nameof(EnableButton_OpenMainDocument));
+
+			Update_Fields();
 
 			if (CurrentItem.MainDocuments.Count > 0)
 	        {
@@ -1278,8 +1333,7 @@ namespace SupRealClient.Views
 	        Model.RemoveMainDocument(SelectedMainDocument);
 
 
-	        OnPropertyChanged(nameof(EnableButton_OpenDocument));
-	        OnPropertyChanged(nameof(EnableButton_OpenMainDocument));
+	        Update_Fields();
 
 			if (CurrentItem.MainDocuments.Count > 0)
 	        {
@@ -1399,6 +1453,15 @@ namespace SupRealClient.Views
 		    int? index = CurrentItem?.Documents?.IndexOf(deleteItem);
 		    if (index != null && index >= 0 && deleteItem != null)
 			    Model.RemoveDocument(index.Value);
+		}
+
+	    private void Update_Fields()
+	    {
+
+		    OnPropertyChanged(nameof(EnableButton_OpenDocument));
+		    OnPropertyChanged(nameof(EnableButton_OpenMainDocument));
+		    OnPropertyChanged(nameof(EnableList_Document));
+		    OnPropertyChanged(nameof(EnableList_MainDocument));
 		}
 
 	    #region Realization events
