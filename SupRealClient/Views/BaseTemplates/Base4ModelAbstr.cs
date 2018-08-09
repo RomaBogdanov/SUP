@@ -952,13 +952,13 @@ namespace SupRealClient.Views
         public override void Add()
         {
             if (MessageBox.Show(
-                "Данные будут выгружены из Andover. Старые данные будут удалены. Продолжить?",
-                "Внимание", MessageBoxButtons.YesNo) == DialogResult.Yes)
+                "Данные будут загружены из Andover. Старые данные будут удалены. Продолжить?",
+                "Внимание", MessageBoxButtons.YesNo, MessageBoxIcon.Information) == DialogResult.Yes)
             {
 	            ClientConnector clientConnector = ClientConnector.CurrentConnector;
 	            if (clientConnector.ImportFromAndover())
 	            {
-		            System.Windows.MessageBox.Show("Из Andover были загружены данные", "Информация",
+		            System.Windows.MessageBox.Show("Данные были загружены из Andover", "Информация",
 			            MessageBoxButton.OK, MessageBoxImage.Information);
 	            }
 	            else
@@ -1150,13 +1150,13 @@ namespace SupRealClient.Views
         public override void Add()
         {
             if (MessageBox.Show(
-                "Данные будут выгружены из Andover. Старые данные будут удалены. Продолжить?",
-                "Внимание", MessageBoxButtons.YesNo) == DialogResult.Yes)
+		"Данные будут загружены из Andover. Старые данные будут удалены. Продолжить?",
+                "Внимание", MessageBoxButtons.YesNo, MessageBoxIcon.Information) == DialogResult.Yes)
             {
 	            ClientConnector clientConnector = ClientConnector.CurrentConnector;
 	            if (clientConnector.ImportFromAndover())
 	            {
-		            System.Windows.MessageBox.Show("Из Andover были загружены данные", "Информация",
+		            System.Windows.MessageBox.Show("Данные были загружены из Andover", "Информация",
 			            MessageBoxButton.OK, MessageBoxImage.Information);
 	            }
 	            else
@@ -1339,13 +1339,13 @@ namespace SupRealClient.Views
 	    public override void Add()
 	    {
 		    if (MessageBox.Show(
-			        "Данные будут выгружены из Andover. Старые данные будут удалены. Продолжить?",
-			        "Внимание", MessageBoxButtons.YesNo) == DialogResult.Yes)
+				"Данные будут загружены из Andover. Старые данные будут удалены. Продолжить?",
+			        "Внимание", MessageBoxButtons.YesNo, MessageBoxIcon.Information) == DialogResult.Yes)
 		    {
 			    ClientConnector clientConnector = ClientConnector.CurrentConnector;
 			    if (clientConnector.ImportFromAndover())
 			    {
-				    System.Windows.MessageBox.Show("Из Andover были загружены", "Информация",
+				    System.Windows.MessageBox.Show("Данные были загружены из Andover", "Информация",
 					    MessageBoxButton.OK, MessageBoxImage.Information);
 			    }
 			    else
