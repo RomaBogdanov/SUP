@@ -1548,8 +1548,33 @@ namespace AndoverAgent
 			sb.AppendLine("EndObject");
 			sb.AppendLine();
 
-			File.WriteAllText(ConfigurationManager.AppSettings["DmpFile"], sb.ToString());
+			var tempFileName = ConfigurationManager.AppSettings["TemporaryDmpFile"];
+			var dumpFileName = ConfigurationManager.AppSettings["DmpFile"];
+			int fileWriteTimeOut;
 
+			try
+			{
+				fileWriteTimeOut = Convert.ToInt32(ConfigurationManager.AppSettings["FileWriteTimeout"]);
+			}
+			catch (Exception)
+			{
+				fileWriteTimeOut = 1000;
+			}
+
+			File.WriteAllText(tempFileName, sb.ToString());
+
+			for (var i = 0; i < fileWriteTimeOut/100 && File.Exists(dumpFileName); i++)
+			{
+				Thread.Sleep(100);
+			}
+
+			if (File.Exists(dumpFileName))
+			{
+				return false;
+			}
+
+			File.Move(tempFileName, dumpFileName);
+			
 			return true;
 		}
 

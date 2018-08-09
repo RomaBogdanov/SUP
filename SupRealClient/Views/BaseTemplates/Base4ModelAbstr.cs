@@ -692,8 +692,6 @@ namespace SupRealClient.Views
 
 		public override void Ok()
 		{
-			//смена курсора
-			Cursor.Current = Cursors.WaitCursor;
 
 			//base.Ok();
 			// todo: обязательно просмотреть ситуацию стандартного использования данной кнопки.
@@ -828,6 +826,9 @@ namespace SupRealClient.Views
 				this.Close();
 				return;
 			}
+
+			//смена курсора
+			Cursor.Current = Cursors.WaitCursor;
 
 			var selectedSchedule = GetSchedule(schedulesHash, scheduleChoiceWindow.SelectedSchedule);
 			var data = new AndoverExportData
