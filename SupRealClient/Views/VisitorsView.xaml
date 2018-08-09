@@ -697,11 +697,12 @@
 						</i:Interaction.Triggers>
 						<DataGrid.Columns>
 							<DataGridTextColumn Binding="{Binding Path=RegNumber}" Header="№ заявки" />
+							<DataGridTextColumn Binding="{Binding Path=Type}" Header="Тип заявки" />
 							<DataGridTextColumn Binding="{Binding Path=From, StringFormat=dd.MM.yyyy}" Header="Дата начала" />
 							<DataGridTextColumn Binding="{Binding Path=To, StringFormat=dd.MM.yyyy}" Header="Дата окончания" />
 							<DataGridTextColumn Binding="{Binding Path=Catcher}" Header="Принимающее лицо" />
 							<DataGridTextColumn Binding="{Binding Path=Passes}" Header="Проходы" />
-							<DataGridCheckBoxColumn Binding="{Binding Path=HasCard}" Header="Выдан пропуск" />
+							<DataGridTextColumn Binding="{Binding Path=CardState}" Header="Состояние пропуска" />
 						</DataGrid.Columns>
 					</DataGrid>
 				</mah:MetroTabItem>

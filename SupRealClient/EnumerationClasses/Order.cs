@@ -364,6 +364,6 @@ namespace SupRealClient.EnumerationClasses
 			return true;
 		}
 
-        public bool HasCard { get; set; }
+        public string CardState { get; set; }
     }
 }
