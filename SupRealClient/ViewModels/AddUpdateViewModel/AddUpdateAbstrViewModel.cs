@@ -251,10 +251,10 @@ namespace SupRealClient.ViewModels.AddUpdateViewModel
 
 			CurrentOrderElement.Templates = (wind.WindowResult as OrderElement).Templates;
             CurrentOrderElement.TemplateIdList =
-                AndoverEntityListHelper.EntitiesToString(CurrentOrderElement.Templates);
+                AndoverEntityListHelper.TemplatesSchedulesToString(CurrentOrderElement.Templates);
             CurrentOrderElement.Areas = (wind.WindowResult as OrderElement).Areas;
             CurrentOrderElement.AreaIdList =
-                AndoverEntityListHelper.AndoverEntitiesToString(CurrentOrderElement.Areas);
+                AndoverEntityListHelper.AreasSchedulesToString(CurrentOrderElement.Areas);
             CurrentOrderElement.ScheduleId = (wind.WindowResult as OrderElement).ScheduleId;
         }
 
@@ -403,6 +403,10 @@ namespace SupRealClient.ViewModels.AddUpdateViewModel
         public ICommand ToAllTemplates { get; set; }
         public ICommand SchedulesCommand { get; set; }
         public ICommand ClearCommand { get; set; }
+        public ICommand TemplatesSchedulesCommand { get; set; }
+        public ICommand TemplatesClearCommand { get; set; }
+        public ICommand AreasSchedulesCommand { get; set; }
+        public ICommand AreasClearCommand { get; set; }
 
         /// <summary>
         /// Отработка кнопки перевода в список назначенных зон
@@ -416,7 +420,7 @@ namespace SupRealClient.ViewModels.AddUpdateViewModel
 
         public AddUpdateZonesToBidViewModel() : base()
         {
-	    DoubleClickCommand = new RelayCommand(arg => DoubleClick(arg));
+            DoubleClickCommand = new RelayCommand(arg => DoubleClick(arg));
             ToAppointTemplates = new RelayCommand(arg => ToAppointTemplatesCommand());
             ToAllTemplates = new RelayCommand(arg => ToAllTemplatesCommand());
             ToAppointZones = new RelayCommand(arg => ToAppointZonesCommand());
@@ -424,6 +428,12 @@ namespace SupRealClient.ViewModels.AddUpdateViewModel
 
             SchedulesCommand = new RelayCommand(arg => SchedulesList());
             ClearCommand = new RelayCommand(arg => Clear());
+
+            TemplatesSchedulesCommand = new RelayCommand(arg => TemplatesSchedulesList());
+            TemplatesClearCommand = new RelayCommand(arg => TemplatesClear());
+
+            AreasSchedulesCommand = new RelayCommand(arg => AreasSchedulesList());
+            AreasClearCommand = new RelayCommand(arg => AreasClear());
         }
 
 	    private void DoubleClick(object arg)
@@ -498,7 +508,73 @@ namespace SupRealClient.ViewModels.AddUpdateViewModel
             Schedule = "";
         }
 
-	    protected override void OkCommand()
+        private void TemplatesSchedulesList()
+        {
+            if (CurrentAppointTemplate == null)
+            {
+                return;
+            }
+
+            var result = ViewManager.Instance.OpenWindowModal(
+                 "Base4SchedulesWindViewOk", null) as BaseModelResult;
+            if (result == null)
+            {
+                return;
+            }
+
+            CurrentAppointTemplate.ScheduleIdHi = result.IdHi <= 0 ? 0 : result.IdHi;
+            CurrentAppointTemplate.ScheduleIdLo = result.IdLo <= 0 ? 0 : result.IdLo;
+            CurrentAppointTemplate.Schedule = result.Name;
+            OnPropertyChanged("CurrentAppointTemplate");
+        }
+
+        private void TemplatesClear()
+        {
+            if (CurrentAppointTemplate == null)
+            {
+                return;
+            }
+
+            CurrentAppointTemplate.ScheduleIdHi = 0;
+            CurrentAppointTemplate.ScheduleIdLo = 0;
+            CurrentAppointTemplate.Schedule = "";
+            OnPropertyChanged("CurrentAppointTemplate");
+        }
+
+        private void AreasSchedulesList()
+        {
+            if (CurrentAppointZone == null)
+            {
+                return;
+            }
+
+            var result = ViewManager.Instance.OpenWindowModal(
+                 "Base4SchedulesWindViewOk", null) as BaseModelResult;
+            if (result == null)
+            {
+                return;
+            }
+
+            CurrentAppointZone.ScheduleIdHi = result.IdHi <= 0 ? 0 : result.IdHi;
+            CurrentAppointZone.ScheduleIdLo = result.IdLo <= 0 ? 0 : result.IdLo;
+            CurrentAppointZone.Schedule = result.Name;
+            OnPropertyChanged("CurrentAppointZone");
+        }
+
+        private void AreasClear()
+        {
+            if (CurrentAppointZone == null)
+            {
+                return;
+            }
+
+            CurrentAppointZone.ScheduleIdHi = 0;
+            CurrentAppointZone.ScheduleIdLo = 0;
+            CurrentAppointZone.Schedule = "";
+            OnPropertyChanged("CurrentAppointZone");
+        }
+
+        protected override void OkCommand()
 	    {
 		    if (((AddUpdateZonesToBidModel) this.Model).ScheduleId == 0)
 		    {

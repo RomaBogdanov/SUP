@@ -22,6 +22,10 @@ namespace SupRealClient.Views
         public Base4SchedulesWindView(Visibility okVisibility)
         {
             InitializeComponent();
+
+			//Костыль
+			base4.SetAddButtonText("Загрузить");
+
             base4.tbxSearch.Focus();
             AfterInitialize();
 

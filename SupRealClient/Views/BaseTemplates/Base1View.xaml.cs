@@ -36,7 +36,14 @@ namespace SupRealClient.Views
 
         Base1ViewModel viewModel = new Base1ViewModel();
 
-        public void SetViewModel(Base1ModelAbstr model)
+	    //Костыль "Минутка"
+	    public void SetAddButtonText(string text)
+	    {
+		    AdButton.Text = text;
+	    }
+
+
+	public void SetViewModel(Base1ModelAbstr model)
         {
             ((Base1ViewModel)DataContext).SetModel(model);
             InitializeComponent();

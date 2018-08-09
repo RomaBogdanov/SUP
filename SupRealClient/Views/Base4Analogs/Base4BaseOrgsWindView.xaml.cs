@@ -29,7 +29,22 @@ namespace SupRealClient.Views
             ((Base4ViewModel<EnumerationClasses.Organization>)base4.DataContext)
                 .ScrollCurrentItem = base4.ScrollIntoViewCurrentItem;
             base4.btnUpdate.Visibility = Visibility.Collapsed;
+            ChangeCommandKeyGestureCtrlD();
+
             base4.Focus();
+        }
+
+        void ChangeCommandKeyGestureCtrlD()
+        {
+            foreach (InputBinding inputBinding in (base4 as UserControl)?.InputBindings)
+            {
+                KeyGesture keyGesture = inputBinding.Gesture as KeyGesture;
+                if (keyGesture != null && keyGesture.Key == Key.D && keyGesture.Modifiers == ModifierKeys.Control)
+                {
+                    inputBinding.Command = ((Base4ViewModel<EnumerationClasses.Organization>)base4.DataContext).Remove;
+                    break;
+                }
+            }
         }
 
         private void CreateColumns()

@@ -8,6 +8,7 @@ using System.ComponentModel;
 using System.Linq;
 using System.Windows;
 using System.Windows.Forms;
+using Application = System.Windows.Application;
 
 namespace SupRealClient
 {
@@ -293,15 +294,30 @@ namespace SupRealClient
             (window as Window).Activate();
         }
 
-        private object OpenWindowModal(IWindow window)
+
+
+        private object OpenWindowModal(IWindow window, bool openInCenterOfActive = true)
         {
-            if (window != null && window.IsRealClose)
-            {
-                window.IsRealClose = false;
-                (window as Window).ShowDialog();
-                return window.WindowResult;
-            }
-            return null;
+	        if (window == null || !window.IsRealClose) return null;
+
+	        window.IsRealClose = false;
+			if (window is Window functionalWindow)
+	        {
+		        if (openInCenterOfActive)
+		        {
+					//Window activeParentWindow = Application.Current.Windows.OfType<Window>().SingleOrDefault(x => x.IsActive);
+					//functionalWindow.Owner = activeParentWindow;
+					//functionalWindow.WindowStartupLocation = WindowStartupLocation.CenterOwner;
+				}
+		        functionalWindow.ShowDialog();
+			}
+	        else
+	        {
+		        System.Windows.MessageBox.Show("Попыка открыть как окно класс, не являющимся классом Window.", "Ошибка",
+			        MessageBoxButton.OK, MessageBoxImage.Exclamation);
+	        }
+	        
+	        return window.WindowResult;
         }
 
         private IWindow CreateWindow(string name)

@@ -14,7 +14,7 @@ namespace SupRealClient.EnumerationClasses
         public DateTime BirthDate { get; set; } = DateTime.Now;
 		public string Comment { get; set; }
 
-	    public string DocumentName => "Документ " + Type + " " + Seria + " " + Num;
+	    public string DocumentName => ToString();
 
 
 		public override string ToString()

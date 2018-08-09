@@ -67,8 +67,10 @@ namespace SupRealClient.Views
 					IsDisable = orders.Field<string>("f_disabled") == "Y",
 					From = orders.Field<DateTime>("f_date_from"),
 					To = orders.Field<DateTime>("f_date_to"),
-					Signed = VisitorsWrapper.CurrentTable().Table.AsEnumerable().FirstOrDefault(arg => arg.Field<int>("f_visitor_id") == orders.Field<int>("f_signed_by"))["f_full_name"].ToString(),
-					Agree = VisitorsWrapper.CurrentTable().Table.AsEnumerable().FirstOrDefault(arg => arg.Field<int>("f_visitor_id") == orders.Field<int>("f_adjusted_with"))["f_full_name"].ToString(),
+					TypeId = orders.Field<int>("f_order_type_id"),
+					NewRecDate = orders.Field<DateTime>("f_new_rec_date"),
+					Signed = VisitorsWrapper.CurrentTable().Table.AsEnumerable().FirstOrDefault(arg => arg.Field<int>("f_visitor_id") == orders.Field<int>("f_signed_by"))?["f_full_name"].ToString(),
+					Agree = VisitorsWrapper.CurrentTable().Table.AsEnumerable().FirstOrDefault(arg => arg.Field<int>("f_visitor_id") == orders.Field<int>("f_adjusted_with"))?["f_full_name"].ToString(),
 					Note = orders.Field<string>("f_notes")
 				}
 			);

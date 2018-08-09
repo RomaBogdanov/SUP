@@ -11,6 +11,7 @@ using System.Data;
 using System.Text;
 using System.Windows.Media.Imaging;
 using RegulaLib;
+using SupRealClient.Common;
 using SupRealClient.TabsSingleton;
 using SupRealClient.Views;
 
@@ -453,7 +454,11 @@ namespace SupRealClient.ViewModels
 
         private void OkExecute()
         {
-	        StringBuilder stringBuilder = new StringBuilder();
+	        seria = CommonHelper.Check_SeriaCode(Seria);
+	        code = CommonHelper.Check_NumberDocument(Code);
+	        num = CommonHelper.Check_NumberDocument(Num);
+
+			StringBuilder stringBuilder = new StringBuilder();
 			if (DocType == null || DocType == "" || string.IsNullOrWhiteSpace(DocType) ||
 				Num == null || Num == "" || string.IsNullOrWhiteSpace(Num) ||
                 Date == null || Date == DateTime.MinValue)
@@ -477,8 +482,13 @@ namespace SupRealClient.ViewModels
 	            }
 
 	            string generatedText = stringBuilder.ToString();
-				MessageBox.Show("Нужно заполнить следующие поля:" + Environment.NewLine + generatedText, "Внимание", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
-                return;
+				MessageBox.Show("Следующие поля заполнены не корректно:" + Environment.NewLine + generatedText, "Внимание", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+
+	            OnPropertyChanged(nameof(Seria));
+	            OnPropertyChanged(nameof(Code));
+				OnPropertyChanged(nameof(Num));
+
+				return;
             }
 
 	        _TestDatePickerEvent?.Invoke();
