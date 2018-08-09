@@ -188,39 +188,40 @@ namespace SupRealClient.Views
 			} else if (e.Key == Key.S && Keyboard.IsKeyDown(Key.LeftCtrl) && btnOk.IsEnabled)
 			{
 				btnOk.Command.Execute(null);
-			} else if (e.Key == Key.Left && Keyboard.IsKeyDown(Key.LeftCtrl) || e.Key == Key.Home)
+				e.Handled = true;
+			} else if ((e.Key == Key.Left && Keyboard.IsKeyDown(Key.LeftCtrl) || e.Key == Key.Home) && btnToFirst.IsEnabled)
 			{
 				btnToFirst.Command.Execute(null);
 				e.Handled = true;
-			} else if (e.Key == Key.Right && Keyboard.IsKeyDown(Key.LeftCtrl) || e.Key == Key.End)
+			} else if ((e.Key == Key.Right && Keyboard.IsKeyDown(Key.LeftCtrl) || e.Key == Key.End) && btnToLast.IsEnabled)
 			{
 				btnToLast.Command.Execute(null);
 				e.Handled = true;
 			}
-			else if (e.Key == Key.Up && Keyboard.IsKeyDown(Key.LeftCtrl))
+			else if (e.Key == Key.Up && Keyboard.IsKeyDown(Key.LeftCtrl) && btnPrevious.IsEnabled)
 			{
 				btnPrevious.Command.Execute(null);
 				e.Handled = true;
 			}
-			else if (e.Key == Key.Down && Keyboard.IsKeyDown(Key.LeftCtrl))
+			else if (e.Key == Key.Down && Keyboard.IsKeyDown(Key.LeftCtrl) && btnNext.IsEnabled)
 			{
 				btnNext.Command.Execute(null);
 				e.Handled = true;
-			} else if (e.Key == Key.F2 || e.Key == Key.D && Keyboard.IsKeyDown(Key.LeftCtrl))
+			} else if ((e.Key == Key.F2 || e.Key == Key.D && Keyboard.IsKeyDown(Key.LeftCtrl)) && btnEditOrder.IsEnabled)
 			{
 				btnEditOrder.Command.Execute(null);
 				e.Handled = true;
-			} else if (e.Key == Key.F5)
+			} else if (e.Key == Key.F5 && btnReload.IsEnabled)
 			{
 				btnReload.Command.Execute(null);
 				e.Handled = true;
 			}
-			else if (e.Key == Key.F && Keyboard.IsKeyDown(Key.LeftCtrl))
+			else if (e.Key == Key.F && Keyboard.IsKeyDown(Key.LeftCtrl) && btnFind.IsEnabled)
 			{
 				btnFind.Command.Execute(null);
 				e.Handled = true;
 			}
-			else if (e.Key == Key.Insert)
+			else if (e.Key == Key.Insert && btnAddOrder.IsEnabled)
 			{
 				btnAddOrder.Command.Execute(null);
 				e.Handled = true;

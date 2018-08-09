@@ -18,5 +18,6 @@ namespace SupRealClient.EnumerationClasses
         public string Comment { get; set; }
         public int OrderId { get; set; }
         public string Orders { get; set; }
+		public int StateId { get; set; }
     }
 }

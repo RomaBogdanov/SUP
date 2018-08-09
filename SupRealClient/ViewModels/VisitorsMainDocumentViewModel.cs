@@ -129,22 +129,29 @@ namespace SupRealClient.ViewModels
             set
             {
                 if (value != null)
-                {
-	                if (value.Date <= DateTime.Now.Date)
-	                {
-		                date = value;
-		                Date_Correct = true;
-					}
-	                else
-	                {
-		                Date_Correct = false;
-						MessageBox.Show("Веденная дата выдачи документа неправильна, так как введенная дата будет в будующем.", "Внимание",MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
-		                MessageBox.Show("Дата выдачи документа будет исправлено на сегоднешнее", "Внимание", MessageBoxButtons.OK, MessageBoxIcon.Information);
-						_DateNotCorrect?.Invoke(nameof(Date));
+				{
+					if (Editable)
+					{
+						if (value.Date <= DateTime.Now.Date)
+						{
+							date = value;
+							Date_Correct = true;
+						}
+						else
+						{
+							Date_Correct = false;
+							_DateNotCorrect?.Invoke(nameof(Date));
+							MessageBox.Show("Введенная дата выдачи документа неверна, так как введенная дата будет в будущем.", "Внимание",
+								MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
 
+						}
 					}
-					
-                    OnPropertyChanged(nameof(Date));
+					else
+					{
+						date = value;
+					}
+
+					OnPropertyChanged(nameof(Date));
                 }
             }
         }
@@ -156,18 +163,24 @@ namespace SupRealClient.ViewModels
             {
                 if (value != null)
 				{
-					if (value.Date >= DateTime.Now.Date)
+					if (Editable)
 					{
-						dateTo = value;
-						DateTo_Correct = true;
+						if (value.Date >= DateTime.Now.Date)
+						{
+							dateTo = value;
+							DateTo_Correct = true;
+						}
+						else
+						{
+							DateTo_Correct = false;
+							_DateNotCorrect?.Invoke(nameof(DateTo));
+							MessageBox.Show("Введенная дата действия документа неверна, так как введенная дата уже прошла.", "Внимание",
+								MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+						}
 					}
 					else
 					{
-						DateTo_Correct = false;
-						_DateNotCorrect?.Invoke(nameof(DateTo));
-						MessageBox.Show("Веденная дата действия документа неправильна, так как введенная дата уже прошла.", "Внимание", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
-						MessageBox.Show("Дата действия документа будет исправлено на сегоднешнее", "Внимание", MessageBoxButtons.OK, MessageBoxIcon.Information);
-						_DateNotCorrect?.Invoke(nameof(DateTo));
+						dateTo = value;
 					}
 
 					OnPropertyChanged(nameof(DateTo));
@@ -182,18 +195,24 @@ namespace SupRealClient.ViewModels
 		    {
 			    if (value != null)
 			    {
-				    if (value.Date <= DateTime.Now.Date)
+				    if (Editable)
 				    {
-					    birthDate = value;
-					    BirthDate_Correct = true;
-					}
+					    if (value.Date <= DateTime.Now.Date)
+					    {
+						    birthDate = value;
+						    BirthDate_Correct = true;
+					    }
+					    else
+					    {
+						    BirthDate_Correct = false;
+						    _DateNotCorrect?.Invoke(nameof(BirthDate));
+						    MessageBox.Show("Введенная дата рождения неверна, так как введенная дата будет в будущем.",
+							    "Внимание", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+					    }
+				    }
 				    else
 				    {
-					    BirthDate_Correct = false;
-					    _DateNotCorrect?.Invoke(nameof(BirthDate));
-						MessageBox.Show("Веденная дата рождения неправильна, так как введенная дата будет в будующем.",
-						    "Внимание", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
-					    MessageBox.Show("Дата рождения будет исправлено на сегоднешнее", "Внимание", MessageBoxButtons.OK, MessageBoxIcon.Information);
+						birthDate = value;
 					}
 
 				    OnPropertyChanged(nameof(BirthDate));

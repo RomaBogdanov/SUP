@@ -375,6 +375,9 @@
     <Compile Include="Views\ListViews\BaseListSmallView.xaml.cs">
       <DependentUpon>BaseListSmallView.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Views\ScheduleChoiceView.xaml.cs">
+      <DependentUpon>ScheduleChoiceView.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Views\SynonimView.xaml.cs">
       <DependentUpon>SynonimView.xaml</DependentUpon>
     </Compile>
@@ -682,6 +685,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Views\ListViews\BaseListSmallView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\ScheduleChoiceView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

@@ -515,7 +515,7 @@
 									Style="{StaticResource TextBLockStyle}"
 									Text="Документы" />
 
-								
+
 
 								<Grid Grid.Row="3" Grid.ColumnSpan="5">
 									<Grid.ColumnDefinitions>
@@ -526,7 +526,7 @@
 										<ColumnDefinition Width="Auto" />
 									</Grid.ColumnDefinitions>
 
-									
+
 
 									<Button
 										Grid.Column="2"
@@ -569,7 +569,8 @@
 
 								</Grid>
 
-								<ListBox x:Name="listBox_MainDocument"
+								<ListBox
+									x:Name="listBox_MainDocument"
 									Grid.Row="1"
 									Grid.RowSpan="2"
 									Grid.Column="0"
@@ -577,8 +578,8 @@
 									BorderBrush="Black"
 									BorderThickness="1"
 									ItemsSource="{Binding Path=CurrentItem.MainDocuments, Mode=OneWay}"
-									SelectedIndex="{Binding Path=SelectedMainDocument}"
-									KeyDown="MoveNextFocusControl_ToName">
+									KeyDown="MoveNextFocusControl_ToName"
+									SelectedIndex="{Binding Path=SelectedMainDocument}">
 									<i:Interaction.Triggers>
 										<i:EventTrigger EventName="MouseDoubleClick">
 											<i:InvokeCommandAction Command="{Binding OpenMainDocumentCommand}" />
@@ -696,12 +697,12 @@
 						</i:Interaction.Triggers>
 						<DataGrid.Columns>
 							<DataGridTextColumn Binding="{Binding Path=RegNumber}" Header="№ заявки" />
-							<DataGridTextColumn Binding="{Binding Path=From}" Header="Дата/время от" />
-							<DataGridTextColumn Binding="{Binding Path=To}" Header="Дата/время до" />
-							<DataGridTextColumn Binding="{Binding Path=Catcher}" Header="Принимающее лицо" />
 							<DataGridTextColumn Binding="{Binding Path=Type}" Header="Тип заявки" />
+							<DataGridTextColumn Binding="{Binding Path=From, StringFormat=dd.MM.yyyy}" Header="Дата начала" />
+							<DataGridTextColumn Binding="{Binding Path=To, StringFormat=dd.MM.yyyy}" Header="Дата окончания" />
+							<DataGridTextColumn Binding="{Binding Path=Catcher}" Header="Принимающее лицо" />
 							<DataGridTextColumn Binding="{Binding Path=Passes}" Header="Проходы" />
-							<DataGridCheckBoxColumn Binding="{Binding Path=HasCard}" Header="Выдан пропуск" />
+							<DataGridTextColumn Binding="{Binding Path=CardState}" Header="Состояние пропуска" />
 						</DataGrid.Columns>
 					</DataGrid>
 				</mah:MetroTabItem>
@@ -1037,7 +1038,10 @@
 				<ColumnDefinition />
 				<ColumnDefinition />
 			</Grid.ColumnDefinitions>
-			<StackPanel Orientation="Horizontal" Grid.Column="1" HorizontalAlignment="Right">
+			<StackPanel
+				Grid.Column="1"
+				HorizontalAlignment="Right"
+				Orientation="Horizontal">
 				<TextBlock
 					Grid.Column="1"
 					Margin="5"
@@ -1055,9 +1059,9 @@
 					Text="{Binding Path=CurrentItem.Operator, Mode=TwoWay}" />
 			</StackPanel>
 
-			
 
-			
+
+
 		</Grid>
 
 		<!--  Панель кнопок  -->
@@ -1076,6 +1080,7 @@
 			</Grid.ColumnDefinitions>
 
 			<Button
+				Name="butFirst"
 				Grid.Row="0"
 				Grid.Column="0"
 				Margin="2"
@@ -1101,13 +1106,14 @@
 			</Button>
 
 			<Button
+				Name="butPrevious"
 				Grid.Row="0"
 				Grid.Column="1"
 				Margin="2"
 				Command="{Binding Path=PrevCommand}"
 				IsEnabled="{Binding Path=VisitorsEnable.PreviousButtonEnable, Mode=TwoWay}"
 				Style="{StaticResource VisitorsSquareButtonStyle}"
-				ToolTip="↑"
+				ToolTip="Ctrl+↑"
 				Visibility="{Binding Path=VisitorsVisible.PreviousButtonEnable, Converter={StaticResource BooleanToVisibilityConverter}}">
 				<Grid>
 					<Grid.RowDefinitions>
@@ -1127,13 +1133,14 @@
 			</Button>
 
 			<Button
+				Name="butNext"
 				Grid.Row="0"
 				Grid.Column="2"
 				Margin="2"
 				Command="{Binding Path=NextCommand}"
 				IsEnabled="{Binding Path=VisitorsEnable.NextButtonEnable, Mode=TwoWay}"
 				Style="{StaticResource VisitorsSquareButtonStyle}"
-				ToolTip="↓"
+				ToolTip="Ctrl+↓"
 				Visibility="{Binding Path=VisitorsVisible.NextButtonEnable, Converter={StaticResource BooleanToVisibilityConverter}}">
 				<Grid>
 					<Grid.RowDefinitions>
@@ -1152,6 +1159,7 @@
 			</Button>
 
 			<Button
+				Name="butLast"
 				Grid.Row="0"
 				Grid.Column="3"
 				Margin="2"
@@ -1177,12 +1185,14 @@
 			</Button>
 
 			<Button
+				Name="butGiveCard"
 				Grid.Row="0"
 				Grid.Column="4"
 				Margin="2"
 				Command="{Binding ExtraditeCommand}"
 				IsEnabled="{Binding Path=VisitorsEnable.ExtraditeButtonEnable, Mode=TwoWay}"
 				Style="{StaticResource VisitorsSquareButtonStyle}"
+				ToolTip="Ctrl+G"
 				Visibility="{Binding Path=VisitorsVisible.ExtraditeButtonEnable, Converter={StaticResource BooleanToVisibilityConverter}}">
 				<Grid>
 					<Grid.RowDefinitions>
@@ -1201,12 +1211,14 @@
 			</Button>
 
 			<Button
+				Name="butReturnCard"
 				Grid.Row="0"
 				Grid.Column="5"
 				Margin="2"
 				Command="{Binding ReturnCommand}"
 				IsEnabled="{Binding Path=VisitorsEnable.ReturnButtonEnable, Mode=TwoWay}"
 				Style="{StaticResource VisitorsSquareButtonStyle}"
+				ToolTip="Ctrl+T"
 				Visibility="{Binding Path=VisitorsVisible.ReturnButtonEnable, Converter={StaticResource BooleanToVisibilityConverter}}">
 				<Grid>
 					<Grid.RowDefinitions>
@@ -1233,6 +1245,7 @@
 				Command="{Binding NewCommand}"
 				IsEnabled="{Binding Path=VisitorsEnable.NewButtonEnable, Mode=TwoWay}"
 				Style="{StaticResource VisitorsSquareButtonStyle}"
+				ToolTip="Insert"
 				Visibility="{Binding Path=VisitorsVisible.NewButtonEnable, Converter={StaticResource BooleanToVisibilityConverter}}">
 				<Grid>
 					<Grid.RowDefinitions>
@@ -1258,7 +1271,7 @@
 				Command="{Binding EditCommand}"
 				IsEnabled="{Binding Path=VisitorsEnable.EditButtonEnable, Mode=TwoWay}"
 				Style="{StaticResource VisitorsSquareButtonStyle}"
-				ToolTip="Insert"
+				ToolTip="Ctrl+D"
 				Visibility="{Binding Path=VisitorsVisible.EditButtonEnable, Converter={StaticResource BooleanToVisibilityConverter}}">
 				<Grid>
 					<Grid.RowDefinitions>
@@ -1331,6 +1344,7 @@
 			</Button>
 
 			<Button
+				Name="butSearch"
 				Grid.Row="1"
 				Grid.Column="4"
 				Margin="2"
@@ -1356,6 +1370,7 @@
 			</Button>
 
 			<Button
+				Name="butRefresh"
 				Grid.Row="1"
 				Grid.Column="5"
 				Margin="2"
