@@ -55,8 +55,10 @@
 			Text="Назначенные шаблоны" />
 
 		<DataGrid
+			Name="DataGridTemplateLeft"
 			Grid.Row="1"
 			Grid.RowSpan="7"
+			MouseDown="DataGridTemplateLeft_OnMouseDown"
 			Grid.Column="0"
 			Grid.ColumnSpan="2"
 			AutoGenerateColumns="False"
@@ -98,9 +100,11 @@
 		</Button>
 
 		<DataGrid
+			Name="DataGridTemplateRight"
 			Grid.Row="1"
 			Grid.RowSpan="7"
 			Grid.Column="3"
+			MouseDown="DataGridTemplateRight_OnMouseDown"
 			AutoGenerateColumns="False"
 			BorderBrush="Black"
 			BorderThickness="1"
@@ -135,9 +139,11 @@
 			Text="Назначенные области доступа" />
 
 		<DataGrid
+			Name="DataGridAreasLeft"
 			Grid.Row="9"
 			Grid.RowSpan="7"
 			Grid.Column="0"
+			MouseDown="DataGridAreasLeft_OnMouseDown"
 			Grid.ColumnSpan="2"
 			AutoGenerateColumns="False"
 			BorderBrush="Black"
@@ -185,10 +191,12 @@
 		</Button>
 
 		<DataGrid
+			Name="DataGridAreasRight"
 			Grid.Row="9"
 			Grid.RowSpan="7"
 			Grid.Column="3"
 			AutoGenerateColumns="False"
+			MouseDown="DataGridAreasRight_OnMouseDown"
 			BorderBrush="Black"
 			BorderThickness="1"
 			CanUserAddRows="False"

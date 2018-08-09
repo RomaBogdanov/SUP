@@ -151,6 +151,24 @@ namespace SupRealClient.EnumerationClasses
 			}
 		}
 
+		public static string GetOrderNumber(int orderId)
+		{
+			var order = OrdersWrapper.CurrentTable().Table.AsEnumerable().FirstOrDefault(arg => arg.Field<int>("f_ord_id") == orderId);
+			if (order == null)
+			{
+				return null;
+			}
+
+			var orderType = SprOrderTypesWrapper.CurrentTable().Table.AsEnumerable()
+				.FirstOrDefault(arg => arg.Field<int>("f_order_type_id") == order.Field<int>("f_order_type_id"));
+			if (orderType == null)
+			{
+				return order.Field<string>("f_reg_number");
+			}
+			string type = Order.GetOrderTypeString(orderType.Field<string>("f_order_text"));
+			return order.Field<DateTime>("f_new_rec_date").Year % 100 + "-" + order.Field<int>("f_reg_number") + "-" + type[0];
+		}
+
 		/// <summary>
 		/// Дата подачи заявки.
 		/// </summary>

@@ -226,7 +226,19 @@ namespace SupRealClient.Views
 			{
 				btnAddOrder.Command.Execute(null);
 				e.Handled = true;
-			} else if (e.Key == Key.Enter && !EnterUiElementsSequence.Any(x => x.Equals(_previousEnterUiElement)))
+			}
+			else if (e.Key == Key.Down && Keyboard.IsKeyDown(Key.LeftShift))
+			{
+				comboMenu.SelectedIndex = (comboMenu.SelectedIndex + 1) % comboMenu.Items.Count;
+				e.Handled = true;
+			}
+
+			else if (e.Key == Key.Up && Keyboard.IsKeyDown(Key.LeftShift))
+			{
+				comboMenu.SelectedIndex = (comboMenu.SelectedIndex - 1) < 0 ? comboMenu.Items.Count-1 : (comboMenu.SelectedIndex - 1);
+				e.Handled = true;
+			}
+			else if (e.Key == Key.Enter && !EnterUiElementsSequence.Any(x => x.Equals(FocusManager.GetFocusedElement(this))))
 			{
 				switch (comboMenu.SelectedIndex)
 				{
@@ -250,6 +262,7 @@ namespace SupRealClient.Views
 			{
 				DataGridSingle.UnselectAllCells();
 				DataGridTemp.UnselectAllCells();
+				e.Handled = true;
 			}
 		}
 	}
