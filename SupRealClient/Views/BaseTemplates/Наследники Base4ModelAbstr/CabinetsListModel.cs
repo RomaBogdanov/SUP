@@ -39,7 +39,7 @@ namespace SupRealClient.Views
                  CommonHelper.NotDeleted(vis)
                  select vis).Any())
             {
-                MessageBox.Show("Кабинет невозможно удалить, т.к. он связана с посетителями!");
+                MessageBox.Show("Кабинет невозможно удалить, т.к. он связана с посетителями!", "Информация", MessageBoxButton.OK, MessageBoxImage.Information);
                 return false;
             }
 
@@ -47,7 +47,7 @@ namespace SupRealClient.Views
                  where cz.Field<int>("f_cabinet_id") == currentItem.Id
                  select cz).Any())
             {
-                MessageBox.Show("Кабинет невозможно удалить, т.к. он связана с посетителями!");
+                MessageBox.Show("Кабинет невозможно удалить, т.к. он связана с посетителями!", "Информация", MessageBoxButton.OK, MessageBoxImage.Information);
                 return false;
             }
 

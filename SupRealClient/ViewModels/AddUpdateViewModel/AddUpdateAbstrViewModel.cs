@@ -291,7 +291,7 @@ namespace SupRealClient.ViewModels.AddUpdateViewModel
 	    {
 		    if (!CurrentOrderElement.IsOrderElementDataCorrect(out string errorMessage))
 		    {
-			    MessageBox.Show(errorMessage, "Ошибка", MessageBoxButton.OK, MessageBoxImage.Error);
+			    MessageBox.Show(errorMessage, "Ошибка", MessageBoxButton.OK, MessageBoxImage.Exclamation);
 				return;
 		    }
 
@@ -461,7 +461,17 @@ namespace SupRealClient.ViewModels.AddUpdateViewModel
             ((AddUpdateZonesToBidModel)this.Model).ScheduleId = 0;
             Schedule = "";
         }
-    }
+
+	    protected override void OkCommand()
+	    {
+		    if (((AddUpdateZonesToBidModel) this.Model).ScheduleId == 0)
+		    {
+			    MessageBox.Show("Необходимо выбрать расписание", "Ошибка", MessageBoxButton.OK, MessageBoxImage.Exclamation);
+			    return;
+			}
+		    base.OkCommand();
+	    }
+	}
 
     public class AddUpdateDoorViewModel : AddUpdateBaseViewModel
     {

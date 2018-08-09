@@ -40,7 +40,10 @@ namespace SupRealClient.ViewModels
             {
                 this.searchingText = value;
                 OnPropertyChanged("SearchingText");
-                Searching(this.searchingText.ToUpper());
+                if (!string.IsNullOrEmpty(searchingText))
+                {
+                    Searching(this.searchingText.ToUpper());
+                }               
             }
         }
 

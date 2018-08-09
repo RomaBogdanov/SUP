@@ -61,12 +61,12 @@ namespace SupRealClient.Models
         {
             if (string.IsNullOrEmpty(data.Type))
             {
-                MessageBox.Show("Заполните поле Тип");
+                MessageBox.Show("Заполните поле «Тип»", "Информация", MessageBoxButton.OK, MessageBoxImage.Information);
                 return;
             }
             if (string.IsNullOrEmpty(OrganizationsHelper.TrimName(data.Name)))
             {
-                MessageBox.Show("Заполните поле Название");
+                MessageBox.Show("Заполните поле «Название»", "Информация", MessageBoxButton.OK, MessageBoxImage.Information);
                 return;
             }
 
@@ -130,7 +130,7 @@ namespace SupRealClient.Models
             //}
             else
             {
-                MessageBox.Show("Такая организация уже записана!");
+                MessageBox.Show("Такая организация уже существует!", "Предупреждение", MessageBoxButton.OK, MessageBoxImage.Warning);
             }
         }
     }
