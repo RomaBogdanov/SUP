@@ -2519,15 +2519,23 @@ namespace SupRealClient.Views
             foreach (var order in Set[index].Orders)
             {
 	            order.CardState = CommonHelper.CardStateToSting(CardState.Inactive);
-                foreach (var card in Set[index].Cards)
-                {
-                    if (card.OrderId == order.Id ||
-                        AndoverEntityListHelper.StringToEntityIds(card.Orders).Contains(order.Id))
-                    {
-                        order.CardState = CommonHelper.CardStateToSting((CardState) card.StateId);
-                        break;
-                    }
-                }
+	            foreach (OrderElement element in order.OrderElements)
+	            {
+		            if (element.VisitorId == Set[index].Id)
+		            {
+						element.SetupCardState();
+						order.CardState=element.CardStateString;
+		            }
+	            }
+                //foreach (var card in Set[index].Cards)
+                //{
+                //    if (card.OrderId == order.Id ||
+                //        AndoverEntityListHelper.StringToEntityIds(card.Orders).Contains(order.Id))
+                //    {
+                //        order.CardState = CommonHelper.CardStateToSting((CardState) card.StateId);
+                //        break;
+                //    }
+                //}
             }
         }
 
