@@ -73,7 +73,7 @@ namespace SupRealClient.Common
 			    return "";
 			}
 
-		    var match = Regex.Match(text, @"^\s*([а-яёa-z|!|@|#|$|%|^|&|*|(|)|_|+|-|=|:|?|/|'|<|>]+(\s*([-–——]\s*)?[а-яёa-z|!|@|#|$|%|^|&|*|(|)|_|+|-|=|:|?|/|'|<|>]+)*)*\s*$", RegexOptions.IgnoreCase);
+		    var match = Regex.Match(text, @"^\s*([а-яёa-z|!|@|#|$|%|^|&|*|(|)|_|+|-|=|:|?|/|'|<|>|0-9]+(\s*([-–——]\s*)?[а-яёa-z|!|@|#|$|%|^|&|*|(|)|_|+|-|=|:|?|/|'|<|>|0-9]+)*)*\s*$", RegexOptions.IgnoreCase);
 		    if (!match.Success)
 		    {
 			    return "";
@@ -83,6 +83,7 @@ namespace SupRealClient.Common
 		    result = Regex.Replace(result, @"\s+", " ");
 		    result = Regex.Replace(result, @"\s*[-–——]\s*", "-");
 		    result = Regex.Replace(result, @"[!|@|#|$|%|^|&|*|(|)|_|+|-|=|:|?|/|'|<|>]", "");
+		    result = Regex.Replace(result, @"[0-9]*", "");
 			return result;
 	    }
 
