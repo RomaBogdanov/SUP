@@ -51,9 +51,14 @@ namespace SupRealClient.Views
         /// <summary>
         /// Для не раскрытия списка TypeTextBox, при открытии формы с помощью Ctrl+D
         /// </summary>
+        bool oneShot = false;
         private void TypeTextBox_PreviewKeyDown(object sender, KeyEventArgs e)
         {
-            TypeTextBox.KeyUp += TextBox_OnKeyUp;
+            if (!oneShot)
+            {
+                oneShot = true;
+                TypeTextBox.KeyUp += TextBox_OnKeyUp;
+            }  
         }
 
         private void TextBox_OnKeyUp(object sender, KeyEventArgs e)
@@ -100,7 +105,9 @@ namespace SupRealClient.Views
 
             int selectionStartType;
             var textBox = (TypeTextBox.Template.FindName("PART_EditableTextBox",
-                           TypeTextBox) as TextBox);    
+                           TypeTextBox) as TextBox);
+
+            textBox.Text = textBox.Text?.TrimStart();
 
             if (e.Key != Key.Up && e.Key != Key.Down)
             {
@@ -126,6 +133,8 @@ namespace SupRealClient.Views
 
             var textBox = (NameTextBox.Template.FindName("PART_EditableTextBox",
                            NameTextBox) as TextBox);
+
+            textBox.Text = textBox.Text?.TrimStart();
 
             int selectionStartName;
             if (e.Key != Key.Up && e.Key != Key.Down)

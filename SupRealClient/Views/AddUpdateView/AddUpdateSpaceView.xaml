@@ -36,7 +36,7 @@
         <TextBox 
             x:Name="tbNumReal"
             Grid.Row="1" 
-            Text="{Binding CurrentItem.NumReal, Mode=TwoWay}"
+            Text="{Binding CurrentItem.NumReal, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
             Grid.Column="0"
             Grid.ColumnSpan="2" 
             Margin="2"
@@ -54,13 +54,14 @@
             Style="{StaticResource TextBLockStyle}"/>
 
         <TextBox 
+            x:Name="tbNumBuild"
             Grid.Row="3" 
             Grid.Column="0"
             Grid.ColumnSpan="2" 
             Margin="2"
             TabIndex="1"
             FontSize="{Binding FontSize}"
-            Text="{Binding Path=CurrentItem.NumBuild, Mode=TwoWay}"
+            Text="{Binding Path=CurrentItem.NumBuild, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
             Style="{StaticResource TextBoxStyle}"
             KeyUp="TextBox_OnKeyUp"/>
 
@@ -73,13 +74,14 @@
             Style="{StaticResource TextBLockStyle}"/>
 
         <TextBox 
+            x:Name="tbDescript"
             Grid.Row="5" 
             Grid.Column="0"
             Grid.ColumnSpan="2" 
             Margin="2"
             TabIndex="2"
             FontSize="{Binding FontSize}"
-            Text="{Binding Path=CurrentItem.Descript, Mode=TwoWay}"
+            Text="{Binding Path=CurrentItem.Descript, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
             Style="{StaticResource TextBoxStyle}"
             KeyUp="TextBox_OnKeyUp"/>
 
@@ -92,13 +94,14 @@
             Style="{StaticResource TextBLockStyle}"/>
 
         <TextBox 
+            x:Name="tbNote"
             Grid.Row="7" 
             Grid.Column="0"
             Grid.ColumnSpan="2" 
             Margin="2"
             TabIndex="3"
             FontSize="{Binding FontSize}"
-            Text="{Binding Path=CurrentItem.Note, Mode=TwoWay}"
+            Text="{Binding Path=CurrentItem.Note, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
             Style="{StaticResource TextBoxStyle}"
             KeyUp="TextBox_OnKeyUp"/>
 

@@ -48,7 +48,7 @@
             Margin="2"
             TabIndex="0"
             FontSize="{Binding FontSize}"
-            Text="{Binding Path=Field, Mode=TwoWay}"
+            Text="{Binding Path=Field, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
             Style="{StaticResource TextBoxStyle}" 
             KeyUp="tbInputNewItem_KeyUp"/>
 

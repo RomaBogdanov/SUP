@@ -52,7 +52,7 @@
             TabIndex="0"
             FontSize="{Binding FontSize}"
             SelectedValue="{Binding Path=Type, Mode=OneWay}"
-            Text="{Binding Path=Type, Mode=TwoWay}"
+            Text="{Binding Path=Type, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
             Margin="2"
             IsEditable="True"  
             StaysOpenOnEdit="True"
@@ -83,7 +83,7 @@
             IsTextSearchEnabled="False"
             FontSize="{Binding FontSize}"
             SelectedValue="{Binding Path=Name, Mode=OneWay}"
-            Text="{Binding Path=Name, Mode=TwoWay}"
+            Text="{Binding Path=Name, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
             ItemsSource="{Binding Path=DescriptionList}"
             KeyUp="TextBox_OnKeyUp" />
         
@@ -104,7 +104,7 @@
             Margin="2"
             TabIndex="2"
             FontSize="{Binding FontSize}"
-            Text="{Binding Path=Comment,Mode=TwoWay}"
+            Text="{Binding Path=Comment,Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
             Style="{StaticResource TextBoxStyle}"
             KeyUp="tbComments_KeyUp"/>
         

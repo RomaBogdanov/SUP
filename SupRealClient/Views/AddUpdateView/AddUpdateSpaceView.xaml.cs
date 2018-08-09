@@ -55,6 +55,11 @@ namespace SupRealClient.Views
 
         private void TextBox_OnKeyUp(object sender, KeyEventArgs e)
         {
+            tbNumReal.Text = tbNumReal.Text.TrimStart();
+            tbNumBuild.Text = tbNumBuild.Text.TrimStart();
+            tbDescript.Text = tbDescript.Text.TrimStart();
+            tbNote.Text = tbNote.Text.TrimStart();
+
             if (e.Key == Key.Enter)
             {
                 UIElement elementWithFocus = Keyboard.FocusedElement as UIElement;

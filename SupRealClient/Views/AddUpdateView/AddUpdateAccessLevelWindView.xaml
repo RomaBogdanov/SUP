@@ -73,13 +73,14 @@
             Style="{StaticResource TextBLockStyle}"/>
 
         <TextBox 
+            x:Name="tbName"
             Grid.Row="3" 
             Grid.Column="0"
             Grid.ColumnSpan="4" 
             Margin="2"
             TabIndex="5"
             FontSize="{Binding FontSize}"
-            Text="{Binding Path=CurrentItem.Name, Mode=TwoWay}"
+            Text="{Binding Path=CurrentItem.Name, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
             Style="{StaticResource TextBoxStyle}"
             KeyUp="TextBox_OnKeyUp"/>
 
@@ -131,13 +132,14 @@
             Style="{StaticResource TextBLockStyle}"/>
 
         <TextBox 
+            x:Name="tbAccessLevelNote"
             Grid.Row="7" 
             Grid.Column="0"
             Grid.ColumnSpan="4" 
             Margin="2"
             TabIndex="9"
             FontSize="{Binding FontSize}"
-            Text="{Binding Path=CurrentItem.AccessLevelNote, Mode=TwoWay}"
+            Text="{Binding Path=CurrentItem.AccessLevelNote, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
             Style="{StaticResource TextBoxStyle}"
             KeyUp="TextBox_OnKeyUp"/>
 
