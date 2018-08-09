@@ -2445,7 +2445,8 @@ namespace SupRealClient.Views
                         join
                         Ord in OrdersWrapper.CurrentTable().Table.AsEnumerable()
                         on OrdElem.Field<int>("f_ord_id") equals Ord.Field<int>("f_ord_id")
-                        where OrdElem.Field<int>("f_visitor_id") == Set[index].Id
+                        where OrdElem.Field<int>("f_visitor_id") == Set[index].Id &&
+                        CommonHelper.NotDeleted(OrdElem)
                         select new Order
                         {
                             Id = Ord.Field<int>("f_ord_id"),
