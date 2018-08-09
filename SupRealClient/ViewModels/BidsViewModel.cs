@@ -943,10 +943,10 @@ namespace SupRealClient.ViewModels
 
 			currentOrderElement.Templates = (wind.WindowResult as OrderElement).Templates;
 			currentOrderElement.TemplateIdList =
-				AndoverEntityListHelper.EntitiesToString(currentOrderElement.Templates);
+				AndoverEntityListHelper.TemplatesSchedulesToString(currentOrderElement.Templates);
 			currentOrderElement.Areas = (wind.WindowResult as OrderElement).Areas;
 			currentOrderElement.AreaIdList =
-				AndoverEntityListHelper.AndoverEntitiesToString(currentOrderElement.Areas);
+				AndoverEntityListHelper.AreasSchedulesToString(currentOrderElement.Areas);
 			currentOrderElement.ScheduleId = (wind.WindowResult as OrderElement).ScheduleId;
 
 			CurrentVirtueOrder = CurrentVirtueOrder;

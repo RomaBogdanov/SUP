@@ -193,6 +193,8 @@ namespace SupRealClient.Views
     public class BaseModelResult
     {
         public int Id { get; set; }
+        public int IdHi { get; set; }
+        public int IdLo { get; set; }
         public string Name { get; set; }
     }
 
