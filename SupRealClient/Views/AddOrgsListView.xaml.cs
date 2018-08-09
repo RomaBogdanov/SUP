@@ -590,11 +590,22 @@ namespace SupRealClient.Views
 
         public override void Ok()
         {
+            int currentId = (viewModel.SelectedValue as IdEntity).Id;
+
             OrganizationsWrapper organizations =
                 OrganizationsWrapper.CurrentTable();
-            DataRow row = organizations.Table.Rows.Find((viewModel.SelectedValue as IdEntity).Id);
+            DataRow row = organizations.Table.Rows.Find(currentId);
             row["f_has_free_access"] = "Y";
             Close();
+
+            // TODO - установка CurrentItem - работает, но возможно потом лучше переделать
+            Base4ViewModel<Organization> OrgViewModel = (parent as Base4ChildOrgsWindView)?.base4.DataContext as Base4ViewModel<Organization>;
+            if (OrgViewModel != null)
+            {
+                OrgViewModel.CurrentItem = OrgViewModel.Set.FirstOrDefault(
+                                                                r =>
+                                                                    r.Id == currentId);
+            }
         }
 
         public override void Add()

@@ -1,0 +1,74 @@
+﻿<mah:MetroWindow
+	x:Class="SupRealClient.Views.AndoverExportView"
+	xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+	xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+	xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+	xmlns:mah="http://metro.mahapps.com/winfx/xaml/controls"
+	xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+	Title="Экспорт из Andover Continuum"
+	Width="300"
+	Height="250"
+	ResizeMode="NoResize"
+	WindowStartupLocation="CenterScreen"
+	mc:Ignorable="d">
+	<Grid>
+		<Grid.RowDefinitions>
+			<RowDefinition Height="*" />
+			<RowDefinition Height="Auto" />
+		</Grid.RowDefinitions>
+		<StackPanel x:Name="StackPanel" Grid.Row="0">
+			<CheckBox Content="Точки доступа" Style="{StaticResource AndoverExportCheckBox}" />
+			<CheckBox Content="Области доступа" Style="{StaticResource AndoverExportCheckBox}" />
+			<CheckBox Content="Пропуска" Style="{StaticResource AndoverExportCheckBox}" />
+			<CheckBox Content="Расписания" Style="{StaticResource AndoverExportCheckBox}" />
+		</StackPanel>
+
+		<UniformGrid
+			Grid.Row="1"
+			Height="70"
+			Rows="1">
+			<Button
+				Margin="2"
+				Click="OkClick"
+				Style="{StaticResource VisitorsSquareButtonStyle}"
+				TabIndex="1">
+				<Grid>
+					<Grid.RowDefinitions>
+						<RowDefinition />
+						<RowDefinition Height="0.4*" />
+					</Grid.RowDefinitions>
+
+					<Image Grid.Row="0" Source="../Resources/Принять (2).ico" />
+
+					<TextBlock
+						Grid.Row="1"
+						FontSize="{Binding FontSize}"
+						Style="{StaticResource TextBLockStyle}"
+						Text="Ок" />
+				</Grid>
+			</Button>
+			<Button
+				Margin="2"
+				Click="CancelClick"
+				Style="{StaticResource VisitorsSquareButtonStyle}"
+				TabIndex="2">
+				<Grid>
+					<Grid.RowDefinitions>
+						<RowDefinition />
+						<RowDefinition Height="0.4*" />
+					</Grid.RowDefinitions>
+
+					<Image Grid.Row="0" Source="../Resources/Отмена (2).ico" />
+
+					<TextBlock
+						Grid.Row="1"
+						FontSize="{Binding FontSize}"
+						Style="{StaticResource TextBLockStyle}"
+						Text="Отмена" />
+				</Grid>
+			</Button>
+
+		</UniformGrid>
+
+	</Grid>
+</mah:MetroWindow>

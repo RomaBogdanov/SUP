@@ -487,7 +487,7 @@ namespace SupRealClient.Views
 
         public override void Add()
         {
-            var wind = new AddOrgsListView(new AddChildOrgsListModel(null));
+            var wind = new AddOrgsListView(new AddChildOrgsListModel(Parent));
             wind.ShowDialog();
         }
 
@@ -955,7 +955,7 @@ namespace SupRealClient.Views
 	            ClientConnector clientConnector = ClientConnector.CurrentConnector;
 	            if (clientConnector.ImportFromAndover())
 	            {
-		            System.Windows.MessageBox.Show("Из Andover были загружены данные", "",
+		            System.Windows.MessageBox.Show("Из Andover были загружены данные", "Информация",
 			            MessageBoxButton.OK, MessageBoxImage.Information);
 	            }
 	            else
@@ -1153,7 +1153,7 @@ namespace SupRealClient.Views
 	            ClientConnector clientConnector = ClientConnector.CurrentConnector;
 	            if (clientConnector.ImportFromAndover())
 	            {
-		            System.Windows.MessageBox.Show("Из Andover были загружены данные", "",
+		            System.Windows.MessageBox.Show("Из Andover были загружены данные", "Информация",
 			            MessageBoxButton.OK, MessageBoxImage.Information);
 	            }
 	            else
@@ -1342,7 +1342,7 @@ namespace SupRealClient.Views
 			    ClientConnector clientConnector = ClientConnector.CurrentConnector;
 			    if (clientConnector.ImportFromAndover())
 			    {
-				    System.Windows.MessageBox.Show("Из Andover были загружены", "",
+				    System.Windows.MessageBox.Show("Из Andover были загружены", "Информация",
 					    MessageBoxButton.OK, MessageBoxImage.Information);
 			    }
 			    else

@@ -46,10 +46,10 @@ namespace SupRealClient.Views
         private void MetroWindow_IsVisibleChanged(object sender, DependencyPropertyChangedEventArgs e)
         {
             Window oWindow = Window.GetWindow(this);
-            if (oWindow.Visibility == System.Windows.Visibility.Hidden)
-            {
-                tbSearch.Focus();
+            if (oWindow.Visibility == System.Windows.Visibility.Visible)
+            {                
                 tbSearch.Text = string.Empty;
+                tbSearch.Focus();
 
                 MainOrganizationViewModel vm = DataContext as MainOrganizationViewModel;
                 if (vm != null && vm.Organizations.Count > 0)
@@ -71,11 +71,12 @@ namespace SupRealClient.Views
                 {
                     treeView.Focus();
                 }
-                else
+                else if (e.Key != Key.Enter &&
+                         e.Key != Key.Tab)
                 {
                     tbSearch.Focus();
                 }
             }            
-        }
+        }        
     }
 }

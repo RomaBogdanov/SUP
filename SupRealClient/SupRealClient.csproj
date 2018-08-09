@@ -291,6 +291,9 @@
     <Compile Include="Views\AddUpdateView\AddUpdateTemplateView.xaml.cs">
       <DependentUpon>AddUpdateTemplateView.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Views\AndoverExportView.xaml.cs">
+      <DependentUpon>AndoverExportView.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Views\Base4Analogs\Base4AccessLevelsWindView.xaml.cs">
       <DependentUpon>Base4AccessLevelsWindView.xaml</DependentUpon>
     </Compile>
@@ -586,6 +589,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Views\AddUpdateView\AddUpdateTemplateView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\AndoverExportView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

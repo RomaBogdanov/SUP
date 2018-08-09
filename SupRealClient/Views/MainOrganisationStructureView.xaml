@@ -7,7 +7,7 @@
         xmlns:viewModels="clr-namespace:SupRealClient.ViewModels"
         mc:Ignorable="d"
         Title="Структура главных организаций" Height="400" Width="500"
-        ResizeMode="NoResize" 
+        ResizeMode="CanResize" 
         IsVisibleChanged="MetroWindow_IsVisibleChanged"
         PreviewKeyDown="MetroWindow_PreviewKeyDown">
 
@@ -24,8 +24,8 @@
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="4*"/>
-            <RowDefinition Height="0.3*"/>
-            <RowDefinition Height="0.6*"/>
+            <RowDefinition Height="20"/>
+            <RowDefinition Height="40"/>
             <RowDefinition Height="66"/>
         </Grid.RowDefinitions>
         

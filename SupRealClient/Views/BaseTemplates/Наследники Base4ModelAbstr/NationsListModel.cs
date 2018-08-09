@@ -22,14 +22,14 @@ namespace SupRealClient.Views
 
         public override void Add()
         {
-            ViewManager.Instance.Add(new AddItemNationsModel(), Parent);
+            ViewManager.Instance.Add(new AddItemNationsModel(Parent), Parent);
         }
 
         public override void Update()
         {
             if (CurrentItem != null)
             {
-                ViewManager.Instance.Update(new UpdateItemNationsModel(CurrentItem), Parent);
+                ViewManager.Instance.Update(new UpdateItemNationsModel(CurrentItem, Parent), Parent);
             }
         }
 
@@ -40,7 +40,7 @@ namespace SupRealClient.Views
                  CommonHelper.NotDeleted(orgs)
                  select orgs).Any())
             {
-                MessageBox.Show("Страну невозможно удалить, т.к. она связана с посетителями!");
+                MessageBox.Show("Страну невозможно удалить, т.к. она связана с посетителями!", "Информация", MessageBoxButton.OK, MessageBoxImage.Information);
                 return false;
             }
 
@@ -49,7 +49,7 @@ namespace SupRealClient.Views
                  CommonHelper.NotDeleted(regs)
                  select regs).Any())
             {
-                MessageBox.Show("Страну невозможно удалить, т.к. она связана с регионом!");
+                MessageBox.Show("Страну невозможно удалить, т.к. она связана с регионом!", "Информация", MessageBoxButton.OK, MessageBoxImage.Information);
                 return false;
             }
 

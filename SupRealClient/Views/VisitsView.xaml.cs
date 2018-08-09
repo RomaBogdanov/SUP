@@ -1166,7 +1166,7 @@ namespace SupRealClient.Views
 
 		}
 
-        internal void OpenMainDocument()
+        public void OpenMainDocument()
         {
             if (SelectedMainDocument < 0)
             {
@@ -1410,10 +1410,10 @@ namespace SupRealClient.Views
 				    {
 					    e.Cancel = false;
 					    if (PhotoSource != "")
-						    MessageBox.Show("Документ с названием " + "\"" + visitorsDocumentViewModel.Name + "\"" + " уже имеется");
+						    MessageBox.Show("Документ с названием " + "\"" + visitorsDocumentViewModel.Name + "\"" + " уже имеется", "Информация", MessageBoxButtons.OK, MessageBoxIcon.Information);
 					    else
 						    MessageBox.Show("Документ с названием " + "\"" + visitorsDocumentViewModel.Name + "\"" +
-						                    " невозможно добавить, так как данное название используется только для документа, содержащий личную фотографию");
+						                    " невозможно добавить, так как данное название используется только для документа, содержащий личную фотографию", "Информация", MessageBoxButtons.OK, MessageBoxIcon.Information);
 					    return;
 				    }
 
@@ -1421,10 +1421,10 @@ namespace SupRealClient.Views
 				    {
 					    e.Cancel = false;
 					    if (Signature != "")
-						    MessageBox.Show("Документ с названием " + "\"" + visitorsDocumentViewModel.Name + "\"" + " уже имеется");
+						    MessageBox.Show("Документ с названием " + "\"" + visitorsDocumentViewModel.Name + "\"" + " уже имеется", "Информация", MessageBoxButtons.OK, MessageBoxIcon.Information);
 					    else
 						    MessageBox.Show("Документ с названием " + "\"" + visitorsDocumentViewModel.Name + "\"" +
-						                    " невозможно добавить, так как данное название используется только для документа, содержащий скан личной подписи");
+						                    " невозможно добавить, так как данное название используется только для документа, содержащий скан личной подписи", "Информация", MessageBoxButtons.OK, MessageBoxIcon.Information);
 					    return;
 				    }
 
@@ -1433,7 +1433,7 @@ namespace SupRealClient.Views
 				    if (findingItem != null)
 				    {
 					    e.Cancel = false;
-					    MessageBox.Show("Документ с названием " + "\"" + visitorsDocumentViewModel.Name + "\"" + " уже имеется");
+					    MessageBox.Show("Документ с названием " + "\"" + visitorsDocumentViewModel.Name + "\"" + " уже имеется", "Информация", MessageBoxButtons.OK, MessageBoxIcon.Information);
 				    }
 			    }
 			    else
@@ -1441,14 +1441,14 @@ namespace SupRealClient.Views
 						if (visitorsDocumentViewModel.Name == _nameDocument_PhotoImageType)
 						{
 								MessageBox.Show("Документ с названием " + "\"" + visitorsDocumentViewModel.Name + "\"" +
-								                " невозможно добавить, так как данное название используется только для документа, содержащий личную фотографию");
+								                " невозможно добавить, так как данное название используется только для документа, содержащий личную фотографию", "Информация", MessageBoxButtons.OK, MessageBoxIcon.Information);
 							return;
 						}
 
 						if (visitorsDocumentViewModel.Name == _nameDocument_SignatureImageType)
 						{
 								MessageBox.Show("Документ с названием " + "\"" + visitorsDocumentViewModel.Name + "\"" +
-								                " невозможно добавить, так как данное название используется только для документа, содержащий скан личной подписи");
+								                " невозможно добавить, так как данное название используется только для документа, содержащий скан личной подписи", "Информация", MessageBoxButtons.OK, MessageBoxIcon.Information);
 							return;
 						}
 			    }

@@ -47,7 +47,6 @@ namespace SupRealClient.Views
 					//(this.DataContext as VisitsViewModel).Model.OnClose += Handling_OnClose;
 				}
 			};
-			LoadAllEvents();
 		}
 
 		private void MovingNextFocusingElement(string e)
@@ -188,19 +187,20 @@ namespace SupRealClient.Views
 					button_Ok.Focus();
 				}
 					break;
+				case "listBox_MainDocument":
+				{
+					(DataContext as VisitsViewModel)?.OpenMainDocument();
+				}
+					break;
 				default: return;
 			}
 
 		}
 
-		private void LoadAllEvents()
-		{
-			this.PreviewKeyDown += VisitorsView_PreviewKeyDown;
-		}
-
 		private void VisitorsView_PreviewKeyDown(object sender, KeyEventArgs e)
 		{
-			if (button_Ok.IsEnabled == false && e.Key == Key.Escape)
+			//if (button_Ok.IsEnabled == false && e.Key == Key.Escape)
+			if (e.Key == Key.Escape)
 			{
 				if(DataContext is VisitsViewModel)
 					if (!(DataContext as VisitsViewModel).IsRedactMode)
