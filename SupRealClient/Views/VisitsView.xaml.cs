@@ -560,7 +560,11 @@ namespace SupRealClient.Views
 
         private void Refresh()
         {
-            Model = new VisitsModel();
+	        int id = CurrentItem.Id;
+
+	        Model = new VisitsModel();
+	        Model.CurrentItem=Model.Find(id);
+	        CurrentItem = Model.CurrentItem;
         }
 
 	    /// <summary>
@@ -928,6 +932,7 @@ namespace SupRealClient.Views
             };
             viewModel.Model.OnClose += window.Handling_OnClose;
             window.ShowDialog();
+	        Refresh();
         }
 
         private void Return()
@@ -940,6 +945,7 @@ namespace SupRealClient.Views
             (window.DataContext as ReturnBidViewModel).OnClose += window.Handling_OnClose;
 
             window.ShowDialog();
+	        Refresh();
         }
 
         private void OpenOrder()
