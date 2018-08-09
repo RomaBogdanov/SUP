@@ -239,6 +239,7 @@
 						<DataGrid
 							Name="DataGridSingle"
 							Grid.Row="2"
+							Margin="5,0,5,0"
 							AutoGenerateColumns="False"
 							CanUserAddRows="{Binding IsCanAddRows, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
 							CanUserResizeColumns="False"
@@ -733,6 +734,7 @@
 						<DataGrid
 							Name="DataGridTemp"
 							Grid.Row="2"
+							Margin="5,0,5,0"
 							AutoGenerateColumns="False"
 							CanUserAddRows="{Binding IsCanAddRows, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
 							CanUserResizeColumns="False"

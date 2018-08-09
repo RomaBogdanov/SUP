@@ -250,6 +250,7 @@ namespace SupRealClient.Views
 			{
 				DataGridSingle.UnselectAllCells();
 				DataGridTemp.UnselectAllCells();
+				e.Handled = true;
 			}
 		}
 	}
