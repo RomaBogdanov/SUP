@@ -304,8 +304,10 @@ namespace SupRealClient.Views
         }
         private void OkCom()
         {
-            if (OkVisibility == Visibility.Visible)
-                this.Model.Ok();
+	        if (OkVisibility == Visibility.Visible && CurrentItem != null)
+	        {
+		        this.Model.Ok();
+			}
         }
         private void CloseCom() { this.Model.Close(); }
         private void ZonesCom() { this.Model.Zones(); }

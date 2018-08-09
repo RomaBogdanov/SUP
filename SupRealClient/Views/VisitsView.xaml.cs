@@ -584,7 +584,11 @@ namespace SupRealClient.Views
 
         private void Refresh()
         {
-            Model = new VisitsModel();
+	        int id = CurrentItem.Id;
+
+	        Model = new VisitsModel();
+	        Model.CurrentItem=Model.Find(id);
+	        CurrentItem = Model.CurrentItem;
         }
 
 	    /// <summary>
@@ -952,6 +956,7 @@ namespace SupRealClient.Views
             };
             viewModel.Model.OnClose += window.Handling_OnClose;
             window.ShowDialog();
+	        Refresh();
         }
 
         private void Return()
@@ -964,6 +969,7 @@ namespace SupRealClient.Views
             (window.DataContext as ReturnBidViewModel).OnClose += window.Handling_OnClose;
 
             window.ShowDialog();
+	        Refresh();
         }
 
         private void OpenOrder()
@@ -2496,7 +2502,8 @@ namespace SupRealClient.Views
                         join
                         Ord in OrdersWrapper.CurrentTable().Table.AsEnumerable()
                         on OrdElem.Field<int>("f_ord_id") equals Ord.Field<int>("f_ord_id")
-                        where OrdElem.Field<int>("f_visitor_id") == Set[index].Id
+                        where OrdElem.Field<int>("f_visitor_id") == Set[index].Id &&
+                        CommonHelper.NotDeleted(OrdElem)
                         select new Order
                         {
                             Id = Ord.Field<int>("f_ord_id"),
@@ -2576,15 +2583,23 @@ namespace SupRealClient.Views
             foreach (var order in Set[index].Orders)
             {
 	            order.CardState = CommonHelper.CardStateToSting(CardState.Inactive);
-                foreach (var card in Set[index].Cards)
-                {
-                    if (card.OrderId == order.Id ||
-                        AndoverEntityListHelper.StringToEntityIds(card.Orders).Contains(order.Id))
-                    {
-                        order.CardState = CommonHelper.CardStateToSting((CardState) card.StateId);
-                        break;
-                    }
-                }
+	            foreach (OrderElement element in order.OrderElements)
+	            {
+		            if (element.VisitorId == Set[index].Id)
+		            {
+						element.SetupCardState();
+						order.CardState=element.CardStateString;
+		            }
+	            }
+                //foreach (var card in Set[index].Cards)
+                //{
+                //    if (card.OrderId == order.Id ||
+                //        AndoverEntityListHelper.StringToEntityIds(card.Orders).Contains(order.Id))
+                //    {
+                //        order.CardState = CommonHelper.CardStateToSting((CardState) card.StateId);
+                //        break;
+                //    }
+                //}
             }
         }
 

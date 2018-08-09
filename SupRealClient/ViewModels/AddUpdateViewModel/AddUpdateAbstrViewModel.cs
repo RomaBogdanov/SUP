@@ -399,6 +399,7 @@ namespace SupRealClient.ViewModels.AddUpdateViewModel
         }
 
         public ICommand ToAppointTemplates { get; set; }
+        public ICommand DoubleClickCommand { get; set; }
         public ICommand ToAllTemplates { get; set; }
         public ICommand SchedulesCommand { get; set; }
         public ICommand ClearCommand { get; set; }
@@ -415,6 +416,7 @@ namespace SupRealClient.ViewModels.AddUpdateViewModel
 
         public AddUpdateZonesToBidViewModel() : base()
         {
+	    DoubleClickCommand = new RelayCommand(arg => DoubleClick(arg));
             ToAppointTemplates = new RelayCommand(arg => ToAppointTemplatesCommand());
             ToAllTemplates = new RelayCommand(arg => ToAllTemplatesCommand());
             ToAppointZones = new RelayCommand(arg => ToAppointZonesCommand());
@@ -424,7 +426,41 @@ namespace SupRealClient.ViewModels.AddUpdateViewModel
             ClearCommand = new RelayCommand(arg => Clear());
         }
 
-        private void ToAppointTemplatesCommand()
+	    private void DoubleClick(object arg)
+	    {
+		    if (arg is Template)
+		    {
+			    if (SetAllTemplates != null && SetAllTemplates.Contains((Template) arg))
+			    {
+				    ToAppointTemplatesCommand();
+				    return;
+			    }
+
+			    if (SetAppointTemplates != null && SetAppointTemplates.Contains((Template) arg))
+			    {
+				    ToAllTemplatesCommand();
+				    return;
+			    }
+
+		    }
+
+		    if (arg is Area)
+		    {
+			    if (SetAllZones != null && SetAllZones.Contains((Area) arg))
+			    {
+				    ToAppointZonesCommand();
+				    return;
+			    }
+
+			    if (SetAppointZones != null && SetAppointZones.Contains((Area) arg))
+			    {
+				    ToAllZonesCommand();
+				    return;
+			    }
+		    }
+	    }
+
+	    private void ToAppointTemplatesCommand()
         {
             CurrentAllTemplate = ((AddUpdateZonesToBidModel)this.Model).ToAppointTemplates();
         }
