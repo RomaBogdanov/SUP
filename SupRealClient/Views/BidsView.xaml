@@ -237,12 +237,14 @@
 
 						</Grid>
 						<DataGrid
+							Name="DataGridSingle"
 							Grid.Row="2"
 							AutoGenerateColumns="False"
 							CanUserAddRows="{Binding IsCanAddRows, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
 							CanUserResizeColumns="False"
 							IsReadOnly="True"
 							ItemsSource="{Binding Path=CurrentSingleOrder.OrderElements}"
+							MouseDown="DataGrid_OnMouseDown"
 							SelectedItem="{Binding SelectedElement, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}">
 							<DataGrid.Columns>
 								<DataGridTextColumn Binding="{Binding Visitor}" Header="Посетитель">
@@ -729,12 +731,14 @@
 						</Grid>
 
 						<DataGrid
+							Name="DataGridTemp"
 							Grid.Row="2"
 							AutoGenerateColumns="False"
 							CanUserAddRows="{Binding IsCanAddRows, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
 							CanUserResizeColumns="False"
 							IsReadOnly="True"
 							ItemsSource="{Binding Path=CurrentTemporaryOrder.OrderElements}"
+							MouseDown="DataGrid_OnMouseDown"
 							SelectedItem="{Binding SelectedElement, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}">
 							<DataGrid.Columns>
 								<DataGridTextColumn Binding="{Binding Visitor}" Header="Посетитель">

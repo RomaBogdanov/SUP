@@ -1023,7 +1023,13 @@ namespace SupRealClient.Views
 
         public void Cancel()
         {
-            if (Model is NewVisitsModel)
+	        if (System.Windows.MessageBox.Show("Вы уверены, что хотите отменить изменения?", "Внимание",
+		            MessageBoxButton.OKCancel, MessageBoxImage.Question) != MessageBoxResult.OK)
+	        {
+		        return;
+	        }
+
+			if (Model is NewVisitsModel)
             {
                 if (view.ParentWindow is SupRealClient.Views.VisitorsListWindView)
                     view.CloseWindow(new CancelEventArgs());

@@ -819,6 +819,12 @@ namespace SupRealClient.ViewModels
 
 		private void Cancel()
 		{
+			if (MessageBox.Show("Вы уверены, что хотите отменить изменения?", "Внимание",
+				    MessageBoxButton.OKCancel, MessageBoxImage.Question) != MessageBoxResult.OK)
+			{
+				return;
+			}
+
 			BidsModel = new BidsModel();
 
 			ApplyCurrentSelectedOrder();

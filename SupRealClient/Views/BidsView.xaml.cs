@@ -4,6 +4,7 @@ using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
+using System.Windows.Media;
 using SupRealClient.EnumerationClasses;
 using SupRealClient.ViewModels;
 
@@ -239,6 +240,16 @@ namespace SupRealClient.Views
 						dpVirtOrderFrom.Focus();
 						break;
 				}
+			}
+		}
+
+		private void DataGrid_OnMouseDown(object sender, MouseButtonEventArgs e)
+		{
+			HitTestResult result = VisualTreeHelper.HitTest(this, e.GetPosition(this));
+			if (result.VisualHit.GetType() != typeof(DataGridRow))
+			{
+				DataGridSingle.UnselectAllCells();
+				DataGridTemp.UnselectAllCells();
 			}
 		}
 	}
