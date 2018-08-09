@@ -62,7 +62,9 @@ namespace SupRealClient.Views
 
         private void MetroWindow_PreviewKeyDown(object sender, KeyEventArgs e)
         {
-            if (Keyboard.Modifiers == ModifierKeys.None)
+            if (Keyboard.Modifiers == ModifierKeys.None && 
+                e.Key != Key.Insert && 
+                e.Key != Key.Escape)
             {
                 if (e.Key == Key.Up || 
                     e.Key == Key.Down || 
