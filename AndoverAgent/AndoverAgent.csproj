@@ -47,6 +47,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="AndoverService.cs" />
+    <Compile Include="CAreaSchedulePair.cs" />
     <Compile Include="EContinuumDbTableType.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
