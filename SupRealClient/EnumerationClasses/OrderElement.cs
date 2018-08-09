@@ -512,7 +512,7 @@ namespace SupRealClient.EnumerationClasses
 						CardStateString = "Утерян";
 						break;
 					case CardState.Returnded:
-						CardStateString = "Возвращена";
+						CardStateString = "Возвращен";
 						break;
 					default:
 						CardStateString = "Неизвестно";

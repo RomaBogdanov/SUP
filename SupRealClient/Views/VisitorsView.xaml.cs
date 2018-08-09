@@ -199,19 +199,71 @@ namespace SupRealClient.Views
 
 		private void VisitorsView_PreviewKeyDown(object sender, KeyEventArgs e)
 		{
-			//if (button_Ok.IsEnabled == false && e.Key == Key.Escape)
 			if (e.Key == Key.Escape)
 			{
-				if(DataContext is VisitsViewModel)
-					if (!(DataContext as VisitsViewModel).IsRedactMode)
-					{
-						Close();
-					}
-					else
-					{
-						(DataContext as VisitsViewModel).Cancel();
-					}
-
+				if (!(DataContext is VisitsViewModel model)) return;
+				if (!model.IsRedactMode)
+				{
+					Close();
+				}
+				else
+				{
+					model.Cancel();
+				}
+			} else if ((e.Key == Key.Home || e.Key == Key.Left && Keyboard.IsKeyDown(Key.LeftCtrl)) && butfirst.IsEnabled)
+			{
+				butfirst.Command.Execute(null);
+				e.Handled = true;
+			}
+			else if ((e.Key == Key.End || e.Key == Key.Right && Keyboard.IsKeyDown(Key.LeftCtrl)) && butLast.IsEnabled)
+			{
+				butLast.Command.Execute(null);
+				e.Handled = true;
+			}
+			else if (e.Key == Key.Up && Keyboard.IsKeyDown(Key.LeftCtrl) && butPrevious.IsEnabled)
+			{
+				butPrevious.Command.Execute(null);
+				e.Handled = true;
+			}
+			else if (e.Key == Key.Down && Keyboard.IsKeyDown(Key.LeftCtrl) && butNew.IsEnabled)
+			{
+				butNext.Command.Execute(null);
+				e.Handled = true;
+			}
+			else if (e.Key == Key.G && Keyboard.IsKeyDown(Key.LeftCtrl) && butGiveCard.IsEnabled)
+			{
+				butGiveCard.Command.Execute(null);
+				e.Handled = true;
+			}
+			else if (e.Key == Key.F && Keyboard.IsKeyDown(Key.LeftCtrl) && butSearch.IsEnabled)
+			{
+				butSearch.Command.Execute(null);
+				e.Handled = true;
+			}
+			else if ((e.Key == Key.F2 && butEdit.IsEnabled || e.Key == Key.D && Keyboard.IsKeyDown(Key.LeftCtrl)) && butEdit.IsEnabled)
+			{
+				butEdit.Command.Execute(null);
+				e.Handled = true;
+			}
+			else if (e.Key == Key.F5 && butRefresh.IsEnabled)
+			{
+				butRefresh.Command.Execute(null);
+				e.Handled = true;
+			}
+			else if (e.Key == Key.S && Keyboard.IsKeyDown(Key.LeftCtrl) && button_Ok.IsEnabled)
+			{
+				button_Ok.Command.Execute(null);
+				e.Handled = true;
+			}
+			else if (e.Key == Key.T && Keyboard.IsKeyDown(Key.LeftCtrl) && butReturnCard.IsEnabled)
+			{
+				butReturnCard.Command.Execute(null);
+				e.Handled = true;
+			}
+			else if (e.Key == Key.Insert && butNew.IsEnabled)
+			{
+				butNew.Command.Execute(null);
+				e.Handled = true;
 			}
 		}
 
