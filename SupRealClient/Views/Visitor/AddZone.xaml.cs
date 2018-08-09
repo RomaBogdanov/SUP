@@ -9,93 +9,101 @@ using SupRealClient.TabsSingleton;
 
 namespace SupRealClient.Views.Visitor
 {
-    /// <summary>
-    /// Interaction logic for AddZone.xaml
-    /// </summary>
-    public partial class AddZone
-    {
-        public AddZone()
-        {
-            InitializeComponent();
-        }
+	/// <summary>
+	/// Interaction logic for AddZone.xaml
+	/// </summary>
+	public partial class AddZone
+	{
+		public AddZone()
+		{
+			InitializeComponent();
+		}
 
-        public void Handling_OnClose(object result = null)
-        {
-            this.Close();
-        }
-    }
+		public void Handling_OnClose(object result = null)
+		{
+			this.Close();
+		}
+	}
 
-    public class AddZoneViewModel : Base4ViewModel<Order>
-    {
-        public ICommand Virtue { get; set; }
+	public class AddZoneViewModel : Base4ViewModel<Order>
+	{
+		public ICommand Virtue { get; set; }
 
-        public AddZoneViewModel()
-        {
-            Virtue = new RelayCommand(obj => VirtueCommand());
-        }
+		public AddZoneViewModel()
+		{
+			Virtue = new RelayCommand(obj => VirtueCommand());
+		}
 
-        private void VirtueCommand()
-        {
-            (Model as AddZoneModel).Virtue();
-        }
-    }
+		private void VirtueCommand()
+		{
+			(Model as AddZoneModel).Virtue();
+		}
+	}
 
-    public class AddZoneModel : Base4ModelAbstr<Order>
-    {
-        private int visitorId;
+	public class AddZoneModel : Base4ModelAbstr<Order>
+	{
+		private int visitorId;
 
-        public AddZoneModel(ObservableCollection<Order> orders, int visitorId)
-        {
-            this.visitorId = visitorId;
-            //Query();
-            Set = orders;
-        }
+		public AddZoneModel(ObservableCollection<Order> orders, int visitorId)
+		{
+			this.visitorId = visitorId;
+			//Query();
+			Set = orders;
+		}
 
-        protected override DataTable Table
-        {
-            get { return OrderElementsWrapper.CurrentTable().Table; }
-        }
+		protected override DataTable Table
+		{
+			get { return OrderElementsWrapper.CurrentTable().Table; }
+		}
 
-        public override void Add()
-        {
-            //ViewManager.Instance.OpenWindow("Base4CardsWindView", null);
-            // todo: попытка обойти ограничение нашей реализации фабрики
-            // todo: связанное с тем, что нужно текущей форме задать другой
-            // todo: Model, по хорошему, надо придумать стандартный механизм.
+		public override void Add()
+		{
+			//ViewManager.Instance.OpenWindow("Base4CardsWindView", null);
+			// todo: попытка обойти ограничение нашей реализации фабрики
+			// todo: связанное с тем, что нужно текущей форме задать другой
+			// todo: Model, по хорошему, надо придумать стандартный механизм.
 
-            this.Close();
-            Base4CardsWindView wind = new Base4CardsWindView(Visibility.Visible);
-            ((Base4ViewModel<Card>) wind.base4.DataContext).Model = 
-                new CardsActiveListModel<Card>(visitorId, 
-                new ObservableCollection<Order>(Set.Where(o => o.IsChecked)));
-            ((Base4ViewModel<Card>)wind.base4.DataContext).Model.OnClose += wind.Handling_OnClose2;
-            wind.Show();
-        }
+			if (Set.Where(o => o.IsChecked).Count() == 0 || Set.Where(o => o.IsChecked).Count() > 1)
+			{
+				MessageBox.Show($"Выберите правильное количество заявок\n1.Количество выбранных заявок не может равной нулю\n2.Количество выбранных заявок не может быть больше одной", "Предупреждение", MessageBoxButton.OK, MessageBoxImage.Warning);
 
-        public override void Update()
-        {
-            
-        }
+			}
+			else
+			{
+				this.Close();
+				Base4CardsWindView wind = new Base4CardsWindView(Visibility.Visible);
+				((Base4ViewModel<Card>)wind.base4.DataContext).Model =
+					new CardsActiveListModel<Card>(visitorId,
+						new ObservableCollection<Order>(Set.Where(o => o.IsChecked)));
+				((Base4ViewModel<Card>)wind.base4.DataContext).Model.OnClose += wind.Handling_OnClose2;
+				wind.Show();
+			}
+		}
 
-        public void Virtue()
-        {
-            var wind = new BidsView();
-            
-            wind.Show();
-            wind.SetToVirtue();
-        }
+		public override void Update()
+		{
 
-        protected override void DoQuery()
-        {
-            /*Set = new ObservableCollection<OrderElement>((
-                (ObservableCollection<OrderElement>) OrderElementsWrapper
-                .CurrentTable().StandartQuery())
-                .Where(arg => arg.VisitorId == visitorId));*/
-        }
+		}
 
-        protected override BaseModelResult GetResult()
-        {
-            throw new NotImplementedException();
-        }
-    }
+		public void Virtue()
+		{
+			var wind = new BidsView();
+
+			wind.Show();
+			wind.SetToVirtue();
+		}
+
+		protected override void DoQuery()
+		{
+			/*Set = new ObservableCollection<OrderElement>((
+			    (ObservableCollection<OrderElement>) OrderElementsWrapper
+			    .CurrentTable().StandartQuery())
+			    .Where(arg => arg.VisitorId == visitorId));*/
+		}
+
+		protected override BaseModelResult GetResult()
+		{
+			throw new NotImplementedException();
+		}
+	}
 }
