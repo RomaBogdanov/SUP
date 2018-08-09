@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Data;
 using System.Linq;
+using System.Text.RegularExpressions;
 using SupRealClient.EnumerationClasses;
 
 namespace SupRealClient.Common
@@ -64,5 +65,65 @@ namespace SupRealClient.Common
                 (value.ToUpper().Replace('Ё', 'Е').StartsWith(searching.ToUpper()) ||
                 value.ToUpper().Replace('Ё', 'Е').StartsWith("\"" + searching.ToUpper()));
         }
-    }
+
+	    public static string Check_FamilyNamePatronymic(string text)
+	    {
+		    if (string.IsNullOrEmpty(text))
+		    {
+			    return "";
+			}
+
+		    var match = Regex.Match(text, @"^\s*([а-яёa-z|!|@|#|$|%|^|&|*|(|)|_|+|-|=|:|?|/|'|<|>]+(\s*([-–——]\s*)?[а-яёa-z|!|@|#|$|%|^|&|*|(|)|_|+|-|=|:|?|/|'|<|>]+)*)*\s*$", RegexOptions.IgnoreCase);
+		    if (!match.Success)
+		    {
+			    return "";
+		    }
+
+		    var result = match.Groups[1].Value;
+		    result = Regex.Replace(result, @"\s+", " ");
+		    result = Regex.Replace(result, @"\s*[-–——]\s*", "-");
+		    result = Regex.Replace(result, @"[!|@|#|$|%|^|&|*|(|)|_|+|-|=|:|?|/|'|<|>]", "");
+			return result;
+	    }
+
+	    public static string Check_NumberDocument(string text)
+		{
+			if (string.IsNullOrEmpty(text))
+			{
+				return "";
+			}
+
+			var match = Regex.Match(text, @"^\s*([\d|!|@|#|$|%|^|&|*|(|)|_|+|-|=|:|?|/|'|<|>]+(\s*([-–——]\s*)?[\d|!|@|#|$|%|^|&|*|(|)|_|+|-|=|:|?|/|'|<|>]+)*)\s*$", RegexOptions.IgnoreCase);
+		    if (!match.Success)
+		    {
+			    return "";
+		    }
+
+		    var result = match.Groups[1].Value;
+		    result = Regex.Replace(result, @"\s+", " ");
+		    result = Regex.Replace(result, @"\s*[-–——]\s*", " - ");
+		    result = Regex.Replace(result, @"[!|@|#|$|%|^|&|*|(|)|_|+|-|=|:|?|/|'|<|>]", "");
+		    return result;
+	    }
+
+	    public static string Check_SeriaCode(string text)
+		{
+			if (string.IsNullOrEmpty(text))
+			{
+				return "";
+			}
+
+			var match = Regex.Match(text, @"^\s*([\w|!|@|#|$|%|^|&|*|(|)|_|+|-|=|:|?|/|'|<|>]+(\s*([-–——]\s*)?[\w|!|@|#|$|%|^|&|*|(|)|_|+|-|=|:|?|/|'|<|>]+)*)\s*$", RegexOptions.IgnoreCase);
+		    if (!match.Success)
+		    {
+			    return "";
+		    }
+
+		    var result = match.Groups[1].Value;
+		    result = Regex.Replace(result, @"\s+", " ");
+		    result = Regex.Replace(result, @"\s*[-–——]\s*", " - ");
+		    result = Regex.Replace(result, @"[!|@|#|$|%|^|&|*|(|)|_|+|-|=|:|?|/|'|<|>]", "");
+			return result;
+	    }
+	}
 }
