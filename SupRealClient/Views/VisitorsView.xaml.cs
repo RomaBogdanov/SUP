@@ -210,9 +210,9 @@ namespace SupRealClient.Views
 				{
 					model.Cancel();
 				}
-			} else if ((e.Key == Key.Home || e.Key == Key.Left && Keyboard.IsKeyDown(Key.LeftCtrl)) && butfirst.IsEnabled)
+			} else if ((e.Key == Key.Home || e.Key == Key.Left && Keyboard.IsKeyDown(Key.LeftCtrl)) && butFirst.IsEnabled)
 			{
-				butfirst.Command.Execute(null);
+				butFirst.Command.Execute(null);
 				e.Handled = true;
 			}
 			else if ((e.Key == Key.End || e.Key == Key.Right && Keyboard.IsKeyDown(Key.LeftCtrl)) && butLast.IsEnabled)
