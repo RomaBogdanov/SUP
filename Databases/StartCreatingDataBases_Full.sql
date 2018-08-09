@@ -906,8 +906,9 @@ go
 
 insert into vis_spr_order_types values ( '1', 'Разовая', 'N', '20030711 14:39:56', '-1')
 insert into vis_spr_order_types values ( '2', 'Временная', 'N', '20030711 14:39:56', '-1')
-insert into vis_spr_order_types values ( '3', 'На основании', 'N', '20030711 14:39:57', '-1')
-insert into vis_spr_order_types values ( '4', 'Бессрочная', 'N', '20030711 14:39:56', '-1')
+insert into vis_spr_order_types values ( '3', 'Бессрочная', 'N', '20030711 14:39:56', '-1')
+insert into vis_spr_order_types values ( '4', 'На основании', 'N', '20030711 14:39:57', '-1')
+
 
 
 
