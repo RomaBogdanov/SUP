@@ -9,6 +9,7 @@
 	Title="Выбор расписания"
 	Width="500"
 	Height="500"
+	ResizeMode="NoResize"
 	mc:Ignorable="d">
 	<Grid>
 		<Grid.RowDefinitions>

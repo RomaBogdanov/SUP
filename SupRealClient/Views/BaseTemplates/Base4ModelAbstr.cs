@@ -703,6 +703,17 @@ namespace SupRealClient.Views
 				return;
 			}
 
+			var cardName = GetCardName(selectedCard);
+			if (string.IsNullOrEmpty(cardName))
+			{
+				MessageBox.Show("В базе данных не найдено соответствующей карты!", 
+					"Предупреждение", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+				return;
+
+			}
+
+			selectedCard.Name = cardName;
+
 			// todo: Добавляем карту и персону в список визитов. Всё под рефакторинг!!!
 			DataRow row1 = VisitsWrapper.CurrentTable().Table.NewRow();
 			row1["f_card_id_hi"] = selectedCard.CardIdHi;
@@ -843,20 +854,36 @@ namespace SupRealClient.Views
 		{
 			var result = new List<string>();
 			var areasTable = AreasWrapper.CurrentTable();
-
+			
 			foreach (DataRow row in areasTable.Table.Rows)
 			{
 				foreach (var cardArea in cardAreas)
 				{
 					if ((int) row["f_object_id_hi"] == cardArea.AreaIdHi && (int) row["f_object_id_lo"] == cardArea.AreaIdLo)
 					{
-						result.Add((string) row["f_area_path"] + (string) row["f_area_name"]);
+
+						var areaName = row["f_area_name"] is DBNull ? "" : (string) row["f_area_name"];
+						var areaPath = row["f_area_path"] is DBNull ? "" : (string) row["f_area_path"];
+						result.Add(areaName + areaPath);
 					}
 				}
+			}
+			return result;
+		}
 
+		private string GetCardName(Card card)
+		{
+			var cardTable = CardsWrapper.CurrentTable();
+			foreach (DataRow row in cardTable.Table.Rows)
+			{
+				if ((int) row["f_object_id_hi"] == card.CardIdHi && (int) row["f_object_id_lo"] == card.CardIdLo)
+				{
+					var cardName = row["f_card_name"] is DBNull ? null : (string) row["f_card_name"];
+					return cardName;
+				}
 			}
 
-			return result;
+			return null;
 		}
 
 
