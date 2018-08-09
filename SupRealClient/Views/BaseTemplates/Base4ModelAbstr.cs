@@ -696,6 +696,7 @@ namespace SupRealClient.Views
 
 		public override void Ok()
 		{
+
 			//base.Ok();
 			// todo: обязательно просмотреть ситуацию стандартного использования данной кнопки.
 			//MessageBox.Show("Test");
@@ -710,7 +711,7 @@ namespace SupRealClient.Views
 			var cardName = GetCardName(selectedCard);
 			if (string.IsNullOrEmpty(cardName))
 			{
-				MessageBox.Show("В базе данных не найдено соответствующей карты!", 
+				MessageBox.Show("В базе данных не найдено соответствующей карты!",
 					"Предупреждение", MessageBoxButtons.OK, MessageBoxIcon.Warning);
 				return;
 
@@ -903,57 +904,172 @@ namespace SupRealClient.Views
 			// - row["f_card_num"] 
 			// - список областей доступа (получить из list)
 			// - список расписаний (orderElement.Schedule)
-			var schedulesHash = new Dictionary<string, int>();
+			var schedulesHash = new Dictionary<string,int>();
+
+			foreach (var order in orders)
+			{
+				foreach (var orderElement in order.OrderElements)
+				{
+					schedulesHash[orderElement.Schedule] = orderElement.ScheduleId;
+				}
+			}
+
+			var cAreaSchedules = new List<CAreaSchedule>();
 			foreach (var order in orders)
 			{
 				foreach (var orderElement in order.OrderElements)
 				{
 					if (orderElement.VisitorId == visitorId)
 					{
-						schedulesHash[orderElement.Schedule] = orderElement.ScheduleId;
+						var splitAreasId = orderElement.AreaIdList.TrimEnd(';').Split(';');
+						for (var i = 0; i < splitAreasId.Length; i++)
+						{
+							var area = splitAreasId[i].Split(',');
+							try
+							{
+								var area1 = new CAreaSchedule(area[0], area[1], orderElement.ScheduleId);
+								area1.AreaName = AreasWrapper.CurrentTable().Table.AsEnumerable().Where(x =>
+										x.Field<int>("f_object_id_hi") == area1.AreaIdHi && x.Field<int>("f_object_id_lo") == area1.AreaIdLo).First()
+									.Field<string>("f_area_name");
+								area1.ScheduleName = orderElement.Schedule;
+								cAreaSchedules.Add(area1);
+							}
+							catch (Exception e)
+							{
+							}
+						}
 					}
 				}
 			}
-			//Выбор расписания.
 
-			var scheduleChoiceWindow = new ScheduleChoiceView(schedulesHash.Keys.ToList());
-			scheduleChoiceWindow.ShowDialog();
-
-			if (string.IsNullOrEmpty(scheduleChoiceWindow.SelectedSchedule))
+			//поиск полных дублей.
+			for (int i = 0; i < cAreaSchedules.Count; i++)
 			{
-				this.Close();
-				return;
+				for (int j = 0; j < cAreaSchedules.Count; j++)
+				{
+					if (i != j)
+					{
+						if (cAreaSchedules[i].Equals(cAreaSchedules[j]) && !cAreaSchedules[i].IsDeletedFull)
+						{
+							cAreaSchedules[j].IsDeletedFull = true;
+						}
+					}
+				}
 			}
 
-			var selectedSchedule = GetSchedule(schedulesHash, scheduleChoiceWindow.SelectedSchedule);
+			//удаление полных дублей.
+			var cAreaSchedulesWithoutFullDubles = new List<CAreaSchedule>();
+
+			foreach (var area in cAreaSchedules)
+			{
+				if (!area.IsDeletedFull)
+				{
+					cAreaSchedulesWithoutFullDubles.Add(area);
+				}
+			}
+
+			////поиск дублей по областям.
+			//for (int i = 0; i < cAreaSchedulesWithoutFullDubles.Count; i++)
+			//{
+			//	for (int j = 0; j < cAreaSchedulesWithoutFullDubles.Count; j++)
+			//	{
+			//		if (i != j)
+			//		{
+			//			if (cAreaSchedulesWithoutFullDubles[i].Equals(cAreaSchedulesWithoutFullDubles[j]) && !cAreaSchedulesWithoutFullDubles[i].IsDeletedArea)
+			//			{
+			//				cAreaSchedulesWithoutFullDubles[j].IsDeletedArea = true;
+			//			}
+			//		}
+			//	}
+			//}
+
+			////
+			//var listcAreaSchedulesWithSameAreas = new List<CAreaSchedule>();
+
+			//foreach (var area in cAreaSchedulesWithoutFullDubles)
+			//{
+			//	if (!area.IsDeletedArea)
+			//	{
+			//		listcAreaSchedulesWithSameAreas.Add(area);
+			//	}
+			//}
+
+
+
+			//Выбор расписания.
+			
+			List<CAreaSchedule> listAreaScheduleDistincted = cAreaSchedulesWithoutFullDubles
+				.GroupBy(x => new {x.AreaIdHi, x.AreaIdLo})
+				.Select(g => g.First())
+				.ToList();
+			
+			foreach (var area in listAreaScheduleDistincted)
+			{
+				var x1 = cAreaSchedulesWithoutFullDubles.Where(x => x.AreaIdHi == area.AreaIdHi && x.AreaIdLo == area.AreaIdLo)
+					.Select(x => x.ScheduleName);
+				area.SchedulesFromSameCAreaSchedules = x1;
+			}
+
+			var cropList  = listAreaScheduleDistincted.Where(item => item.SchedulesFromSameCAreaSchedules.Count() > 1);
+			if (cropList.Any())
+			{
+				var scheduleChoiceWindow = new ScheduleChoiceView(cropList);
+				
+				if (!scheduleChoiceWindow.ShowDialog().Value)
+				{
+					return;
+				}
+			}
+			
+			var dataForAndover = new List<CAreaScheduleContract>();
+
+			foreach (var areaSchedule in listAreaScheduleDistincted)
+			{
+				dataForAndover.Add(
+					new CAreaScheduleContract
+				{
+					AreaName = areaSchedule.AreaName,
+					ScheduleName = areaSchedule.TestString.ToString(),
+					AreaIdHi = areaSchedule.AreaIdHi,
+					AreaIdLo = areaSchedule.AreaIdLo,
+					SelectedItemIndex = areaSchedule.SelectedItemIndex,
+					SchedulesFromSameCAreaSchedules = areaSchedule.SchedulesFromSameCAreaSchedules,
+					TestString = areaSchedule.TestString,
+				});
+			}
+
+			//смена курсора
+			Cursor.Current = Cursors.WaitCursor;
+			
 			var data = new AndoverExportData
 			{
 				Card = selectedCard.Name,
-				Doors = GetAreasPathByCardAreas(list),
-				Schedules = new List<string> {selectedSchedule.Path},
+				SchedulesFromSameCAreaSchedules = dataForAndover
 			};
+
 			var clientConnector = ClientConnector.CurrentConnector;
 
 			if (clientConnector.ExportToAndover(data))
 			{
+				Cursor.Current = Cursors.Default;
 				System.Windows.MessageBox.Show("Пропуск был выгружен в Andover", "Информация",
 					MessageBoxButton.OK, MessageBoxImage.Information);
 			}
 			else
 			{
+				Cursor.Current = Cursors.Default;
 				System.Windows.MessageBox.Show("Выгрузка пропуска в Andover не удалась!", "Ошибка",
 					MessageBoxButton.OK, MessageBoxImage.Error);
 			}
-
-
+			
 			this.Close();
 		}
 
-		private List<string> GetAreasPathByCardAreas(List<CardArea> cardAreas)
+		private List<string> GetAreasNamesByCardAreas(List<CardArea> cardAreas)
 		{
 			var result = new List<string>();
 			var areasTable = AreasWrapper.CurrentTable();
-			
+
 			foreach (DataRow row in areasTable.Table.Rows)
 			{
 				foreach (var cardArea in cardAreas)
@@ -962,12 +1078,13 @@ namespace SupRealClient.Views
 					{
 
 						var areaName = row["f_area_name"] is DBNull ? "" : (string) row["f_area_name"];
-						var areaPath = row["f_area_path"] is DBNull ? "" : (string) row["f_area_path"];
-						result.Add(areaName + areaPath);
+						result.Add(areaName);
 					}
 				}
 			}
+
 			return result;
+
 		}
 
 		private string GetCardName(Card card)
@@ -984,8 +1101,7 @@ namespace SupRealClient.Views
 
 			return null;
 		}
-
-
+		
 		private Schedule GetSchedule(Dictionary<string, int> schedulesHash, string selectedSchedule)
 		{
 			var _schedulesWrapper = SchedulesWrapper.CurrentTable();
@@ -1048,13 +1164,13 @@ namespace SupRealClient.Views
         public override void Add()
         {
             if (MessageBox.Show(
-                "Данные будут выгружены из Andover. Старые данные будут удалены. Продолжить?",
-                "Внимание", MessageBoxButtons.YesNo) == DialogResult.Yes)
+                "Данные будут загружены из Andover. Старые данные будут удалены. Продолжить?",
+                "Внимание", MessageBoxButtons.YesNo, MessageBoxIcon.Information) == DialogResult.Yes)
             {
 	            ClientConnector clientConnector = ClientConnector.CurrentConnector;
 	            if (clientConnector.ImportFromAndover())
 	            {
-		            System.Windows.MessageBox.Show("Из Andover были загружены данные", "Информация",
+		            System.Windows.MessageBox.Show("Данные были загружены из Andover", "Информация",
 			            MessageBoxButton.OK, MessageBoxImage.Information);
 	            }
 	            else
@@ -1246,13 +1362,13 @@ namespace SupRealClient.Views
         public override void Add()
         {
             if (MessageBox.Show(
-                "Данные будут выгружены из Andover. Старые данные будут удалены. Продолжить?",
-                "Внимание", MessageBoxButtons.YesNo) == DialogResult.Yes)
+		"Данные будут загружены из Andover. Старые данные будут удалены. Продолжить?",
+                "Внимание", MessageBoxButtons.YesNo, MessageBoxIcon.Information) == DialogResult.Yes)
             {
 	            ClientConnector clientConnector = ClientConnector.CurrentConnector;
 	            if (clientConnector.ImportFromAndover())
 	            {
-		            System.Windows.MessageBox.Show("Из Andover были загружены данные", "Информация",
+		            System.Windows.MessageBox.Show("Данные были загружены из Andover", "Информация",
 			            MessageBoxButton.OK, MessageBoxImage.Information);
 	            }
 	            else
@@ -1435,13 +1551,13 @@ namespace SupRealClient.Views
 	    public override void Add()
 	    {
 		    if (MessageBox.Show(
-			        "Данные будут выгружены из Andover. Старые данные будут удалены. Продолжить?",
-			        "Внимание", MessageBoxButtons.YesNo) == DialogResult.Yes)
+				"Данные будут загружены из Andover. Старые данные будут удалены. Продолжить?",
+			        "Внимание", MessageBoxButtons.YesNo, MessageBoxIcon.Information) == DialogResult.Yes)
 		    {
 			    ClientConnector clientConnector = ClientConnector.CurrentConnector;
 			    if (clientConnector.ImportFromAndover())
 			    {
-				    System.Windows.MessageBox.Show("Из Andover были загружены", "Информация",
+				    System.Windows.MessageBox.Show("Данные были загружены из Andover", "Информация",
 					    MessageBoxButton.OK, MessageBoxImage.Information);
 			    }
 			    else

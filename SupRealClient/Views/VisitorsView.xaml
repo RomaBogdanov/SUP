@@ -406,7 +406,10 @@
 								IsEnabled="{Binding Path=TextEnable, Mode=TwoWay}"
 								KeyDown="MoveNextFocusControl"
 								Style="{StaticResource TextBoxStyle}"
-								Text="{Binding Path=CurrentItem.Telephone, Mode=TwoWay}" />
+								Text="{Binding Path=CurrentItem.Telephone, Mode=TwoWay}" 
+								PreviewMouseDown="PrevMouseDown"
+								PreviewMouseLeftButtonDown="PrevMouseDown"
+								PreviewMouseDoubleClick="PrevMouseDown"/>
 
 							<TextBlock
 								Grid.Row="1"

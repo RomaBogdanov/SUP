@@ -117,6 +117,7 @@
     <Compile Include="Common\Interfaces\IViewManager.cs" />
     <Compile Include="Common\Interfaces\IWindow.cs" />
     <Compile Include="EnumerationClasses\CardState.cs" />
+    <Compile Include="EnumerationClasses\CAreaSchedule.cs" />
     <Compile Include="EnumerationClasses\EntityBase.cs" />
     <Compile Include="EnumerationClasses\IdEntity.cs" />
     <Compile Include="EnumerationClasses\IEntity.cs" />

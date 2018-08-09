@@ -20,7 +20,39 @@
 			<ColumnDefinition Width="*" />
 			<ColumnDefinition Width="*" />
 		</Grid.ColumnDefinitions>
-		<ListView x:Name="View" />
+
+		<DataGrid
+			x:Name="DataGrid"
+			Grid.Row="0"
+			Grid.ColumnSpan="2"
+			AutoGenerateColumns="False">
+			<DataGrid.Columns>
+				<DataGridTextColumn
+					Width="*"
+					Binding="{Binding AreaName}"
+					Header="Название области" />
+
+				<DataGridTemplateColumn Width="*" Header="Расписание">
+					<DataGridTemplateColumn.CellTemplate>
+						<DataTemplate>
+							<Grid>
+								<TextBlock
+									Margin="6,0,0,0"
+									Text="{Binding TestString, Mode=OneWay}"
+									Visibility="{Binding Path=InverceVisibleList, Mode=OneWay, Converter={StaticResource BooleanToVisibilityConverter}}" />
+								<ComboBox
+									x:Name="ScheduleComboBox"
+									BorderThickness="0"
+									IsSynchronizedWithCurrentItem="True"
+									ItemsSource="{Binding SchedulesFromSameCAreaSchedules}"
+									SelectedIndex="{Binding SelectedItemIndex, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+									Visibility="{Binding Path=VisibleList, Mode=OneWay, Converter={StaticResource BooleanToVisibilityConverter}}" />
+							</Grid>
+						</DataTemplate>
+					</DataGridTemplateColumn.CellTemplate>
+				</DataGridTemplateColumn>
+			</DataGrid.Columns>
+		</DataGrid>
 		<Button
 			x:Name="OkButton"
 			Grid.Row="1"

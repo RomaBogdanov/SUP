@@ -502,6 +502,23 @@ namespace SupHost.Andover
 
 			//var schedulesList = new List<DataRow>(); // TODO
 
+
+			var dataForAndoverAgent = new List<CAreaScheduleLib>();
+			foreach (var item in data.SchedulesFromSameCAreaSchedules)
+			{
+				dataForAndoverAgent.Add(new CAreaScheduleLib
+				{
+					AreaName = item.AreaName,
+					ScheduleName = item.ScheduleName,
+					AreaIdHi = item.AreaIdHi,
+					AreaIdLo = item.AreaIdLo,
+					SelectedItemIndex = item.SelectedItemIndex,
+					SchedulesFromSameCAreaSchedules = item.SchedulesFromSameCAreaSchedules,
+					TestString = item.TestString,
+				});
+			}
+
+
 			var info = new PersonInfo
 			{
 				UiName = (string)card["f_card_name"],
@@ -509,8 +526,7 @@ namespace SupHost.Andover
 				Alias = (string)card["f_card_controller"],
 				//Areas = areaList.Select(a =>
 				//	(string)a["f_area_path"] + (string)a["f_area_name"]).ToList(),
-				Areas = data.Doors,
-				Schedules = data.Schedules
+				AreaScheduleList = dataForAndoverAgent
 			};
 			bool result = connector.AndoverService.ExportPersonDmp(info);
 
