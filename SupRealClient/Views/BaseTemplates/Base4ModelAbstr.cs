@@ -743,18 +743,16 @@ namespace SupRealClient.Views
 			row1["f_eff_zonen_text"] = "хм"; //todo: вообще непонятно
 			VisitsWrapper.CurrentTable().Table.Rows.Add(row1);
 
-
-
 			List<CardArea> list = new List<CardArea>();
 			foreach (var order in orders)
 			{
 				var ordels = order.OrderElements.Where(arg => arg.VisitorId == visitorId);
 				foreach (var orderElement in ordels)
 				{
-					foreach (var id in
-						AndoverEntityListHelper.StringToEntityIds(orderElement.TemplateIdList))
+					foreach (var core in
+						AndoverEntityListHelper.StringToTemplatesSchedules(orderElement.TemplateIdList))
 					{
-						DataRow template = TemplatesWrapper.CurrentTable().Table.Rows.Find(id);
+						DataRow template = TemplatesWrapper.CurrentTable().Table.Rows.Find(core.Id);
 						foreach (var area in AndoverEntityListHelper.StringToAndoverEntityIds(
 							template.Field<string>("f_template_areas")))
 						{
@@ -772,16 +770,17 @@ namespace SupRealClient.Views
 						}
 					}
 
-					foreach (var orderElementArea in AndoverEntityListHelper.StringToAndoverEntityIds(orderElement.AreaIdList))
+					foreach (var core in
+                        AndoverEntityListHelper.StringToAreasSchedules(orderElement.AreaIdList))
 					{
 						if (list.FirstOrDefault(l =>
-							    l.AreaIdHi == orderElementArea.Key &&
-							    l.AreaIdLo == orderElementArea.Value) == null)
+							    l.AreaIdHi == core.ObjectIdHi &&
+							    l.AreaIdLo == core.ObjectIdLo) == null)
 						{
 							list.Add(new CardArea
 							{
-								AreaIdHi = orderElementArea.Key,
-								AreaIdLo = orderElementArea.Value,
+								AreaIdHi = core.ObjectIdHi,
+								AreaIdLo = core.ObjectIdLo,
 								CardIdHi = (int) row1["f_card_id_hi"],
 								CardIdLo = (int) row1["f_card_id_lo"]
 							});
@@ -1421,7 +1420,13 @@ namespace SupRealClient.Views
 
         protected override BaseModelResult GetResult()
         {
-            return new BaseModelResult { Id = CurrentItem.Id, Name = CurrentItem.Name };
+            return new BaseModelResult
+            {
+                Id = CurrentItem.Id,
+                IdHi = CurrentItem.ObjectIdHi,
+                IdLo = CurrentItem.ObjectIdLo,
+                Name = CurrentItem.Name
+            };
         }
 
         public override IDictionary<string, string> GetFields()

@@ -670,9 +670,9 @@
 						</i:Interaction.Triggers>
 						<DataGrid.Columns>
 							<DataGridTextColumn Binding="{Binding Path=CardNumber}" Header="Пропуск" />
-							<DataGridTextColumn Binding="{Binding Path=From}" Header="Когда выдан" />
-							<DataGridTextColumn Binding="{Binding Path=To}" Header="Срок по" />
-							<DataGridTextColumn Binding="{Binding Path=Change}" Header="Изменён" />
+							<DataGridTextColumn Binding="{Binding Path=From, StringFormat=dd.MM.yyyy}" Header="Когда выдан" />
+							<DataGridTextColumn Binding="{Binding Path=To, StringFormat=dd.MM.yyyy}" Header="Срок по" />
+							<DataGridTextColumn Binding="{Binding Path=Change, StringFormat=dd.MM.yyyy HH:mm:ss}" Header="Изменён" />
 							<DataGridTextColumn
 								Width="*"
 								Binding="{Binding Path=Operator}"

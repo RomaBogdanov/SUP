@@ -294,15 +294,21 @@ namespace SupRealClient
             (window as Window).Activate();
         }
 
-        private object OpenWindowModal(IWindow window, bool openInCenterOfActive =false)
+
+
+        private object OpenWindowModal(IWindow window, bool openInCenterOfActive = true)
         {
 	        if (window == null || !window.IsRealClose) return null;
 
-	        if (window is Window functionalWindow)
+	        window.IsRealClose = false;
+			if (window is Window functionalWindow)
 	        {
-		        functionalWindow.Owner = Application.Current.Windows.OfType<Window>().SingleOrDefault(x => x.IsActive);
-		        functionalWindow.WindowStartupLocation = WindowStartupLocation.CenterOwner;
-		        window.IsRealClose = false;
+		        if (openInCenterOfActive)
+		        {
+					//Window activeParentWindow = Application.Current.Windows.OfType<Window>().SingleOrDefault(x => x.IsActive);
+					//functionalWindow.Owner = activeParentWindow;
+					//functionalWindow.WindowStartupLocation = WindowStartupLocation.CenterOwner;
+				}
 		        functionalWindow.ShowDialog();
 			}
 	        else
