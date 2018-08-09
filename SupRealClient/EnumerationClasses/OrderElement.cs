@@ -79,13 +79,13 @@ namespace SupRealClient.EnumerationClasses
 				//		создавался для использования из под формы посетители, но пока вроде
 				//		функционал реализуется средствами формы.
 				/*DataRow row = OrdersWrapper.CurrentTable().Table.Rows.Find(orderId);
-				string type = SprOrderTypesWrapper.CurrentTable().Table.AsEnumerable()
+				string type = EnumerationClasses.Order.GetOrderTypeString(OrSprOrderTypesWrapper.CurrentTable().Table.AsEnumerable()
 				    .FirstOrDefault(arg => arg.Field<int>("f_order_type_id") ==
-				    (int)row["f_order_type_id"])["f_order_text"].ToString();
+				    (int)row["f_order_type_id"])["f_order_text"].ToString());
 				int number = row.Field<int>("f_reg_number");
 				type = type.Length > 0 ? type : " ";
 				Order = number.ToString() + type[0];*/
-			}
+				}
 		}
 
 		public string Order { get; set; }
