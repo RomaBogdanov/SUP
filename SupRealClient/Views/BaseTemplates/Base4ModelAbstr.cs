@@ -692,6 +692,9 @@ namespace SupRealClient.Views
 
 		public override void Ok()
 		{
+			//смена курсора
+			Cursor.Current = Cursors.WaitCursor;
+
 			//base.Ok();
 			// todo: обязательно просмотреть ситуацию стандартного использования данной кнопки.
 			//MessageBox.Show("Test");
@@ -837,11 +840,13 @@ namespace SupRealClient.Views
 
 			if (clientConnector.ExportToAndover(data))
 			{
+				Cursor.Current = Cursors.Default;
 				System.Windows.MessageBox.Show("Пропуск был выгружен в Andover", "Информация",
 					MessageBoxButton.OK, MessageBoxImage.Information);
 			}
 			else
 			{
+				Cursor.Current = Cursors.Default;
 				System.Windows.MessageBox.Show("Выгрузка пропуска в Andover не удалась!", "Ошибка",
 					MessageBoxButton.OK, MessageBoxImage.Error);
 			}
