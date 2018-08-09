@@ -63,10 +63,9 @@ namespace SupRealClient.Views.Visitor
 			// todo: связанное с тем, что нужно текущей форме задать другой
 			// todo: Model, по хорошему, надо придумать стандартный механизм.
 
-			if (Set.Where(o => o.IsChecked).Count() == 0 || Set.Where(o => o.IsChecked).Count() > 1)
+			if (Set.Where(o => o.IsChecked).Count() == 0)
 			{
-				MessageBox.Show($"Выберите правильное количество заявок\n1.Количество выбранных заявок не может равной нулю\n2.Количество выбранных заявок не может быть больше одной", "Предупреждение", MessageBoxButton.OK, MessageBoxImage.Warning);
-
+				MessageBox.Show($"Количество выбранных заявок не может быть равным нулю", "Предупреждение", MessageBoxButton.OK, MessageBoxImage.Warning);
 			}
 			else
 			{
