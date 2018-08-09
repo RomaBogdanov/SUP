@@ -1,6 +1,10 @@
 ﻿using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Windows;
+using System.Windows.Controls;
+using System.Windows.Forms;
+using SupRealClient.EnumerationClasses;
+using DataGrid = System.Windows.Controls.DataGrid;
 
 namespace SupRealClient.Views
 {
@@ -9,24 +13,22 @@ namespace SupRealClient.Views
 	/// </summary>
 	public partial class ScheduleChoiceView
 	{
-		public string SelectedSchedule { get; private set; }
+		public List<CAreaSchedule> areaSchedulesList { get; set; }
 
-		public ScheduleChoiceView(List<string> schedulesList)
+		public ScheduleChoiceView(IEnumerable<CAreaSchedule> areaSchedulesList)
 		{
 			InitializeComponent();
-			View.ItemsSource = schedulesList;
+			DataGrid.ItemsSource = areaSchedulesList;
 
 		}
-
 		private void OkButton_OnClick(object sender, RoutedEventArgs e)
 		{
-			SelectedSchedule = View.SelectedItem.ToString();
-			Close();
+			DialogResult = true;
 		}
 
 		private void CancelButton_OnClick(object sender, RoutedEventArgs e)
 		{
-			Close();
+			DialogResult = false;
 		}
 	}
 }

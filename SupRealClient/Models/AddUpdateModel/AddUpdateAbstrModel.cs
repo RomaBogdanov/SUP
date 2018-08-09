@@ -618,6 +618,18 @@ namespace SupRealClient.Models.AddUpdateModel
 
         private void Query()
         {
+            var schedules = new ObservableCollection<Schedule>(
+               from row in SchedulesWrapper.CurrentTable().Table.AsEnumerable()
+               where row.Field<int>("f_schedule_id") != 0 &&
+               CommonHelper.NotDeleted(row)
+               select new Schedule
+               {
+                   Id = row.Field<int>("f_schedule_id"),
+                   Name = row.Field<string>("f_schedule_name"),
+                   ObjectIdHi = row.Field<int>("f_object_id_hi"),
+                   ObjectIdLo = row.Field<int>("f_object_id_lo")
+               });
+
             SetAllTemplates = new ObservableCollection<Template>(
                from templates in TemplatesWrapper.CurrentTable().Table.AsEnumerable()
                where templates.Field<int>("f_template_id") != 0 &&
@@ -626,7 +638,7 @@ namespace SupRealClient.Models.AddUpdateModel
                {
                    Id = templates.Field<int>("f_template_id"),
                    Name = templates.Field<string>("f_template_name"),
-                   Descript = templates.Field<string>("f_template_description")
+                   Descript = templates.Field<string>("f_template_description"),
                });
 
             SetAppointTemplates = new ObservableCollection<Template>();
@@ -638,6 +650,17 @@ namespace SupRealClient.Models.AddUpdateModel
                 var template = SetAllTemplates.FirstOrDefault(t => t.Id == core.Id);
                 if (template != null)
                 {
+                    if (core.ScheduleIdHi != 0 || core.ScheduleIdLo != 0)
+                    {
+                        var sc = schedules.FirstOrDefault(s => s.ObjectIdHi == core.ScheduleIdHi &&
+                            s.ObjectIdLo == core.ScheduleIdLo);
+                        if (sc != null)
+                        {
+                            template.Schedule = sc.Name;
+                            template.ScheduleIdHi = core.ScheduleIdHi;
+                            template.ScheduleIdLo = core.ScheduleIdLo;
+                        }
+                    }
                     SetAllTemplates.Remove(template);
                     SetAppointTemplates.Add(template);
                 }
@@ -669,6 +692,17 @@ namespace SupRealClient.Models.AddUpdateModel
                     a.ObjectIdHi == core.ObjectIdHi && a.ObjectIdLo == core.ObjectIdLo);
                 if (area != null)
                 {
+                    if (core.ScheduleIdHi != 0 || core.ScheduleIdLo != 0)
+                    {
+                        var sc = schedules.FirstOrDefault(s => s.ObjectIdHi == core.ScheduleIdHi &&
+                            s.ObjectIdLo == core.ScheduleIdLo);
+                        if (sc != null)
+                        {
+                            area.Schedule = sc.Name;
+                            area.ScheduleIdHi = core.ScheduleIdHi;
+                            area.ScheduleIdLo = core.ScheduleIdLo;
+                        }
+                    }
                     SetAllZones.Remove(area);
                     SetAppointZones.Add(area);
                 }

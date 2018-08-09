@@ -108,6 +108,7 @@
 				<Image Grid.Row="0" Source="../../Resources/Добавить1 (2).ico" />
 
 				<TextBlock
+					x:Name="AdButton"
 					Grid.Row="1"
 					FontSize="12"
 					Style="{StaticResource TextBLockStyle}"

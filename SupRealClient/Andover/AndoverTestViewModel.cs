@@ -189,8 +189,8 @@ namespace SupRealClient.Andover
             var data = new AndoverExportData
             {
                 Card = card.Name,
-                Doors = accesPoints.Select(p => p.Name).ToList(),
-		Schedules = SchedulesList.Select(x=>x.Path).ToList()
+  //              Doors = accesPoints.Select(p => p.Name).ToList(),
+		//Schedules = SchedulesList.Select(x=>x.Path).ToList()
             };
 
             ClientConnector clientConnector = ClientConnector.CurrentConnector;

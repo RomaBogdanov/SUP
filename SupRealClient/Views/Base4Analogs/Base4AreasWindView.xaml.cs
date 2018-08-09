@@ -22,7 +22,11 @@ namespace SupRealClient.Views
         public Base4AreasWindView(Visibility okVisibility)
         {
             InitializeComponent();
-            base4.tbxSearch.Focus();
+
+	        //Костыль
+	        base4.SetAddButtonText("Загрузить");
+
+			base4.tbxSearch.Focus();
             AfterInitialize();
 
             ((Base4ViewModel<EnumerationClasses.Area>)base4.DataContext)

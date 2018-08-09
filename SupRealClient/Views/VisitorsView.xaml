@@ -83,8 +83,12 @@
 				Margin="2"
 				IsEnabled="{Binding Path=TextEnable, Mode=TwoWay}"
 				KeyDown="MoveNextFocusControl"
+				GotFocus="GotFocus_FirstTabItemControls"
 				Style="{StaticResource TextBoxStyle}"
-				Text="{Binding Path=Family, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+				Text="{Binding Path=Family, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" 
+				PreviewMouseDown="PrevMouseDown"
+				PreviewMouseLeftButtonDown="PrevMouseDown"
+				PreviewMouseDoubleClick="PrevMouseDown" />
 
 			<TextBlock
 				Grid.Row="0"
@@ -352,7 +356,8 @@
 					Content="Нет формуляра"
 					IsChecked="{Binding Path=CurrentItem.IsNotFormular, Mode=TwoWay}"
 					IsEnabled="{Binding Path=TextEnable, Mode=TwoWay}"
-					KeyDown="MoveNextFocusControl_ToName" />
+					KeyDown="MoveNextFocusControl_ToName" 
+					LostFocus="ControlLostFocus"/>
 				<!--  IsChecked="{Binding Path=CurrentItem.IsNotFormular, Mode=TwoWay}"  -->
 			</StackPanel>
 		</Grid>
@@ -398,11 +403,13 @@
 								HorizontalAlignment="Stretch"
 								VerticalAlignment="Stretch"
 								GotFocus="GotFocus_FirstTabItemControls"
-								GotKeyboardFocus="UIElement_OnGotKeyboardFocus"
 								IsEnabled="{Binding Path=TextEnable, Mode=TwoWay}"
 								KeyDown="MoveNextFocusControl"
 								Style="{StaticResource TextBoxStyle}"
-								Text="{Binding Path=CurrentItem.Telephone, Mode=TwoWay}" />
+								Text="{Binding Path=CurrentItem.Telephone, Mode=TwoWay}" 
+								PreviewMouseDown="PrevMouseDown"
+								PreviewMouseLeftButtonDown="PrevMouseDown"
+								PreviewMouseDoubleClick="PrevMouseDown"/>
 
 							<TextBlock
 								Grid.Row="1"
@@ -526,7 +533,8 @@
 									IsEnabled="{Binding Path=EnableList_MainDocument, Mode=OneWay}"
 									ItemsSource="{Binding Path=CurrentItem.MainDocuments, Mode=OneWay}"
 									KeyDown="MoveNextFocusControl_ToName"
-									SelectedIndex="{Binding Path=SelectedMainDocument}">
+									SelectedIndex="{Binding Path=SelectedMainDocument}"
+									GotFocus="GotFocus_FirstTabItemControls">
 									<i:Interaction.Triggers>
 										<i:EventTrigger EventName="MouseDoubleClick">
 											<i:InvokeCommandAction Command="{Binding OpenMainDocumentCommand}" />
@@ -574,7 +582,8 @@
 										Command="{Binding RemoveMainDocumentCommand}"
 										Content="X"
 										IsEnabled="{Binding Path=ButtonEnable, Mode=TwoWay}"
-										Style="{StaticResource ButtonStyle}" />
+										Style="{StaticResource ButtonStyle}"
+										IsTabStop="False" />
 
 									<Button
 										Grid.Column="1"
@@ -583,7 +592,8 @@
 										Command="{Binding OpenMainDocumentCommand}"
 										Content="Просмотр"
 										IsEnabled="{Binding Path=EnableButton_OpenMainDocument, Mode=OneWay}"
-										Style="{StaticResource ButtonStyle}" />
+										Style="{StaticResource ButtonStyle}"
+										IsTabStop="False"/>
 
 								</Grid>
 
@@ -633,7 +643,11 @@
 										IsTabStop="False"
 										KeyDown="MoveNextFocusControl"
 										SelectedDate="{Binding Path=CurrentItem.AgreeToDate, Mode=TwoWay}"
-										Text="Дата">
+										Text="Дата"
+										PreviewMouseDown="PrevMouseDown"
+										PreviewMouseLeftButtonDown="PrevMouseDown"
+										PreviewMouseDoubleClick="PrevMouseDown"
+										LostFocus="ControlLostFocus">
 										<DatePicker.Resources>
 											<Style TargetType="{x:Type DatePickerTextBox}">
 												<Setter Property="Control.Template">
@@ -1327,7 +1341,9 @@
 				Style="{StaticResource VisitorsSquareButtonStyle}"
 				TabIndex="{Binding Path=TabIndex, RelativeSource={RelativeSource AncestorType={x:Type mah:MetroWindow}}}"
 				ToolTip="Esc"
-				Visibility="{Binding Path=VisitorsVisible.CancelButtonEnable, Converter={StaticResource BooleanToVisibilityConverter}}">
+				Visibility="{Binding Path=VisitorsVisible.CancelButtonEnable, Converter={StaticResource BooleanToVisibilityConverter}}"
+				GotFocus="GotFocus_FirstTabItemControls"
+				LostFocus="ControlLostFocus">
 				<Grid>
 					<Grid.RowDefinitions>
 						<RowDefinition />

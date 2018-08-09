@@ -576,11 +576,11 @@ namespace SupRealClient.ViewModels.AddUpdateViewModel
 
         protected override void OkCommand()
 	    {
-		    /*if (((AddUpdateZonesToBidModel) this.Model).ScheduleId == 0)
+		    if (((AddUpdateZonesToBidModel) this.Model).ScheduleId == 0)
 		    {
 			    MessageBox.Show("Необходимо выбрать расписание", "Ошибка", MessageBoxButton.OK, MessageBoxImage.Exclamation);
 			    return;
-			}*/
+			}
 		    base.OkCommand();
 	    }
 	}

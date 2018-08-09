@@ -36,7 +36,7 @@ namespace AndoverAgent
 
 					using (SqlCommand cmd = connection.CreateCommand())
 					{
-						cmd.CommandText = "select * from ContinuumCopy.dbo.Container";
+						cmd.CommandText = "select * from Container";
 						SqlDataReader reader = cmd.ExecuteReader();
 						try
 						{
@@ -147,7 +147,7 @@ namespace AndoverAgent
 
 					using (SqlCommand cmd = connection.CreateCommand())
 					{
-						cmd.CommandText = "select * from ContinuumCopy.dbo.Device";
+						cmd.CommandText = "select * from Device";
 						SqlDataReader reader = cmd.ExecuteReader();
 						try
 						{
@@ -412,7 +412,7 @@ namespace AndoverAgent
 
 					using (SqlCommand cmd = connection.CreateCommand())
 					{
-						cmd.CommandText = "select * from ContinuumCopy.dbo.Area";
+						cmd.CommandText = "select * from Area";
 						SqlDataReader reader = cmd.ExecuteReader();
 						try
 						{
@@ -488,7 +488,7 @@ namespace AndoverAgent
 
 					using (SqlCommand cmd = connection.CreateCommand())
 					{
-						cmd.CommandText = "select * from ContinuumCopy.dbo.Personnel";
+						cmd.CommandText = "select * from Personnel";
 						SqlDataReader reader = cmd.ExecuteReader();
 						try
 						{
@@ -753,7 +753,7 @@ namespace AndoverAgent
 
 					using (SqlCommand cmd = connection.CreateCommand())
 					{
-						cmd.CommandText = "select * from ContinuumCopy.dbo.Schedule";
+						cmd.CommandText = "select * from Schedule";
 						SqlDataReader reader = cmd.ExecuteReader();
 						try
 						{
@@ -893,7 +893,7 @@ namespace AndoverAgent
 
 					using (SqlCommand cmd = connection.CreateCommand())
 					{
-						cmd.CommandText = "select * from ContinuumCopy.dbo.AreaLink";
+						cmd.CommandText = "select * from AreaLink";
 						SqlDataReader reader = cmd.ExecuteReader();
 						try
 						{
@@ -962,7 +962,7 @@ namespace AndoverAgent
 
 					using (SqlCommand cmd = connection.CreateCommand())
 					{
-						cmd.CommandText = "select * from ContinuumCopy.dbo.Door";
+						cmd.CommandText = "select * from Door";
 						SqlDataReader reader = cmd.ExecuteReader();
 						try
 						{
@@ -1259,7 +1259,7 @@ namespace AndoverAgent
 
 					using (SqlCommand cmd = connection.CreateCommand())
 					{
-						cmd.CommandText = "select * from ContinuumCopy.dbo.DoorList";
+						cmd.CommandText = "select * from DoorList";
 						SqlDataReader reader = cmd.ExecuteReader();
 						try
 						{
@@ -1531,20 +1531,48 @@ namespace AndoverAgent
 			sb.AppendLine(string.Format(" Alias : {0}", person.Alias));
 			//sb.AppendLine(string.Format(" CardNumber : {0}", person.CardNum));
 			sb.AppendLine(" AreaLinks : ");
-			for (var i = 0; i < person.Areas?.Count; i++)
-			{
-				var areaLink = person.Areas[i];
-				var schedule = person.Schedules.First();
-				sb.AppendLine(string.Format(
-					"  {0} : Enabled : False :{1} : 01.01.1989 ;0 ", areaLink,schedule));
-			}
 
+			List<CAreaSchedulePair> areasPathsList = GetAreasPaths(person.AreaScheduleList);
+
+			if (areasPathsList != null)
+			{
+				for (var i = 0; i < areasPathsList.Count; i++)
+				{
+					sb.AppendLine(string.Format(
+						"  {0} : Enabled : False :{1} : 01.01.1989 ;0 ", areasPathsList[i].AreaPath, areasPathsList[i].SchedulePath));
+				}
+			}
 			sb.AppendLine(" EndAreaLinks");
 			sb.AppendLine("EndObject");
 			sb.AppendLine();
 
-			File.WriteAllText(ConfigurationManager.AppSettings["DmpFile"], sb.ToString());
+			var tempFileName = ConfigurationManager.AppSettings["TemporaryDmpFile"];
+			var dumpFileName = ConfigurationManager.AppSettings["DmpFile"];
+			int fileWriteTimeOut;
 
+			try
+			{
+				fileWriteTimeOut = Convert.ToInt32(ConfigurationManager.AppSettings["FileWriteTimeout"]);
+			}
+			catch (Exception)
+			{
+				fileWriteTimeOut = 1000;
+			}
+
+			File.WriteAllText(tempFileName, sb.ToString());
+
+			for (var i = 0; i < fileWriteTimeOut/100 && File.Exists(dumpFileName); i++)
+			{
+				Thread.Sleep(100);
+			}
+
+			if (File.Exists(dumpFileName))
+			{
+				return false;
+			}
+
+			File.Move(tempFileName, dumpFileName);
+			
 			return true;
 		}
 
@@ -1613,28 +1641,28 @@ namespace AndoverAgent
 					switch (tableType)
 					{
 						case EContinuumDbTableType.Area:
-							cmd.CommandText = "execute ContinuumCopy.dbo.pr_GetArea;";
+							cmd.CommandText = "execute pr_GetArea;";
 							break;
 						case EContinuumDbTableType.AreaLink:
-							cmd.CommandText = "execute ContinuumCopy.dbo.pr_GetArea;";
+							cmd.CommandText = "execute pr_GetArea;";
 							break;
 						case EContinuumDbTableType.Container:
-							cmd.CommandText = "execute ContinuumCopy.dbo.pr_GetCommon;";
+							cmd.CommandText = "execute pr_GetCommon;";
 							break;
 						case EContinuumDbTableType.Device:
-							cmd.CommandText = "execute ContinuumCopy.dbo.pr_GetCommon;";
+							cmd.CommandText = "execute pr_GetCommon;";
 							break;
 						case EContinuumDbTableType.Door:
-							cmd.CommandText = "execute ContinuumCopy.dbo.pr_GetDoor;";
+							cmd.CommandText = "execute pr_GetDoor;";
 							break;
 						case EContinuumDbTableType.DoorList:
-							cmd.CommandText = "execute ContinuumCopy.dbo.pr_GetDoor;";
+							cmd.CommandText = "execute pr_GetDoor;";
 							break;
 						case EContinuumDbTableType.Personnel:
-							cmd.CommandText = "execute ContinuumCopy.dbo.pr_GetPersonnel;";
+							cmd.CommandText = "execute pr_GetPersonnel;";
 							break;
 						case EContinuumDbTableType.Schedule:
-							cmd.CommandText = "execute ContinuumCopy.dbo.pr_GetSchedule;";
+							cmd.CommandText = "execute pr_GetSchedule;";
 							break;
 					}
 
@@ -1649,6 +1677,125 @@ namespace AndoverAgent
 
 				}
 			}
+		}
+		
+
+		private static List<CAreaSchedulePair> GetAreasPaths(List<CAreaScheduleLib> areasSchedules)
+		{
+			if (areasSchedules==null || areasSchedules.Count==0)
+			{
+				return null;
+			}
+
+			var result = new List<CAreaSchedulePair>();
+
+			#region Area
+			try
+			{
+				using (var connection = new SqlConnection(
+					ConfigurationManager.ConnectionStrings[
+						"Continuum"].ConnectionString))
+				{
+					connection.Open();
+
+					using (SqlCommand cmd = connection.CreateCommand())
+					{
+						cmd.CommandText = "select * from Area";
+						SqlDataReader reader = cmd.ExecuteReader();
+						try
+						{
+							while (reader.Read())
+							{
+								foreach (var areaSched in areasSchedules)
+								{
+									var areaNameFromDb = reader["uiName"] is DBNull ? null : (string)reader["uiName"];
+									if (!string.IsNullOrEmpty(areaSched.AreaName) && !string.IsNullOrEmpty(areaNameFromDb) &&
+									    string.Equals(areaNameFromDb.Trim().ToLower(), areaSched.AreaName.Trim().ToLower()))
+									{
+
+										var path = reader["path_value"] is DBNull ? null : (string)reader["path_value"];
+
+										result.Add(new CAreaSchedulePair
+										{
+											AreaName = areaSched.AreaName,
+											AreaPath = path,
+											ScheduleName = areaSched.ScheduleName
+										});
+									}
+								}
+							}
+						}
+						finally
+						{
+							reader.Close();
+						}
+					}
+				}
+			}
+			catch (Exception ex)
+			{
+				Console.WriteLine("ERROR");
+				Console.WriteLine(ex.Message);
+			}
+
+
+			#endregion
+
+			#region Schedules
+			//путь расписаний
+			try
+			{
+				using (var connection = new SqlConnection(
+					ConfigurationManager.ConnectionStrings[
+						"Continuum"].ConnectionString))
+				{
+					connection.Open();
+
+					using (SqlCommand cmd = connection.CreateCommand())
+					{
+						cmd.CommandText = "select * from Schedule";
+						SqlDataReader reader = cmd.ExecuteReader();
+						try
+						{
+							while (reader.Read())
+							{
+								foreach (var areaSched in areasSchedules)
+								{
+									var UiName = reader["uiName"] is DBNull ? null : (string)reader["uiName"];
+									if (!string.IsNullOrEmpty(UiName) && !string.IsNullOrEmpty(areaSched.ScheduleName)
+									                                  && string.Equals(areaSched.ScheduleName.Trim().ToLower(), UiName.Trim().ToLower()))
+									{
+										var path = reader["path_value"] is DBNull ? null : (string)reader["path_value"];
+
+										foreach (var item in result)
+										{
+											if (string.Equals(areaSched.AreaName.Trim().ToLower(), item.AreaName.Trim().ToLower()))
+											{
+												item.SchedulePath = path;
+											}
+										}
+									}
+								}
+							}
+						}
+						finally
+						{
+							reader.Close();
+						}
+					}
+				}
+			}
+			catch (Exception ex)
+			{
+				Console.WriteLine("ERROR");
+				Console.WriteLine(ex.Message);
+			}
+
+
+			#endregion
+
+			return result;
+
 		}
 	}
 }

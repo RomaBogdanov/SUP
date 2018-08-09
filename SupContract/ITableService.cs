@@ -180,8 +180,7 @@ namespace SupContract
     public class AndoverExportData
     {
         string card;
-        List<string> doors;
-        List<string> schedules;
+        List<CAreaScheduleContract> _areaScheduleList;
 
         [DataMember]
         public string Card
@@ -191,17 +190,79 @@ namespace SupContract
         }
 
         [DataMember]
-        public List<string> Doors
-        {
-            get { return doors; }
-            set { doors = value; }
-        }
-
-        [DataMember]
-        public List<string> Schedules
-        {
-            get { return schedules; }
-            set { schedules = value; }
+        public List<CAreaScheduleContract> SchedulesFromSameCAreaSchedules
+		{
+            get { return _areaScheduleList; }
+            set { _areaScheduleList = value; }
         }
     }
+
+	[DataContract]
+	public class CAreaScheduleContract
+	{
+		string _areaName;
+		string _scheduleName;
+		int _areaIdHi;
+		int _areaIdLo;
+		int _scheduleId;
+		object _testString;
+		int _selectedItemIndex;
+		IEnumerable<string> _schedulesFromSameCAreaSchedules;
+
+		[DataMember]
+		public string AreaName
+		{
+			get { return _areaName; }
+			set { _areaName = value; }
+		}
+
+		[DataMember]
+		public string ScheduleName
+		{
+			get { return _scheduleName; }
+			set { _scheduleName = value; }
+		}
+
+		[DataMember]
+		public int AreaIdHi
+		{
+			get { return _areaIdHi; }
+			set { _areaIdHi = value; }
+		}
+
+		[DataMember]
+		public int AreaIdLo
+		{
+			get { return _areaIdLo; }
+			set { _areaIdLo = value; }
+		}
+
+		[DataMember]
+		public int ScheduleId
+		{
+			get { return _scheduleId; }
+			set { _scheduleId = value; }
+		}
+
+		[DataMember]
+		public IEnumerable<string> SchedulesFromSameCAreaSchedules
+		{
+			get { return _schedulesFromSameCAreaSchedules; }
+			set { _schedulesFromSameCAreaSchedules = value; }
+		}
+
+		[DataMember]
+		public int SelectedItemIndex
+		{
+			get { return _selectedItemIndex; }
+			set { _selectedItemIndex = value; }
+		}
+
+		[DataMember]
+		public object TestString
+		{
+			get { return SchedulesFromSameCAreaSchedules.ToList()[_selectedItemIndex]; }
+			set { _testString = value; }
+		}
+	}
 }

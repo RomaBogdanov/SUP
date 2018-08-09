@@ -455,7 +455,7 @@ namespace SupRealClient.ViewModels
         private void OkExecute()
         {
 	        seria = CommonHelper.Check_SeriaCode(Seria);
-	        code = CommonHelper.Check_SeriaCode(Code);
+	        code = CommonHelper.Check_NumberDocument(Code);
 	        num = CommonHelper.Check_NumberDocument(Num);
 
 			StringBuilder stringBuilder = new StringBuilder();
