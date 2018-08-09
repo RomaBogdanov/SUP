@@ -22,7 +22,7 @@ namespace SupRealClient.ViewModels
             get { return _description; }
             set
             {
-                _description = value;
+                _description = value?.TrimStart();
                 if (Model != null) Model.Description = value;
                 OnPropertyChanged();
             }

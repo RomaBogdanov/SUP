@@ -8,7 +8,8 @@
         mc:Ignorable="d"
         Title="Синонимы" 
         Height="500" Width="500" 
-        ResizeMode="NoResize">
+        ResizeMode="NoResize" 
+        PreviewMouseRightButtonUp="MetroWindow_PreviewMouseRightButtonUp">
 
     <mah:MetroWindow.InputBindings>
         <KeyBinding Key="Escape" Command="{Binding Cancel}"/>

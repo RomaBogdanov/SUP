@@ -45,7 +45,7 @@
             Margin="2"
             TabIndex="0"
             FontSize="{Binding FontSize}"
-            Text="{Binding Path=Name,Mode=TwoWay}"
+            Text="{Binding Path=Name,Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
             Style="{StaticResource TextBoxStyle}"
             KeyUp="TextBox_OnKeyUp"/>
 

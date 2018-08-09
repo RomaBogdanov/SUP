@@ -121,7 +121,7 @@
             x:Name="tbComments"
             Grid.Row="7" 
             Grid.Column="0" Grid.ColumnSpan="2" 
-            Text="{Binding Path=Comment, Mode=TwoWay}"
+            Text="{Binding Path=Comment, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
             Margin="2"
             TabIndex="3"            
             FontSize="{Binding FontSize}"            

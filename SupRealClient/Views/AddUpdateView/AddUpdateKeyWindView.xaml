@@ -34,6 +34,7 @@
             Style="{StaticResource TextBLockStyle}"/>
 
         <TextBox 
+            x:Name="tbName"
             Grid.Row="1" 
             Text="{Binding CurrentItem.Name, Mode=TwoWay}"
             Grid.Column="0"
@@ -53,6 +54,7 @@
             Style="{StaticResource TextBLockStyle}"/>
 
         <TextBox 
+            x:Name="tbDescript"
             Grid.Row="3" 
             Grid.Column="0"
             Grid.ColumnSpan="2" 
