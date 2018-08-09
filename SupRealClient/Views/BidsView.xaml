@@ -51,7 +51,8 @@
 			FontSize="16"
 			IsEnabled="{Binding IsEnabled, UpdateSourceTrigger=PropertyChanged}"
 			SelectedIndex="{Binding SelectedIndex, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"
-			Style="{StaticResource MetroComboBox1}">
+			Style="{StaticResource MetroComboBox1}"
+			ToolTip="Shift + ↓">
 			<ComboBoxItem Content="Разовые заявки" Tag="0" />
 			<ComboBoxItem Content="Временные заявки" Tag="1" />
 			<ComboBoxItem Content="Заявки на основании" Tag="2" />
