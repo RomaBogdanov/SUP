@@ -289,7 +289,6 @@
 				Margin="2"
 				Command="{Binding SchedulesCommand}"
 				Content="..."
-                IsEnabled="False"
 				Style="{StaticResource ButtonStyle}" />
 
 			<Button
@@ -298,7 +297,6 @@
 				Margin="2"
 				Command="{Binding ClearCommand}"
 				Content="X"
-                IsEnabled="False"
 				Style="{StaticResource ButtonStyle}" />
 		</Grid>
 
