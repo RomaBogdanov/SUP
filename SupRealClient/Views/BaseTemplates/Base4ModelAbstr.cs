@@ -743,7 +743,35 @@ namespace SupRealClient.Views
 			row1["f_eff_zonen_text"] = "хм"; //todo: вообще непонятно
 			VisitsWrapper.CurrentTable().Table.Rows.Add(row1);
 
-			List<CardArea> list = new List<CardArea>();
+            var schedules = new List<Schedule>(
+               from row in SchedulesWrapper.CurrentTable().Table.AsEnumerable()
+               where row.Field<int>("f_schedule_id") != 0 &&
+               CommonHelper.NotDeleted(row)
+               select new Schedule
+               {
+                   Id = row.Field<int>("f_schedule_id"),
+                   Name = row.Field<string>("f_schedule_name"),
+                   ObjectIdHi = row.Field<int>("f_object_id_hi"),
+                   ObjectIdLo = row.Field<int>("f_object_id_lo")
+               });
+
+            var areas = new List<Area>(
+               from row in AreasWrapper.CurrentTable().Table.AsEnumerable()
+               where row.Field<int>("f_area_id") != 0 &&
+               CommonHelper.NotDeleted(row)
+               select new Area
+               {
+                   Id = row.Field<int>("f_area_id"),
+                   Name = row.Field<string>("f_area_name"),
+                   ObjectIdHi = row.Field<int>("f_object_id_hi"),
+                   ObjectIdLo = row.Field<int>("f_object_id_lo"),
+                   Schedule = ""
+               });
+
+            // TODO - новые данные для андовер
+            List<Area> areasSchedules = new List<Area>();   // Список областей доступа в паре с расписанием. Для выгрузки в Andover
+
+            List<CardArea> list = new List<CardArea>(); // Список всех областей доступа (только ID), расписание не имеет значения
 			foreach (var order in orders)
 			{
 				var ordels = order.OrderElements.Where(arg => arg.VisitorId == visitorId);
@@ -752,17 +780,51 @@ namespace SupRealClient.Views
 					foreach (var core in
 						AndoverEntityListHelper.StringToTemplatesSchedules(orderElement.TemplateIdList))
 					{
-						DataRow template = TemplatesWrapper.CurrentTable().Table.Rows.Find(core.Id);
-						foreach (var area in AndoverEntityListHelper.StringToAndoverEntityIds(
+                        string schedule = "";
+                        int scheduleIdHi = 0;
+                        int scheduleIdLo = 0;
+
+                        if (core.ScheduleIdHi != 0 || core.ScheduleIdLo != 0)
+                        {
+                            var sc = schedules.FirstOrDefault(s => s.ObjectIdHi == core.ScheduleIdHi &&
+                                s.ObjectIdLo == core.ScheduleIdLo);
+                            if (sc != null)
+                            {
+                                schedule = sc.Name;
+                                scheduleIdHi = core.ScheduleIdHi;
+                                scheduleIdLo = core.ScheduleIdLo;
+                            }
+                        }
+
+                        DataRow template = TemplatesWrapper.CurrentTable().Table.Rows.Find(core.Id);
+                        foreach (var areaIds in AndoverEntityListHelper.StringToAndoverEntityIds(
 							template.Field<string>("f_template_areas")))
 						{
-							if (list.FirstOrDefault(l => l.AreaIdHi == area.Key &&
-							                             l.AreaIdLo == area.Value) == null)
+                            var area = areas.FirstOrDefault(a => a.ObjectIdHi == areaIds.Key &&
+                                a.ObjectIdLo == areaIds.Value);
+                            if (area != null)
+                            {
+                                area = (Area)area.Clone();
+                                area.Schedule = schedule;
+                                area.ScheduleIdHi = scheduleIdHi;
+                                area.ScheduleIdLo = scheduleIdLo;
+                                if (areasSchedules.FirstOrDefault(a =>
+                                    a.ObjectIdHi == area.ObjectIdHi &&
+                                    a.ObjectIdLo == area.ObjectIdLo &&
+                                    a.ScheduleIdHi == area.ScheduleIdHi &&
+                                    a.ScheduleIdLo == area.ScheduleIdLo) == null)
+                                {
+                                    areasSchedules.Add(area);
+                                }
+                            }
+
+                            if (list.FirstOrDefault(l => l.AreaIdHi == areaIds.Key &&
+							                             l.AreaIdLo == areaIds.Value) == null)
 							{
 								list.Add(new CardArea
 								{
-									AreaIdHi = area.Key,
-									AreaIdLo = area.Value,
+									AreaIdHi = areaIds.Key,
+									AreaIdLo = areaIds.Value,
 									CardIdHi = (int) row1["f_card_id_hi"],
 									CardIdLo = (int) row1["f_card_id_lo"]
 								});
@@ -773,7 +835,33 @@ namespace SupRealClient.Views
 					foreach (var core in
                         AndoverEntityListHelper.StringToAreasSchedules(orderElement.AreaIdList))
 					{
-						if (list.FirstOrDefault(l =>
+                        var area = areas.FirstOrDefault(a => a.ObjectIdHi == core.ObjectIdHi &&
+                               a.ObjectIdLo == core.ObjectIdLo);
+                        if (area != null)
+                        {
+                            area = (Area)area.Clone();
+                            if (core.ScheduleIdHi != 0 || core.ScheduleIdLo != 0)
+                            {
+                                var sc = schedules.FirstOrDefault(s => s.ObjectIdHi == core.ScheduleIdHi &&
+                                    s.ObjectIdLo == core.ScheduleIdLo);
+                                if (sc != null)
+                                {
+                                    area.Schedule = sc.Name;
+                                    area.ScheduleIdHi = core.ScheduleIdHi;
+                                    area.ScheduleIdLo = core.ScheduleIdLo;
+                                }
+                            }
+                            if (areasSchedules.FirstOrDefault(a =>
+                                a.ObjectIdHi == area.ObjectIdHi &&
+                                a.ObjectIdLo == area.ObjectIdLo &&
+                                a.ScheduleIdHi == area.ScheduleIdHi &&
+                                a.ScheduleIdLo == area.ScheduleIdLo) == null)
+                            {
+                                areasSchedules.Add(area);
+                            }
+                        }
+
+                        if (list.FirstOrDefault(l =>
 							    l.AreaIdHi == core.ObjectIdHi &&
 							    l.AreaIdLo == core.ObjectIdLo) == null)
 						{
