@@ -54,10 +54,8 @@ namespace SupRealClient.ViewModels
             {
                 if (value != null)
                 {
-	                if (!string.IsNullOrWhiteSpace(value))
-	                {
+					if (string.IsNullOrEmpty(value) || !string.IsNullOrWhiteSpace(value))
 		                name = value;
-	                }
 
 	                OnPropertyChanged(nameof(Name));
                 }

@@ -18,14 +18,17 @@
 				<Setter Property="Background" Value="White" />
 			</Style>
 
-	        <Style x:Key="AndoverExportCheckBox" TargetType="CheckBox">
-		        <Setter Property="Margin" Value="10" />
-		        <Setter Property="IsChecked" Value="True" />
-	        </Style>
+			<Style x:Key="AndoverExportCheckBox" TargetType="CheckBox">
+				<Setter Property="Margin" Value="10" />
+				<Setter Property="IsChecked" Value="True" />
+			</Style>
 
-			<Style x:Key="SmallStyle" TargetType="Button" BasedOn="{StaticResource SquareButtonStyle}">
-                <Setter Property="FontSize" Value="15"/>
-            </Style>
+			<Style
+				x:Key="SmallStyle"
+				BasedOn="{StaticResource SquareButtonStyle}"
+				TargetType="Button">
+				<Setter Property="FontSize" Value="15" />
+			</Style>
 
 			<Style
 				x:Key="MiddleStyle"

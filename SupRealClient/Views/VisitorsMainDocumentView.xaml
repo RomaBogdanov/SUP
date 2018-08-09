@@ -345,8 +345,7 @@
 											<wpfx:MaskedTextBox
 												x:Name="PART_TextBox"
 												Mask="00/00/0000"
-												Text="{Binding Path=SelectedDate, ConverterCulture={x:Static gl:CultureInfo.CurrentCulture}, StringFormat=dd/MM/yyyy, RelativeSource={RelativeSource AncestorType={x:Type DatePicker}}}" 
-												/>
+												Text="{Binding Path=SelectedDate, ConverterCulture={x:Static gl:CultureInfo.CurrentCulture}, StringFormat=dd/MM/yyyy, RelativeSource={RelativeSource AncestorType={x:Type DatePicker}}}" />
 										</ControlTemplate>
 									</Setter.Value>
 								</Setter>
@@ -362,7 +361,8 @@
 						Style="{StaticResource TextBLockStyle}"
 						Text="Примечание:" />
 
-					<TextBox x:Name="textBox_Comment"
+					<TextBox
+						x:Name="textBox_Comment"
 						Grid.Row="17"
 						Grid.Column="0"
 						Grid.ColumnSpan="2"
