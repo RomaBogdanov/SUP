@@ -2576,10 +2576,7 @@ namespace SupRealClient.Views
                             .AsEnumerable().FirstOrDefault(arg =>
                             arg.Field<int>("f_user_id") ==
                             visit.Field<int>("f_rec_operator"))?["f_user"].ToString(),
-                        OrderNum = OrdersWrapper.CurrentTable().Table
-                            .AsEnumerable().FirstOrDefault(arg => arg.Field<int>
-                            ("f_ord_id") == visit.Field<int>("f_order_id"))
-                            ?["f_reg_number"].ToString(),
+                        OrderNum = Order.GetOrderNumber(visit.Field<int>("f_order_id")),
                         Comment = visit.Field<string>("f_visit_text"),
                         OrderId = visit.Field<int>("f_order_id"),
                         Orders = visit.Field<string>("f_orders"),

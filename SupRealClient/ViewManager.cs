@@ -305,8 +305,9 @@ namespace SupRealClient
 	        {
 		        if (openInCenterOfActive)
 		        {
-			        functionalWindow.Owner = Application.Current.Windows.OfType<Window>().SingleOrDefault(x => x.IsActive);
-			        functionalWindow.WindowStartupLocation = WindowStartupLocation.CenterOwner;
+					//Window activeParentWindow = Application.Current.Windows.OfType<Window>().SingleOrDefault(x => x.IsActive);
+					//functionalWindow.Owner = activeParentWindow;
+					//functionalWindow.WindowStartupLocation = WindowStartupLocation.CenterOwner;
 				}
 		        functionalWindow.ShowDialog();
 			}
