@@ -65,7 +65,7 @@ namespace SupRealClient.Views.Visitor
 
 			if (Set.Where(o => o.IsChecked).Count() == 0)
 			{
-				MessageBox.Show($"Количество выбранных заявок не больше быть равным нулю", "Предупреждение", MessageBoxButton.OK, MessageBoxImage.Warning);
+				MessageBox.Show($"Количество выбранных заявок не может быть равным нулю", "Предупреждение", MessageBoxButton.OK, MessageBoxImage.Warning);
 			}
 			else
 			{
