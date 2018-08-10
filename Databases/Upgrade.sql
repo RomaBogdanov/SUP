@@ -87,6 +87,7 @@ go
 UPDATE vis_visitors SET f_no_formular='N'
 go
 
+-- 10.08.18 - разнесение пропусков на 2 таблицы
 -- Обновление таблицы vis_cards, Создание vis_cards_ext
 
 use Visitors;
