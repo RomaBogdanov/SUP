@@ -1147,4 +1147,34 @@ namespace SupRealClient.TabsSingleton
         }
     }
 
+	/// <summary>
+	/// ??
+	/// </summary>
+	partial class CardsExtWrapper : TableWrapper
+	{
+		static CardsExtWrapper currentTable;
+
+        public static CardsExtWrapper CurrentTable()
+        {
+            if (currentTable == null)
+            {
+                currentTable = new CardsExtWrapper();
+                wrappers.Add(currentTable);
+            }
+            return currentTable;
+        }
+
+		public override void Dispose()
+        {
+            base.Dispose();
+            currentTable = null;
+        }
+
+        private CardsExtWrapper() : base()
+        {
+            this.table = connector.GetTable(TableName.VisCardsExt);
+            this.Subscribe();
+        }
+    }
+
 }

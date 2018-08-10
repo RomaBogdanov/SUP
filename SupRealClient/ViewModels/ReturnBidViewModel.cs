@@ -4,6 +4,7 @@ using SupRealClient.TabsSingleton;
 using SupRealClient.Views;
 using System;
 using System.Data;
+using System.Linq;
 using System.Windows;
 using System.Windows.Input;
 
@@ -77,18 +78,29 @@ namespace SupRealClient.ViewModels
                     MessageBoxButton.OK, MessageBoxImage.Error);
                 return;
             }
-            if (row.Field<int>("f_state_id") != 3)
+
+            DataRow row1 = CardsExtWrapper.CurrentTable().Table.AsEnumerable().FirstOrDefault(arg =>
+                    arg.Field<int>("f_object_id_lo") == row.Field<int>("f_object_id_lo") &&
+                    arg.Field<int>("f_object_id_hi") == row.Field<int>("f_object_id_hi"));
+            if (row1 == null)
+            {
+                MessageBox.Show("Пропуск не найден!", "Ошибка",
+                    MessageBoxButton.OK, MessageBoxImage.Error);
+                return;
+            }
+
+            if (row1.Field<int>("f_state_id") != 3)
             {
                 MessageBox.Show("Пропуск не выдан!", "Внимание",
                     MessageBoxButton.OK, MessageBoxImage.Warning);
                 return;
             }
 
-            row.BeginEdit();
-            row["f_rec_operator"] = Authorizer.AppAuthorizer.Id;
-            row["f_rec_date"] = DateTime.Now;
-            row["f_state_id"] = 1;
-            row.EndEdit();
+            row1.BeginEdit();
+            row1["f_rec_operator"] = Authorizer.AppAuthorizer.Id;
+            row1["f_rec_date"] = DateTime.Now;
+            row1["f_state_id"] = 1;
+            row1.EndEdit();
 
             foreach (DataRow r in VisitsWrapper.CurrentTable().Table.Rows)
             {

@@ -114,6 +114,8 @@ namespace SupRealClient.ViewModels
 
             this.Ok = new RelayCommand(arg => this.model.Ok(new Card
             {
+                CardIdHi = model.Data.CardIdHi,
+                CardIdLo = model.Data.CardIdLo,
                 CurdNum = CurdNum,
                 CreateDate = CreateDate,
                 NumMAFW = NumMAFW,

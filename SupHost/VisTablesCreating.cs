@@ -719,4 +719,25 @@ namespace SupHost
 			this.getTableBehavior = new VisTemplatesTableBehavior(); 
 		}
     }
+    /// <summary>
+    /// TableBehavior для Пропуска (дополнительная информация)
+    /// </summary>
+    partial class VisCardsExtTableBehavior : VisitorsDBTableBehavior
+    {
+        public VisCardsExtTableBehavior()
+        {
+            this.StandartSetup("vis_cards_ext", "f_card_id");
+        }
+    }
+
+    /// <summary>
+    /// TableWrapper для Пропуска (дополнительная информация)
+    /// </summary>
+	partial class VisCardsExtTableWrapper : AbstractTableWrapper
+    {
+        public VisCardsExtTableWrapper()
+        { 
+			this.getTableBehavior = new VisCardsExtTableBehavior(); 
+		}
+    }
 }

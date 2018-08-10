@@ -146,7 +146,7 @@ namespace SupRealClient.Andover
                     Id = c.Field<int>("f_card_id"),
                     CurdNum = c.Field<int>("f_card_num"),
                     Name = c.Field<string>("f_card_name"),
-                    Comment = c.Field<string>("f_comment"),
+                    //Comment = c.Field<string>("f_comment"),
 		
                 });
 

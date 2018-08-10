@@ -288,16 +288,7 @@ if OBJECT_ID('vis_cards') is not null
 
 CREATE TABLE vis_cards
     (f_card_id                     int NOT NULL,
-    f_state_id                     int,
 	f_card_name                    nvarchar(128),
-    f_card_text                    nvarchar(200),
-    f_last_visit_id                int,
-    f_deleted                      CHAR(1),
-    f_rec_date                     DATE,
-    f_rec_operator                 int,
-    f_create_date                  DATE,
-    f_lost_date                    DATE,
-    f_comment                      nvarchar(200),
     f_card_num                     int,
 	f_object_id_hi                 int,
     f_object_id_lo                 int,
@@ -311,11 +302,41 @@ ADD PRIMARY KEY (f_card_id)
 
 if not exists(select * from vis_cards where f_card_id = '0')
 begin
-	insert into vis_cards values ( '0', '0', '', '', '0', 'N', '', '0', '', '', '', '0', '0', '0', '', '', '')
+	insert into vis_cards values ( '0', '', '0', '0', '0', '', '', '')
 end
 go
 
+-- Создание vis_cards_ext
+-- Таблица с информацией по сущности "пропуска". Дополнительные данные.
 
+if OBJECT_ID('vis_cards_ext') is not null
+	drop table vis_cards_ext;
+
+create table vis_cards_ext
+(
+    f_card_id                      int not null,
+    f_object_id_hi                 int,
+    f_object_id_lo                 int,
+	f_state_id                     int,
+	f_card_text                    nvarchar(200),
+    f_last_visit_id                int,
+    f_deleted                      CHAR(1),
+    f_rec_date                     DATE,
+    f_rec_operator                 int,
+    f_create_date                  DATE,
+    f_lost_date                    DATE,
+    f_comment                      nvarchar(200)
+)
+
+alter table vis_cards_ext
+	add primary key (f_card_id)
+go
+
+if not exists(select * from vis_cards_ext where f_card_id = '0')
+begin
+	insert into vis_cards_ext values ('0', '0', '0', '0', '', '0', 'N', '', '0', '', '', '')
+end
+go
 
 -- Создание vis_card_area
 -- Таблица связи между картами доступа и областями доступа
