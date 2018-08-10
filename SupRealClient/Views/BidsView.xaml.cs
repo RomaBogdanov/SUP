@@ -175,6 +175,11 @@ namespace SupRealClient.Views
 		/// <param name="e"></param>
 		private void MainWindow_PreviewKeyDown(object sender, KeyEventArgs e)
 		{
+			if (e.Key != Key.Enter)
+			{
+				_previousEnterUiElement = null;
+			}
+
 			if (e.Key == Key.Escape)
 			{
 				if (btnCancel.IsEnabled) 
@@ -238,21 +243,6 @@ namespace SupRealClient.Views
 				comboMenu.SelectedIndex = (comboMenu.SelectedIndex - 1) < 0 ? comboMenu.Items.Count-1 : (comboMenu.SelectedIndex - 1);
 				e.Handled = true;
 			}
-			else if (e.Key == Key.Enter && !EnterUiElementsSequence.Any(x => x.Equals(FocusManager.GetFocusedElement(this))))
-			{
-				switch (comboMenu.SelectedIndex)
-				{
-					case 0:
-						dpSingleOrderDate.Focus();
-						break;
-					case 1:
-						btnTempOrderAdd.Focus();
-						break;
-					case 2:
-						dpVirtOrderFrom.Focus();
-						break;
-				}
-			}
 		}
 
 		private void DataGrid_OnMouseDown(object sender, MouseButtonEventArgs e)
@@ -262,7 +252,6 @@ namespace SupRealClient.Views
 			{
 				DataGridSingle.UnselectAllCells();
 				DataGridTemp.UnselectAllCells();
-				e.Handled = true;
 			}
 		}
 	}
