@@ -1527,9 +1527,17 @@ namespace AndoverAgent
 			sb.AppendLine();
 			sb.AppendLine(string.Format("Object : {0}", person.UiName));
 			sb.AppendLine(" Type : Personnel");
+			sb.AppendLine(string.Format("LastChange : {0}", DateTime.Now));
 			sb.AppendLine(string.Format(" Owner : {0}", person.Path.TrimEnd(new[] { '\\' })));
 			sb.AppendLine(string.Format(" Alias : {0}", person.Alias));
-			//sb.AppendLine(string.Format(" CardNumber : {0}", person.CardNum));
+			sb.AppendLine("CreatedBy : Root\\Acc");
+			sb.AppendLine(string.Format("ActivationDate : {0}", DateTime.Now.Date.ToString("dd.MM.yyyy")));
+			sb.AppendLine(string.Format("CardNumber : {0}",person.CardNum) );
+			sb.AppendLine("CardNumber2 : 0");
+			//sb.AppendLine(string.Format(" FirstName  : {0}", person.FirstName));
+			//sb.AppendLine(string.Format(" FullName   : {0}, {1}", person.FirstName, person.LastName));
+			//sb.AppendLine(string.Format(" LastName   : {0}", person.LastName));
+			sb.AppendLine(string.Format(" StartDate  : {0}", DateTime.Now.Date.ToString("dd.MM.yyyy")));
 			sb.AppendLine(" AreaLinks : ");
 
 			List<CAreaSchedulePair> areasPathsList = GetAreasPaths(person.AreaScheduleList);

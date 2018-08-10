@@ -522,6 +522,7 @@ namespace SupHost.Andover
 			var info = new PersonInfo
 			{
 				UiName = (string)card["f_card_name"],
+				CardNum =((int)card["f_card_num"]).ToString(),
 				Path = (string)card["f_card_path"],
 				Alias = (string)card["f_card_controller"],
 				//Areas = areaList.Select(a =>
