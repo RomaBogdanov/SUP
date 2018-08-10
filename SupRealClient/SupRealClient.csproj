@@ -147,6 +147,7 @@
     <Compile Include="Models\ChildWindowSettings.cs" />
     <Compile Include="Models\DocumentsHelper.cs" />
     <Compile Include="Models\IAddUpdateRegionModel.cs" />
+    <Compile Include="Models\OrdersHelper.cs" />
     <Compile Include="Models\OrganizationsHelper.cs" />
     <Compile Include="Models\RegionsHelper.cs" />
     <Compile Include="Models\VisitorsDocumentModel.cs" />

@@ -81,14 +81,14 @@
 				Grid.Row="1"
 				Grid.Column="0"
 				Margin="2"
+				GotFocus="GotFocus_FirstTabItemControls"
 				IsEnabled="{Binding Path=TextEnable, Mode=TwoWay}"
 				KeyDown="MoveNextFocusControl"
-				GotFocus="GotFocus_FirstTabItemControls"
-				Style="{StaticResource TextBoxStyle}"
-				Text="{Binding Path=Family, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" 
+				PreviewMouseDoubleClick="PrevMouseDown"
 				PreviewMouseDown="PrevMouseDown"
 				PreviewMouseLeftButtonDown="PrevMouseDown"
-				PreviewMouseDoubleClick="PrevMouseDown" />
+				Style="{StaticResource TextBoxStyle}"
+				Text="{Binding Path=Family, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
 
 			<TextBlock
 				Grid.Row="0"
@@ -356,8 +356,8 @@
 					Content="Нет формуляра"
 					IsChecked="{Binding Path=CurrentItem.IsNotFormular, Mode=TwoWay}"
 					IsEnabled="{Binding Path=TextEnable, Mode=TwoWay}"
-					KeyDown="MoveNextFocusControl_ToName" 
-					LostFocus="ControlLostFocus"/>
+					KeyDown="MoveNextFocusControl_ToName"
+					LostFocus="ControlLostFocus" />
 				<!--  IsChecked="{Binding Path=CurrentItem.IsNotFormular, Mode=TwoWay}"  -->
 			</StackPanel>
 		</Grid>
@@ -405,11 +405,11 @@
 								GotFocus="GotFocus_FirstTabItemControls"
 								IsEnabled="{Binding Path=TextEnable, Mode=TwoWay}"
 								KeyDown="MoveNextFocusControl"
-								Style="{StaticResource TextBoxStyle}"
-								Text="{Binding Path=CurrentItem.Telephone, Mode=TwoWay}" 
+								PreviewMouseDoubleClick="PrevMouseDown"
 								PreviewMouseDown="PrevMouseDown"
 								PreviewMouseLeftButtonDown="PrevMouseDown"
-								PreviewMouseDoubleClick="PrevMouseDown"/>
+								Style="{StaticResource TextBoxStyle}"
+								Text="{Binding Path=CurrentItem.Telephone, Mode=TwoWay}" />
 
 							<TextBlock
 								Grid.Row="1"
@@ -530,11 +530,11 @@
 									Grid.ColumnSpan="5"
 									BorderBrush="Black"
 									BorderThickness="1"
+									GotFocus="GotFocus_FirstTabItemControls"
 									IsEnabled="{Binding Path=EnableList_MainDocument, Mode=OneWay}"
 									ItemsSource="{Binding Path=CurrentItem.MainDocuments, Mode=OneWay}"
 									KeyDown="MoveNextFocusControl_ToName"
-									SelectedIndex="{Binding Path=SelectedMainDocument}"
-									GotFocus="GotFocus_FirstTabItemControls">
+									SelectedIndex="{Binding Path=SelectedMainDocument}">
 									<i:Interaction.Triggers>
 										<i:EventTrigger EventName="MouseDoubleClick">
 											<i:InvokeCommandAction Command="{Binding OpenMainDocumentCommand}" />
@@ -582,8 +582,8 @@
 										Command="{Binding RemoveMainDocumentCommand}"
 										Content="X"
 										IsEnabled="{Binding Path=ButtonEnable, Mode=TwoWay}"
-										Style="{StaticResource ButtonStyle}"
-										IsTabStop="False" />
+										IsTabStop="False"
+										Style="{StaticResource ButtonStyle}" />
 
 									<Button
 										Grid.Column="1"
@@ -592,8 +592,8 @@
 										Command="{Binding OpenMainDocumentCommand}"
 										Content="Просмотр"
 										IsEnabled="{Binding Path=EnableButton_OpenMainDocument, Mode=OneWay}"
-										Style="{StaticResource ButtonStyle}"
-										IsTabStop="False"/>
+										IsTabStop="False"
+										Style="{StaticResource ButtonStyle}" />
 
 								</Grid>
 
@@ -642,12 +642,12 @@
 										IsEnabled="{Binding Path=TextEnable, Mode=TwoWay}"
 										IsTabStop="False"
 										KeyDown="MoveNextFocusControl"
-										SelectedDate="{Binding Path=CurrentItem.AgreeToDate, Mode=TwoWay}"
-										Text="Дата"
+										LostFocus="ControlLostFocus"
+										PreviewMouseDoubleClick="PrevMouseDown"
 										PreviewMouseDown="PrevMouseDown"
 										PreviewMouseLeftButtonDown="PrevMouseDown"
-										PreviewMouseDoubleClick="PrevMouseDown"
-										LostFocus="ControlLostFocus">
+										SelectedDate="{Binding Path=CurrentItem.AgreeToDate, Mode=TwoWay}"
+										Text="Дата">
 										<DatePicker.Resources>
 											<Style TargetType="{x:Type DatePickerTextBox}">
 												<Setter Property="Control.Template">
@@ -1042,6 +1042,59 @@
 						</Grid>
 					</Grid>
 				</mah:MetroTabItem>
+				<mah:MetroTabItem
+					Header="Области доступа"
+					TabIndex="21"
+					Visibility="{Binding AccessVisibility, Converter={StaticResource BooleanToVisibilityConverter}}">
+					<DataGrid
+						Name="AreasDataGrid"
+						CanUserAddRows="False"
+						CanUserResizeColumns="False"
+						ItemsSource="{Binding Path=CurrentItem.OrderElements}"
+						MouseDown="DataGrid_OnMouseDown"
+						SelectedIndex="{Binding Path=SelectedOrderElement}"
+						Style="{StaticResource AzureDataGrid1}">
+						<DataGrid.Columns>
+							<DataGridTextColumn
+								Width=".75*"
+								Binding="{Binding Path=Organization}"
+								Header="Организация">
+								<DataGridTextColumn.ElementStyle>
+									<Style TargetType="TextBlock">
+										<Setter Property="TextTrimming" Value="CharacterEllipsis" />
+										<Setter Property="ToolTip" Value="{Binding Text, RelativeSource={RelativeSource Self}}" />
+									</Style>
+								</DataGridTextColumn.ElementStyle>
+							</DataGridTextColumn>
+							<DataGridTextColumn
+								Width="*"
+								Binding="{Binding Path=TemplateStringList, StringFormat=dd.MM.yyyy}"
+								Header="Шаблоны">
+								<DataGridTextColumn.ElementStyle>
+									<Style TargetType="TextBlock">
+										<Setter Property="TextWrapping" Value="Wrap" />
+										<Setter Property="ToolTip" Value="{Binding Text, RelativeSource={RelativeSource Self}}" />
+									</Style>
+								</DataGridTextColumn.ElementStyle>
+							</DataGridTextColumn>
+							<DataGridTextColumn
+								Width="*"
+								Binding="{Binding Path=AreaStringList, StringFormat=dd.MM.yyyy}"
+								Header="Зоны">
+								<DataGridTextColumn.ElementStyle>
+									<Style TargetType="TextBlock">
+										<Setter Property="TextWrapping" Value="Wrap" />
+										<Setter Property="ToolTip" Value="{Binding Text, RelativeSource={RelativeSource Self}}" />
+									</Style>
+								</DataGridTextColumn.ElementStyle>
+							</DataGridTextColumn>
+							<DataGridTextColumn Binding="{Binding Path=Schedule, StringFormat=dd.MM.yyyy}" Header="Расписание" />
+							<DataGridTextColumn Binding="{Binding Path=FromDateString, StringFormat=dd.MM.yyyy}" Header="От" />
+							<DataGridTextColumn Binding="{Binding Path=ToDateString, StringFormat=dd.MM.yyyy}" Header="До" />
+							<DataGridTextColumn Binding="{Binding Path=OrderName}" Header="№ заявки" />
+						</DataGrid.Columns>
+					</DataGrid>
+				</mah:MetroTabItem>
 			</mah:MetroAnimatedTabControl>
 		</Grid>
 
@@ -1336,14 +1389,14 @@
 				Grid.Column="3"
 				Margin="2"
 				Command="{Binding CancelCommand}"
+				GotFocus="GotFocus_FirstTabItemControls"
 				IsEnabled="{Binding Path=VisitorsEnable.CancelButtonEnable, Mode=TwoWay}"
 				KeyDown="MoveNextFocusControl"
+				LostFocus="ControlLostFocus"
 				Style="{StaticResource VisitorsSquareButtonStyle}"
 				TabIndex="{Binding Path=TabIndex, RelativeSource={RelativeSource AncestorType={x:Type mah:MetroWindow}}}"
 				ToolTip="Esc"
-				Visibility="{Binding Path=VisitorsVisible.CancelButtonEnable, Converter={StaticResource BooleanToVisibilityConverter}}"
-				GotFocus="GotFocus_FirstTabItemControls"
-				LostFocus="ControlLostFocus">
+				Visibility="{Binding Path=VisitorsVisible.CancelButtonEnable, Converter={StaticResource BooleanToVisibilityConverter}}">
 				<Grid>
 					<Grid.RowDefinitions>
 						<RowDefinition />

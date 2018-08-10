@@ -5,10 +5,13 @@ using System.Data;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Runtime.CompilerServices;
+using System.Text;
 using System.Windows;
 using SupRealClient.Annotations;
 using SupRealClient.TabsSingleton;
 using SupRealClient.Common;
+using SupRealClient.Models;
+using SupRealClient.Models.AddUpdateModel;
 
 namespace SupRealClient.EnumerationClasses
 {
@@ -75,20 +78,26 @@ namespace SupRealClient.EnumerationClasses
 			set
 			{
 				orderId = value;
-				// todo: пока неактуальный код, но без необходимости не удалять.
-				//		создавался для использования из под формы посетители, но пока вроде
-				//		функционал реализуется средствами формы.
-				/*DataRow row = OrdersWrapper.CurrentTable().Table.Rows.Find(orderId);
-				string type = EnumerationClasses.Order.GetOrderTypeString(OrSprOrderTypesWrapper.CurrentTable().Table.AsEnumerable()
-				    .FirstOrDefault(arg => arg.Field<int>("f_order_type_id") ==
-				    (int)row["f_order_type_id"])["f_order_text"].ToString());
-				int number = row.Field<int>("f_reg_number");
-				type = type.Length > 0 ? type : " ";
-				Order = number.ToString() + type[0];*/
+				if (orderId == 0)
+				{
+					return;
 				}
+				DataRow row = OrdersWrapper.CurrentTable().Table.Rows.Find(orderId);
+				if (row == null)
+				{
+					return;
+				}
+				OrderType = (OrderType)row.Field<int>("f_order_type_id");
+				OrderName = OrdersHelper.GetOrderNumber(row.Field<int>("f_ord_id"));
+			}
 		}
 
-		public string Order { get; set; }
+		public string OrderName { get; set; }
+		public OrderType OrderType
+		{
+			get;
+			set;
+		}
 
 		/// <summary>
 		/// Посетитель по id. Автоматически задает свойство полного имени посетителя.
@@ -139,18 +148,19 @@ namespace SupRealClient.EnumerationClasses
 			set
 			{
 				organizationId = value ?? 0;
-				DataRow row = OrganizationsWrapper.CurrentTable().Table
-					.AsEnumerable().FirstOrDefault(arg =>
-						arg.Field<int>("f_org_id") == organizationId);
-				if (row != null)
-				{
-					Organization = row["f_org_name"]?.ToString();
-				}
-				else
-				{
-					MessageBox.Show("Поле организации ссылается на несуществующую в базе организацию по id = " + organizationId, "Ошибка", MessageBoxButton.OK, MessageBoxImage.Error);
-					Organization = "";
-				}
+				Organization = OrganizationsHelper.GenerateFullName(organizationId, true);
+				//DataRow row = OrganizationsWrapper.CurrentTable().Table
+				//	.AsEnumerable().FirstOrDefault(arg =>
+				//		arg.Field<int>("f_org_id") == organizationId);
+				//if (row != null)
+				//{
+				//	Organization = row["f_org_name"]?.ToString();
+				//}
+				//else
+				//{
+				//	MessageBox.Show("Поле организации ссылается на несуществующую в базе организацию по id = " + organizationId, "Ошибка", MessageBoxButton.OK, MessageBoxImage.Error);
+				//	Organization = "";
+				//}
 			}
 		}
 
@@ -233,6 +243,10 @@ namespace SupRealClient.EnumerationClasses
 		/// </summary>
 		public bool IsDateTimeDisplayed { get; private set; } = true;
 
+		public string FromDateString => OrderType == OrderType.Single ? From.ToString("dd.MM.yyyy HH:mm:ss") : From.ToString("dd.MM.yyyy");
+
+		public string ToDateString => OrderType == OrderType.Single ? To.ToString("dd.MM.yyyy HH:mm:ss") : To.ToString("dd.MM.yyyy");
+
 		private DateTime from = DateTime.MinValue;
 
 		public DateTime From
@@ -244,6 +258,8 @@ namespace SupRealClient.EnumerationClasses
 				OnPropertyChanged();
 			}
 		}
+
+
 
 		public DateTime FromDate
 		{
@@ -313,9 +329,106 @@ namespace SupRealClient.EnumerationClasses
 		#endregion
 
 		#region Passes
-		public string TemplateIdList { get; set; } = "";
 
-		public string AreaIdList { get; set; } = "";
+		private string templateIdList = "";
+		public string TemplateIdList
+		{
+			get { return templateIdList; }
+			set
+			{
+				templateIdList = value;
+
+				StringBuilder st = new StringBuilder();
+				var allTemplates = new ObservableCollection<Template>(
+					from templates in TemplatesWrapper.CurrentTable().Table.AsEnumerable()
+					where templates.Field<int>("f_template_id") != 0 &&
+					      CommonHelper.NotDeleted(templates)
+					select new Template
+					{
+						Id = templates.Field<int>("f_template_id"),
+						Name = templates.Field<string>("f_template_name"),
+						Descript = templates.Field<string>("f_template_description"),
+					});
+
+				for ( int i = 0; i < allTemplates.Count; i++)
+				{
+					if (templateIdList.StartsWith(allTemplates[i].Id.ToString()) ||
+					    templateIdList.Contains(";" + allTemplates[i].Id))
+					{
+						st.Append(allTemplates[i].Name + ", ");
+					}
+				}
+
+				if (st.Length == 0)
+				{
+					TemplateStringList = "Нет";
+				}
+				else
+				{
+					st.Length -= 2;
+					TemplateStringList = st.ToString();
+				}
+
+				OnPropertyChanged(nameof(TemplateStringList));
+
+				OnPropertyChanged();
+			}
+		}
+
+		private string areaIdList = "";
+		public string AreaIdList
+		{
+			get { return areaIdList; }
+			set
+			{
+				areaIdList = value;
+
+				StringBuilder st = new StringBuilder();
+				var allAreas = new ObservableCollection<Area>(
+					from areas in AreasWrapper.CurrentTable().Table.AsEnumerable()
+					where areas.Field<int>("f_area_id") != 0 &&
+					      CommonHelper.NotDeleted(areas)
+					select new Area
+					{
+						Id = areas.Field<int>("f_area_id"),
+						Name = areas.Field<string>("f_area_name"),
+						Descript = areas.Field<string>("f_area_descript"),
+						ObjectIdHi = areas.Field<int>("f_object_id_hi"),
+						ObjectIdLo = areas.Field<int>("f_object_id_lo"),
+					});
+
+				for (int i = 0; i < allAreas.Count; i++)
+				{
+					string checkString1 = allAreas[i].ObjectIdHi + "," + allAreas[i].ObjectIdLo;
+					if (areaIdList.StartsWith(checkString1) ||
+					    areaIdList.Contains(";" + checkString1))
+					{
+						st.Append(allAreas[i].Name + ", ");
+					}
+				}
+
+				if (st.Length == 0)
+				{
+					AreaStringList = "Нет";
+				}
+				else
+				{
+					st.Length -=2;
+					AreaStringList = st.ToString();
+				}
+				OnPropertyChanged(nameof(AreaStringList));
+
+				OnPropertyChanged();
+			}
+		}
+
+		public string TemplateStringList
+		{
+			get;
+			private set;
+		}
+
+		public string AreaStringList { get; private set; }
 
 		private ObservableCollection<Template> _templates = new ObservableCollection<Template>();
 		public ObservableCollection<Template> Templates

@@ -5,6 +5,7 @@ using System.Collections.ObjectModel;
 using System.Collections.Specialized;
 using System.Text.RegularExpressions;
 using System.Windows;
+using SupRealClient.Models;
 using SupRealClient.TabsSingleton;
 
 namespace SupRealClient.EnumerationClasses
@@ -118,7 +119,7 @@ namespace SupRealClient.EnumerationClasses
 					                       TypeId);
 				if (row != null)
 				{
-					return Order.GetOrderTypeString(row["f_order_text"].ToString());
+					return OrdersHelper.GetOrderTypeString(row["f_order_text"].ToString());
 				}
 				else
 				{
@@ -149,24 +150,6 @@ namespace SupRealClient.EnumerationClasses
 				if (num != "") Number = Convert.ToInt32(num);
 
 			}
-		}
-
-		public static string GetOrderNumber(int orderId)
-		{
-			var order = OrdersWrapper.CurrentTable().Table.AsEnumerable().FirstOrDefault(arg => arg.Field<int>("f_ord_id") == orderId);
-			if (order == null)
-			{
-				return null;
-			}
-
-			var orderType = SprOrderTypesWrapper.CurrentTable().Table.AsEnumerable()
-				.FirstOrDefault(arg => arg.Field<int>("f_order_type_id") == order.Field<int>("f_order_type_id"));
-			if (orderType == null)
-			{
-				return order.Field<string>("f_reg_number");
-			}
-			string type = Order.GetOrderTypeString(orderType.Field<string>("f_order_text"));
-			return order.Field<DateTime>("f_new_rec_date").Year % 100 + "-" + order.Field<int>("f_reg_number") + "-" + type[0];
 		}
 
 		/// <summary>
@@ -380,22 +363,6 @@ namespace SupRealClient.EnumerationClasses
 
 			errorMessage = null;
 			return true;
-		}
-
-		/// <summary>
-		/// Костыль, связанный с тем, что в БД третьим типом заявок является бессрочная заявка, хотя от нее уже отказались.
-		/// Поскольку изменять базу данных на данный момент рискованно из-за возможности испортить какой-либо функционал, временно будет использоваться эта функция
-		/// </summary>
-		/// <param name="dbString"></param>
-		/// <returns></returns>
-		public static string GetOrderTypeString(string dbString)
-		{
-			if (dbString == "Бессрочная")
-			{
-				return "На основании";
-			}
-
-			return dbString;
 		}
 
 		public string CardState { get; set; }
