@@ -87,7 +87,7 @@ namespace SupRealClient.ViewModels
             get { return comment; }
             set
             {
-                comment = value;
+                comment = value?.TrimStart();
                 OnPropertyChanged("Comment");
             }
         }

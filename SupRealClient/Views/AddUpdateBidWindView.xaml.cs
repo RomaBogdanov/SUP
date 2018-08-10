@@ -103,6 +103,11 @@ namespace SupRealClient.Views
 		/// <param name="e"></param>
 	    private void Window_PreviewKeyDown(object sender, KeyEventArgs e)
 	    {
+		    if (e.Key != Key.Enter)
+		    {
+			    _previousEnterUiElement = null;
+		    }
+
 		    if (e.Key == Key.Escape)
 		    {
 			    Close();

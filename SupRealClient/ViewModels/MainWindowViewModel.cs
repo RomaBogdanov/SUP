@@ -355,8 +355,7 @@ namespace SupRealClient.ViewModels
             ClientConnector clientConnector = ClientConnector.CurrentConnector;
             if (clientConnector.ImportFromAndover())
             {
-                MessageBox.Show("Из Andover были загружены данные для следующих таблиц:\n" +
-                    "Точки доступа, Области доступа, Пропуска, Расписания", "",
+                MessageBox.Show("Из Andover были загружены данные для следующих таблиц:\r\n• Точки доступа\r\n• Области доступа\r\n• Пропуска\r\n• Расписания", "Информация",
                     MessageBoxButton.OK, MessageBoxImage.Information);
             }
             else

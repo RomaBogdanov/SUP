@@ -42,7 +42,7 @@ namespace SupRealClient.ViewModels
             {
                 if (value != null)
                 {
-                    type = value;
+                    type = value?.TrimStart();
                     OnPropertyChanged("Type");
                 }
             }
@@ -55,7 +55,7 @@ namespace SupRealClient.ViewModels
             {
                 if (value != null)
                 {
-                    name = value;
+                    name = value?.TrimStart();
                     OnPropertyChanged("Name");
                 }
             }
@@ -68,7 +68,7 @@ namespace SupRealClient.ViewModels
             {
                 if (value != null)
                 {
-                    comment = value;
+                    comment = value?.TrimStart();
                     OnPropertyChanged("Comment");
                 }
             }

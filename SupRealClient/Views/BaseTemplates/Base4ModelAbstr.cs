@@ -719,8 +719,16 @@ namespace SupRealClient.Views
 
 			selectedCard.Name = cardName;
 
-			// todo: Добавляем карту и персону в список визитов. Всё под рефакторинг!!!
-			DataRow row1 = VisitsWrapper.CurrentTable().Table.NewRow();
+            CardsWrapper cards = CardsWrapper.CurrentTable();
+            DataRow row = cards.Table.Rows.Find(selectedCard.Id);
+            row.BeginEdit();
+            row["f_rec_operator"] = Authorizer.AppAuthorizer.Id;
+            row["f_rec_date"] = DateTime.Now;
+            row["f_state_id"] = 3;
+            row.EndEdit();
+
+            // todo: Добавляем карту и персону в список визитов. Всё под рефакторинг!!!
+            DataRow row1 = VisitsWrapper.CurrentTable().Table.NewRow();
 			row1["f_card_id_hi"] = selectedCard.CardIdHi;
 			row1["f_card_id_lo"] = selectedCard.CardIdLo;
 			row1["f_visitor_id"] = visitorId; //todo: проставить id визитёра
@@ -745,27 +753,27 @@ namespace SupRealClient.Views
 			VisitsWrapper.CurrentTable().Table.Rows.Add(row1);
 
             var schedules = new List<Schedule>(
-               from row in SchedulesWrapper.CurrentTable().Table.AsEnumerable()
-               where row.Field<int>("f_schedule_id") != 0 &&
-               CommonHelper.NotDeleted(row)
+               from r in SchedulesWrapper.CurrentTable().Table.AsEnumerable()
+               where r.Field<int>("f_schedule_id") != 0 &&
+               CommonHelper.NotDeleted(r)
                select new Schedule
                {
-                   Id = row.Field<int>("f_schedule_id"),
-                   Name = row.Field<string>("f_schedule_name"),
-                   ObjectIdHi = row.Field<int>("f_object_id_hi"),
-                   ObjectIdLo = row.Field<int>("f_object_id_lo")
+                   Id = r.Field<int>("f_schedule_id"),
+                   Name = r.Field<string>("f_schedule_name"),
+                   ObjectIdHi = r.Field<int>("f_object_id_hi"),
+                   ObjectIdLo = r.Field<int>("f_object_id_lo")
                });
 
             var areas = new List<Area>(
-               from row in AreasWrapper.CurrentTable().Table.AsEnumerable()
-               where row.Field<int>("f_area_id") != 0 &&
-               CommonHelper.NotDeleted(row)
+               from r in AreasWrapper.CurrentTable().Table.AsEnumerable()
+               where r.Field<int>("f_area_id") != 0 &&
+               CommonHelper.NotDeleted(r)
                select new Area
                {
-                   Id = row.Field<int>("f_area_id"),
-                   Name = row.Field<string>("f_area_name"),
-                   ObjectIdHi = row.Field<int>("f_object_id_hi"),
-                   ObjectIdLo = row.Field<int>("f_object_id_lo"),
+                   Id = r.Field<int>("f_area_id"),
+                   Name = r.Field<string>("f_area_name"),
+                   ObjectIdHi = r.Field<int>("f_object_id_hi"),
+                   ObjectIdLo = r.Field<int>("f_object_id_lo"),
                    Schedule = ""
                });
 

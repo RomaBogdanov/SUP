@@ -28,7 +28,7 @@ namespace SupRealClient.ViewModels
 			{
 				if (value != null)
 				{
-					text = value;
+					text = value?.TrimStart();
 					OnPropertyChanged("Text");
 				}
 			}

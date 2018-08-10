@@ -18,5 +18,15 @@ namespace SupRealClient.Views
 
             AfterInitialize();
         }
+
+        bool oneShoot = false;
+        private void MetroWindow_PreviewMouseRightButtonUp(object sender, System.Windows.Input.MouseButtonEventArgs e)
+        {
+            if (!oneShoot)
+            {
+                oneShoot = true;
+                e.Handled = true;
+            }
+        }
     }
 }

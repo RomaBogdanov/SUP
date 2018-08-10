@@ -31,7 +31,7 @@ namespace SupRealClient.ViewModels
             {
                 if (value != null)
                 {
-                    field = value;
+                    field = value?.TrimStart();
                     OnPropertyChanged("Field");
                 }
             }

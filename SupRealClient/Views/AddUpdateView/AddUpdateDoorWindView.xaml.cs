@@ -60,6 +60,9 @@ namespace SupRealClient.Views.AddUpdateView
 
         private void TextBox_OnKeyUp(object sender, KeyEventArgs e)
         {
+            tbDescript.Text = tbDescript.Text.TrimStart();
+            tbDoorNum.Text = tbDoorNum.Text.TrimStart();
+
             if (e.Key == Key.Enter)
             {
                 ((UIElement)sender).MoveFocus(_focusMover);
