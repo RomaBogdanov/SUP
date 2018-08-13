@@ -42,6 +42,7 @@
         VisKeyCases,
         VisKeyHolders,
         VisCardArea,
-        VisTemplates
+        VisTemplates,
+        VisCardsExt
     }
 }

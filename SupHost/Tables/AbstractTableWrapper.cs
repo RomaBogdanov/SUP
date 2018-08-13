@@ -62,7 +62,8 @@ namespace SupHost
                 {TableName.VisKeyCases.ToString(), new VisKeyCasesTableWrapper()},
                 {TableName.VisKeyHolders.ToString(), new VisKeyHoldersTableWrapper()},
                 {TableName.VisCardArea.ToString(), new VisCardAreaTableWrapper() },
-                {TableName.VisTemplates.ToString(), new VisTemplatesTableWrapper() }
+                {TableName.VisTemplates.ToString(), new VisTemplatesTableWrapper() },
+                {TableName.VisCardsExt.ToString(), new VisCardsExtTableWrapper() }
             };
         }
 

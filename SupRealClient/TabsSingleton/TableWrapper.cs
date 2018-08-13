@@ -478,18 +478,7 @@ namespace SupRealClient.TabsSingleton
 	{
 		public override void AddRow<T>(T obj)
 		{
-			Card card = obj as Card;
-			if (card == null) return;
-			DataRow row = CurrentTable().Table.NewRow();
-			row["f_card_num"] = card.CurdNum;
-			row["f_create_date"] = card.CreateDate;
-			row["f_state_id"] = 1;
-			row["f_card_text"] = card.NumMAFW;
-			row["f_comment"] = card.Comment;
-			row["f_lost_date"] = DateTime.MinValue;
-			row["f_last_visit_id"] = 0;
-			StandartCols(row);
-			CurrentTable().Table.Rows.Add(row);
+            throw new NotImplementedException();
 		}
 	}
 }

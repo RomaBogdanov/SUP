@@ -2633,6 +2633,17 @@ namespace SupRealClient.Views
             }
             if (Set[index].Cards == null)
             {
+                var cardsExt = new List<Card2>(
+                    from ce in CardsExtWrapper.CurrentTable().Table.AsEnumerable()
+                    where ce.Field<int>("f_card_id") != 0 &&
+                    CommonHelper.NotDeleted(ce)
+                    select new Card2
+                    {
+                        CardIdHi = ce.Field<int>("f_object_id_hi"),
+                        CardIdLo = ce.Field<int>("f_object_id_lo"),
+                        StateId = ce.Field<int>("f_state_id")
+                    });
+
                 Set[index].Cards = new ObservableCollection<Card2>(
                     from card in CardsWrapper.CurrentTable().Table.AsEnumerable()
                     join visit in VisitsWrapper.CurrentTable().Table.AsEnumerable()
@@ -2642,6 +2653,8 @@ namespace SupRealClient.Views
                     visit.Field<string>("f_deleted") == "N"
                     select new Card2
                     {
+                        CardIdHi = card.Field<int>("f_object_id_hi"),
+                        CardIdLo = card.Field<int>("f_object_id_lo"),
                         Card = card.Field<string>("f_card_name"),
                         CardNumber = card.Field<int>("f_card_num").ToString(),
                         From = visit.Field<DateTime>("f_date_from"),
@@ -2655,8 +2668,27 @@ namespace SupRealClient.Views
                         Comment = visit.Field<string>("f_visit_text"),
                         OrderId = visit.Field<int>("f_order_id"),
                         Orders = visit.Field<string>("f_orders"),
-						StateId = card.Field<int>("f_state_id")
+						StateId = 1
 			});
+
+                foreach (var c in Set[index].Cards)
+                {
+                    Card2 ce = cardsExt.FirstOrDefault(r =>
+                        r.CardIdHi == c.CardIdHi && r.CardIdLo == c.CardIdLo);
+                    if (ce != null)
+                    {
+                        c.StateId = ce.StateId;
+                    }
+                }
+                foreach (var ce in cardsExt)
+                {
+                    var row = Set[index].Cards.FirstOrDefault(r =>
+                        r.CardIdHi == ce.CardIdHi && r.CardIdLo == ce.CardIdLo);
+                    if (row != null)
+                    {
+                        row.StateId = ce.StateId;
+                    }
+                }
             }
             foreach (var order in Set[index].Orders)
             {
