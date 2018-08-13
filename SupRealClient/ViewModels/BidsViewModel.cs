@@ -7,6 +7,7 @@ using System.Windows.Forms;
 using SupRealClient.EnumerationClasses;
 using SupRealClient.Models;
 using SupRealClient.Models.AddUpdateModel;
+using SupRealClient.Models.Helpers;
 using SupRealClient.ViewModels.AddUpdateViewModel;
 using SupRealClient.Views;
 using Application = System.Windows.Application;

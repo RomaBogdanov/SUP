@@ -1043,7 +1043,7 @@
 					</Grid>
 				</mah:MetroTabItem>
 				<mah:MetroTabItem
-					Header="Области доступа"
+					Header="Доступ"
 					TabIndex="21"
 					Visibility="{Binding AccessVisibility, Converter={StaticResource BooleanToVisibilityConverter}}">
 					<DataGrid

@@ -6,6 +6,7 @@ using System.Collections.Specialized;
 using System.Text.RegularExpressions;
 using System.Windows;
 using SupRealClient.Models;
+using SupRealClient.Models.Helpers;
 using SupRealClient.TabsSingleton;
 
 namespace SupRealClient.EnumerationClasses
@@ -325,45 +326,6 @@ namespace SupRealClient.EnumerationClasses
 
 		public ObservableCollection<OrderElement> AddedOrderElements { get; set; } =
 			new ObservableCollection<OrderElement>();
-
-		public bool IsOrderDataCorrect(OrderType orderType,out string errorMessage)
-		{
-			//if (OrderElements.Count < 1)
-			//{
-			//	errorMessage = "Заявка не содержит ни одного элемента.";
-			//	return false;
-			//}
-
-			if (orderType != EnumerationClasses.OrderType.Single && From > To)
-			{
-				errorMessage = "Неверные даты. Дата начала заявки раньше даты конца заявки.";
-				return false;
-			}
-
-			for (int i = 0; i < OrderElements.Count; i++)
-			{
-				if (orderType == EnumerationClasses.OrderType.Virtue)
-				{
-					if (string.IsNullOrEmpty(OrderElements[i].Reason))
-					{
-						errorMessage = "Отсутсвует основание.";
-						return false;
-					}
-				}
-
-				if (!OrderElements[i].IsOrderElementDataCorrect(out errorMessage, orderType == EnumerationClasses.OrderType.Virtue))
-				{
-					if (orderType != EnumerationClasses.OrderType.Virtue)
-					{
-						errorMessage = "Ошибка в элементе заявки " + (i + 1) + ": " + errorMessage;
-					}
-					return false;
-				}
-			}
-
-			errorMessage = null;
-			return true;
-		}
 
 		public string CardState { get; set; }
     }

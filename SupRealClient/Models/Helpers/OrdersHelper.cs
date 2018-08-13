@@ -7,10 +7,19 @@ using System.Threading.Tasks;
 using SupRealClient.EnumerationClasses;
 using SupRealClient.TabsSingleton;
 
-namespace SupRealClient.Models
+namespace SupRealClient.Models.Helpers
 {
+	/// <summary>
+	/// Класс общих статических функций для работы с классом заявок
+	/// </summary>
 	public static class OrdersHelper
 	{
+		/// <summary>
+		/// Возвращает строку номера заявки в принятом формате
+		/// При ошибке возвращает null
+		/// </summary>
+		/// <param name="orderId">Id заявки</param>
+		/// <returns></returns>
 		public static string GetOrderNumber(int orderId)
 		{
 			var order = OrdersWrapper.CurrentTable().Table.AsEnumerable().FirstOrDefault(arg => arg.Field<int>("f_ord_id") == orderId);
@@ -43,6 +52,39 @@ namespace SupRealClient.Models
 			}
 
 			return dbString;
+		}
+
+		public static bool IsOrderDataCorrect(this Order order, OrderType orderType, out string errorMessage)
+		{
+			if (orderType != OrderType.Single && order.From > order.To)
+			{
+				errorMessage = "Неверные даты. Дата начала заявки раньше даты конца заявки.";
+				return false;
+			}
+
+			for (int i = 0; i < order.OrderElements.Count; i++)
+			{
+				if (orderType == OrderType.Virtue)
+				{
+					if (string.IsNullOrEmpty(order.OrderElements[i].Reason))
+					{
+						errorMessage = "Отсутсвует основание.";
+						return false;
+					}
+				}
+
+				if (!order.OrderElements[i].IsOrderElementDataCorrect(out errorMessage, orderType == OrderType.Virtue))
+				{
+					if (orderType != OrderType.Virtue)
+					{
+						errorMessage = "Ошибка в элементе заявки " + (i + 1) + ": " + errorMessage;
+					}
+					return false;
+				}
+			}
+
+			errorMessage = null;
+			return true;
 		}
 	}
 }

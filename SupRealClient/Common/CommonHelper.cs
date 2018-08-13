@@ -15,29 +15,12 @@ namespace SupRealClient.Common
 
         public static bool StringToBool(string value)
         {
+	        if (value == null)
+	        {
+		        return false;
+	        }
             return value.ToUpper() == "Y";
         }
-
-	    public static string CardStateToSting(CardState state)
-	    {
-		    switch (state)
-		    {
-			    case CardState.Unknown:
-				    return  "Неизвестно";
-			    case CardState.Active:
-					return "Активен";
-			    case CardState.Inactive:
-					return "Неактивен";
-			    case CardState.Issued:
-				    return "Выдан";
-			    case CardState.Lost:
-				    return "Утерян";
-			    case CardState.Returnded:
-					return "Возвращен";
-			    default:
-				    return "Неизвестно";
-		    }
-		}
 
         public static bool NotDeleted(DataRow row)
         {

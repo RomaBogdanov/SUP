@@ -34,6 +34,7 @@ using SupRealClient.Common.Interfaces;
 using SupRealClient.EnumerationClasses;
 using SupRealClient.Models;
 using SupRealClient.Models.AddUpdateModel;
+using SupRealClient.Models.Helpers;
 using SupRealClient.TabsSingleton;
 using SupRealClient.ViewModels;
 using SupRealClient.Views.Visitor;
@@ -2541,7 +2542,7 @@ namespace SupRealClient.Views
 		    {
 			    Set[index].OrderElements = new ObservableCollection<OrderElement>(
 				    from row in OrderElementsWrapper.CurrentTable().Table.AsEnumerable()
-				    where row.Field<int>("f_visitor_id") == (index+1)
+				    where (row.Field<int>("f_visitor_id") == (index+1) && row.Field<string>("f_deleted") != "Y")
 				    select new OrderElement(false)
 				    {
 					    Id = row.Field<int>("f_oe_id"),
@@ -2555,7 +2556,7 @@ namespace SupRealClient.Views
 					    Passes = row.Field<string>("f_passes"),
 					    IsDisable = row.Field<string>("f_disabled").ToUpper() == "Y" ? true : false,
 					    IsBlock = CommonHelper.StringToBool(VisitorsWrapper.CurrentTable().Table.AsEnumerable()
-						    .Where(item => item.Field<int>("f_visitor_id") == row.Field<int>("f_visitor_id")).FirstOrDefault()
+						    .Where(item => item.Field<int>("f_visitor_id") == row.Field<int>("f_visitor_id"))?.FirstOrDefault()?
 						    .Field<string>("f_persona_non_grata")),
 					    IsCardIssued = true,
 					    Reason = row.Field<string>("f_other_org"),
@@ -2615,8 +2616,8 @@ namespace SupRealClient.Views
                                     To = row.Field<DateTime>("f_time_to"),
                                     IsDisable = row.Field<string>("f_disabled").ToUpper() == "Y" ? true : false,
                                     IsBlock = CommonHelper.StringToBool(VisitorsWrapper.CurrentTable().Table.AsEnumerable().
-                                        Where(item => item.Field<int>("f_visitor_id") == row.Field<int>("f_visitor_id")).
-                                        FirstOrDefault().Field<string>("f_persona_non_grata")),
+                                        Where(item => item.Field<int>("f_visitor_id") == row.Field<int>("f_visitor_id"))?.
+                                        FirstOrDefault()?.Field<string>("f_persona_non_grata")),
                                     IsCardIssued = true,
                                     Reason = row.Field<string>("f_other_org"),
                                     TemplateIdList = row.Field<string>("f_oe_templates"),
@@ -2626,7 +2627,7 @@ namespace SupRealClient.Views
                                         SchedulesWrapper.CurrentTable()
                                         .Table.AsEnumerable().FirstOrDefault(
                                             arg => arg.Field<int>("f_schedule_id") ==
-                                            row.Field<int>("f_schedule_id"))["f_schedule_name"].ToString(),
+                                            row.Field<int>("f_schedule_id"))?.Field<string>("f_schedule_name"),
                         })
                         });
             }
@@ -2659,7 +2660,7 @@ namespace SupRealClient.Views
             }
             foreach (var order in Set[index].Orders)
             {
-	            order.CardState = CommonHelper.CardStateToSting(CardState.Inactive);
+	            order.CardState = CardsHelper.CardStateToSting(CardState.Inactive);
 	            foreach (OrderElement element in order.OrderElements)
 	            {
 		            if (element.VisitorId == Set[index].Id)

@@ -67,6 +67,9 @@ namespace SupRealClient.EnumerationClasses
         public ObservableCollection<Card2> Cards { get; set; }
         public ObservableCollection<VisitorsMainDocument> MainDocuments { get; set; }
         public ObservableCollection<VisitorsDocument> Documents { get; set; }
+		/// <summary>
+		/// Список активных элементов заявок, касающихся данного посетителя
+		/// </summary>
 		public ObservableCollection<OrderElement> OrderElements { get; set; }
 
 

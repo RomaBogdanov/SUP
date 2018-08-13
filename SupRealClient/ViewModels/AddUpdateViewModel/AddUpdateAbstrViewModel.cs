@@ -14,6 +14,7 @@ using SupRealClient.TabsSingleton;
 using System.Data;
 using System.Linq;
 using SupRealClient.Common;
+using SupRealClient.Models.Helpers;
 
 namespace SupRealClient.ViewModels.AddUpdateViewModel
 {
