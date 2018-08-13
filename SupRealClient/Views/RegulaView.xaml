@@ -77,6 +77,11 @@
 					HorizontalAlignment="Left"
 					x:FieldModifier="private"
 					Style="{StaticResource TextBLockStyle}" />
+				<TextBlock
+					x:Name="BirthDateTextBlock"
+					HorizontalAlignment="Left"
+					x:FieldModifier="private"
+					Style="{StaticResource TextBLockStyle}" />
 			</StackPanel>
 
 			<StackPanel

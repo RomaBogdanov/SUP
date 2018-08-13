@@ -1,5 +1,7 @@
-﻿using System.IO;
+﻿using System;
+using System.IO;
 using System.Windows;
+using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using RegulaLib;
@@ -25,6 +27,7 @@ namespace SupRealClient.Views
 
 			ConfirmButton.Click += ConfirmButton_OnClick;
 			CancelButton.Click += CancelButton_OnClick;
+			KeyUp += RegulaView_OnKeyUp;
 			ViewPersonInfo(person);
 		}
 
@@ -35,6 +38,7 @@ namespace SupRealClient.Views
 			SurnameTextBlock.Text = person.Surname?.Value;
 			NameTextBlock.Text = person.Name?.Value;
 			PatronymicTextBlock.Text = person.Patronymic?.Value;
+			BirthDateTextBlock.Text = person.DateOfBirth?.Value;
 			
 			DocumentSeriaTextBlock.Text = person.DocumentSeria?.Value;
 			DocumentNumberTextBlock.Text = person.DocumentNumber?.Value;
@@ -80,9 +84,22 @@ namespace SupRealClient.Views
 
 		~RegulaView()
 		{
+			KeyUp -= RegulaView_OnKeyUp;
 			ConfirmButton.Click -= ConfirmButton_OnClick;
 			CancelButton.Click -= CancelButton_OnClick;
 		}
 
-}
+		private void RegulaView_OnKeyUp(object sender, KeyEventArgs e)
+		{
+			switch (e.Key)
+			{
+				case Key.Enter:
+					ClickHandler(true);
+					break;
+				case Key.Escape:
+					ClickHandler(false);
+					break;
+			}
+		}
+	}
 }

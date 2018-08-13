@@ -1567,6 +1567,18 @@ namespace AndoverAgent
 				fileWriteTimeOut = 1000;
 			}
 
+			var dumpFileDirectoryName = Path.GetDirectoryName(dumpFileName);
+			if (!Directory.Exists(dumpFileDirectoryName))
+			{
+				Directory.CreateDirectory(dumpFileName);
+			}
+
+			var tempFileDirectoryName = Path.GetDirectoryName(tempFileName);
+			if (!Directory.Exists(tempFileDirectoryName))
+			{
+				Directory.CreateDirectory(tempFileName);
+			}
+
 			File.WriteAllText(tempFileName, sb.ToString());
 
 			for (var i = 0; i < fileWriteTimeOut/100 && File.Exists(dumpFileName); i++)

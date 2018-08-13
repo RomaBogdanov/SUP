@@ -589,6 +589,7 @@ namespace SupRealClient.Views
 
 			RefreshCommand = new RelayCommand(arg => Refresh());
 
+		_documentScaner.KillRegulaProc();
             _documentScaner.ScanFinished += Scaner_ScanFinished;
 	    }
 
@@ -624,21 +625,34 @@ namespace SupRealClient.Views
 				    regulaView?.ShowDialog();
 			    });
 
-
 			    if (regulaView?.Result ?? false)
 			    {
-				    FillCurrentItemFieldsFromScan(e.Person);
-				    AddMainDocumentFromScan(e.Person);
-				    AddPortraitAndSignatureFromScan(e.Person);
-				    AddDocument(e.Person);
-				    OnPropertyChanged(nameof(CurrentItem));
+				    CommonTextFieldsSelectView textFieldsSelectWindow = null;
+				    (view as Window).Invoke(() =>
+				    {
+					    textFieldsSelectWindow = new CommonTextFieldsSelectView();
+					    textFieldsSelectWindow?.ShowDialog();
+				    });
+
+				    if (textFieldsSelectWindow?.Result ?? false)
+				    {
+					    var fields = EFields.None;
+
+					    (view as Window)?.Invoke(() => { fields = textFieldsSelectWindow.FieldsForSubstitution; });
+						
+					    FillCurrentItemFieldsFromScan(e.Person, fields.ToString().ToLower());
+					    AddPortraitAndSignatureFromScan(e.Person, fields.ToString().ToLower());
+					    AddMainDocumentFromScan(e.Person);
+					    AddDocument(e.Person);
+					    OnPropertyChanged(nameof(CurrentItem));
+				    }
 			    }
 		    }
 	    }
 
-	    private void AddPortraitAndSignatureFromScan(CPerson person)
+		private void AddPortraitAndSignatureFromScan(CPerson person, string fields)
 	    {
-		    AddImageSource(ImageType.Photo,null,person);
+		    AddImageSource(ImageType.Photo,null,person, fields.Contains("portrait"));
 	}
 
 	    private void AddDocument(CPerson person)
@@ -785,34 +799,30 @@ namespace SupRealClient.Views
 	    /// Заполнение полей CurrentItem из скана документа.
 	    /// </summary> 
 	    /// <param name="person"></param>
-	    private void FillCurrentItemFieldsFromScan(CPerson person)
+	    private void FillCurrentItemFieldsFromScan(CPerson person, string fields)
 	    {
-		    Name = person.Name?.Value;
-		    Family = person.Surname?.Value;
-		    Patronymic = person.Patronymic?.Value;
-		    CurrentItem.FullName = person.SurnmameAndName?.Value;
-		    CurrentItem.BirthDate = person.DateOfBirth?.Value;
-		    CurrentItem.DocType = person.DocumentClassCode?.Value;
-		    CurrentItem.DocNum = person.DocumentNumber?.Value;
-		    CurrentItem.DocPlace = person.DocumentDeliveryPlace?.Value;
-		    CurrentItem.DocCode = person.DocumentDeliveryPlaceCode?.Value;
-		    CurrentItem.Person = person;
-
-		    if (person.DocumentDeliveryDate?.Value != null)
+		    if (fields.Contains("surname"))
 		    {
-			    try
-			    {
-				    CurrentItem.DocDate = DateTime.Parse(person.DocumentDeliveryDate?.Value);
-			    }
-			    catch (FormatException)
-			    {
-				    //
-			    }
+			    Family = person.Surname?.Value;
+		    }
+
+		    if (fields.Contains("name"))
+		    {
+			    Name = person.Name?.Value;
+		    }
+
+		    if (fields.Contains("patronymic"))
+		    {
+			    Patronymic = person.Patronymic?.Value;
+		    }
+
+		    if (fields.Contains("birthdate"))
+		    {
+			    BirthDate = person.DateOfBirth?.Value;
 		    }
 	    }
 
-
-
+		
 	    /// <summary>
 		/// Конструктор с возможностью загрузки нового посетителя.
 		/// todo: скорее всего, под удаление.
@@ -1085,6 +1095,7 @@ namespace SupRealClient.Views
 
 
 			}
+			_documentScaner.Dispose();
 		}
 
         public void Cancel()
@@ -1112,9 +1123,10 @@ namespace SupRealClient.Views
             }
 
 	        IsRedactMode = false;
+		_documentScaner.Dispose();
 		}
 
-        private void AddImageSource(ImageType imageType, string name, CPerson person = null)
+        private void AddImageSource(ImageType imageType, string name, CPerson person = null, bool isPortraitForSubstit = false)
         {
 	        if (person == null)
 	        {
@@ -1130,7 +1142,7 @@ namespace SupRealClient.Views
 
 	        if (Model is BaseVisitsModel baseModel)
 	        {
-		        if (person.Portrait != null)
+		        if (person.Portrait != null && isPortraitForSubstit)
 		        {
 			        string fileName = baseModel.AddImageSource(person.Portrait, ImageType.Photo);
 			        AddImageToDocuments(_nameDocument_PhotoImageType, fileName);
@@ -1142,7 +1154,6 @@ namespace SupRealClient.Views
 			        AddImageToDocuments(_nameDocument_SignatureImageType, fileName);
 			}
 	        }
-			
 			Update_Fields();
 		}
 
