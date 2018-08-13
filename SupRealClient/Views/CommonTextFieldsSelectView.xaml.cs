@@ -2,6 +2,7 @@
 using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Input;
 
 namespace SupRealClient.Views
 {
@@ -16,6 +17,20 @@ namespace SupRealClient.Views
 		public CommonTextFieldsSelectView()
 		{
 			InitializeComponent();
+			KeyUp += CommonTextFieldsSelectView_KeyUp;
+		}
+
+		private void CommonTextFieldsSelectView_KeyUp(object sender, System.Windows.Input.KeyEventArgs e)
+		{
+			switch (e.Key)
+			{
+				case Key.Enter:
+					ClickHandler(true);
+					break;
+				case Key.Escape:
+					ClickHandler(false);
+					break;
+			}
 		}
 
 		private void OkClick(object sender, RoutedEventArgs e)
