@@ -548,7 +548,7 @@ namespace SupRealClient.EnumerationClasses
                     arg.Field<int>("f_object_id_lo") == cardIdLo[i] &&
                     arg.Field<int>("f_object_id_hi") == cardIdHi[i]);
 
-                CardState thisCardState = row1 == null ? (CardState)1 :
+                CardState thisCardState = row1 == null ? CardState.Active :
                     (CardState) row1.Field<int>("f_state_id");
 				if (thisCardState == CardState.Issued)
 				{
