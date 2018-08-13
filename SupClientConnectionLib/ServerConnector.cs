@@ -122,7 +122,7 @@ namespace SupClientConnectionLib
             return this.tableService.ImportFromAndover(authorizer.GetInfo());
         }
 
-        public bool ExportToAndover(AndoverExportData data)
+        public CExtraditionContract ExportToAndover(AndoverExportData data)
         {
             return this.tableService.ExportToAndover(data, authorizer.GetInfo());
         }

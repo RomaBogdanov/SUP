@@ -194,7 +194,7 @@ namespace SupRealClient.Andover
             };
 
             ClientConnector clientConnector = ClientConnector.CurrentConnector;
-            if (clientConnector.ExportToAndover(data))
+            if (clientConnector.ExportToAndover(data).Success??false)
             {
                 MessageBox.Show("Пропуск был выгружен в Andover", "Информация",
                     MessageBoxButton.OK, MessageBoxImage.Information);

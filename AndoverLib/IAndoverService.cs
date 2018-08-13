@@ -40,6 +40,6 @@ namespace AndoverLib
         bool ExportPersonsDmp(List<PersonInfo> persons);
 
         [OperationContract]
-        bool ExportPersonDmp(PersonInfo person);
+        CAndoverAgentCallback ExportPersonDmp(PersonInfo person);
     }
 }

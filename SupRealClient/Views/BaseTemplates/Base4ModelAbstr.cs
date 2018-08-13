@@ -1124,15 +1124,23 @@ namespace SupRealClient.Views
 			var data = new AndoverExportData
 			{
 				Card = selectedCard.Name,
-				SchedulesFromSameCAreaSchedules = dataForAndover
+				SchedulesFromSameCAreaSchedules = dataForAndover,
+				IsExtradition = true
 			};
 
 			var clientConnector = ClientConnector.CurrentConnector;
 
-			if (clientConnector.ExportToAndover(data))
+			var result = clientConnector.ExportToAndover(data);
+
+			if (result?.Success ?? false)
 			{
 				Cursor.Current = Cursors.Default;
-				System.Windows.MessageBox.Show("Пропуск был выгружен в Andover", "Информация",
+				var isExtraditionSuccess = result?.ExtraditionSuccess;
+
+				var resultString = isExtraditionSuccess ?? false ? "Пропуск был выгружен в Andover" : 
+					"Пропуск был выгружен в Andover.\nОдно или несколько расписаний (областей доступа) отсутствует в выгруженном файле";
+
+				System.Windows.MessageBox.Show(resultString, "Информация",
 					MessageBoxButton.OK, MessageBoxImage.Information);
 			}
 			else

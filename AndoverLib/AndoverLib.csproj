@@ -45,6 +45,7 @@
   <ItemGroup>
     <Compile Include="Area.cs" />
     <Compile Include="AreaLink.cs" />
+    <Compile Include="CAndoverAgentCallback.cs" />
     <Compile Include="CAreaScheduleLib.cs" />
     <Compile Include="Container.cs" />
     <Compile Include="Device.cs" />

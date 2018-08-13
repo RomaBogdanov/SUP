@@ -270,12 +270,19 @@ namespace SupHost
             return andoverManager.Import();
         }
 
-        public bool ExportToAndover(AndoverExportData data, OperationInfo info)
+        public CExtraditionContract ExportToAndover(AndoverExportData data, OperationInfo info)
         {
             logger.Info($"Экспорт данных в Andover", info);
 
             var andoverManager = new AndoverManager(info);
-            return andoverManager.Export(data);
+            var result = andoverManager.Export(data);
+
+		return new CExtraditionContract
+		{
+			Success = result.Success,
+			IsExtradition = result.IsExtradition,
+			ExtraditionSuccess = result.ExtraditionSuccess
+		};
         }
     }
 }

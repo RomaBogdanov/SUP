@@ -143,7 +143,8 @@ namespace SupRealClient.ViewModels
 			var data = new AndoverExportData
 			{
 				Card = cardName,
-				SchedulesFromSameCAreaSchedules = null
+				SchedulesFromSameCAreaSchedules = null,
+				IsExtradition = false
 			};
 
 			var clientConnector = ClientConnector.CurrentConnector;
@@ -151,7 +152,7 @@ namespace SupRealClient.ViewModels
 			//смена курсора
 			System.Windows.Forms.Cursor.Current = System.Windows.Forms.Cursors.WaitCursor;
 
-			if (clientConnector.ExportToAndover(data))
+			if (clientConnector.ExportToAndover(data).Success??false)
 			{
 				System.Windows.Forms.Cursor.Current = System.Windows.Forms.Cursors.Default;
 				System.Windows.MessageBox.Show("Возврат пропуска прошел успешно!", "Информация",

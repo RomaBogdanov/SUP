@@ -61,7 +61,7 @@ namespace SupHost.Andover
 			}
 		}
 
-		public bool Export(AndoverExportData data)
+		public CAndoverAgentCallback Export(AndoverExportData data)
 		{
 			try
 			{
@@ -78,7 +78,7 @@ namespace SupHost.Andover
 				}
 
 				logger.ErrorMessage(ex.Message + ex.StackTrace);
-				return false;
+				return new CAndoverAgentCallback(){Success = false};
 			}
 		}
 
@@ -422,7 +422,7 @@ namespace SupHost.Andover
 			return true;
 		}
 
-		private bool ExportData(AndoverExportData data)
+		private CAndoverAgentCallback ExportData(AndoverExportData data)
 		{
 			AndoverConnector connector = AndoverConnector.CurrentConnector;
 
@@ -442,9 +442,10 @@ namespace SupHost.Andover
 
 			if (card == null)
 			{
-				return false;
+				return new CAndoverAgentCallback(){Success = false};
 			}
 
+			#region Obsolete
 			//var areaList = new List<DataRow>();
 			//if (data.Doors.Any())
 			//{
@@ -491,6 +492,9 @@ namespace SupHost.Andover
 			//}
 
 			//var schedulesList = new List<DataRow>(); // TODO
+			
+			#endregion
+
 
 
 			var dataForAndoverAgent = new List<CAreaScheduleLib>();
@@ -517,9 +521,11 @@ namespace SupHost.Andover
 				Alias = (string)card["f_card_controller"],
 				//Areas = areaList.Select(a =>
 				//	(string)a["f_area_path"] + (string)a["f_area_name"]).ToList(),
-				AreaScheduleList = dataForAndoverAgent
+				AreaScheduleList = dataForAndoverAgent,
+				IsExtradition = data.IsExtradition
 			};
-			bool result = connector.AndoverService.ExportPersonDmp(info);
+
+			var result = connector.AndoverService.ExportPersonDmp(info);
 
 			return result;
 		}
