@@ -59,14 +59,18 @@ namespace SupRealClient.EnumerationClasses
         public int CabinetId { get; set; }
         public string Cabinet { get; set; }
 
-	/// <summary>
-	/// RegulaLib.CPerson
-	/// </summary>
-	public CPerson Person { get; set; }
-	public ObservableCollection<Order> Orders { get; set; }
+		/// <summary>
+		/// RegulaLib.CPerson
+		/// </summary>
+		public CPerson Person { get; set; }
+		public ObservableCollection<Order> Orders { get; set; }
         public ObservableCollection<Card2> Cards { get; set; }
         public ObservableCollection<VisitorsMainDocument> MainDocuments { get; set; }
         public ObservableCollection<VisitorsDocument> Documents { get; set; }
+		/// <summary>
+		/// Список активных элементов заявок, касающихся данного посетителя
+		/// </summary>
+		public ObservableCollection<OrderElement> OrderElements { get; set; }
 
 
 

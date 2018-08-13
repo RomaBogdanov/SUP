@@ -366,7 +366,7 @@ namespace SupRealClient.TabsSingleton
 							To = row.Field<DateTime>("f_time_to"),
 							Passes = row.Field<string>("f_passes"),
 							IsDisable = row.Field<string>("f_disabled").ToUpper() == "Y" ? true : false,
-							IsBlock = CommonHelper.StringToBool(VisitorsWrapper.CurrentTable().Table.AsEnumerable().Where(item => item.Field<int>("f_visitor_id") == row.Field<int>("f_visitor_id")).FirstOrDefault().Field<string>("f_persona_non_grata")),
+							IsBlock = CommonHelper.StringToBool(VisitorsWrapper.CurrentTable().Table.AsEnumerable().FirstOrDefault(item => item.Field<int>("f_visitor_id") == row.Field<int>("f_visitor_id"))?.Field<string>("f_persona_non_grata")),
 							IsCardIssued = true,
 							Reason = row.Field<string>("f_other_org"),
 							TemplateIdList = row.Field<string>("f_oe_templates"),
@@ -376,7 +376,7 @@ namespace SupRealClient.TabsSingleton
                                 SchedulesWrapper.CurrentTable()
                                 .Table.AsEnumerable().FirstOrDefault(
                                 arg => arg.Field<int>("f_schedule_id") ==
-                                row.Field<int>("f_schedule_id"))["f_schedule_name"].ToString(),
+                                row.Field<int>("f_schedule_id"))?.Field<string>("f_schedule_name"),
                         })
 				});
 			return orders;

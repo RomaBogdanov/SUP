@@ -1,7 +1,9 @@
 ﻿using System;
 using SupRealClient.Common.Interfaces;
 using System.Windows;
+using System.Windows.Controls;
 using System.Windows.Input;
+using System.Windows.Media;
 
 namespace SupRealClient.Views
 {
@@ -390,6 +392,15 @@ namespace SupRealClient.Views
 				{
 					_numberFocusBranch = 1;
 				}
+			}
+		}
+
+		private void DataGrid_OnMouseDown(object sender, MouseButtonEventArgs e)
+		{
+			HitTestResult result = VisualTreeHelper.HitTest(this, e.GetPosition(this));
+			if (result.VisualHit.GetType() != typeof(DataGridRow))
+			{
+				AreasDataGrid.UnselectAllCells();
 			}
 		}
 	}

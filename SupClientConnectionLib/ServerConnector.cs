@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Data;
 using System.ServiceModel;
+using System.ServiceModel.Dispatcher;
 using System.Xml;
 using SupContract;
 
@@ -152,7 +153,7 @@ namespace SupClientConnectionLib
         }
 
         public bool UpdateRow(object[] rowValues, int numRow)
-        {
+		{ 
             for (int i = 0; i < rowValues.Length; i++)
             {
                 if (rowValues[i] is DBNull)
