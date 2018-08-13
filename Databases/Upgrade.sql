@@ -86,3 +86,42 @@ go
 
 UPDATE vis_visitors SET f_no_formular='N'
 go
+
+-- 10.08.18 - разнесение пропусков на 2 таблицы
+-- Обновление таблицы vis_cards, Создание vis_cards_ext
+
+use Visitors;
+go
+
+ALTER TABLE vis_cards
+DROP COLUMN f_state_id, f_card_text, f_last_visit_id, f_deleted, f_rec_date, f_rec_operator, f_create_date, f_lost_date, f_comment
+go
+
+if OBJECT_ID('vis_cards_ext') is not null
+	drop table vis_cards_ext;
+
+create table vis_cards_ext
+(
+    f_card_id                      int not null,
+    f_object_id_hi                 int,
+    f_object_id_lo                 int,
+	f_state_id                     int,
+	f_card_text                    nvarchar(200),
+    f_last_visit_id                int,
+    f_deleted                      CHAR(1),
+    f_rec_date                     DATE,
+    f_rec_operator                 int,
+    f_create_date                  DATE,
+    f_lost_date                    DATE,
+    f_comment                      nvarchar(200)
+)
+
+alter table vis_cards_ext
+	add primary key (f_card_id)
+go
+
+if not exists(select * from vis_cards_ext where f_card_id = '0')
+begin
+	insert into vis_cards_ext values ( '0', '0', '0', '0', '', '0', 'N', '', '0', '', '', '')
+end
+go

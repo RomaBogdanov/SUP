@@ -146,7 +146,10 @@
     <Compile Include="Models\Bids\BidsModelBase.cs" />
     <Compile Include="Models\ChildWindowSettings.cs" />
     <Compile Include="Models\DocumentsHelper.cs" />
+    <Compile Include="Models\Helpers\CardsHelper.cs" />
+    <Compile Include="Models\Helpers\OrderElementsHelper.cs" />
     <Compile Include="Models\IAddUpdateRegionModel.cs" />
+    <Compile Include="Models\Helpers\OrdersHelper.cs" />
     <Compile Include="Models\OrganizationsHelper.cs" />
     <Compile Include="Models\RegionsHelper.cs" />
     <Compile Include="Models\VisitorsDocumentModel.cs" />

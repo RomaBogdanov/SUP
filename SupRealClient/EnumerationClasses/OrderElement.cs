@@ -5,10 +5,14 @@ using System.Data;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Runtime.CompilerServices;
+using System.Text;
 using System.Windows;
 using SupRealClient.Annotations;
 using SupRealClient.TabsSingleton;
 using SupRealClient.Common;
+using SupRealClient.Models;
+using SupRealClient.Models.AddUpdateModel;
+using SupRealClient.Models.Helpers;
 
 namespace SupRealClient.EnumerationClasses
 {
@@ -17,13 +21,26 @@ namespace SupRealClient.EnumerationClasses
 	/// </summary>
 	public class OrderElement : IdEntity, INotifyPropertyChanged, ICloneable
 	{
-		private int orderId;
-		private int visitorId;
-		private int organizationId;
-		private int catcherId;
-        private int scheduleId;
+		private int _orderId;
+		private int _visitorId;
+		private int _organizationId;
+		private int _catcherId;
+        private int _scheduleId;
 
-        private const int DefaultFromHour = 9;
+		private string _visitor = "";
+		private string _position = "";
+		private string _reason;
+		private DateTime _from = DateTime.MinValue;
+		private DateTime _to = DateTime.MinValue;
+		private string _templateIdList = "";
+		private string _areaIdList = "";
+		private string _schedule = "";
+
+		private bool _isBlock;
+		private CardState _cardState = CardState.Inactive;
+		private string _cardStateString;
+
+		private const int DefaultFromHour = 9;
 		private const int DefaultToHour = 18;
 
 		/// <summary>
@@ -56,52 +73,47 @@ namespace SupRealClient.EnumerationClasses
 		}
 
 		/// <summary>
-		/// Задать границы времени для OrderElement 
-		/// </summary>
-		/// <param name="isTimeEditable">Доступно ли пользователю редактирование времени</param>
-		/// <param name="from">Начало действия</param>
-		/// <param name="to">Конец действия</param>
-		public void SetAndBlockDates(bool isTimeEditable, DateTime from, DateTime to)
-		{
-
-		}
-
-		/// <summary>
 		/// Уникальный номер заявки
 		/// </summary>
 		public int OrderId
 		{
-			get => orderId;
+			get => _orderId;
 			set
 			{
-				orderId = value;
-				// todo: пока неактуальный код, но без необходимости не удалять.
-				//		создавался для использования из под формы посетители, но пока вроде
-				//		функционал реализуется средствами формы.
-				/*DataRow row = OrdersWrapper.CurrentTable().Table.Rows.Find(orderId);
-				string type = EnumerationClasses.Order.GetOrderTypeString(OrSprOrderTypesWrapper.CurrentTable().Table.AsEnumerable()
-				    .FirstOrDefault(arg => arg.Field<int>("f_order_type_id") ==
-				    (int)row["f_order_type_id"])["f_order_text"].ToString());
-				int number = row.Field<int>("f_reg_number");
-				type = type.Length > 0 ? type : " ";
-				Order = number.ToString() + type[0];*/
+				_orderId = value;
+				if (_orderId == 0)
+				{
+					return;
 				}
+				DataRow row = OrdersWrapper.CurrentTable().Table.Rows.Find(_orderId);
+				if (row == null)
+				{
+					return;
+				}
+				OrderType = (OrderType)row.Field<int>("f_order_type_id");
+				OrderName = OrdersHelper.GetOrderNumber(row.Field<int>("f_ord_id"));
+			}
 		}
 
-		public string Order { get; set; }
+		public string OrderName { get; set; }
+		public OrderType OrderType
+		{
+			get;
+			set;
+		}
 
 		/// <summary>
 		/// Посетитель по id. Автоматически задает свойство полного имени посетителя.
 		/// </summary>
 		public int VisitorId
 		{
-			get => visitorId;
+			get => _visitorId;
 			set
 			{
-				visitorId = value;
+				_visitorId = value;
 				DataRow row = VisitorsWrapper.CurrentTable().Table
 					.AsEnumerable().FirstOrDefault(arg =>
-						arg.Field<int>("f_visitor_id") == visitorId);
+						arg.Field<int>("f_visitor_id") == _visitorId);
 				if (row != null)
 				{
 					Visitor = row["f_full_name"].ToString();
@@ -110,22 +122,20 @@ namespace SupRealClient.EnumerationClasses
 				}
 				else
 				{
-					MessageBox.Show("Поле посетителя ссылается на несуществующего в базе посетителя по id = " + visitorId, "Ошибка", MessageBoxButton.OK, MessageBoxImage.Error);
+					MessageBox.Show("Поле посетителя ссылается на несуществующего в базе посетителя по id = " + _visitorId, "Ошибка", MessageBoxButton.OK, MessageBoxImage.Error);
 				}
 			}
 		}
-
-		private string visitor = "";
 
 		/// <summary>
 		/// Полное имя посетителя
 		/// </summary>
 		public string Visitor
 		{
-			get => visitor;
+			get => _visitor;
 			private set
 			{
-				visitor = value;
+				_visitor = value;
 				OnPropertyChanged();
 			}
 		}
@@ -135,22 +145,11 @@ namespace SupRealClient.EnumerationClasses
 		/// </summary>
 		public int? OrganizationId
 		{
-			get => organizationId;
+			get => _organizationId;
 			set
 			{
-				organizationId = value ?? 0;
-				DataRow row = OrganizationsWrapper.CurrentTable().Table
-					.AsEnumerable().FirstOrDefault(arg =>
-						arg.Field<int>("f_org_id") == organizationId);
-				if (row != null)
-				{
-					Organization = row["f_org_name"]?.ToString();
-				}
-				else
-				{
-					MessageBox.Show("Поле организации ссылается на несуществующую в базе организацию по id = " + organizationId, "Ошибка", MessageBoxButton.OK, MessageBoxImage.Error);
-					Organization = "";
-				}
+				_organizationId = value ?? 0;
+				Organization = OrganizationsHelper.GenerateFullName(_organizationId, true);
 			}
 		}
 
@@ -163,8 +162,6 @@ namespace SupRealClient.EnumerationClasses
 		/// Основная должность сотрудника
 		/// </summary>
 		public string VisitorMainPosition { get; set; } = "";
-
-		private string _position = "";
 
 		/// <summary>
 		/// Должность сотрудника в заявке
@@ -184,23 +181,11 @@ namespace SupRealClient.EnumerationClasses
 		/// </summary>
 		public int CatcherId
 		{
-			get => catcherId;
+			get => _catcherId;
 			set
 			{
-				catcherId = value;
-				DataRow row = VisitorsWrapper.CurrentTable().Table.AsEnumerable()
-					.FirstOrDefault(arg => arg.Field<int>("f_visitor_id") ==
-					                       catcherId);
-				if (row != null)
-				{
-					Catcher = row["f_full_name"]?.ToString();
-				}
-				else
-				{
-					MessageBox.Show("Поле принимающего лица ссылается на несуществующего в базе посетителя по id = " + catcherId, "Ошибка", MessageBoxButton.OK, MessageBoxImage.Error);
-					Catcher = "";
-				}
-				
+				_catcherId = value;
+				Catcher = GetStringFromDb(VisitorsWrapper.CurrentTable().Table, "f_visitor_id", _catcherId, "f_full_name");
 			}
 		}
 
@@ -208,9 +193,6 @@ namespace SupRealClient.EnumerationClasses
 		/// Полное имя сопровождающего
 		/// </summary>
 		public string Catcher { get; private set; } = "";
-
-
-		private string _reason;
 
 		/// <summary>
 		/// Оснвование. Использование дял заявок на основании
@@ -233,17 +215,28 @@ namespace SupRealClient.EnumerationClasses
 		/// </summary>
 		public bool IsDateTimeDisplayed { get; private set; } = true;
 
-		private DateTime from = DateTime.MinValue;
+		/// <summary>
+		/// Строка даты начала действия элемента заявки в корректном формате: с учетом часов, если они важны для заявки
+		/// </summary>
+		public string FromDateString => OrderType == OrderType.Single ? From.ToString("dd.MM.yyyy HH:mm:ss") : From.ToString("dd.MM.yyyy");
+
+		/// <summary>
+		/// Строка даты начала действия элемента заявки в корректном формате: с учетом часов, если они важны для заявки
+		/// </summary>
+		public string ToDateString => OrderType == OrderType.Single ? To.ToString("dd.MM.yyyy HH:mm:ss") : To.ToString("dd.MM.yyyy");
+
 
 		public DateTime From
 		{
-			get => from;
+			get => _from;
 			set
 			{
-				from = value;
+				_from = value;
 				OnPropertyChanged();
 			}
 		}
+
+
 
 		public DateTime FromDate
 		{
@@ -265,20 +258,17 @@ namespace SupRealClient.EnumerationClasses
 			}
 		}
 
-
-		private DateTime to = DateTime.MinValue;
-
 		public DateTime To
 		{
-			get => to;
+			get => _to;
 			set
 			{
-				to = value;
+				_to = value;
 				OnPropertyChanged();
 			}
 		}
 
-		private DateTime recDate = DateTime.MinValue;
+		private DateTime _recDate = DateTime.MinValue;
 
 		public DateTime ToDate
 		{
@@ -302,10 +292,10 @@ namespace SupRealClient.EnumerationClasses
 
 		public DateTime RecDate
 		{
-			get { return recDate; }
+			get { return _recDate; }
 			set
 			{
-				recDate = value;
+				_recDate = value;
 				OnPropertyChanged();
 			}
 		}
@@ -313,9 +303,104 @@ namespace SupRealClient.EnumerationClasses
 		#endregion
 
 		#region Passes
-		public string TemplateIdList { get; set; } = "";
 
-		public string AreaIdList { get; set; } = "";
+		public string TemplateIdList
+		{
+			get { return _templateIdList; }
+			set
+			{
+				_templateIdList = value;
+
+				StringBuilder st = new StringBuilder();
+				var allTemplates = new ObservableCollection<Template>(
+					from templates in TemplatesWrapper.CurrentTable().Table.AsEnumerable()
+					where templates.Field<int>("f_template_id") != 0 &&
+					      CommonHelper.NotDeleted(templates)
+					select new Template
+					{
+						Id = templates.Field<int>("f_template_id"),
+						Name = templates.Field<string>("f_template_name"),
+						Descript = templates.Field<string>("f_template_description"),
+					});
+
+				for ( int i = 0; i < allTemplates.Count; i++)
+				{
+					if (_templateIdList.StartsWith(allTemplates[i].Id.ToString()) ||
+					    _templateIdList.Contains(";" + allTemplates[i].Id))
+					{
+						st.Append(allTemplates[i].Name + ", ");
+					}
+				}
+
+				if (st.Length == 0)
+				{
+					TemplateStringList = "Нет";
+				}
+				else
+				{
+					st.Length -= 2;
+					TemplateStringList = st.ToString();
+				}
+
+				OnPropertyChanged(nameof(TemplateStringList));
+
+				OnPropertyChanged();
+			}
+		}
+
+		public string AreaIdList
+		{
+			get { return _areaIdList; }
+			set
+			{
+				_areaIdList = value;
+
+				StringBuilder st = new StringBuilder();
+				var allAreas = new ObservableCollection<Area>(
+					from areas in AreasWrapper.CurrentTable().Table.AsEnumerable()
+					where areas.Field<int>("f_area_id") != 0 &&
+					      CommonHelper.NotDeleted(areas)
+					select new Area
+					{
+						Id = areas.Field<int>("f_area_id"),
+						Name = areas.Field<string>("f_area_name"),
+						Descript = areas.Field<string>("f_area_descript"),
+						ObjectIdHi = areas.Field<int>("f_object_id_hi"),
+						ObjectIdLo = areas.Field<int>("f_object_id_lo"),
+					});
+
+				for (int i = 0; i < allAreas.Count; i++)
+				{
+					string checkString1 = allAreas[i].ObjectIdHi + "," + allAreas[i].ObjectIdLo;
+					if (_areaIdList.StartsWith(checkString1) ||
+					    _areaIdList.Contains(";" + checkString1))
+					{
+						st.Append(allAreas[i].Name + ", ");
+					}
+				}
+
+				if (st.Length == 0)
+				{
+					AreaStringList = "Нет";
+				}
+				else
+				{
+					st.Length -=2;
+					AreaStringList = st.ToString();
+				}
+				OnPropertyChanged(nameof(AreaStringList));
+
+				OnPropertyChanged();
+			}
+		}
+
+		public string TemplateStringList
+		{
+			get;
+			private set;
+		}
+
+		public string AreaStringList { get; private set; }
 
 		private ObservableCollection<Template> _templates = new ObservableCollection<Template>();
 		public ObservableCollection<Template> Templates
@@ -340,10 +425,8 @@ namespace SupRealClient.EnumerationClasses
 			}
 		}
 
-		private string _passes = NoPassesString;
-		public const string OnlyZonesPassesString = "Назначены зоны доступа";
-		public const string BothPassesString = "+ зоны доступа";
-		public const string NoPassesString = "Доступ не назначен";
+		private string _passes = OrderElementsHelper.NoPassesString;
+
 
 		private void SetupPassesString()
 		{
@@ -360,15 +443,15 @@ namespace SupRealClient.EnumerationClasses
 
 			if ((Templates == null || Templates.Count < 1) && (Areas != null && Areas.Count > 0))
 			{
-				st = OnlyZonesPassesString;
+				st = OrderElementsHelper.OnlyZonesPassesString;
 			}
 			if ((Areas != null && Areas.Count > 0) && (Templates != null && Templates.Count > 0))
 			{
-				st += " " + BothPassesString;
+				st += " " + OrderElementsHelper.BothPassesString;
 			}
 			if ((Areas == null || Areas.Count < 1) && (Templates == null || Templates.Count < 1))
 			{
-				st = NoPassesString;
+				st = OrderElementsHelper.NoPassesString;
 			}
 
 			Passes = st;
@@ -394,11 +477,9 @@ namespace SupRealClient.EnumerationClasses
 		/// </summary>
 		public bool IsDisable { get; set; }
 
-		private bool _isBlock;
-
 		public bool IsBlock
 		{
-			get { return _isBlock; }
+			get => _isBlock;
 			set
 			{
 				_isBlock = value;
@@ -409,7 +490,7 @@ namespace SupRealClient.EnumerationClasses
 
 		public string BlockingNote
 		{
-			get { return blockingNote; }
+			get => blockingNote;
 			set
 			{
 				blockingNote = value;
@@ -421,14 +502,14 @@ namespace SupRealClient.EnumerationClasses
 
 		#region CardState
 
-		private CardState _cardState = CardState.Inactive;
-		private string _cardStateString;
-
+		/// <summary>
+		/// Определяет актуальное состояяние пропуска для этого элемента заявки
+		/// </summary>
 		public void SetupCardState()
 		{
 			IEnumerable<DataRow> allVisits = VisitsWrapper.CurrentTable().Table.AsEnumerable().Where(arg => 
-				arg.Field<int>("f_visitor_id") == visitorId &&
-				arg.Field<int>("f_order_id") == orderId);
+				arg.Field<int>("f_visitor_id") == _visitorId &&
+				arg.Field<int>("f_order_id") == _orderId);
 			if (!allVisits.Any())
 			{
 				CardState = CardState.Inactive;
@@ -463,7 +544,12 @@ namespace SupRealClient.EnumerationClasses
 					continue;
 				}
 
-				CardState thisCardState = (CardState) row.Field<int>("f_state_id");
+                DataRow row1 = CardsExtWrapper.CurrentTable().Table.AsEnumerable().FirstOrDefault(arg =>
+                    arg.Field<int>("f_object_id_lo") == cardIdLo[i] &&
+                    arg.Field<int>("f_object_id_hi") == cardIdHi[i]);
+
+                CardState thisCardState = row1 == null ? CardState.Active :
+                    (CardState) row1.Field<int>("f_state_id");
 				if (thisCardState == CardState.Issued)
 				{
 					newCardState = CardState.Issued;
@@ -494,7 +580,7 @@ namespace SupRealClient.EnumerationClasses
 			set
 			{
 				_cardState = value;
-				CardStateString = CommonHelper.CardStateToSting(_cardState);
+				CardStateString = CardsHelper.CardStateToSting(_cardState);
 				OnPropertyChanged();
 			}
 		}
@@ -531,23 +617,15 @@ namespace SupRealClient.EnumerationClasses
 			PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
 		}
 
-		public object Clone()
-		{
-			return this.MemberwiseClone();
-		}
-
-
-		private string schedule = "";
-
         /// <summary>
         /// Название расписания
         /// </summary>
         public string Schedule
         {
-            get => schedule;
+            get => _schedule;
             set
             {
-                schedule = value;
+                _schedule = value;
                 OnPropertyChanged();
             }
         }
@@ -557,77 +635,33 @@ namespace SupRealClient.EnumerationClasses
 		/// </summary>
 		public int ScheduleId
         {
-            get { return scheduleId; }
+            get { return _scheduleId; }
             set
             {
-                scheduleId = value;
-                DataRow row = SchedulesWrapper.CurrentTable().Table
-                    .AsEnumerable().FirstOrDefault(arg =>
-                        arg.Field<int>("f_schedule_id") == scheduleId);
-	            if (row != null)
-	            {
-		            Schedule = row["f_schedule_name"].ToString();
-				}
-	            else
-	            {
-					MessageBox.Show("Поле расписания ссылается на несуществующее в базе расписание по id = " + scheduleId, "Ошибка", MessageBoxButton.OK, MessageBoxImage.Error);
-		            Catcher = "";
-				}
+                _scheduleId = value;
+	            Schedule = GetStringFromDb(SchedulesWrapper.CurrentTable().Table, "f_schedule_id", _scheduleId,
+		            "f_schedule_name");
             }
         }
 
-		/// <summary>
-		/// Проверяет корректность и полноту данных элемента заявки
-		/// </summary>
-		/// <param name="errorMessage">Если данные некорректные, содержит в себе строку ошибки</param>
-		/// <param name="isVirtueOrder"></param>
-		/// <returns></returns>
-        public bool IsOrderElementDataCorrect(out string errorMessage, bool isVirtueOrder = false)
-        {
-            if (VisitorId == 0)
-            {
-                errorMessage = "Не выбран посетитель.";
-                return false;
-            }
-
-            if (OrganizationId == 0)
-            {
-                errorMessage = "Не выбрана организация.";
-                return false;
-            }
-
-            if (string.IsNullOrEmpty(Position))
-            {
-                errorMessage = "Не указана должность.";
-                return false;
-            }
-
-	        if (!isVirtueOrder && string.IsNullOrEmpty(Catcher))
-	        {
-				errorMessage = "Не указано принимающее лицо.";
-		        return false;
-			}
-
-			if (string.IsNullOrEmpty(Passes) || Passes == NoPassesString)
+		private string GetStringFromDb(DataTable table, string idString, int id, string targetString)
+		{
+			DataRow row = table.AsEnumerable().FirstOrDefault(arg =>
+					arg.Field<int>(idString) == id);
+			if (row != null)
 			{
-				errorMessage = "Необходимо назначить доступ. Поле \"Проходы\".";
-				return false;
+				return row[targetString].ToString();
 			}
+			else
+			{
+				MessageBox.Show("Поле ссылается на несуществующую в базе строчку по id = " + id, "Ошибка", MessageBoxButton.OK, MessageBoxImage.Error);
+				return "";
+			}
+		}
 
-			if (From > To)
-            {
-                errorMessage = " \"Время от\" не может быть позже, чем \"Время до\"";
-                return false;
-            }
-
-            if (!CommonHelper.IsPositionCorrect(Position))
-            {
-                errorMessage = "Неверно введена должность.";
-                return false;
-            }
-
-            errorMessage = null;
-            return true;
-        }
-    }
+		public object Clone()
+		{
+			return this.MemberwiseClone();
+		}
+	}
 }

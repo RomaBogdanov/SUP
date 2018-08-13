@@ -5,6 +5,7 @@ using System.Windows.Controls;
 using System.Collections.ObjectModel;
 using SupRealClient.EnumerationClasses;
 using System.Data;
+using System.Linq;
 using System.Windows.Forms;
 using SupClientConnectionLib;
 using SupRealClient.Andover;
@@ -584,7 +585,22 @@ namespace SupRealClient.Views
 
         public override void Add()
         {
-            ViewManager.Instance.AddObject(new AddCardModel(), null);
+            if (MessageBox.Show(
+                "Данные будут загружены из Andover. Старые данные будут удалены. Продолжить?",
+                    "Внимание", MessageBoxButtons.YesNo, MessageBoxIcon.Information) == DialogResult.Yes)
+            {
+                ClientConnector clientConnector = ClientConnector.CurrentConnector;
+                if (clientConnector.ImportFromAndover())
+                {
+                    System.Windows.MessageBox.Show("Данные были загружены из Andover", "Информация",
+                        MessageBoxButton.OK, MessageBoxImage.Information);
+                }
+                else
+                {
+                    System.Windows.MessageBox.Show("Загрузка из Andover не удалась!", "Ошибка",
+                        MessageBoxButton.OK, MessageBoxImage.Error);
+                }
+            }
         }
 
         public override void Update()
@@ -600,14 +616,15 @@ namespace SupRealClient.Views
             DateTime d = new DateTime(2000, 1, 1);
             var cardsPersons =
                 from c in cardsWrapper.Table.AsEnumerable()
+                from ce in CardsExtWrapper.CurrentTable().Table.AsEnumerable()
                 from v in visitsWrapper.Table.AsEnumerable()
                 from p in visitorsWrapper.Table.AsEnumerable()
                 where c.Field<int>("f_card_id") != 0 &&
-                CommonHelper.NotDeleted(c) &&
+                CommonHelper.NotDeleted(ce) &&
                 c.Field<int>("f_object_id_hi") == v.Field<int>("f_card_id_hi") &&
                 c.Field<int>("f_object_id_lo") == v.Field<int>("f_card_id_lo") &&
                 v.Field<int>("f_visitor_id") == p.Field<int>("f_visitor_id") &&
-                c.Field<int>("f_state_id") == 3 &&
+                ce.Field<int>("f_state_id") == 3 &&
                 v.Field<int>("f_rec_operator_back") == 0
                 select new CardsPersons
                 {
@@ -616,31 +633,73 @@ namespace SupRealClient.Views
                     PersonName = p.Field<string>("f_full_name")
                 };
 
+            var cardsExt = new List<Card>(
+               from ce in CardsExtWrapper.CurrentTable().Table.AsEnumerable()
+               join s in sprCardstatesWrapper.Table.AsEnumerable()
+               on ce.Field<int>("f_state_id") equals s.Field<int>("f_state_id")
+               where ce.Field<int>("f_card_id") != 0 &&
+               CommonHelper.NotDeleted(ce)
+               select new Card
+               {
+                   CardIdHi = ce.Field<int>("f_object_id_hi"),
+                   CardIdLo = ce.Field<int>("f_object_id_lo"),
+                   CreateDate = ce.Field<DateTime>("f_create_date"),
+                   ChangeDate = ce.Field<DateTime>("f_rec_date"),
+                   Comment = ce.Field<string>("f_comment"),
+                   //NumMAFW = ce.Field<string>("f_card_text"),
+                   Lost = ce.Field<DateTime?>("f_lost_date") > d
+                       ? ce.Field<DateTime?>("f_lost_date") : null,
+                   State = s.Field<string>("f_state_text"),
+                   StateId = ce.Field<int>("f_state_id"),
+                   ReceiversName =
+                       (cardsPersons.FirstOrDefault(p =>
+                       p.IdCardHi == ce.Field<int>("f_object_id_hi") &&
+                       p.IdCardLo == ce.Field<int>("f_object_id_lo"))?
+                       .PersonName.ToString())
+               });
+
+            var states = new Dictionary<int, string>((
+               from s in sprCardstatesWrapper.Table.AsEnumerable()
+               select new
+               {
+                   A = s.Field<int>("f_state_id"),
+                   B = s.Field<string>("f_state_text"),
+               }).ToDictionary(o => o.A, o => o.B));
+
             Set = new ObservableCollection<T>(
                 from c in cardsWrapper.Table.AsEnumerable()
-                join s in sprCardstatesWrapper.Table.AsEnumerable()
-                on c.Field<int>("f_state_id") equals s.Field<int>("f_state_id")
-                where c.Field<int>("f_card_id") != 0 &&
-                CommonHelper.NotDeleted(c)
+                where c.Field<int>("f_card_id") != 0
                 select new T
                 {
                     Id = c.Field<int>("f_card_id"),
                     CardIdHi = c.Field<int>("f_object_id_hi"),
                     CardIdLo = c.Field<int>("f_object_id_lo"),
+                    Name = c.Field<string>("f_card_name"),
                     CurdNum = c.Field<int>("f_card_num"),
-                    CreateDate = c.Field<DateTime>("f_create_date"),
-                    ChangeDate = c.Field<DateTime>("f_rec_date"),
-                    Comment = c.Field<string>("f_comment"),
-                    Lost = c.Field<DateTime?>("f_lost_date") > d
-                        ? c.Field<DateTime?>("f_lost_date") : null,
-                    State = s.Field<string>("f_state_text"),
-                    StateId = c.Field<int>("f_state_id"),
-                    ReceiversName =
-                        (cardsPersons.FirstOrDefault(p =>
-                        p.IdCardHi == c.Field<int>("f_object_id_hi") &&
-                        p.IdCardLo == c.Field<int>("f_object_id_lo"))?
-                        .PersonName.ToString())
+                    CreateDate = DateTime.MinValue,
+                    ChangeDate = DateTime.MinValue,
+                    Comment = "",
+                    Lost = null,
+                    State = states.ContainsKey(1) ? states[1] : "",
+                    StateId = 1,
+                    ReceiversName = ""
                 });
+
+            foreach (var ce in cardsExt)
+            {
+                var row = Set.FirstOrDefault(r => r.CardIdHi == ce.CardIdHi &&
+                    r.CardIdLo == ce.CardIdLo);
+                if (row != null)
+                {
+                    row.CreateDate = ce.CreateDate;
+                    row.ChangeDate = ce.ChangeDate;
+                    row.Comment = ce.Comment;
+                    row.Lost = ce.Lost;
+                    row.State = ce.State;
+                    row.StateId = ce.StateId;
+                    row.ReceiversName = ce.ReceiversName;
+                }
+            }
         }
 
         public override bool Remove()
@@ -719,13 +778,34 @@ namespace SupRealClient.Views
 
 			selectedCard.Name = cardName;
 
-            CardsWrapper cards = CardsWrapper.CurrentTable();
-            DataRow row = cards.Table.Rows.Find(selectedCard.Id);
-            row.BeginEdit();
-            row["f_rec_operator"] = Authorizer.AppAuthorizer.Id;
-            row["f_rec_date"] = DateTime.Now;
-            row["f_state_id"] = 3;
-            row.EndEdit();
+            CardsExtWrapper cards = CardsExtWrapper.CurrentTable();
+            DataRow row = cards.Table.AsEnumerable().FirstOrDefault(arg =>
+                arg.Field<int>("f_object_id_lo") == selectedCard.CardIdLo &&
+                arg.Field<int>("f_object_id_hi") == selectedCard.CardIdHi);
+            if (row == null)
+            {
+                row = cards.Table.NewRow();
+                row["f_object_id_hi"] = selectedCard.CardIdHi;
+                row["f_object_id_lo"] = selectedCard.CardIdLo;
+                row["f_state_id"] = 3;
+                row["f_create_date"] = DateTime.Now;
+                row["f_card_text"] = "";
+                row["f_comment"] = "";
+                row["f_rec_operator"] = Authorizer.AppAuthorizer.Id;
+                row["f_rec_date"] = DateTime.Now;
+                row["f_lost_date"] = DateTime.MinValue;
+                row["f_last_visit_id"] = 0;
+                row["f_deleted"] = "N";
+                cards.Table.Rows.Add(row);
+            }
+            else
+            {
+                row.BeginEdit();
+                row["f_rec_operator"] = Authorizer.AppAuthorizer.Id;
+                row["f_rec_date"] = DateTime.Now;
+                row["f_state_id"] = 3;
+                row.EndEdit();
+            }
 
             // todo: Добавляем карту и персону в список визитов. Всё под рефакторинг!!!
             DataRow row1 = VisitsWrapper.CurrentTable().Table.NewRow();

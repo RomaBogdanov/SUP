@@ -366,7 +366,7 @@ namespace SupRealClient.TabsSingleton
 							To = row.Field<DateTime>("f_time_to"),
 							Passes = row.Field<string>("f_passes"),
 							IsDisable = row.Field<string>("f_disabled").ToUpper() == "Y" ? true : false,
-							IsBlock = CommonHelper.StringToBool(VisitorsWrapper.CurrentTable().Table.AsEnumerable().Where(item => item.Field<int>("f_visitor_id") == row.Field<int>("f_visitor_id")).FirstOrDefault().Field<string>("f_persona_non_grata")),
+							IsBlock = CommonHelper.StringToBool(VisitorsWrapper.CurrentTable().Table.AsEnumerable().FirstOrDefault(item => item.Field<int>("f_visitor_id") == row.Field<int>("f_visitor_id"))?.Field<string>("f_persona_non_grata")),
 							IsCardIssued = true,
 							Reason = row.Field<string>("f_other_org"),
 							TemplateIdList = row.Field<string>("f_oe_templates"),
@@ -376,7 +376,7 @@ namespace SupRealClient.TabsSingleton
                                 SchedulesWrapper.CurrentTable()
                                 .Table.AsEnumerable().FirstOrDefault(
                                 arg => arg.Field<int>("f_schedule_id") ==
-                                row.Field<int>("f_schedule_id"))["f_schedule_name"].ToString(),
+                                row.Field<int>("f_schedule_id"))?.Field<string>("f_schedule_name"),
                         })
 				});
 			return orders;
@@ -478,18 +478,7 @@ namespace SupRealClient.TabsSingleton
 	{
 		public override void AddRow<T>(T obj)
 		{
-			Card card = obj as Card;
-			if (card == null) return;
-			DataRow row = CurrentTable().Table.NewRow();
-			row["f_card_num"] = card.CurdNum;
-			row["f_create_date"] = card.CreateDate;
-			row["f_state_id"] = 1;
-			row["f_card_text"] = card.NumMAFW;
-			row["f_comment"] = card.Comment;
-			row["f_lost_date"] = DateTime.MinValue;
-			row["f_last_visit_id"] = 0;
-			StandartCols(row);
-			CurrentTable().Table.Rows.Add(row);
+            throw new NotImplementedException();
 		}
 	}
 }

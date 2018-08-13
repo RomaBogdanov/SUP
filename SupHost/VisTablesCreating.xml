@@ -34,4 +34,5 @@
   <Item Name="VisKeyHolders" TabName="vis_key_holder" ColId="f_key_holder_id" Comment="Ключницы" />
   <Item Name="VisCardArea" TabName="vis_card_area" ColId="f_ca_id" Comment="Связь между картой и областью" />
   <Item Name="VisTemplates" TabName="vis_templates" ColId="f_template_id" Comment="Шаблоны" />
+  <Item Name="VisCardsExt" TabName="vis_cards_ext" ColId="f_card_id" Comment="Пропуска (дополнительная информация)" />
 </Enum>

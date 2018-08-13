@@ -51,6 +51,7 @@
                  Text="{Binding Path=CurdNum, Mode=TwoWay}"
                  Margin="2"
                  TabIndex="0"
+                 IsReadOnly="True"
                  FontSize="{Binding FontSize}"            
                  Style="{StaticResource TextBoxStyle}"
                  KeyUp="TextBox_OnKeyUp"/>

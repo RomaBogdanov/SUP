@@ -15,6 +15,7 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Data;
+using System.Diagnostics;
 using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Text;
@@ -33,6 +34,7 @@ using SupRealClient.Common.Interfaces;
 using SupRealClient.EnumerationClasses;
 using SupRealClient.Models;
 using SupRealClient.Models.AddUpdateModel;
+using SupRealClient.Models.Helpers;
 using SupRealClient.TabsSingleton;
 using SupRealClient.ViewModels;
 using SupRealClient.Views.Visitor;
@@ -77,6 +79,7 @@ namespace SupRealClient.Views
         private int selectedMainDocument = -1;
         private int selectedDocument = -1;
         private int selectedCard = -1;
+	    private int selectedOrderElement = -1;
         private int selectedOrder = -1;
         private const string _nameDocument_PhotoImageType = "Личная фотография";
 	    private const string _nameDocument_SignatureImageType = "Личная подпись";
@@ -405,6 +408,20 @@ namespace SupRealClient.Views
                 OnPropertyChanged();
             }
         }
+
+	    public int SelectedOrderElement
+	    {
+		    get
+		    {
+			    return selectedOrderElement;
+		    }
+		    set
+		    {
+			    selectedOrderElement = value;
+			    OnPropertyChanged();
+		    }
+		}
+
 
         public int SelectedOrder
         {
@@ -1609,6 +1626,7 @@ namespace SupRealClient.Views
             VisitorsDocumentsWrapper.CurrentTable().OnChanged += EmptyQuery;
             ImageDocumentWrapper.CurrentTable().OnChanged += EmptyQuery;
             CardsWrapper.CurrentTable().OnChanged += UpdateCards;
+	        OrderElementsWrapper.CurrentTable().OnChanged += UpdateOrderElements;
         }
 
         public string PhotoSource { get; private set; }
@@ -1773,6 +1791,7 @@ namespace SupRealClient.Views
         }
 
         protected virtual void UpdateCards() { }
+		protected virtual void UpdateOrderElements() { }
 
         protected bool Validate()
 		{
@@ -2290,6 +2309,16 @@ namespace SupRealClient.Views
                 OrdersCardsToVisitor(index);
             }
         }
+
+	    protected override void UpdateOrderElements()
+	    {
+		    int index = Set.IndexOf(CurrentItem);
+		    if (index >= 0)
+		    {
+				OrderElementsToVisitors(index);
+		    }
+	    }
+
 	    public VisitsModel(int loadingVisitorIndex)
 	    {
 		    visitorsEnable =
@@ -2385,7 +2414,8 @@ namespace SupRealClient.Views
 		            selectedIndex = 0;
 
 				OrdersCardsToVisitor(selectedIndex);
-                DocumentsToVisitor(selectedIndex);
+	            OrderElementsToVisitors(selectedIndex);
+				DocumentsToVisitor(selectedIndex);
                 CurrentItem = Set[selectedIndex];
             }
         }
@@ -2402,6 +2432,7 @@ namespace SupRealClient.Views
 					selectedIndex = visitorIndex;
 
 				OrdersCardsToVisitor(selectedIndex);
+				OrderElementsToVisitors(selectedIndex);
 				DocumentsToVisitor(selectedIndex);
 				CurrentItem = Set[selectedIndex];
 			}
@@ -2417,7 +2448,8 @@ namespace SupRealClient.Views
 				    selectedIndex = Set.Count-1;
 
 			    OrdersCardsToVisitor(selectedIndex);
-			    DocumentsToVisitor(selectedIndex);
+			    OrderElementsToVisitors(selectedIndex);
+				DocumentsToVisitor(selectedIndex);
 			    CurrentItem = Set[selectedIndex];
 		    }
 	    }
@@ -2428,7 +2460,8 @@ namespace SupRealClient.Views
             {
                 selectedIndex = 0;
                 OrdersCardsToVisitor(selectedIndex);
-                DocumentsToVisitor(selectedIndex);
+	            OrderElementsToVisitors(selectedIndex);
+				DocumentsToVisitor(selectedIndex);
                 CurrentItem = Set[0];
             }
             return CurrentItem;
@@ -2440,7 +2473,8 @@ namespace SupRealClient.Views
             {
                 selectedIndex = Set.Count - 1;
                 OrdersCardsToVisitor(selectedIndex);
-                DocumentsToVisitor(selectedIndex);
+	            OrderElementsToVisitors(selectedIndex);
+				DocumentsToVisitor(selectedIndex);
                 CurrentItem = Set[selectedIndex];
             }
             return CurrentItem;
@@ -2452,7 +2486,8 @@ namespace SupRealClient.Views
             {
                 selectedIndex--;
                 OrdersCardsToVisitor(selectedIndex);
-                DocumentsToVisitor(selectedIndex);
+	            OrderElementsToVisitors(selectedIndex);
+				DocumentsToVisitor(selectedIndex);
                 CurrentItem = Set[selectedIndex];
             }
             return CurrentItem;
@@ -2466,7 +2501,8 @@ namespace SupRealClient.Views
                 {
                     selectedIndex = i;
                     OrdersCardsToVisitor(selectedIndex);
-                    DocumentsToVisitor(selectedIndex);
+	                OrderElementsToVisitors(selectedIndex);
+					DocumentsToVisitor(selectedIndex);
                     CurrentItem = Set[selectedIndex];
                     break;
                 }
@@ -2480,7 +2516,8 @@ namespace SupRealClient.Views
 		    {
 			    selectedIndex = index;
 			    OrdersCardsToVisitor(selectedIndex);
-			    DocumentsToVisitor(selectedIndex);
+			    OrderElementsToVisitors(selectedIndex);
+				DocumentsToVisitor(selectedIndex);
 			    CurrentItem = Set[selectedIndex];
 		    }
 
@@ -2493,7 +2530,8 @@ namespace SupRealClient.Views
             {
                 selectedIndex++;
                 OrdersCardsToVisitor(selectedIndex);
-                DocumentsToVisitor(selectedIndex);
+	            OrderElementsToVisitors(selectedIndex);
+				DocumentsToVisitor(selectedIndex);
                 CurrentItem = Set[selectedIndex];
             }
             return CurrentItem;
@@ -2508,6 +2546,43 @@ namespace SupRealClient.Views
         {
             throw new NotImplementedException();
         }
+
+	    private void OrderElementsToVisitors(int index)
+	    {
+		    if (Set[index].OrderElements == null)
+		    {
+			    Set[index].OrderElements = new ObservableCollection<OrderElement>(
+				    from row in OrderElementsWrapper.CurrentTable().Table.AsEnumerable()
+				    where (row.Field<int>("f_visitor_id") == (index+1) && row.Field<string>("f_deleted") != "Y")
+				    select new OrderElement(false)
+				    {
+					    Id = row.Field<int>("f_oe_id"),
+					    OrderId = row.Field<int>("f_ord_id"),
+					    VisitorId = row.Field<int>("f_visitor_id"),
+					    OrganizationId = row.Field<int?>("f_org_id"),
+					    Position = row.Field<string>("f_position"),
+					    CatcherId = row.Field<int>("f_catcher_id"),
+					    From = row.Field<DateTime>("f_time_from"),
+					    To = row.Field<DateTime>("f_time_to"),
+					    Passes = row.Field<string>("f_passes"),
+					    IsDisable = row.Field<string>("f_disabled").ToUpper() == "Y" ? true : false,
+					    IsBlock = CommonHelper.StringToBool(VisitorsWrapper.CurrentTable().Table.AsEnumerable()
+						    .Where(item => item.Field<int>("f_visitor_id") == row.Field<int>("f_visitor_id"))?.FirstOrDefault()?
+						    .Field<string>("f_persona_non_grata")),
+					    IsCardIssued = true,
+					    Reason = row.Field<string>("f_other_org"),
+					    TemplateIdList = row.Field<string>("f_oe_templates"),
+					    AreaIdList = row.Field<string>("f_oe_areas"),
+					    ScheduleId = row.Field<int>("f_schedule_id"),
+					    Schedule = row.Field<int>("f_schedule_id") == 0
+						    ? ""
+						    : SchedulesWrapper.CurrentTable()
+							    .Table.AsEnumerable().FirstOrDefault(
+								    arg => arg.Field<int>("f_schedule_id") ==
+								           row.Field<int>("f_schedule_id"))["f_schedule_name"].ToString(),
+				    });
+		    }
+		}
 
         private void OrdersCardsToVisitor(int index)
         {
@@ -2552,8 +2627,8 @@ namespace SupRealClient.Views
                                     To = row.Field<DateTime>("f_time_to"),
                                     IsDisable = row.Field<string>("f_disabled").ToUpper() == "Y" ? true : false,
                                     IsBlock = CommonHelper.StringToBool(VisitorsWrapper.CurrentTable().Table.AsEnumerable().
-                                        Where(item => item.Field<int>("f_visitor_id") == row.Field<int>("f_visitor_id")).
-                                        FirstOrDefault().Field<string>("f_persona_non_grata")),
+                                        Where(item => item.Field<int>("f_visitor_id") == row.Field<int>("f_visitor_id"))?.
+                                        FirstOrDefault()?.Field<string>("f_persona_non_grata")),
                                     IsCardIssued = true,
                                     Reason = row.Field<string>("f_other_org"),
                                     TemplateIdList = row.Field<string>("f_oe_templates"),
@@ -2563,12 +2638,23 @@ namespace SupRealClient.Views
                                         SchedulesWrapper.CurrentTable()
                                         .Table.AsEnumerable().FirstOrDefault(
                                             arg => arg.Field<int>("f_schedule_id") ==
-                                            row.Field<int>("f_schedule_id"))["f_schedule_name"].ToString(),
+                                            row.Field<int>("f_schedule_id"))?.Field<string>("f_schedule_name"),
                         })
                         });
             }
             if (Set[index].Cards == null)
             {
+                var cardsExt = new List<Card2>(
+                    from ce in CardsExtWrapper.CurrentTable().Table.AsEnumerable()
+                    where ce.Field<int>("f_card_id") != 0 &&
+                    CommonHelper.NotDeleted(ce)
+                    select new Card2
+                    {
+                        CardIdHi = ce.Field<int>("f_object_id_hi"),
+                        CardIdLo = ce.Field<int>("f_object_id_lo"),
+                        StateId = ce.Field<int>("f_state_id")
+                    });
+
                 Set[index].Cards = new ObservableCollection<Card2>(
                     from card in CardsWrapper.CurrentTable().Table.AsEnumerable()
                     join visit in VisitsWrapper.CurrentTable().Table.AsEnumerable()
@@ -2578,6 +2664,8 @@ namespace SupRealClient.Views
                     visit.Field<string>("f_deleted") == "N"
                     select new Card2
                     {
+                        CardIdHi = card.Field<int>("f_object_id_hi"),
+                        CardIdLo = card.Field<int>("f_object_id_lo"),
                         Card = card.Field<string>("f_card_name"),
                         CardNumber = card.Field<int>("f_card_num").ToString(),
                         From = visit.Field<DateTime>("f_date_from"),
@@ -2587,16 +2675,35 @@ namespace SupRealClient.Views
                             .AsEnumerable().FirstOrDefault(arg =>
                             arg.Field<int>("f_user_id") ==
                             visit.Field<int>("f_rec_operator"))?["f_user"].ToString(),
-                        OrderNum = Order.GetOrderNumber(visit.Field<int>("f_order_id")),
+                        OrderNum = OrdersHelper.GetOrderNumber(visit.Field<int>("f_order_id")),
                         Comment = visit.Field<string>("f_visit_text"),
                         OrderId = visit.Field<int>("f_order_id"),
                         Orders = visit.Field<string>("f_orders"),
-						StateId = card.Field<int>("f_state_id")
+						StateId = 1
 			});
+
+                foreach (var c in Set[index].Cards)
+                {
+                    Card2 ce = cardsExt.FirstOrDefault(r =>
+                        r.CardIdHi == c.CardIdHi && r.CardIdLo == c.CardIdLo);
+                    if (ce != null)
+                    {
+                        c.StateId = ce.StateId;
+                    }
+                }
+                foreach (var ce in cardsExt)
+                {
+                    var row = Set[index].Cards.FirstOrDefault(r =>
+                        r.CardIdHi == ce.CardIdHi && r.CardIdLo == ce.CardIdLo);
+                    if (row != null)
+                    {
+                        row.StateId = ce.StateId;
+                    }
+                }
             }
             foreach (var order in Set[index].Orders)
             {
-	            order.CardState = CommonHelper.CardStateToSting(CardState.Inactive);
+	            order.CardState = CardsHelper.CardStateToSting(CardState.Inactive);
 	            foreach (OrderElement element in order.OrderElements)
 	            {
 		            if (element.VisitorId == Set[index].Id)
