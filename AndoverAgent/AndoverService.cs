@@ -1557,13 +1557,17 @@ namespace AndoverAgent
 				{
 					for (var i = 0; i < areasPathsList.Count; i++)
 					{
+						var areaPath = string.IsNullOrEmpty(areasPathsList[i].AreaPath) ? null : areasPathsList[i].AreaPath;
+						var schedulePath = string.IsNullOrEmpty(areasPathsList[i].SchedulePath) ? null : areasPathsList[i].SchedulePath;
+
+
 						sb.AppendLine(string.Format(
-							"  {0} : Enabled : False :{1} : 01.01.1989 ;0 ", areasPathsList[i].AreaPath, areasPathsList[i].SchedulePath));
+							"  {0} : Enabled : False :{1} : 01.01.1989 ;0 ", areaPath, schedulePath));
 
 						if (_isExtraditionSuccess)
 						{
-							_isExtraditionSuccess = !string.IsNullOrEmpty(areasPathsList[i].AreaPath) &&
-							                        !string.IsNullOrEmpty(areasPathsList[i].SchedulePath);
+							_isExtraditionSuccess = !string.IsNullOrEmpty(areaPath) &&
+							                        !string.IsNullOrEmpty(schedulePath);
 						}
 					}
 				}
