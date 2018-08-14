@@ -492,26 +492,28 @@ namespace SupHost.Andover
 			//}
 
 			//var schedulesList = new List<DataRow>(); // TODO
-			
+
 			#endregion
 
-
-
 			var dataForAndoverAgent = new List<CAreaScheduleLib>();
-			foreach (var item in data.SchedulesFromSameCAreaSchedules)
-			{
-				dataForAndoverAgent.Add(new CAreaScheduleLib
-				{
-					AreaName = item.AreaName,
-					ScheduleName = item.ScheduleName,
-					AreaIdHi = item.AreaIdHi,
-					AreaIdLo = item.AreaIdLo,
-					SelectedItemIndex = item.SelectedItemIndex,
-					SchedulesFromSameCAreaSchedules = item.SchedulesFromSameCAreaSchedules,
-					TestString = item.TestString,
-				});
-			}
 
+			if (data.SchedulesFromSameCAreaSchedules!=null)
+			{
+				foreach (var item in data.SchedulesFromSameCAreaSchedules)
+				{
+					dataForAndoverAgent.Add(new CAreaScheduleLib
+					{
+						AreaName = item.AreaName,
+						ScheduleName = item.ScheduleName,
+						AreaIdHi = item.AreaIdHi,
+						AreaIdLo = item.AreaIdLo,
+						SelectedItemIndex = item.SelectedItemIndex,
+						SchedulesFromSameCAreaSchedules = item.SchedulesFromSameCAreaSchedules,
+						TestString = item.TestString,
+					});
+				}
+			}
+			
 
 			var info = new PersonInfo
 			{
