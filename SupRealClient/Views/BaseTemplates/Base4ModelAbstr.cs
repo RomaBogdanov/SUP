@@ -447,11 +447,11 @@ namespace SupRealClient.Views
 
         public override bool Remove()
         {
-            //TODO: доработать функционал проверка/и отмены удаления
-
-            DataRow row =
-                OrganizationsWrapper.CurrentTable().Table.Rows.Find(currentItem.Id);
-            row["f_deleted"] = CommonHelper.BoolToString(true);
+            OrganizationsWrapper organizations =
+               OrganizationsWrapper.CurrentTable();
+            DataRow row = organizations.Table.Rows.Find(
+                (this.CurrentItem as Organization).Id);
+            row["f_is_basic"] = "N";
 
             return true;
         }
@@ -537,11 +537,11 @@ namespace SupRealClient.Views
 
         public override bool Remove()
         {
-            //TODO: доработать функционал, для проверок отмены удаления
-
-            DataRow row =
-                OrganizationsWrapper.CurrentTable().Table.Rows.Find(currentItem.Id);
-            row["f_deleted"] = CommonHelper.BoolToString(true);
+            OrganizationsWrapper organizations =
+                OrganizationsWrapper.CurrentTable();
+            DataRow row = organizations.Table.Rows.Find(
+                (this.CurrentItem as Organization).Id);
+            row["f_has_free_access"] = "N";
 
             return true;
         }
