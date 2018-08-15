@@ -527,7 +527,7 @@ namespace SupRealClient.Views
 	    /// <summary>
 	    /// Сканер документов.
 	    /// </summary>
-	    private readonly CDocumentScaner _documentScaner = CDocumentScaner.GetInstance();
+	    internal readonly CDocumentScaner DocumentScaner = CDocumentScaner.GetInstance();
 
 		public ChildWinSet WinSet { get; set; }
 
@@ -562,19 +562,22 @@ namespace SupRealClient.Views
 
 		    ExtraditeCommand = new RelayCommand(obj => Extradite());
 		    ReturnCommand = new RelayCommand(obj => Return());
-            OpenOrderCommand = new RelayCommand(obj => OpenOrder());
+		    OpenOrderCommand = new RelayCommand(obj => OpenOrder());
 
-            AddImageSourceCommand = new RelayCommand(arg => AddImageSource(ImageType.Photo, _nameDocument_PhotoImageType));
-            RemoveImageSourceCommand= new RelayCommand(arg => RemoveImageSource(ImageType.Photo, _nameDocument_PhotoImageType));
-            AddSignatureCommand = new RelayCommand(arg => AddImageSource(ImageType.Signature, _nameDocument_SignatureImageType));
-            RemoveSignatureCommand = new RelayCommand(arg => RemoveImageSource(ImageType.Signature, _nameDocument_SignatureImageType));
+		    AddImageSourceCommand = new RelayCommand(arg => AddImageSource(ImageType.Photo, _nameDocument_PhotoImageType));
+		    RemoveImageSourceCommand =
+			    new RelayCommand(arg => RemoveImageSource(ImageType.Photo, _nameDocument_PhotoImageType));
+		    AddSignatureCommand =
+			    new RelayCommand(arg => AddImageSource(ImageType.Signature, _nameDocument_SignatureImageType));
+		    RemoveSignatureCommand =
+			    new RelayCommand(arg => RemoveImageSource(ImageType.Signature, _nameDocument_SignatureImageType));
 		    OkCommand = new RelayCommand(arg => Ok());
 		    CancelCommand = new RelayCommand(arg => Cancel());
 		    EditCommand = new RelayCommand(arg => Edit());
 		    FindCommand = new RelayCommand(arg => Find());
 
 		    OpenDocumentCommand = new RelayCommand(arg => OpenDocument());
-			AddDocumentCommand = new RelayCommand(arg => AddDocument());
+		    AddDocumentCommand = new RelayCommand(arg => AddDocument());
 		    EditDocumentCommand = new RelayCommand(arg => EditDocument());
 		    RemoveDocumentCommand = new RelayCommand(arg => RemoveDocument());
 
@@ -587,17 +590,17 @@ namespace SupRealClient.Views
 		    EditVisitorCommentCommand = new RelayCommand(arg => ActivateEditingVisitorComment());
 		    EndVisitorCommentCommand = new RelayCommand(arg => SavingEditedVisitorComment());
 
-			RefreshCommand = new RelayCommand(arg => Refresh());
-
-		_documentScaner.KillRegulaProc();
-            _documentScaner.ScanFinished += Scaner_ScanFinished;
+		    RefreshCommand = new RelayCommand(arg => Refresh());
+			
+		    DocumentScaner.KillRegulaProc();
+		    DocumentScaner.ScanFinished += Scaner_ScanFinished;
 	    }
 
 	    ~VisitsViewModel()
 	    {
-			if(_documentScaner!=null)
-				_documentScaner.ScanFinished -= Scaner_ScanFinished;
-				_documentScaner?.Dispose();
+			if(DocumentScaner!=null)
+				DocumentScaner.ScanFinished -= Scaner_ScanFinished;
+				DocumentScaner?.Dispose();
 	    }
 
         private void Refresh()
@@ -964,7 +967,7 @@ namespace SupRealClient.Views
 
 	    private void New()
 	    {
-		    _documentScaner?.Connect();
+		    DocumentScaner?.Connect();
 		    Model = new NewVisitsModel();
 		    IsRedactMode = true;
 	    }
@@ -1013,7 +1016,7 @@ namespace SupRealClient.Views
 
         private void Edit()
         {
-	        _documentScaner?.Connect();
+	        DocumentScaner?.Connect();
 	        int indexEditingVisit = -1;
 	        if (model is VisitsModel)
 		        indexEditingVisit = (model as VisitsModel).selectedIndex;
@@ -1095,7 +1098,7 @@ namespace SupRealClient.Views
 
 
 			}
-			_documentScaner.Dispose();
+			DocumentScaner.Dispose();
 		}
 
         public void Cancel()
@@ -1123,7 +1126,7 @@ namespace SupRealClient.Views
             }
 
 	        IsRedactMode = false;
-		_documentScaner.Dispose();
+		DocumentScaner.Dispose();
 		}
 
         private void AddImageSource(ImageType imageType, string name, CPerson person = null, bool isPortraitForSubstit = false)

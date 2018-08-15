@@ -367,11 +367,17 @@ namespace SupHost.Andover
 
 		private bool UpdateCards(List<Personnel> personnels, List<Container> containers)
 		{
+			VisCardsExtTableWrapper cardsExtTableWrapper = (VisCardsExtTableWrapper)VisAreasTableWrapper.GetTableWrapper(
+				TableName.VisCardsExt);
+
+
+			var maxId = DeleteOldData(cardsExtTableWrapper, "f_card_id");
+
 			VisCardsTableWrapper cardsTableWrapper =
 				(VisCardsTableWrapper) VisAreasTableWrapper.GetTableWrapper(
 					TableName.VisCards);
-
-			int maxId = DeleteOldData(cardsTableWrapper, "f_card_id");
+			
+			//int maxId = DeleteOldData(cardsTableWrapper, "f_card_id");
 
 			DateTime date = DateTime.Now;
 			foreach (var person in personnels)
