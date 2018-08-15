@@ -603,7 +603,15 @@ namespace SupRealClient.Views
 				DocumentScaner?.Dispose();
 	    }
 
-        private void Refresh()
+	    internal void RemoveScanSubscription()
+	    {
+		    if (DocumentScaner != null)
+		    {
+			    DocumentScaner.ScanFinished -= Scaner_ScanFinished;
+			}
+	    }
+
+	    private void Refresh()
         {
 	        int id = CurrentItem.Id;
 

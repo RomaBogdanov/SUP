@@ -10,6 +10,7 @@ using System;
 using System.Windows.Threading;
 using SupRealClient.Models;
 using System.Diagnostics;
+using System.Text;
 using SupRealClient.Andover;
 
 namespace SupRealClient.ViewModels
@@ -350,19 +351,57 @@ namespace SupRealClient.ViewModels
             }
         }
 
-        private void AndoverImport()
-        {
-            ClientConnector clientConnector = ClientConnector.CurrentConnector;
-            if (clientConnector.ImportFromAndover())
-            {
-                MessageBox.Show("Из Andover были загружены данные для следующих таблиц:\r\n• Точки доступа\r\n• Области доступа\r\n• Пропуска\r\n• Расписания", "Информация",
-                    MessageBoxButton.OK, MessageBoxImage.Information);
-            }
-            else
-            {
-                MessageBox.Show("Загрузка из Andover не удалась!", "Ошибка",
-                    MessageBoxButton.OK, MessageBoxImage.Error);
-            }
-        }
+	    private void AndoverImport()
+	    {
+		    var tableSelectWindow = new AndoverExportView();
+		    if (!tableSelectWindow.ShowDialog() ?? true)
+		    {
+			    return;
+		    }
+
+
+		    ClientConnector clientConnector = ClientConnector.CurrentConnector;
+
+		    if (clientConnector.ImportFromAndover(tableSelectWindow.AndoverExportItem.ToString()))
+		    {
+
+			    var dataArray = tableSelectWindow.AndoverExportItem.ToString().Split(',');
+
+			    var commonString = new StringBuilder();
+
+			    foreach (var data in dataArray)
+			    {
+				   commonString.Append(GetDataNameByEAndoverExportItem(data));
+			    }
+
+
+				MessageBox.Show(
+				    $"Из Andover были загружены данные для следующих таблиц: {commonString}",
+				    "Информация",
+				    MessageBoxButton.OK, MessageBoxImage.Information);
+		    }
+		    else
+		    {
+			    MessageBox.Show("Загрузка из Andover не удалась!", "Ошибка",
+				    MessageBoxButton.OK, MessageBoxImage.Error);
+		    }
+	    }
+
+	    private static string GetDataNameByEAndoverExportItem(string item)
+	    {
+		    switch (item.Trim().ToLower())
+		    {
+				case "doors":
+					return "\r\n• Точки доступа";
+				case "areas":
+					return "\r\n• Области доступа";
+				case "personnel":
+					return "\r\n• Пропуска";
+				case "schedules":
+					return "\r\n• Расписания";
+				default:
+					return "";
+		    }
+	    }
     }
 }
