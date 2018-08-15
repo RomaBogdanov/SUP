@@ -262,12 +262,12 @@ namespace SupHost
             return true;
         }
 
-        public bool ImportFromAndover(OperationInfo info)
+        public bool ImportFromAndover(string tables,OperationInfo info)
         {
             logger.Info($"Импорт данных из Andover", info);
 
             var andoverManager = new AndoverManager(info);
-            return andoverManager.Import();
+            return andoverManager.Import(tables);
         }
 
         public CExtraditionContract ExportToAndover(AndoverExportData data, OperationInfo info)

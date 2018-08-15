@@ -104,7 +104,7 @@ namespace SupContract
         /// </summary>
         /// <param name="info"></param>
         [OperationContract]
-        bool ImportFromAndover(OperationInfo info);
+        bool ImportFromAndover(string tables, OperationInfo info);
 
         /// <summary>
         /// Выгрузить данные в Andover

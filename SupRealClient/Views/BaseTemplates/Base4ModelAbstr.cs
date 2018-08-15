@@ -590,9 +590,9 @@ namespace SupRealClient.Views
                     "Внимание", MessageBoxButtons.YesNo, MessageBoxIcon.Information) == DialogResult.Yes)
             {
                 ClientConnector clientConnector = ClientConnector.CurrentConnector;
-                if (clientConnector.ImportFromAndover())
+                if (clientConnector.ImportFromAndover(EAndoverExportItem.Personnel.ToString()))
                 {
-                    System.Windows.MessageBox.Show("Данные были загружены из Andover", "Информация",
+                    System.Windows.MessageBox.Show("Пропуска были загружены из Andover", "Информация",
                         MessageBoxButton.OK, MessageBoxImage.Information);
                 }
                 else
@@ -1262,14 +1262,14 @@ namespace SupRealClient.Views
                 "Внимание", MessageBoxButtons.YesNo, MessageBoxIcon.Information) == DialogResult.Yes)
             {
 	            ClientConnector clientConnector = ClientConnector.CurrentConnector;
-	            if (clientConnector.ImportFromAndover())
+	            if (clientConnector.ImportFromAndover(EAndoverExportItem.Areas.ToString()))
 	            {
-		            System.Windows.MessageBox.Show("Данные были загружены из Andover", "Информация",
+		            System.Windows.MessageBox.Show("Области доступа были загружены из Andover", "Информация",
 			            MessageBoxButton.OK, MessageBoxImage.Information);
 	            }
 	            else
 	            {
-		            System.Windows.MessageBox.Show("Загрузка из Andover не удалась!", "Ошибка",
+		            System.Windows.MessageBox.Show("Загрузка областей доступа из Andover не удалась!", "Ошибка",
 			            MessageBoxButton.OK, MessageBoxImage.Error);
 	            }
 			}
@@ -1460,14 +1460,14 @@ namespace SupRealClient.Views
                 "Внимание", MessageBoxButtons.YesNo, MessageBoxIcon.Information) == DialogResult.Yes)
             {
 	            ClientConnector clientConnector = ClientConnector.CurrentConnector;
-	            if (clientConnector.ImportFromAndover())
+	            if (clientConnector.ImportFromAndover(EAndoverExportItem.Doors.ToString()))
 	            {
-		            System.Windows.MessageBox.Show("Данные были загружены из Andover", "Информация",
+		            System.Windows.MessageBox.Show("Точки доступа были загружены из Andover", "Информация",
 			            MessageBoxButton.OK, MessageBoxImage.Information);
 	            }
 	            else
 	            {
-		            System.Windows.MessageBox.Show("Загрузка из Andover не удалась!", "Ошибка",
+		            System.Windows.MessageBox.Show("Загрузка точек доступа из Andover не удалась!", "Ошибка",
 			            MessageBoxButton.OK, MessageBoxImage.Error);
 	            }
 			}
@@ -1649,14 +1649,14 @@ namespace SupRealClient.Views
 			        "Внимание", MessageBoxButtons.YesNo, MessageBoxIcon.Information) == DialogResult.Yes)
 		    {
 			    ClientConnector clientConnector = ClientConnector.CurrentConnector;
-			    if (clientConnector.ImportFromAndover())
+			    if (clientConnector.ImportFromAndover(EAndoverExportItem.Schedules.ToString()))
 			    {
-				    System.Windows.MessageBox.Show("Данные были загружены из Andover", "Информация",
+				    System.Windows.MessageBox.Show("Расписания были загружены из Andover", "Информация",
 					    MessageBoxButton.OK, MessageBoxImage.Information);
 			    }
 			    else
 			    {
-				    System.Windows.MessageBox.Show("Загрузка из Andover не удалась!", "Ошибка",
+				    System.Windows.MessageBox.Show("Загрузка расписаний из Andover не удалась!", "Ошибка",
 					    MessageBoxButton.OK, MessageBoxImage.Error);
 			    }
 			}

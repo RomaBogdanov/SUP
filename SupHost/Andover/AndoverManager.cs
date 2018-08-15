@@ -40,11 +40,11 @@ namespace SupHost.Andover
 			}
 		}
 
-		public bool Import()
+		public bool Import(string tables)
 		{
 			try
 			{
-				return ImportData();
+				return ImportData(tables);
 			}
 			catch (Exception ex)
 			{
@@ -82,23 +82,52 @@ namespace SupHost.Andover
 			}
 		}
 
-		private bool ImportData()
+		private bool ImportData(string tables)
 		{
+			var tablesLower = tables.Trim().ToLower();
 			AndoverConnector connector = AndoverConnector.CurrentConnector;
 
 			var containers = connector.AndoverService.GetContainers();
 			//var devices = connector.AndoverService.GetDevices();
-			var schedules = connector.AndoverService.GetSchedules();
-			var doors = connector.AndoverService.GetDoors();
-			var areas = connector.AndoverService.GetAreas();
-			var doorLists = connector.AndoverService.GetDoorLists();
-			var personnels = connector.AndoverService.GetPersons();
-			//var areaLinks = connector.AndoverService.GetAreaLinks();
 
-			UpdateAreas(areas, containers);
-			UpdateDoors(doors, areas, containers);
-			UpdateSchedules(schedules, containers);
-			UpdateCards(personnels, containers);
+			if (tablesLower.Contains("schedules"))
+			{
+				var schedules = connector.AndoverService.GetSchedules();
+				UpdateSchedules(schedules, containers);
+			}
+
+			if (tablesLower.Contains("personnel"))
+			{
+				var personnels = connector.AndoverService.GetPersons();
+				UpdateCards(personnels, containers);
+			}
+
+			if (tablesLower.Contains("doors") || tablesLower.Contains("areas"))
+			{
+				var areas = connector.AndoverService.GetAreas();
+
+				if (tablesLower.Contains("areas"))
+				{
+					UpdateAreas(areas, containers);
+				}
+				else
+				{
+					var doors = connector.AndoverService.GetDoors();
+					UpdateDoors(doors, areas, containers);
+				}
+			}
+
+
+			//var schedules = connector.AndoverService.GetSchedules();
+			//var doors = connector.AndoverService.GetDoors();
+			//var areas = connector.AndoverService.GetAreas();
+			//var doorLists = connector.AndoverService.GetDoorLists();
+			//var personnels = connector.AndoverService.GetPersons();
+			//var areaLinks = connector.AndoverService.GetAreaLinks();
+			//UpdateAreas(areas, containers);
+			//UpdateDoors(doors, areas, containers);
+			//UpdateSchedules(schedules, containers);
+			//UpdateCards(personnels, containers);
 
 			return true;
 		}
