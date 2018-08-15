@@ -1317,6 +1317,11 @@ namespace SupRealClient.Views
 
         private void Window_Closing(object sender, CancelEventArgs e)
         {
+	        if (sender is SupRealClient.Views.VisitorsView visitorView)
+	        {
+		        (visitorView.DataContext as VisitsViewModel)?.DocumentScaner.Dispose();
+		}
+
             ViewManager.Instance.CloseWindow(this, true, e);
         }
 
