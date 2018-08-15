@@ -1319,10 +1319,11 @@ namespace SupRealClient.Views
         {
 	        if (sender is SupRealClient.Views.VisitorsView visitorView)
 	        {
+		        (visitorView.DataContext as VisitsViewModel)?.RemoveScanSubscription();
 		        (visitorView.DataContext as VisitsViewModel)?.DocumentScaner.Dispose();
-		}
+	        }
 
-            ViewManager.Instance.CloseWindow(this, true, e);
+	        ViewManager.Instance.CloseWindow(this, true, e);
         }
 
         public void Handling_OnClose()
