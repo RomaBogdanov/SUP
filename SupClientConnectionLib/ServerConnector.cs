@@ -5,6 +5,7 @@ using System.ServiceModel;
 using System.ServiceModel.Dispatcher;
 using System.Xml;
 using SupContract;
+using log4net;
 
 namespace SupClientConnectionLib
 {
@@ -203,6 +204,8 @@ namespace SupClientConnectionLib
 
         public ClientConnector()
         {
+            Logger.InitLogger();
+            Logger.Log.Info("Логгирование работает");
             authorizer = Authorizer.AppAuthorizer;
             messageHandler = new NewMessageHandler();
             messageHandler.OnInsert += MessageHandler_OnInsert;
