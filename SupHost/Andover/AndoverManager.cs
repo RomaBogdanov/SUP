@@ -132,6 +132,19 @@ namespace SupHost.Andover
 			return maxId;
 		}
 
+		private int GetMaxId(AbstractTableWrapper wrapper, string idField)
+		{
+			int maxId = 0;
+			foreach (DataRow row in wrapper.GetTable().Rows)
+			{
+				if ((int)row[idField] > maxId)
+				{
+					maxId = (int)row[idField];
+				}
+			}
+			return maxId;
+		}
+
 		private string GetPath(List<Container> containers, int? idHi, int? idLo)
 		{
 			var result = new List<string>();
@@ -367,65 +380,124 @@ namespace SupHost.Andover
 
 		private bool UpdateCards(List<Personnel> personnels, List<Container> containers)
 		{
-			VisCardsExtTableWrapper cardsExtTableWrapper = (VisCardsExtTableWrapper)VisAreasTableWrapper.GetTableWrapper(
+				VisCardsExtTableWrapper cardsExtTableWrapper = (VisCardsExtTableWrapper)VisAreasTableWrapper.GetTableWrapper(
 				TableName.VisCardsExt);
 
+				DeleteOldData(cardsExtTableWrapper, "f_card_id");
 
-			var maxId = DeleteOldData(cardsExtTableWrapper, "f_card_id");
+				VisCardsTableWrapper cardsTableWrapper =
+					(VisCardsTableWrapper)VisAreasTableWrapper.GetTableWrapper(
+						TableName.VisCards);
 
-			VisCardsTableWrapper cardsTableWrapper =
-				(VisCardsTableWrapper) VisAreasTableWrapper.GetTableWrapper(
-					TableName.VisCards);
-			
-			//int maxId = DeleteOldData(cardsTableWrapper, "f_card_id");
+				int maxId = GetMaxId(cardsTableWrapper, "f_card_id");
 
-			DateTime date = DateTime.Now;
-			foreach (var person in personnels)
-			{
-				bool update = false;
-				DataRow row = null;
-				foreach (DataRow row2 in cardsTableWrapper.GetTable().Rows)
+				DateTime date = DateTime.Now;
+				foreach (var person in personnels)
 				{
-					if (row2["f_object_id_hi"].Equals(person.ObjectIdHi) &&
-					    row2["f_object_id_lo"].Equals(person.ObjectIdLo))
+					var updateCard = false;
+					var updateCardExt = false;
+					DataRow rowCard = null;
+					DataRow rowCardExt = null;
+					foreach (DataRow row2 in cardsTableWrapper.GetTable().Rows)
 					{
-						update = true;
-						row = row2;
-						break;
+						if (row2["f_object_id_hi"].Equals(person.ObjectIdHi) &&
+						    row2["f_object_id_lo"].Equals(person.ObjectIdLo))
+						{
+							updateCard = true;
+							rowCard = row2;
+							break;
+						}
+					}
+
+					if (rowCard != null)
+					{
+						foreach (DataRow rowExt in cardsExtTableWrapper.GetTable().Rows)
+						{
+							if ((int)rowCard["f_card_id"]==(int)rowExt["f_card_id"])
+							{
+								updateCardExt = true;
+								rowCardExt = rowExt;
+								break;
+							}
+						}
+					}
+
+					rowCard = rowCard ?? cardsTableWrapper.GetTable().NewRow();
+					rowCardExt = rowCardExt ?? cardsExtTableWrapper.GetTable().NewRow();
+
+					if (!updateCard)
+					{
+						//// TODO - пока что генерим id сами
+						rowCard["f_card_id"] = ++maxId;
+					}
+					else
+					{
+						rowCard.BeginEdit();
+					}
+
+					//заполнение vis_cards_ext
+					if (!updateCardExt)
+					{
+						if ((int)rowCard["f_card_id"]==3)
+						{
+							var x = 1;
+						}
+
+						rowCardExt["f_card_id"] = rowCard["f_card_id"];
+					}
+					else
+					{
+						rowCardExt.BeginEdit();
+					}
+
+					rowCard["f_card_name"] = person.UiName;
+					rowCard["f_card_num"] = person.NonABACardNumber;
+					rowCard["f_object_id_hi"] = person.ObjectIdHi;
+					rowCard["f_object_id_lo"] = person.ObjectIdLo;
+					rowCard["f_card_controller"] = person.ControllerName;
+					rowCard["f_card_path"] = GetPath(containers, person.OwnerIdHi, person.OwnerIdLo);
+					rowCard["f_card_data"] = ""; // TODO
+
+					rowCardExt["f_object_id_hi"] = person.ObjectIdHi;
+					rowCardExt["f_object_id_lo"] = person.ObjectIdLo;
+
+					//????
+					rowCardExt["f_state_id"] = 1;
+					rowCardExt["f_card_text"] = "";
+					rowCardExt["f_last_visit_id"] = 0;
+					rowCardExt["f_deleted"] = "N";
+					rowCardExt["f_rec_date"] = date;
+					rowCardExt["f_rec_operator"] = info.Id;
+					rowCardExt["f_create_date"] = person.ActivationDate;
+					rowCardExt["f_lost_date"] = DateTime.MinValue;
+					rowCardExt["f_comment"] = "";
+
+
+					if (!updateCard)
+					{
+						cardsTableWrapper.InsertRow(rowCard.ItemArray, null);
+					}
+					else
+					{
+						rowCard.EndEdit();
+						int numRow = cardsTableWrapper.GetTable().Rows.IndexOf(rowCard);
+						cardsTableWrapper.UpdateRow(rowCard.ItemArray, numRow, info);
+					}
+
+					if (!updateCardExt)
+					{
+						cardsExtTableWrapper.InsertRow(rowCardExt.ItemArray, null);
+					}
+					else
+					{
+						rowCardExt.EndEdit();
+						var numRow = cardsExtTableWrapper.GetTable().Rows.IndexOf(rowCardExt);
+						cardsExtTableWrapper.UpdateRow(rowCardExt.ItemArray, numRow, info);
 					}
 				}
 
-				row = row ?? cardsTableWrapper.GetTable().NewRow();
-				if (!update)
-				{
-					//// TODO - пока что генерим id сами
-					row["f_card_id"] = ++maxId;
-				}
-				else
-				{
-					row.BeginEdit();
-				}
-
-				row["f_card_name"] = person.UiName;
-				row["f_card_num"] = person.NonABACardNumber;
-				row["f_object_id_hi"] = person.ObjectIdHi;
-				row["f_object_id_lo"] = person.ObjectIdLo;
-				row["f_card_controller"] = person.ControllerName;
-				row["f_card_path"] = GetPath(containers, person.OwnerIdHi, person.OwnerIdLo);
-				row["f_card_data"] = ""; // TODO
-				if (!update)
-				{
-					cardsTableWrapper.InsertRow(row.ItemArray, null);
-				}
-				else
-				{
-					row.EndEdit();
-					int numRow = cardsTableWrapper.GetTable().Rows.IndexOf(row);
-					cardsTableWrapper.UpdateRow(row.ItemArray, numRow, info);
-				}
-			}
-
-			return true;
+				return true;
+			
 		}
 
 		private CAndoverAgentCallback ExportData(AndoverExportData data)
