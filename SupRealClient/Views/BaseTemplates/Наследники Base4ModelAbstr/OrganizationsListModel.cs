@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Collections.ObjectModel;
 using SupRealClient.TabsSingleton;
@@ -13,16 +14,68 @@ namespace SupRealClient.Views
     public class OrganizationsListModel<T> : Base4ModelAbstr<T>
         where T : Organization, new()
     {
-        public OrganizationsListModel()
+	    public Func<bool> TestOrganization_ToSin { get; set; }
+
+
+	    public OrganizationsListModel()
         {
             OrganizationsWrapper.CurrentTable().OnChanged += Query;
             Query();
             Begin();
         }
 
-        #region BtnHandlers
+	    public override void Ok()
+	    {
+			//if (TestOrganization_ToSin != null)
+			//{
+			// if (TestOrganization_ToSin.Invoke() == true)
+			// {
+			//  int baseOrgID = ((Organization) CurrentItem).SynId;
+			//  Organization baseOrg =
+			//   OrganizationsHelper.GetOrganization(baseOrgID, true);
+			//  if (MessageBox.Show(
+			//       "При подтверждении выбора данной организации, в дальнейшем будет выбрано назние организации" +
+			//       Environment.NewLine + " \"" + baseOrg.Name + "\"", "Внимание", MessageBoxButton.OKCancel,
+			//       MessageBoxImage.Exclamation) == MessageBoxResult.OK)
+			//  {
+			//   CurrentItem =(T) baseOrg;
 
-        public override void Add()
+			//  }
+			//  else
+			//  {
+			//   return;
+			//  }
+			// }
+			//}
+
+			if (CurrentItem is Organization)
+			{
+				if (((Organization)CurrentItem).SynId>0)
+				{
+					int baseOrgID = ((Organization)CurrentItem).SynId;
+					Organization baseOrg =
+						OrganizationsHelper.GetOrganization(baseOrgID, true);
+					if (MessageBox.Show(
+						    "При подтверждении выбора данной организации, в дальнейшем будет выбрано назние организации" +
+						    Environment.NewLine + " \"" + baseOrg.Name + "\"", "Внимание", MessageBoxButton.OKCancel,
+						    MessageBoxImage.Exclamation) == MessageBoxResult.OK)
+					{
+						CurrentItem = (T)baseOrg;
+
+					}
+					else
+					{
+						return;
+					}
+				}
+			}
+
+			base.Ok();
+	    }
+
+		#region BtnHandlers
+
+		public override void Add()
         {
             AddOrgsModel model =new AddOrgsModel();
             var wind = new AddUpdateOrgsView(model);

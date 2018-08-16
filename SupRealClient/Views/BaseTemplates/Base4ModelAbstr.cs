@@ -35,7 +35,7 @@ namespace SupRealClient.Views
 
         public IWindow Parent { get; set; }
 
-        protected ObservableCollection<T> set;
+		protected ObservableCollection<T> set;
         protected T currentItem;
         protected int selectedIndex;
 

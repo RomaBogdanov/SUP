@@ -2432,6 +2432,8 @@ namespace SupRealClient.Views
 					 OrganizationIsBasic = OrganizationsHelper.GetBasicParametr(visitors.Field<int>("f_org_id"), true)
 
 				 });
+
+			visitorsEnable.EditButtonEnable = Set != null && Set.Count > 0 ? true : false;
 		}
 
 	    private void Query()

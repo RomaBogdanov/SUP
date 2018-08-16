@@ -36,8 +36,7 @@ namespace SupRealClient.Common
 				return family.Trim() + " " + name.Trim().Substring(0, 1) + ". " +
                 secondName.Trim().Substring(0, 1) + ".";
 			else
-				return family.Trim() + " " + name.Trim().Substring(0, 1) + ". " +
-				       secondName + ".";
+				return family.Trim() + " " + name.Trim().Substring(0, 1) ;
 		}
 
 	    public static bool IsPositionCorrect(string position)

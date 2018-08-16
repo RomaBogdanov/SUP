@@ -36,6 +36,7 @@
 			</ResourceDictionary.MergedDictionaries>
 			<BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter" />
 			<converters:InverseBooleanConverter x:Key="InverseBooleanConverter" />
+			<converters:BoolTo_BoldFontWeight x:Key="BoolToBoldFontWeight" />
 		</ResourceDictionary>
 	</mah:MetroWindow.Resources>
 
@@ -239,7 +240,8 @@
 				IsReadOnly="True"
 				IsTabStop="False"
 				Style="{StaticResource TextBoxStyle}"
-				Text="{Binding Path=CurrentItem.Organization, Mode=TwoWay}" />
+				Text="{Binding Path=CurrentItem.Organization, Mode=TwoWay}"/>
+			<!--FontWeight="{Binding VisibleTabItem_Employee, Converter={StaticResource BoolToBoldFontWeight}}"-->
 
 			<Button
 				x:Name="button_LoadOrganization"
