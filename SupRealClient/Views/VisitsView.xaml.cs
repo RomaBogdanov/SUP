@@ -134,45 +134,49 @@ namespace SupRealClient.Views
 			}
 		}
 
-		public string Name
-		{
-			get { return CurrentItem.Name; }
-			set
-			{
-				if (string.IsNullOrEmpty(value) || !string.IsNullOrWhiteSpace(value))
-					CurrentItem.Name = value;
-				OnPropertyChanged(nameof(Name));
+	    public string Name
+	    {
+		    get { return CurrentItem?.Name; }
+		    set
+		    {
+			    if (CurrentItem != null)
+				    if (string.IsNullOrEmpty(value) || !string.IsNullOrWhiteSpace(value))
+					    CurrentItem.Name = value;
+			    OnPropertyChanged(nameof(Name));
 			}
 		}
 
 		public string Family
 		{
-			get { return CurrentItem.Family; }
-			set
-			{
-				if (string.IsNullOrEmpty(value) || !string.IsNullOrWhiteSpace(value))
-					CurrentItem.Family = value;
+		    get { return CurrentItem?.Family; }
+		    set
+		    {
+			    if (CurrentItem != null)
+				    if (string.IsNullOrEmpty(value) || !string.IsNullOrWhiteSpace(value))
+					    CurrentItem.Family = value;
 				OnPropertyChanged(nameof(Family));
-			}
+		    }
 		}
 
 		public string Patronymic
 		{
-			get { return CurrentItem.Patronymic; }
-			set
-			{
-				if (string.IsNullOrEmpty(value) || !string.IsNullOrWhiteSpace(value))
-					CurrentItem.Patronymic = value;
+		    get { return CurrentItem?.Patronymic; }
+		    set
+		    {
+			    if (CurrentItem != null)
+				    if (string.IsNullOrEmpty(value) || !string.IsNullOrWhiteSpace(value))
+					    CurrentItem.Patronymic = value;
 				OnPropertyChanged(nameof(Patronymic));
 			}
 		}
 
-		public string BirthDate
-		{
-			get { return CurrentItem.BirthDate; }
-			set
+	    public string BirthDate
+	    {
+		    get { return CurrentItem?.BirthDate; }
+		    set
 			{
-				CurrentItem.BirthDate = value;
+				if (CurrentItem != null)
+					CurrentItem.BirthDate = value;
 				OnPropertyChanged(nameof(BirthDate));
 			}
 		}
@@ -180,37 +184,40 @@ namespace SupRealClient.Views
 		/// Объект со списком свойств Enable для кнопок
 		/// </summary>
 		public VisitorsEnableOrVisible VisitorsEnable
-		{
-			get { return Model.VisitorsEnable; }
-			set
-			{
-				Model.VisitorsEnable = value;
-				OnPropertyChanged();
-			}
-		}
+        {
+            get { return Model?.VisitorsEnable; }
+            set
+            {
+				if(Model!=null)
+					Model.VisitorsEnable = value;
+                OnPropertyChanged();
+            }
+        }
 
-		/// <summary>
-		/// Объект со списком свойтсв Visible для кнопок
-		/// </summary>
-		public VisitorsEnableOrVisible VisitorsVisible
-		{
-			get { return Model.VisitorsVisible; }
-			set
+        /// <summary>
+        /// Объект со списком свойтсв Visible для кнопок
+        /// </summary>
+        public VisitorsEnableOrVisible VisitorsVisible
+        {
+            get { return Model?.VisitorsVisible; }
+            set
 			{
-				Model.VisitorsVisible = value;
-				OnPropertyChanged();
-			}
-		}
+				if (Model != null)
+					Model.VisitorsVisible = value;
+                OnPropertyChanged();
+            }
+        }
 
-		public bool TextEnable
-		{
-			get { return Model.TextEnable; }
-			set
-			{
-				Model.TextEnable = value;
-				OnPropertyChanged();
-			}
-		}
+        public bool TextEnable
+        {
+            get {
+				return Model.TextEnable; }
+            set
+            {
+                Model.TextEnable = value;
+                OnPropertyChanged();
+            }
+        }
 
 		public bool CommentTextEnable
 		{
@@ -266,10 +273,10 @@ namespace SupRealClient.Views
 			get { return !_isRedactMode; }
 		}
 
-		public bool OpeningButtons_ToRedactComments
-		{
-			get { return IsRedactMode_Inverce && CurrentItem.IsAgree; }
-		}
+	    public bool OpeningButtons_ToRedactComments
+	    {
+		    get { return IsRedactMode_Inverce && CurrentItem!=null && CurrentItem.IsAgree; }
+	    }
 
 		//public bool VisibleButton_OpenDocument
 		//{
@@ -450,9 +457,9 @@ namespace SupRealClient.Views
 				//if (!IsRedactMode)
 				// return true;
 				//else 
-				return (CurrentItem.OrganizationIsBasic);
-			}
-		}
+			    return CurrentItem?.OrganizationIsBasic ?? true;
+		    }
+	    }
 
 		public bool EditingVisitorCommentMode
 		{
@@ -466,10 +473,11 @@ namespace SupRealClient.Views
 
 		public bool IsNotFormular
 		{
-			get => CurrentItem.IsNotFormular;
+			get => CurrentItem != null && CurrentItem.IsNotFormular;
 			set
 			{
-				CurrentItem.IsNotFormular = value;
+				if (CurrentItem != null)
+					CurrentItem.IsNotFormular = value;
 				OnPropertyChanged(nameof(IsNotFormular));
 			}
 		}
@@ -612,11 +620,20 @@ namespace SupRealClient.Views
 
 		private void Refresh()
 		{
-			int id = CurrentItem.Id;
+			if (CurrentItem != null)
+			{
+				int id = CurrentItem.Id;
 
-			Model = new VisitsModel();
-			Model.CurrentItem = Model.Find(id);
-			CurrentItem = Model.CurrentItem;
+				Model = new VisitsModel();
+				Model.CurrentItem = Model.Find(id);
+				CurrentItem = Model.CurrentItem;
+			}
+			else
+			{
+				Model = new VisitsModel();
+				CurrentItem = Model.CurrentItem;
+			}
+
 		}
 
 		/// <summary>
@@ -752,7 +769,7 @@ namespace SupRealClient.Views
 					Model.AddMainDocument(editDocument);
 				});
 			}
-		}
+	    }
 		
 		/// <summary>
 		/// Сканы документа по номеру.
