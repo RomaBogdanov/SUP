@@ -149,7 +149,28 @@
 							Text="Принять" />
 					</Grid>
 				</Button>
+				<Button
+					x:Name="SecondPageButton"
+					Margin="2"
+					x:FieldModifier="private"
+					IsEnabled="{Binding Path=VisitorsEnable.CancelButtonEnable, Mode=TwoWay}"
+					Style="{StaticResource VisitorsSquareButtonStyle}"
+					Visibility="{Binding Path=VisitorsVisible.CancelButtonEnable, Converter={StaticResource BooleanToVisibilityConverter}}">
+					<Grid>
+						<Grid.RowDefinitions>
+							<RowDefinition />
+							<RowDefinition Height="0.4*" />
+						</Grid.RowDefinitions>
 
+						<Image Grid.Row="0" Source="../Resources/Добавить1 (2).ico" />
+
+						<TextBlock
+							Grid.Row="1"
+							FontSize="12"
+							Style="{StaticResource TextBLockStyle}"
+							Text="Сканировать далее" />
+					</Grid>
+				</Button>
 				<Button
 					x:Name="CancelButton"
 					Margin="2"

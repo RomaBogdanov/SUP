@@ -14,6 +14,7 @@ namespace AndoverAgent
 {
 	public class AndoverService : IAndoverService
 	{
+		private bool _isExtraditionSuccess = true;
 		public string Ping()
 		{
 			Console.WriteLine("Ping executed");
@@ -1336,23 +1337,23 @@ namespace AndoverAgent
 			return SavePersonsDmp(persons);
 		}
 
-		public bool ExportPersonDmp(PersonInfo person)
+		public CAndoverAgentCallback ExportPersonDmp(PersonInfo person)
 		{
 			Console.WriteLine("ExportPersonsDmp() executed");
 
 			return SavePerson(person);
 		}
 
-		private bool SavePerson(PersonInfo person)
+		private CAndoverAgentCallback SavePerson(PersonInfo person)
 		{
 			int i = 0;
 			for (i = 0; i < int.Parse(ConfigurationManager.AppSettings["TryCount"]); i++)
 			{
 				try
 				{
-					SavePersonDmp2(person);
-					Thread.Sleep(200);
-					return true;
+					return SavePersonDmp2(person);
+					//Thread.Sleep(200);
+					//return true;
 				}
 				catch (IOException ex)
 				{
@@ -1360,10 +1361,16 @@ namespace AndoverAgent
 				}
 				catch (Exception ex)
 				{
-					return false;
+					return new CAndoverAgentCallback
+					{
+						Success = false
+					};
 				}
 			}
-			return false;
+			return new CAndoverAgentCallback
+			{
+				Success = false
+			};
 		}
 
 		private bool SavePersonsDmp(List<PersonInfo> persons)
@@ -1511,8 +1518,10 @@ namespace AndoverAgent
 			return true;
 		}
 
-		private bool SavePersonDmp2(PersonInfo person)
+		private CAndoverAgentCallback SavePersonDmp2(PersonInfo person)
 		{
+			_isExtraditionSuccess = true;
+
 			var sb = new StringBuilder();
 			sb.AppendLine("Continuum");
 			sb.AppendLine("Network");
@@ -1540,16 +1549,30 @@ namespace AndoverAgent
 			sb.AppendLine(string.Format(" StartDate  : {0}", DateTime.Now.Date.ToString("dd.MM.yyyy")));
 			sb.AppendLine(" AreaLinks : ");
 
-			List<CAreaSchedulePair> areasPathsList = GetAreasPaths(person.AreaScheduleList);
-
-			if (areasPathsList != null)
+			if (person.IsExtradition)
 			{
-				for (var i = 0; i < areasPathsList.Count; i++)
+				List<CAreaSchedulePair> areasPathsList = GetAreasPaths(person.AreaScheduleList);
+
+				if (areasPathsList != null)
 				{
-					sb.AppendLine(string.Format(
-						"  {0} : Enabled : False :{1} : 01.01.1989 ;0 ", areasPathsList[i].AreaPath, areasPathsList[i].SchedulePath));
+					for (var i = 0; i < areasPathsList.Count; i++)
+					{
+						var areaPath = string.IsNullOrEmpty(areasPathsList[i].AreaPath) ? null : areasPathsList[i].AreaPath;
+						var schedulePath = string.IsNullOrEmpty(areasPathsList[i].SchedulePath) ? null : areasPathsList[i].SchedulePath;
+
+
+						sb.AppendLine(string.Format(
+							"  {0} : Enabled : False :{1} : 01.01.1989 ;0 ", areaPath, schedulePath));
+
+						if (_isExtraditionSuccess)
+						{
+							_isExtraditionSuccess = !string.IsNullOrEmpty(areaPath) &&
+							                        !string.IsNullOrEmpty(schedulePath);
+						}
+					}
 				}
 			}
+			
 			sb.AppendLine(" EndAreaLinks");
 			sb.AppendLine("EndObject");
 			sb.AppendLine();
@@ -1588,12 +1611,22 @@ namespace AndoverAgent
 
 			if (File.Exists(dumpFileName))
 			{
-				return false;
+				return new CAndoverAgentCallback
+				{
+					Success = false,
+					IsExtradition = null,
+					ExtraditionSuccess = null
+				};
 			}
 
 			File.Move(tempFileName, dumpFileName);
 			
-			return true;
+			return new CAndoverAgentCallback
+			{
+				Success = true,
+				IsExtradition = person.IsExtradition,
+				ExtraditionSuccess = _isExtraditionSuccess
+			};
 		}
 
 		private bool SavePersons(List<Personnel> persons)

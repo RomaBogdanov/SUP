@@ -27,8 +27,14 @@ namespace SupRealClient.Views
 
 			ConfirmButton.Click += ConfirmButton_OnClick;
 			CancelButton.Click += CancelButton_OnClick;
+			SecondPageButton.Click += SecondPageButton_Click;
 			KeyUp += RegulaView_OnKeyUp;
 			ViewPersonInfo(person);
+		}
+
+		private void SecondPageButton_Click(object sender, RoutedEventArgs e)
+		{
+			ClickHandler(false);
 		}
 
 		private void ViewPersonInfo(CPerson person)

@@ -27,6 +27,7 @@ namespace AndoverLib
 		[DataMember] public bool CreateFolder { get; set; }
 
 		[DataMember] public List<CAreaScheduleLib> AreaScheduleList { get; set; }
+		[DataMember] public bool IsExtradition { get; set; }
 
 	}
 }

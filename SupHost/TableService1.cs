@@ -262,20 +262,27 @@ namespace SupHost
             return true;
         }
 
-        public bool ImportFromAndover(OperationInfo info)
+        public bool ImportFromAndover(string tables,OperationInfo info)
         {
             logger.Info($"Импорт данных из Andover", info);
 
             var andoverManager = new AndoverManager(info);
-            return andoverManager.Import();
+            return andoverManager.Import(tables);
         }
 
-        public bool ExportToAndover(AndoverExportData data, OperationInfo info)
+        public CExtraditionContract ExportToAndover(AndoverExportData data, OperationInfo info)
         {
             logger.Info($"Экспорт данных в Andover", info);
 
             var andoverManager = new AndoverManager(info);
-            return andoverManager.Export(data);
+            var result = andoverManager.Export(data);
+
+		return new CExtraditionContract
+		{
+			Success = result.Success,
+			IsExtradition = result.IsExtradition,
+			ExtraditionSuccess = result.ExtraditionSuccess
+		};
         }
     }
 }

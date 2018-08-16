@@ -104,14 +104,14 @@ namespace SupContract
         /// </summary>
         /// <param name="info"></param>
         [OperationContract]
-        bool ImportFromAndover(OperationInfo info);
+        bool ImportFromAndover(string tables, OperationInfo info);
 
         /// <summary>
         /// Выгрузить данные в Andover
         /// </summary>
         /// <param name="info"></param>
         [OperationContract]
-        bool ExportToAndover(AndoverExportData data, OperationInfo info);
+        CExtraditionContract ExportToAndover(AndoverExportData data, OperationInfo info);
     }
 
     // Используйте контракт данных, как показано на следующем примере, чтобы добавить сложные типы к сервисным операциям.
@@ -182,6 +182,8 @@ namespace SupContract
         string card;
         List<CAreaScheduleContract> _areaScheduleList;
 
+	bool _isExtradition;
+
         [DataMember]
         public string Card
         {
@@ -195,6 +197,13 @@ namespace SupContract
             get { return _areaScheduleList; }
             set { _areaScheduleList = value; }
         }
+
+	    [DataMember]
+	    public bool IsExtradition
+	    {
+		    get { return _isExtradition; }
+		    set { _isExtradition = value; }
+	    }
     }
 
 	[DataContract]
@@ -264,5 +273,18 @@ namespace SupContract
 			get { return SchedulesFromSameCAreaSchedules.ToList()[_selectedItemIndex]; }
 			set { _testString = value; }
 		}
+	}
+
+	[DataContract]
+	public class CExtraditionContract
+	{
+		[DataMember]
+		public bool? Success { get; set; }
+
+		[DataMember]
+		public bool? IsExtradition { get; set; }
+
+		[DataMember]
+		public bool? ExtraditionSuccess { get; set; }
 	}
 }
