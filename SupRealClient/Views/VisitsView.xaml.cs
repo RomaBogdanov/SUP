@@ -136,43 +136,47 @@ namespace SupRealClient.Views
 
 	    public string Name
 	    {
-		    get { return CurrentItem.Name; }
+		    get { return CurrentItem?.Name; }
 		    set
-			{
-				if (string.IsNullOrEmpty(value) || !string.IsNullOrWhiteSpace(value))
-					CurrentItem.Name = value;
-				OnPropertyChanged(nameof(Name));
+		    {
+			    if (CurrentItem != null)
+				    if (string.IsNullOrEmpty(value) || !string.IsNullOrWhiteSpace(value))
+					    CurrentItem.Name = value;
+			    OnPropertyChanged(nameof(Name));
 		    }
 	    }
 
 	    public string Family
 		{
-		    get { return CurrentItem.Family; }
+		    get { return CurrentItem?.Family; }
 		    set
-			{
-				if (string.IsNullOrEmpty(value) ||  !string.IsNullOrWhiteSpace(value))
-					CurrentItem.Family = value;
+		    {
+			    if (CurrentItem != null)
+				    if (string.IsNullOrEmpty(value) || !string.IsNullOrWhiteSpace(value))
+					    CurrentItem.Family = value;
 			    OnPropertyChanged(nameof(Family));
-			}
+		    }
 	    }
 
 	    public string Patronymic
 		{
-		    get { return CurrentItem.Patronymic; }
+		    get { return CurrentItem?.Patronymic; }
 		    set
-			{
-				if (string.IsNullOrEmpty(value) || !string.IsNullOrWhiteSpace(value))
-					CurrentItem.Patronymic = value;
+		    {
+			    if (CurrentItem != null)
+				    if (string.IsNullOrEmpty(value) || !string.IsNullOrWhiteSpace(value))
+					    CurrentItem.Patronymic = value;
 			    OnPropertyChanged(nameof(Patronymic));
 		    }
 	    }
 
 	    public string BirthDate
 	    {
-		    get { return CurrentItem.BirthDate; }
+		    get { return CurrentItem?.BirthDate; }
 		    set
-		    {
-			    CurrentItem.BirthDate = value;
+			{
+				if (CurrentItem != null)
+					CurrentItem.BirthDate = value;
 				OnPropertyChanged(nameof(BirthDate));
 		    }
 	    }
@@ -181,10 +185,11 @@ namespace SupRealClient.Views
 		/// </summary>
 		public VisitorsEnableOrVisible VisitorsEnable
         {
-            get { return Model.VisitorsEnable; }
+            get { return Model?.VisitorsEnable; }
             set
             {
-                Model.VisitorsEnable = value;
+				if(Model!=null)
+					Model.VisitorsEnable = value;
                 OnPropertyChanged();
             }
         }
@@ -194,17 +199,19 @@ namespace SupRealClient.Views
         /// </summary>
         public VisitorsEnableOrVisible VisitorsVisible
         {
-            get { return Model.VisitorsVisible; }
+            get { return Model?.VisitorsVisible; }
             set
-            {
-                Model.VisitorsVisible = value;
+			{
+				if (Model != null)
+					Model.VisitorsVisible = value;
                 OnPropertyChanged();
             }
         }
 
         public bool TextEnable
         {
-            get { return Model.TextEnable; }
+            get {
+				return Model.TextEnable; }
             set
             {
                 Model.TextEnable = value;
@@ -268,7 +275,7 @@ namespace SupRealClient.Views
 
 	    public bool OpeningButtons_ToRedactComments
 	    {
-		    get { return IsRedactMode_Inverce && CurrentItem.IsAgree; }
+		    get { return IsRedactMode_Inverce && CurrentItem!=null && CurrentItem.IsAgree; }
 	    }
 
 		//public bool VisibleButton_OpenDocument
@@ -450,7 +457,7 @@ namespace SupRealClient.Views
 			    //if (!IsRedactMode)
 				   // return true;
 				//else 
-			    return (CurrentItem.OrganizationIsBasic);
+			    return CurrentItem?.OrganizationIsBasic ?? true;
 		    }
 	    }
 
@@ -466,10 +473,11 @@ namespace SupRealClient.Views
 
 	    public bool IsNotFormular
 	    {
-		    get => CurrentItem.IsNotFormular;
+		    get => CurrentItem!=null && CurrentItem.IsNotFormular;
 		    set
 		    {
-			    CurrentItem.IsNotFormular = value;
+			    if(CurrentItem!=null)
+				    CurrentItem.IsNotFormular = value;
 			    OnPropertyChanged(nameof(IsNotFormular));
 			}
 	    }
@@ -613,11 +621,19 @@ namespace SupRealClient.Views
 
 	    private void Refresh()
         {
-	        int id = CurrentItem.Id;
+	        if (CurrentItem != null)
+	        {
+		        int id = CurrentItem.Id;
 
-	        Model = new VisitsModel();
-	        Model.CurrentItem=Model.Find(id);
-	        CurrentItem = Model.CurrentItem;
+		        Model = new VisitsModel();
+		        Model.CurrentItem = Model.Find(id);
+		        CurrentItem = Model.CurrentItem;
+	        }
+			else
+			{
+				Model = new VisitsModel();
+				CurrentItem = Model.CurrentItem;
+			}
         }
 
 	    /// <summary>
@@ -710,37 +726,41 @@ namespace SupRealClient.Views
 
 		    //проверка на наличие документа в списке документов CurrentItem
 		    var isContains = false;
-		    for (var index = 0; index < CurrentItem.MainDocuments.Count; index++)
+		    if (CurrentItem != null)
 		    {
-			    if (string.IsNullOrEmpty(CurrentItem.MainDocuments[index]?.Num?.Trim())
-			        || string.IsNullOrEmpty(document.Num?.Trim())
-			        || string.Equals(CurrentItem.MainDocuments[index]?.Num?.Trim(), document.Num?.Trim()))
+			    for (var index = 0; index < CurrentItem.MainDocuments.Count; index++)
 			    {
-				    isContains = true;
-				    (view as Window)?.Invoke(() => { CurrentItem.MainDocuments[index] = document; });
+				    if (string.IsNullOrEmpty(CurrentItem.MainDocuments[index]?.Num?.Trim())
+				        || string.IsNullOrEmpty(document.Num?.Trim())
+				        || string.Equals(CurrentItem.MainDocuments[index]?.Num?.Trim(), document.Num?.Trim()))
+				    {
+					    isContains = true;
+					    (view as Window)?.Invoke(() => { CurrentItem.MainDocuments[index] = document; });
+				    }
+			    }
+
+			    if (!isContains)
+			    {
+				    (view as Window)?.Invoke(() =>
+				    {
+					    // Model.AddMainDocument(document);
+					    //костыль
+					    var window = new VisitorsMainDocumentView(
+						    new VisitorsMainDocumentModel(
+							    document), true, CurrentItem.Person);
+					    window.ShowDialog();
+					    var editDocument = window.WindowResult as VisitorsMainDocument;
+
+					    if (editDocument == null)
+					    {
+						    return;
+					    }
+
+					    Model.AddMainDocument(editDocument);
+				    });
 			    }
 		    }
-
-		    if (!isContains)
-		    {
-			    (view as Window)?.Invoke(() =>
-			    {
-				   // Model.AddMainDocument(document);
-				    //костыль
-				    var window = new VisitorsMainDocumentView(
-					    new VisitorsMainDocumentModel(
-						    document), true, CurrentItem.Person);
-				    window.ShowDialog();
-				    var editDocument = window.WindowResult as VisitorsMainDocument;
-
-				    if (editDocument == null)
-				    {
-					    return;
-				    }
-				    Model.AddMainDocument(editDocument);
-			    });
-		    }
-		}
+	    }
 
 	    /// <summary>
 	    /// Сканы документа по номеру.
