@@ -249,7 +249,7 @@
 							MouseDown="DataGrid_OnMouseDown"
 							SelectedItem="{Binding SelectedElement, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}">
 							<DataGrid.Columns>
-								<DataGridTextColumn Binding="{Binding Visitor}" Header="Посетитель">
+								<DataGridTextColumn Binding="{Binding Visitor}" Header="Посетитель     ">
 									<DataGridTextColumn.ElementStyle>
 										<Style TargetType="TextBlock">
 											<Setter Property="TextTrimming" Value="CharacterEllipsis" />
@@ -258,7 +258,7 @@
 									</DataGridTextColumn.ElementStyle>
 								</DataGridTextColumn>
 								<DataGridTextColumn
-									Width="*"
+									Width="1.1*"
 									Binding="{Binding Organization}"
 									Header="Организация">
 									<DataGridTextColumn.ElementStyle>
@@ -280,7 +280,7 @@
 									</DataGridTextColumn.ElementStyle>
 								</DataGridTextColumn>
 								<DataGridTextColumn
-									Width="*"
+									Width="1.2*"
 									Binding="{Binding Catcher}"
 									Header="Принимающий">
 									<DataGridTextColumn.ElementStyle>
@@ -302,11 +302,11 @@
 									</DataGridTextColumn.ElementStyle>
 								</DataGridTextColumn>
 								<DataGridCheckBoxColumn
-									Width="120"
+									Width="130"
 									Binding="{Binding IsBlock}"
 									Header="Вход запрещен" />
 								<DataGridTextColumn
-									Width="150"
+									Width="170"
 									Binding="{Binding CardStateString, Mode=OneWay}"
 									Header="Состояние пропуска" />
 							</DataGrid.Columns>
@@ -744,7 +744,7 @@
 							MouseDown="DataGrid_OnMouseDown"
 							SelectedItem="{Binding SelectedElement, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}">
 							<DataGrid.Columns>
-								<DataGridTextColumn Binding="{Binding Visitor}" Header="Посетитель">
+								<DataGridTextColumn Binding="{Binding Visitor}" Header="Посетитель     ">
 									<DataGridTextColumn.ElementStyle>
 										<Style TargetType="TextBlock">
 											<Setter Property="TextTrimming" Value="CharacterEllipsis" />
@@ -753,7 +753,7 @@
 									</DataGridTextColumn.ElementStyle>
 								</DataGridTextColumn>
 								<DataGridTextColumn
-									Width="*"
+									Width="1.1*"
 									Binding="{Binding Organization}"
 									Header="Организация">
 									<DataGridTextColumn.ElementStyle>
@@ -775,7 +775,7 @@
 									</DataGridTextColumn.ElementStyle>
 								</DataGridTextColumn>
 								<DataGridTextColumn
-									Width="*"
+									Width="1.2*"
 									Binding="{Binding Catcher}"
 									Header="Принимающий">
 									<DataGridTextColumn.ElementStyle>
@@ -797,20 +797,14 @@
 									</DataGridTextColumn.ElementStyle>
 								</DataGridTextColumn>
 								<DataGridCheckBoxColumn
-									Width="120"
+									Width="130"
 									Binding="{Binding IsBlock}"
 									Header="Вход запрещен" />
 								<DataGridTextColumn
-									Width="150"
+									Width="170"
 									Binding="{Binding CardStateString, Mode=OneWay}"
 									Header="Состояние пропуска" />
 							</DataGrid.Columns>
-							<DataGrid.InputBindings>
-								<MouseBinding
-									Command="{Binding DoubleClickCommand}"
-									CommandParameter="{Binding SelectedElement}"
-									MouseAction="LeftDoubleClick" />
-							</DataGrid.InputBindings>
 						</DataGrid>
 
 						<Grid Grid.Row="3">
