@@ -598,17 +598,16 @@ namespace SupRealClient.Views
 
 	    ~VisitsViewModel()
 	    {
-			if(DocumentScaner!=null)
-				DocumentScaner.ScanFinished -= Scaner_ScanFinished;
-				DocumentScaner?.Dispose();
+		    DocumentScanerDispose();
 	    }
 
-	    internal void RemoveScanSubscription()
+	    internal void DocumentScanerDispose()
 	    {
 		    if (DocumentScaner != null)
 		    {
 			    DocumentScaner.ScanFinished -= Scaner_ScanFinished;
-			}
+			    DocumentScaner.Dispose();
+		    }
 	    }
 
 	    private void Refresh()

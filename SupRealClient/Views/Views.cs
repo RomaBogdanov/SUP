@@ -1319,8 +1319,7 @@ namespace SupRealClient.Views
         {
 	        if (sender is SupRealClient.Views.VisitorsView visitorView)
 	        {
-		        (visitorView.DataContext as VisitsViewModel)?.RemoveScanSubscription();
-		        (visitorView.DataContext as VisitsViewModel)?.DocumentScaner.Dispose();
+		        (visitorView.DataContext as VisitsViewModel)?.DocumentScanerDispose();
 	        }
 
 	        ViewManager.Instance.CloseWindow(this, true, e);
