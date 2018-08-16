@@ -467,11 +467,6 @@ namespace SupHost.Andover
 					//заполнение vis_cards_ext
 					if (!updateCardExt)
 					{
-						if ((int)rowCard["f_card_id"]==3)
-						{
-							var x = 1;
-						}
-
 						rowCardExt["f_card_id"] = rowCard["f_card_id"];
 					}
 					else
