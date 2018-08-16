@@ -106,6 +106,7 @@
     <Compile Include="Andover\AndoverTestViewModel.cs" />
     <Compile Include="Behaviour\BoolToGridRowHeightConverter.cs" />
     <Compile Include="Behaviour\BoolToStringConverter.cs" />
+    <Compile Include="Behaviour\BoolTo_BoldFontWeight.cs" />
     <Compile Include="Behaviour\DataGridTextSearch.cs" />
     <Compile Include="Behaviour\DialogService.cs" />
     <Compile Include="Behaviour\DocumentListElementsHeightConverter.cs" />
