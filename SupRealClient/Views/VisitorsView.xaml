@@ -240,7 +240,8 @@
 				IsReadOnly="True"
 				IsTabStop="False"
 				Style="{StaticResource TextBoxStyle}"
-				Text="{Binding Path=CurrentItem.Organization, Mode=TwoWay}"/>
+				Text="{Binding Path=CurrentItem.Organization, Mode=TwoWay}"
+				FontWeight="{Binding VisibleTabItem_Employee, Converter={StaticResource BoolToBoldFontWeight}}"/>
 			<!--FontWeight="{Binding VisibleTabItem_Employee, Converter={StaticResource BoolToBoldFontWeight}}"-->
 
 			<Button

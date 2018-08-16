@@ -56,7 +56,7 @@ namespace SupRealClient.Views
 					Organization baseOrg =
 						OrganizationsHelper.GetOrganization(baseOrgID, true);
 					if (MessageBox.Show(
-						    "При подтверждении выбора данной организации, в дальнейшем будет выбрано назние организации" +
+						    "При подтверждении выбора будет назначена основная организация" +
 						    Environment.NewLine + " \"" + baseOrg.Name + "\"", "Внимание", MessageBoxButton.OKCancel,
 						    MessageBoxImage.Exclamation) == MessageBoxResult.OK)
 					{
