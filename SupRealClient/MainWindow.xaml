@@ -117,7 +117,7 @@
 				<MenuItem Command="{Binding Path=ListChildOrgs}" Header="Дочерние акционерные общества" />
 				<MenuItem Command="{Binding Path=ListBaseOrgs}" Header="Главные организации" />
 				<MenuItem Command="{Binding Path=ListBaseOrgsStructClick}" Header="Структура главных организаций" />
-				<MenuItem Command="{Binding Path=ListNationsClick}" Header="Гражданства" />
+				<MenuItem Command="{Binding Path=ListNationsClick}" Header="Страны" />
 				<MenuItem Command="{Binding Path=ListDocumentsClick}" Header="Документы" />
 				<MenuItem Command="{Binding Path=ListVisitorsClick}" Header="Посетители" />
 				<MenuItem Command="{Binding Path=ListBidsClick}" Header="Заявки" />
