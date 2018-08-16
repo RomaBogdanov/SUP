@@ -89,6 +89,13 @@
 				Grid.Column="1"
 				VerticalAlignment="Center">
 				<TextBlock
+					x:Name="DocumentTypeTextBlock"
+					HorizontalAlignment="Left"
+					x:FieldModifier="private"
+					Style="{StaticResource TextBLockStyle}"
+					TextTrimming="CharacterEllipsis"
+					ToolTip="{Binding ElementName=DocumentTypeTextBlock, Path=Text}" />
+				<TextBlock
 					x:Name="DocumentSeriaTextBlock"
 					HorizontalAlignment="Left"
 					x:FieldModifier="private"

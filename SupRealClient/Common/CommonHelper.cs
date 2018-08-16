@@ -116,5 +116,50 @@ namespace SupRealClient.Common
 		    result = Regex.Replace(result, @"[!|@|#|$|%|^|&|*|(|)|_|+|-|=|:|?|/|'|<|>]", "");
 			return result;
 	    }
+
+	    /// <summary>
+	    /// Тип документа на русском языке.
+	    /// </summary>
+	    /// <param name="documentType"></param>
+	    /// <returns></returns>
+	    public static string GetDocumentTypeInRussian(string documentType)
+	    {
+		    if (string.IsNullOrEmpty(documentType))
+		    {
+			    return null;
+		    }
+
+		    if (documentType.ToLower().Contains("epassport"))
+		    {
+			    return "Заграничный паспорт";
+		    }
+
+		    if (documentType.ToLower().Contains("passport"))
+		    {
+			    return "Паспорт";
+		    }
+
+		    if (documentType.ToLower().Contains("driving license"))
+		    {
+			    return "Водительское удостоверение";
+		    }
+
+		    if (documentType.ToLower().Contains("visa"))
+		    {
+			    return "Виза";
+		    }
+
+		    if (documentType.ToLower().Contains("snils"))
+		    {
+			    return "СНИЛС";
+		    }
+
+		    if (documentType.ToLower().Contains("сertificate of birth"))
+		    {
+			    return "Свидетельство о рождении";
+		    }
+
+		    return null;
+	    }
 	}
 }
