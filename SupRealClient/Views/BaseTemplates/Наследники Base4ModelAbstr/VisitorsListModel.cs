@@ -67,7 +67,9 @@ namespace SupRealClient.Views
             /*VisitorsView.Instance.Show();
             VisitorsView.Instance.NewVisitor();*/
             //object res = ViewManager.Instance.OpenWindowModal("VisitorsView");
-            ViewManager.Instance.OpenWindow("VisitorsView", this.Parent);
+
+			//todo: создание нового view - костыль для открытия в режиме редактирования. Позже нужно удалить.
+            ViewManager.Instance.OpenWindow("VisitorsView", this.Parent ?? new SupRealClient.Views.VisitorsListWindView(null));
         }
 
         public override void Farther()

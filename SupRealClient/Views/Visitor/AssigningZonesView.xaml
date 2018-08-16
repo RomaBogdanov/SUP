@@ -8,6 +8,7 @@
 	Title="Назначение областей доступа"
 	Width="600"
 	Height="800"
+	PreviewKeyDown="MainWindow_PreviewKeyDown"
 	ResizeMode="NoResize"
 	mc:Ignorable="d">
 	<Grid>
@@ -58,7 +59,6 @@
 			Name="DataGridTemplateLeft"
 			Grid.Row="1"
 			Grid.RowSpan="7"
-			MouseDown="DataGridTemplateLeft_OnMouseDown"
 			Grid.Column="0"
 			Grid.ColumnSpan="2"
 			AutoGenerateColumns="False"
@@ -67,10 +67,12 @@
 			CanUserAddRows="False"
 			IsReadOnly="True"
 			ItemsSource="{Binding SetAllTemplates, Mode=TwoWay}"
+			MouseDown="DataGridTemplateLeft_OnMouseDown"
+			SelectedCellsChanged="DataGrid_OnSelectedCellsChanged"
 			SelectedItem="{Binding CurrentAllTemplate, Mode=TwoWay}">
 			<DataGrid.Columns>
-                <DataGridTextColumn Binding="{Binding Name}" Header="Названиие" />
-            </DataGrid.Columns>
+				<DataGridTextColumn Binding="{Binding Name}" Header="Названиие" />
+			</DataGrid.Columns>
 			<DataGrid.InputBindings>
 				<MouseBinding
 					Command="{Binding DoubleClickCommand}"
@@ -99,47 +101,50 @@
 			<Image Source="../../Resources/Вернуть.ico" />
 		</Button>
 
-        <Button
+		<Button
 			Grid.Row="4"
 			Grid.Column="2"
 			Width="50"
 			Margin="14,0"
 			Command="{Binding TemplatesSchedulesCommand}"
 			Content="..."
+			IsTabStop="False"
 			Style="{StaticResource ButtonStyle}" />
 
-        <Button
+		<Button
 			Grid.Row="5"
 			Grid.Column="2"
 			Width="50"
 			Margin="14,0"
 			Command="{Binding TemplatesClearCommand}"
 			Content="X"
+			IsTabStop="False"
 			Style="{StaticResource ButtonStyle}" />
 
-        <DataGrid
+		<DataGrid
 			Name="DataGridTemplateRight"
 			Grid.Row="1"
 			Grid.RowSpan="7"
 			Grid.Column="3"
-			MouseDown="DataGridTemplateRight_OnMouseDown"
 			AutoGenerateColumns="False"
 			BorderBrush="Black"
 			BorderThickness="1"
 			CanUserAddRows="False"
 			IsReadOnly="True"
 			ItemsSource="{Binding SetAppointTemplates, Mode=TwoWay}"
+			MouseDown="DataGridTemplateRight_OnMouseDown"
+			SelectedCellsChanged="DataGrid_OnSelectedCellsChanged"
 			SelectedItem="{Binding CurrentAppointTemplate, Mode=TwoWay}">
 			<DataGrid.Columns>
-                <DataGridTextColumn
+				<DataGridTextColumn
 					Width="100"
 					Binding="{Binding Name}"
 					Header="Названиие" />
-                <DataGridTextColumn
+				<DataGridTextColumn
 					Width="*"
 					Binding="{Binding Schedule}"
 					Header="Расписание" />
-            </DataGrid.Columns>
+			</DataGrid.Columns>
 			<DataGrid.InputBindings>
 				<MouseBinding
 					Command="{Binding DoubleClickCommand}"
@@ -168,7 +173,6 @@
 			Grid.Row="9"
 			Grid.RowSpan="7"
 			Grid.Column="0"
-			MouseDown="DataGridAreasLeft_OnMouseDown"
 			Grid.ColumnSpan="2"
 			AutoGenerateColumns="False"
 			BorderBrush="Black"
@@ -176,10 +180,12 @@
 			CanUserAddRows="False"
 			IsReadOnly="True"
 			ItemsSource="{Binding SetAllZones, Mode=TwoWay}"
+			MouseDown="DataGridAreasLeft_OnMouseDown"
+			SelectedCellsChanged="DataGrid_OnSelectedCellsChanged"
 			SelectedItem="{Binding CurrentAllZone, Mode=TwoWay}">
 			<DataGrid.Columns>
-                <DataGridTextColumn Binding="{Binding Name}" Header="Названиие" />
-            </DataGrid.Columns>
+				<DataGridTextColumn Binding="{Binding Name}" Header="Названиие" />
+			</DataGrid.Columns>
 			<DataGrid.InputBindings>
 				<MouseBinding
 					Command="{Binding DoubleClickCommand}"
@@ -208,47 +214,50 @@
 			<Image Source="../../Resources/Вернуть.ico" />
 		</Button>
 
-        <Button
+		<Button
 			Grid.Row="12"
 			Grid.Column="2"
 			Width="50"
 			Margin="14,0"
 			Command="{Binding AreasSchedulesCommand}"
 			Content="..."
+			IsTabStop="False"
 			Style="{StaticResource ButtonStyle}" />
 
-        <Button
+		<Button
 			Grid.Row="13"
 			Grid.Column="2"
 			Width="50"
 			Margin="14,0"
 			Command="{Binding AreasClearCommand}"
 			Content="X"
+			IsTabStop="False"
 			Style="{StaticResource ButtonStyle}" />
 
-        <DataGrid
+		<DataGrid
 			Name="DataGridAreasRight"
 			Grid.Row="9"
 			Grid.RowSpan="7"
 			Grid.Column="3"
 			AutoGenerateColumns="False"
-			MouseDown="DataGridAreasRight_OnMouseDown"
 			BorderBrush="Black"
 			BorderThickness="1"
 			CanUserAddRows="False"
 			IsReadOnly="True"
 			ItemsSource="{Binding SetAppointZones, Mode=TwoWay}"
+			MouseDown="DataGridAreasRight_OnMouseDown"
+			SelectedCellsChanged="DataGrid_OnSelectedCellsChanged"
 			SelectedItem="{Binding CurrentAppointZone, Mode=TwoWay}">
 			<DataGrid.Columns>
-                <DataGridTextColumn
+				<DataGridTextColumn
 					Width="100"
 					Binding="{Binding Name}"
 					Header="Названиие" />
-                <DataGridTextColumn
+				<DataGridTextColumn
 					Width="*"
 					Binding="{Binding Schedule}"
 					Header="Расписание" />
-            </DataGrid.Columns>
+			</DataGrid.Columns>
 			<DataGrid.InputBindings>
 				<MouseBinding
 					Command="{Binding DoubleClickCommand}"
@@ -280,6 +289,7 @@
 				Grid.Row="0"
 				Grid.Column="0"
 				Margin="2"
+				IsTabStop="False"
 				Style="{StaticResource TextBoxStyle}"
 				Text="{Binding Schedule}" />
 
@@ -297,6 +307,7 @@
 				Margin="2"
 				Command="{Binding ClearCommand}"
 				Content="X"
+				IsTabStop="False"
 				Style="{StaticResource ButtonStyle}" />
 		</Grid>
 

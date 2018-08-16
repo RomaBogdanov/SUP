@@ -863,10 +863,7 @@ namespace SupRealClient.ViewModels
 				OkCaption = "OK",
 				Model = model
 			};
-			var view = new VisitorsListWindView()
-			{
-				DataContext = viewModel
-			};
+			var view = new VisitorsListWindView(viewModel);
 			view.Owner = Application.Current.Windows.OfType<Window>().SingleOrDefault(x => x.IsActive);
 			view.WindowStartupLocation = WindowStartupLocation.CenterOwner;
 			model.OnClose += view.Handling_OnClose;

@@ -32,9 +32,13 @@ namespace SupRealClient.Common
         public static string CreateFullName(string family, string name,
             string secondName)
         {
-            return family.Trim() + " " + name.Trim().Substring(0, 1) + ". " +
+			if(!string.IsNullOrEmpty(secondName) && !string.IsNullOrWhiteSpace(secondName))
+				return family.Trim() + " " + name.Trim().Substring(0, 1) + ". " +
                 secondName.Trim().Substring(0, 1) + ".";
-        }
+			else
+				return family.Trim() + " " + name.Trim().Substring(0, 1) + ". " +
+				       secondName + ".";
+		}
 
 	    public static bool IsPositionCorrect(string position)
 	    {
@@ -111,6 +115,51 @@ namespace SupRealClient.Common
 		    result = Regex.Replace(result, @"\s*[-–——]\s*", " - ");
 		    result = Regex.Replace(result, @"[!|@|#|$|%|^|&|*|(|)|_|+|-|=|:|?|/|'|<|>]", "");
 			return result;
+	    }
+
+	    /// <summary>
+	    /// Тип документа на русском языке.
+	    /// </summary>
+	    /// <param name="documentType"></param>
+	    /// <returns></returns>
+	    public static string GetDocumentTypeInRussian(string documentType)
+	    {
+		    if (string.IsNullOrEmpty(documentType))
+		    {
+			    return null;
+		    }
+
+		    if (documentType.ToLower().Contains("epassport"))
+		    {
+			    return "Заграничный паспорт";
+		    }
+
+		    if (documentType.ToLower().Contains("passport"))
+		    {
+			    return "Паспорт";
+		    }
+
+		    if (documentType.ToLower().Contains("driving license"))
+		    {
+			    return "Водительское удостоверение";
+		    }
+
+		    if (documentType.ToLower().Contains("visa"))
+		    {
+			    return "Виза";
+		    }
+
+		    if (documentType.ToLower().Contains("snils"))
+		    {
+			    return "СНИЛС";
+		    }
+
+		    if (documentType.ToLower().Contains("сertificate of birth"))
+		    {
+			    return "Свидетельство о рождении";
+		    }
+
+		    return null;
 	    }
 	}
 }

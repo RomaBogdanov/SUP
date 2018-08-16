@@ -5,6 +5,7 @@ using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using RegulaLib;
+using SupRealClient.Common;
 
 namespace SupRealClient.Views
 {
@@ -45,7 +46,8 @@ namespace SupRealClient.Views
 			NameTextBlock.Text = person.Name?.Value;
 			PatronymicTextBlock.Text = person.Patronymic?.Value;
 			BirthDateTextBlock.Text = person.DateOfBirth?.Value;
-			
+
+			DocumentTypeTextBlock.Text = CommonHelper.GetDocumentTypeInRussian(person.DocumentType?.Value);
 			DocumentSeriaTextBlock.Text = person.DocumentSeria?.Value;
 			DocumentNumberTextBlock.Text = person.DocumentNumber?.Value;
 			DocumentDeliveryPlaceTextBlock.Text = person.DocumentDeliveryPlace?.Value;

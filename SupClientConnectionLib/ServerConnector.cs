@@ -118,7 +118,12 @@ namespace SupClientConnectionLib
             return this.tableService.ExitAuthorize(authorizer.GetInfo());
         }
 
-        public bool ImportFromAndover(string tables)
+	    public int GetDocumentTypeId(string documentType, int operatorId)
+	    {
+		    return this.tableService.GetDocumentTypeId(documentType,operatorId);
+	    }
+
+		public bool ImportFromAndover(string tables)
         {
             return this.tableService.ImportFromAndover(tables,authorizer.GetInfo());
         }
@@ -292,6 +297,7 @@ namespace SupClientConnectionLib
         public void DelRow(string tableName, object[] objs)
         {
             this.OnDelete?.Invoke(tableName, objs);
-        } 
-    }
+        }
+
+	}
 }
