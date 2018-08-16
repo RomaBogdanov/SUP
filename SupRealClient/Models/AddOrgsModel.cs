@@ -6,6 +6,7 @@ using SupClientConnectionLib;
 using SupRealClient.Common;
 using SupRealClient.EnumerationClasses;
 using SupRealClient.TabsSingleton;
+using log4net;
 
 namespace SupRealClient.Models
 {
@@ -38,6 +39,7 @@ namespace SupRealClient.Models
         
         public void Ok(Organization data)
         {
+            Logger.Log.Debug("Попытка добавить организацию");
             if (string.IsNullOrEmpty(data.Type))
             {
                 MessageBox.Show("Заполните поле «Тип»", "Информация", MessageBoxButton.OK, MessageBoxImage.Information);

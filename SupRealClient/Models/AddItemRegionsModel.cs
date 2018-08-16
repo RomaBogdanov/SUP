@@ -6,6 +6,7 @@ using SupClientConnectionLib;
 using SupRealClient.EnumerationClasses;
 using SupRealClient.TabsSingleton;
 using SupRealClient.Utils;
+using log4net;
 
 namespace SupRealClient.Models
 {
@@ -25,6 +26,7 @@ namespace SupRealClient.Models
 
         public void Ok(Region data)
         {
+            Logger.Log.Debug($"Попытка добавления региона");
             if (data.Name.IsNullOrEmptyOrWhiteSpaces())
             {
                 MessageBox.Show("Заполните поле «Название»", "Информация", MessageBoxButton.OK, MessageBoxImage.Information);
