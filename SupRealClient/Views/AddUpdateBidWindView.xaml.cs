@@ -33,7 +33,8 @@ namespace SupRealClient.Views
 		        checkDisable,
 		        btnOK
 	        };
-		}        
+	        Loaded += MetroWindow_Loaded;
+        }        
 
         public void Handling_OnClose(object result)
         {
@@ -43,8 +44,8 @@ namespace SupRealClient.Views
 
         private void MetroWindow_Loaded(object sender, RoutedEventArgs e)
         {
-            btnSelectBid.Focus();
-        }
+			 btnSelectBid.Focus();
+		}
 
 		/// <summary>
 		/// Реакция на нажатие Enter
@@ -52,7 +53,7 @@ namespace SupRealClient.Views
 		/// </summary>
 		/// <param name="sender"></param>
 		/// <param name="e"></param>
-	    private void UiElement_PreviewKeyDown(object sender, KeyEventArgs e)
+		private void UiElement_PreviewKeyDown(object sender, KeyEventArgs e)
 	    {
 		    if (e.Key != Key.Enter)
 		    {
