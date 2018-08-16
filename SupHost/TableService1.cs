@@ -7,6 +7,7 @@ using System.Threading;
 using SupHost.Data;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using SupHost.Andover;
 
 namespace SupHost
@@ -284,5 +285,64 @@ namespace SupHost
 			ExtraditionSuccess = result.ExtraditionSuccess
 		};
         }
-    }
+
+	    public int GetDocumentTypeId(string documentType, int operatorId)
+	    {
+		    if (string.IsNullOrEmpty(documentType))
+		    {
+			    return 0;
+		    }
+		    
+		    VisDocumentsTableWrapper documentsTableWrapper = (VisDocumentsTableWrapper)VisDocumentsTableWrapper.GetTableWrapper(TableName.VisDocuments);
+		    int typeId;
+		    try
+		    {
+			    typeId = (from row in documentsTableWrapper.GetTable().AsEnumerable()
+				    where string.Equals(row.Field<string>("f_doc_name").Trim().ToLower(), documentType.ToLower())
+				    select row.Field<int>("f_doc_id")).FirstOrDefault();
+			}
+		    catch (Exception)
+		    {
+			    return 0;
+		    }
+
+		    if (typeId == 0)
+		    {
+			    DataRow newRow;
+			    try
+			    {
+				    newRow = documentsTableWrapper.GetTable().NewRow();
+
+				    var maxId = GetMaxId(documentsTableWrapper, "f_doc_id");
+				    newRow["f_doc_id"] = ++maxId;
+				    newRow["f_doc_name"] = documentType;
+				    newRow["f_deleted"] = "N";
+				    newRow["f_rec_date"] = DateTime.Now;
+				    newRow["f_rec_operator"] = operatorId;
+				    documentsTableWrapper.InsertRow(newRow.ItemArray, null);
+				    return maxId;
+
+			    }
+			    catch (Exception)
+			    {
+				    return 0;
+			    }
+		    }
+		    
+		    return typeId;
+		}
+
+	    private static int GetMaxId(AbstractTableWrapper wrapper, string idField)
+	    {
+		    var maxId = 0;
+		    foreach (DataRow row in wrapper.GetTable().Rows)
+		    {
+			    if ((int)row[idField] > maxId)
+			    {
+				    maxId = (int)row[idField];
+			    }
+		    }
+		    return maxId;
+	    }
+	}
 }
