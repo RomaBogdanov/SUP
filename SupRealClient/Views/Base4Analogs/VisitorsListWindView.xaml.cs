@@ -34,11 +34,12 @@ namespace SupRealClient.Views
 		/// <summary>
 		/// Стандартный конструктор
 		/// </summary>
-	    public VisitorsListWindView()
-	    {
+	    public VisitorsListWindView(object dataContext)
+		{
 		    InitializeComponent();
-		    AfterInitialize();
-	    }
+			base4.DataContext = dataContext;
+			AfterInitialize();
+		}
 
 		partial void CreateColumns()
         {
