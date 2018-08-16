@@ -292,15 +292,16 @@ namespace SupHost
 		    {
 			    return 0;
 		    }
-		    
-		    VisDocumentsTableWrapper documentsTableWrapper = (VisDocumentsTableWrapper)VisDocumentsTableWrapper.GetTableWrapper(TableName.VisDocuments);
+
+		    VisDocumentsTableWrapper documentsTableWrapper =
+			    (VisDocumentsTableWrapper) VisDocumentsTableWrapper.GetTableWrapper(TableName.VisDocuments);
 		    int typeId;
 		    try
 		    {
 			    typeId = (from row in documentsTableWrapper.GetTable().AsEnumerable()
 				    where string.Equals(row.Field<string>("f_doc_name").Trim().ToLower(), documentType.ToLower())
 				    select row.Field<int>("f_doc_id")).FirstOrDefault();
-			}
+		    }
 		    catch (Exception)
 		    {
 			    return 0;
@@ -328,9 +329,31 @@ namespace SupHost
 				    return 0;
 			    }
 		    }
+
+		    var docRow = (from row in documentsTableWrapper.GetTable().AsEnumerable()
+			    where string.Equals(row.Field<string>("f_doc_name").Trim().ToLower(), documentType.ToLower())
+			    select row).FirstOrDefault();
+
+		    
+		    if (string.Equals(docRow?.Field<string>("f_deleted").Trim().ToLower(),"y"))
+		    {
+				try
+				{
+					if (docRow != null)
+					{
+						docRow["f_deleted"] = "N";
+						var numRow = documentsTableWrapper.GetTable().Rows.IndexOf(docRow);
+						documentsTableWrapper.UpdateRow(docRow.ItemArray, numRow, null);
+					}
+				}
+				catch (Exception)
+				{
+					// ignored
+				}
+			}
 		    
 		    return typeId;
-		}
+	    }
 
 	    private static int GetMaxId(AbstractTableWrapper wrapper, string idField)
 	    {
