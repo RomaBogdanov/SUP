@@ -1401,6 +1401,9 @@ namespace SupRealClient.Views
 			{
 				return;
 			}
+
+			string editingMainDocument = CurrentItem.MainDocuments[SelectedMainDocument].DocumentName;
+
 			var window = new VisitorsMainDocumentView(
 			    new VisitorsMainDocumentModel(
 				CurrentItem.MainDocuments[SelectedMainDocument]), true, CurrentItem.Person);
@@ -1414,7 +1417,7 @@ namespace SupRealClient.Views
 
 			Model.EditMainDocument(SelectedMainDocument, document);
 
-			Remove_VisitorDocument(document.DocumentName);
+			Remove_VisitorDocument(editingMainDocument);
 			Generate_VisitorDocument(document.DocumentName, document.Images, false);
 
 
