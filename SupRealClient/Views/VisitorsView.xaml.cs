@@ -39,6 +39,11 @@ namespace SupRealClient.Views
 			{
 				if (this.DataContext == null)
 				{
+					if (DataContext is VisitsViewModel visitsView)
+					{
+						visitsView.DocumentScanerRemoveSubscription();
+					}
+
 					this.DataContext = new VisitsViewModel(this);
 				}
 
@@ -118,9 +123,17 @@ namespace SupRealClient.Views
 						(this.DataContext as VisitsViewModel).NewCommand.Execute(null);
 				}
 
-
 				if (this.Visibility == Visibility.Hidden)
+				{
+					if (DataContext is VisitsViewModel visitsView)
+					{
+						visitsView.DocumentScanerRemoveSubscription();
+					}
+
 					this.DataContext = new VisitsViewModel(this);
+				}
+
+				
 			}
 		}
 

@@ -613,10 +613,15 @@ namespace SupRealClient.Views
 
 		internal void DocumentScanerDispose()
 		{
+			DocumentScanerRemoveSubscription();
+			DocumentScaner?.Dispose();
+		}
+
+		internal void DocumentScanerRemoveSubscription()
+		{
 			if (DocumentScaner != null)
 			{
 				DocumentScaner.ScanFinished -= Scaner_ScanFinished;
-				DocumentScaner.Dispose();
 			}
 		}
 
@@ -1211,7 +1216,7 @@ namespace SupRealClient.Views
 			}
 
 			IsRedactMode = false;
-			DocumentScaner.Dispose();
+			DocumentScanerDispose();
 		}
 
 		private void AddImageSource(ImageType imageType, string name, CPerson person = null, bool isPortraitForSubstit = false)
