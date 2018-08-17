@@ -1,5 +1,6 @@
 ﻿using System;
 using System.IO;
+using System.Linq;
 using System.Windows;
 using System.Windows.Input;
 using System.Windows.Media;
@@ -40,8 +41,18 @@ namespace SupRealClient.Views
 
 		private void ViewPersonInfo(CPerson person)
 		{
-			DocumentPageImage.Source = GetImage(person.PagesScanHash[person.DocumentNumber?.Value + 1]);
-
+			try
+			{
+				DocumentPageImage.Source = GetImage(person.PagesScanHash[person.DocumentNumber?.Value + 1]);
+			}
+			catch (Exception)
+			{
+				if (person.PagesScanHash.Any())
+				{
+					DocumentPageImage.Source = GetImage(person.PagesScanHash.First().Value);
+				}
+			}
+			
 			SurnameTextBlock.Text = person.Surname?.Value;
 			NameTextBlock.Text = person.Name?.Value;
 			PatronymicTextBlock.Text = person.Patronymic?.Value;
