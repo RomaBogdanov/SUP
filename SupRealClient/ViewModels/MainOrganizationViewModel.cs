@@ -24,6 +24,7 @@ namespace SupRealClient.ViewModels
 
         System.Collections.Generic.List<Organization> memOrgs = new System.Collections.Generic.List<Organization>();
         System.Collections.Generic.List<Department> memDeps = new System.Collections.Generic.List<Department>();
+
         bool IsAddDep = false;
 
         enum CurrentLevel
@@ -73,6 +74,11 @@ namespace SupRealClient.ViewModels
                         currentDep = -1;
                         description = ((Organization)value).Description;
                         currentLevel = CurrentLevel.Organization;
+
+                        if (description.ToUpper() == Organizations[0]?.Description.ToUpper())
+                        {
+                            DepartmentEnabled = false;
+                        }
                     }                    
                     OnPropertyChanged();
                 }
@@ -164,6 +170,8 @@ namespace SupRealClient.ViewModels
                 var window = new AddDepartmentView { DataContext = viewModel };
                 viewModel.Model.OnClose += window.Close;
                 window.ShowDialog();
+
+                IsAddDep = false;
             });
             return action;
         }
@@ -232,6 +240,8 @@ namespace SupRealClient.ViewModels
                     Description = $"{org.Field<string>("f_org_type")} " +
                         $"{org.Field<string>("f_org_name")}",
                     Id = org.Field<int>("f_org_id"),
+                    IsExpanded = memOrgs.Find(x => x.Id == org.Field<int>("f_org_id"))?.IsExpanded ?? false,
+                    IsSelected = memOrgs.Find(x => x.Id == org.Field<int>("f_org_id"))?.IsSelected ?? false,
                     Items = new ObservableCollection<Department>(
                         from department in DepartmentWrapper
                             .CurrentTable().Table.AsEnumerable()
@@ -242,13 +252,20 @@ namespace SupRealClient.ViewModels
                             Id = department.Field<int>("f_dep_id"),
                             ParentId = department.Field<int>("f_parent_id"),
                             Description = department.Field<string>("f_dep_name"),
+                            IsExpanded = memDeps.Find(x => x.Id == department.Field<int>("f_dep_id"))?.IsExpanded ?? false,
+                            IsSelected = memDeps.Find(x => x.Id == department.Field<int>("f_dep_id"))?.IsSelected ?? false,
                             Items = GetItems(department.Field<int>("f_dep_id"))
                         })                    
                 })
-            };
+            };            
             Organizations.Add(mainOrganization);
+
             mainOrganization.IsExpanded = true;
-            checkIsExpandedState();
+
+            if (IsAddDep)
+            {
+                SelectNewDepartment();
+            }
         }
 
         private ObservableCollection<Department> GetItems(int parentId)
@@ -262,6 +279,8 @@ namespace SupRealClient.ViewModels
                     Id = department.Field<int>("f_dep_id"),
                     ParentId = department.Field<int>("f_parent_id"),
                     Description = department.Field<string>("f_dep_name"),
+                    IsExpanded = memDeps.Find(x => x.Id == department.Field<int>("f_dep_id"))?.IsExpanded ?? false,
+                    IsSelected = memDeps.Find(x => x.Id == department.Field<int>("f_dep_id"))?.IsSelected ?? false,
                     Items = GetItems(department.Field<int>("f_dep_id"))
                 });
         }
@@ -318,72 +337,7 @@ namespace SupRealClient.ViewModels
                 Searching(child, pattern);
             }
         }
-
-        void checkIsExpandedState()
-        {
-            Department maxIdDep = null;
-            object currSelObj = null;
-
-            foreach (var imainOrganization in Organizations)
-            {
-                foreach (var iOrg in imainOrganization.Items)
-                {
-                    FindOrgsIsExpandedIsSelectedState(iOrg, ref currSelObj);
-                    CheckExpandedDeps(iOrg.Items, 
-                                      ref maxIdDep, ref currSelObj);
-                }
-            }     
-
-            if (IsAddDep && maxIdDep != null)
-            {
-                if (currSelObj is ModelBase && !((ModelBase)currSelObj).IsExpanded)
-                {
-                    ((ModelBase)currSelObj).IsExpanded = true;
-                }
-
-                maxIdDep.IsSelected = true;
-               
-                IsAddDep = false;
-            }
-        }
-
-        void CheckExpandedDeps(ObservableCollection<Department> oDeps, 
-                               ref Department maxIdDep,
-                               ref object currSelObj)
-        {
-            foreach (var iDep in oDeps)
-            {
-                FindDepsIsExpandedIsSelectedState(iDep, ref currSelObj);
-                if (maxIdDep == null || iDep.Id > maxIdDep.Id)
-                    maxIdDep = iDep;
-                CheckExpandedDeps(iDep.Items, ref maxIdDep, ref currSelObj);
-            }            
-        }
-
-        void FindOrgsIsExpandedIsSelectedState(Organization oOrg, ref object currSelObj)
-        {
-            Organization findOrg = memOrgs.Find(x => x.Id == oOrg.Id);
-            if (findOrg != null)
-            {
-                oOrg.IsExpanded = findOrg.IsExpanded;
-                oOrg.IsSelected = findOrg.IsSelected;
-                if (IsAddDep && oOrg.IsSelected && !oOrg.IsExpanded)
-                    currSelObj = oOrg;
-            }
-        }
-
-        void FindDepsIsExpandedIsSelectedState(Department oDep, ref object currSelObj)
-        {
-            Department findDep = memDeps.Find(x => x.Id == oDep.Id);
-            if (findDep != null)
-            {
-                oDep.IsExpanded = findDep.IsExpanded;
-                oDep.IsSelected = findDep.IsSelected;
-                if (IsAddDep && oDep.IsSelected && !oDep.IsExpanded)
-                    currSelObj = oDep;
-            }
-        }
-
+        
         void memIsExpandedIsSelectedState()
         {
             memOrgs = new System.Collections.Generic.List<Organization>();
@@ -405,6 +359,30 @@ namespace SupRealClient.ViewModels
             {
                 memDeps.Add(iDep);
                 GetDeps(iDep.Items, ref memDeps);
+            }
+        }
+
+        void SelectNewDepartment()
+        {
+            memIsExpandedIsSelectedState();
+            var maxId = memDeps.OrderByDescending(o => o.Id).FirstOrDefault();
+            if (maxId != null)
+            {
+                var selectedItem = (ModelBase)null; 
+                if (SelectedObject is Department)
+                {
+                    selectedItem = memDeps.Find(o => o.Id == (SelectedObject as ModelBase).Id);
+                }
+                else if (SelectedObject is Organization)
+                {
+                    selectedItem = memOrgs.Find(o => o.Id == (SelectedObject as ModelBase).Id);
+                }               
+                if (selectedItem != null)
+                {
+                    selectedItem.IsExpanded = true;
+                }
+                maxId.IsSelected = true;
+                SelectedObject = maxId;
             }
         }
     }
