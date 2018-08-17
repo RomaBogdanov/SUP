@@ -5,6 +5,7 @@ using System.ServiceModel;
 using System.ServiceModel.Dispatcher;
 using System.Xml;
 using SupContract;
+using log4net;
 
 namespace SupClientConnectionLib
 {
@@ -117,9 +118,14 @@ namespace SupClientConnectionLib
             return this.tableService.ExitAuthorize(authorizer.GetInfo());
         }
 
-        public bool ImportFromAndover()
+	    public int GetDocumentTypeId(string documentType, int operatorId)
+	    {
+		    return this.tableService.GetDocumentTypeId(documentType,operatorId);
+	    }
+
+		public bool ImportFromAndover(string tables)
         {
-            return this.tableService.ImportFromAndover(authorizer.GetInfo());
+            return this.tableService.ImportFromAndover(tables,authorizer.GetInfo());
         }
 
         public CExtraditionContract ExportToAndover(AndoverExportData data)
@@ -148,6 +154,13 @@ namespace SupClientConnectionLib
             {
                 b = this.tableService.InsertRow(compositeType, rowValues,
                     authorizer.GetInfo());
+                string st = "";
+                foreach (var item in rowValues)
+                {
+                    st += item + " ";
+                }
+                Logger.Log.Debug($"Добавление строки в таблицу " +
+                    $"{compositeType.TableName}: {b} Значение: {st} ");
             }
             return b;
         }
@@ -166,14 +179,29 @@ namespace SupClientConnectionLib
             {
                 b = this.tableService.UpdateRow(compositeType, numRow, rowValues ,
                     authorizer.GetInfo());
+                string st = "";
+                foreach (var item in rowValues)
+                {
+                    st += item + " ";
+                }
+                Logger.Log.Debug($"Редактирование строки в таблице " +
+                    $"{compositeType.TableName}: {b} Значение: {st} ");
             }
             return b;
         }
 
         public bool DeleteRow(object[] objs)
         {
-            return this.tableService.DeleteRow(compositeType, objs,
+            bool b = this.tableService.DeleteRow(compositeType, objs,
                 authorizer.GetInfo());
+            string st = "";
+            foreach (var item in objs)
+            {
+                st += item + " ";
+            }
+            Logger.Log.Debug($"Удаление строки в таблице " +
+                $"{compositeType.TableName}: {b} Значение: {st} ");
+            return b;
         }
 
         public byte[] GetImage(Guid alias)
@@ -203,6 +231,8 @@ namespace SupClientConnectionLib
 
         public ClientConnector()
         {
+            Logger.InitLogger();
+            Logger.Log.Info("Логгирование работает");
             authorizer = Authorizer.AppAuthorizer;
             messageHandler = new NewMessageHandler();
             messageHandler.OnInsert += MessageHandler_OnInsert;
@@ -270,6 +300,8 @@ namespace SupClientConnectionLib
         public void DelRow(string tableName, object[] objs)
         {
             this.OnDelete?.Invoke(tableName, objs);
-        } 
-    }
+        }
+
+	}
 }
+ 

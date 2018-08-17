@@ -104,7 +104,7 @@ namespace SupContract
         /// </summary>
         /// <param name="info"></param>
         [OperationContract]
-        bool ImportFromAndover(OperationInfo info);
+        bool ImportFromAndover(string tables, OperationInfo info);
 
         /// <summary>
         /// Выгрузить данные в Andover
@@ -112,7 +112,14 @@ namespace SupContract
         /// <param name="info"></param>
         [OperationContract]
         CExtraditionContract ExportToAndover(AndoverExportData data, OperationInfo info);
-    }
+
+	    /// <summary>
+	    /// Получение TypeId документа
+	    /// </summary>
+	    /// <param name="info"></param>
+	    [OperationContract]
+	    int GetDocumentTypeId(string documentType, int operatorId);
+	}
 
     // Используйте контракт данных, как показано на следующем примере, чтобы добавить сложные типы к сервисным операциям.
     // В проект можно добавлять XSD-файлы. После построения проекта вы можете напрямую использовать в нем определенные типы данных с пространством имен "SupContract.ContractType".

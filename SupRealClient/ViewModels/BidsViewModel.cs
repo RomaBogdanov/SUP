@@ -4,6 +4,7 @@ using System.Collections.ObjectModel;
 using System.Linq;
 using System.Windows;
 using System.Windows.Forms;
+using SupRealClient.Common.Interfaces;
 using SupRealClient.EnumerationClasses;
 using SupRealClient.Models;
 using SupRealClient.Models.AddUpdateModel;
@@ -863,10 +864,7 @@ namespace SupRealClient.ViewModels
 				OkCaption = "OK",
 				Model = model
 			};
-			var view = new VisitorsListWindView()
-			{
-				DataContext = viewModel
-			};
+			var view = new VisitorsListWindView(viewModel);
 			view.Owner = Application.Current.Windows.OfType<Window>().SingleOrDefault(x => x.IsActive);
 			view.WindowStartupLocation = WindowStartupLocation.CenterOwner;
 			model.OnClose += view.Handling_OnClose;

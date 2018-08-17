@@ -1,10 +1,12 @@
 ﻿using System;
 using System.IO;
+using System.Linq;
 using System.Windows;
 using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using RegulaLib;
+using SupRealClient.Common;
 
 namespace SupRealClient.Views
 {
@@ -27,19 +29,36 @@ namespace SupRealClient.Views
 
 			ConfirmButton.Click += ConfirmButton_OnClick;
 			CancelButton.Click += CancelButton_OnClick;
+			SecondPageButton.Click += SecondPageButton_Click;
 			KeyUp += RegulaView_OnKeyUp;
 			ViewPersonInfo(person);
 		}
 
+		private void SecondPageButton_Click(object sender, RoutedEventArgs e)
+		{
+			ClickHandler(false);
+		}
+
 		private void ViewPersonInfo(CPerson person)
 		{
-			DocumentPageImage.Source = GetImage(person.PagesScanHash[person.DocumentNumber?.Value + 1]);
-
+			try
+			{
+				DocumentPageImage.Source = GetImage(person.PagesScanHash[person.DocumentNumber?.Value + 1]);
+			}
+			catch (Exception)
+			{
+				if (person.PagesScanHash.Any())
+				{
+					DocumentPageImage.Source = GetImage(person.PagesScanHash.First().Value);
+				}
+			}
+			
 			SurnameTextBlock.Text = person.Surname?.Value;
 			NameTextBlock.Text = person.Name?.Value;
 			PatronymicTextBlock.Text = person.Patronymic?.Value;
 			BirthDateTextBlock.Text = person.DateOfBirth?.Value;
-			
+
+			DocumentTypeTextBlock.Text = CommonHelper.GetDocumentTypeInRussian(person.DocumentType?.Value);
 			DocumentSeriaTextBlock.Text = person.DocumentSeria?.Value;
 			DocumentNumberTextBlock.Text = person.DocumentNumber?.Value;
 			DocumentDeliveryPlaceTextBlock.Text = person.DocumentDeliveryPlace?.Value;

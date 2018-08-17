@@ -35,7 +35,7 @@ namespace SupRealClient.Views
 
         public IWindow Parent { get; set; }
 
-        protected ObservableCollection<T> set;
+		protected ObservableCollection<T> set;
         protected T currentItem;
         protected int selectedIndex;
 
@@ -569,7 +569,7 @@ namespace SupRealClient.Views
         protected override DataTable Table => throw new NotImplementedException();
 
         CardsWrapper cardsWrapper = CardsWrapper.CurrentTable();
-        SprCardstatesWrapper sprCardstatesWrapper = SprCardstatesWrapper.CurrentTable();
+	SprCardstatesWrapper sprCardstatesWrapper = SprCardstatesWrapper.CurrentTable();
         VisitsWrapper visitsWrapper = VisitsWrapper.CurrentTable();
         VisitorsWrapper visitorsWrapper = VisitorsWrapper.CurrentTable();
 
@@ -590,9 +590,9 @@ namespace SupRealClient.Views
                     "Внимание", MessageBoxButtons.YesNo, MessageBoxIcon.Information) == DialogResult.Yes)
             {
                 ClientConnector clientConnector = ClientConnector.CurrentConnector;
-                if (clientConnector.ImportFromAndover())
+                if (clientConnector.ImportFromAndover(EAndoverExportItem.Personnel.ToString()))
                 {
-                    System.Windows.MessageBox.Show("Данные были загружены из Andover", "Информация",
+                    System.Windows.MessageBox.Show("Пропуска были загружены из Andover", "Информация",
                         MessageBoxButton.OK, MessageBoxImage.Information);
                 }
                 else
@@ -625,7 +625,7 @@ namespace SupRealClient.Views
                 c.Field<int>("f_object_id_lo") == v.Field<int>("f_card_id_lo") &&
                 v.Field<int>("f_visitor_id") == p.Field<int>("f_visitor_id") &&
                 ce.Field<int>("f_state_id") == 3 &&
-                v.Field<int>("f_rec_operator_back") == 0
+		v.Field<int>("f_rec_operator_back") == 0
                 select new CardsPersons
                 {
                     IdCardHi = c.Field<int>("f_object_id_hi"),
@@ -668,8 +668,11 @@ namespace SupRealClient.Views
 
             Set = new ObservableCollection<T>(
                 from c in cardsWrapper.Table.AsEnumerable()
-                where c.Field<int>("f_card_id") != 0
-                select new T
+                from ce in CardsExtWrapper.CurrentTable().Table.AsEnumerable()
+		where c.Field<int>("f_card_id") != 0 &&
+		      c.Field<int>("f_card_id") == ce.Field<int>("f_card_id") &&
+			string.Equals(ce.Field<string>("f_deleted").Trim().ToLower(), "n")
+		select new T
                 {
                     Id = c.Field<int>("f_card_id"),
                     CardIdHi = c.Field<int>("f_object_id_hi"),
@@ -702,18 +705,21 @@ namespace SupRealClient.Views
             }
         }
 
-        public override bool Remove()
-        {
-            //TODO: доработать функционал, для проверок отмены удаления
+	    public override bool Remove()
+	    {
+		    //TODO: доработать функционал, для проверок отмены удаления
 
-            DataRow row =
-                CardsWrapper.CurrentTable().Table.Rows.Find(currentItem.Id);
-            row["f_deleted"] = CommonHelper.BoolToString(true);
+		    //DataRow row =
+		    //    CardsWrapper.CurrentTable().Table.Rows.Find(currentItem.Id);
+		    DataRow row =
+			    CardsExtWrapper.CurrentTable().Table.Rows.Find(currentItem.Id);
 
-            return true;
-        }
+		    row["f_deleted"] = CommonHelper.BoolToString(true);
 
-        protected override BaseModelResult GetResult()
+		    return true;
+	    }
+
+	    protected override BaseModelResult GetResult()
         {
             return new BaseModelResult { Id = CurrentItem.Id, Name = CurrentItem.ReceiversName };
         }
@@ -1256,14 +1262,14 @@ namespace SupRealClient.Views
                 "Внимание", MessageBoxButtons.YesNo, MessageBoxIcon.Information) == DialogResult.Yes)
             {
 	            ClientConnector clientConnector = ClientConnector.CurrentConnector;
-	            if (clientConnector.ImportFromAndover())
+	            if (clientConnector.ImportFromAndover(EAndoverExportItem.Areas.ToString()))
 	            {
-		            System.Windows.MessageBox.Show("Данные были загружены из Andover", "Информация",
+		            System.Windows.MessageBox.Show("Области доступа были загружены из Andover", "Информация",
 			            MessageBoxButton.OK, MessageBoxImage.Information);
 	            }
 	            else
 	            {
-		            System.Windows.MessageBox.Show("Загрузка из Andover не удалась!", "Ошибка",
+		            System.Windows.MessageBox.Show("Загрузка областей доступа из Andover не удалась!", "Ошибка",
 			            MessageBoxButton.OK, MessageBoxImage.Error);
 	            }
 			}
@@ -1454,14 +1460,14 @@ namespace SupRealClient.Views
                 "Внимание", MessageBoxButtons.YesNo, MessageBoxIcon.Information) == DialogResult.Yes)
             {
 	            ClientConnector clientConnector = ClientConnector.CurrentConnector;
-	            if (clientConnector.ImportFromAndover())
+	            if (clientConnector.ImportFromAndover(EAndoverExportItem.Doors.ToString()))
 	            {
-		            System.Windows.MessageBox.Show("Данные были загружены из Andover", "Информация",
+		            System.Windows.MessageBox.Show("Точки доступа были загружены из Andover", "Информация",
 			            MessageBoxButton.OK, MessageBoxImage.Information);
 	            }
 	            else
 	            {
-		            System.Windows.MessageBox.Show("Загрузка из Andover не удалась!", "Ошибка",
+		            System.Windows.MessageBox.Show("Загрузка точек доступа из Andover не удалась!", "Ошибка",
 			            MessageBoxButton.OK, MessageBoxImage.Error);
 	            }
 			}
@@ -1643,14 +1649,14 @@ namespace SupRealClient.Views
 			        "Внимание", MessageBoxButtons.YesNo, MessageBoxIcon.Information) == DialogResult.Yes)
 		    {
 			    ClientConnector clientConnector = ClientConnector.CurrentConnector;
-			    if (clientConnector.ImportFromAndover())
+			    if (clientConnector.ImportFromAndover(EAndoverExportItem.Schedules.ToString()))
 			    {
-				    System.Windows.MessageBox.Show("Данные были загружены из Andover", "Информация",
+				    System.Windows.MessageBox.Show("Расписания были загружены из Andover", "Информация",
 					    MessageBoxButton.OK, MessageBoxImage.Information);
 			    }
 			    else
 			    {
-				    System.Windows.MessageBox.Show("Загрузка из Andover не удалась!", "Ошибка",
+				    System.Windows.MessageBox.Show("Загрузка расписаний из Andover не удалась!", "Ошибка",
 					    MessageBoxButton.OK, MessageBoxImage.Error);
 			    }
 			}

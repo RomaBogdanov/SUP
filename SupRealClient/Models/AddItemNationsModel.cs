@@ -35,6 +35,7 @@ namespace SupRealClient.Models
 
         public void Ok(FieldData data)
         {
+            Logger.Log.Debug($"Попытка добавления страны");
             if (string.IsNullOrEmpty(data.Field))
             {
                 MessageBox.Show("Заполните поле «Введите страну»", "Информация", MessageBoxButton.OK, MessageBoxImage.Information);
