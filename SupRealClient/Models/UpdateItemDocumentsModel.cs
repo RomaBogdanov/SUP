@@ -29,8 +29,8 @@ namespace SupRealClient.Models
 
 		public void Ok(FieldData data)
 		{
-
-			DocumentsWrapper documents = DocumentsWrapper.CurrentTable();
+            Logger.Log.Debug($"Попытка редактирования документа");
+            DocumentsWrapper documents = DocumentsWrapper.CurrentTable();
 			if (!string.IsNullOrWhiteSpace(data.Field))
 			{
 				DataRow row = documents.Table.Rows.Find(document.Id);

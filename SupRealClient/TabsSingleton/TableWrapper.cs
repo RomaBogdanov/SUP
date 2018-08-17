@@ -7,6 +7,7 @@ using SupClientConnectionLib;
 using SupRealClient.Common;
 using SupRealClient.EnumerationClasses;
 using SupRealClient.Models.AddUpdateModel;
+using log4net;
 
 namespace SupRealClient.TabsSingleton
 {
@@ -136,7 +137,8 @@ namespace SupRealClient.TabsSingleton
 
 		private void Connector_OnInsert(string tableName, object[] objs)
 		{
-			if (tableName == table.TableName && !this.table.Rows.Contains(objs[0]))
+            Logger.Log.Debug($"Попытка добавления строки в таблицу {tableName} из сервера");
+            if (tableName == table.TableName && !this.table.Rows.Contains(objs[0]))
 			{
 				try
 				{
@@ -152,7 +154,8 @@ namespace SupRealClient.TabsSingleton
 
 		private void Connector_OnUpdate(string tableName, int rowNumber, object[] objs)
 		{
-			if (tableName == table.TableName)
+            Logger.Log.Debug($"Попытка редактирования строки в таблице {tableName} из сервера");
+            if (tableName == table.TableName)
 			{
 				DataRow row = table.Rows.Find(objs[0]);
 				if (row != null)
@@ -175,7 +178,8 @@ namespace SupRealClient.TabsSingleton
 
 		private void Connector_OnDelete(string tableName, object[] objs)
 		{
-			if (tableName == table.TableName)
+            Logger.Log.Debug($"Попытка удаления строки из таблицы {tableName} из сервера");
+            if (tableName == table.TableName)
 			{
 				DataRow row = table.Rows.Find(objs[0]);
 				if (row != null)
@@ -204,33 +208,42 @@ namespace SupRealClient.TabsSingleton
 
 		private void Table_RowChanged(object sender, DataRowChangeEventArgs e)
 		{
+            Logger.Log.Debug($"Изменение в таблице {((DataTable)sender).TableName} ({typeof(TableWrapper)}.{nameof(TableWrapper.Table_RowChanged)})");
 			// TODO: перевести взаимодействие таблиц с сервером в табличные обёртки. 
 			DataTable dt;
 			switch (e.Action)
 			{
 				case DataRowAction.Nothing:
+                    Logger.Log.Debug("DataRowAction.Nothing");
 					break;
 				case DataRowAction.Delete:
+                    Logger.Log.Debug("DataRowAction.Delete");
 					this.OnChanged();
 					break;
 				case DataRowAction.Change:
+                    Logger.Log.Debug("Изменение строки (DataRowAction.Change)");
 					dt = (DataTable) sender;
 					int i = dt.Rows.IndexOf(e.Row);
 					this.OnChanged?.Invoke();
 					this.Connector.UpdateRow(e.Row.ItemArray, i);
 					break;
 				case DataRowAction.Rollback:
+                    Logger.Log.Debug("DataRowAction.Rollback");
 					break;
 				case DataRowAction.Commit:
+                    Logger.Log.Debug("DataRowAction.Commit");
 					break;
 				case DataRowAction.Add:
+                    Logger.Log.Debug("Добавление строки (DataRowAction.Add)");
 					dt = (DataTable) sender;
 					this.OnChanged?.Invoke();
 					this.Connector.InsertRow(e.Row.ItemArray);
 					break;
 				case DataRowAction.ChangeOriginal:
+                    Logger.Log.Debug("DataRowAction.ChangeOriginal");
 					break;
 				case DataRowAction.ChangeCurrentAndOriginal:
+                    Logger.Log.Debug("DataRowAction.ChangeCurrentAndOriginal");
 					break;
 				default:
 					break;

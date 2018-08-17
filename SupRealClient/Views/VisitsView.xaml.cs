@@ -41,6 +41,7 @@ using SupRealClient.Views.Visitor;
 using KeyEventArgs = System.Windows.Input.KeyEventArgs;
 using MessageBox = System.Windows.Forms.MessageBox;
 using System.Text.RegularExpressions;
+using log4net;
 
 namespace SupRealClient.Views
 {
@@ -3033,7 +3034,8 @@ namespace SupRealClient.Views
 
 		public override bool Ok()
 		{
-			bool? validate = Validate_AndUse_IsAgree();
+            Logger.Log.Debug($"Попытка добавления посетителя");
+            bool? validate = Validate_AndUse_IsAgree();
 
 			if (validate != null && !validate.Value)
 			{

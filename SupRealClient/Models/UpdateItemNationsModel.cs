@@ -37,6 +37,7 @@ namespace SupRealClient.Models
 
         public void Ok(FieldData data)
         {
+            Logger.Log.Debug($"Попытка редактирования страны");
             if (string.IsNullOrEmpty(data.Field))
             {
                 MessageBox.Show("Заполните поле - 'Отредактировать страну'");
