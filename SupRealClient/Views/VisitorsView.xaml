@@ -796,7 +796,7 @@
 									Content="X"
 									IsEnabled="{Binding Path=ButtonEnable, Mode=TwoWay}"
 									Style="{StaticResource VisitorsSquareButtonStyle}"
-									TabIndex="43" />
+									IsTabStop="False" />
 							</Grid>
 
 							<Grid Grid.Row="6" Grid.Column="0">
@@ -894,7 +894,7 @@
 										Content="X"
 										IsEnabled="{Binding Path=ButtonEnable, Mode=TwoWay}"
 										Style="{StaticResource VisitorsSquareButtonStyle}"
-										TabIndex="48" />
+										IsTabStop="False"/>
 								</Grid>
 
 								<TextBlock
@@ -910,8 +910,8 @@
 									HorizontalAlignment="Right"
 									Background="#00000000"
 									Command="{Binding AddSignatureCommand}"
-									IsEnabled="{Binding Path=ButtonEnable, Mode=TwoWay}"
-									TabIndex="49"
+									IsEnabled="{Binding Path=ButtonEnable, Mode=TwoWay}"									
+									IsTabStop="False"
 									ToolTip="Добавить подпись">
 									<Grid Width="180" Height="40">
 										<Grid.RowDefinitions>
@@ -941,8 +941,8 @@
 											BorderBrush="#FFCCCCCC"
 											BorderThickness="2"
 											Command="{Binding RemoveSignatureCommand}"
-											Content="X"
-											TabIndex="50"
+											Content="X"											
+											IsTabStop="False"
 											ToolTip="Удалить подпись" />
 									</Grid>
 								</Button>
@@ -1041,7 +1041,7 @@
 								Content="X"
 								IsEnabled="{Binding Path=ButtonEnable, Mode=TwoWay}"
 								Style="{StaticResource VisitorsSquareButtonStyle}"
-								TabIndex="64" />
+								IsTabStop="False" />
 						</Grid>
 					</Grid>
 				</mah:MetroTabItem>
