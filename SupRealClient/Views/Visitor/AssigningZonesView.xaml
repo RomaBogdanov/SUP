@@ -8,7 +8,6 @@
 	Title="Назначение областей доступа"
 	Width="600"
 	Height="800"
-	GotFocus="AssigningZonesView_OnGotFocus"
 	PreviewKeyDown="MainWindow_PreviewKeyDown"
 	ResizeMode="NoResize"
 	mc:Ignorable="d">
