@@ -15,6 +15,8 @@ namespace SupRealClient.Views
 		private static VisitorsView visitorsView;
 		private TraversalRequest _focusMover = new TraversalRequest(FocusNavigationDirection.Next);
 		private int _numberFocusBranch = 0;
+		private bool _eventsLoaded = false;
+
 
 		public static VisitorsView Instance
 		{
@@ -38,15 +40,20 @@ namespace SupRealClient.Views
 				if (this.DataContext == null)
 				{
 					this.DataContext = new VisitsViewModel(this);
+				}
+
+				if(!_eventsLoaded)
+				{ 
 					(DataContext as VisitsViewModel).MoveNextFocusingElement += MovingNextFocusingElement;
-					(DataContext as VisitsViewModel).RedactModeEvent += VisitorsView_RedactModeEvent; 
+					(DataContext as VisitsViewModel).RedactModeEvent += VisitorsView_RedactModeEvent;
 					this.Height = (this.DataContext as VisitsViewModel).WinSet.Height;
 					this.Width = (this.DataContext as VisitsViewModel).WinSet.Width;
 					this.Left = (this.DataContext as VisitsViewModel).WinSet.Left;
-					this.Top = (this.DataContext as VisitsViewModel).WinSet.Top;
+					this.Top = (this.DataContext as VisitsViewModel).WinSet.Top;					
 
 					parentWindowChecking();
 
+					_eventsLoaded = true;
 					//(this.DataContext as VisitsViewModel).Model.OnClose += Handling_OnClose;
 				}
 			};
