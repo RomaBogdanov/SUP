@@ -159,7 +159,8 @@ namespace SupClientConnectionLib
                 {
                     st += item + " ";
                 }
-                Logger.Log.Debug($"Добавление строки в таблицу {compositeType.TableName}: {b} Значение: {st}");
+                Logger.Log.Debug($"Добавление строки в таблицу " +
+                    $"{compositeType.TableName}: {b} Значение: {st} ");
             }
             return b;
         }
@@ -183,7 +184,8 @@ namespace SupClientConnectionLib
                 {
                     st += item + " ";
                 }
-                Logger.Log.Debug($"Редактирование строки в таблице {compositeType.TableName}: {b} Значение: {st}");
+                Logger.Log.Debug($"Редактирование строки в таблице " +
+                    $"{compositeType.TableName}: {b} Значение: {st} ");
             }
             return b;
         }
@@ -197,7 +199,8 @@ namespace SupClientConnectionLib
             {
                 st += item + " ";
             }
-            Logger.Log.Debug($"Удаление строки в таблице {compositeType.TableName}: {b} Значение: {st}");
+            Logger.Log.Debug($"Удаление строки в таблице " +
+                $"{compositeType.TableName}: {b} Значение: {st} ");
             return b;
         }
 

@@ -59,6 +59,7 @@ namespace SupRealClient.Models
 
         public void Ok(Organization data)
         {
+            Logger.Log.Debug($"Попытка редактирования организации");
             if (string.IsNullOrEmpty(data.Type))
             {
                 MessageBox.Show("Заполните поле «Тип»", "Информация", MessageBoxButton.OK, MessageBoxImage.Information);

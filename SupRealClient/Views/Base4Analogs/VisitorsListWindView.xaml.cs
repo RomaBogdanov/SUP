@@ -36,6 +36,10 @@ namespace SupRealClient.Views
 		/// </summary>
 	    public VisitorsListWindView(object dataContext)
 		{
+			if (dataContext is Base4ViewModel<EnumerationClasses.Visitor> base4ViewModel)
+			{
+				base4ViewModel.Parent = this;
+			}
 		    InitializeComponent();
 			base4.DataContext = dataContext;
 			AfterInitialize();
