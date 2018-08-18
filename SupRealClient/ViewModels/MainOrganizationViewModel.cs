@@ -8,6 +8,7 @@ using SupRealClient.TabsSingleton;
 using System.Data;
 using SupRealClient.Common;
 using System.Collections.Generic;
+using System.Windows;
 
 namespace SupRealClient.ViewModels
 {
@@ -116,6 +117,7 @@ namespace SupRealClient.ViewModels
         public ICommand AddDepartmentCommand { get; set; }
         public ICommand OkCommand { get; set; }
         public ICommand EditCommand { get; set; }
+        public ICommand RemoveCommand { get; set; }
 
         public MainOrganizationViewModel()
         {
@@ -124,6 +126,7 @@ namespace SupRealClient.ViewModels
             Query();
             AddDepartmentCommand = new RelayCommand(AddDepartment(), (parameter) => DepartmentEnabled);
             EditCommand = new RelayCommand(Edit());
+            RemoveCommand = new RelayCommand(Remove(), (parameter) => SelectedObject is Department ? true : false);
             OkCommand = new RelayCommand(Ok());
             //CancelCommand = new RelayCommand(Cancel());
 
@@ -181,6 +184,11 @@ namespace SupRealClient.ViewModels
             return new Action<object>(obj => Ed());
         }
 
+        private Action<object> Remove()
+        {
+            return new Action<object>(obj => RemoveCom());
+        }
+
         private Action<object> Ok()
         {
             return new Action<object>(obj => Finish());
@@ -208,6 +216,43 @@ namespace SupRealClient.ViewModels
                     break;
                 default:
                     break;
+            }
+        }
+
+        void RemoveCom()
+        {
+            if (MessageBox.Show("Вы действительно хотите удалить эту запись?",
+                "Удаление",
+                MessageBoxButton.YesNo, MessageBoxImage.Question) ==
+                MessageBoxResult.Yes)
+            {
+                memIsExpandedIsSelectedState();
+
+                var readDeletedDeps = new ObservableCollection<Department>(
+                        from department in DepartmentWrapper
+                            .CurrentTable().Table.AsEnumerable()
+                        where department.Field<int>("f_dep_id") == this.currentDep 
+                        select new Department
+                        {
+                            Id = department.Field<int>("f_dep_id"),
+                            ParentId = department.Field<int>("f_parent_id"),
+                            Description = department.Field<string>("f_dep_name"),
+                            Items = GetItems(department.Field<int>("f_dep_id"))
+                        });
+
+                List<Department> deletedDeps = new List<Department>();
+                GetDeps(readDeletedDeps, deletedDeps);
+                
+                foreach (var dep in deletedDeps)
+                {
+                    DataRow row =
+                    DepartmentWrapper.CurrentTable().Table.Rows.Find(dep.Id);
+                    row.BeginEdit();
+                    row["f_org_id"] = -1;
+                    row["f_parent_id"] = -1;
+                    row["f_deleted"] = CommonHelper.BoolToString(true);
+                    row.EndEdit();
+                }
             }
         }
 
@@ -348,17 +393,17 @@ namespace SupRealClient.ViewModels
                 foreach (var iOrg in imainOrganization.Items)
                 {
                     memOrgs.Add(iOrg);
-                    GetDeps(iOrg.Items, ref memDeps);
+                    GetDeps(iOrg.Items, memDeps);
                 }
             }
         }
 
-        void GetDeps(ObservableCollection<Department> oDeps, ref System.Collections.Generic.List<Department> memDeps)
+        void GetDeps(ObservableCollection<Department> oDeps, System.Collections.Generic.List<Department> memDeps)
         {
             foreach (var iDep in oDeps)
             {
                 memDeps.Add(iDep);
-                GetDeps(iDep.Items, ref memDeps);
+                GetDeps(iDep.Items, memDeps);
             }
         }
 

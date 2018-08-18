@@ -64,7 +64,8 @@ namespace SupRealClient.Views
         {
             if (Keyboard.Modifiers == ModifierKeys.None && 
                 e.Key != Key.Insert && 
-                e.Key != Key.Escape)
+                e.Key != Key.Escape &&
+                e.Key != Key.Delete)
             {
                 if (e.Key == Key.Up || 
                     e.Key == Key.Down || 

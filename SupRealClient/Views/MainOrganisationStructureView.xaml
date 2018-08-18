@@ -14,6 +14,7 @@
     <mah:MetroWindow.InputBindings>
         <KeyBinding Key="Escape" Command="{Binding OkCommand}"/>
         <KeyBinding Key="Insert" Command="{Binding AddDepartmentCommand}"/>
+        <KeyBinding Key="Delete" Command="{Binding RemoveCommand}"/>
         <KeyBinding Gesture="Ctrl+D" Command="{Binding EditCommand}"/>
     </mah:MetroWindow.InputBindings>
 
