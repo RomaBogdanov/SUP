@@ -26,9 +26,7 @@ namespace SupRealClient.ViewModels
 
         System.Collections.Generic.List<Organization> memOrgs = new System.Collections.Generic.List<Organization>();
         System.Collections.Generic.List<Department> memDeps = new System.Collections.Generic.List<Department>();
-
-        bool IsAddDep = false;
-
+   
         enum CurrentLevel
         {
             None,
@@ -162,9 +160,7 @@ namespace SupRealClient.ViewModels
         private Action<object> AddDepartment()
         {
             var action = new Action<object>(obj =>
-            {              
-                IsAddDep = true;
-
+            { 
                 var viewModel = new UnitViewModel
                 {
                     Model = new AddDepModel(this.currentOrg, this.currentDep),
@@ -174,7 +170,7 @@ namespace SupRealClient.ViewModels
                 viewModel.Model.OnClose += window.Close;
                 window.ShowDialog();
 
-                IsAddDep = false;
+                SelectNewDepartment((viewModel.Model as AddDepModel)?.IdEditedItem ?? -1);
             });
             return action;
         }
@@ -245,7 +241,7 @@ namespace SupRealClient.ViewModels
                 {
                     DataRow row = DepartmentWrapper.CurrentTable().Table.Rows.Find(dep.Id);
                     row.BeginEdit();
-                    row["f_org_id"] = -1;
+                    //row["f_org_id"] = -1;
                     row["f_parent_id"] = -1;
                     row["f_rec_date"] = DateTime.Now;
                     row["f_rec_operator"] = Authorizer.AppAuthorizer.Id;
@@ -294,7 +290,8 @@ namespace SupRealClient.ViewModels
                         from department in DepartmentWrapper
                             .CurrentTable().Table.AsEnumerable()
                         where department.Field<int>("f_org_id") == org.Field<int>("f_org_id") &&
-                        department.Field<int>("f_parent_id") == -1
+                        department.Field<int>("f_parent_id") == -1 &&
+                        department.Field<string>("f_deleted") != CommonHelper.BoolToString(true)
                         select new Department
                         {
                             Id = department.Field<int>("f_dep_id"),
@@ -308,12 +305,7 @@ namespace SupRealClient.ViewModels
             };            
             Organizations.Add(mainOrganization);
 
-            mainOrganization.IsExpanded = true;
-
-            if (IsAddDep)
-            {
-                SelectNewDepartment();
-            }
+            mainOrganization.IsExpanded = true;            
         }
 
         private ObservableCollection<Department> GetItems(int parentId)
@@ -321,7 +313,8 @@ namespace SupRealClient.ViewModels
             return new ObservableCollection<Department>(
                 from department in DepartmentWrapper.CurrentTable().
                 Table.AsEnumerable()
-                where department.Field<int>("f_parent_id") == parentId
+                where department.Field<int>("f_parent_id") == parentId &&
+                department.Field<string>("f_deleted") != CommonHelper.BoolToString(true)
                 select new Department
                 {
                     Id = department.Field<int>("f_dep_id"),
@@ -410,11 +403,12 @@ namespace SupRealClient.ViewModels
             }
         }
 
-        void SelectNewDepartment()
+        void SelectNewDepartment(int Id)
         {
             memIsExpandedIsSelectedState();
-            var maxId = memDeps.OrderByDescending(o => o.Id).FirstOrDefault();
-            if (maxId != null)
+
+            var dep = memDeps.Find(o => o.Id == Id);
+            if (dep != null)
             {
                 var selectedItem = (ModelBase)null; 
                 if (SelectedObject is Department)
@@ -429,8 +423,8 @@ namespace SupRealClient.ViewModels
                 {
                     selectedItem.IsExpanded = true;
                 }
-                maxId.IsSelected = true;
-                SelectedObject = maxId;
+                dep.IsSelected = true;
+                SelectedObject = dep;
             }
         }
     }
