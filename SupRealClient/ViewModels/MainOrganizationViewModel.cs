@@ -9,6 +9,7 @@ using System.Data;
 using SupRealClient.Common;
 using System.Collections.Generic;
 using System.Windows;
+using SupClientConnectionLib;
 
 namespace SupRealClient.ViewModels
 {
@@ -161,8 +162,7 @@ namespace SupRealClient.ViewModels
         private Action<object> AddDepartment()
         {
             var action = new Action<object>(obj =>
-            {
-                memIsExpandedIsSelectedState();
+            {              
                 IsAddDep = true;
 
                 var viewModel = new UnitViewModel
@@ -203,7 +203,6 @@ namespace SupRealClient.ViewModels
                 case CurrentLevel.Organization:
                     break;
                 case CurrentLevel.Department:
-                    memIsExpandedIsSelectedState();
                     var viewModel1 = new UnitViewModel
                     {
                         Model = new EditDepModel(this.currentDep),
@@ -226,8 +225,6 @@ namespace SupRealClient.ViewModels
                 MessageBoxButton.YesNo, MessageBoxImage.Question) ==
                 MessageBoxResult.Yes)
             {
-                memIsExpandedIsSelectedState();
-
                 var readDeletedDeps = new ObservableCollection<Department>(
                         from department in DepartmentWrapper
                             .CurrentTable().Table.AsEnumerable()
@@ -242,17 +239,21 @@ namespace SupRealClient.ViewModels
 
                 List<Department> deletedDeps = new List<Department>();
                 GetDeps(readDeletedDeps, deletedDeps);
-                
+               
+                DepartmentWrapper.CurrentTable().OnChanged -= Query;
                 foreach (var dep in deletedDeps)
                 {
-                    DataRow row =
-                    DepartmentWrapper.CurrentTable().Table.Rows.Find(dep.Id);
+                    DataRow row = DepartmentWrapper.CurrentTable().Table.Rows.Find(dep.Id);
                     row.BeginEdit();
                     row["f_org_id"] = -1;
                     row["f_parent_id"] = -1;
-                    row["f_deleted"] = CommonHelper.BoolToString(true);
-                    row.EndEdit();
-                }
+                    row["f_rec_date"] = DateTime.Now;
+                    row["f_rec_operator"] = Authorizer.AppAuthorizer.Id;
+                    row["f_deleted"] = CommonHelper.BoolToString(true);                   
+                }           
+                DepartmentWrapper.CurrentTable().Table.AcceptChanges();              
+                DepartmentWrapper.CurrentTable().OnChanged += Query;
+                Query();
             }
         }
 
@@ -272,6 +273,8 @@ namespace SupRealClient.ViewModels
 
         private void Query()
         {
+            memIsExpandedIsSelectedState();
+
             Organizations.Clear();
             mainOrganization = new MainOrganization
             {
