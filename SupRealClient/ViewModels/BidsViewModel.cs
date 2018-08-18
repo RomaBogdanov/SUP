@@ -556,6 +556,12 @@ namespace SupRealClient.ViewModels
 				view.Height = WinSet.Height;
 				view.Owner = Application.Current.Windows.OfType<Window>().SingleOrDefault(x => x.IsActive);
 				view.WindowStartupLocation = WindowStartupLocation.CenterOwner;
+
+				if (view.DataContext is Views.VisitsViewModel visitsView)
+				{
+					visitsView.DocumentScanerRemoveSubscription();
+				}
+
 				Views.VisitsViewModel vm = new Views.VisitsViewModel(view) { Model = model };
 				view.DataContext = vm;
 				view.ShowDialog();
