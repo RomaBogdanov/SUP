@@ -115,9 +115,10 @@ namespace SupRealClient.ViewModels
 
         public ICommand AddDepartmentCommand { get; set; }
         public ICommand OkCommand { get; set; }
+        public ICommand CancelCommand { get; set; }
         public ICommand EditCommand { get; set; }
         public ICommand RemoveCommand { get; set; }
-        public ICommand Farther { get; set; }
+        public ICommand FartherCommand { get; set; }
 
         public MainOrganizationViewModel()
         {
@@ -127,9 +128,9 @@ namespace SupRealClient.ViewModels
             AddDepartmentCommand = new RelayCommand(AddDepartment(), (parameter) => DepartmentEnabled);
             EditCommand = new RelayCommand(Edit(), (parameter) => SelectedObject is Department ? true : false);
             RemoveCommand = new RelayCommand(Remove(), (parameter) => SelectedObject is Department ? true : false);
-            Farther = new RelayCommand(Next(), (parameter) => searchResult?.Count>0 ? true : false );
+            FartherCommand = new RelayCommand(Next(), (parameter) => searchResult?.Count>0 ? true : false );
             OkCommand = new RelayCommand(Ok());
-            //CancelCommand = new RelayCommand(Cancel());
+            CancelCommand = new RelayCommand(Cancel());
 
             if (Organizations.Count > 0)
             {
@@ -262,11 +263,11 @@ namespace SupRealClient.ViewModels
                 new BaseModelResult { Id = currentDep, Name = description });
         }
 
-        /*private Action<object> Cancel()
+        private Action<object> Cancel()
         {
-            var act = new Action<object>(obj => { isVisible = false; });
+            var act = new Action<object>(obj => { OnClose?.Invoke(obj); });
             return act;
-        }*/
+        }
 
         MainOrganization mainOrganization;
 

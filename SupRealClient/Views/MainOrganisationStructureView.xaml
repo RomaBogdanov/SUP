@@ -12,11 +12,11 @@
         PreviewKeyDown="MetroWindow_PreviewKeyDown">
 
     <mah:MetroWindow.InputBindings>
-        <KeyBinding Key="Escape" Command="{Binding OkCommand}"/>
+        <KeyBinding Key="Escape" Command="{Binding CancelCommand}"/>
         <KeyBinding Key="Insert" Command="{Binding AddDepartmentCommand}"/>
         <KeyBinding Key="Delete" Command="{Binding RemoveCommand}"/>
         <KeyBinding Gesture="Ctrl+D" Command="{Binding EditCommand}"/>
-        <KeyBinding Gesture="Ctrl+G" Command="{Binding Farther}"/>
+        <KeyBinding Gesture="Ctrl+G" Command="{Binding FartherCommand}"/>
     </mah:MetroWindow.InputBindings>
 
     <mah:MetroWindow.DataContext>
@@ -59,7 +59,10 @@
                 <HierarchicalDataTemplate ItemsSource="{Binding Path=Items}">
                     <TextBlock Text="{Binding Description}" Background="{Binding Background}"/>
                 </HierarchicalDataTemplate>
-            </TreeView.ItemTemplate>            
+            </TreeView.ItemTemplate>
+            <TreeView.InputBindings>
+                <KeyBinding Key="Enter" Command="{Binding OkCommand}" />
+            </TreeView.InputBindings>
         </TreeView>
         
         <TextBlock
@@ -68,7 +71,7 @@
             Grid.ColumnSpan="5"
             Text="Поиск:"
             Margin="5,0,5,0"/>
-        
+
         <TextBox
             x:Name="tbSearch"
             Grid.Row="2"
@@ -76,7 +79,11 @@
             Grid.ColumnSpan="5"
             Margin="5"
             Text="{Binding Path=SearchingText, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
-            />
+            >
+            <TextBox.InputBindings>
+                <KeyBinding Key="Enter" Command="{Binding OkCommand}" />
+            </TextBox.InputBindings>
+        </TextBox>
 
         <Button
             Grid.Row="3"
@@ -127,7 +134,7 @@
 			Grid.Row="3"
 			Grid.Column="2"
 			Margin="1"
-			Command="{Binding Path=Farther}"			
+			Command="{Binding Path=FartherCommand}"			
 			Style="{StaticResource VisitorsSquareButtonStyle}">
             <Grid>
                 <Grid.RowDefinitions>
