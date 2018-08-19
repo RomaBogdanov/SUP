@@ -64,7 +64,7 @@ namespace SupRealClient.Models
                         r.Field<int>("f_cntr_id") == data.CountryId &&
                         r.Field<int>("f_region_id") == data.RegionId);
          
-            if (sameRow == null)
+            if (sameRow == null || sameRow.Field<string>("f_deleted") == CommonHelper.BoolToString(true))
             {
                 DataRow row = organizations.Table.NewRow();
                 row["f_org_type"] = data.Type;
@@ -81,17 +81,7 @@ namespace SupRealClient.Models
                 row["f_deleted"] = CommonHelper.BoolToString(false);
                 organizations.Table.Rows.Add(row);
                 Cancel();
-            }
-            else if (sameRow.Field<string>("f_deleted") == CommonHelper.BoolToString(true))
-            {
-                //to-do доделать... если строка удалена, обратно её правильно показать
-                int Id = sameRow.Field<int>("f_org_id");
-                DataRow row = organizations.Table.Rows.Find(Id);
-                row.BeginEdit();
-                row["f_deleted"] = CommonHelper.BoolToString(false);
-                row.EndEdit();
-                Cancel();
-            }
+            }            
             else
             {
                 MessageBox.Show("Такая организация уже существует!", "Предупреждение", MessageBoxButton.OK, MessageBoxImage.Warning);

@@ -20,7 +20,8 @@ namespace SupRealClient.Models
             {
                 type = row.Field<string>("f_org_type");
                 if (!list.Contains(type) && !string.IsNullOrEmpty(type) &&
-                    type != "нет данных")
+                    type != "нет данных" &&
+                    row.Field<string>("f_deleted") != CommonHelper.BoolToString(true))
                 {
                     list.Add(type);
                 }
@@ -39,7 +40,8 @@ namespace SupRealClient.Models
             {
                 name = row.Field<string>("f_org_name");
                 if (!list.Contains(name) &&
-                    !string.IsNullOrEmpty(name))
+                    !string.IsNullOrEmpty(name) &&
+                    row.Field<string>("f_deleted") != CommonHelper.BoolToString(true))
                 {
                     list.Add(TrimName(name));
                 }
@@ -55,7 +57,8 @@ namespace SupRealClient.Models
                  where orgs.Field<int>("f_org_id") != 0 &&
                  orgs.Field<int>("f_org_id") != id &&
                  !CommonHelper.StringToBool(orgs.Field<string>("f_is_basic")) &&
-                 orgs.Field<int?>("f_syn_id") == 0
+                 orgs.Field<int?>("f_syn_id") == 0 &&
+                 orgs.Field<string>("f_deleted") != CommonHelper.BoolToString(true)
                  select new Organization
                  {
                      Id = orgs.Field<int>("f_org_id"),
