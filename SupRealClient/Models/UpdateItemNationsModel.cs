@@ -88,7 +88,7 @@ namespace SupRealClient.Models
             }
             else
             {
-                MessageBox.Show("Такая страна уже записана!");
+                MessageBox.Show("Такая страна уже записана!", "Предупреждение", MessageBoxButton.OK, MessageBoxImage.Warning);
             }
         }
     }

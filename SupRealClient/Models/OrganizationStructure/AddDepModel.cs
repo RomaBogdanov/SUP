@@ -74,11 +74,12 @@ namespace SupRealClient.Models.OrganizationStructure
                 else
                 {
                     MessageBox.Show("Такое подразделение для организации уже существует!", "Предупреждение", MessageBoxButton.OK, MessageBoxImage.Warning);
+                    return;
                 }
 
                 IdEditedItem = Id;
-            }
-            OnClose?.Invoke();
+                OnClose?.Invoke();
+            }            
         }
 
         public void Cancel()

@@ -124,7 +124,7 @@ namespace SupRealClient.ViewModels
             DepartmentWrapper.CurrentTable().OnChanged += Query;
             Query();
             AddDepartmentCommand = new RelayCommand(AddDepartment(), (parameter) => DepartmentEnabled);
-            EditCommand = new RelayCommand(Edit());
+            EditCommand = new RelayCommand(Edit(), (parameter) => SelectedObject is Department ? true : false);
             RemoveCommand = new RelayCommand(Remove(), (parameter) => SelectedObject is Department ? true : false);
             OkCommand = new RelayCommand(Ok());
             //CancelCommand = new RelayCommand(Cancel());
@@ -201,7 +201,7 @@ namespace SupRealClient.ViewModels
                 case CurrentLevel.Department:
                     var viewModel1 = new UnitViewModel
                     {
-                        Model = new EditDepModel(this.currentDep),
+                        Model = new EditDepModel(this.currentOrg, this.currentDep),
                         Title = @"Отредактировать подразделение"
                     };
                     viewModel1.Description = description;
@@ -277,8 +277,9 @@ namespace SupRealClient.ViewModels
                 Description = "Главные организации",
                 Items = new ObservableCollection<Organization>(
                 from org in OrganizationsWrapper.CurrentTable().Table.AsEnumerable()
-                where org.Field<string>("f_is_basic").ToUpper() == "Y" &
-                    org.Field<int?>("f_syn_id") == 0
+                where org.Field<string>("f_is_basic").ToUpper() == "Y" &&
+                      org.Field<int?>("f_syn_id") == 0 &&
+                      org.Field<string>("f_deleted") != CommonHelper.BoolToString(true)
                 select new Organization
                 {
                     Description = $"{org.Field<string>("f_org_type")} " +
@@ -290,8 +291,8 @@ namespace SupRealClient.ViewModels
                         from department in DepartmentWrapper
                             .CurrentTable().Table.AsEnumerable()
                         where department.Field<int>("f_org_id") == org.Field<int>("f_org_id") &&
-                        department.Field<int>("f_parent_id") == -1 &&
-                        department.Field<string>("f_deleted") != CommonHelper.BoolToString(true)
+                              department.Field<int>("f_parent_id") == -1 &&
+                              department.Field<string>("f_deleted") != CommonHelper.BoolToString(true)
                         select new Department
                         {
                             Id = department.Field<int>("f_dep_id"),
@@ -314,7 +315,7 @@ namespace SupRealClient.ViewModels
                 from department in DepartmentWrapper.CurrentTable().
                 Table.AsEnumerable()
                 where department.Field<int>("f_parent_id") == parentId &&
-                department.Field<string>("f_deleted") != CommonHelper.BoolToString(true)
+                      department.Field<string>("f_deleted") != CommonHelper.BoolToString(true)
                 select new Department
                 {
                     Id = department.Field<int>("f_dep_id"),
