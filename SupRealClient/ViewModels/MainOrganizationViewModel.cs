@@ -44,7 +44,11 @@ namespace SupRealClient.ViewModels
                 if (!string.IsNullOrEmpty(searchingText))
                 {
                     Searching(this.searchingText.ToUpper());
-                }               
+                }
+                else if (searchResult.Count > 0)
+                {
+                    searchResult.Clear();
+                }
             }
         }
 
@@ -113,6 +117,7 @@ namespace SupRealClient.ViewModels
         public ICommand OkCommand { get; set; }
         public ICommand EditCommand { get; set; }
         public ICommand RemoveCommand { get; set; }
+        public ICommand Farther { get; set; }
 
         public MainOrganizationViewModel()
         {
@@ -122,6 +127,7 @@ namespace SupRealClient.ViewModels
             AddDepartmentCommand = new RelayCommand(AddDepartment(), (parameter) => DepartmentEnabled);
             EditCommand = new RelayCommand(Edit(), (parameter) => SelectedObject is Department ? true : false);
             RemoveCommand = new RelayCommand(Remove(), (parameter) => SelectedObject is Department ? true : false);
+            Farther = new RelayCommand(Next(), (parameter) => searchResult?.Count>0 ? true : false );
             OkCommand = new RelayCommand(Ok());
             //CancelCommand = new RelayCommand(Cancel());
 
@@ -131,26 +137,27 @@ namespace SupRealClient.ViewModels
                 Organizations[0].IsSelected = true;
             }            
         }
-
-        public void Next()
+        
+        private Action<object> Next()
         {
-            if (searchResult == null || !searchResult.Any())
+            var action = new Action<object>(obj =>
             {
-                return;
-            }
-
-            int idx = searchResult.IndexOf(SelectedObject as ModelBase);
-            if (idx < searchResult.Count - 1)
-            {
-                idx++;
-            }
-            else
-            {
-                idx = 0;
-            }
-            SelectedObject = searchResult[idx];
-            //searchResult[idx].IsExpanded = true;
-            searchResult[idx].IsSelected = true;
+                int idx = searchResult.IndexOf(SelectedObject as ModelBase);
+                if (idx < searchResult.Count - 1)
+                {
+                    idx++;
+                }
+                else if (MessageBox.Show("Поиск завершен. Перейти на первый результат поиска?",
+                                         "Поиск",
+                                          MessageBoxButton.YesNo, MessageBoxImage.Information) == MessageBoxResult.Yes)
+                { 
+                        idx = 0;
+                }
+                SelectedObject = searchResult[idx];
+                //searchResult[idx].IsExpanded = true;
+                searchResult[idx].IsSelected = true;
+            });
+            return action;            
         }
 
         private Action<object> AddDepartment()

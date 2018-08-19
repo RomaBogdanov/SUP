@@ -33,15 +33,7 @@ namespace SupRealClient.Views
                 item.BringIntoView();
                 e.Handled = true;
             }
-        }
-
-        private void tbSearch_PreviewKeyDown(object sender, KeyEventArgs e)
-        {
-            if (e.Key == Key.Enter)
-            {
-                ((MainOrganizationViewModel)DataContext).Next();
-            }
-        }
+        }       
 
         private void MetroWindow_IsVisibleChanged(object sender, DependencyPropertyChangedEventArgs e)
         {
