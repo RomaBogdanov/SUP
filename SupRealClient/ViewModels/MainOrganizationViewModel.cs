@@ -359,7 +359,7 @@ namespace SupRealClient.ViewModels
         private void Searching(Organization org, string pattern)
         {
             org.IsExpanded = true;
-            if (CommonHelper.IsSearchConditionMatch(org.Description, pattern))
+            if (org.Description.ToUpper().Contains(pattern.ToUpper()))
             {
                 searchResult.Add(org);
             }
@@ -373,7 +373,7 @@ namespace SupRealClient.ViewModels
         private void Searching(Department dep, string pattern)
         {
             dep.IsExpanded = true;
-            if (CommonHelper.IsSearchConditionMatch(dep.Description, pattern))
+            if (dep.Description.ToUpper().Contains(pattern.ToUpper()))
             {
                 searchResult.Add(dep);
             }
