@@ -56,6 +56,7 @@ namespace SupRealClient.ViewModels
                 if (value != null)
                 {
                     _selectedObject = value;
+                    DepartmentEnabled = false;
                     if (value.GetType().GetInterface("IDepartment") != null)
                     {
                         DepartmentEnabled = true;
@@ -73,12 +74,7 @@ namespace SupRealClient.ViewModels
                         currentOrg = ((Organization)value).Id;
                         currentDep = -1;
                         description = ((Organization)value).Description;
-                        currentLevel = CurrentLevel.Organization;
-
-                        if (description.ToUpper() == Organizations[0]?.Description.ToUpper())
-                        {
-                            DepartmentEnabled = false;
-                        }
+                        currentLevel = CurrentLevel.Organization;                       
                     }                    
                     OnPropertyChanged();
                 }
