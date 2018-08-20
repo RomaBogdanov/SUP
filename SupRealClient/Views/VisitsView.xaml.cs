@@ -1085,13 +1085,15 @@ namespace SupRealClient.Views
 			string bufer_Family = CommonHelper.Check_FamilyNamePatronymic(CurrentItem.Family);
 			string bufer_Name = CommonHelper.Check_FamilyNamePatronymic(CurrentItem.Name);
 			string bufer_Patronymic = CommonHelper.Check_FamilyNamePatronymic(CurrentItem.Patronymic);
-			string bufer_Position = CommonHelper.Check_SeriaCode(CurrentItem.Position);
+
+			CurrentItem.Position = VisitorsHelper.TestingPositionAnReturnCorrect(CurrentItem.Position);
+			string bufer_Position = CommonHelper.Check_Position(CurrentItem.Position);
 
 			bool error_Family = bufer_Family != Regex.Replace(CurrentItem.Family, @"\s+", " ");
 			bool error_Name = bufer_Name != Regex.Replace(CurrentItem.Name, @"\s+", " ");
 			bool error_Patronymic = !string.IsNullOrEmpty(CurrentItem.Patronymic) && bufer_Patronymic != Regex.Replace(CurrentItem.Patronymic, @"\s+", " ");
-			bool error_Position = bufer_Position != Regex.Replace(CurrentItem.Position, @"\s+", " ");
-
+			bool error_Position = !string.IsNullOrEmpty(CurrentItem.Position) && bufer_Position != Regex.Replace(CurrentItem.Position, @"\s+", " ");
+			
 
 			if (error_Family || error_Name || error_Patronymic || error_Position)
 			{
