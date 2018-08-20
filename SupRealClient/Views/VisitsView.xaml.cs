@@ -692,10 +692,10 @@ namespace SupRealClient.Views
 		private void AddDocument(CPerson person)
 		{
 			//document
-			var visitorDocument = new VisitorsDocument()
+			var visitorDocument = new VisitorsDocument
 			{
 				Name =
-					$"{person?.Name?.Value} {person?.Surname?.Value} {person?.Patronymic?.Value} {person?.DocumentSeria?.Value} {person?.DocumentNumber?.Value}",
+					$"{person?.DocumentType?.Value}  - {person?.DocumentSeria?.Value}, {person?.DocumentNumber?.Value}, {person?.DocumentDeliveryDate?.Value}",
 				TypeId = 0,
 				Images = GetScansByDocNumber(person, person?.DocumentNumber?.Value),
 				IsChanged = true
