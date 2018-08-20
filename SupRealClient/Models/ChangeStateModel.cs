@@ -3,6 +3,7 @@ using SupRealClient.EnumerationClasses;
 using SupRealClient.TabsSingleton;
 using System;
 using System.Data;
+using System.Linq;
 
 namespace SupRealClient.Models
 {
@@ -89,6 +90,7 @@ namespace SupRealClient.Models
                     row = r;
                 }
             }
+            int prevStateId = -1;
             if (row == null)
             {
                 row = cards.Table.NewRow();
@@ -106,6 +108,7 @@ namespace SupRealClient.Models
             }
             else
             {
+                prevStateId = row.Field<int>("f_state_id");
                 row.BeginEdit();
                 row["f_state_id"] = data.StateId;
                 row["f_rec_operator"] = Authorizer.AppAuthorizer.Id;
@@ -114,10 +117,46 @@ namespace SupRealClient.Models
                 row.EndEdit();
             }
 
+            if (data.StateId == (int)CardState.Active && prevStateId == (int)CardState.Issued)
+            {
+                ReturnCard(data);
+            }
+
             // TODO - здесь в Andover выгружается пропуск с пустым списком областей доступа
             // Data.CurdNum
 
             Cancel(data.StateId);
+        }
+
+        private void ReturnCard(Card data)
+        {
+            foreach (DataRow r in VisitsWrapper.CurrentTable().Table.Rows)
+            {
+                if (r.Field<string>("f_deleted") == "N" &&
+                    r.Field<int>("f_card_id_hi") == data.CardIdHi &&
+                    r.Field<int>("f_card_id_lo") == data.CardIdLo)
+                {
+                    r.BeginEdit();
+                    r["f_rec_operator"] = Authorizer.AppAuthorizer.Id;
+                    r["f_rec_date"] = DateTime.Now;
+                    r["f_deleted"] = "Y";
+                    r.EndEdit();
+                }
+            }
+
+            foreach (DataRow r in CardAreaWrapper.CurrentTable().Table.Rows)
+            {
+                if (r.Field<string>("f_deleted") == "N" &&
+                    r.Field<int>("f_card_id_hi") == data.CardIdHi &&
+                    r.Field<int>("f_card_id_lo") == data.CardIdLo)
+                {
+                    r.BeginEdit();
+                    r["f_rec_operator"] = Authorizer.AppAuthorizer.Id;
+                    r["f_rec_date"] = DateTime.Now;
+                    r["f_deleted"] = "Y";
+                    r.EndEdit();
+                }
+            }
         }
     }
 }
