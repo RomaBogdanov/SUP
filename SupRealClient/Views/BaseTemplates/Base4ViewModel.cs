@@ -312,7 +312,10 @@ namespace SupRealClient.Views
         }
         private void CloseCom() { this.Model.Close(); }
         private void ZonesCom() { this.Model.Zones(); }
-        private void WatchCom() { this.Model.Watch(); }
+        private void WatchCom()
+        {
+            this.Model.Watch();
+        }
         private void RightClickCom(object param)
         {
             this.Model.RightClick();

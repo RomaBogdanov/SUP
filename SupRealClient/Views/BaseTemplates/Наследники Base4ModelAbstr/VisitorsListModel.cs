@@ -68,8 +68,8 @@ namespace SupRealClient.Views
             VisitorsView.Instance.NewVisitor();*/
             //object res = ViewManager.Instance.OpenWindowModal("VisitorsView");
 
-			//todo: создание нового view - костыль для открытия в режиме редактирования. Позже нужно удалить.
-            ViewManager.Instance.OpenWindow("VisitorsView", this.Parent ?? new SupRealClient.Views.VisitorsListWindView(null));
+            //todo: создание нового view - костыль для открытия в режиме редактирования. Позже нужно удалить.
+            ViewManager.Instance.OpenWindow("VisitorsView", this.Parent ?? new SupRealClient.Views.VisitorsListWindView(null));                       
         }
 
         public override void Farther()
@@ -82,22 +82,42 @@ namespace SupRealClient.Views
         {
 	        if (CurrentItem != null)
 	        {
-		        VisitsModel model = new VisitsModel();
+                if (this.Parent is VisitorsListWindView)
+                {
+                    //todo: создание нового view - костыль для открытия в режиме редактирования. Позже нужно удалить.
+                    ViewManager.Instance.OpenWindow("VisitorsView", this.Parent ?? new SupRealClient.Views.VisitorsListWindView(null));
+                }
+                else
+                {
+                    VisitsModel model = new VisitsModel();
 
-		        model.CurrentItem = model.Find(CurrentItem.Id);
-		        VisitorsView view = new VisitorsView();
-		        view.Owner = Application.Current.Windows.OfType<Window>().SingleOrDefault(x => x.IsActive);
-		        view.WindowStartupLocation = WindowStartupLocation.CenterOwner;
-		        VisitsViewModel vm = new VisitsViewModel(view) {Model = model};
+                    model.CurrentItem = model.Find(CurrentItem.Id);
+                    VisitorsView view = new VisitorsView();
+                    view.Owner = Application.Current.Windows.OfType<Window>().SingleOrDefault(x => x.IsActive);
+                    view.WindowStartupLocation = WindowStartupLocation.CenterOwner;
+                    VisitsViewModel vm = new VisitsViewModel(view) { Model = model };
 
-		        if (view.DataContext is VisitsViewModel visitsView)
-		        {
-			        visitsView.DocumentScanerRemoveSubscription();
-		        }
+                    if (view.DataContext is VisitsViewModel visitsView)
+                    {
+                        visitsView.DocumentScanerRemoveSubscription();
+                    }
 
-		        view.DataContext = vm;
-		        view.ShowDialog();
+                    view.DataContext = vm;
+                    view.ShowDialog();
+                }		        
 	        }
+        }
+
+        public override void Watch()
+        {
+            if (CurrentItem != null)
+            {
+                if (this.Parent is VisitorsListWindView)
+                {
+                    //todo: создание нового view - костыль для открытия в режиме редактирования. Позже нужно удалить.
+                    ViewManager.Instance.OpenWindow("VisitorsView", this.Parent ?? new SupRealClient.Views.VisitorsListWindView(null));
+                }
+            }
         }
 
         #endregion

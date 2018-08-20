@@ -187,11 +187,13 @@
 			</Grid>
 		</Button>
 		<Button
+            Name="btnWatch"
 			Grid.Row="3"
 			Grid.Column="4"
 			Margin="1"
 			Command="{Binding Path=Watch}"
 			KeyDown="BaseTab_OnKeyDown"
+            PreviewMouseLeftButtonDown = "btnWatch_PreviewMouseLeftButtonDown"
 			Style="{StaticResource ButtonStyle}"
 			Visibility="{Binding Path=WatchVisibility, Mode=OneTime}">
 			<Grid>
