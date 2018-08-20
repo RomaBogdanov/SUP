@@ -33,5 +33,19 @@ namespace SupRealClient.Models
 					list.Add(position);
 			}
 		}
-    }
+
+		public static string TestingPositionAnReturnCorrect(string position)
+		{
+			if (!string.IsNullOrEmpty(position))
+			{
+				string trimmedText = position.Trim();
+
+				if (!string.IsNullOrEmpty(position.Trim()) && !string.IsNullOrWhiteSpace(position.Trim()))
+					return position;
+			}
+
+			return "-";
+		}
+
+	}
 }

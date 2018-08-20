@@ -3,7 +3,7 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        xmlns:mah="http://metro.mahapps.com/winfx/xaml/controls"
+        xmlns:mah="http://metro.mahapps.com/winfx/xaml/controls"                  
         xmlns:viewModels="clr-namespace:SupRealClient.ViewModels"
         mc:Ignorable="d"
         Title="Структура главных организаций" Height="400" Width="500"
@@ -12,9 +12,11 @@
         PreviewKeyDown="MetroWindow_PreviewKeyDown">
 
     <mah:MetroWindow.InputBindings>
-        <KeyBinding Key="Escape" Command="{Binding OkCommand}"/>
+        <KeyBinding Key="Escape" Command="{Binding CancelCommand}"/>
         <KeyBinding Key="Insert" Command="{Binding AddDepartmentCommand}"/>
+        <KeyBinding Key="Delete" Command="{Binding RemoveCommand}"/>
         <KeyBinding Gesture="Ctrl+D" Command="{Binding EditCommand}"/>
+        <KeyBinding Gesture="Ctrl+G" Command="{Binding FartherCommand}"/>
     </mah:MetroWindow.InputBindings>
 
     <mah:MetroWindow.DataContext>
@@ -26,7 +28,7 @@
             <RowDefinition Height="4*"/>
             <RowDefinition Height="20"/>
             <RowDefinition Height="40"/>
-            <RowDefinition Height="66"/>
+            <RowDefinition Height="70"/>
         </Grid.RowDefinitions>
         
         <Grid.ColumnDefinitions>
@@ -57,16 +59,19 @@
                 <HierarchicalDataTemplate ItemsSource="{Binding Path=Items}">
                     <TextBlock Text="{Binding Description}" Background="{Binding Background}"/>
                 </HierarchicalDataTemplate>
-            </TreeView.ItemTemplate>            
+            </TreeView.ItemTemplate>
+            <TreeView.InputBindings>
+                <KeyBinding Key="Enter" Command="{Binding OkCommand}" />
+            </TreeView.InputBindings>
         </TreeView>
         
         <TextBlock
             Grid.Row="1"
             Grid.Column="0"
             Grid.ColumnSpan="5"
-            Text="Поиск"
+            Text="Поиск:"
             Margin="5,0,5,0"/>
-        
+
         <TextBox
             x:Name="tbSearch"
             Grid.Row="2"
@@ -74,14 +79,18 @@
             Grid.ColumnSpan="5"
             Margin="5"
             Text="{Binding Path=SearchingText, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
-            PreviewKeyDown="tbSearch_PreviewKeyDown"/>
+            >
+            <TextBox.InputBindings>
+                <KeyBinding Key="Enter" Command="{Binding OkCommand}" />
+            </TextBox.InputBindings>
+        </TextBox>
 
         <Button
             Grid.Row="3"
             Grid.Column="0"
             Command="{Binding AddDepartmentCommand }"
             Style="{DynamicResource SquareButtonStyle1}" 
-            Margin="5"
+            Margin="5,1,1,1"
             IsEnabled="{Binding DepartmentEnabled}">
             <Grid>
                 <Grid.RowDefinitions>
@@ -104,7 +113,7 @@
             Grid.Column="1"
             Command="{Binding EditCommand}"
             Style="{DynamicResource SquareButtonStyle1}" 
-            Margin="5">
+            Margin="1">
             <Grid>
                 <Grid.RowDefinitions>
                     <RowDefinition/>
@@ -120,13 +129,35 @@
                     Text="Правка"/>
             </Grid>
         </Button>
-        
+
+        <Button
+			Grid.Row="3"
+			Grid.Column="2"
+			Margin="1"
+			Command="{Binding Path=FartherCommand}"			
+			Style="{StaticResource VisitorsSquareButtonStyle}">
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition />
+                    <RowDefinition Height="0.4*" />
+                </Grid.RowDefinitions>
+
+                <Image Grid.Row="0" Source="../Resources/Далее.ico" />
+
+                <TextBlock
+					Grid.Row="1"
+					FontSize="{Binding FontSize}"
+					Style="{StaticResource TextBLockDetailStyle}"
+					Text="Далее..." />
+            </Grid>
+        </Button>
+
         <Button
             Grid.Row="3"
             Grid.Column="4"
             Command="{Binding OkCommand}"
             Style="{DynamicResource SquareButtonStyle1}" 
-            Margin="5">
+            Margin="1,1,5,1">
             <Grid>
                 <Grid.RowDefinitions>
                     <RowDefinition/>

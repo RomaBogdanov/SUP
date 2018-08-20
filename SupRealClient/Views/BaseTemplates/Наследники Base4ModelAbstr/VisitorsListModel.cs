@@ -67,7 +67,9 @@ namespace SupRealClient.Views
             /*VisitorsView.Instance.Show();
             VisitorsView.Instance.NewVisitor();*/
             //object res = ViewManager.Instance.OpenWindowModal("VisitorsView");
-            ViewManager.Instance.OpenWindow("VisitorsView", this.Parent);
+
+			//todo: создание нового view - костыль для открытия в режиме редактирования. Позже нужно удалить.
+            ViewManager.Instance.OpenWindow("VisitorsView", this.Parent ?? new SupRealClient.Views.VisitorsListWindView(null));
         }
 
         public override void Farther()
@@ -78,18 +80,24 @@ namespace SupRealClient.Views
         
         public override void Update()
         {
-            if (CurrentItem != null)
-            {
-	            VisitsModel model = new VisitsModel();
+	        if (CurrentItem != null)
+	        {
+		        VisitsModel model = new VisitsModel();
 
-	            model.CurrentItem = model.Find(CurrentItem.Id);
-	            VisitorsView view = new VisitorsView();
-	            view.Owner = Application.Current.Windows.OfType<Window>().SingleOrDefault(x => x.IsActive);
-	            view.WindowStartupLocation = WindowStartupLocation.CenterOwner;
-	            VisitsViewModel vm = new VisitsViewModel(view) { Model = model };
-	            view.DataContext = vm;
-	            view.ShowDialog();
-            }
+		        model.CurrentItem = model.Find(CurrentItem.Id);
+		        VisitorsView view = new VisitorsView();
+		        view.Owner = Application.Current.Windows.OfType<Window>().SingleOrDefault(x => x.IsActive);
+		        view.WindowStartupLocation = WindowStartupLocation.CenterOwner;
+		        VisitsViewModel vm = new VisitsViewModel(view) {Model = model};
+
+		        if (view.DataContext is VisitsViewModel visitsView)
+		        {
+			        visitsView.DocumentScanerRemoveSubscription();
+		        }
+
+		        view.DataContext = vm;
+		        view.ShowDialog();
+	        }
         }
 
         #endregion

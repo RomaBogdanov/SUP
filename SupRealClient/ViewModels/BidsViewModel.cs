@@ -4,6 +4,7 @@ using System.Collections.ObjectModel;
 using System.Linq;
 using System.Windows;
 using System.Windows.Forms;
+using SupRealClient.Common.Interfaces;
 using SupRealClient.EnumerationClasses;
 using SupRealClient.Models;
 using SupRealClient.Models.AddUpdateModel;
@@ -555,6 +556,12 @@ namespace SupRealClient.ViewModels
 				view.Height = WinSet.Height;
 				view.Owner = Application.Current.Windows.OfType<Window>().SingleOrDefault(x => x.IsActive);
 				view.WindowStartupLocation = WindowStartupLocation.CenterOwner;
+
+				if (view.DataContext is Views.VisitsViewModel visitsView)
+				{
+					visitsView.DocumentScanerRemoveSubscription();
+				}
+
 				Views.VisitsViewModel vm = new Views.VisitsViewModel(view) { Model = model };
 				view.DataContext = vm;
 				view.ShowDialog();
@@ -863,10 +870,7 @@ namespace SupRealClient.ViewModels
 				OkCaption = "OK",
 				Model = model
 			};
-			var view = new VisitorsListWindView()
-			{
-				DataContext = viewModel
-			};
+			var view = new VisitorsListWindView(viewModel);
 			view.Owner = Application.Current.Windows.OfType<Window>().SingleOrDefault(x => x.IsActive);
 			view.WindowStartupLocation = WindowStartupLocation.CenterOwner;
 			model.OnClose += view.Handling_OnClose;

@@ -651,7 +651,10 @@ namespace SupRealClient.Views
                   (from orgs in OrganizationsWrapper.CurrentTable().Table.AsEnumerable()
                    where orgs.Field<int>("f_org_id") != 0 &
                    orgs.Field<string>("f_has_free_access")
-                   .ToString().ToUpper() != "Y" & orgs.Field<int?>("f_syn_id") == 0
+                   .ToString().ToUpper() != "Y" & 
+                   orgs.Field<int?>("f_syn_id") == 0 &
+                   orgs.Field<string>("f_is_basic")
+                   .ToString().ToUpper() != "Y"
                    select new Organization
                    {
                        Id = orgs.Field<int>("f_org_id"),
@@ -794,7 +797,10 @@ namespace SupRealClient.Views
                 (from orgs in OrganizationsWrapper.CurrentTable().Table.AsEnumerable()
                  where orgs.Field<int>("f_org_id") != 0 &
                  orgs.Field<string>("f_is_basic")
-                 .ToString().ToUpper() != "Y" & orgs.Field<int?>("f_syn_id") == 0
+                 .ToString().ToUpper() != "Y" & 
+                 orgs.Field<int?>("f_syn_id") == 0 &
+                 orgs.Field<string>("f_has_free_access")
+                   .ToString().ToUpper() != "Y"
                  select new Organization
                  {
                      Id = orgs.Field<int>("f_org_id"),

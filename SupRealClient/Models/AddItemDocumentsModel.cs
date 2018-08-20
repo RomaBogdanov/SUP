@@ -4,6 +4,7 @@ using System.Windows;
 using SupClientConnectionLib;
 using SupRealClient.Common.Data;
 using SupRealClient.TabsSingleton;
+using log4net;
 
 namespace SupRealClient.Models
 {
@@ -21,6 +22,8 @@ namespace SupRealClient.Models
 
 		public void Ok(FieldData data)
 		{
+            Logger.Log.Debug($"Попытка добавления документа");
+            
 			DocumentsWrapper documents = DocumentsWrapper.CurrentTable();
 			if (!string.IsNullOrWhiteSpace(data.Field))
 			{

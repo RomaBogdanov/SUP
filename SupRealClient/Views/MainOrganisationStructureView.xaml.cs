@@ -1,6 +1,8 @@
-﻿using System.Windows;
+﻿using System.Collections.ObjectModel;
+using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
+using SupRealClient.Models.OrganizationStructure;
 using SupRealClient.ViewModels;
 
 namespace SupRealClient.Views
@@ -33,15 +35,7 @@ namespace SupRealClient.Views
                 item.BringIntoView();
                 e.Handled = true;
             }
-        }
-
-        private void tbSearch_PreviewKeyDown(object sender, KeyEventArgs e)
-        {
-            if (e.Key == Key.Enter)
-            {
-                ((MainOrganizationViewModel)DataContext).Next();
-            }
-        }
+        }       
 
         private void MetroWindow_IsVisibleChanged(object sender, DependencyPropertyChangedEventArgs e)
         {
@@ -54,6 +48,7 @@ namespace SupRealClient.Views
                 MainOrganizationViewModel vm = DataContext as MainOrganizationViewModel;
                 if (vm != null && vm.Organizations.Count > 0)
                 {
+                    CollapseOrgs(vm.Organizations[0].Items);
                     vm.Organizations[0].IsExpanded = true;
                     vm.Organizations[0].IsSelected = true;
                 }                
@@ -64,7 +59,8 @@ namespace SupRealClient.Views
         {
             if (Keyboard.Modifiers == ModifierKeys.None && 
                 e.Key != Key.Insert && 
-                e.Key != Key.Escape)
+                e.Key != Key.Escape &&
+                e.Key != Key.Delete)
             {
                 if (e.Key == Key.Up || 
                     e.Key == Key.Down || 
@@ -79,6 +75,24 @@ namespace SupRealClient.Views
                     tbSearch.Focus();
                 }
             }            
-        }        
+        }  
+        
+        void CollapseOrgs(ObservableCollection<Organization> orgs)
+        {
+            foreach (var org in orgs)
+            {
+                org.IsExpanded = false;
+                CollapseDeps(org.Items);
+            }
+        }
+
+        void CollapseDeps(ObservableCollection<Department> deps)
+        {
+            foreach (var dep in deps)
+            {
+                dep.IsExpanded = false;
+                CollapseDeps(dep.Items);
+            }
+        }
     }
 }

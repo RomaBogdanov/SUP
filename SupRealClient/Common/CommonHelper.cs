@@ -36,8 +36,7 @@ namespace SupRealClient.Common
 				return family.Trim() + " " + name.Trim().Substring(0, 1) + ". " +
                 secondName.Trim().Substring(0, 1) + ".";
 			else
-				return family.Trim() + " " + name.Trim().Substring(0, 1) + ". " +
-				       secondName + ".";
+				return family.Trim() + " " + name.Trim().Substring(0, 1) ;
 		}
 
 	    public static bool IsPositionCorrect(string position)
@@ -115,6 +114,77 @@ namespace SupRealClient.Common
 		    result = Regex.Replace(result, @"\s*[-–——]\s*", " - ");
 		    result = Regex.Replace(result, @"[!|@|#|$|%|^|&|*|(|)|_|+|-|=|:|?|/|'|<|>]", "");
 			return result;
+		}
+
+		public static string Check_Position(string text)
+		{
+			if (string.IsNullOrEmpty(text))
+			{
+				return "-";
+			}
+
+			var match = Regex.Match(text, @"^\s*([\w|!|@|#|$|%|^|&|*|(|)|_|+|-|=|:|?|/|'|<|>]+(\s*([-–——]\s*)?[\w|!|@|#|$|%|^|&|*|(|)|_|+|-|=|:|?|/|'|<|>]+)*)\s*$", RegexOptions.IgnoreCase);
+			if (!match.Success)
+			{
+				return "-";
+			}
+
+			var result = match.Groups[1].Value;
+			result = Regex.Replace(result, @"\s+", "");
+			result = Regex.Replace(result, @"\s*[-–——]\s*", "-");
+			result = Regex.Replace(result, @"[!|@|#|$|%|^|&|*|(|)|_|+|-|=|:|?|/|'|<|>]", "");
+
+			if (string.IsNullOrEmpty(text))
+			{
+				return "-";
+			}
+
+			return result;
+		}
+
+		/// <summary>
+		/// Тип документа на русском языке.
+		/// </summary>
+		/// <param name="documentType"></param>
+		/// <returns></returns>
+		public static string GetDocumentTypeInRussian(string documentType)
+	    {
+		    if (string.IsNullOrEmpty(documentType))
+		    {
+			    return null;
+		    }
+
+		    if (documentType.ToLower().Contains("epassport"))
+		    {
+			    return "Заграничный паспорт";
+		    }
+
+		    if (documentType.ToLower().Contains("passport"))
+		    {
+			    return "Паспорт";
+		    }
+
+		    if (documentType.ToLower().Contains("driving license"))
+		    {
+			    return "Водительское удостоверение";
+		    }
+
+		    if (documentType.ToLower().Contains("visa"))
+		    {
+			    return "Виза";
+		    }
+
+		    if (documentType.ToLower().Contains("snils"))
+		    {
+			    return "СНИЛС";
+		    }
+
+		    if (documentType.ToLower().Contains("сertificate of birth"))
+		    {
+			    return "Свидетельство о рождении";
+		    }
+
+		    return null;
 	    }
 	}
 }

@@ -805,6 +805,12 @@
 									Binding="{Binding CardStateString, Mode=OneWay}"
 									Header="Состояние пропуска" />
 							</DataGrid.Columns>
+							<DataGrid.InputBindings>
+								<MouseBinding
+									Command="{Binding DoubleClickCommand}"
+									CommandParameter="{Binding SelectedElement}"
+									MouseAction="LeftDoubleClick" />
+							</DataGrid.InputBindings>
 						</DataGrid>
 
 						<Grid Grid.Row="3">
