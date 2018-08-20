@@ -114,14 +114,40 @@ namespace SupRealClient.Common
 		    result = Regex.Replace(result, @"\s*[-–——]\s*", " - ");
 		    result = Regex.Replace(result, @"[!|@|#|$|%|^|&|*|(|)|_|+|-|=|:|?|/|'|<|>]", "");
 			return result;
-	    }
+		}
 
-	    /// <summary>
-	    /// Тип документа на русском языке.
-	    /// </summary>
-	    /// <param name="documentType"></param>
-	    /// <returns></returns>
-	    public static string GetDocumentTypeInRussian(string documentType)
+		public static string Check_Position(string text)
+		{
+			if (string.IsNullOrEmpty(text))
+			{
+				return "-";
+			}
+
+			var match = Regex.Match(text, @"^\s*([\w|!|@|#|$|%|^|&|*|(|)|_|+|-|=|:|?|/|'|<|>]+(\s*([-–——]\s*)?[\w|!|@|#|$|%|^|&|*|(|)|_|+|-|=|:|?|/|'|<|>]+)*)\s*$", RegexOptions.IgnoreCase);
+			if (!match.Success)
+			{
+				return "-";
+			}
+
+			var result = match.Groups[1].Value;
+			result = Regex.Replace(result, @"\s+", "");
+			result = Regex.Replace(result, @"\s*[-–——]\s*", "-");
+			result = Regex.Replace(result, @"[!|@|#|$|%|^|&|*|(|)|_|+|-|=|:|?|/|'|<|>]", "");
+
+			if (string.IsNullOrEmpty(text))
+			{
+				return "-";
+			}
+
+			return result;
+		}
+
+		/// <summary>
+		/// Тип документа на русском языке.
+		/// </summary>
+		/// <param name="documentType"></param>
+		/// <returns></returns>
+		public static string GetDocumentTypeInRussian(string documentType)
 	    {
 		    if (string.IsNullOrEmpty(documentType))
 		    {
