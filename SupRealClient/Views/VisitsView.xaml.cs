@@ -695,12 +695,30 @@ namespace SupRealClient.Views
 			var visitorDocument = new VisitorsDocument
 			{
 				Name =
-					$"{CommonHelper.GetDocumentTypeInRussian(person?.DocumentType?.Value)}  - {person?.DocumentSeria?.Value}, {person?.DocumentNumber?.Value}, {person?.DocumentDeliveryDate?.Value}",
+					$"{CommonHelper.GetDocumentTypeInRussian(person?.DocumentType?.Value)} - {person?.DocumentSeria?.Value}, {person?.DocumentNumber?.Value}, {person?.DocumentDeliveryDate?.Value}",
 				TypeId = 0,
 				Images = GetScansByDocNumber(person, person?.DocumentNumber?.Value),
 				IsChanged = true
 			};
-			(view as Window)?.Invoke(() => { Model.AddDocument(visitorDocument); });
+
+			//проверка на наличие документа в списке документов CurrentItem
+			for (var index = 0; index < CurrentItem.Documents.Count; index++)
+			{
+				if (string.Equals(CurrentItem.Documents[index].Name.Trim().ToLower(),
+					visitorDocument.Name.Trim().ToLower()))
+				{
+					(view as Window)?.Invoke(() => { CurrentItem.Documents[index] = visitorDocument; });
+					return;
+				}
+			}
+
+			(view as Window)?.Invoke(() =>
+			{
+				if (!CurrentItem.Documents.Contains(visitorDocument))
+				{
+					Model.AddDocument(visitorDocument);
+				}
+			});
 		}
 
 		/// <summary>
