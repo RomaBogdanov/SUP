@@ -2,6 +2,7 @@
 using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
+using SupRealClient.ViewModels;
 
 namespace SupRealClient.Views
 {
@@ -13,7 +14,7 @@ namespace SupRealClient.Views
 		public AndoverExportView()
 		{
 			InitializeComponent();
-			
+			DataContext = new CAndoverExportViewModel();
 		}
 
 		public EAndoverExportItem AndoverExportItem => (EAndoverExportItem) StackPanel.Children.Cast<CheckBox>().Select((item, index) => item.IsChecked.Value ? 1 << index : 0).Sum();
