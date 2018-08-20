@@ -1011,6 +1011,12 @@ namespace SupRealClient.Views
 
 		private void New()
 		{
+			if (DocumentScaner!=null)
+			{
+				DocumentScanerRemoveSubscription();
+				DocumentScaner.ScanFinished += Scaner_ScanFinished;
+			}
+
 			DocumentScaner?.Connect();
 			Model = new NewVisitsModel();
 			IsRedactMode = true;
@@ -1060,6 +1066,12 @@ namespace SupRealClient.Views
 
 		private void Edit()
 		{
+			if (DocumentScaner != null)
+			{
+				DocumentScanerRemoveSubscription();
+				DocumentScaner.ScanFinished += Scaner_ScanFinished;
+			}
+
 			DocumentScaner?.Connect();
 			int indexEditingVisit = -1;
 			if (model is VisitsModel)

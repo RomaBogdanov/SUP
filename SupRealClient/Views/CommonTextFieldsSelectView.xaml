@@ -17,14 +17,35 @@
 			<RowDefinition Height="Auto" />
 		</Grid.RowDefinitions>
 		<StackPanel x:Name="StackPanel" Grid.Row="0">
-			<CheckBox Content="Фамилия" Style="{StaticResource AndoverExportCheckBox}" IsChecked="{Binding IsSurnameSelect,Mode=TwoWay}"/>
-			<CheckBox Content="Имя" Style="{StaticResource AndoverExportCheckBox}" IsChecked="{Binding IsNameSelect,Mode=TwoWay}"/>
-			<CheckBox Content="Отчество" Style="{StaticResource AndoverExportCheckBox}" IsChecked="{Binding IsPatronymicSelect,Mode=TwoWay}"/>
-			<CheckBox Content="Дата рождения" Style="{StaticResource AndoverExportCheckBox}" IsChecked="{Binding IsBirthDateSelect,Mode=TwoWay}"/>
-			<CheckBox Content="Портрет" Style="{StaticResource AndoverExportCheckBox}" IsChecked="{Binding IsPortraitSelect,Mode=TwoWay}"/>
+			<CheckBox
+				Content="Фамилия"
+				IsChecked="{Binding IsSurnameSelect, Mode=TwoWay}"
+				Style="{StaticResource AndoverExportCheckBox}" />
+			<CheckBox
+				Content="Имя"
+				IsChecked="{Binding IsNameSelect, Mode=TwoWay}"
+				Style="{StaticResource AndoverExportCheckBox}" />
+			<CheckBox
+				Content="Отчество"
+				IsChecked="{Binding IsPatronymicSelect, Mode=TwoWay}"
+				Style="{StaticResource AndoverExportCheckBox}" />
+			<CheckBox
+				Content="Дата рождения"
+				IsChecked="{Binding IsBirthDateSelect, Mode=TwoWay}"
+				Style="{StaticResource AndoverExportCheckBox}" />
+			<CheckBox
+				Content="Портрет"
+				IsChecked="{Binding IsPortraitSelect, Mode=TwoWay}"
+				Style="{StaticResource AndoverExportCheckBox}" />
 		</StackPanel>
-		<StackPanel Grid.Row="1" Orientation="Horizontal" HorizontalAlignment="Right">
-			<CheckBox Content="Выделить все поля" Style="{StaticResource AndoverExportCheckBox}" IsChecked="{Binding IsAllSelect,Mode=TwoWay}"/>
+		<StackPanel
+			Grid.Row="1"
+			HorizontalAlignment="Right"
+			Orientation="Horizontal">
+			<CheckBox
+				Content="Выделить все поля"
+				IsChecked="{Binding IsAllSelect, Mode=TwoWay}"
+				Style="{StaticResource AndoverExportCheckBox}" />
 		</StackPanel>
 		<UniformGrid
 			Grid.Row="2"
