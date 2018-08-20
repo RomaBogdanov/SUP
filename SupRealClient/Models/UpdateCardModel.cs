@@ -3,6 +3,7 @@ using System.Data;
 using SupClientConnectionLib;
 using SupRealClient.EnumerationClasses;
 using SupRealClient.TabsSingleton;
+using SupRealClient.Views;
 
 namespace SupRealClient.Models
 {
@@ -23,8 +24,10 @@ namespace SupRealClient.Models
                     CardIdLo = card.CardIdLo,
                     CurdNum = card.CurdNum,
                     Comment = card.Comment,
-                    NumMAFW = card.NumMAFW,
-                    CreateDate = card.ChangeDate
+                    Name = card.Name,
+                    CreateDate = card.ChangeDate,
+                    StateId = card.StateId,
+                    State = card.State
                 };
             }
         }
@@ -41,9 +44,11 @@ namespace SupRealClient.Models
             OnClose?.Invoke();
         }
 
-        public void ChangeState()
+        public int? ChangeState()
         {
-            throw new NotImplementedException();
+            var view = new ChangeStateView(new ChangeStateModel(card));
+            view.ShowDialog();
+            return view.WindowResult as int?;
         }
 
         public void Ok(Card data)
@@ -63,9 +68,8 @@ namespace SupRealClient.Models
                 row = cards.Table.NewRow();
                 row["f_object_id_hi"] = data.CardIdHi;
                 row["f_object_id_lo"] = data.CardIdLo;
-                row["f_state_id"] = 1;
+                row["f_state_id"] = data.StateId;
                 row["f_create_date"] = data.CreateDate;
-                row["f_card_text"] = data.NumMAFW;
                 row["f_comment"] = data.Comment;
                 row["f_rec_operator"] = Authorizer.AppAuthorizer.Id;
                 row["f_rec_date"] = DateTime.Now;
@@ -77,11 +81,9 @@ namespace SupRealClient.Models
             else
             {
                 row.BeginEdit();
-                row["f_card_text"] = data.NumMAFW;
                 row["f_comment"] = data.Comment;
                 row["f_rec_operator"] = Authorizer.AppAuthorizer.Id;
                 row["f_rec_date"] = DateTime.Now;
-                row["f_deleted"] = "N";
                 row.EndEdit();
             }
             Cancel();

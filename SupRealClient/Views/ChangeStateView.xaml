@@ -1,4 +1,4 @@
-﻿<mah:MetroWindow x:Class="SupRealClient.Views.AddUpdateCardView"
+﻿<mah:MetroWindow x:Class="SupRealClient.Views.ChangeStateView"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
@@ -7,10 +7,9 @@
         xmlns:wpfx="http://schemas.xceed.com/wpf/xaml/toolkit"  
         xmlns:gl="clr-namespace:System.Globalization;assembly=mscorlib"
         mc:Ignorable="d" 
-        Title="{Binding Path=Caption, Mode=OneTime}" 
-        Height="320" Width="409.799"
-        ResizeMode="NoResize" 
-        Loaded="MetroWindow_Loaded" >
+        Title="Изменение статуса пропуска" 
+        Height="300" Width="500"
+        ResizeMode="NoResize">
     <Window.InputBindings>
         <KeyBinding Key="Escape" Command="{Binding Cancel}"/>
     </Window.InputBindings>
@@ -27,27 +26,18 @@
             <RowDefinition Height="30"/>
             <RowDefinition Height="30"/>
             <RowDefinition Height="30"/>
-            <RowDefinition Height="30"/>
             <RowDefinition Height="1*"/>
         </Grid.RowDefinitions>
-        
+
         <TextBlock 
-                   Grid.Row="0" Grid.Column="0"                    
+                   Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="2"                
                    Text="Пропуск:"                   
                    FontSize="{Binding FontSize}"
                    HorizontalAlignment="Left"
                    Style="{StaticResource TextBLockStyle}"/>
 
-        <TextBlock 
-            Grid.Row="0" Grid.Column="1" 
-            Text="Внесен в БД:"
-            FontSize="{Binding FontSize}"
-            HorizontalAlignment="Left"
-            Style="{StaticResource TextBLockStyle}"/>
-
         <TextBox 
-                 x:Name="tbCardNum" 
-                 Grid.Row="1" Grid.Column="0"  
+                 Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="2"
                  Text="{Binding Path=Name, Mode=TwoWay}"
                  Margin="2"
                  TabIndex="0"
@@ -55,26 +45,6 @@
                  FontSize="{Binding FontSize}"            
                  Style="{StaticResource TextBoxStyle}"
                  KeyUp="TextBox_OnKeyUp"/>
-
-        <DatePicker 
-                    Name="dpDate"
-                    Grid.Row="1" Grid.Column="1" Text="Дата" Margin="2"
-                    TabIndex="1"
-                    SelectedDate="{Binding Path=CreateDate, Mode=TwoWay}" 
-                    KeyUp="TextBox_OnKeyUp">
-            <DatePicker.Resources>
-                <Style TargetType="{x:Type DatePickerTextBox}">
-                    <Setter Property="Control.Template">
-                        <Setter.Value>
-                            <ControlTemplate>
-                                <wpfx:MaskedTextBox x:Name="PART_TextBox" Mask="00/00/0000" 
-                                    Text="{ Binding Path=SelectedDate,ConverterCulture={x:Static gl:CultureInfo.CurrentCulture}, StringFormat=dd/MM/yyyy, RelativeSource={RelativeSource AncestorType={x:Type DatePicker}}}" />
-                            </ControlTemplate>
-                        </Setter.Value>
-                    </Setter>
-                </Style>
-            </DatePicker.Resources>
-        </DatePicker>
 
         <TextBlock 
             Grid.Row="2" Grid.Column="0" 
@@ -93,44 +63,40 @@
             FontSize="{Binding FontSize}"            
             Style="{StaticResource TextBoxStyle}"/>
 
-        <TextBlock
-            Grid.Row="4" 
-            Grid.Column="0" Grid.ColumnSpan="2" 
-            Text="Номер пропуска:"
-            FontSize="{Binding FontSize}"
-            HorizontalAlignment="Left"
-            Style="{StaticResource TextBLockStyle}"/>
-
-        <TextBox 
-            Grid.Row="5" 
-            Grid.Column="0" Grid.ColumnSpan="2" 
-            Text="{Binding Path=CurdNum, Mode=TwoWay}"
-            IsReadOnly="True"
+        <RadioButton Grid.Row="4" 
+            Grid.Column="0" 
+            IsChecked="{Binding Path=StateActive, Mode=TwoWay}"
             Margin="2"
-            TabIndex="2"            
-            FontSize="{Binding FontSize}"            
-            Style="{StaticResource TextBoxStyle}"
-            KeyUp="TextBox_OnKeyUp"/>
-
-        <TextBlock 
-            Grid.Row="6" Grid.Column="0" 
-            Text="Комментарий:"
+            IsTabStop="False"            
             FontSize="{Binding FontSize}"
-            HorizontalAlignment="Left"
-            Style="{StaticResource TextBLockStyle}"/>
-
-        <TextBox 
-            x:Name="tbComments"
-            Grid.Row="7" 
-            Grid.Column="0" Grid.ColumnSpan="2" 
-            Text="{Binding Path=Comment, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+            Content="Активен"
+            IsEnabled="{Binding Path=StateActiveEnabled}"/>
+        <RadioButton Grid.Row="5" 
+            Grid.Column="0" 
+            IsChecked="{Binding Path=StateInactive, Mode=TwoWay}"
             Margin="2"
-            TabIndex="3"            
-            FontSize="{Binding FontSize}"            
-            Style="{StaticResource TextBoxStyle}"
-            KeyUp="tbComments_KeyUp"/>
+            IsTabStop="False"            
+            FontSize="{Binding FontSize}"
+            Content="Неактивен"
+            IsEnabled="{Binding Path=StateInactiveEnabled}"/>
+        <RadioButton Grid.Row="4" 
+            Grid.Column="1" 
+            IsChecked="{Binding Path=StateIssued, Mode=TwoWay}"
+            Margin="2"
+            IsTabStop="False"            
+            FontSize="{Binding FontSize}"
+            Content="Выдан"
+            IsEnabled="{Binding Path=StateIssuedEnabled}"/>
+        <RadioButton Grid.Row="5" 
+            Grid.Column="1" 
+            IsChecked="{Binding Path=StateLost, Mode=TwoWay}"
+            Margin="2"
+            IsTabStop="False"            
+            FontSize="{Binding FontSize}"
+            Content="Утерян"
+            IsEnabled="{Binding Path=StateLostEnabled}"/>
 
-        <Grid Grid.Row="8" Grid.Column="0" Grid.ColumnSpan="2" >
+        <Grid Grid.Row="7" Grid.Column="0" Grid.ColumnSpan="2" >
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="Auto"/>
                 <ColumnDefinition Width="1*"/>
@@ -141,20 +107,20 @@
                     Grid.Column="0" 
                     Margin="2" 
                     TabIndex="4"
-                    Command="{Binding Path=ChangeState}"
+                    Command="{Binding Path=Remove}"
                     Style="{StaticResource ButtonStyle}" >
                 <Grid>
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="30"/>
                         <ColumnDefinition/>
                     </Grid.ColumnDefinitions>
-                    
+
                     <Image 
                         Grid.Column="0" 
-                        Source="../Resources/Редактировать (2).ico"/>
-                    
+                        Source="../Resources/NewRemove.png"/>
+
                     <TextBlock Grid.Column="1" 
-                               Text="Изменить состояние"
+                               Text="Удалить по причине отсутствия в Андовер"
                                FontSize="{Binding FontSize}"
                                Style="{StaticResource TextBLockStyle}"/>
                 </Grid>
@@ -211,10 +177,5 @@
             </Button>
 
         </Grid>
-        
-        
-
-
-        
     </Grid>
 </mah:MetroWindow>

@@ -569,13 +569,15 @@ namespace SupRealClient.Views
         protected override DataTable Table => throw new NotImplementedException();
 
         CardsWrapper cardsWrapper = CardsWrapper.CurrentTable();
-	SprCardstatesWrapper sprCardstatesWrapper = SprCardstatesWrapper.CurrentTable();
+        CardsExtWrapper cardsExtWrapper = CardsExtWrapper.CurrentTable();
+        SprCardstatesWrapper sprCardstatesWrapper = SprCardstatesWrapper.CurrentTable();
         VisitsWrapper visitsWrapper = VisitsWrapper.CurrentTable();
         VisitorsWrapper visitorsWrapper = VisitorsWrapper.CurrentTable();
 
         public CardsListModel()
         {
             cardsWrapper.OnChanged += Query;
+            cardsExtWrapper.OnChanged += Query;
             sprCardstatesWrapper.OnChanged += Query;
             visitsWrapper.OnChanged += Query;
             visitorsWrapper.OnChanged += Query;
@@ -616,7 +618,7 @@ namespace SupRealClient.Views
             DateTime d = new DateTime(2000, 1, 1);
             var cardsPersons =
                 from c in cardsWrapper.Table.AsEnumerable()
-                from ce in CardsExtWrapper.CurrentTable().Table.AsEnumerable()
+                from ce in cardsExtWrapper.Table.AsEnumerable()
                 from v in visitsWrapper.Table.AsEnumerable()
                 from p in visitorsWrapper.Table.AsEnumerable()
                 where c.Field<int>("f_card_id") != 0 &&
@@ -634,11 +636,10 @@ namespace SupRealClient.Views
                 };
 
             var cardsExt = new List<Card>(
-               from ce in CardsExtWrapper.CurrentTable().Table.AsEnumerable()
+               from ce in cardsExtWrapper.Table.AsEnumerable()
                join s in sprCardstatesWrapper.Table.AsEnumerable()
                on ce.Field<int>("f_state_id") equals s.Field<int>("f_state_id")
-               where ce.Field<int>("f_card_id") != 0 &&
-               CommonHelper.NotDeleted(ce)
+               where ce.Field<int>("f_card_id") != 0               
                select new Card
                {
                    CardIdHi = ce.Field<int>("f_object_id_hi"),
@@ -655,7 +656,8 @@ namespace SupRealClient.Views
                        (cardsPersons.FirstOrDefault(p =>
                        p.IdCardHi == ce.Field<int>("f_object_id_hi") &&
                        p.IdCardLo == ce.Field<int>("f_object_id_lo"))?
-                       .PersonName.ToString())
+                       .PersonName.ToString()),
+                   IsDeleted = !CommonHelper.NotDeleted(ce)
                });
 
             var states = new Dictionary<int, string>((
@@ -668,11 +670,8 @@ namespace SupRealClient.Views
 
             Set = new ObservableCollection<T>(
                 from c in cardsWrapper.Table.AsEnumerable()
-                from ce in CardsExtWrapper.CurrentTable().Table.AsEnumerable()
-		where c.Field<int>("f_card_id") != 0 &&
-		      c.Field<int>("f_card_id") == ce.Field<int>("f_card_id") &&
-			string.Equals(ce.Field<string>("f_deleted").Trim().ToLower(), "n")
-		select new T
+                where c.Field<int>("f_card_id") != 0
+                select new T
                 {
                     Id = c.Field<int>("f_card_id"),
                     CardIdHi = c.Field<int>("f_object_id_hi"),
@@ -685,7 +684,7 @@ namespace SupRealClient.Views
                     Lost = null,
                     State = states.ContainsKey(1) ? states[1] : "",
                     StateId = 1,
-                    ReceiversName = ""
+                    ReceiversName = "",
                 });
 
             foreach (var ce in cardsExt)
@@ -694,6 +693,11 @@ namespace SupRealClient.Views
                     r.CardIdLo == ce.CardIdLo);
                 if (row != null)
                 {
+                    if (ce.IsDeleted)
+                    {
+                        Set.Remove(row);
+                        continue;
+                    }
                     row.CreateDate = ce.CreateDate;
                     row.ChangeDate = ce.ChangeDate;
                     row.Comment = ce.Comment;
@@ -728,7 +732,8 @@ namespace SupRealClient.Views
         {
             return new Dictionary<string, string>
             {
-                { "CurdNum", "Пропуск" },
+                { "Name", "Наименование" },
+                { "CurdNum", "Номер" },
                 { "CreateDate", "Занесён в БД" },
                 { "NumMAFW", "№ MAFW" },
                 { "Comment", "Примечание" },

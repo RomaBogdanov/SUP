@@ -43,7 +43,13 @@ namespace SupRealClient.Views
         {
             DataGridTextColumn dataGridTextColumn = new DataGridTextColumn
             {
-                Header = "Пропуск",
+                Header = "Наименование",
+                Binding = new Binding("Name")
+            };
+            base4.baseTab.Columns.Add(dataGridTextColumn);
+            dataGridTextColumn = new DataGridTextColumn
+            {
+                Header = "Номер",
                 Binding = new Binding("CurdNum")
             };
             base4.baseTab.Columns.Add(dataGridTextColumn);
@@ -51,12 +57,9 @@ namespace SupRealClient.Views
             {
                 Header = "Занесён в БД",
                 Binding = new Binding("CreateDate")
-            };
-            base4.baseTab.Columns.Add(dataGridTextColumn);
-            dataGridTextColumn = new DataGridTextColumn
-            {
-                Header = "№ MAFW",
-                Binding = new Binding("NumMAFW")
+                {
+                    StringFormat = "{0:dd.MM.yyyy HH:mm:ss}"
+                }
             };
             base4.baseTab.Columns.Add(dataGridTextColumn);
             dataGridTextColumn = new DataGridTextColumn
@@ -87,6 +90,9 @@ namespace SupRealClient.Views
             {
                 Header = "Изменён",
                 Binding = new Binding("ChangeDate")
+                {
+                    StringFormat = "{0:dd.MM.yyyy HH:mm:ss}"
+                }
             };
             base4.baseTab.Columns.Add(dataGridTextColumn);
             base4.SetDefaultColumn();

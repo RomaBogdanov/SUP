@@ -695,7 +695,9 @@ namespace SupRealClient.Views
 			var visitorDocument = new VisitorsDocument
 			{
 				Name =
-					$"{CommonHelper.GetDocumentTypeInRussian(person?.DocumentType?.Value)} - {person?.DocumentSeria?.Value}, {person?.DocumentNumber?.Value}, {person?.DocumentDeliveryDate?.Value}",
+					$"{CommonHelper.GetDocumentTypeInRussian(person?.DocumentType?.Value)} " +
+					$"- Серия {person?.DocumentSeria?.Value}, № {person?.DocumentNumber?.Value}," +
+					$" Дата выдачи {person?.DocumentDeliveryDate?.Value}",
 				TypeId = 0,
 				Images = GetScansByDocNumber(person, person?.DocumentNumber?.Value),
 				IsChanged = true
@@ -1166,10 +1168,7 @@ namespace SupRealClient.Views
 
 			}
 
-
-
-
-
+			
 			if (string.IsNullOrWhiteSpace(CurrentItem.Position) || string.IsNullOrEmpty(CurrentItem.Position) || CurrentItem.Position == "")
 				CurrentItem.Position = "-";
 
@@ -1224,7 +1223,7 @@ namespace SupRealClient.Views
 
 
 			}
-			DocumentScaner.Dispose();
+			DocumentScanerDispose();
 		}
 
 		public void Cancel()
