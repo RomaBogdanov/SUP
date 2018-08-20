@@ -43,7 +43,7 @@
 			HorizontalAlignment="Right"
 			Orientation="Horizontal">
 			<CheckBox
-				Content="Выделить все поля"
+				Content="Выделить все"
 				IsChecked="{Binding IsAllSelect, Mode=TwoWay}"
 				Style="{StaticResource AndoverExportCheckBox}" />
 		</StackPanel>

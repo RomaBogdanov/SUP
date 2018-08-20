@@ -215,6 +215,7 @@
     <Compile Include="Models\Bids\IBidsModel.cs" />
     <Compile Include="Models\Bids\BidsModel.cs" />
     <Compile Include="Models\Bids\EditBidsModel.cs" />
+    <Compile Include="ViewModels\CAndoverExportViewModel.cs" />
     <Compile Include="ViewModels\CCommonTextFieldsSelectViewModel.cs" />
     <Compile Include="ViewModels\DocumentImageViewModel.cs" />
     <Compile Include="ViewModels\ListsViewModel\BaseListViewModel.cs" />
