@@ -151,6 +151,7 @@
     <Compile Include="Common\Data\SearchData.cs" />
     <Compile Include="Models\AddItemRegionsModel.cs" />
     <Compile Include="Models\Bids\BidsModelBase.cs" />
+    <Compile Include="Models\ChangeStateModel.cs" />
     <Compile Include="Models\ChildWindowSettings.cs" />
     <Compile Include="Models\DocumentsHelper.cs" />
     <Compile Include="Models\Helpers\CardsHelper.cs" />
@@ -217,6 +218,7 @@
     <Compile Include="Models\Bids\EditBidsModel.cs" />
     <Compile Include="ViewModels\CAndoverExportViewModel.cs" />
     <Compile Include="ViewModels\CCommonTextFieldsSelectViewModel.cs" />
+    <Compile Include="ViewModels\ChangeStateViewModel.cs" />
     <Compile Include="ViewModels\DocumentImageViewModel.cs" />
     <Compile Include="ViewModels\ListsViewModel\BaseListViewModel.cs" />
     <Compile Include="ViewModels\DocumentImagesViewModel.cs" />
@@ -376,6 +378,9 @@
     <Compile Include="Views\BaseTemplates\Наследники Base4ModelAbstr\OrganizationsListModel.cs" />
     <Compile Include="Views\BaseTemplates\Наследники Base4ModelAbstr\RegionsListModel.cs" />
     <Compile Include="Views\BaseTemplates\Наследники Base4ModelAbstr\VisitorsListModel.cs" />
+    <Compile Include="Views\ChangeStateView.xaml.cs">
+      <DependentUpon>ChangeStateView.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Views\CommonTextFieldsSelectView.xaml.cs">
       <DependentUpon>CommonTextFieldsSelectView.xaml</DependentUpon>
     </Compile>
@@ -687,6 +692,10 @@
     <Page Include="Views\Base4Analogs\BidsListWindView.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Views\ChangeStateView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Views\CommonTextFieldsSelectView.xaml">
       <SubType>Designer</SubType>
