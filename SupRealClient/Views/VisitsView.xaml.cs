@@ -695,7 +695,7 @@ namespace SupRealClient.Views
 			var visitorDocument = new VisitorsDocument
 			{
 				Name =
-					$"{person?.DocumentType?.Value}  - {person?.DocumentSeria?.Value}, {person?.DocumentNumber?.Value}, {person?.DocumentDeliveryDate?.Value}",
+					$"{CommonHelper.GetDocumentTypeInRussian(person?.DocumentType?.Value)}  - {person?.DocumentSeria?.Value}, {person?.DocumentNumber?.Value}, {person?.DocumentDeliveryDate?.Value}",
 				TypeId = 0,
 				Images = GetScansByDocNumber(person, person?.DocumentNumber?.Value),
 				IsChanged = true
