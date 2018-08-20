@@ -20,7 +20,7 @@ namespace SupRealClient.Models
             OnClose?.Invoke();
         }
 
-        public void ChangeState()
+        public int? ChangeState()
         {
             throw new NotImplementedException();
         }

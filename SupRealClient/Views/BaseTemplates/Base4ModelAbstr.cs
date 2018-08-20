@@ -569,13 +569,15 @@ namespace SupRealClient.Views
         protected override DataTable Table => throw new NotImplementedException();
 
         CardsWrapper cardsWrapper = CardsWrapper.CurrentTable();
-	SprCardstatesWrapper sprCardstatesWrapper = SprCardstatesWrapper.CurrentTable();
+        CardsExtWrapper cardsExtWrapper = CardsExtWrapper.CurrentTable();
+        SprCardstatesWrapper sprCardstatesWrapper = SprCardstatesWrapper.CurrentTable();
         VisitsWrapper visitsWrapper = VisitsWrapper.CurrentTable();
         VisitorsWrapper visitorsWrapper = VisitorsWrapper.CurrentTable();
 
         public CardsListModel()
         {
             cardsWrapper.OnChanged += Query;
+            cardsExtWrapper.OnChanged += Query;
             sprCardstatesWrapper.OnChanged += Query;
             visitsWrapper.OnChanged += Query;
             visitorsWrapper.OnChanged += Query;
@@ -616,7 +618,7 @@ namespace SupRealClient.Views
             DateTime d = new DateTime(2000, 1, 1);
             var cardsPersons =
                 from c in cardsWrapper.Table.AsEnumerable()
-                from ce in CardsExtWrapper.CurrentTable().Table.AsEnumerable()
+                from ce in cardsExtWrapper.Table.AsEnumerable()
                 from v in visitsWrapper.Table.AsEnumerable()
                 from p in visitorsWrapper.Table.AsEnumerable()
                 where c.Field<int>("f_card_id") != 0 &&
@@ -634,7 +636,7 @@ namespace SupRealClient.Views
                 };
 
             var cardsExt = new List<Card>(
-               from ce in CardsExtWrapper.CurrentTable().Table.AsEnumerable()
+               from ce in cardsExtWrapper.Table.AsEnumerable()
                join s in sprCardstatesWrapper.Table.AsEnumerable()
                on ce.Field<int>("f_state_id") equals s.Field<int>("f_state_id")
                where ce.Field<int>("f_card_id") != 0 &&
@@ -668,11 +670,11 @@ namespace SupRealClient.Views
 
             Set = new ObservableCollection<T>(
                 from c in cardsWrapper.Table.AsEnumerable()
-                from ce in CardsExtWrapper.CurrentTable().Table.AsEnumerable()
-		where c.Field<int>("f_card_id") != 0 &&
-		      c.Field<int>("f_card_id") == ce.Field<int>("f_card_id") &&
-			string.Equals(ce.Field<string>("f_deleted").Trim().ToLower(), "n")
-		select new T
+                from ce in cardsExtWrapper.Table.AsEnumerable()
+                where c.Field<int>("f_card_id") != 0 &&
+                c.Field<int>("f_card_id") == ce.Field<int>("f_card_id") &&
+                string.Equals(ce.Field<string>("f_deleted").Trim().ToLower(), "n")
+                select new T
                 {
                     Id = c.Field<int>("f_card_id"),
                     CardIdHi = c.Field<int>("f_object_id_hi"),

@@ -3,6 +3,10 @@ using System;
 using System.ComponentModel;
 using System.Windows.Input;
 using SupRealClient.EnumerationClasses;
+using System.Collections.Generic;
+using SupRealClient.TabsSingleton;
+using System.Data;
+using System.Linq;
 
 namespace SupRealClient.ViewModels
 {
@@ -11,7 +15,7 @@ namespace SupRealClient.ViewModels
         public event PropertyChangedEventHandler PropertyChanged;
         private IAddUpdateCardModel model;
         private int curdNum;
-        private string state = "Активен";
+        private string state;
         private DateTime createDate = DateTime.Now;
         private int numMAFW;
         private string comment;
@@ -126,6 +130,7 @@ namespace SupRealClient.ViewModels
             this.NumMAFW = model.Data.NumMAFW;
             this.Comment = model.Data.Comment;
             this.Name = model.Data.Name;
+            this.State = model.Data.State;
 
             this.Ok = new RelayCommand(arg => this.model.Ok(new Card
             {
@@ -135,14 +140,32 @@ namespace SupRealClient.ViewModels
                 Name = Name,
                 CreateDate = CreateDate,
                 NumMAFW = NumMAFW,
-                Comment = Comment
+                Comment = Comment,
+                State = State
             }));
             this.Cancel = new RelayCommand(arg => this.model.Cancel());
-            this.ChangeState = new RelayCommand(arg => this.model.ChangeState());
+            this.ChangeState = new RelayCommand(arg => ChangeStateCommand());
         }
 
         protected virtual void OnPropertyChanged(string propertyName) =>
             this.PropertyChanged?.Invoke(this,
             new PropertyChangedEventArgs(propertyName));
+
+        private void ChangeStateCommand()
+        {
+            int? stateId = this.model.ChangeState();
+            if (stateId.HasValue && stateId.Value != model.Data.StateId)
+            {
+                model.Data.StateId = stateId.Value;
+                var states = new Dictionary<int, string>((
+                    from s in SprCardstatesWrapper.CurrentTable().Table.AsEnumerable()
+                    select new
+                    {
+                        A = s.Field<int>("f_state_id"),
+                        B = s.Field<string>("f_state_text"),
+                    }).ToDictionary(o => o.A, o => o.B));
+                State = states[stateId.Value];
+            }
+        }
     }
 }

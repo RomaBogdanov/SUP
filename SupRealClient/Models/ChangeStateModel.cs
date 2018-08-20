@@ -1,16 +1,12 @@
-﻿using System;
-using System.Data;
-using SupClientConnectionLib;
+﻿using SupClientConnectionLib;
 using SupRealClient.EnumerationClasses;
 using SupRealClient.TabsSingleton;
-using SupRealClient.Views;
+using System;
+using System.Data;
 
 namespace SupRealClient.Models
 {
-    /// <summary>
-    /// Обновление пропуска - модель
-    /// </summary>
-    class UpdateCardModel : IAddUpdateCardModel
+    public class ChangeStateModel
     {
         private Card card;
 
@@ -22,34 +18,24 @@ namespace SupRealClient.Models
                 {
                     CardIdHi = card.CardIdHi,
                     CardIdLo = card.CardIdLo,
-                    CurdNum = card.CurdNum,
-                    Comment = card.Comment,
-                    Name = card.Name,
-                    CreateDate = card.ChangeDate,
                     StateId = card.StateId,
-                    State = card.State
+                    State = card.State,
+                    Name = card.Name,
+                    CurdNum = card.CurdNum
                 };
             }
         }
 
-        public event Action OnClose;
+        public event Action<object> OnClose;
 
-        public UpdateCardModel(Card card)
+        public ChangeStateModel(Card card)
         {
             this.card = card;
         }
 
-        public void Cancel()
+        public void Cancel(int stateId)
         {
-            OnClose?.Invoke();
-        }
-
-        public int? ChangeState()
-        {
-            //ViewManager.Instance.OpenWindowModal("ChangeStateView");
-            var view = new ChangeStateView(new ChangeStateModel(card));
-            view.ShowDialog();
-            return view.WindowResult as int?;
+            OnClose?.Invoke(stateId);
         }
 
         public void Ok(Card data)
@@ -71,7 +57,7 @@ namespace SupRealClient.Models
                 row["f_object_id_lo"] = data.CardIdLo;
                 row["f_state_id"] = data.StateId;
                 row["f_create_date"] = data.CreateDate;
-                row["f_comment"] = data.Comment;
+                row["f_comment"] = "";
                 row["f_rec_operator"] = Authorizer.AppAuthorizer.Id;
                 row["f_rec_date"] = DateTime.Now;
                 row["f_lost_date"] = DateTime.MinValue;
@@ -82,13 +68,17 @@ namespace SupRealClient.Models
             else
             {
                 row.BeginEdit();
-                row["f_comment"] = data.Comment;
+                row["f_state_id"] = data.StateId;
                 row["f_rec_operator"] = Authorizer.AppAuthorizer.Id;
                 row["f_rec_date"] = DateTime.Now;
                 row["f_deleted"] = "N";
                 row.EndEdit();
             }
-            Cancel();
+
+            // TODO - здесь в Andover выгружается пропуск с пустым списком областей доступа
+            // Data.CurdNum
+
+            Cancel(data.StateId);
         }
     }
 }

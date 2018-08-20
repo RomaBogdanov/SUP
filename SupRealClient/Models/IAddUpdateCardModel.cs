@@ -9,6 +9,6 @@ namespace SupRealClient.Models
         Card Data { get; }
         void Ok(Card data);
         void Cancel();
-        void ChangeState();
+        int? ChangeState();
     }
 }
