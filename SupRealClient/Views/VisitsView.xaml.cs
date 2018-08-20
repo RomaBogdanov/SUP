@@ -707,7 +707,11 @@ namespace SupRealClient.Views
 				if (string.Equals(CurrentItem.Documents[index].Name.Trim().ToLower(),
 					visitorDocument.Name.Trim().ToLower()))
 				{
-					(view as Window)?.Invoke(() => { CurrentItem.Documents[index] = visitorDocument; });
+					if (MessageBox.Show("Данный документ уже содержится в списке документов посетителя. Обновить данные?",
+						"Предупреждение", MessageBoxButtons.YesNo,MessageBoxIcon.Question) == DialogResult.Yes)
+					{
+						(view as Window)?.Invoke(() => { CurrentItem.Documents[index] = visitorDocument; });
+					}
 					return;
 				}
 			}
