@@ -639,8 +639,7 @@ namespace SupRealClient.Views
                from ce in cardsExtWrapper.Table.AsEnumerable()
                join s in sprCardstatesWrapper.Table.AsEnumerable()
                on ce.Field<int>("f_state_id") equals s.Field<int>("f_state_id")
-               where ce.Field<int>("f_card_id") != 0 &&
-               CommonHelper.NotDeleted(ce)
+               where ce.Field<int>("f_card_id") != 0               
                select new Card
                {
                    CardIdHi = ce.Field<int>("f_object_id_hi"),
@@ -657,7 +656,8 @@ namespace SupRealClient.Views
                        (cardsPersons.FirstOrDefault(p =>
                        p.IdCardHi == ce.Field<int>("f_object_id_hi") &&
                        p.IdCardLo == ce.Field<int>("f_object_id_lo"))?
-                       .PersonName.ToString())
+                       .PersonName.ToString()),
+                   IsDeleted = !CommonHelper.NotDeleted(ce)
                });
 
             var states = new Dictionary<int, string>((
@@ -670,10 +670,7 @@ namespace SupRealClient.Views
 
             Set = new ObservableCollection<T>(
                 from c in cardsWrapper.Table.AsEnumerable()
-                from ce in cardsExtWrapper.Table.AsEnumerable()
-                where c.Field<int>("f_card_id") != 0 &&
-                c.Field<int>("f_card_id") == ce.Field<int>("f_card_id") &&
-                string.Equals(ce.Field<string>("f_deleted").Trim().ToLower(), "n")
+                where c.Field<int>("f_card_id") != 0
                 select new T
                 {
                     Id = c.Field<int>("f_card_id"),
@@ -687,7 +684,7 @@ namespace SupRealClient.Views
                     Lost = null,
                     State = states.ContainsKey(1) ? states[1] : "",
                     StateId = 1,
-                    ReceiversName = ""
+                    ReceiversName = "",
                 });
 
             foreach (var ce in cardsExt)
@@ -696,6 +693,11 @@ namespace SupRealClient.Views
                     r.CardIdLo == ce.CardIdLo);
                 if (row != null)
                 {
+                    if (ce.IsDeleted)
+                    {
+                        Set.Remove(row);
+                        continue;
+                    }
                     row.CreateDate = ce.CreateDate;
                     row.ChangeDate = ce.ChangeDate;
                     row.Comment = ce.Comment;

@@ -1,6 +1,7 @@
 ﻿using SupRealClient.EnumerationClasses;
 using SupRealClient.Models;
 using System.ComponentModel;
+using System.Windows.Forms;
 using System.Windows.Input;
 
 namespace SupRealClient.ViewModels
@@ -131,8 +132,8 @@ namespace SupRealClient.ViewModels
             }
         }
 
+        public ICommand Remove { get; set; }
         public ICommand Ok { get; set; }
-
         public ICommand Cancel { get; set; }
 
         public ChangeStateViewModel() { }
@@ -146,6 +147,7 @@ namespace SupRealClient.ViewModels
             this.curdNum = model.Data.CurdNum;
             SetState();
 
+            this.Remove = new RelayCommand(arg => RemoveCommand());
             this.Ok = new RelayCommand(arg => OkCommand());
             this.Cancel = new RelayCommand(arg => this.model.Cancel(this.stateId));
         }
@@ -153,6 +155,17 @@ namespace SupRealClient.ViewModels
         protected virtual void OnPropertyChanged(string propertyName) =>
             this.PropertyChanged?.Invoke(this,
             new PropertyChangedEventArgs(propertyName));
+
+        private void RemoveCommand()
+        {
+            if (MessageBox.Show("Удалить пропуск?", "Внимание",
+                MessageBoxButtons.YesNo, MessageBoxIcon.Warning) == DialogResult.No)
+            {
+                return;
+            }
+
+            this.model.Remove(model.Data.CardIdHi, model.Data.CardIdLo);
+        }
 
         private void OkCommand()
         {

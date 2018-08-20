@@ -156,6 +156,11 @@ namespace SupRealClient.ViewModels
             int? stateId = this.model.ChangeState();
             if (stateId.HasValue && stateId.Value != model.Data.StateId)
             {
+                if (stateId.Value < 0)
+                {
+                    model.Cancel();
+                    return;
+                }
                 model.Data.StateId = stateId.Value;
                 var states = new Dictionary<int, string>((
                     from s in SprCardstatesWrapper.CurrentTable().Table.AsEnumerable()

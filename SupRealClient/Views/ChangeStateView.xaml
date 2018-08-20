@@ -8,7 +8,7 @@
         xmlns:gl="clr-namespace:System.Globalization;assembly=mscorlib"
         mc:Ignorable="d" 
         Title="Изменение статуса пропуска" 
-        Height="320" Width="409.799"
+        Height="300" Width="500"
         ResizeMode="NoResize">
     <Window.InputBindings>
         <KeyBinding Key="Escape" Command="{Binding Cancel}"/>
@@ -19,7 +19,6 @@
             <ColumnDefinition Width="1*"/>
         </Grid.ColumnDefinitions>
         <Grid.RowDefinitions>
-            <RowDefinition Height="30"/>
             <RowDefinition Height="30"/>
             <RowDefinition Height="30"/>
             <RowDefinition Height="30"/>
@@ -97,7 +96,7 @@
             Content="Утерян"
             IsEnabled="{Binding Path=StateLostEnabled}"/>
 
-        <Grid Grid.Row="8" Grid.Column="0" Grid.ColumnSpan="2" >
+        <Grid Grid.Row="7" Grid.Column="0" Grid.ColumnSpan="2" >
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="Auto"/>
                 <ColumnDefinition Width="1*"/>
@@ -108,7 +107,7 @@
                     Grid.Column="0" 
                     Margin="2" 
                     TabIndex="4"
-                    Command="{Binding Path=ChangeState}"
+                    Command="{Binding Path=Remove}"
                     Style="{StaticResource ButtonStyle}" >
                 <Grid>
                     <Grid.ColumnDefinitions>
@@ -118,10 +117,10 @@
 
                     <Image 
                         Grid.Column="0" 
-                        Source="../Resources/Редактировать (2).ico"/>
+                        Source="../Resources/NewRemove.png"/>
 
                     <TextBlock Grid.Column="1" 
-                               Text="Изменить состояние"
+                               Text="Удалить по причине отсутствия в Андовер"
                                FontSize="{Binding FontSize}"
                                Style="{StaticResource TextBLockStyle}"/>
                 </Grid>

@@ -46,7 +46,6 @@ namespace SupRealClient.Models
 
         public int? ChangeState()
         {
-            //ViewManager.Instance.OpenWindowModal("ChangeStateView");
             var view = new ChangeStateView(new ChangeStateModel(card));
             view.ShowDialog();
             return view.WindowResult as int?;
@@ -85,7 +84,6 @@ namespace SupRealClient.Models
                 row["f_comment"] = data.Comment;
                 row["f_rec_operator"] = Authorizer.AppAuthorizer.Id;
                 row["f_rec_date"] = DateTime.Now;
-                row["f_deleted"] = "N";
                 row.EndEdit();
             }
             Cancel();
