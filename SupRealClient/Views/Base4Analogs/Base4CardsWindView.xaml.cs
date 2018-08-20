@@ -57,6 +57,9 @@ namespace SupRealClient.Views
             {
                 Header = "Занесён в БД",
                 Binding = new Binding("CreateDate")
+                {
+                    StringFormat = "{0:dd.MM.yyyy HH:mm:ss}"
+                }
             };
             base4.baseTab.Columns.Add(dataGridTextColumn);
             dataGridTextColumn = new DataGridTextColumn
@@ -87,6 +90,9 @@ namespace SupRealClient.Views
             {
                 Header = "Изменён",
                 Binding = new Binding("ChangeDate")
+                {
+                    StringFormat = "{0:dd.MM.yyyy HH:mm:ss}"
+                }
             };
             base4.baseTab.Columns.Add(dataGridTextColumn);
             base4.SetDefaultColumn();
