@@ -48,7 +48,7 @@
         <TextBox 
                  x:Name="tbCardNum" 
                  Grid.Row="1" Grid.Column="0"  
-                 Text="{Binding Path=CurdNum, Mode=TwoWay}"
+                 Text="{Binding Path=Name, Mode=TwoWay}"
                  Margin="2"
                  TabIndex="0"
                  IsReadOnly="True"
@@ -96,7 +96,7 @@
         <TextBlock
             Grid.Row="4" 
             Grid.Column="0" Grid.ColumnSpan="2" 
-            Text="Номер пропуска в MultiAccess:"
+            Text="Номер пропуска:"
             FontSize="{Binding FontSize}"
             HorizontalAlignment="Left"
             Style="{StaticResource TextBLockStyle}"/>
@@ -104,7 +104,8 @@
         <TextBox 
             Grid.Row="5" 
             Grid.Column="0" Grid.ColumnSpan="2" 
-            Text="{Binding Path=NumMAFW, Mode=TwoWay}"
+            Text="{Binding Path=CurdNum, Mode=TwoWay}"
+            IsReadOnly="True"
             Margin="2"
             TabIndex="2"            
             FontSize="{Binding FontSize}"            

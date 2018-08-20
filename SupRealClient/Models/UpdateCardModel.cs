@@ -23,7 +23,7 @@ namespace SupRealClient.Models
                     CardIdLo = card.CardIdLo,
                     CurdNum = card.CurdNum,
                     Comment = card.Comment,
-                    NumMAFW = card.NumMAFW,
+                    Name = card.Name,
                     CreateDate = card.ChangeDate
                 };
             }
@@ -65,7 +65,6 @@ namespace SupRealClient.Models
                 row["f_object_id_lo"] = data.CardIdLo;
                 row["f_state_id"] = 1;
                 row["f_create_date"] = data.CreateDate;
-                row["f_card_text"] = data.NumMAFW;
                 row["f_comment"] = data.Comment;
                 row["f_rec_operator"] = Authorizer.AppAuthorizer.Id;
                 row["f_rec_date"] = DateTime.Now;
@@ -77,7 +76,6 @@ namespace SupRealClient.Models
             else
             {
                 row.BeginEdit();
-                row["f_card_text"] = data.NumMAFW;
                 row["f_comment"] = data.Comment;
                 row["f_rec_operator"] = Authorizer.AppAuthorizer.Id;
                 row["f_rec_date"] = DateTime.Now;

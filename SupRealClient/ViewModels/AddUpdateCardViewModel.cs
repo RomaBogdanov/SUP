@@ -15,6 +15,7 @@ namespace SupRealClient.ViewModels
         private DateTime createDate = DateTime.Now;
         private int numMAFW;
         private string comment;
+        private string name;
 
         /// <summary>
         /// Заголовок окна.
@@ -31,6 +32,19 @@ namespace SupRealClient.ViewModels
             {
                 curdNum = value;
                 OnPropertyChanged("CurdNum");
+            }
+        }
+
+        /// <summary>
+        /// Пропуск.
+        /// </summary>
+        public string Name
+        {
+            get { return name; }
+            set
+            {
+                name = value;
+                OnPropertyChanged("Name");
             }
         }
 
@@ -111,12 +125,14 @@ namespace SupRealClient.ViewModels
             this.CreateDate = model.Data.CreateDate;
             this.NumMAFW = model.Data.NumMAFW;
             this.Comment = model.Data.Comment;
+            this.Name = model.Data.Name;
 
             this.Ok = new RelayCommand(arg => this.model.Ok(new Card
             {
                 CardIdHi = model.Data.CardIdHi,
                 CardIdLo = model.Data.CardIdLo,
                 CurdNum = CurdNum,
+                Name = Name,
                 CreateDate = CreateDate,
                 NumMAFW = NumMAFW,
                 Comment = Comment
