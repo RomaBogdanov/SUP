@@ -728,7 +728,8 @@ namespace SupRealClient.Views
         {
             return new Dictionary<string, string>
             {
-                { "CurdNum", "Пропуск" },
+                { "Name", "Наименование" },
+                { "CurdNum", "Номер" },
                 { "CreateDate", "Занесён в БД" },
                 { "NumMAFW", "№ MAFW" },
                 { "Comment", "Примечание" },
