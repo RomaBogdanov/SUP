@@ -28,7 +28,7 @@ namespace SupRealClient.ViewModels
 				}
 
 					_isSurnameSelect = value;
-					UpdateSelect();
+				UpdateSelect_AllFieldsCheckBox();
 					OnPropertyChanged(nameof(IsSurnameSelect));
 			}
 		}
@@ -43,7 +43,7 @@ namespace SupRealClient.ViewModels
 					return;
 				}
 				_isNameSelect = value;
-					UpdateSelect();
+				UpdateSelect_AllFieldsCheckBox();
 					OnPropertyChanged(nameof(IsNameSelect));
 			}
 		}
@@ -58,7 +58,7 @@ namespace SupRealClient.ViewModels
 					return;
 				}
 				_isPatronymicSelect = value;
-					UpdateSelect();
+				UpdateSelect_AllFieldsCheckBox();
 					OnPropertyChanged(nameof(IsPatronymicSelect));
 			}
 		}
@@ -73,7 +73,7 @@ namespace SupRealClient.ViewModels
 					return;
 				}
 				_isBirthDateSelect = value;
-					UpdateSelect();
+				UpdateSelect_AllFieldsCheckBox();
 					OnPropertyChanged(nameof(IsBirthDateSelect));
 			}
 		}
@@ -88,7 +88,7 @@ namespace SupRealClient.ViewModels
 					return;
 				}
 				_isPortraitSelect = value;
-					UpdateSelect();
+				UpdateSelect_AllFieldsCheckBox();
 					OnPropertyChanged(nameof(IsPortraitSelect));
 			}
 		}
@@ -98,25 +98,40 @@ namespace SupRealClient.ViewModels
 			get { return _isAllSelect; }
 			set
 			{
-
+				if (value == null)
+				{
+					return;
+				}
 				_isAllSelect = value.Value;
-				UpdateSelect(true);
+				UpdateSelect_Fields();
 				OnPropertyChanged(nameof(IsAllSelect));
 			}
 		}
 
-		private void UpdateSelect(bool isAllCheck = false)
+		private void UpdateSelect_Fields()
 		{
-			if (isAllCheck)
-			{
-				IsSurnameSelect = IsAllSelect;
-				IsNameSelect = IsAllSelect;
-				IsBirthDateSelect = IsAllSelect;
-				IsPatronymicSelect = IsAllSelect;
-				IsPortraitSelect = IsAllSelect;
-			}
+			_isSurnameSelect = IsAllSelect;
+			_isNameSelect = IsAllSelect;
+			_isBirthDateSelect = IsAllSelect;
+			_isPatronymicSelect = IsAllSelect;
+			_isPortraitSelect = IsAllSelect;
+
+
+			OnPropertyChanged(nameof(IsSurnameSelect));
+			OnPropertyChanged(nameof(IsNameSelect));
+			OnPropertyChanged(nameof(IsBirthDateSelect));
+			OnPropertyChanged(nameof(IsPatronymicSelect));
+			OnPropertyChanged(nameof(IsPortraitSelect));
 		}
-		
+
+		private void UpdateSelect_AllFieldsCheckBox()
+		{
+			_isAllSelect = IsNameSelect.Value && IsSurnameSelect.Value
+			                                  && IsPatronymicSelect.Value && IsBirthDateSelect.Value && IsPortraitSelect.Value;
+
+			OnPropertyChanged(nameof(IsAllSelect));
+		}
+
 
 		public event PropertyChangedEventHandler PropertyChanged;
 
