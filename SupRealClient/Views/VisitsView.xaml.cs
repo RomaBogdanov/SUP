@@ -1224,7 +1224,7 @@ namespace SupRealClient.Views
 
 
 			}
-			DocumentScaner.Dispose();
+			DocumentScanerDispose();
 		}
 
 		public void Cancel()
