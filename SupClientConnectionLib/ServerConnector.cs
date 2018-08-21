@@ -22,7 +22,7 @@ namespace SupClientConnectionLib
         private static ClientConnector connector;
         private static Uri uri;
         ITableService tableService;
-        CompositeType compositeType;
+        CompositeType compositeType = new CompositeType();
         Authorizer authorizer;
 
         public event Action<string, object[]> OnInsert;
@@ -142,6 +142,7 @@ namespace SupClientConnectionLib
 
         public bool InsertRow(object[] rowValues)
         {
+            Logger.Log.Debug("Начало процедуры InsertRow");
             for (int i = 0; i < rowValues.Length; i++)
             {
                 if (rowValues[i] is DBNull)
@@ -149,11 +150,33 @@ namespace SupClientConnectionLib
                     rowValues[i] = "";
                 }
             }
-            bool b;
-            lock (this.tableService)
+            bool b=false;
+            /*lock (this.tableService)
+            {*/
+            Attempt:
+            Logger.Log.Debug("Начало отправки данных по новой строке");
+            try
             {
                 b = this.tableService.InsertRow(compositeType, rowValues,
                     authorizer.GetInfo());
+            }
+            catch (CommunicationObjectFaultedException err)
+            {
+                Logger.Log.Error(err.GetType() + err.Message + err.StackTrace);
+
+                Logger.Log.Debug("Пытаемся перезапустить соединение");
+                ResetConnection();
+                goto Attempt;
+            }
+            catch (InvalidOperationException err)
+            {
+                Logger.Log.Error(err.GetType() + err.Message + err.StackTrace);
+            }
+            catch (Exception err)
+            {
+                Logger.Log.Error(err.GetType() + err.Message + err.StackTrace);
+            }
+                Logger.Log.Debug($"Окончание отправки данных по новой строке. Результат отправки: {b}");
                 string st = "";
                 foreach (var item in rowValues)
                 {
@@ -161,12 +184,13 @@ namespace SupClientConnectionLib
                 }
                 Logger.Log.Debug($"Добавление строки в таблицу " +
                     $"{compositeType.TableName}: {b} Значение: {st} ");
-            }
+            //}
             return b;
         }
 
         public bool UpdateRow(object[] rowValues, int numRow)
-		{ 
+		{
+            Logger.Log.Debug("Начало процедуры UpdateRow");
             for (int i = 0; i < rowValues.Length; i++)
             {
                 if (rowValues[i] is DBNull)
@@ -174,11 +198,34 @@ namespace SupClientConnectionLib
                     rowValues[i] = "";
                 }
             }
-            bool b;
-            lock (this.tableService)
+            bool b=false;
+            /*lock (this.tableService)
+            {*/
+                Attempt:
+                Logger.Log.Debug("Начало редактирования данных строки");
+                try
+                {
+                    b = this.tableService.UpdateRow(compositeType, numRow, rowValues,
+                        authorizer.GetInfo());
+                }
+            catch(CommunicationObjectFaultedException err)
             {
-                b = this.tableService.UpdateRow(compositeType, numRow, rowValues ,
-                    authorizer.GetInfo());
+                Logger.Log.Error(err.GetType() + err.Message + err.StackTrace);
+
+                Logger.Log.Debug("Пытаемся перезапустить соединение");
+                ResetConnection();
+                goto Attempt;
+            }
+            catch(InvalidOperationException err)
+            {
+                Logger.Log.Error(err.GetType() + err.Message + err.StackTrace);
+
+            }
+            catch (Exception err)
+                {
+                    Logger.Log.Error(err.GetType() + err.Message + err.StackTrace);
+                }
+                Logger.Log.Debug($"Окончание редактирования данных по строке. Результат отправки: {b}");
                 string st = "";
                 foreach (var item in rowValues)
                 {
@@ -186,14 +233,33 @@ namespace SupClientConnectionLib
                 }
                 Logger.Log.Debug($"Редактирование строки в таблице " +
                     $"{compositeType.TableName}: {b} Значение: {st} ");
-            }
+            //}
             return b;
         }
 
         public bool DeleteRow(object[] objs)
         {
-            bool b = this.tableService.DeleteRow(compositeType, objs,
-                authorizer.GetInfo());
+            Logger.Log.Debug("Начало процедуры DeleteRow");
+            bool b = false;
+            Attempt:
+            try
+            {
+                b = this.tableService.DeleteRow(compositeType, objs,
+                    authorizer.GetInfo());
+            }
+            catch (CommunicationObjectFaultedException err)
+            {
+                Logger.Log.Error(err.GetType() + err.Message + err.StackTrace);
+
+                Logger.Log.Debug("Пытаемся перезапустить соединение");
+                ResetConnection();
+                goto Attempt;
+            }
+            catch (Exception err)
+            {
+                Logger.Log.Error(err.GetType() + err.Message + err.StackTrace);
+            }
+            Logger.Log.Debug($"Окончание удаления строки. Результат отправки: {b}");
             string st = "";
             foreach (var item in objs)
             {
@@ -232,7 +298,6 @@ namespace SupClientConnectionLib
         public ClientConnector()
         {
             Logger.InitLogger();
-            Logger.Log.Info("Логгирование работает");
             authorizer = Authorizer.AppAuthorizer;
             messageHandler = new NewMessageHandler();
             messageHandler.OnInsert += MessageHandler_OnInsert;
@@ -275,7 +340,7 @@ namespace SupClientConnectionLib
             var myChannelFactory = new DuplexChannelFactory<ITableService>(
                 instanceContext, binding, new EndpointAddress(ClientConnector.uri));
             this.tableService = myChannelFactory.CreateChannel();
-            this.compositeType = new CompositeType();
+            //this.compositeType = new CompositeType();
         }
 
         #endregion
