@@ -622,12 +622,13 @@ namespace SupRealClient.Views
                 from v in visitsWrapper.Table.AsEnumerable()
                 from p in visitorsWrapper.Table.AsEnumerable()
                 where c.Field<int>("f_card_id") != 0 &&
-                CommonHelper.NotDeleted(ce) &&
+                CommonHelper.NotDeleted(ce) && CommonHelper.NotDeleted(v) &&
+                CommonHelper.NotDeleted(p) &&
                 c.Field<int>("f_object_id_hi") == v.Field<int>("f_card_id_hi") &&
                 c.Field<int>("f_object_id_lo") == v.Field<int>("f_card_id_lo") &&
                 v.Field<int>("f_visitor_id") == p.Field<int>("f_visitor_id") &&
                 ce.Field<int>("f_state_id") == 3 &&
-		v.Field<int>("f_rec_operator_back") == 0
+                v.Field<int>("f_rec_operator_back") == 0
                 select new CardsPersons
                 {
                     IdCardHi = c.Field<int>("f_object_id_hi"),
