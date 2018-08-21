@@ -685,7 +685,19 @@
 								<i:InvokeCommandAction Command="{Binding ReturnCommand}" />
 							</i:EventTrigger>
 						</i:Interaction.Triggers>
-						<DataGrid.Columns>
+                        <DataGrid.RowStyle>
+                            <Style TargetType="DataGridRow">
+                                <Style.Triggers>
+                                    <DataTrigger Binding="{Binding StateId}" Value="2">
+                                        <Setter Property="Background" Value="LightGray"></Setter>
+                                    </DataTrigger>
+                                    <DataTrigger Binding="{Binding StateId}" Value="4">
+                                        <Setter Property="Background" Value="Red"></Setter>
+                                    </DataTrigger>
+                                </Style.Triggers>
+                            </Style>
+                        </DataGrid.RowStyle>
+                        <DataGrid.Columns>
 							<DataGridTextColumn Binding="{Binding Path=CardNumber}" Header="Пропуск" />
 							<DataGridTextColumn Binding="{Binding Path=From, StringFormat=dd.MM.yyyy}" Header="Когда выдан" />
 							<DataGridTextColumn Binding="{Binding Path=To, StringFormat=dd.MM.yyyy}" Header="Срок по" />
