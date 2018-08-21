@@ -20,20 +20,26 @@ namespace SupRealClient.ViewModels
 		private Card2 card;
 		private string number;
 		private int visitorId;
+        private DateTime lostDate;
 
-		public ICommand OpenCardsCommand { get; set; }
-		public ICommand ReturnCardCommand { get; set; }
-		public ICommand CancelCommand { get; set; }
+        public ICommand OpenCardsCommand { get; set; }
+		public ICommand DeactivateCardCommand { get; set; }
+        public ICommand LostCardCommand { get; set; }
+        public ICommand ReturnCardCommand { get; set; }
+        public ICommand CancelCommand { get; set; }
 
 		public ReturnBidViewModel(Card2 card, int visitorId)
 		{
 			this.card = card;
 			this.number = card != null ? card.CardNumber : "";
 			this.visitorId = visitorId;
+            this.LostDate = DateTime.Now;
 
-			this.OpenCardsCommand = new RelayCommand(arg => OpenCards());
-			this.ReturnCardCommand = new RelayCommand(arg => ReturnCard());
-			this.CancelCommand = new RelayCommand(arg => Cancel());
+            this.OpenCardsCommand = new RelayCommand(arg => OpenCards());
+			this.DeactivateCardCommand = new RelayCommand(arg => DeactivateCard());
+            this.LostCardCommand = new RelayCommand(arg => LostCard());
+            this.ReturnCardCommand = new RelayCommand(arg => ReturnCard());
+            this.CancelCommand = new RelayCommand(arg => Cancel());
 		}
 
 		public string Number
@@ -46,7 +52,17 @@ namespace SupRealClient.ViewModels
 			}
 		}
 
-		private void OpenCards()
+        public DateTime LostDate
+        {
+            get { return lostDate; }
+            set
+            {
+                lostDate = value;
+                OnPropertyChanged();
+            }
+        }
+
+        private void OpenCards()
 		{
 			Base4CardsWindView wind = new Base4CardsWindView(Visibility.Visible);
 			((Base4ViewModel<Card>)wind.base4.DataContext).Model =
@@ -64,7 +80,74 @@ namespace SupRealClient.ViewModels
 			}
 		}
 
-		private void ReturnCard()
+        private void DeactivateCard()
+        {
+            KeyValuePair<DataRow, DataRow> rows = FindCard();
+
+            if (rows.Key == null || rows.Value == null)
+            {
+                MessageBox.Show("Пропуск не найден!", "Ошибка",
+                    MessageBoxButton.OK, MessageBoxImage.Error);
+                return;
+            }
+
+            if (!ChangeStateHelper.CanChangeState(
+                (CardState)rows.Value.Field<int>("f_state_id"), CardState.Inactive))
+            {
+                MessageBox.Show("Невозможно деактивировать данный пропуск!", "Внимание",
+                    MessageBoxButton.OK, MessageBoxImage.Warning);
+                return;
+            }
+
+            string cardName = rows.Key.Field<string>("f_card_name");
+
+            ChangeStateHelper.ChangeState(new Card
+            {
+                CardIdHi = rows.Key.Field<int>("f_object_id_hi"),
+                CardIdLo = rows.Key.Field<int>("f_object_id_lo"),
+                StateId = (int)CardState.Inactive,
+                Name = rows.Key.Field<string>("f_card_name"),
+                CreateDate = DateTime.Now
+            });
+
+            OnClose?.Invoke();
+        }
+
+        private void LostCard()
+        {
+            KeyValuePair<DataRow, DataRow> rows = FindCard();
+
+            if (rows.Key == null || rows.Value == null)
+            {
+                MessageBox.Show("Пропуск не найден!", "Ошибка",
+                    MessageBoxButton.OK, MessageBoxImage.Error);
+                return;
+            }
+
+            if (!ChangeStateHelper.CanChangeState(
+                (CardState)rows.Value.Field<int>("f_state_id"), CardState.Lost))
+            {
+                MessageBox.Show("Невозможно утерять данный пропуск!", "Внимание",
+                    MessageBoxButton.OK, MessageBoxImage.Warning);
+                return;
+            }
+
+            string cardName = rows.Key.Field<string>("f_card_name");
+
+            ChangeStateHelper.ChangeState(new Card
+            {
+                CardIdHi = rows.Key.Field<int>("f_object_id_hi"),
+                CardIdLo = rows.Key.Field<int>("f_object_id_lo"),
+                StateId = (int)CardState.Lost,
+                Name = rows.Key.Field<string>("f_card_name"),
+                CreateDate = DateTime.Now,
+                Lost = LostDate
+            });
+
+            OnClose?.Invoke();
+        }
+
+        private void ReturnCard()
 		{
             KeyValuePair<DataRow, DataRow> rows = FindCard();
 			
