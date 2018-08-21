@@ -155,6 +155,7 @@
     <Compile Include="Models\ChildWindowSettings.cs" />
     <Compile Include="Models\DocumentsHelper.cs" />
     <Compile Include="Models\Helpers\CardsHelper.cs" />
+    <Compile Include="Models\Helpers\ChangeStateHelper.cs" />
     <Compile Include="Models\Helpers\OrderElementsHelper.cs" />
     <Compile Include="Models\IAddUpdateRegionModel.cs" />
     <Compile Include="Models\Helpers\OrdersHelper.cs" />
