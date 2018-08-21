@@ -1,6 +1,7 @@
 ﻿using SupRealClient.EnumerationClasses;
 using SupRealClient.Models;
 using SupRealClient.Models.Helpers;
+using System;
 using System.ComponentModel;
 using System.Windows.Forms;
 using System.Windows.Input;
@@ -23,6 +24,7 @@ namespace SupRealClient.ViewModels
         private bool stateIssuedEnabled;
         private bool stateLost;
         private bool stateLostEnabled;
+        private DateTime lostDate;
 
         public string Name
         {
@@ -133,6 +135,16 @@ namespace SupRealClient.ViewModels
             }
         }
 
+        public DateTime LostDate
+        {
+            get { return lostDate; }
+            set
+            {
+                lostDate = value;
+                OnPropertyChanged("LostDate");
+            }
+        }
+
         public ICommand Remove { get; set; }
         public ICommand Ok { get; set; }
         public ICommand Cancel { get; set; }
@@ -146,6 +158,7 @@ namespace SupRealClient.ViewModels
             this.stateId = model.Data.StateId;
             this.Name = model.Data.Name;
             this.curdNum = model.Data.CurdNum;
+            this.LostDate = DateTime.Now;
             SetState();
 
             this.Remove = new RelayCommand(arg => RemoveCommand());
@@ -181,7 +194,8 @@ namespace SupRealClient.ViewModels
                 CardIdHi = model.Data.CardIdHi,
                 CardIdLo = model.Data.CardIdLo,
                 StateId = newStateId,
-                CurdNum = curdNum
+                CurdNum = curdNum,
+                Lost = StateLost ? lostDate : DateTime.MinValue
             });
         }
 
