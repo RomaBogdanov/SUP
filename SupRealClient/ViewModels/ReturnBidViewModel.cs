@@ -99,8 +99,6 @@ namespace SupRealClient.ViewModels
                 return;
             }
 
-            string cardName = rows.Key.Field<string>("f_card_name");
-
             ChangeStateHelper.ChangeState(new Card
             {
                 CardIdHi = rows.Key.Field<int>("f_object_id_hi"),
@@ -132,8 +130,6 @@ namespace SupRealClient.ViewModels
                 return;
             }
 
-            string cardName = rows.Key.Field<string>("f_card_name");
-
             ChangeStateHelper.ChangeState(new Card
             {
                 CardIdHi = rows.Key.Field<int>("f_object_id_hi"),
@@ -164,8 +160,6 @@ namespace SupRealClient.ViewModels
                     MessageBoxButton.OK, MessageBoxImage.Warning);
                 return;
             }
-
-            string cardName = rows.Key.Field<string>("f_card_name");
 
             ChangeStateHelper.ChangeState(new Card
             {
