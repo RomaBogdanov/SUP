@@ -122,15 +122,7 @@ namespace SupRealClient.Models
                 ReturnCard(data);
             }
 
-            // TODO - здесь в Andover выгружается пропуск с пустым списком областей доступа
-            // Data.CurdNum
-
-            Cancel(data.StateId);
-        }
-
-        private void ReturnCard(Card data)
-        {
-            foreach (DataRow r in VisitsWrapper.CurrentTable().Table.Rows)
+            foreach (DataRow r in CardAreaWrapper.CurrentTable().Table.Rows)
             {
                 if (r.Field<string>("f_deleted") == "N" &&
                     r.Field<int>("f_card_id_hi") == data.CardIdHi &&
@@ -144,7 +136,15 @@ namespace SupRealClient.Models
                 }
             }
 
-            foreach (DataRow r in CardAreaWrapper.CurrentTable().Table.Rows)
+            // TODO - здесь в Andover выгружается пропуск с пустым списком областей доступа
+            // Data.CurdNum
+
+            Cancel(data.StateId);
+        }
+
+        private void ReturnCard(Card data)
+        {
+            foreach (DataRow r in VisitsWrapper.CurrentTable().Table.Rows)
             {
                 if (r.Field<string>("f_deleted") == "N" &&
                     r.Field<int>("f_card_id_hi") == data.CardIdHi &&
