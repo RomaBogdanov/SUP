@@ -1,8 +1,10 @@
 ﻿using SupClientConnectionLib;
+using SupContract;
 using SupRealClient.EnumerationClasses;
 using SupRealClient.TabsSingleton;
 using System;
 using System.Data;
+using System.Windows;
 
 namespace SupRealClient.Models.Helpers
 {
@@ -89,7 +91,6 @@ namespace SupRealClient.Models.Helpers
 
             // TODO - здесь в Andover выгружается пропуск с пустым списком областей доступа
 
-            /*
             var data1 = new AndoverExportData
 			{
 				Card = data.Name,
@@ -105,16 +106,15 @@ namespace SupRealClient.Models.Helpers
 			if (clientConnector.ExportToAndover(data1).Success??false)
 			{
 				System.Windows.Forms.Cursor.Current = System.Windows.Forms.Cursors.Default;
-				System.Windows.MessageBox.Show("Возврат пропуска прошел успешно!", "Информация",
+				MessageBox.Show("Возврат пропуска прошел успешно!", "Информация",
 					MessageBoxButton.OK, MessageBoxImage.Information);
 			}
 			else
 			{
 				System.Windows.Forms.Cursor.Current = System.Windows.Forms.Cursors.Default;
-				System.Windows.MessageBox.Show("Ошибка при возврате пропуска!", "Ошибка",
+				MessageBox.Show("Ошибка при возврате пропуска!", "Ошибка",
 					MessageBoxButton.OK, MessageBoxImage.Error);
 			}
-             */
 
             return data.StateId;
         }
