@@ -1,5 +1,6 @@
 ﻿using SupRealClient.EnumerationClasses;
 using SupRealClient.Models;
+using SupRealClient.Models.Helpers;
 using System.ComponentModel;
 using System.Windows.Forms;
 using System.Windows.Input;
@@ -191,33 +192,25 @@ namespace SupRealClient.ViewModels
             {
                 case CardState.Active:
                     StateActive = true;
-                    StateActiveEnabled = false;
-                    StateInactiveEnabled = true;
-                    StateIssuedEnabled = false;
-                    StateLostEnabled = false;
                     break;
                 case CardState.Inactive:
                     StateInactive = true;
-                    StateActiveEnabled = true;
-                    StateInactiveEnabled = false;
-                    StateIssuedEnabled = false;
-                    StateLostEnabled = false;
                     break;
                 case CardState.Issued:
                     StateIssued = true;
-                    StateActiveEnabled = true;
-                    StateInactiveEnabled = true;
-                    StateIssuedEnabled = false;
-                    StateLostEnabled = true;
                     break;
                 case CardState.Lost:
                     StateLost = true;
-                    StateActiveEnabled = true;
-                    StateInactiveEnabled = true;
-                    StateIssuedEnabled = false;
-                    StateLostEnabled = false;
                     break;
             }
+            StateActiveEnabled =
+                ChangeStateHelper.CanChangeState(state, CardState.Active);
+            StateInactiveEnabled =
+                ChangeStateHelper.CanChangeState(state, CardState.Inactive);
+            StateIssuedEnabled =
+                ChangeStateHelper.CanChangeState(state, CardState.Issued);
+            StateLostEnabled =
+                ChangeStateHelper.CanChangeState(state, CardState.Lost);
         }
 
         private int GetState()
