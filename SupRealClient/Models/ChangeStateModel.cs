@@ -4,7 +4,6 @@ using SupRealClient.Models.Helpers;
 using SupRealClient.TabsSingleton;
 using System;
 using System.Data;
-using System.Linq;
 
 namespace SupRealClient.Models
 {
@@ -23,7 +22,8 @@ namespace SupRealClient.Models
                     StateId = card.StateId,
                     State = card.State,
                     Name = card.Name,
-                    CurdNum = card.CurdNum
+                    CurdNum = card.CurdNum,
+                    Lost = card.Lost
                 };
             }
         }
