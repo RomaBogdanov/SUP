@@ -160,6 +160,7 @@ namespace SupRealClient.Views
             OnClose?.Invoke(null);
         }
         public virtual void Zones() { }
+        public virtual void Synonyms() { }
         public virtual void Watch() { }
         public virtual void RightClick() { }
 

@@ -18,6 +18,7 @@ namespace SupRealClient.Views
         private string searchingText;
         private string okCaption;
         private Visibility zonesVisibility;
+        private Visibility synonymsVisibility = Visibility.Hidden;
         private Visibility watchVisibility;
         private Visibility okVisibility;
         private bool fartherEnabled;
@@ -36,6 +37,7 @@ namespace SupRealClient.Views
         public ICommand Ok { get; set; }
         public ICommand Close { get; set; }
         public ICommand Zones { get; set; }
+        public ICommand Synonyms { get; set; }
         public ICommand Watch { get; set; }
         public ICommand RightClickCommand { get; set; }
         public ICommand Remove { get; set; }
@@ -65,6 +67,20 @@ namespace SupRealClient.Views
             set
             {
                 zonesVisibility = value;
+                OnPropertyChanged();
+            }
+        }
+
+        /// <summary>
+        /// В контексте контрола base4View соответствует видимости кнопки
+        /// Синонимы.
+        /// </summary>
+        public Visibility SynonymsVisibility
+        {
+            get { return synonymsVisibility; }
+            set
+            {
+                synonymsVisibility = value;
                 OnPropertyChanged();
             }
         }
@@ -221,6 +237,7 @@ namespace SupRealClient.Views
             Close = new RelayCommand(obj => CloseCom());
             Ok = new RelayCommand(obj => OkCom());
             Zones = new RelayCommand(obj => ZonesCom());
+            Synonyms = new RelayCommand(obj => SynonymsCom());
             Watch = new RelayCommand(obj => WatchCom());
             RightClickCommand = new RelayCommand(obj => RightClickCom(obj));
             Remove = new RelayCommand(obj => RemoveCom());
@@ -310,8 +327,18 @@ namespace SupRealClient.Views
 		        this.Model.Ok();
 			}
         }
-        private void CloseCom() { this.Model.Close(); }
-        private void ZonesCom() { this.Model.Zones(); }
+        private void CloseCom()
+        {
+            this.Model.Close();
+        }
+        private void ZonesCom()
+        {
+            this.Model.Zones();
+        }
+        private void SynonymsCom()
+        {
+            this.Model.Synonyms();
+        }
         private void WatchCom()
         {
             this.Model.Watch();

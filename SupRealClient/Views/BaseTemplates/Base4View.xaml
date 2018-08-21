@@ -234,8 +234,28 @@
 					Text="Зоны..." />
 			</Grid>
 		</Button>
+        <Button
+			Grid.Row="4"
+			Grid.Column="4"
+			Margin="1"
+			Command="{Binding Path=Synonyms}"
+			KeyDown="BaseTab_OnKeyDown"
+			Style="{StaticResource ButtonStyle}"
+			Visibility="{Binding Path=SynonymsVisibility, Mode=OneTime}">
+            <Grid>
+                <Grid.ColumnDefinitions>                   
+                    <ColumnDefinition />
+                </Grid.ColumnDefinitions>
 
-		<Button
+                <TextBlock
+					Grid.Column="1"
+					FontSize="{Binding FontSize}"
+					Style="{StaticResource TextBLockDetailStyle}"
+					Text="Cинонимы" />
+            </Grid>
+        </Button>
+
+        <Button
 			Grid.Row="4"
 			Grid.Column="0"
 			Margin="1"
