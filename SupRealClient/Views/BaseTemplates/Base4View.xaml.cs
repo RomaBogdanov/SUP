@@ -14,6 +14,7 @@ namespace SupRealClient.Views
     public partial class Base4View : UserControl
     {
         public bool modeEdit { get; set; }
+        public bool modeWatch { get; set; }
 
         DataGridColumnHeader headerCliked = null;        
 
@@ -132,6 +133,11 @@ namespace SupRealClient.Views
             modeEdit = true;
         }
 
+        private void btnWatch_PreviewMouseLeftButtonDown(object sender, MouseButtonEventArgs e)
+        {
+            modeWatch = true;
+        }
+
         void SortItemsSource()
         {
             if (baseTab.Columns.Count > 0)
@@ -182,7 +188,9 @@ namespace SupRealClient.Views
                 baseTab.UpdateLayout();
                 baseTab.ScrollIntoView(row);
             }
-        }     
+        }
+
+        
     }
 
     public delegate void ModelPropertyChanged(string property);

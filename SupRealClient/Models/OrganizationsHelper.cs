@@ -55,8 +55,7 @@ namespace SupRealClient.Models
             return new List<Organization>
                 (from orgs in OrganizationsWrapper.CurrentTable().Table.AsEnumerable()
                  where orgs.Field<int>("f_org_id") != 0 &&
-                 orgs.Field<int>("f_org_id") != id &&
-                 !CommonHelper.StringToBool(orgs.Field<string>("f_is_basic")) &&
+                 orgs.Field<int>("f_org_id") != id &&                
                  orgs.Field<int?>("f_syn_id") == 0 &&
                  orgs.Field<string>("f_deleted") != CommonHelper.BoolToString(true)
                  select new Organization
