@@ -8,6 +8,25 @@ namespace SupRealClient.Models.Helpers
 {
     public static class ChangeStateHelper
     {
+        public static bool CanChangeState(CardState oldState, CardState newState)
+        {
+            switch (oldState)
+            {
+                case CardState.Active:
+                    return newState == CardState.Inactive;
+                case CardState.Inactive:
+                    return newState == CardState.Active;
+                case CardState.Issued:
+                    return newState == CardState.Active ||
+                        newState == CardState.Inactive ||
+                        newState == CardState.Lost;
+                case CardState.Lost:
+                    return newState == CardState.Active ||
+                         newState == CardState.Inactive;
+            }
+            return false;
+        }
+
         public static int ChangeState(Card data)
         {
             CardsExtWrapper cards = CardsExtWrapper.CurrentTable();
