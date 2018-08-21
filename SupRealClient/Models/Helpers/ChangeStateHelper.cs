@@ -1,8 +1,10 @@
 ﻿using SupClientConnectionLib;
+using SupContract;
 using SupRealClient.EnumerationClasses;
 using SupRealClient.TabsSingleton;
 using System;
 using System.Data;
+using System.Windows;
 
 namespace SupRealClient.Models.Helpers
 {
@@ -37,6 +39,7 @@ namespace SupRealClient.Models.Helpers
                     r.Field<int>("f_object_id_lo") == data.CardIdLo)
                 {
                     row = r;
+                    break;
                 }
             }
             int prevStateId = -1;
@@ -50,7 +53,7 @@ namespace SupRealClient.Models.Helpers
                 row["f_comment"] = "";
                 row["f_rec_operator"] = Authorizer.AppAuthorizer.Id;
                 row["f_rec_date"] = DateTime.Now;
-                row["f_lost_date"] = DateTime.MinValue;
+                row["f_lost_date"] = data.Lost ?? DateTime.MinValue;
                 row["f_last_visit_id"] = 0;
                 row["f_deleted"] = "N";
                 cards.Table.Rows.Add(row);
@@ -60,6 +63,7 @@ namespace SupRealClient.Models.Helpers
                 prevStateId = row.Field<int>("f_state_id");
                 row.BeginEdit();
                 row["f_state_id"] = data.StateId;
+                row["f_lost_date"] = data.Lost ?? DateTime.MinValue;
                 row["f_rec_operator"] = Authorizer.AppAuthorizer.Id;
                 row["f_rec_date"] = DateTime.Now;
                 row["f_deleted"] = "N";
@@ -86,7 +90,31 @@ namespace SupRealClient.Models.Helpers
             }
 
             // TODO - здесь в Andover выгружается пропуск с пустым списком областей доступа
-            // Data.CurdNum
+
+            var data1 = new AndoverExportData
+			{
+				Card = data.Name,
+				SchedulesFromSameCAreaSchedules = null,
+				IsExtradition = false
+			};
+
+			var clientConnector = ClientConnector.CurrentConnector;
+
+			//смена курсора
+			System.Windows.Forms.Cursor.Current = System.Windows.Forms.Cursors.WaitCursor;
+
+			if (clientConnector.ExportToAndover(data1).Success??false)
+			{
+				System.Windows.Forms.Cursor.Current = System.Windows.Forms.Cursors.Default;
+				MessageBox.Show("Возврат пропуска прошел успешно!", "Информация",
+					MessageBoxButton.OK, MessageBoxImage.Information);
+			}
+			else
+			{
+				System.Windows.Forms.Cursor.Current = System.Windows.Forms.Cursors.Default;
+				MessageBox.Show("Ошибка при возврате пропуска!", "Ошибка",
+					MessageBoxButton.OK, MessageBoxImage.Error);
+			}
 
             return data.StateId;
         }
