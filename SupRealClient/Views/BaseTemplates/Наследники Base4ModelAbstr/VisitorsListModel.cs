@@ -80,18 +80,24 @@ namespace SupRealClient.Views
         
         public override void Update()
         {
-            if (CurrentItem != null)
-            {
-	            VisitsModel model = new VisitsModel();
+	        if (CurrentItem != null)
+	        {
+		        VisitsModel model = new VisitsModel();
 
-	            model.CurrentItem = model.Find(CurrentItem.Id);
-	            VisitorsView view = new VisitorsView();
-	            view.Owner = Application.Current.Windows.OfType<Window>().SingleOrDefault(x => x.IsActive);
-	            view.WindowStartupLocation = WindowStartupLocation.CenterOwner;
-	            VisitsViewModel vm = new VisitsViewModel(view) { Model = model };
-	            view.DataContext = vm;
-	            view.ShowDialog();
-            }
+		        model.CurrentItem = model.Find(CurrentItem.Id);
+		        VisitorsView view = new VisitorsView();
+		        view.Owner = Application.Current.Windows.OfType<Window>().SingleOrDefault(x => x.IsActive);
+		        view.WindowStartupLocation = WindowStartupLocation.CenterOwner;
+		        VisitsViewModel vm = new VisitsViewModel(view) {Model = model};
+
+		        if (view.DataContext is VisitsViewModel visitsView)
+		        {
+			        visitsView.DocumentScanerRemoveSubscription();
+		        }
+
+		        view.DataContext = vm;
+		        view.ShowDialog();
+	        }
         }
 
         #endregion

@@ -3,6 +3,7 @@ using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
+using SupRealClient.ViewModels;
 
 namespace SupRealClient.Views
 {
@@ -17,6 +18,7 @@ namespace SupRealClient.Views
 		public CommonTextFieldsSelectView()
 		{
 			InitializeComponent();
+			DataContext = new CCommonTextFieldsSelectViewModel();
 			KeyUp += CommonTextFieldsSelectView_KeyUp;
 		}
 

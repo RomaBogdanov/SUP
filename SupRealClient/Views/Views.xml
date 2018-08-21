@@ -27,4 +27,5 @@
   <Item Name="BidsView" />
   <Item Name="AssigningZonesView" />
   <Item Name="DocumentImageView" CanMinimize="false" />
+  <Item Name="ChangeStateView" />
 </Enum>

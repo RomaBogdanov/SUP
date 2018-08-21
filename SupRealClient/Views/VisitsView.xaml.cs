@@ -40,6 +40,7 @@ using SupRealClient.ViewModels;
 using SupRealClient.Views.Visitor;
 using KeyEventArgs = System.Windows.Input.KeyEventArgs;
 using MessageBox = System.Windows.Forms.MessageBox;
+using System.Text.RegularExpressions;
 using log4net;
 
 namespace SupRealClient.Views
@@ -612,10 +613,15 @@ namespace SupRealClient.Views
 
 		internal void DocumentScanerDispose()
 		{
+			DocumentScanerRemoveSubscription();
+			DocumentScaner?.Dispose();
+		}
+
+		internal void DocumentScanerRemoveSubscription()
+		{
 			if (DocumentScaner != null)
 			{
 				DocumentScaner.ScanFinished -= Scaner_ScanFinished;
-				DocumentScaner.Dispose();
 			}
 		}
 
@@ -686,15 +692,39 @@ namespace SupRealClient.Views
 		private void AddDocument(CPerson person)
 		{
 			//document
-			var visitorDocument = new VisitorsDocument()
+			var visitorDocument = new VisitorsDocument
 			{
 				Name =
-					$"{person?.Name?.Value} {person?.Surname?.Value} {person?.Patronymic?.Value} {person?.DocumentSeria?.Value} {person?.DocumentNumber?.Value}",
+					$"{CommonHelper.GetDocumentTypeInRussian(person?.DocumentType?.Value)} " +
+					$"- Серия {person?.DocumentSeria?.Value}, № {person?.DocumentNumber?.Value}," +
+					$" Дата выдачи {person?.DocumentDeliveryDate?.Value}",
 				TypeId = 0,
 				Images = GetScansByDocNumber(person, person?.DocumentNumber?.Value),
 				IsChanged = true
 			};
-			(view as Window)?.Invoke(() => { Model.AddDocument(visitorDocument); });
+
+			//проверка на наличие документа в списке документов CurrentItem
+			for (var index = 0; index < CurrentItem.Documents.Count; index++)
+			{
+				if (string.Equals(CurrentItem.Documents[index].Name.Trim().ToLower(),
+					visitorDocument.Name.Trim().ToLower()))
+				{
+					if (MessageBox.Show("Данный документ уже содержится в списке документов посетителя. Обновить данные?",
+						"Предупреждение", MessageBoxButtons.YesNo,MessageBoxIcon.Question) == DialogResult.Yes)
+					{
+						(view as Window)?.Invoke(() => { CurrentItem.Documents[index] = visitorDocument; });
+					}
+					return;
+				}
+			}
+
+			(view as Window)?.Invoke(() =>
+			{
+				if (!CurrentItem.Documents.Contains(visitorDocument))
+				{
+					Model.AddDocument(visitorDocument);
+				}
+			});
 		}
 
 		/// <summary>
@@ -1005,6 +1035,12 @@ namespace SupRealClient.Views
 
 		private void New()
 		{
+			if (DocumentScaner!=null)
+			{
+				DocumentScanerRemoveSubscription();
+				DocumentScaner.ScanFinished += Scaner_ScanFinished;
+			}
+
 			DocumentScaner?.Connect();
 			Model = new NewVisitsModel();
 			IsRedactMode = true;
@@ -1054,6 +1090,12 @@ namespace SupRealClient.Views
 
 		private void Edit()
 		{
+			if (DocumentScaner != null)
+			{
+				DocumentScanerRemoveSubscription();
+				DocumentScaner.ScanFinished += Scaner_ScanFinished;
+			}
+
 			DocumentScaner?.Connect();
 			int indexEditingVisit = -1;
 			if (model is VisitsModel)
@@ -1076,12 +1118,57 @@ namespace SupRealClient.Views
 
 		private void Ok()
 		{
-			CurrentItem.Family = CommonHelper.Check_FamilyNamePatronymic(CurrentItem.Family);
-			CurrentItem.Name = CommonHelper.Check_FamilyNamePatronymic(CurrentItem.Name);
-			CurrentItem.Patronymic = CommonHelper.Check_FamilyNamePatronymic(CurrentItem.Patronymic);
+			string bufer_Family = CommonHelper.Check_FamilyNamePatronymic(CurrentItem.Family);
+			string bufer_Name = CommonHelper.Check_FamilyNamePatronymic(CurrentItem.Name);
+			string bufer_Patronymic = CommonHelper.Check_FamilyNamePatronymic(CurrentItem.Patronymic);
 
-			CurrentItem.Position = CommonHelper.Check_SeriaCode(CurrentItem.Position);
+			CurrentItem.Position = VisitorsHelper.TestingPositionAnReturnCorrect(CurrentItem.Position);
+			string bufer_Position = CommonHelper.Check_Position(CurrentItem.Position);
 
+			bool error_Family = bufer_Family != Regex.Replace(CurrentItem.Family, @"\s+", " ");
+			bool error_Name = bufer_Name != Regex.Replace(CurrentItem.Name, @"\s+", " ");
+			bool error_Patronymic = !string.IsNullOrEmpty(CurrentItem.Patronymic) && bufer_Patronymic != Regex.Replace(CurrentItem.Patronymic, @"\s+", " ");
+			bool error_Position = !string.IsNullOrEmpty(CurrentItem.Position) && bufer_Position != Regex.Replace(CurrentItem.Position, @"\s+", " ");
+			
+
+			if (error_Family || error_Name || error_Patronymic || error_Position)
+			{
+				StringBuilder stringBuilder = new StringBuilder();
+
+				if (error_Family)
+				{
+					stringBuilder.Append("\"Фамилия\"" + Environment.NewLine);
+				}
+
+				if (error_Name)
+				{
+					stringBuilder.Append("\"Имя\"" + Environment.NewLine);
+				}
+
+				if (error_Patronymic)
+				{
+					stringBuilder.Append("\"Отчество\"" + Environment.NewLine);
+				}
+
+				if (error_Position)
+				{
+					stringBuilder.Append("\"Должность\"" + Environment.NewLine);
+				}
+
+				if (MessageBox.Show("В следующих полях текст содержит ошибки." + Environment.NewLine + stringBuilder + "Провести автокорректировку текста?", "Внимание", MessageBoxButtons.OKCancel, MessageBoxIcon.Exclamation) == DialogResult.OK)
+				{
+					CurrentItem.Family = bufer_Family;
+					CurrentItem.Name = bufer_Name;
+					CurrentItem.Patronymic = bufer_Patronymic;
+
+					CurrentItem.Position = bufer_Position;
+				}
+				else
+					return;
+
+			}
+
+			
 			if (string.IsNullOrWhiteSpace(CurrentItem.Position) || string.IsNullOrEmpty(CurrentItem.Position) || CurrentItem.Position == "")
 				CurrentItem.Position = "-";
 
@@ -1136,7 +1223,7 @@ namespace SupRealClient.Views
 
 
 			}
-			DocumentScaner.Dispose();
+			DocumentScanerDispose();
 		}
 
 		public void Cancel()
@@ -1164,7 +1251,7 @@ namespace SupRealClient.Views
 			}
 
 			IsRedactMode = false;
-			DocumentScaner.Dispose();
+			DocumentScanerDispose();
 		}
 
 		private void AddImageSource(ImageType imageType, string name, CPerson person = null, bool isPortraitForSubstit = false)
@@ -1354,6 +1441,9 @@ namespace SupRealClient.Views
 			{
 				return;
 			}
+
+			string editingMainDocument = CurrentItem.MainDocuments[SelectedMainDocument].DocumentName;
+
 			var window = new VisitorsMainDocumentView(
 			    new VisitorsMainDocumentModel(
 				CurrentItem.MainDocuments[SelectedMainDocument]), true, CurrentItem.Person);
@@ -1367,7 +1457,7 @@ namespace SupRealClient.Views
 
 			Model.EditMainDocument(SelectedMainDocument, document);
 
-			Remove_VisitorDocument(document.DocumentName);
+			Remove_VisitorDocument(editingMainDocument);
 			Generate_VisitorDocument(document.DocumentName, document.Images, false);
 
 
@@ -1953,7 +2043,7 @@ namespace SupRealClient.Views
 
 				string generatedText = stringBuilder.ToString();
 
-				MessageBox.Show("Следующие поля заполнены корректно:" + Environment.NewLine + generatedText, "Внимание", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+				MessageBox.Show("Следующие поля заполнены не корректно:" + Environment.NewLine + generatedText, "Внимание", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
 
 				return false;
 			}
