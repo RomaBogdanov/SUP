@@ -7,6 +7,7 @@ using SupRealClient.Common;
 using System.Collections.Generic;
 using System.Windows;
 using SupRealClient.Models;
+using SupRealClient.EnumerationClasses;
 
 namespace SupRealClient.Views
 {
@@ -117,6 +118,15 @@ namespace SupRealClient.Views
                     //todo: создание нового view - костыль для открытия в режиме редактирования. Позже нужно удалить.
                     ViewManager.Instance.OpenWindow("VisitorsView", this.Parent ?? new SupRealClient.Views.VisitorsListWindView(null));
                 }
+            }
+        }
+
+        public override void Synonyms()
+        {
+            if (CurrentItem != null)
+            {
+                Organization currentOrg = OrganizationsHelper.GetOrganization(CurrentItem.OrganizationId, true);
+                int? res = ViewManager.Instance.OpenSynonims(currentOrg);                
             }
         }
 
