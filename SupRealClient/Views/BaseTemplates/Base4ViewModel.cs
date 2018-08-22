@@ -242,10 +242,10 @@ namespace SupRealClient.Views
             Update = new RelayCommand(obj => UpdateCom(), oCanExecute => CanExecuteUpdate());
             Search = new RelayCommand(obj => SearchCom());
             Farther = new RelayCommand(obj => FartherCom());
-            Begin = new RelayCommand(obj => BeginCom());
-            Prev = new RelayCommand(obj => PrevCom());
-            Next = new RelayCommand(obj => NextCom());
-            End = new RelayCommand(obj => EndCom());
+            Begin = new RelayCommand(obj => BeginCom(), oCanExecute => CanExecuteBeginPrev());
+            Prev = new RelayCommand(obj => PrevCom(), oCanExecute => CanExecuteBeginPrev());
+            Next = new RelayCommand(obj => NextCom(), oCanExecute => CanExecuteEndNext());
+            End = new RelayCommand(obj => EndCom(), oCanExecute => CanExecuteEndNext());
             Close = new RelayCommand(obj => CloseCom());
             Ok = new RelayCommand(obj => OkCom());
             Zones = new RelayCommand(obj => ZonesCom());
@@ -312,6 +312,7 @@ namespace SupRealClient.Views
             this.Model.Farther();
             ScrollCurrentItem?.Invoke();
         }
+
         private void BeginCom()
         {
             this.Model.Begin();
@@ -332,6 +333,30 @@ namespace SupRealClient.Views
             this.Model.Next();
             Reset();
         }
+        private bool CanExecuteBeginPrev()
+        {
+            bool result = true;
+
+            if (CurrentItem == null || SelectedIndex == 0)
+            {
+                result = false;
+            }
+
+            return result;
+        }
+        private bool CanExecuteEndNext()
+        {
+            bool result = true;
+
+            if (CurrentItem == null || SelectedIndex == Set.Count - 1)
+            {
+                result = false;
+            }
+
+            return result;
+        }
+
+
         private void OkCom()
         {
 	        if (OkVisibility == Visibility.Visible && CurrentItem != null)
