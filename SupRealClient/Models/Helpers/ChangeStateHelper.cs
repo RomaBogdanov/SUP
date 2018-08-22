@@ -106,13 +106,13 @@ namespace SupRealClient.Models.Helpers
 			if (clientConnector.ExportToAndover(data1).Success??false)
 			{
 				System.Windows.Forms.Cursor.Current = System.Windows.Forms.Cursors.Default;
-				MessageBox.Show("Возврат пропуска прошел успешно!", "Информация",
+				MessageBox.Show("Выгрузка в Andover прошла успешно!", "Информация",
 					MessageBoxButton.OK, MessageBoxImage.Information);
 			}
 			else
 			{
 				System.Windows.Forms.Cursor.Current = System.Windows.Forms.Cursors.Default;
-				MessageBox.Show("Ошибка при возврате пропуска!", "Ошибка",
+				MessageBox.Show("Ошибка при выгрузке в Andover!", "Ошибка",
 					MessageBoxButton.OK, MessageBoxImage.Error);
 			}
 
