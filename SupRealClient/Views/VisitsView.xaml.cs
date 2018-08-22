@@ -779,11 +779,7 @@ namespace SupRealClient.Views
 					isContains = true;
 					(view as Window)?.Invoke(() =>
 					{
-						if (MessageBox.Show("Данный документ уже присутствует у посетителя. Обновить ранее добавленный документ?",
-							"Информация", MessageBoxButtons.YesNo, MessageBoxIcon.Question)==DialogResult.Yes)
-						{
 							CurrentItem.MainDocuments[index] = document;
-						}
 					});
 				}
 			}
