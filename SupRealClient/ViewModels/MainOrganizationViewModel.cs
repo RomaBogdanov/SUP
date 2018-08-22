@@ -174,7 +174,7 @@ namespace SupRealClient.ViewModels
                 viewModel.Model.OnClose += window.Close;
                 window.ShowDialog();
 
-                SelectNewDepartment((viewModel.Model as AddDepModel)?.IdEditedItem ?? -1);
+                SelectItem((viewModel.Model as AddDepModel)?.IdEditedItem ?? -1);
             });
             return action;
         }
@@ -225,6 +225,8 @@ namespace SupRealClient.ViewModels
                 MessageBoxButton.YesNo, MessageBoxImage.Question) ==
                 MessageBoxResult.Yes)
             {
+                int parentId = (SelectedObject as Department).ParentId;
+
                 var readDeletedDeps = new ObservableCollection<Department>(
                         from department in DepartmentWrapper
                             .CurrentTable().Table.AsEnumerable()
@@ -254,6 +256,12 @@ namespace SupRealClient.ViewModels
                 DepartmentWrapper.CurrentTable().Table.AcceptChanges();              
                 DepartmentWrapper.CurrentTable().OnChanged += Query;
                 Query();
+                               
+                if (parentId == -1)               
+                {
+                    parentId = memOrgs.Find(x => x.Id == currentOrg)?.Id ?? -1;
+                }
+                SelectItem(parentId);                            
             }
         }
 
@@ -359,7 +367,7 @@ namespace SupRealClient.ViewModels
         private void Searching(Organization org, string pattern)
         {
             org.IsExpanded = true;
-            if (org.Description.ToUpper().Contains(pattern.ToUpper()))
+            if (CommonHelper.IsSearchConditionMatch(org.Description, pattern))
             {
                 searchResult.Add(org);
             }
@@ -373,7 +381,7 @@ namespace SupRealClient.ViewModels
         private void Searching(Department dep, string pattern)
         {
             dep.IsExpanded = true;
-            if (dep.Description.ToUpper().Contains(pattern.ToUpper()))
+            if (CommonHelper.IsSearchConditionMatch(dep.Description, pattern))
             {
                 searchResult.Add(dep);
             }
@@ -408,11 +416,12 @@ namespace SupRealClient.ViewModels
             }
         }
 
-        void SelectNewDepartment(int Id)
+        void SelectItem(int Id)
         {
             memIsExpandedIsSelectedState();
 
-            var dep = memDeps.Find(o => o.Id == Id);
+            var dep = (memDeps.Find(o => o.Id == Id) as ModelBase) ?? 
+                      (memOrgs.Find(o => o.Id == Id) as ModelBase);
             if (dep != null)
             {
                 var selectedItem = (ModelBase)null; 
@@ -430,7 +439,7 @@ namespace SupRealClient.ViewModels
                 }
                 dep.IsSelected = true;
                 SelectedObject = dep;
-            }
+            }           
         }
     }
 }

@@ -692,15 +692,39 @@ namespace SupRealClient.Views
 		private void AddDocument(CPerson person)
 		{
 			//document
-			var visitorDocument = new VisitorsDocument()
+			var visitorDocument = new VisitorsDocument
 			{
 				Name =
-					$"{person?.Name?.Value} {person?.Surname?.Value} {person?.Patronymic?.Value} {person?.DocumentSeria?.Value} {person?.DocumentNumber?.Value}",
+					$"{CommonHelper.GetDocumentTypeInRussian(person?.DocumentType?.Value)} " +
+					$"- Серия {person?.DocumentSeria?.Value}, № {person?.DocumentNumber?.Value}," +
+					$" Дата выдачи {person?.DocumentDeliveryDate?.Value}",
 				TypeId = 0,
 				Images = GetScansByDocNumber(person, person?.DocumentNumber?.Value),
 				IsChanged = true
 			};
-			(view as Window)?.Invoke(() => { Model.AddDocument(visitorDocument); });
+
+			//проверка на наличие документа в списке документов CurrentItem
+			for (var index = 0; index < CurrentItem.Documents.Count; index++)
+			{
+				if (string.Equals(CurrentItem.Documents[index].Name.Trim().ToLower(),
+					visitorDocument.Name.Trim().ToLower()))
+				{
+					if (MessageBox.Show("Данный документ уже содержится в списке документов посетителя. Обновить данные?",
+						"Предупреждение", MessageBoxButtons.YesNo,MessageBoxIcon.Question) == DialogResult.Yes)
+					{
+						(view as Window)?.Invoke(() => { CurrentItem.Documents[index] = visitorDocument; });
+					}
+					return;
+				}
+			}
+
+			(view as Window)?.Invoke(() =>
+			{
+				if (!CurrentItem.Documents.Contains(visitorDocument))
+				{
+					Model.AddDocument(visitorDocument);
+				}
+			});
 		}
 
 		/// <summary>
@@ -1011,6 +1035,12 @@ namespace SupRealClient.Views
 
 		private void New()
 		{
+			if (DocumentScaner!=null)
+			{
+				DocumentScanerRemoveSubscription();
+				DocumentScaner.ScanFinished += Scaner_ScanFinished;
+			}
+
 			DocumentScaner?.Connect();
 			Model = new NewVisitsModel();
 			IsRedactMode = true;
@@ -1060,6 +1090,12 @@ namespace SupRealClient.Views
 
 		private void Edit()
 		{
+			if (DocumentScaner != null)
+			{
+				DocumentScanerRemoveSubscription();
+				DocumentScaner.ScanFinished += Scaner_ScanFinished;
+			}
+
 			DocumentScaner?.Connect();
 			int indexEditingVisit = -1;
 			if (model is VisitsModel)
@@ -1132,10 +1168,7 @@ namespace SupRealClient.Views
 
 			}
 
-
-
-
-
+			
 			if (string.IsNullOrWhiteSpace(CurrentItem.Position) || string.IsNullOrEmpty(CurrentItem.Position) || CurrentItem.Position == "")
 				CurrentItem.Position = "-";
 
@@ -1190,7 +1223,7 @@ namespace SupRealClient.Views
 
 
 			}
-			DocumentScaner.Dispose();
+			DocumentScanerDispose();
 		}
 
 		public void Cancel()

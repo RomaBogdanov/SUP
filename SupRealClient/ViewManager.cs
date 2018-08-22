@@ -291,7 +291,13 @@ namespace SupRealClient
                     (window as Window).Show();
                 }                   
             }
-            (window as Window).Activate();
+            else if (window.ParentWindow is VisitorsListWindView && window.GetType().ToString().Contains("VisitorsView"))
+            {
+                window.CloseWindow(new CancelEventArgs());
+                OpenWindowModal(window.WindowName, window.ParentWindow);
+            }
+            
+            (window as Window).Activate();                           
         }
 
 

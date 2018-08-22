@@ -28,6 +28,8 @@ namespace SupRealClient.Views
             ((Base4ViewModel<EnumerationClasses.Visitor>)base4.DataContext)
                 .OkVisibility = okVisibility;
             ((Base4ViewModel<EnumerationClasses.Visitor>)base4.DataContext)
+                .SynonymsVisibility = Visibility.Visible;
+            ((Base4ViewModel<EnumerationClasses.Visitor>)base4.DataContext)
                 .ScrollCurrentItem = base4.ScrollIntoViewCurrentItem;
         }
 

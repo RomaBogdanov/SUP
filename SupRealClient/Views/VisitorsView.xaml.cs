@@ -96,7 +96,7 @@ namespace SupRealClient.Views
 
 		private void MetroWindow_Activated(object sender, System.EventArgs e)
 		{
-			parentWindowChecking();
+			//parentWindowChecking();
 		}
 
 		void parentWindowChecking()
@@ -119,8 +119,23 @@ namespace SupRealClient.Views
 
 						(this.ParentWindow as SupRealClient.Views.VisitorsListWindView).base4.modeEdit = false;
 					}
-					else if (butNew.IsEnabled)
-						(this.DataContext as VisitsViewModel).NewCommand.Execute(null);
+                    else if ((this.ParentWindow as SupRealClient.Views.VisitorsListWindView).base4.modeWatch)
+                    {
+                        object currentItem = (this.ParentWindow as SupRealClient.Views.VisitorsListWindView).base4.baseTab.CurrentItem;
+                        if (currentItem is EnumerationClasses.Visitor)
+                        {
+                            int IdSel = (currentItem as EnumerationClasses.Visitor).Id;                           
+                            (((VisitsViewModel)this.DataContext).Model as VisitsModel).selectedIndex = IdSel - 2;
+                            (this.DataContext as VisitsViewModel).NextCommand.Execute(null);
+                        }
+
+                        (this.ParentWindow as SupRealClient.Views.VisitorsListWindView).base4.modeWatch = false;
+                    }
+                    else if (butNew.IsEnabled)
+                    {
+                        (this.DataContext as VisitsViewModel).NewCommand.Execute(null);
+                    }
+						
 				}
 
 				if (this.Visibility == Visibility.Hidden)

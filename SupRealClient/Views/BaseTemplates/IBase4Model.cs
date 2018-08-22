@@ -31,6 +31,7 @@ namespace SupRealClient.Views
         void Search();
         void Update();
         void Zones();
+        void Synonyms();
         void Watch();
         void RightClick();
         bool Remove();
