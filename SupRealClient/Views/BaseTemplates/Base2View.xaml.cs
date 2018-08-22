@@ -204,6 +204,7 @@ namespace SupRealClient.Views
             if (OrganizationsHelper.IsChildOrg(oOrg))
             {
                 oRow.FontStyle = FontStyles.Oblique;
+                oRow.Foreground = Brushes.Blue;
             }
         }
 
