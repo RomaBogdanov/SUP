@@ -355,6 +355,12 @@ namespace SupRealClient.ViewModels
 		//public ICommand SignerTempCommand { get; set; } // посписывающий временную
 		public ICommand AgreerCommand { get; set; } // согласующий
 
+		public ICommand OpeningOriginalOrderCommand { get; set; } // Команда для открытия оригинала заявки
+		public ICommand LoadingOriginalOrderCommand { get; set; } // Команда для открытия окна диалога для загрузки оригинала заявки
+		public ICommand RemovingOriginalOrderScanCommand { get; set; } // Команда для удаления
+
+
+
 		private bool _textEnable = false;
 
 		/// <summary>
@@ -452,9 +458,16 @@ namespace SupRealClient.ViewModels
 			UpdatePersonCommand = new RelayCommand(arg => UpdatePerson());
 			DeletePersonCommand = new RelayCommand(arg => DeletePerson());
 
-			SignerCommand = new RelayCommand(arg => Signer());;
+			SignerCommand = new RelayCommand(arg => Signer());
 			AgreerCommand = new RelayCommand(arg => Agreer());
-			
+
+			OpeningOriginalOrderCommand = new RelayCommand(args => OpenOriginalOrderScan());
+			LoadingOriginalOrderCommand = new RelayCommand(args => LoadOriginalOrderScan());
+			RemovingOriginalOrderScanCommand = new RelayCommand(args => RemoveOriginalOrderScan());
+
+			//			public ICommand LoadingRoiginalBidCommand { get; set; } // Команда для открытия окна диалога для загрузки оригинала заявки
+			//public ICommand ClearCommand { get; set; } // Команда для удаления
+
 			CurrentOrderType = OrderType.Single;
 
 			TextEnable = false; // При открытии окна поля недоступны.
@@ -494,6 +507,61 @@ namespace SupRealClient.ViewModels
 		private void Agreer()
 		{
 			BidsModel.Agreer();
+		}
+
+		private void OpenOriginalOrderScan()
+		{
+			if (CurrentTemporaryOrder.ImageGuid != null && CurrentTemporaryOrder.ImageGuid != Guid.Empty)
+			{
+				DocumentImageView documentImageView = new DocumentImageView();
+				documentImageView.DocumentImageGuid = CurrentTemporaryOrder.ImageGuid;
+				documentImageView.ShowDialog();
+			}
+		}
+
+		private void LoadOriginalOrderScan()
+		{
+			SupRealClient.Common.Data.ImageOpenFileDialog imageOpenFileDialog = new SupRealClient.Common.Data.ImageOpenFileDialog();
+			if (imageOpenFileDialog.ShowDialog() == DialogResult.OK)
+			{
+				string path = imageOpenFileDialog.FileName;
+
+				switch (CurrentOrderType)
+				{
+					case OrderType.None:
+						break;
+					case OrderType.Single:
+						CurrentSingleOrder.ImageGuid = ImagesHelper.LoadImage(path);
+						break;
+					case OrderType.Temp:
+						CurrentTemporaryOrder.ImageGuid = ImagesHelper.LoadImage(path);
+						break;
+					default:break;
+				}
+
+				
+
+
+				//DataRow imageRow = ImagesWrapper.
+				//	CurrentTable().Table.NewRow();
+				//imageRow["f_image_alias"] = alias;
+				//imageRow["f_visitor_id"] = id;
+				//imageRow["f_image_type"] = ImageType.Document;
+				//imageRow["f_deleted"] = "N";
+				//images.Add(new KeyValuePair<Guid, ImageType>(
+				//	alias, ImageType.Document));
+
+
+				//PhotoSource = ImagesHelper.GetImagePath(photoAlias);
+				//OnModelPropertyChanged?.Invoke("PhotoSource");
+			}
+
+		}
+
+
+		private void RemoveOriginalOrderScan()
+		{
+			CurrentTemporaryOrder.ImageGuid = Guid.Empty;
 		}
 
 		private void Signer()

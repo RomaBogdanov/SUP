@@ -62,6 +62,9 @@ namespace SupRealClient.Models
 					}
 					CurrentTemporaryOrder.RecDate = DateTime.Now;
 
+
+
+
 					OrdersWrapper.CurrentTable().AddRow(CurrentTemporaryOrder);
 					break;
 				case OrderType.Single:

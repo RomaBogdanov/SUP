@@ -182,7 +182,65 @@ namespace SupRealClient.Models
             }
         }
 
-        private static void RemoveImage(int id, ImageType imageType)
+		/// <summary>
+		/// Добавляем картинку в БД
+		/// </summary>
+		/// <param name="id"></param>
+		/// <param name="alias"></param>
+		/// <param name="imageType"></param>
+		public static void AddImage_ByImageID(int imageID, int visitorID, Guid imageData, ImageType imageType)
+		{
+			Dictionary<Guid, byte[]> imagesToSave = new Dictionary<Guid, byte[]>();
+
+				if (imageData.Equals(Guid.Empty))
+				{
+				RemoveImage_ByImageID(imageID, imageType);
+					return;
+				}
+
+				DataRow row = null;
+			if (imageID >= 0)
+			{
+				foreach (DataRow r in ImagesWrapper.CurrentTable().Table.Rows)
+				{
+					if (Find_ByImageID(r, imageID, imageType, imageData))
+					{
+						row = r;
+						break;
+					}
+				}
+			}
+
+				if (row == null)
+				{
+					row = ImagesWrapper.CurrentTable().Table.NewRow();
+					row["f_image_alias"] = imageData;
+					row["f_visitor_id"] = visitorID;
+					row["f_image_type"] = imageType;
+					row["f_deleted"] = "N";
+					ImagesWrapper.CurrentTable().Table.Rows.Add(row);
+					imagesToSave.Add(imageData,
+						File.ReadAllBytes(GetImagePath(imageData)));
+				}
+				else if (imageType == ImageType.Document)
+				{
+					imagesToSave[imageData] = File.ReadAllBytes(GetImagePath(imageData));
+				}
+				else if (!imageData.Equals(row["f_image_alias"]))
+				{
+					row["f_image_alias"] = imageData;
+					row["f_deleted"] = "N";
+					imagesToSave.Add(imageData,
+						File.ReadAllBytes(GetImagePath(imageData)));
+				}
+			if (imagesToSave.Any())
+			{
+				ImagesWrapper.CurrentTable().Connector.SetImages(imagesToSave);
+			}
+		}
+
+
+		private static void RemoveImage(int id, ImageType imageType)
         {
             DataRow row = null;
             foreach (DataRow r in ImagesWrapper.CurrentTable().Table.Rows)
@@ -200,7 +258,37 @@ namespace SupRealClient.Models
             }
         }
 
-        private static bool Find(DataRow row, int id, ImageType imageType, Guid alias)
+		private static void RemoveImage_ByImageID(int imageID, ImageType imageType)
+		{
+			DataRow row = null;
+			foreach (DataRow r in ImagesWrapper.CurrentTable().Table.Rows)
+			{
+				if (Find_ByImageID(r, imageID, imageType, Guid.Empty))
+				{
+					row = r;
+					break;
+				}
+			}
+			if (row != null)
+			{
+				row["f_deleted"] = "Y";
+				//row.Delete(); // TODO
+			}
+		}
+
+		private static bool Find_ByImageID(DataRow row, int imageID, ImageType imageType, Guid alias)
+		{
+			return imageType == ImageType.Document ?
+				row.Field<int>("f_image_id") == imageID &&
+				row.Field<Guid>("f_image_alias") == alias &&
+				row.Field<int>("f_image_type") == (int)imageType &&
+				row.Field<string>("f_deleted") == "N" :
+				row.Field<int>("f_image_id") == imageID &&
+				row.Field<int>("f_image_type") == (int)imageType &&
+				row.Field<string>("f_deleted") == "N";
+		}
+
+		private static bool Find(DataRow row, int id, ImageType imageType, Guid alias)
         {
             return imageType == ImageType.Document ?
                 row.Field<int>("f_visitor_id") == id &&

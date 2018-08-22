@@ -423,5 +423,10 @@ namespace SupRealClient.Views
 				AreasDataGrid.UnselectAllCells();
 			}
 		}
+
+		private void TextBox_TextChanged(object sender, TextChangedEventArgs e)
+		{
+
+		}
 	}
 }

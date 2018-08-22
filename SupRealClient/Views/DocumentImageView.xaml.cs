@@ -11,6 +11,7 @@ using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
+using SupRealClient.Models;
 using SupRealClient.ViewModels;
 
 namespace SupRealClient.Views
@@ -44,6 +45,11 @@ namespace SupRealClient.Views
 		{
 			get =>_viewModel.DocumentImage; 
 			set => _viewModel.DocumentImage = value;
+		}
+
+		public Guid DocumentImageGuid
+		{
+			set => _viewModel.DocumentImage = ImagesHelper.GetImagePath(value);
 		}
 
 		private void Window_PreviewKeyDown_AndStop(object sender, KeyEventArgs e)

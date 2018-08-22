@@ -236,13 +236,13 @@
 				Grid.Column="1"
 				Margin="10,11"
 				VerticalAlignment="Stretch"
+				FontWeight="{Binding VisibleTabItem_Employee, Converter={StaticResource BoolToBoldFontWeight}}"
 				IsEnabled="{Binding Path=TextEnable, Mode=TwoWay}"
 				IsReadOnly="True"
 				IsTabStop="False"
 				Style="{StaticResource TextBoxStyle}"
-				Text="{Binding Path=CurrentItem.Organization, Mode=TwoWay}"
-				FontWeight="{Binding VisibleTabItem_Employee, Converter={StaticResource BoolToBoldFontWeight}}"/>
-			<!--FontWeight="{Binding VisibleTabItem_Employee, Converter={StaticResource BoolToBoldFontWeight}}"-->
+				Text="{Binding Path=CurrentItem.Organization, Mode=TwoWay}" />
+			<!--  FontWeight="{Binding VisibleTabItem_Employee, Converter={StaticResource BoolToBoldFontWeight}}"  -->
 
 			<Button
 				x:Name="button_LoadOrganization"
@@ -795,8 +795,8 @@
 									CommandParameter="Department"
 									Content="X"
 									IsEnabled="{Binding Path=ButtonEnable, Mode=TwoWay}"
-									Style="{StaticResource VisitorsSquareButtonStyle}"
-									IsTabStop="False" />
+									IsTabStop="False"
+									Style="{StaticResource VisitorsSquareButtonStyle}" />
 							</Grid>
 
 							<Grid Grid.Row="6" Grid.Column="0">
@@ -893,8 +893,8 @@
 										CommandParameter="Cabinet"
 										Content="X"
 										IsEnabled="{Binding Path=ButtonEnable, Mode=TwoWay}"
-										Style="{StaticResource VisitorsSquareButtonStyle}"
-										IsTabStop="False"/>
+										IsTabStop="False"
+										Style="{StaticResource VisitorsSquareButtonStyle}" />
 								</Grid>
 
 								<TextBlock
@@ -910,7 +910,7 @@
 									HorizontalAlignment="Right"
 									Background="#00000000"
 									Command="{Binding AddSignatureCommand}"
-									IsEnabled="{Binding Path=ButtonEnable, Mode=TwoWay}"									
+									IsEnabled="{Binding Path=ButtonEnable, Mode=TwoWay}"
 									IsTabStop="False"
 									ToolTip="Добавить подпись">
 									<Grid Width="180" Height="40">
@@ -941,7 +941,7 @@
 											BorderBrush="#FFCCCCCC"
 											BorderThickness="2"
 											Command="{Binding RemoveSignatureCommand}"
-											Content="X"											
+											Content="X"
 											IsTabStop="False"
 											ToolTip="Удалить подпись" />
 									</Grid>
@@ -1040,8 +1040,8 @@
 								Command="{Binding RemoveDocumentCommand}"
 								Content="X"
 								IsEnabled="{Binding Path=ButtonEnable, Mode=TwoWay}"
-								Style="{StaticResource VisitorsSquareButtonStyle}"
-								IsTabStop="False" />
+								IsTabStop="False"
+								Style="{StaticResource VisitorsSquareButtonStyle}" />
 						</Grid>
 					</Grid>
 				</mah:MetroTabItem>

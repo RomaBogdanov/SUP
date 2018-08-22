@@ -233,6 +233,7 @@ namespace SupRealClient.EnumerationClasses
 		/// </summary>
 		public int CatcherId { get; set; } = 0; // Id провожающего
 		public int ImageId { get; set; } // id исходника скана заявки
+		public Guid ImageGuid { get; set; } // Guid исходника скана заявки
 		public string Catcher { get; set; } = ""; // провожающий
 
 		public string Passes { get; set; } = "";
