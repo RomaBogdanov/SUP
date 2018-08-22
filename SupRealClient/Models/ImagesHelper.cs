@@ -41,13 +41,47 @@ namespace SupRealClient.Models
             File.WriteAllBytes(image, data);
 
             return alias;
-        }
+		}
 
-	    /// <summary>
-	    /// Сохраняем в папке Images, получаем GUID
-	    /// </summary>
-	    /// <returns></returns>
-	    public static Guid GetGuidFromByteArray(byte[] imageArray)
+		/// <summary>
+		/// Загружаем картинку и сохраняем в папке Images
+		/// по Guid
+		/// </summary>
+		/// <param name="path"></param>
+		/// <returns></returns>
+		public static Guid LoadImage_OrderImageID(int orderImageID)
+		{
+			if (orderImageID >= 0)
+			{
+				DataRow row = null;
+				foreach (DataRow r in ImagesWrapper.CurrentTable().Table.Rows)
+				{
+					if (r.Field<int>("f_visitor_id") == 0 &&
+				r.Field<int>("f_image_id") == orderImageID &&
+				r.Field<int>("f_image_type") == (int)ImageType.Document &&
+				r.Field<string>("f_deleted") == "N")
+					{
+						row = r;
+						break;
+					}
+				}
+
+				if (row == null)
+					return Guid.Empty;
+
+				Guid imageData = row.Field<Guid>("f_image_alias");
+				CacheImage(imageData);
+
+				return imageData;
+			}
+			return Guid.Empty;
+		}
+
+		/// <summary>
+		/// Сохраняем в папке Images, получаем GUID
+		/// </summary>
+		/// <returns></returns>
+		public static Guid GetGuidFromByteArray(byte[] imageArray)
 	    {
 		    var alias = Guid.NewGuid();
 		    var imagePath = GetImagePath(alias);
@@ -183,19 +217,21 @@ namespace SupRealClient.Models
         }
 
 		/// <summary>
-		/// Добавляем картинку в БД
+		/// Добавляем картинку в БД по ID записи
 		/// </summary>
-		/// <param name="id"></param>
-		/// <param name="alias"></param>
-		/// <param name="imageType"></param>
-		public static void AddImage_ByImageID(int imageID, int visitorID, Guid imageData, ImageType imageType)
+		/// <param name="imageID">Номер записи изображения в таблице</param>
+		/// <param name="imageData">Guid изображения</param>
+		/// <param name="imageType">тип документа</param>
+		/// <param name="visitorID">Номер посетителя, не используется</param>
+		/// <returns></returns>
+		public static int? AddImage_ByImageID(int imageID, Guid imageData, ImageType imageType, int visitorID=0)
 		{
 			Dictionary<Guid, byte[]> imagesToSave = new Dictionary<Guid, byte[]>();
 
 				if (imageData.Equals(Guid.Empty))
 				{
-				RemoveImage_ByImageID(imageID, imageType);
-					return;
+				RemoveImage_ByImageID(imageID, visitorID, imageType);
+					return null;
 				}
 
 				DataRow row = null;
@@ -203,7 +239,7 @@ namespace SupRealClient.Models
 			{
 				foreach (DataRow r in ImagesWrapper.CurrentTable().Table.Rows)
 				{
-					if (Find_ByImageID(r, imageID, imageType, imageData))
+					if (Find_ByImageID(r, imageID, visitorID, imageType, imageData))
 					{
 						row = r;
 						break;
@@ -237,6 +273,9 @@ namespace SupRealClient.Models
 			{
 				ImagesWrapper.CurrentTable().Connector.SetImages(imagesToSave);
 			}
+			
+
+			return row.Table.Columns.Contains("f_image_id") ? row.Field<int>("f_image_id"): (int?)null;
 		}
 
 
@@ -258,12 +297,12 @@ namespace SupRealClient.Models
             }
         }
 
-		private static void RemoveImage_ByImageID(int imageID, ImageType imageType)
+		private static void RemoveImage_ByImageID(int imageID, int visitorID, ImageType imageType)
 		{
 			DataRow row = null;
 			foreach (DataRow r in ImagesWrapper.CurrentTable().Table.Rows)
 			{
-				if (Find_ByImageID(r, imageID, imageType, Guid.Empty))
+				if (Find_ByImageID(r, imageID, visitorID, imageType, Guid.Empty))
 				{
 					row = r;
 					break;
@@ -276,13 +315,15 @@ namespace SupRealClient.Models
 			}
 		}
 
-		private static bool Find_ByImageID(DataRow row, int imageID, ImageType imageType, Guid alias)
+		private static bool Find_ByImageID(DataRow row, int imageID, int id, ImageType imageType, Guid alias)
 		{
 			return imageType == ImageType.Document ?
+				row.Field<int>("f_visitor_id") == id &&
 				row.Field<int>("f_image_id") == imageID &&
 				row.Field<Guid>("f_image_alias") == alias &&
 				row.Field<int>("f_image_type") == (int)imageType &&
 				row.Field<string>("f_deleted") == "N" :
+				row.Field<int>("f_visitor_id") == id &&
 				row.Field<int>("f_image_id") == imageID &&
 				row.Field<int>("f_image_type") == (int)imageType &&
 				row.Field<string>("f_deleted") == "N";

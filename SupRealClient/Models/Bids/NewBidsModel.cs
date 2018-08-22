@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.ObjectModel;
 using System.Windows;
+using SupContract;
 using SupRealClient.EnumerationClasses;
 using SupRealClient.TabsSingleton;
 
@@ -62,8 +63,8 @@ namespace SupRealClient.Models
 					}
 					CurrentTemporaryOrder.RecDate = DateTime.Now;
 
-
-
+					int? tempImageID = ImagesHelper.AddImage_ByImageID(-1, CurrentTemporaryOrder.ImageGuid, ImageType.Document);
+					CurrentTemporaryOrder.ImageId = tempImageID != null ? tempImageID.Value : -1;
 
 					OrdersWrapper.CurrentTable().AddRow(CurrentTemporaryOrder);
 					break;
@@ -81,6 +82,10 @@ namespace SupRealClient.Models
 					CurrentSingleOrder.RecDate = DateTime.Now;
 					CurrentSingleOrder.To = CurrentSingleOrder.From;
 					CurrentSingleOrder.OrderDate = DateTime.Now;
+
+					int? singleImageID = ImagesHelper.AddImage_ByImageID(-1, CurrentSingleOrder.ImageGuid, ImageType.Document);
+					CurrentSingleOrder.ImageId = singleImageID != null ? singleImageID.Value : -1;
+
 					OrdersWrapper.CurrentTable().AddRow(CurrentSingleOrder);
 					break;
 				case OrderType.Virtue:

@@ -110,10 +110,12 @@
     <Compile Include="Behaviour\DataGridTextSearch.cs" />
     <Compile Include="Behaviour\DialogService.cs" />
     <Compile Include="Behaviour\DocumentListElementsHeightConverter.cs" />
+    <Compile Include="Behaviour\GUIDToBooleanConverter.cs" />
     <Compile Include="Behaviour\GuidToStringConverter.cs" />
     <Compile Include="Behaviour\HeaderToCurrentColumnConverter.cs" />
     <Compile Include="Behaviour\IDialogService.cs" />
     <Compile Include="Behaviour\InverseBooleanConverterюcs.cs" />
+    <Compile Include="Behaviour\OrganizationTypeToColorConverter.cs" />
     <Compile Include="Behaviour\SearchValueConverter.cs" />
     <Compile Include="Behaviour\SupDateConverter.cs" />
     <Compile Include="ChildWinSet.cs" />

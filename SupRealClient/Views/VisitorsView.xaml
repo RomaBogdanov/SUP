@@ -37,6 +37,7 @@
 			<BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter" />
 			<converters:InverseBooleanConverter x:Key="InverseBooleanConverter" />
 			<converters:BoolTo_BoldFontWeight x:Key="BoolToBoldFontWeight" />
+			<converters:OrganizationTypeToColorConverter x:Key="OrganizationTypeToColorConverter"/>
 		</ResourceDictionary>
 	</mah:MetroWindow.Resources>
 
@@ -238,10 +239,12 @@
 				VerticalAlignment="Stretch"
 				FontWeight="{Binding VisibleTabItem_Employee, Converter={StaticResource BoolToBoldFontWeight}}"
 				IsEnabled="{Binding Path=TextEnable, Mode=TwoWay}"
+				Foreground="{Binding VisibleTabItem_Employee, Converter={StaticResource OrganizationTypeToColorConverter}}"
 				IsReadOnly="True"
 				IsTabStop="False"
 				Style="{StaticResource TextBoxStyle}"
-				Text="{Binding Path=CurrentItem.Organization, Mode=TwoWay}" />
+				Text="{Binding Path=CurrentItem.Organization, Mode=TwoWay}"/>
+			<!--{Binding Path=CurrentItem.Organization, Mode=TwoWay}-->
 			<!--  FontWeight="{Binding VisibleTabItem_Employee, Converter={StaticResource BoolToBoldFontWeight}}"  -->
 
 			<Button

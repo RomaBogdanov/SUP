@@ -131,6 +131,7 @@ namespace SupRealClient.ViewModels
 					BidsModel.CurrentSingleOrder = value;
 					OnPropertyChanged();
 				}
+				OnPropertyChanged(nameof(CurrentSingleOrder));
 			}
 		}
 
@@ -157,6 +158,7 @@ namespace SupRealClient.ViewModels
 					BidsModel.CurrentTemporaryOrder = value;
 					OnPropertyChanged();
 				}
+				OnPropertyChanged(nameof(CurrentTemporaryOrder));
 			}
 		}
 
@@ -298,6 +300,8 @@ namespace SupRealClient.ViewModels
 				}
 			}
 		}
+
+		
 
 
 		public bool IsCanAddRows
@@ -511,12 +515,30 @@ namespace SupRealClient.ViewModels
 
 		private void OpenOriginalOrderScan()
 		{
-			if (CurrentTemporaryOrder.ImageGuid != null && CurrentTemporaryOrder.ImageGuid != Guid.Empty)
+			switch (CurrentOrderType)
 			{
-				DocumentImageView documentImageView = new DocumentImageView();
-				documentImageView.DocumentImageGuid = CurrentTemporaryOrder.ImageGuid;
-				documentImageView.ShowDialog();
+				case OrderType.None:
+					break;
+				case OrderType.Single:
+					if (CurrentSingleOrder != null && CurrentSingleOrder.ImageGuid != null && CurrentSingleOrder.ImageGuid != Guid.Empty)
+					{
+						DocumentImageView documentImageView = new DocumentImageView();
+						documentImageView.DocumentImageGuid = CurrentSingleOrder.ImageGuid;
+						documentImageView.ShowDialog();
+					}
+					break;
+				case OrderType.Temp:
+					if (CurrentTemporaryOrder != null && CurrentTemporaryOrder.ImageGuid != null && CurrentTemporaryOrder.ImageGuid != Guid.Empty)
+					{
+						DocumentImageView documentImageView = new DocumentImageView();
+						documentImageView.DocumentImageGuid = CurrentTemporaryOrder.ImageGuid;
+						documentImageView.ShowDialog();
+					}
+					break;
+				default: break;
 			}
+
+
 		}
 
 		private void LoadOriginalOrderScan()

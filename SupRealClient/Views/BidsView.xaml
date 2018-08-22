@@ -9,6 +9,7 @@
 	xmlns:mah="http://metro.mahapps.com/winfx/xaml/controls"
 	xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
 	xmlns:wpfx="http://schemas.xceed.com/wpf/xaml/toolkit"
+	xmlns:converters="clr-namespace:SupRealClient.Behaviour"
 	x:Name="bidsWindow"
 	Title="Заявки"
 	Width="1077"
@@ -18,6 +19,9 @@
 	PreviewKeyDown="MainWindow_PreviewKeyDown"
 	ResizeMode="NoResize"
 	mc:Ignorable="d">
+	<mah:MetroWindow.Resources>
+		<converters:GUIDToBooleanConverter x:Key="GUIDToBooleanConverter"/>
+	</mah:MetroWindow.Resources>
 	<mah:MetroWindow.InputBindings>
 		<KeyBinding Key="Escape" Command="{Binding CancelCommand}" />
 	</mah:MetroWindow.InputBindings>
@@ -408,7 +412,8 @@
 									HorizontalAlignment="Left"
 									Command="{Binding OpeningOriginalOrderCommand}"
 									Content="Оригинал заявки"
-									Style="{StaticResource ButtonStyle}" />
+									Style="{StaticResource ButtonStyle}"
+									Visibility="{Binding CurrentSingleOrder, Mode=OneWay, Converter={StaticResource GUIDToBooleanConverter}}"/>
 								<!--  IsEnabled="{Binding Path=EnableButton_OpenDocument, Mode=OneWay}"  -->
 
 								<!--<TextBlock
@@ -990,7 +995,8 @@
 									HorizontalAlignment="Left"
 									Command="{Binding OpeningOriginalOrderCommand}"
 									Content="Оригинал заявки"
-									Style="{StaticResource ButtonStyle}" />
+									Style="{StaticResource ButtonStyle}" 									
+									Visibility="{Binding CurrentTemporaryOrder, Mode=OneWay, Converter={StaticResource GUIDToBooleanConverter}}"/>
 								<!--  IsEnabled="{Binding Path=EnableButton_OpenDocument, Mode=OneWay}"  -->
 
 								<!--<TextBlock

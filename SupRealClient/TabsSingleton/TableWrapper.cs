@@ -392,6 +392,12 @@ namespace SupRealClient.TabsSingleton
                                 row.Field<int>("f_schedule_id"))?.Field<string>("f_schedule_name"),
                         })
 				});
+
+			foreach (Order order in orders)
+			{
+				order.LoadImage();
+			}
+
 			return orders;
 		}
 	}
