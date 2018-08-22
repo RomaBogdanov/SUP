@@ -140,6 +140,7 @@
 					x:FieldModifier="private"
 					IsEnabled="{Binding Path=VisitorsEnable.AcceptButtonEnable, Mode=TwoWay}"
 					Style="{StaticResource VisitorsSquareButtonStyle}"
+					TabIndex="0"
 					Visibility="{Binding Path=VisitorsVisible.AcceptButtonEnable, Converter={StaticResource BooleanToVisibilityConverter}}">
 					<Grid>
 						<Grid.RowDefinitions>
@@ -162,6 +163,7 @@
 					x:FieldModifier="private"
 					IsEnabled="{Binding Path=VisitorsEnable.CancelButtonEnable, Mode=TwoWay}"
 					Style="{StaticResource VisitorsSquareButtonStyle}"
+					TabIndex="1"
 					Visibility="{Binding Path=VisitorsVisible.CancelButtonEnable, Converter={StaticResource BooleanToVisibilityConverter}}">
 					<Grid>
 						<Grid.RowDefinitions>
@@ -184,6 +186,7 @@
 					x:FieldModifier="private"
 					IsEnabled="{Binding Path=VisitorsEnable.CancelButtonEnable, Mode=TwoWay}"
 					Style="{StaticResource VisitorsSquareButtonStyle}"
+					TabIndex="2"
 					Visibility="{Binding Path=VisitorsVisible.CancelButtonEnable, Converter={StaticResource BooleanToVisibilityConverter}}">
 					<Grid>
 						<Grid.RowDefinitions>

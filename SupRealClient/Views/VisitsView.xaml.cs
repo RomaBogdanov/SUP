@@ -777,7 +777,14 @@ namespace SupRealClient.Views
 				    || string.Equals(CurrentItem.MainDocuments[index]?.Num?.Trim(), document.Num?.Trim()))
 				{
 					isContains = true;
-					(view as Window)?.Invoke(() => { CurrentItem.MainDocuments[index] = document; });
+					(view as Window)?.Invoke(() =>
+					{
+						if (MessageBox.Show("Данный документ уже присутствует у посетителя. Обновить ранее добавленный документ?",
+							"Информация", MessageBoxButtons.YesNo, MessageBoxIcon.Question)==DialogResult.Yes)
+						{
+							CurrentItem.MainDocuments[index] = document;
+						}
+					});
 				}
 			}
 

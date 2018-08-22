@@ -20,13 +20,13 @@ namespace SupRealClient.Views
 
 		private static readonly string CorrectString = "Действительно";
 		private static readonly string WrongString = "Не действительно";
-
+		
+		
 		public bool Result { get; private set; }
 
 		public RegulaView(CPerson person)
 		{
 			InitializeComponent();
-
 			ConfirmButton.Click += ConfirmButton_OnClick;
 			CancelButton.Click += CancelButton_OnClick;
 			SecondPageButton.Click += SecondPageButton_Click;
@@ -110,6 +110,7 @@ namespace SupRealClient.Views
 
 		private void RegulaView_OnKeyUp(object sender, KeyEventArgs e)
 		{
+			e.Handled = true;
 			switch (e.Key)
 			{
 				case Key.Enter:
