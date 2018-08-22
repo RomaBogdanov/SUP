@@ -1764,14 +1764,14 @@ namespace SupRealClient.Views
             Query();
             Begin();
         }
-
+		
         public override void Add()
         {
             AddUpdateAbstrModel model = new AddAccessLevelModel();
             AddUpdateBaseViewModel viewModel = new AddUpdateAccessLevelViewModel
             {
                 Model = model,
-                Title = @"Добавить область доступа"
+                Title = @"Добавить уровень доступа"
             };
             AddUpdateAccessLevelWindView view = new AddUpdateAccessLevelWindView();
             view.DataContext = viewModel;
@@ -1786,7 +1786,7 @@ namespace SupRealClient.Views
             AddUpdateBaseViewModel viewModel = new AddUpdateAccessLevelViewModel
             {
                 Model = model,
-                Title = @"Редактирование области доступа"
+                Title = @"Редактирование уровня доступа"
             };
             AddUpdateAccessLevelWindView view = new AddUpdateAccessLevelWindView();
             view.DataContext = viewModel;
