@@ -30,7 +30,6 @@ namespace SupRealClient.Views
 			ConfirmButton.Click += ConfirmButton_OnClick;
 			CancelButton.Click += CancelButton_OnClick;
 			SecondPageButton.Click += SecondPageButton_Click;
-			KeyUp += RegulaView_OnKeyUp;
 			ViewPersonInfo(person);
 		}
 
@@ -103,19 +102,14 @@ namespace SupRealClient.Views
 
 		~RegulaView()
 		{
-			KeyUp -= RegulaView_OnKeyUp;
 			ConfirmButton.Click -= ConfirmButton_OnClick;
 			CancelButton.Click -= CancelButton_OnClick;
 		}
-
-		private void RegulaView_OnKeyUp(object sender, KeyEventArgs e)
+		
+		protected override void OnKeyDown(KeyEventArgs e)
 		{
-			e.Handled = true;
 			switch (e.Key)
 			{
-				case Key.Enter:
-					ClickHandler(true);
-					break;
 				case Key.Escape:
 					ClickHandler(false);
 					break;
