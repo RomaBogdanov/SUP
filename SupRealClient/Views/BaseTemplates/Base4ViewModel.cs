@@ -22,6 +22,8 @@ namespace SupRealClient.Views
         private Visibility watchVisibility;
         private Visibility okVisibility;
         private bool fartherEnabled;
+        private string memTilte;
+        private IWindow parent;
 
         // ==========
         private IBase4Model<T> _model;
@@ -42,7 +44,15 @@ namespace SupRealClient.Views
         public ICommand RightClickCommand { get; set; }
         public ICommand Remove { get; set; }
 
-        public IWindow Parent { get; set; }
+        public IWindow Parent
+        {
+            get { return parent; }
+            set
+            {
+                parent = value;
+                memTilte = (Parent as Window)?.Title;
+            }
+        }
 
         public string OkCaption
         {
@@ -146,7 +156,7 @@ namespace SupRealClient.Views
             {
                 if (Model != null && value != null)
                 {
-                    Model.CurrentItem = value;                    
+                    Model.CurrentItem = value;
                     OnPropertyChanged();
                 }
             }
@@ -204,6 +214,8 @@ namespace SupRealClient.Views
                     Model.SelectedIndex = value;
                     OnPropertyChanged();
                 }
+
+                SetTitleInfo();
             }
         }
 
@@ -240,7 +252,7 @@ namespace SupRealClient.Views
             Synonyms = new RelayCommand(obj => SynonymsCom());
             Watch = new RelayCommand(obj => WatchCom());
             RightClickCommand = new RelayCommand(obj => RightClickCom(obj));
-            Remove = new RelayCommand(obj => RemoveCom());
+            Remove = new RelayCommand(obj => RemoveCom());           
         }
 
         public event PropertyChangedEventHandler PropertyChanged;
@@ -378,6 +390,14 @@ namespace SupRealClient.Views
             SelectedIndex = Model.SelectedIndex;
             CurrentItem = Model.CurrentItem;
             ScrollCurrentItem?.Invoke();
+        }
+
+        private void SetTitleInfo()
+        {
+            if (Parent is Window && Set.Count>0)
+            {
+                (Parent as Window).Title = memTilte + string.Format("   ({0}/{1})", Set.Count, SelectedIndex + 1);
+            }
         }
     }
 }
