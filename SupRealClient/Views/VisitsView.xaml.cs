@@ -706,14 +706,14 @@ namespace SupRealClient.Views
 			//проверка на наличие документа в списке документов CurrentItem
 			for (var index = 0; index < CurrentItem.Documents.Count; index++)
 			{
-				if (string.Equals(CurrentItem.Documents[index].Name.Trim().ToLower(),
+				if (string.Equals(CurrentItem.MainDocuments[index].Num.Trim().ToLower(),
 					visitorDocument.Name.Trim().ToLower()))
 				{
-					if (MessageBox.Show("Данный документ уже содержится в списке документов посетителя. Обновить данные?",
-						"Предупреждение", MessageBoxButtons.YesNo,MessageBoxIcon.Question) == DialogResult.Yes)
-					{
-						(view as Window)?.Invoke(() => { CurrentItem.Documents[index] = visitorDocument; });
-					}
+						(view as Window)?.Invoke(() =>
+						{
+								CurrentItem.Documents[index] = visitorDocument;
+							
+						});
 					return;
 				}
 			}
@@ -765,7 +765,7 @@ namespace SupRealClient.Views
 			{
 				//
 			}
-
+			
 			document.Comment += GetDocumentComment(person);
 
 			//проверка на наличие документа в списке документов CurrentItem
@@ -777,7 +777,17 @@ namespace SupRealClient.Views
 				    || string.Equals(CurrentItem.MainDocuments[index]?.Num?.Trim(), document.Num?.Trim()))
 				{
 					isContains = true;
-					(view as Window)?.Invoke(() => { CurrentItem.MainDocuments[index] = document; });
+					
+					if (MessageBox.Show("Данный документ был ранее добавлен. Обновить данные?","Предупреждение", 
+						MessageBoxButtons.YesNo, MessageBoxIcon.Question)==DialogResult.Yes)
+					{
+						var i = index;
+						(view as Window)?.Invoke(() =>
+						{
+							CurrentItem.MainDocuments[i] = document;
+						});
+					}
+					
 				}
 			}
 
@@ -1273,13 +1283,20 @@ namespace SupRealClient.Views
 				if (person.Portrait != null && isPortraitForSubstit)
 				{
 					string fileName = baseModel.AddImageSource(person.Portrait, ImageType.Photo);
-					AddImageToDocuments(_nameDocument_PhotoImageType, fileName);
+					(view as Window)?.Invoke(() =>
+					{
+						AddImageToDocuments(_nameDocument_PhotoImageType, fileName);
+					});
+					
 				}
 
 				if (person.Signature != null)
 				{
 					string fileName = baseModel.AddImageSource(person.Signature, ImageType.Signature);
-					AddImageToDocuments(_nameDocument_SignatureImageType, fileName);
+					(view as Window)?.Invoke(() =>
+					{
+						AddImageToDocuments(_nameDocument_SignatureImageType, fileName);
+					});
 				}
 			}
 			Update_Fields();
@@ -1541,10 +1558,12 @@ namespace SupRealClient.Views
 
 		private void AddImageToDocuments(string name, string fileName)
 		{
-			RemoveImageToDocuments(name);
+				RemoveImageToDocuments(name);
 
-			Guid id = ImagesHelper.LoadImage(fileName);
-			Generate_VisitorDocument(name, new List<Guid>() { id });
+				Guid id = ImagesHelper.LoadImage(fileName);
+				Generate_VisitorDocument(name, new List<Guid>() { id });
+				
+			
 		}
 
 		private void RemoveImageToDocuments(string name)

@@ -4,6 +4,7 @@ using SupRealClient.EnumerationClasses;
 using SupRealClient.TabsSingleton;
 using System;
 using System.Data;
+using System.Linq;
 using System.Windows;
 
 namespace SupRealClient.Models.Helpers
@@ -91,9 +92,15 @@ namespace SupRealClient.Models.Helpers
 
             // TODO - здесь в Andover выгружается пропуск с пустым списком областей доступа
 
-            var data1 = new AndoverExportData
+
+	        var cardId = CardsExtWrapper.CurrentTable().Table.AsEnumerable().Where(x =>
+		        x.Field<int>("f_object_id_hi") == data.CardIdHi && x.Field<int>("f_object_id_lo") == data.CardIdLo).First().Field<int>("f_card_id");
+	        var cardName = CardsWrapper.CurrentTable().Table.AsEnumerable().Where(x => x.Field<int>("f_card_id") == cardId)
+		        .First().Field<string>("f_card_name");
+
+			var data1 = new AndoverExportData
 			{
-				Card = data.Name,
+				Card = cardName,
 				SchedulesFromSameCAreaSchedules = null,
 				IsExtradition = false
 			};
@@ -106,13 +113,13 @@ namespace SupRealClient.Models.Helpers
 			if (clientConnector.ExportToAndover(data1).Success??false)
 			{
 				System.Windows.Forms.Cursor.Current = System.Windows.Forms.Cursors.Default;
-				MessageBox.Show("Возврат пропуска прошел успешно!", "Информация",
+				MessageBox.Show("Выгрузка в Andover прошла успешно!", "Информация",
 					MessageBoxButton.OK, MessageBoxImage.Information);
 			}
 			else
 			{
 				System.Windows.Forms.Cursor.Current = System.Windows.Forms.Cursors.Default;
-				MessageBox.Show("Ошибка при возврате пропуска!", "Ошибка",
+				MessageBox.Show("Ошибка при выгрузке в Andover!", "Ошибка",
 					MessageBoxButton.OK, MessageBoxImage.Error);
 			}
 
