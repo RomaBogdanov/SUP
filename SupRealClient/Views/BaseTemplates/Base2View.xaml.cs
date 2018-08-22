@@ -187,7 +187,7 @@ namespace SupRealClient.Views
         void RowColorOrganizationTable(DataGridRow oRow)
         {
             Organization oOrg = oRow.Item as Organization;
-            if (oOrg?.FullName == string.Empty)
+            if (oOrg.FullName == string.Empty)
             {
                 if (IsOrgHasSynonim(oOrg))
                     oRow.Background = Brushes.LightGreen;
@@ -196,6 +196,15 @@ namespace SupRealClient.Views
             }
             else
                 oRow.Background = Brushes.White;
+
+            if (OrganizationsHelper.GetBasicParametr(oOrg.Id, true))
+            {
+                oRow.FontWeight = FontWeights.Bold;
+            }
+            if (OrganizationsHelper.IsChildOrg(oOrg))
+            {
+                oRow.FontStyle = FontStyles.Oblique;
+            }
         }
 
         bool IsOrgHasSynonim(Organization org)
