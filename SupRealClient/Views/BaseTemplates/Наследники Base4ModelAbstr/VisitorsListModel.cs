@@ -71,7 +71,7 @@ namespace SupRealClient.Views
             //object res = ViewManager.Instance.OpenWindowModal("VisitorsView");
 
             //todo: создание нового view - костыль для открытия в режиме редактирования. Позже нужно удалить.
-            ViewManager.Instance.OpenWindow("VisitorsView", this.Parent ?? new SupRealClient.Views.VisitorsListWindView(null));                       
+            ViewManager.Instance.OpenWindow("VisitorsView", this.Parent ?? new VisitorsListWindView(null));                       
         }
 
         public override void Farther()
@@ -87,7 +87,7 @@ namespace SupRealClient.Views
                 if (this.Parent is VisitorsListWindView)
                 {
                     //todo: создание нового view - костыль для открытия в режиме редактирования. Позже нужно удалить.
-                    ViewManager.Instance.OpenWindow("VisitorsView", this.Parent ?? new SupRealClient.Views.VisitorsListWindView(null));
+                    ViewManager.Instance.OpenWindow("VisitorsView", this.Parent ?? new VisitorsListWindView(null));
                 }
                 else
                 {
@@ -118,7 +118,6 @@ namespace SupRealClient.Views
 	            IWindow parent = Parent;
 	            if (parent == null)
 	            {
-		            var viewModel = new Base4ViewModel<EnumerationClasses.Visitor>();
 		            parent = new VisitorsListWindView(null);
 		            if (parent is VisitorsListWindView view)
 		            {

@@ -55,7 +55,7 @@ namespace SupRealClient.Views
 	    {
 		    if(dataContext is Base4ViewModel<EnumerationClasses.Visitor> base4ViewModel)
 		    {
-			    base4ViewModel.OkVisibility = Visibility;
+			    base4ViewModel.OkVisibility = okVisibility;
 			    base4ViewModel.Parent = this;
 			    base4ViewModel.SynonymsVisibility = Visibility.Visible;
 			    base4ViewModel.ScrollCurrentItem = base4ViewModel.ScrollCurrentItem;
