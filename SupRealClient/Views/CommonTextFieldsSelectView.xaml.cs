@@ -19,16 +19,12 @@ namespace SupRealClient.Views
 		{
 			InitializeComponent();
 			DataContext = new CCommonTextFieldsSelectViewModel();
-			KeyUp += CommonTextFieldsSelectView_KeyUp;
 		}
 
-		private void CommonTextFieldsSelectView_KeyUp(object sender, System.Windows.Input.KeyEventArgs e)
+		protected override void OnKeyDown(KeyEventArgs e)
 		{
 			switch (e.Key)
 			{
-				case Key.Enter:
-					ClickHandler(true);
-					break;
 				case Key.Escape:
 					ClickHandler(false);
 					break;

@@ -2,6 +2,7 @@
 using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Input;
 using SupRealClient.ViewModels;
 
 namespace SupRealClient.Views
@@ -28,8 +29,19 @@ namespace SupRealClient.Views
 		{
 			DialogResult = false;
 		}
+
+		protected override void OnKeyDown(KeyEventArgs e)
+		{
+			switch (e.Key)
+			{
+				case Key.Escape:
+					DialogResult = false;
+					break;
+			}
+		}
 	}
 
+	
 	[Flags]
 	public enum EAndoverExportItem
 	{
