@@ -103,7 +103,8 @@
             Style="{StaticResource TextBoxStyle}"
             PreviewKeyDown="baseTab_PreviewKeyDown"/>
 
-        <Button 
+        <Button
+            Name="btnHome"
             Grid.Row="3" 
             Grid.Column="0" 
             Margin="1" 
@@ -187,6 +188,7 @@
         </Button>
 
         <Button 
+            Name="btnEnd"
             Grid.Row="3" 
             Grid.Column="3"
             Margin="1" 
