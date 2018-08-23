@@ -706,7 +706,7 @@ namespace SupRealClient.Views
 			//проверка на наличие документа в списке документов CurrentItem
 			for (var index = 0; index < CurrentItem.Documents.Count; index++)
 			{
-				if (string.Equals(CurrentItem.MainDocuments[index].Num.Trim().ToLower(),
+				if (string.Equals(CurrentItem.Documents[index].Name.Trim().ToLower(),
 					visitorDocument.Name.Trim().ToLower()))
 				{
 						(view as Window)?.Invoke(() =>
