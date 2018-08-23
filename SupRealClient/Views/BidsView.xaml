@@ -2,6 +2,7 @@
 	x:Class="SupRealClient.Views.BidsView"
 	xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
 	xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+	xmlns:converters="clr-namespace:SupRealClient.Behaviour"
 	xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
 	xmlns:gl="clr-namespace:System.Globalization;assembly=mscorlib"
 	xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
@@ -9,7 +10,6 @@
 	xmlns:mah="http://metro.mahapps.com/winfx/xaml/controls"
 	xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
 	xmlns:wpfx="http://schemas.xceed.com/wpf/xaml/toolkit"
-	xmlns:converters="clr-namespace:SupRealClient.Behaviour"
 	x:Name="bidsWindow"
 	Title="Заявки"
 	Width="1077"
@@ -20,7 +20,7 @@
 	ResizeMode="NoResize"
 	mc:Ignorable="d">
 	<mah:MetroWindow.Resources>
-		<converters:GUIDToBooleanConverter x:Key="GUIDToBooleanConverter"/>
+		<converters:GUIDToBooleanConverter x:Key="GUIDToBooleanConverter" />
 	</mah:MetroWindow.Resources>
 	<mah:MetroWindow.InputBindings>
 		<KeyBinding Key="Escape" Command="{Binding CancelCommand}" />
@@ -402,7 +402,7 @@
 									HorizontalAlignment="Left"
 									Style="{StaticResource TextBLockStyle}"
 									Text="Оригинал заявки"
-									Visibility="Visible" />
+									Visibility="{Binding Path=TextEnable, Mode=TwoWay, Converter={StaticResource BooleanToVisibilityConverter}}" />
 
 								<Button
 									Grid.Row="0"
@@ -412,8 +412,9 @@
 									HorizontalAlignment="Left"
 									Command="{Binding OpeningOriginalOrderCommand}"
 									Content="Оригинал заявки"
+									FontSize="18"
 									Style="{StaticResource ButtonStyle}"
-									Visibility="{Binding CurrentSingleOrder, Mode=OneWay, Converter={StaticResource GUIDToBooleanConverter}}"/>
+									Visibility="{Binding LoadedOriginalScan_CurrentSingleOrder, Mode=OneWay, Converter={StaticResource BooleanToVisibilityConverter}}" />
 								<!--  IsEnabled="{Binding Path=EnableButton_OpenDocument, Mode=OneWay}"  -->
 
 								<!--<TextBlock
@@ -985,7 +986,7 @@
 									HorizontalAlignment="Left"
 									Style="{StaticResource TextBLockStyle}"
 									Text="Оригинал заявки"
-									Visibility="Visible" />
+									Visibility="{Binding Path=TextEnable, Mode=TwoWay, Converter={StaticResource BooleanToVisibilityConverter}}" />
 
 								<Button
 									Grid.Row="0"
@@ -995,8 +996,9 @@
 									HorizontalAlignment="Left"
 									Command="{Binding OpeningOriginalOrderCommand}"
 									Content="Оригинал заявки"
-									Style="{StaticResource ButtonStyle}" 									
-									Visibility="{Binding CurrentTemporaryOrder, Mode=OneWay, Converter={StaticResource GUIDToBooleanConverter}}"/>
+									FontSize="18"
+									Style="{StaticResource ButtonStyle}"
+									Visibility="{Binding LoadedOriginalScan_CurrentTemporaryOrder, Mode=OneWay, Converter={StaticResource BooleanToVisibilityConverter}}" />
 								<!--  IsEnabled="{Binding Path=EnableButton_OpenDocument, Mode=OneWay}"  -->
 
 								<!--<TextBlock
