@@ -1135,8 +1135,8 @@ namespace SupRealClient.Views
 			CurrentItem.Position = VisitorsHelper.TestingPositionAnReturnCorrect(CurrentItem.Position);
 			string bufer_Position = CommonHelper.Check_Position(CurrentItem.Position);
 
-			bool error_Family = bufer_Family != Regex.Replace(CurrentItem.Family, @"\s+", " ");
-			bool error_Name = bufer_Name != Regex.Replace(CurrentItem.Name, @"\s+", " ");
+			bool error_Family = !string.IsNullOrEmpty(CurrentItem.Family) && bufer_Family != Regex.Replace(CurrentItem.Family, @"\s+", " ");
+			bool error_Name = !string.IsNullOrEmpty(CurrentItem.Name) && bufer_Name != Regex.Replace(CurrentItem.Name, @"\s+", " ");
 			bool error_Patronymic = !string.IsNullOrEmpty(CurrentItem.Patronymic) && bufer_Patronymic != Regex.Replace(CurrentItem.Patronymic, @"\s+", " ");
 			bool error_Position = !string.IsNullOrEmpty(CurrentItem.Position) && bufer_Position != Regex.Replace(CurrentItem.Position, @"\s+", " ");
 			
@@ -1182,43 +1182,43 @@ namespace SupRealClient.Views
 			if (string.IsNullOrWhiteSpace(CurrentItem.Position) || string.IsNullOrEmpty(CurrentItem.Position) || CurrentItem.Position == "")
 				CurrentItem.Position = "-";
 
-			if (Model.Ok())
-			{
-				if (view.ParentWindow is VisitorsListWindView)
-					view.CloseWindow(new CancelEventArgs());
-				else
-				{
-					bool flag_GoEnd = false;
-					int indexEditingVisit = -1;
-					if (model is EditVisitsModel)
-						indexEditingVisit = (model as EditVisitsModel).IndexEditingVisit;
-					else
-						flag_GoEnd = true;
+			//////if (Model.Ok())
+			//////{
+			//////	if (view.ParentWindow is VisitorsListWindView)
+			//////		view.CloseWindow(new CancelEventArgs());
+			//////	else
+			//////	{
+			//////		bool flag_GoEnd = false;
+			//////		int indexEditingVisit = -1;
+			//////		if (model is EditVisitsModel)
+			//////			indexEditingVisit = (model as EditVisitsModel).IndexEditingVisit;
+			//////		else
+			//////			flag_GoEnd = true;
 
 
-					if (!flag_GoEnd && indexEditingVisit >= 0)
-					{
-						Model = new VisitsModel(indexEditingVisit);
-						//CurrentItem = (Model as VisitsModel).GoingTo(indexEditingVisit);
-					}
-					else
-					{
-						if (flag_GoEnd)
-						{
-							Model = new VisitsModel(true);
-						}
-						else
-						{
-							Model = new VisitsModel();
-						}
-					}
-					//Model = new VisitsModel();
-				}
+			//////		if (!flag_GoEnd && indexEditingVisit >= 0)
+			//////		{
+			//////			Model = new VisitsModel(indexEditingVisit);
+			//////			//CurrentItem = (Model as VisitsModel).GoingTo(indexEditingVisit);
+			//////		}
+			//////		else
+			//////		{
+			//////			if (flag_GoEnd)
+			//////			{
+			//////				Model = new VisitsModel(true);
+			//////			}
+			//////			else
+			//////			{
+			//////				Model = new VisitsModel();
+			//////			}
+			//////		}
+			//////		//Model = new VisitsModel();
+			//////	}
 
-				IsRedactMode = false;
+			//////	IsRedactMode = false;
 
-			}
-			else
+			//////}
+			//////else
 			{
 				OnPropertyChanged(nameof(Name));
 				OnPropertyChanged(nameof(Family));
