@@ -78,6 +78,10 @@ namespace SupRealClient.ViewModels
 				AddUpdVisib = bidsModel.IsAddUpdVisib;
 				bidsModel.OrderType = CurrentOrderType;
 				bidsModel.OnRefresh += BidsModel_OnRefresh;
+
+				
+				OnPropertyChanged(nameof(LoadedOriginalScan_CurrentSingleOrder));
+				OnPropertyChanged(nameof(LoadedOriginalScan_CurrentTemporaryOrder));
 			}
 		}
 
@@ -89,6 +93,10 @@ namespace SupRealClient.ViewModels
 			{
 				selectedOrder = value;
 				OnPropertyChanged(nameof(SelectedOrder));
+
+
+				OnPropertyChanged(nameof(LoadedOriginalScan_CurrentSingleOrder));
+				OnPropertyChanged(nameof(LoadedOriginalScan_CurrentTemporaryOrder));
 			}
 		}
 		public OrderElement SelectedElement
@@ -99,6 +107,10 @@ namespace SupRealClient.ViewModels
 				BidsModel.SelectedElement = value;
 				IsSelectedElementExist = IsSelectedElementExist;
 				OnPropertyChanged();
+
+
+				OnPropertyChanged(nameof(LoadedOriginalScan_CurrentSingleOrder));
+				OnPropertyChanged(nameof(LoadedOriginalScan_CurrentTemporaryOrder));
 			}
 		}
 
@@ -118,6 +130,10 @@ namespace SupRealClient.ViewModels
 					BidsModel.SingleOrdersSet = value;
 					OnPropertyChanged();
 				}
+
+
+				OnPropertyChanged(nameof(LoadedOriginalScan_CurrentSingleOrder));
+				OnPropertyChanged(nameof(LoadedOriginalScan_CurrentTemporaryOrder));
 			}
 		}
 
@@ -131,8 +147,14 @@ namespace SupRealClient.ViewModels
 					BidsModel.CurrentSingleOrder = value;
 					OnPropertyChanged();
 				}
+				OnPropertyChanged(nameof(CurrentSingleOrder));
+				OnPropertyChanged(nameof(LoadedOriginalScan_CurrentSingleOrder));
 			}
 		}
+
+		public bool LoadedOriginalScan_CurrentSingleOrder => BidsModel?.CurrentSingleOrder?.ImageGuid != null && BidsModel?.CurrentSingleOrder?.ImageGuid != Guid.Empty;
+
+		public bool LoadedOriginalScan_CurrentTemporaryOrder => BidsModel?.CurrentTemporaryOrder?.ImageGuid != null && BidsModel?.CurrentTemporaryOrder?.ImageGuid != Guid.Empty;
 
 		public ObservableCollection<Order> TemporaryOrdersSet
 		{
@@ -144,6 +166,10 @@ namespace SupRealClient.ViewModels
 					BidsModel.TemporaryOrdersSet = value;
 					OnPropertyChanged();
 				}
+
+
+				OnPropertyChanged(nameof(LoadedOriginalScan_CurrentSingleOrder));
+				OnPropertyChanged(nameof(LoadedOriginalScan_CurrentTemporaryOrder));
 			}
 		}
 
@@ -157,6 +183,8 @@ namespace SupRealClient.ViewModels
 					BidsModel.CurrentTemporaryOrder = value;
 					OnPropertyChanged();
 				}
+				OnPropertyChanged(nameof(CurrentTemporaryOrder));
+				OnPropertyChanged(nameof(LoadedOriginalScan_CurrentTemporaryOrder));
 			}
 		}
 
@@ -170,6 +198,10 @@ namespace SupRealClient.ViewModels
 					BidsModel.VirtueOrdersSet = value;
 					OnPropertyChanged();
 				}
+
+
+				OnPropertyChanged(nameof(LoadedOriginalScan_CurrentSingleOrder));
+				OnPropertyChanged(nameof(LoadedOriginalScan_CurrentTemporaryOrder));
 			}
 		}
 
@@ -196,6 +228,10 @@ namespace SupRealClient.ViewModels
 					BidsModel.OrdersSet = value;
 					OnPropertyChanged();
 				}
+
+
+				OnPropertyChanged(nameof(LoadedOriginalScan_CurrentSingleOrder));
+				OnPropertyChanged(nameof(LoadedOriginalScan_CurrentTemporaryOrder));
 			}
 		}
 
@@ -209,6 +245,10 @@ namespace SupRealClient.ViewModels
 					BidsModel.CurrentOrder = value;
 					OnPropertyChanged(nameof(CurrentOrder));
 				}
+
+
+				OnPropertyChanged(nameof(LoadedOriginalScan_CurrentSingleOrder));
+				OnPropertyChanged(nameof(LoadedOriginalScan_CurrentTemporaryOrder));
 			}
 		}
 
@@ -228,6 +268,10 @@ namespace SupRealClient.ViewModels
 				}
 
 				OnPropertyChanged(nameof(IsNoneOrder));
+
+
+				OnPropertyChanged(nameof(LoadedOriginalScan_CurrentSingleOrder));
+				OnPropertyChanged(nameof(LoadedOriginalScan_CurrentTemporaryOrder));
 			}
 		}
 
@@ -243,6 +287,9 @@ namespace SupRealClient.ViewModels
 				}
 
 				OnPropertyChanged(nameof(IsTempOrder));
+
+				OnPropertyChanged(nameof(LoadedOriginalScan_CurrentSingleOrder));
+				OnPropertyChanged(nameof(LoadedOriginalScan_CurrentTemporaryOrder));
 			}
 		}
 
@@ -257,6 +304,9 @@ namespace SupRealClient.ViewModels
 					CurrentOrderType = OrderType.Single;
 				}
 				OnPropertyChanged(nameof(IsSingleOrder));
+
+				OnPropertyChanged(nameof(LoadedOriginalScan_CurrentSingleOrder));
+				OnPropertyChanged(nameof(LoadedOriginalScan_CurrentTemporaryOrder));
 			}
 		}
 
@@ -271,6 +321,9 @@ namespace SupRealClient.ViewModels
 					CurrentOrderType = OrderType.Virtue;
 				}
 				OnPropertyChanged(nameof(IsVirtueOrder));
+
+				OnPropertyChanged(nameof(LoadedOriginalScan_CurrentSingleOrder));
+				OnPropertyChanged(nameof(LoadedOriginalScan_CurrentTemporaryOrder));
 			}
 		}
 
@@ -295,9 +348,14 @@ namespace SupRealClient.ViewModels
 					OnPropertyChanged(nameof(IsTempOrder));
 					OnPropertyChanged(nameof(IsVirtueOrder));
 					OnPropertyChanged(nameof(IsNoneOrder));
+
+					OnPropertyChanged(nameof(LoadedOriginalScan_CurrentSingleOrder));
+					OnPropertyChanged(nameof(LoadedOriginalScan_CurrentTemporaryOrder));
 				}
 			}
 		}
+
+		
 
 
 		public bool IsCanAddRows
@@ -315,6 +373,10 @@ namespace SupRealClient.ViewModels
 			{
 				BidsModel.IsCanAddRows = value;
 				OnPropertyChanged();
+
+
+				OnPropertyChanged(nameof(LoadedOriginalScan_CurrentSingleOrder));
+				OnPropertyChanged(nameof(LoadedOriginalScan_CurrentTemporaryOrder));
 			}
 		}
 
@@ -325,6 +387,10 @@ namespace SupRealClient.ViewModels
 			{
 				BidsModel.IsAddUpdVisib = value;
 				OnPropertyChanged();
+
+
+				OnPropertyChanged(nameof(LoadedOriginalScan_CurrentSingleOrder));
+				OnPropertyChanged(nameof(LoadedOriginalScan_CurrentTemporaryOrder));
 			}
 		}
 
@@ -355,6 +421,12 @@ namespace SupRealClient.ViewModels
 		//public ICommand SignerTempCommand { get; set; } // посписывающий временную
 		public ICommand AgreerCommand { get; set; } // согласующий
 
+		public ICommand OpeningOriginalOrderCommand { get; set; } // Команда для открытия оригинала заявки
+		public ICommand LoadingOriginalOrderCommand { get; set; } // Команда для открытия окна диалога для загрузки оригинала заявки
+		public ICommand RemovingOriginalOrderScanCommand { get; set; } // Команда для удаления
+
+
+
 		private bool _textEnable = false;
 
 		/// <summary>
@@ -367,6 +439,10 @@ namespace SupRealClient.ViewModels
 			{
 				_textEnable = value;
 				OnPropertyChanged(nameof(TextEnable));
+
+
+				OnPropertyChanged(nameof(LoadedOriginalScan_CurrentSingleOrder));
+				OnPropertyChanged(nameof(LoadedOriginalScan_CurrentTemporaryOrder));
 			}
 		}
 
@@ -382,6 +458,10 @@ namespace SupRealClient.ViewModels
 			{
 				acceptButtonEnable = value;
 				OnPropertyChanged();
+
+
+				OnPropertyChanged(nameof(LoadedOriginalScan_CurrentSingleOrder));
+				OnPropertyChanged(nameof(LoadedOriginalScan_CurrentTemporaryOrder));
 			}
 		}
 
@@ -397,6 +477,10 @@ namespace SupRealClient.ViewModels
 			{
 				navigateButtonEnable = value;
 				OnPropertyChanged();
+
+
+				OnPropertyChanged(nameof(LoadedOriginalScan_CurrentSingleOrder));
+				OnPropertyChanged(nameof(LoadedOriginalScan_CurrentTemporaryOrder));
 			}
 		}
 
@@ -413,6 +497,9 @@ namespace SupRealClient.ViewModels
 				editButtonEnable = value;
 
 				OnPropertyChanged();
+
+				OnPropertyChanged(nameof(LoadedOriginalScan_CurrentSingleOrder));
+				OnPropertyChanged(nameof(LoadedOriginalScan_CurrentTemporaryOrder));
 			}
 		}
 
@@ -452,9 +539,16 @@ namespace SupRealClient.ViewModels
 			UpdatePersonCommand = new RelayCommand(arg => UpdatePerson());
 			DeletePersonCommand = new RelayCommand(arg => DeletePerson());
 
-			SignerCommand = new RelayCommand(arg => Signer());;
+			SignerCommand = new RelayCommand(arg => Signer());
 			AgreerCommand = new RelayCommand(arg => Agreer());
-			
+
+			OpeningOriginalOrderCommand = new RelayCommand(args => OpenOriginalOrderScan());
+			LoadingOriginalOrderCommand = new RelayCommand(args => LoadOriginalOrderScan());
+			RemovingOriginalOrderScanCommand = new RelayCommand(args => RemoveOriginalOrderScan());
+
+			//			public ICommand LoadingRoiginalBidCommand { get; set; } // Команда для открытия окна диалога для загрузки оригинала заявки
+			//public ICommand ClearCommand { get; set; } // Команда для удаления
+
 			CurrentOrderType = OrderType.Single;
 
 			TextEnable = false; // При открытии окна поля недоступны.
@@ -468,7 +562,10 @@ namespace SupRealClient.ViewModels
         {
             isToVirtue = true;
             New();
-        }
+
+			OnPropertyChanged(nameof(LoadedOriginalScan_CurrentSingleOrder));
+			OnPropertyChanged(nameof(LoadedOriginalScan_CurrentTemporaryOrder));
+		}
 
         public void SetToOrder(Order order)
         {
@@ -488,17 +585,122 @@ namespace SupRealClient.ViewModels
 			CurrentVirtueOrder = BidsModel.CurrentVirtueOrder;
 			CurrentVirtueOrder.OrderElements = BidsModel.CurrentVirtueOrder.OrderElements;
 
+
+			OnPropertyChanged(nameof(LoadedOriginalScan_CurrentSingleOrder));
+			OnPropertyChanged(nameof(LoadedOriginalScan_CurrentTemporaryOrder));
+
 			//UpdateVisitor = BidsModel.UpdateVisitor;
 		}
 
 		private void Agreer()
 		{
 			BidsModel.Agreer();
+
+			OnPropertyChanged(nameof(LoadedOriginalScan_CurrentSingleOrder));
+			OnPropertyChanged(nameof(LoadedOriginalScan_CurrentTemporaryOrder));
+		}
+
+		private void OpenOriginalOrderScan()
+		{
+			switch (CurrentOrderType)
+			{
+				case OrderType.None:
+					break;
+				case OrderType.Single:
+					if (CurrentSingleOrder != null && CurrentSingleOrder.ImageGuid != null && CurrentSingleOrder.ImageGuid != Guid.Empty)
+					{
+						DocumentImageView documentImageView = new DocumentImageView();
+						documentImageView.DocumentImageGuid = CurrentSingleOrder.ImageGuid;
+						documentImageView.ShowDialog();
+					}
+					break;
+				case OrderType.Temp:
+					if (CurrentTemporaryOrder != null && CurrentTemporaryOrder.ImageGuid != null && CurrentTemporaryOrder.ImageGuid != Guid.Empty)
+					{
+						DocumentImageView documentImageView = new DocumentImageView();
+						documentImageView.DocumentImageGuid = CurrentTemporaryOrder.ImageGuid;
+						documentImageView.ShowDialog();
+					}
+					break;
+				default: break;
+			}
+
+
+
+			OnPropertyChanged(nameof(LoadedOriginalScan_CurrentSingleOrder));
+			OnPropertyChanged(nameof(LoadedOriginalScan_CurrentTemporaryOrder));
+
+		}
+
+		private void LoadOriginalOrderScan()
+		{
+			SupRealClient.Common.Data.ImageOpenFileDialog imageOpenFileDialog = new SupRealClient.Common.Data.ImageOpenFileDialog();
+			if (imageOpenFileDialog.ShowDialog() == DialogResult.OK)
+			{
+				string path = imageOpenFileDialog.FileName;
+
+				switch (CurrentOrderType)
+				{
+					case OrderType.None:
+						break;
+					case OrderType.Single:
+						CurrentSingleOrder.ImageGuid = ImagesHelper.LoadImage(path);
+						break;
+					case OrderType.Temp:
+						CurrentTemporaryOrder.ImageGuid = ImagesHelper.LoadImage(path);
+						break;
+					default:break;
+				}
+
+				
+
+
+				//DataRow imageRow = ImagesWrapper.
+				//	CurrentTable().Table.NewRow();
+				//imageRow["f_image_alias"] = alias;
+				//imageRow["f_visitor_id"] = id;
+				//imageRow["f_image_type"] = ImageType.Document;
+				//imageRow["f_deleted"] = "N";
+				//images.Add(new KeyValuePair<Guid, ImageType>(
+				//	alias, ImageType.Document));
+
+
+				//PhotoSource = ImagesHelper.GetImagePath(photoAlias);
+				//OnModelPropertyChanged?.Invoke("PhotoSource");
+			}
+
+
+
+			OnPropertyChanged(nameof(LoadedOriginalScan_CurrentSingleOrder));
+			OnPropertyChanged(nameof(LoadedOriginalScan_CurrentTemporaryOrder));
+		}
+
+
+		private void RemoveOriginalOrderScan()
+		{
+			switch (CurrentOrderType)
+			{
+				case OrderType.None:
+					break;
+				case OrderType.Single:
+					CurrentSingleOrder.ImageGuid = Guid.Empty;
+					break;
+				case OrderType.Temp:
+					CurrentTemporaryOrder.ImageGuid = Guid.Empty;
+					break;
+				default: break;
+			}
+
+			OnPropertyChanged(nameof(LoadedOriginalScan_CurrentSingleOrder));
+			OnPropertyChanged(nameof(LoadedOriginalScan_CurrentTemporaryOrder));
 		}
 
 		private void Signer()
 		{
 			BidsModel.Signer();
+
+			OnPropertyChanged(nameof(LoadedOriginalScan_CurrentSingleOrder));
+			OnPropertyChanged(nameof(LoadedOriginalScan_CurrentTemporaryOrder));
 		}
 		/*
 		private void SignerTemp()
@@ -512,6 +714,9 @@ namespace SupRealClient.ViewModels
 		private void AddPerson()
 		{
 			BidsModel.AddPerson();
+
+			OnPropertyChanged(nameof(LoadedOriginalScan_CurrentSingleOrder));
+			OnPropertyChanged(nameof(LoadedOriginalScan_CurrentTemporaryOrder));
 		}
 
 		/// <summary>
@@ -521,6 +726,9 @@ namespace SupRealClient.ViewModels
 		{
 			BidsModel.UpdatePerson();
 			SelectedElement = BidsModel.SelectedElement;
+
+			OnPropertyChanged(nameof(LoadedOriginalScan_CurrentSingleOrder));
+			OnPropertyChanged(nameof(LoadedOriginalScan_CurrentTemporaryOrder));
 		}
 
 		/// <summary>
@@ -540,7 +748,10 @@ namespace SupRealClient.ViewModels
 				BidsModel.DeletePerson();
 				SelectedElement = BidsModel.SelectedElement;
 			}
-			
+
+			OnPropertyChanged(nameof(LoadedOriginalScan_CurrentSingleOrder));
+			OnPropertyChanged(nameof(LoadedOriginalScan_CurrentTemporaryOrder));
+
 		}
 
 		private void DoubleClickElement(object arg)
@@ -579,13 +790,16 @@ namespace SupRealClient.ViewModels
 				
 				ApplyCurrentSelectedOrder();
 			}
+
+			OnPropertyChanged(nameof(LoadedOriginalScan_CurrentSingleOrder));
+			OnPropertyChanged(nameof(LoadedOriginalScan_CurrentTemporaryOrder));
 		}
 
 		private void Begin()
 		{
 			BidsModel.Begin();
-
 			ChangeCurrentSelectedOrder();
+			
 		}
 
 		private void End()
@@ -612,11 +826,17 @@ namespace SupRealClient.ViewModels
 		private void Search()
 		{
 			BidsModel.Search();
+
+			OnPropertyChanged(nameof(LoadedOriginalScan_CurrentSingleOrder));
+			OnPropertyChanged(nameof(LoadedOriginalScan_CurrentTemporaryOrder));
 		}
 
 		private void Delay()
 		{
 			BidsModel.Delay();
+
+			OnPropertyChanged(nameof(LoadedOriginalScan_CurrentSingleOrder));
+			OnPropertyChanged(nameof(LoadedOriginalScan_CurrentTemporaryOrder));
 		}
 
 		/// <summary>
@@ -663,6 +883,9 @@ namespace SupRealClient.ViewModels
 			NavigateButtonEnable = false;
 			EditButtonEnable = false;
 			IsEnabled = false;
+
+			OnPropertyChanged(nameof(LoadedOriginalScan_CurrentSingleOrder));
+			OnPropertyChanged(nameof(LoadedOriginalScan_CurrentTemporaryOrder));
 		}
 
 		/// <summary>
@@ -682,6 +905,9 @@ namespace SupRealClient.ViewModels
 			NavigateButtonEnable = false;
 			EditButtonEnable = false;
 			IsEnabled = false;
+
+			OnPropertyChanged(nameof(LoadedOriginalScan_CurrentSingleOrder));
+			OnPropertyChanged(nameof(LoadedOriginalScan_CurrentTemporaryOrder));
 		}
 
 		private void Ok()
@@ -725,6 +951,9 @@ namespace SupRealClient.ViewModels
 			NavigateButtonEnable = true;
 			EditButtonEnable = true;
 			IsEnabled = true;
+
+			OnPropertyChanged(nameof(LoadedOriginalScan_CurrentSingleOrder));
+			OnPropertyChanged(nameof(LoadedOriginalScan_CurrentTemporaryOrder));
 		}
 
 		private void ApplyCurrentSelectedOrder()
@@ -750,6 +979,9 @@ namespace SupRealClient.ViewModels
 				default:
 					throw new ArgumentOutOfRangeException();
 			}
+
+			OnPropertyChanged(nameof(LoadedOriginalScan_CurrentSingleOrder));
+			OnPropertyChanged(nameof(LoadedOriginalScan_CurrentTemporaryOrder));
 		}
 
 		private void CheckOrderType()
@@ -777,6 +1009,11 @@ namespace SupRealClient.ViewModels
 						throw new ArgumentOutOfRangeException();
 				}
 			}
+
+
+
+			OnPropertyChanged(nameof(LoadedOriginalScan_CurrentSingleOrder));
+			OnPropertyChanged(nameof(LoadedOriginalScan_CurrentTemporaryOrder));
 		}
 
 		private void ChangeCurrentSelectedOrder()
@@ -800,6 +1037,9 @@ namespace SupRealClient.ViewModels
 				default:
 					throw new ArgumentOutOfRangeException();
 			}
+
+			OnPropertyChanged(nameof(LoadedOriginalScan_CurrentSingleOrder));
+			OnPropertyChanged(nameof(LoadedOriginalScan_CurrentTemporaryOrder));
 		}
 
 		private void ChangeCurrentSelectedOrder1()
@@ -823,6 +1063,9 @@ namespace SupRealClient.ViewModels
 				default:
 					throw new ArgumentOutOfRangeException();
 			}
+
+			OnPropertyChanged(nameof(LoadedOriginalScan_CurrentSingleOrder));
+			OnPropertyChanged(nameof(LoadedOriginalScan_CurrentTemporaryOrder));
 		}
 
 		private void Cancel()
@@ -842,11 +1085,17 @@ namespace SupRealClient.ViewModels
 			NavigateButtonEnable = true;
 			EditButtonEnable = true;
 			IsEnabled = true;
+
+			OnPropertyChanged(nameof(LoadedOriginalScan_CurrentSingleOrder));
+			OnPropertyChanged(nameof(LoadedOriginalScan_CurrentTemporaryOrder));
 		}
 
 		private void Further()
 		{
 			BidsModel.Further();
+
+			OnPropertyChanged(nameof(LoadedOriginalScan_CurrentSingleOrder));
+			OnPropertyChanged(nameof(LoadedOriginalScan_CurrentTemporaryOrder));
 		}
 
 		private void Reload()
@@ -860,6 +1109,9 @@ namespace SupRealClient.ViewModels
 				ChangeCurrentSelectedOrder1();
 			}
 			ApplyCurrentSelectedOrder();
+
+			OnPropertyChanged(nameof(LoadedOriginalScan_CurrentSingleOrder));
+			OnPropertyChanged(nameof(LoadedOriginalScan_CurrentTemporaryOrder));
 		}
 
 		private void ChooseVisitorForVirtue()
@@ -891,6 +1143,9 @@ namespace SupRealClient.ViewModels
 			currentOrderElement.IsCardIssued = result.IsCardIssue;
 
 			CurrentVirtueOrder = CurrentVirtueOrder;
+
+			OnPropertyChanged(nameof(LoadedOriginalScan_CurrentSingleOrder));
+			OnPropertyChanged(nameof(LoadedOriginalScan_CurrentTemporaryOrder));
 		}
 
 		private void ChooseOrganizationForVirtue()
@@ -919,6 +1174,9 @@ namespace SupRealClient.ViewModels
 			currentOrderElement.OrganizationId = result.Id;
 
 			CurrentVirtueOrder = CurrentVirtueOrder;
+
+			OnPropertyChanged(nameof(LoadedOriginalScan_CurrentSingleOrder));
+			OnPropertyChanged(nameof(LoadedOriginalScan_CurrentTemporaryOrder));
 		}
 
 		private void ChooseZonesForVirtue()
@@ -955,6 +1213,9 @@ namespace SupRealClient.ViewModels
 			currentOrderElement.ScheduleId = (wind.WindowResult as OrderElement).ScheduleId;
 
 			CurrentVirtueOrder = CurrentVirtueOrder;
+
+			OnPropertyChanged(nameof(LoadedOriginalScan_CurrentSingleOrder));
+			OnPropertyChanged(nameof(LoadedOriginalScan_CurrentTemporaryOrder));
 		}
 	}
 }

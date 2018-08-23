@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.ObjectModel;
 using System.Windows;
+using SupContract;
 using SupRealClient.EnumerationClasses;
 using SupRealClient.TabsSingleton;
 
@@ -31,10 +32,20 @@ namespace SupRealClient.Models
 			switch (OrderType)
 			{
 				case OrderType.Single:
-					OrdersWrapper.CurrentTable().UpdateRow(CurrentSingleOrder);
+					{
+						int? imageID = ImagesHelper.AddImage_ByImageID(CurrentSingleOrder.ImageId, CurrentSingleOrder.ImageGuid, ImageType.Document);
+						CurrentSingleOrder.ImageId = imageID != null ? imageID.Value : -1;
+
+						OrdersWrapper.CurrentTable().UpdateRow(CurrentSingleOrder);
+					}
 					break;
 				case OrderType.Temp:
-					OrdersWrapper.CurrentTable().UpdateRow(CurrentTemporaryOrder);
+					{
+						int? imageID = ImagesHelper.AddImage_ByImageID(CurrentTemporaryOrder.ImageId, CurrentTemporaryOrder.ImageGuid, ImageType.Document);
+						CurrentTemporaryOrder.ImageId = imageID != null ? imageID.Value : -1;
+						
+						OrdersWrapper.CurrentTable().UpdateRow(CurrentTemporaryOrder);
+					}
 					break;
 				case OrderType.Virtue:
 					OrdersWrapper.CurrentTable().UpdateRow(CurrentVirtueOrder);

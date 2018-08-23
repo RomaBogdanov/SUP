@@ -232,7 +232,8 @@ namespace SupRealClient.EnumerationClasses
 		/// Id принимающего
 		/// </summary>
 		public int CatcherId { get; set; } = 0; // Id провожающего
-		public int ImageId { get; set; } // id исходника скана заявки
+		public int ImageId { get; set; } = -1; // id исходника скана заявки
+		public Guid ImageGuid { get; set; } // Guid исходника скана заявки
 		public string Catcher { get; set; } = ""; // провожающий
 
 		public string Passes { get; set; } = "";
@@ -328,5 +329,10 @@ namespace SupRealClient.EnumerationClasses
 			new ObservableCollection<OrderElement>();
 
 		public string CardState { get; set; }
+
+		public void LoadImage()
+		{
+			ImageGuid = ImagesHelper.LoadImage_OrderImageID(ImageId);
+		}
     }
 }
