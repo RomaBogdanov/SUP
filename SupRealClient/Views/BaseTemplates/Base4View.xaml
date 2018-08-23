@@ -187,13 +187,13 @@
 			</Grid>
 		</Button>
 		<Button
-            Name="btnWatch"
+			Name="btnWatch"
 			Grid.Row="3"
 			Grid.Column="4"
 			Margin="1"
 			Command="{Binding Path=Watch}"
 			KeyDown="BaseTab_OnKeyDown"
-            PreviewMouseLeftButtonDown = "btnWatch_PreviewMouseLeftButtonDown"
+			PreviewMouseLeftButtonDown="btnWatch_PreviewMouseLeftButtonDown"
 			Style="{StaticResource ButtonStyle}"
 			Visibility="{Binding Path=WatchVisibility, Mode=OneTime}">
 			<Grid>
@@ -234,7 +234,7 @@
 					Text="Зоны..." />
 			</Grid>
 		</Button>
-        <Button
+		<Button
 			Grid.Row="4"
 			Grid.Column="4"
 			Margin="1"
@@ -242,20 +242,20 @@
 			KeyDown="BaseTab_OnKeyDown"
 			Style="{StaticResource ButtonStyle}"
 			Visibility="{Binding Path=SynonymsVisibility, Mode=OneTime}">
-            <Grid>
-                <Grid.ColumnDefinitions>                   
-                    <ColumnDefinition />
-                </Grid.ColumnDefinitions>
+			<Grid>
+				<Grid.ColumnDefinitions>
+					<ColumnDefinition />
+				</Grid.ColumnDefinitions>
 
-                <TextBlock
+				<TextBlock
 					Grid.Column="1"
 					FontSize="{Binding FontSize}"
 					Style="{StaticResource TextBLockDetailStyle}"
 					Text="Cинонимы" />
-            </Grid>
-        </Button>
+			</Grid>
+		</Button>
 
-        <Button
+		<Button
 			Grid.Row="4"
 			Grid.Column="0"
 			Margin="1"

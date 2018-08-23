@@ -1,4 +1,5 @@
 ﻿using SupContract;
+using SupRealClient.EnumerationClasses;
 
 /*
 ФАЙЛ СГЕНЕРИРОВАН АВТОМАТИЧЕСКИ

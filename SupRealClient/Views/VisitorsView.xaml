@@ -37,6 +37,7 @@
 			<BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter" />
 			<converters:InverseBooleanConverter x:Key="InverseBooleanConverter" />
 			<converters:BoolTo_BoldFontWeight x:Key="BoolToBoldFontWeight" />
+			<converters:OrganizationTypeToColorConverter x:Key="OrganizationTypeToColorConverter" />
 		</ResourceDictionary>
 	</mah:MetroWindow.Resources>
 
@@ -236,13 +237,15 @@
 				Grid.Column="1"
 				Margin="10,11"
 				VerticalAlignment="Stretch"
+				FontWeight="{Binding VisibleTabItem_Employee, Converter={StaticResource BoolToBoldFontWeight}}"
+				Foreground="{Binding VisibleTabItem_Employee, Converter={StaticResource OrganizationTypeToColorConverter}}"
 				IsEnabled="{Binding Path=TextEnable, Mode=TwoWay}"
 				IsReadOnly="True"
 				IsTabStop="False"
 				Style="{StaticResource TextBoxStyle}"
-				Text="{Binding Path=CurrentItem.Organization, Mode=TwoWay}"
-				FontWeight="{Binding VisibleTabItem_Employee, Converter={StaticResource BoolToBoldFontWeight}}"/>
-			<!--FontWeight="{Binding VisibleTabItem_Employee, Converter={StaticResource BoolToBoldFontWeight}}"-->
+				Text="{Binding Path=CurrentItem.Organization, Mode=TwoWay}" />
+			<!--  {Binding Path=CurrentItem.Organization, Mode=TwoWay}  -->
+			<!--  FontWeight="{Binding VisibleTabItem_Employee, Converter={StaticResource BoolToBoldFontWeight}}"  -->
 
 			<Button
 				x:Name="button_LoadOrganization"
@@ -685,19 +688,19 @@
 								<i:InvokeCommandAction Command="{Binding ReturnCommand}" />
 							</i:EventTrigger>
 						</i:Interaction.Triggers>
-                        <DataGrid.RowStyle>
-                            <Style TargetType="DataGridRow">
-                                <Style.Triggers>
-                                    <DataTrigger Binding="{Binding StateId}" Value="2">
-                                        <Setter Property="Background" Value="LightGray"></Setter>
-                                    </DataTrigger>
-                                    <DataTrigger Binding="{Binding StateId}" Value="4">
-                                        <Setter Property="Background" Value="Red"></Setter>
-                                    </DataTrigger>
-                                </Style.Triggers>
-                            </Style>
-                        </DataGrid.RowStyle>
-                        <DataGrid.Columns>
+						<DataGrid.RowStyle>
+							<Style TargetType="DataGridRow">
+								<Style.Triggers>
+									<DataTrigger Binding="{Binding StateId}" Value="2">
+										<Setter Property="Background" Value="LightGray" />
+									</DataTrigger>
+									<DataTrigger Binding="{Binding StateId}" Value="4">
+										<Setter Property="Background" Value="Red" />
+									</DataTrigger>
+								</Style.Triggers>
+							</Style>
+						</DataGrid.RowStyle>
+						<DataGrid.Columns>
 							<DataGridTextColumn Binding="{Binding Path=CardNumber}" Header="Пропуск" />
 							<DataGridTextColumn Binding="{Binding Path=From, StringFormat=dd.MM.yyyy}" Header="Когда выдан" />
 							<DataGridTextColumn Binding="{Binding Path=To, StringFormat=dd.MM.yyyy}" Header="Срок по" />
@@ -807,8 +810,8 @@
 									CommandParameter="Department"
 									Content="X"
 									IsEnabled="{Binding Path=ButtonEnable, Mode=TwoWay}"
-									Style="{StaticResource VisitorsSquareButtonStyle}"
-									IsTabStop="False" />
+									IsTabStop="False"
+									Style="{StaticResource VisitorsSquareButtonStyle}" />
 							</Grid>
 
 							<Grid Grid.Row="6" Grid.Column="0">
@@ -905,8 +908,8 @@
 										CommandParameter="Cabinet"
 										Content="X"
 										IsEnabled="{Binding Path=ButtonEnable, Mode=TwoWay}"
-										Style="{StaticResource VisitorsSquareButtonStyle}"
-										IsTabStop="False"/>
+										IsTabStop="False"
+										Style="{StaticResource VisitorsSquareButtonStyle}" />
 								</Grid>
 
 								<TextBlock
@@ -922,7 +925,7 @@
 									HorizontalAlignment="Right"
 									Background="#00000000"
 									Command="{Binding AddSignatureCommand}"
-									IsEnabled="{Binding Path=ButtonEnable, Mode=TwoWay}"									
+									IsEnabled="{Binding Path=ButtonEnable, Mode=TwoWay}"
 									IsTabStop="False"
 									ToolTip="Добавить подпись">
 									<Grid Width="180" Height="40">
@@ -953,7 +956,7 @@
 											BorderBrush="#FFCCCCCC"
 											BorderThickness="2"
 											Command="{Binding RemoveSignatureCommand}"
-											Content="X"											
+											Content="X"
 											IsTabStop="False"
 											ToolTip="Удалить подпись" />
 									</Grid>
@@ -1052,8 +1055,8 @@
 								Command="{Binding RemoveDocumentCommand}"
 								Content="X"
 								IsEnabled="{Binding Path=ButtonEnable, Mode=TwoWay}"
-								Style="{StaticResource VisitorsSquareButtonStyle}"
-								IsTabStop="False" />
+								IsTabStop="False"
+								Style="{StaticResource VisitorsSquareButtonStyle}" />
 						</Grid>
 					</Grid>
 				</mah:MetroTabItem>

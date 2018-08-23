@@ -227,7 +227,7 @@ namespace SupRealClient.ViewModels
             {
                 int parentId = (SelectedObject as Department).ParentId;
 
-                var readDeletedDeps = new ObservableCollection<Department>(
+                var depsForDeleting = new ObservableCollection<Department>(
                         from department in DepartmentWrapper
                             .CurrentTable().Table.AsEnumerable()
                         where department.Field<int>("f_dep_id") == this.currentDep 
@@ -239,11 +239,20 @@ namespace SupRealClient.ViewModels
                             Items = GetItems(department.Field<int>("f_dep_id"))
                         });
 
-                List<Department> deletedDeps = new List<Department>();
-                GetDeps(readDeletedDeps, deletedDeps);
-               
+                List<Department> deps = new List<Department>();
+                GetDeps(depsForDeleting, deps);
+
+                if ((from vis in VisitorsWrapper.CurrentTable().Table.AsEnumerable()
+                     where (deps.Find(dep => dep.Id == vis.Field<int>("f_dep_id")) != null) &&
+                     CommonHelper.NotDeleted(vis)
+                     select vis).Any())
+                {
+                    MessageBox.Show("Подразделение невозможно удалить, т.к. оно связано с посетителями!", "Информация", MessageBoxButton.OK, MessageBoxImage.Information);
+                    return;
+                }
+
                 DepartmentWrapper.CurrentTable().OnChanged -= Query;
-                foreach (var dep in deletedDeps)
+                foreach (var dep in deps)
                 {
                     DataRow row = DepartmentWrapper.CurrentTable().Table.Rows.Find(dep.Id);
                     row.BeginEdit();
