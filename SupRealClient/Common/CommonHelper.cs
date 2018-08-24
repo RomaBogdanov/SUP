@@ -86,7 +86,6 @@ namespace SupRealClient.Common
 				return "";
 			}
 
-
 			return match.Groups[1].Value;
 	    }
 
@@ -168,6 +167,7 @@ namespace SupRealClient.Common
 			{
 				return "";
 			}
+
 			return match.Groups[1].Value;
 		}
 
