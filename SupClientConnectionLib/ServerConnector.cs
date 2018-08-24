@@ -278,15 +278,30 @@ namespace SupClientConnectionLib
 
         public bool SetImages(Dictionary<Guid, byte[]> images)
         {
+            Logger.Log.Debug("Начало процедуры SetImages");
+            Attempt:
             try
             {
+                Logger.Log.Debug("Начало попытки загрузить изображение в базу данных");
                 this.tableService.SetImages(images, authorizer.GetInfo());
+
+                Logger.Log.Debug("Успешное окончание попытки загрузить изображение в базу данных");
             }
-            catch (TimeoutException)
+            catch (CommunicationObjectFaultedException err)
             {
+                Logger.Log.Error(err.GetType() + err.Message + err.StackTrace);
+
+                Logger.Log.Debug("Пытаемся перезапустить соединение");
+                ResetConnection();
+                goto Attempt;
             }
-            catch (Exception)
+            catch (TimeoutException err)
             {
+                Logger.Log.Error(err.GetType() + err.Message + err.StackTrace);
+            }
+            catch (Exception err)
+            {
+                Logger.Log.Error(err.GetType() + err.Message + err.StackTrace);
                 return false;
             }
             return true;
