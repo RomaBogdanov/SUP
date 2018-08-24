@@ -214,6 +214,7 @@
             </Grid>
         </Button>				
         <Button 
+            Name="btnHome"
             Grid.Row="4" 
             Grid.Column="0" 
             Margin="1" 
@@ -294,6 +295,7 @@
         </Button>
 
         <Button 
+            Name="btnEnd"
             Grid.Row="4" 
             Grid.Column="3" 
             Margin="1" 

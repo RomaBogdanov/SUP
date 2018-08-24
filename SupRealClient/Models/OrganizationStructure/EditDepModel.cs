@@ -44,6 +44,7 @@ namespace SupRealClient.Models.OrganizationStructure
 
                 var sameRow = rows.FirstOrDefault(
                       r =>
+                          r.Field<int>("f_dep_id") != departmentId &&
                           r.Field<string>("f_dep_name").ToUpper() == Description.ToUpper() &&
                           r.Field<int>("f_org_id") == organizationId);
 
