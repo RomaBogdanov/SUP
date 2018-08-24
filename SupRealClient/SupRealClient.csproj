@@ -223,7 +223,9 @@
     <Compile Include="ViewModels\CAndoverExportViewModel.cs" />
     <Compile Include="ViewModels\CCommonTextFieldsSelectViewModel.cs" />
     <Compile Include="ViewModels\ChangeStateViewModel.cs" />
+    <Compile Include="ViewModels\DeactivateCardsViewModel.cs" />
     <Compile Include="ViewModels\DocumentImageViewModel.cs" />
+    <Compile Include="ViewModels\IssuedCardsMessageBoxViewModel.cs" />
     <Compile Include="ViewModels\ListsViewModel\BaseListViewModel.cs" />
     <Compile Include="ViewModels\DocumentImagesViewModel.cs" />
     <Compile Include="ViewModels\FullNameViewModel.cs" />
@@ -506,8 +508,14 @@
     <Compile Include="Views\Visitor\AssigningZonesView.xaml.cs">
       <DependentUpon>AssigningZonesView.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Views\Visitor\DeactivateCardsView.xaml.cs">
+      <DependentUpon>DeactivateCardsView.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Views\Visitor\IssueBase.xaml.cs">
       <DependentUpon>IssueBase.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Visitor\IssuedCardsMessageBoxView.xaml.cs">
+      <DependentUpon>IssuedCardsMessageBoxView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\Visitor\ReturnBid.xaml.cs">
       <DependentUpon>ReturnBid.xaml</DependentUpon>
@@ -947,7 +955,15 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="Views\Visitor\DeactivateCardsView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Views\Visitor\IssueBase.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\Visitor\IssuedCardsMessageBoxView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
