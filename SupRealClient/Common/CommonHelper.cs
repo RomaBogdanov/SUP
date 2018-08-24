@@ -59,18 +59,17 @@ namespace SupRealClient.Common
 			    return "";
 			}
 
-		    var match = Regex.Match(text, @"^\s*([а-яёa-z|!|@|#|$|%|^|&|*|(|)|_|+|-|=|:|?|/|'|<|>|,|;|0-9]+(\s*([-–——]\s*)?[а-яёa-z|!|@|#|$|%|^|&|*|(|)|_|+|-|=|:|?|/|'|<|>|,|;|0-9]+)*)*\s*$", RegexOptions.IgnoreCase);
-		    if (!match.Success)
+			var match = Regex.Match(text, @"^\s*([\w|\W|\d]+(\s*([-–——-]\s*)?[\w|\W|\d]+)*)*\s*$", RegexOptions.IgnoreCase);
+			if (!match.Success)
 		    {
 			    return "";
 		    }
 
 		    var result = match.Groups[1].Value;
 		    result = Regex.Replace(result, @"\s+", " ");
-		    result = Regex.Replace(result, @"[!|@|#|$|%|^|&|*|(|)|_|+|-|=|:|?|/|'|<|>|,|;]", "");
-		    result = Regex.Replace(result, @"[0-9]*", "");
-			result = Regex.Replace(result, @"(\s*[-–——]\s*)+", "-");
-
+			result = Regex.Replace(result, @"[^\s-\w]", "");
+			result = Regex.Replace(result, @"[\d]*", "");
+			result = Regex.Replace(result, @"(\s*[-–——-]\s*)+", "-");
 
 
 
@@ -81,7 +80,7 @@ namespace SupRealClient.Common
 				return "";
 			}
 
-			match = Regex.Match(result, @"^\s*([а-яёa-z|!|@|#|$|%|^|&|*|(|)|_|+|-|=|:|?|/|'|<|>|,|;|0-9]+(\s*([-–——]\s*)?[а-яёa-z|!|@|#|$|%|^|&|*|(|)|_|+|-|=|:|?|/|'|<|>|,|;|0-9]+)*)*\s*$", RegexOptions.IgnoreCase);
+			match = Regex.Match(result, @"^\s*([\w|\W|\d]+(\s*([-–——-]\s*)?[\w|\W|\d]+)*)*\s*$", RegexOptions.IgnoreCase);
 			if (!match.Success)
 			{
 				return "";
@@ -98,7 +97,7 @@ namespace SupRealClient.Common
 				return "";
 			}
 			string str = "";
-			var match = Regex.Match(text, @"^\s*([\d|!|@|#|$|%|^|&|*|(|)|_|+|-|=|:|?|/|'|<|>|,|;|а-яёa-z]+(\s*([-–——]\s*)?[\d|!|@|#|$|%|^|&|*|(|)|_|+|-|=|:|?|/|'|<|>|,|;|а-яёa-z]+)*)\s*$", RegexOptions.IgnoreCase);
+			var match = Regex.Match(text, @"^\s*([\w|\W|\d]+(\s*([-–——-]\s*)?[\w|\W|\d]+)*)\s*$", RegexOptions.IgnoreCase);
 
 			if (!match.Success)
 		    {
@@ -107,10 +106,11 @@ namespace SupRealClient.Common
 
 		    var result = match.Groups[1].Value;
 		    result = Regex.Replace(result, @"\s+", " ");
-		    //result = Regex.Replace(result, @"\s*[-–——]\s*", " - ");
-		    result = Regex.Replace(result, @"[!|@|#|$|%|^|&|*|(|)|_|+|-|=|:|?|/|'|<|>|,|;]", "");
+			////result = Regex.Replace(result, @"\s*[-–——]\s*", " - ");
+			//result = Regex.Replace(result, @"[!|@|#|$|%|^|&|*|(|)|_|+|-|=|:|?|/|'|<|>|,|;]", "");
+			result = Regex.Replace(result, @"[^\s-\w]", "");
 			result = Regex.Replace(result, @"[а-яёa-z]", "");
-			result = Regex.Replace(result, @"(\s*[-–——]\s*)*", "-");
+			result = Regex.Replace(result, @"(\s*[-–——-]\s*)+", "-");
 
 
 
@@ -122,7 +122,7 @@ namespace SupRealClient.Common
 				return "";
 			}
 
-			match = Regex.Match(result, @"^\s*([\d|!|@|#|$|%|^|&|*|(|)|_|+|-|=|:|?|/|'|<|>|,|;|а-яёa-z]+(\s*([-–——]\s*)?[\d|!|@|#|$|%|^|&|*|(|)|_|+|-|=|:|?|/|'|<|>|,|;|а-яёa-z]+)*)\s*$", RegexOptions.IgnoreCase);
+			match = Regex.Match(text, @"^\s*([\w|\W|\d]+(\s*([-–——-]\s*)?[\w|\W|\d]+)*)\s*$", RegexOptions.IgnoreCase);
 
 			if (!match.Success)
 			{
@@ -140,7 +140,7 @@ namespace SupRealClient.Common
 				return "";
 			}
 
-			var match = Regex.Match(text, @"^\s*([\w|!|@|#|$|%|^|&|*|(|)|_|+|-|=|:|?|/|'|<|>|,|;]+(\s*([-–——]\s*)?[\w|!|@|#|$|%|^|&|*|(|)|_|+|-|=|:|?|/|'|<|>|,|;]+)*)\s*$", RegexOptions.IgnoreCase);
+			var match = Regex.Match(text, @"^\s*([\w|\W|\d]+(\s*([-–——-]\s*)?[\w|\W|\d]+)*)\s*$", RegexOptions.IgnoreCase);
 		    if (!match.Success)
 		    {
 			    return "";
@@ -148,9 +148,10 @@ namespace SupRealClient.Common
 
 		    var result = match.Groups[1].Value;
 		    result = Regex.Replace(result, @"\s+", " ");
-		    //result = Regex.Replace(result, @"\s*[-–——]\s*", " - ");
-		    result = Regex.Replace(result, @"[!|@|#|$|%|^|&|*|(|)|_|+|-|=|:|?|/|'|<|>|,|;]", "");
-			result = Regex.Replace(result, @"(\s*[-–——]\s*)*", "-");
+			////result = Regex.Replace(result, @"\s*[-–——]\s*", " - ");
+			//result = Regex.Replace(result, @"[!|@|#|$|%|^|&|*|(|)|_|+|-|=|:|?|/|'|<|>|,|;]", "");
+			result = Regex.Replace(result, @"[^\s-\w]", "");
+			result = Regex.Replace(result, @"(\s*[-–——-]\s*)+", "-");
 
 
 
@@ -161,7 +162,8 @@ namespace SupRealClient.Common
 				return "";
 			}
 
-			match = Regex.Match(result, @"^\s*([\w|!|@|#|$|%|^|&|*|(|)|_|+|-|=|:|?|/|'|<|>|,|;]+(\s*([-–——]\s*)?[\w|!|@|#|$|%|^|&|*|(|)|_|+|-|=|:|?|/|'|<|>|,|;]+)*)\s*$", RegexOptions.IgnoreCase);
+			//match = Regex.Match(result, @"^\s*([\w|!|@|#|$|%|^|&|*|(|)|_|+|-|=|:|?|/|'|<|>|,|;]+(\s*([-–——]\s*)?[\w|!|@|#|$|%|^|&|*|(|)|_|+|-|=|:|?|/|'|<|>|,|;]+)*)\s*$", RegexOptions.IgnoreCase);
+			match = Regex.Match(text, @"^\s*([\w|\W|\d]+(\s*([-–——-]\s*)?[\w|\W|\d]+)*)\s*$", RegexOptions.IgnoreCase);
 			if (!match.Success)
 			{
 				return "";
@@ -176,7 +178,8 @@ namespace SupRealClient.Common
 				return "-";
 			}
 
-			var match = Regex.Match(text, @"^\s*([\w|!|@|#|$|%|^|&|*|(|)|_|+|-|=|:|?|/|'|<|>|,|;]+(\s*([-–——]\s*)?[\w|!|@|#|$|%|^|&|*|(|)|_|+|-|=|:|?|/|'|<|>|,|;]+)*)\s*$", RegexOptions.IgnoreCase);
+			//var match = Regex.Match(text, @"^\s*([\w|!|@|#|$|%|^|&|*|(|)|_|+|-|=|:|?|/|'|<|>|,|;]+(\s*([-–——]\s*)?[\w|!|@|#|$|%|^|&|*|(|)|_|+|-|=|:|?|/|'|<|>|,|;]+)*)\s*$", RegexOptions.IgnoreCase);		
+			var match = Regex.Match(text, @"^\s*([\w|\W|\d]+(\s*([-–——-]\s*)?[\w|\W|\d]+)*)\s*$", RegexOptions.IgnoreCase);
 			if (!match.Success)
 			{
 				return "-";
@@ -185,8 +188,8 @@ namespace SupRealClient.Common
 			var result = match.Groups[1].Value;
 			result = Regex.Replace(result, @"\s+", "");
 			//result = Regex.Replace(result, @"\s*[-–——]\s*", "-");
-			result = Regex.Replace(result, @"[!|@|#|$|%|^|&|*|(|)|_|+|-|=|:|?|/|'|<|>|,|;]", "");
-			result = Regex.Replace(result, @"(\s*[-–——]\s*)*", "-");
+			result = Regex.Replace(result, @"[^\s-\w]", "");
+			result = Regex.Replace(result, @"(\s*[-–——-]\s*)+", "-");
 
 
 
@@ -199,7 +202,8 @@ namespace SupRealClient.Common
 				return "-";
 			}
 
-			match = Regex.Match(result, @"^\s*([\w|!|@|#|$|%|^|&|*|(|)|_|+|-|=|:|?|/|'|<|>|,|;]+(\s*([-–——]\s*)?[\w|!|@|#|$|%|^|&|*|(|)|_|+|-|=|:|?|/|'|<|>|,|;]+)*)\s*$", RegexOptions.IgnoreCase);
+			//match = Regex.Match(result, @"^\s*([\w|!|@|#|$|%|^|&|*|(|)|_|+|-|=|:|?|/|'|<|>|,|;]+(\s*([-–——]\s*)?[\w|!|@|#|$|%|^|&|*|(|)|_|+|-|=|:|?|/|'|<|>|,|;]+)*)\s*$", RegexOptions.IgnoreCase);
+			match = Regex.Match(text, @"^\s*([\w|\W|\d]+(\s*([-–——-]\s*)?[\w|\W|\d]+)*)\s*$", RegexOptions.IgnoreCase);
 			if (!match.Success)
 			{
 				return "-";
