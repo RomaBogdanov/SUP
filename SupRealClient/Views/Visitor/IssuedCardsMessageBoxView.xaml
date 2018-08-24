@@ -1,0 +1,100 @@
+﻿<mah:MetroWindow x:Class="SupRealClient.Views.Visitor.IssuedCardsMessageBoxView"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:mah="http://metro.mahapps.com/winfx/xaml/controls"
+        mc:Ignorable="d"
+        Title="Подтвердите свой выбор" 
+        Height="150" Width="500"
+        WindowStartupLocation="CenterScreen"
+        ResizeMode="NoResize">
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition/>
+            <RowDefinition Height="0.75*"/>
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition/>
+            <ColumnDefinition/>
+            <ColumnDefinition/>
+        </Grid.ColumnDefinitions>
+
+        <TextBlock
+            Grid.Row="0"
+            Grid.Column="0"
+            Grid.ColumnSpan="3"
+            Text="{Binding Path=Message, Mode=OneTime}"
+            FontSize="15"
+            Style="{StaticResource TextBLockStyle}"/>
+
+        <Button
+            Grid.Row="1"
+            Grid.Column="0"
+            Margin="2"
+            Command="{Binding Ok}"
+            Style="{StaticResource ButtonStyle}">
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition/>
+                    <ColumnDefinition/>
+                </Grid.ColumnDefinitions>
+
+                <Image
+                    Grid.Column="0"
+                    Source="../../Resources/Принять (2).ico"/>
+
+                <TextBlock
+                    Grid.Column="1"
+                    Text="Да"
+                    Style="{StaticResource TextBLockStyle}"/>
+            </Grid>
+        </Button>
+
+        <Button
+            Grid.Row="1"
+            Grid.Column="1"
+            Margin="2"
+            Command="{Binding Extradire}"
+            Style="{StaticResource ButtonStyle}">
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition/>
+                    <ColumnDefinition/>
+                </Grid.ColumnDefinitions>
+
+                <Image
+                    Grid.Column="0"
+                    Source="../../Resources/Выдать (2).ico"/>
+
+                <TextBlock
+                    Grid.Column="1"
+                    Text="Выдать"
+                    Style="{StaticResource TextBLockStyle}"/>
+            </Grid>
+        </Button>
+
+        <Button
+            Grid.Row="1"
+            Grid.Column="3"
+            Margin="2"
+            Command="{Binding Cancel}"
+            Style="{StaticResource ButtonStyle}">
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition/>
+                    <ColumnDefinition/>
+                </Grid.ColumnDefinitions>
+
+                <Image
+                    Grid.Column="0"
+                    Source="../../Resources/Отмена (2).ico"/>
+
+                <TextBlock
+                    Grid.Column="1"
+                    Text="Отмена"
+                    Style="{StaticResource TextBLockStyle}"/>
+            </Grid>
+        </Button>
+    </Grid>
+</mah:MetroWindow>

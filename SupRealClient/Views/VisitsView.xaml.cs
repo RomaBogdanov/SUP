@@ -1057,21 +1057,46 @@ namespace SupRealClient.Views
 		}
 
 
-		private void Extradite()
-		{
-			Base4ViewModel<Order> viewModel =
-			    new AddZoneViewModel
-			    {
-				    Model = new AddZoneModel(CurrentItem.Orders, CurrentItem.Id)
-			    };
-			var window = new AddZone
-			{
-				DataContext = viewModel
-			};
-			viewModel.Model.OnClose += window.Handling_OnClose;
-			window.ShowDialog();
-			Refresh();
-		}
+        private void Extradite()
+        {
+            if (CurrentItem.Cards.Any(c => c.StateId == (int)CardState.Lost))
+            {
+                MessageBox.Show("У посетителя есть утерянные пропуска", "Информация",
+                    MessageBoxButtons.OK, MessageBoxIcon.Information);
+            }
+            int result = 1;
+            if (CurrentItem.Cards.Any(c => c.StateId == (int)CardState.Issued))
+            {
+                var data = new IssuedCardsMessageBoxViewModel(CurrentItem.Family);
+                var view = new IssuedCardsMessageBoxView(data);
+                view.ShowDialog();
+                result = data.Result;
+            }
+            if (result == 0)
+            {
+                return;
+            }
+            if (result == 2)
+            {
+                var data = new DeactivateCardsViewModel(
+                    CurrentItem.Cards.Where(c => c.StateId == (int)CardState.Issued).ToList());
+                var view = new DeactivateCardsView(data);
+                view.ShowDialog();
+            }
+
+            Base4ViewModel<Order> viewModel =
+                new AddZoneViewModel
+                {
+                    Model = new AddZoneModel(CurrentItem.Orders, CurrentItem.Id)
+                };
+            var window = new AddZone
+            {
+                DataContext = viewModel
+            };
+            viewModel.Model.OnClose += window.Handling_OnClose;
+            window.ShowDialog();
+            Refresh();
+        }
 
 		private void Return()
 		{
