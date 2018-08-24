@@ -6,6 +6,7 @@ using System.Data;
 using SupRealClient.Common;
 using System.Collections.Generic;
 using System.Windows;
+using SupRealClient.Common.Interfaces;
 using SupRealClient.Models;
 using SupRealClient.EnumerationClasses;
 
@@ -70,7 +71,7 @@ namespace SupRealClient.Views
             //object res = ViewManager.Instance.OpenWindowModal("VisitorsView");
 
             //todo: создание нового view - костыль для открытия в режиме редактирования. Позже нужно удалить.
-            ViewManager.Instance.OpenWindow("VisitorsView", this.Parent ?? new SupRealClient.Views.VisitorsListWindView(null));                       
+            ViewManager.Instance.OpenWindow("VisitorsView", this.Parent ?? new VisitorsListWindView(null));                       
         }
 
         public override void Farther()
@@ -86,7 +87,7 @@ namespace SupRealClient.Views
                 if (this.Parent is VisitorsListWindView)
                 {
                     //todo: создание нового view - костыль для открытия в режиме редактирования. Позже нужно удалить.
-                    ViewManager.Instance.OpenWindow("VisitorsView", this.Parent ?? new SupRealClient.Views.VisitorsListWindView(null));
+                    ViewManager.Instance.OpenWindow("VisitorsView", this.Parent ?? new VisitorsListWindView(null));
                 }
                 else
                 {
@@ -113,11 +114,18 @@ namespace SupRealClient.Views
         {
             if (CurrentItem != null)
             {
-                if (this.Parent is VisitorsListWindView)
-                {
-                    //todo: создание нового view - костыль для открытия в режиме редактирования. Позже нужно удалить.
-                    ViewManager.Instance.OpenWindow("VisitorsView", this.Parent ?? new SupRealClient.Views.VisitorsListWindView(null));
-                }
+				//todo: создание нового view - костыль для открытия в режиме редактирования. Позже нужно удалить.
+	            IWindow parent = Parent;
+	            if (parent == null)
+	            {
+		            parent = new VisitorsListWindView(null);
+		            if (parent is VisitorsListWindView view)
+		            {
+			            view.base4.modeWatch = true;
+						view.base4.baseTab.CurrentItem = currentItem;
+		            }
+	            }
+                ViewManager.Instance.OpenWindow("VisitorsView", parent);
             }
         }
 

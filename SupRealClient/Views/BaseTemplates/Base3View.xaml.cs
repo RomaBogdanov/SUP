@@ -63,12 +63,12 @@ namespace SupRealClient.Views
         {
             if (Keyboard.Modifiers == ModifierKeys.None)
             {
-                if (e.Key == Key.Up)
+                if (e.Key == Key.Up && btnUp.IsEnabled)
                 {
                     btnUp.Command.Execute(null);
                     e.Handled = true;
                 }
-                else if (e.Key == Key.Down)
+                else if (e.Key == Key.Down && btnDown.IsEnabled)
                 {
                     btnDown.Command.Execute(null);
                     e.Handled = true;
@@ -84,14 +84,17 @@ namespace SupRealClient.Views
                 else if (e.Key == Key.Insert)
                 {
                     ((ISuperBaseViewModel)DataContext).Add.Execute(null);
+                    e.Handled = true;
                 }
-                else if (e.Key == Key.Home)
+                else if (e.Key == Key.Home && btnHome.IsEnabled)
                 {
-                    ((ISuperBaseViewModel)DataContext).Begin.Execute(null);
+                    btnHome.Command.Execute(null);
+                    e.Handled = true;
                 }
-                else if (e.Key == Key.End)
+                else if (e.Key == Key.End && btnEnd.IsEnabled)
                 {
-                    ((ISuperBaseViewModel)DataContext).End.Execute(null);
+                    btnEnd.Command.Execute(null);
+                    e.Handled = true;
                 }
                 else if (e.Key == Key.Space)
                 {

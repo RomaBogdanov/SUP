@@ -8,7 +8,7 @@ namespace SupRealClient.Common
 {
     public static class CommonHelper
     {
-        public static string BoolToString(bool value)
+		public static string BoolToString(bool value)
         {
             return value ? "Y" : "N";
         }
@@ -59,7 +59,7 @@ namespace SupRealClient.Common
 			    return "";
 			}
 
-		    var match = Regex.Match(text, @"^\s*([а-яёa-z|!|@|#|$|%|^|&|*|(|)|_|+|-|=|:|?|/|'|<|>|0-9]+(\s*([-–——]\s*)?[а-яёa-z|!|@|#|$|%|^|&|*|(|)|_|+|-|=|:|?|/|'|<|>|0-9]+)*)*\s*$", RegexOptions.IgnoreCase);
+		    var match = Regex.Match(text, @"^\s*([а-яёa-z|!|@|#|$|%|^|&|*|(|)|_|+|-|=|:|?|/|'|<|>|,|;|0-9]+(\s*([-–——]\s*)?[а-яёa-z|!|@|#|$|%|^|&|*|(|)|_|+|-|=|:|?|/|'|<|>|,|;|0-9]+)*)*\s*$", RegexOptions.IgnoreCase);
 		    if (!match.Success)
 		    {
 			    return "";
@@ -67,10 +67,28 @@ namespace SupRealClient.Common
 
 		    var result = match.Groups[1].Value;
 		    result = Regex.Replace(result, @"\s+", " ");
-		    result = Regex.Replace(result, @"\s*[-–——]\s*", "-");
-		    result = Regex.Replace(result, @"[!|@|#|$|%|^|&|*|(|)|_|+|-|=|:|?|/|'|<|>]", "");
+		    result = Regex.Replace(result, @"[!|@|#|$|%|^|&|*|(|)|_|+|-|=|:|?|/|'|<|>|,|;]", "");
 		    result = Regex.Replace(result, @"[0-9]*", "");
-			return result;
+			result = Regex.Replace(result, @"(\s*[-–——]\s*)+", "-");
+
+
+
+
+
+
+			if (string.IsNullOrEmpty(result))
+			{
+				return "";
+			}
+
+			match = Regex.Match(result, @"^\s*([а-яёa-z|!|@|#|$|%|^|&|*|(|)|_|+|-|=|:|?|/|'|<|>|,|;|0-9]+(\s*([-–——]\s*)?[а-яёa-z|!|@|#|$|%|^|&|*|(|)|_|+|-|=|:|?|/|'|<|>|,|;|0-9]+)*)*\s*$", RegexOptions.IgnoreCase);
+			if (!match.Success)
+			{
+				return "";
+			}
+
+
+			return match.Groups[1].Value;
 	    }
 
 	    public static string Check_NumberDocument(string text)
@@ -79,8 +97,8 @@ namespace SupRealClient.Common
 			{
 				return "";
 			}
-
-			var match = Regex.Match(text, @"^\s*([\d|!|@|#|$|%|^|&|*|(|)|_|+|-|=|:|?|/|'|<|>|а-яёa-z]+(\s*([-–——]\s*)?[\d|!|@|#|$|%|^|&|*|(|)|_|+|-|=|:|?|/|'|<|>|а-яёa-z]+)*)\s*$", RegexOptions.IgnoreCase);
+			string str = "";
+			var match = Regex.Match(text, @"^\s*([\d|!|@|#|$|%|^|&|*|(|)|_|+|-|=|:|?|/|'|<|>|,|;|а-яёa-z]+(\s*([-–——]\s*)?[\d|!|@|#|$|%|^|&|*|(|)|_|+|-|=|:|?|/|'|<|>|,|;|а-яёa-z]+)*)\s*$", RegexOptions.IgnoreCase);
 
 			if (!match.Success)
 		    {
@@ -89,10 +107,29 @@ namespace SupRealClient.Common
 
 		    var result = match.Groups[1].Value;
 		    result = Regex.Replace(result, @"\s+", " ");
-		    result = Regex.Replace(result, @"\s*[-–——]\s*", " - ");
-		    result = Regex.Replace(result, @"[!|@|#|$|%|^|&|*|(|)|_|+|-|=|:|?|/|'|<|>]", "");
+		    //result = Regex.Replace(result, @"\s*[-–——]\s*", " - ");
+		    result = Regex.Replace(result, @"[!|@|#|$|%|^|&|*|(|)|_|+|-|=|:|?|/|'|<|>|,|;]", "");
 			result = Regex.Replace(result, @"[а-яёa-z]", "");
-			return result;
+			result = Regex.Replace(result, @"(\s*[-–——]\s*)*", "-");
+
+
+
+
+
+
+			if (string.IsNullOrEmpty(result))
+			{
+				return "";
+			}
+
+			match = Regex.Match(result, @"^\s*([\d|!|@|#|$|%|^|&|*|(|)|_|+|-|=|:|?|/|'|<|>|,|;|а-яёa-z]+(\s*([-–——]\s*)?[\d|!|@|#|$|%|^|&|*|(|)|_|+|-|=|:|?|/|'|<|>|,|;|а-яёa-z]+)*)\s*$", RegexOptions.IgnoreCase);
+
+			if (!match.Success)
+			{
+				return "";
+			}
+
+			return  match.Groups[1].Value;
 
 		}
 
@@ -103,7 +140,7 @@ namespace SupRealClient.Common
 				return "";
 			}
 
-			var match = Regex.Match(text, @"^\s*([\w|!|@|#|$|%|^|&|*|(|)|_|+|-|=|:|?|/|'|<|>]+(\s*([-–——]\s*)?[\w|!|@|#|$|%|^|&|*|(|)|_|+|-|=|:|?|/|'|<|>]+)*)\s*$", RegexOptions.IgnoreCase);
+			var match = Regex.Match(text, @"^\s*([\w|!|@|#|$|%|^|&|*|(|)|_|+|-|=|:|?|/|'|<|>|,|;]+(\s*([-–——]\s*)?[\w|!|@|#|$|%|^|&|*|(|)|_|+|-|=|:|?|/|'|<|>|,|;]+)*)\s*$", RegexOptions.IgnoreCase);
 		    if (!match.Success)
 		    {
 			    return "";
@@ -111,9 +148,25 @@ namespace SupRealClient.Common
 
 		    var result = match.Groups[1].Value;
 		    result = Regex.Replace(result, @"\s+", " ");
-		    result = Regex.Replace(result, @"\s*[-–——]\s*", " - ");
-		    result = Regex.Replace(result, @"[!|@|#|$|%|^|&|*|(|)|_|+|-|=|:|?|/|'|<|>]", "");
-			return result;
+		    //result = Regex.Replace(result, @"\s*[-–——]\s*", " - ");
+		    result = Regex.Replace(result, @"[!|@|#|$|%|^|&|*|(|)|_|+|-|=|:|?|/|'|<|>|,|;]", "");
+			result = Regex.Replace(result, @"(\s*[-–——]\s*)*", "-");
+
+
+
+
+
+			if (string.IsNullOrEmpty(result))
+			{
+				return "";
+			}
+
+			match = Regex.Match(result, @"^\s*([\w|!|@|#|$|%|^|&|*|(|)|_|+|-|=|:|?|/|'|<|>|,|;]+(\s*([-–——]\s*)?[\w|!|@|#|$|%|^|&|*|(|)|_|+|-|=|:|?|/|'|<|>|,|;]+)*)\s*$", RegexOptions.IgnoreCase);
+			if (!match.Success)
+			{
+				return "";
+			}
+			return match.Groups[1].Value;
 		}
 
 		public static string Check_Position(string text)
@@ -123,7 +176,7 @@ namespace SupRealClient.Common
 				return "-";
 			}
 
-			var match = Regex.Match(text, @"^\s*([\w|!|@|#|$|%|^|&|*|(|)|_|+|-|=|:|?|/|'|<|>]+(\s*([-–——]\s*)?[\w|!|@|#|$|%|^|&|*|(|)|_|+|-|=|:|?|/|'|<|>]+)*)\s*$", RegexOptions.IgnoreCase);
+			var match = Regex.Match(text, @"^\s*([\w|!|@|#|$|%|^|&|*|(|)|_|+|-|=|:|?|/|'|<|>|,|;]+(\s*([-–——]\s*)?[\w|!|@|#|$|%|^|&|*|(|)|_|+|-|=|:|?|/|'|<|>|,|;]+)*)\s*$", RegexOptions.IgnoreCase);
 			if (!match.Success)
 			{
 				return "-";
@@ -131,15 +184,28 @@ namespace SupRealClient.Common
 
 			var result = match.Groups[1].Value;
 			result = Regex.Replace(result, @"\s+", "");
-			result = Regex.Replace(result, @"\s*[-–——]\s*", "-");
-			result = Regex.Replace(result, @"[!|@|#|$|%|^|&|*|(|)|_|+|-|=|:|?|/|'|<|>]", "");
+			//result = Regex.Replace(result, @"\s*[-–——]\s*", "-");
+			result = Regex.Replace(result, @"[!|@|#|$|%|^|&|*|(|)|_|+|-|=|:|?|/|'|<|>|,|;]", "");
+			result = Regex.Replace(result, @"(\s*[-–——]\s*)*", "-");
 
-			if (string.IsNullOrEmpty(text))
+
+
+
+
+
+
+			if (string.IsNullOrEmpty(result))
 			{
 				return "-";
 			}
 
-			return result;
+			match = Regex.Match(result, @"^\s*([\w|!|@|#|$|%|^|&|*|(|)|_|+|-|=|:|?|/|'|<|>|,|;]+(\s*([-–——]\s*)?[\w|!|@|#|$|%|^|&|*|(|)|_|+|-|=|:|?|/|'|<|>|,|;]+)*)\s*$", RegexOptions.IgnoreCase);
+			if (!match.Success)
+			{
+				return "-";
+			}
+
+			return match.Groups[1].Value;
 		}
 
 		/// <summary>

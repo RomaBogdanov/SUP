@@ -678,7 +678,18 @@ namespace SupRealClient.ViewModels
 
 		private void RemoveOriginalOrderScan()
 		{
-			CurrentTemporaryOrder.ImageGuid = Guid.Empty;
+			switch (CurrentOrderType)
+			{
+				case OrderType.None:
+					break;
+				case OrderType.Single:
+					CurrentSingleOrder.ImageGuid = Guid.Empty;
+					break;
+				case OrderType.Temp:
+					CurrentTemporaryOrder.ImageGuid = Guid.Empty;
+					break;
+				default: break;
+			}
 
 			OnPropertyChanged(nameof(LoadedOriginalScan_CurrentSingleOrder));
 			OnPropertyChanged(nameof(LoadedOriginalScan_CurrentTemporaryOrder));

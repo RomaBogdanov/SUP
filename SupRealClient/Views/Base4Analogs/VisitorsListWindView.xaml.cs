@@ -13,25 +13,23 @@ namespace SupRealClient.Views
 		/// Автоматический конструктор, сам создает viewmodel и model
 		/// </summary>
 		/// <param name="okVisibility"></param>
-        public VisitorsListWindView(Visibility okVisibility)
-        {
-            InitializeComponent();
-            var viewModel = new Base4ViewModel<EnumerationClasses.Visitor>
-            {
-                OkCaption = "OK",
-                Parent = this,
-                Model = new VisitorsListModel<EnumerationClasses.Visitor>()
-            };
-            viewModel.Model.OnClose += Handling_OnClose;
-            base4.DataContext = viewModel;
-            AfterInitialize();
-            ((Base4ViewModel<EnumerationClasses.Visitor>)base4.DataContext)
-                .OkVisibility = okVisibility;
-            ((Base4ViewModel<EnumerationClasses.Visitor>)base4.DataContext)
-                .SynonymsVisibility = Visibility.Visible;
-            ((Base4ViewModel<EnumerationClasses.Visitor>)base4.DataContext)
-                .ScrollCurrentItem = base4.ScrollIntoViewCurrentItem;
-        }
+		public VisitorsListWindView(Visibility okVisibility)
+		{
+			InitializeComponent();
+			var viewModel = new Base4ViewModel<EnumerationClasses.Visitor>
+			{
+				OkCaption = "OK",
+				Parent = this,
+				Model = new VisitorsListModel<EnumerationClasses.Visitor>()
+			};
+			viewModel.Model.OnClose += Handling_OnClose;
+			base4.DataContext = viewModel;
+			AfterInitialize();
+
+			// Пожалуйта, пишите общие настройки viewModel окна списка посетителей в функцию, указанную ниже -
+			// это поможет поддерживать оба конструктура одновременно, без необходимости подтягивать один под другой при изменениях
+			SetupSettings(base4.DataContext,okVisibility);
+		}
 
 		/// <summary>
 		/// Стандартный конструктор
@@ -40,11 +38,28 @@ namespace SupRealClient.Views
 		{
 			if (dataContext is Base4ViewModel<EnumerationClasses.Visitor> base4ViewModel)
 			{
-				base4ViewModel.Parent = this;
+				SetupSettings(dataContext,Visibility.Visible);
 			}
-		    InitializeComponent();
+
+			InitializeComponent();
 			base4.DataContext = dataContext;
 			AfterInitialize();
+		}
+
+		/// <summary>
+		/// Общие настройки 
+		/// </summary>
+		/// <param name="dataContext"></param>
+		/// <param name="okVisibility"></param>
+	    private void SetupSettings(object dataContext, Visibility okVisibility)
+	    {
+		    if(dataContext is Base4ViewModel<EnumerationClasses.Visitor> base4ViewModel)
+		    {
+			    base4ViewModel.OkVisibility = okVisibility;
+			    base4ViewModel.Parent = this;
+			    base4ViewModel.SynonymsVisibility = Visibility.Visible;
+			    base4ViewModel.ScrollCurrentItem = base4ViewModel.ScrollCurrentItem;
+		    }
 		}
 
 		partial void CreateColumns()

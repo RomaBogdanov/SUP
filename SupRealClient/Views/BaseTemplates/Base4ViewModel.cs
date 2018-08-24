@@ -421,7 +421,7 @@ namespace SupRealClient.Views
         {
             if (Parent is Window && Set.Count>0)
             {
-                (Parent as Window).Title = memTilte + string.Format("   ({0}/{1})", Set.Count, SelectedIndex + 1);
+                (Parent as Window).Title = memTilte + string.Format("   ({0}/{1})", SelectedIndex + 1, Set.Count);
             }
         }
     }
