@@ -282,12 +282,7 @@ namespace SupRealClient.Views
                                                                     r.Id == currentId);
             }
         }
-
-        public override bool Remove()
-        {
-            return true;
-        }
-
+        
         void Handling_OnClose(object result)
         {
             var wind = Parent as IWindow;
