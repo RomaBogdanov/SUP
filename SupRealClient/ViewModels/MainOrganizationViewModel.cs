@@ -127,7 +127,9 @@ namespace SupRealClient.ViewModels
             Query();
             AddDepartmentCommand = new RelayCommand(AddDepartment(), (parameter) => DepartmentEnabled);
             EditCommand = new RelayCommand(Edit(), (parameter) => SelectedObject is Department ? true : false);
-            RemoveCommand = new RelayCommand(Remove(), (parameter) => SelectedObject is Department ? true : false);
+            RemoveCommand = new RelayCommand(Remove(), (parameter) => 
+                                                              SelectedObject is Department || 
+                                                              SelectedObject is Organization ? true : false);
             FartherCommand = new RelayCommand(Next(), (parameter) => searchResult?.Count>0 ? true : false );
             OkCommand = new RelayCommand(Ok());
             CancelCommand = new RelayCommand(Cancel());
@@ -225,19 +227,20 @@ namespace SupRealClient.ViewModels
                 MessageBoxButton.YesNo, MessageBoxImage.Question) ==
                 MessageBoxResult.Yes)
             {
-                int parentId = (SelectedObject as Department).ParentId;
 
-                var depsForDeleting = new ObservableCollection<Department>(
-                        from department in DepartmentWrapper
-                            .CurrentTable().Table.AsEnumerable()
-                        where department.Field<int>("f_dep_id") == this.currentDep 
-                        select new Department
-                        {
-                            Id = department.Field<int>("f_dep_id"),
-                            ParentId = department.Field<int>("f_parent_id"),
-                            Description = department.Field<string>("f_dep_name"),
-                            Items = GetItems(department.Field<int>("f_dep_id"))
-                        });
+                var depsForDeleting = new ObservableCollection<Department>();
+                int parentId = -1;
+
+                if (SelectedObject is Organization)
+                {
+                    depsForDeleting = (SelectedObject as Organization).Items;
+                }
+                else if (SelectedObject is Department)
+                {
+                    var selDep = SelectedObject as Department;
+                    parentId = selDep.ParentId;
+                    depsForDeleting.Add(selDep);
+                }
 
                 List<Department> deps = new List<Department>();
                 GetDeps(depsForDeleting, deps);
@@ -247,10 +250,10 @@ namespace SupRealClient.ViewModels
                      CommonHelper.NotDeleted(vis)
                      select vis).Any())
                 {
-                    MessageBox.Show("Подразделение невозможно удалить, т.к. оно связано с посетителями!", "Информация", MessageBoxButton.OK, MessageBoxImage.Information);
+                    MessageBox.Show(@"Удаление невозможно, т.к. есть посетитель, который связан с департаментом!", "Информация", MessageBoxButton.OK, MessageBoxImage.Information);
                     return;
                 }
-
+                
                 DepartmentWrapper.CurrentTable().OnChanged -= Query;
                 foreach (var dep in deps)
                 {
@@ -262,7 +265,18 @@ namespace SupRealClient.ViewModels
                     row["f_rec_operator"] = Authorizer.AppAuthorizer.Id;
                     row["f_deleted"] = CommonHelper.BoolToString(true);                   
                 }           
-                DepartmentWrapper.CurrentTable().Table.AcceptChanges();              
+                DepartmentWrapper.CurrentTable().Table.AcceptChanges();
+
+                if (SelectedObject is Organization)
+                {
+                    DataRow row = OrganizationsWrapper.CurrentTable().Table.Rows.Find((SelectedObject as Organization).Id);
+                    row.BeginEdit();
+                    row["f_is_basic"] = "N";
+                    row["f_rec_date"] = DateTime.Now;
+                    row["f_rec_operator"] = Authorizer.AppAuthorizer.Id;
+                    row.EndEdit();
+                }
+
                 DepartmentWrapper.CurrentTable().OnChanged += Query;
                 Query();
                                
@@ -448,7 +462,16 @@ namespace SupRealClient.ViewModels
                 }
                 dep.IsSelected = true;
                 SelectedObject = dep;
-            }           
+            }
+            else
+            {
+                if (Organizations.Count > 0)
+                {                    
+                    Organizations[0].IsExpanded = true;
+                    Organizations[0].IsSelected = true;
+                    SelectedObject = Organizations[0];
+                }
+            }
         }
     }
 }
