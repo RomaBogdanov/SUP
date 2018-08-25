@@ -6,7 +6,7 @@
         xmlns:local="clr-namespace:SupRealClient.Views"
         xmlns:mah="http://metro.mahapps.com/winfx/xaml/controls"
         mc:Ignorable="d"
-        Title="{Binding Path=Title, Mode=OneTime}" Height="140" Width="400"
+        Title="{Binding Path=Title, Mode=OneTime}" Height="200" Width="400"
         ResizeMode="NoResize"
         WindowStartupLocation="CenterScreen"
         >
@@ -18,6 +18,8 @@
     
     <Grid>
         <Grid.RowDefinitions>
+            <RowDefinition Height="30"/>
+            <RowDefinition Height="30"/>
             <RowDefinition Height="30"/>
             <RowDefinition Height="30"/>
             <RowDefinition/>
@@ -36,11 +38,29 @@
             FontSize="{Binding FontSize}"
             HorizontalAlignment="Left"
             Style="{StaticResource TextBLockStyle}"
-            Text="Введите имя:"/>
+            Text="Полное имя:"/>
         
         <TextBox
-            x:Name="tbName"
+            x:Name="tbFullName"
             Grid.Row="1"
+            Grid.ColumnSpan="4"
+            Margin="2"
+            FontSize="{Binding FontSize}"
+            Style="{StaticResource TextBoxStyle}"
+            PreviewKeyUp="UIElement_OnPreviewKeyUp"
+            Text="{Binding FullDescription, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
+
+        <TextBlock 
+            Grid.Row="2"
+            Grid.ColumnSpan="4"
+            FontSize="{Binding FontSize}"
+            HorizontalAlignment="Left"
+            Style="{StaticResource TextBLockStyle}"
+            Text="Короткое имя:"/>
+
+        <TextBox
+            x:Name="tbShortName"
+            Grid.Row="3"
             Grid.ColumnSpan="4"
             Margin="2"
             FontSize="{Binding FontSize}"
@@ -49,7 +69,7 @@
             Text="{Binding Description, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
 
         <Button
-            Grid.Row="2"
+            Grid.Row="4"
             Grid.Column="0"
             Grid.ColumnSpan="2"
             Margin="2"
@@ -74,7 +94,7 @@
         </Button>
 
         <Button
-            Grid.Row="2"
+            Grid.Row="4"
             Grid.Column="2"
             Grid.ColumnSpan="2"
             Margin="2"

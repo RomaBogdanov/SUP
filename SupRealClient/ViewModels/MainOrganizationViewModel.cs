@@ -21,6 +21,7 @@ namespace SupRealClient.ViewModels
         int parentDep;
         CurrentLevel currentLevel = CurrentLevel.None;
         string description = "";
+        string fullDescription = "";
         private string searchingText;
         private List<ModelBase> searchResult = new List<ModelBase>();
 
@@ -68,6 +69,7 @@ namespace SupRealClient.ViewModels
                         parentDep = (int)DepartmentWrapper.CurrentTable().Table
                             .Rows.Find(currentDep)["f_parent_id"];
                         description = ((Department)value).Description;
+                        fullDescription = ((Department)value).FullDescription;
                         currentOrg = (int)DepartmentWrapper.CurrentTable().Table
                             .Rows.Find(currentDep)["f_org_id"];
                         currentLevel = CurrentLevel.Department;
@@ -77,7 +79,7 @@ namespace SupRealClient.ViewModels
                         DepartmentEnabled = true;
                         currentOrg = ((Organization)value).Id;
                         currentDep = -1;
-                        description = ((Organization)value).Description;
+                        description = fullDescription = ((Organization)value).Description;
                         currentLevel = CurrentLevel.Organization;                       
                     }                    
                     OnPropertyChanged();
@@ -211,6 +213,7 @@ namespace SupRealClient.ViewModels
                         Title = @"Отредактировать подразделение"
                     };
                     viewModel1.Description = description;
+                    viewModel1.FullDescription = fullDescription;
                     var window1 = new AddDepartmentView { DataContext = viewModel1 };
                     viewModel1.Model.OnClose += window1.Close;
                     window1.ShowDialog();
@@ -332,7 +335,8 @@ namespace SupRealClient.ViewModels
                         {
                             Id = department.Field<int>("f_dep_id"),
                             ParentId = department.Field<int>("f_parent_id"),
-                            Description = department.Field<string>("f_dep_name"),
+                            FullDescription = department.Field<string>("f_dep_name"),
+                            Description = department.Field<string>("f_short_dep_name"),                            
                             IsExpanded = memDeps.Find(x => x.Id == department.Field<int>("f_dep_id"))?.IsExpanded ?? false,
                             IsSelected = memDeps.Find(x => x.Id == department.Field<int>("f_dep_id"))?.IsSelected ?? false,
                             Items = GetItems(department.Field<int>("f_dep_id"))
@@ -355,7 +359,8 @@ namespace SupRealClient.ViewModels
                 {
                     Id = department.Field<int>("f_dep_id"),
                     ParentId = department.Field<int>("f_parent_id"),
-                    Description = department.Field<string>("f_dep_name"),
+                    FullDescription = department.Field<string>("f_dep_name"),
+                    Description = department.Field<string>("f_short_dep_name"),                   
                     IsExpanded = memDeps.Find(x => x.Id == department.Field<int>("f_dep_id"))?.IsExpanded ?? false,
                     IsSelected = memDeps.Find(x => x.Id == department.Field<int>("f_dep_id"))?.IsSelected ?? false,
                     Items = GetItems(department.Field<int>("f_dep_id"))

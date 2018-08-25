@@ -29,6 +29,18 @@ namespace SupRealClient.ViewModels
         }
         private string _description;
 
+        public string FullDescription
+        {
+            get { return _fulldescription; }
+            set
+            {
+                _fulldescription = value?.TrimStart();
+                if (Model != null) Model.FullDescription = value;
+                OnPropertyChanged();
+            }
+        }
+        private string _fulldescription;
+
         public string Title
         {
             get { return title; }

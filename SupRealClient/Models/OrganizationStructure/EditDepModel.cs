@@ -16,6 +16,7 @@ namespace SupRealClient.Models.OrganizationStructure
     class EditDepModel : IModel
     {
         public string Description { get; set; }
+        public string FullDescription { get; set; }
         public bool Save
         {
             get { throw new NotImplementedException(); }
@@ -36,7 +37,7 @@ namespace SupRealClient.Models.OrganizationStructure
 
         public void EditItem()
         {
-            if (!(Description == "" | Description == null))
+            if (!(string.IsNullOrEmpty(Description) || string.IsNullOrEmpty(FullDescription)))
             {
                 DepartmentWrapper departments = DepartmentWrapper.CurrentTable();
 
@@ -45,15 +46,17 @@ namespace SupRealClient.Models.OrganizationStructure
                 var sameRow = rows.FirstOrDefault(
                       r =>
                           r.Field<int>("f_dep_id") != departmentId &&
-                          r.Field<string>("f_dep_name").ToUpper() == Description.ToUpper() &&
-                          r.Field<int>("f_org_id") == organizationId);
+                          r.Field<int>("f_org_id") == organizationId &&
+                          (r.Field<string>("f_dep_name").ToUpper() == FullDescription.ToUpper() ||
+                          r.Field<string>("f_short_dep_name").ToUpper() == Description.ToUpper()));
 
                 if (sameRow == null)
                 {
                     DataRow row = DepartmentWrapper.CurrentTable()
                         .Table.Rows.Find(departmentId);
                     row.BeginEdit();
-                    row["f_dep_name"] = Description;
+                    row["f_short_dep_name"] = Description;
+                    row["f_dep_name"] = FullDescription;
                     row["f_rec_date"] = DateTime.Now;
                     row["f_rec_operator"] = Authorizer.AppAuthorizer.Id;
                     row.EndEdit();
@@ -68,12 +71,14 @@ namespace SupRealClient.Models.OrganizationStructure
                     int Id = sameRow.Field<int>("f_dep_id");
                     DataRow deletedRow = departments.Table.Rows.Find(Id);
                     deletedRow.BeginEdit();
+                    deletedRow["f_short_dep_name"] = row.Field<string>("f_short_dep_name");
                     deletedRow["f_dep_name"] = row.Field<string>("f_dep_name");
                     deletedRow["f_rec_date"] = DateTime.Now;
                     deletedRow["f_rec_operator"] = Authorizer.AppAuthorizer.Id;
                    
                     row.BeginEdit();
-                    row["f_dep_name"] = Description;
+                    row["f_short_dep_name"] = Description;
+                    row["f_dep_name"] = FullDescription;
                     row["f_rec_date"] = DateTime.Now;
                     row["f_rec_operator"] = Authorizer.AppAuthorizer.Id;
                     
