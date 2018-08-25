@@ -491,8 +491,26 @@ namespace SupRealClient.Views
 
         public override void Add()
         {
-            var wind = new AddOrgsListView(new AddChildOrgsListModel(Parent));
-            wind.ShowDialog();
+            //var wind = new AddOrgsListView(new AddChildOrgsListModel(Parent));
+            //wind.ShowDialog();
+
+            var model = new AddChildOrganizationsListModel<Organization>(Parent);
+            //var viewModel = new Base4ViewModel<Organization>()
+            //{
+            //    Model = model                
+            //};
+            //var view = new Base4OrganizationsLargeWindView()
+            //{
+            //    DataContext = viewModel
+            //};            
+            var view = new Base4OrganizationsLargeWindView();           
+            (view.base4.DataContext as Base4ViewModel<Organization>).Model = model;
+            //view.base4.butAdd.Visibility = Visibility.Hidden;
+            //view.base4.btnEdit.Visibility = Visibility.Hidden;
+            (view.base4.DataContext as Base4ViewModel<Organization>).OkVisibility = Visibility.Visible;
+            view.Owner = Parent as Window;
+            view.WindowStartupLocation = WindowStartupLocation.CenterOwner;
+            view.ShowDialog();            
         }
 
         public override void Update()

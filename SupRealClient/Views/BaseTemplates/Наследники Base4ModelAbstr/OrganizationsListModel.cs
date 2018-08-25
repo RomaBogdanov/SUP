@@ -8,6 +8,7 @@ using System.Data;
 using SupRealClient.Models;
 using SupRealClient.Common;
 using System.Windows;
+using SupRealClient.Common.Interfaces;
 
 namespace SupRealClient.Views
 {
@@ -214,6 +215,87 @@ namespace SupRealClient.Views
                 { "Name", "f_org_name" },
                 { "Comment", "f_comment" },
             };
+        }
+    }
+
+    public class AddChildOrganizationsListModel<T> : OrganizationsListModel<T>
+        where T : Organization, new()
+    {
+        protected IWindow parent;
+
+        public AddChildOrganizationsListModel(IWindow parent)
+        {
+            this.parent = parent;
+            OnClose += Handling_OnClose; 
+        }        
+
+        protected override void DoQuery()
+        {
+            Set = new ObservableCollection<T>(
+                from orgs in OrganizationsWrapper.CurrentTable().Table.AsEnumerable()
+                where orgs.Field<int>("f_org_id") != 0 &&
+                      orgs.Field<string>("f_has_free_access").ToString().ToUpper() != "Y" &&
+                   orgs.Field<int?>("f_syn_id") == 0 &&
+                   orgs.Field<string>("f_is_basic").ToString().ToUpper() != "Y" &&
+                   CommonHelper.NotDeleted(orgs)
+                select new T
+                {
+                    Id = orgs.Field<int>("f_org_id"),
+                    Type = orgs.Field<string>("f_org_type"),
+                    Name = OrganizationsHelper.UntrimName(
+                        orgs.Field<string>("f_org_name")),
+                    FullName = OrganizationsHelper.
+                        GenerateFullName(orgs.Field<int>("f_org_id")),
+                    Comment = orgs.Field<string>("f_comment"),
+                    CountryId = orgs.Field<int>("f_cntr_id"),
+                    Country = orgs.Field<int>("f_cntr_id") == 0 ?
+                        "" : CountriesWrapper.CurrentTable()
+                        .Table.AsEnumerable().FirstOrDefault(
+                        arg => arg.Field<int>("f_cntr_id") ==
+                        orgs.Field<int>("f_cntr_id"))["f_cntr_name"].ToString(),
+                    RegionId = orgs.Field<int>("f_region_id"),
+                    Region = orgs.Field<int>("f_region_id") == 0 ?
+                        "" : RegionsWrapper.CurrentTable()
+                        .Table.AsEnumerable().FirstOrDefault(
+                        arg => arg.Field<int>("f_region_id") ==
+                        orgs.Field<int>("f_region_id"))["f_region_name"].ToString(),
+                    SynId = orgs.Field<int>("f_syn_id")
+                });
+        }
+
+        public override void Ok()
+        {
+            int currentId = CurrentItem.Id;
+
+            OrganizationsWrapper organizations =
+                OrganizationsWrapper.CurrentTable();
+            DataRow row = organizations.Table.Rows.Find(currentId);
+            row["f_has_free_access"] = "Y";
+            Close();
+
+            // TODO - установка CurrentItem - работает, но возможно потом лучше переделать
+            Base4ViewModel<Organization> OrgViewModel = (parent as Base4ChildOrgsWindView)?.base4.DataContext as Base4ViewModel<Organization>;
+            if (OrgViewModel != null)
+            {
+                OrgViewModel.CurrentItem = OrgViewModel.Set.FirstOrDefault(
+                                                                r =>
+                                                                    r.Id == currentId);
+            }
+        }
+
+        public override bool Remove()
+        {
+            return true;
+        }
+
+        void Handling_OnClose(object result)
+        {
+            var wind = Parent as IWindow;
+            if (wind != null)
+            {
+                wind.WindowResult = result;
+                (Parent as Window)?.Close();
+            }            
         }
     }
 }
