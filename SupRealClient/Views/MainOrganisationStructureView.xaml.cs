@@ -12,13 +12,16 @@ namespace SupRealClient.Views
     /// </summary>
     public partial class MainOrganisationStructureView
     {
-        public MainOrganisationStructureView()
+        public MainOrganisationStructureView(Visibility okVisibility)
         {
             InitializeComponent();
             ((MainOrganizationViewModel)DataContext).OnClose += 
                 Handling_OnClose;
 
             AfterInitialize();
+
+            ((MainOrganizationViewModel)DataContext).OkVisibility = okVisibility;
+
             tbSearch.Focus();
         }
 

@@ -934,7 +934,7 @@ namespace SupRealClient.Views
 		private void DepartmentsList()
 		{
 			var result = ViewManager.Instance.OpenWindowModal(
-			    "MainOrganisationStructureView", view) as BaseModelResult;
+			    "MainOrganisationStructureViewOk", view) as BaseModelResult;
 			if (result == null)
 			{
 				return;

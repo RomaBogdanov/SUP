@@ -25,6 +25,8 @@ namespace SupRealClient.ViewModels
         private string searchingText;
         private List<ModelBase> searchResult = new List<ModelBase>();
 
+        private Visibility okVisibility;
+
         System.Collections.Generic.List<Organization> memOrgs = new System.Collections.Generic.List<Organization>();
         System.Collections.Generic.List<Department> memDeps = new System.Collections.Generic.List<Department>();
    
@@ -33,6 +35,16 @@ namespace SupRealClient.ViewModels
             None,
             Organization,
             Department
+        }
+
+        public Visibility OkVisibility
+        {
+            get { return okVisibility; }
+            set
+            {
+                okVisibility = value;
+                OnPropertyChanged();
+            }
         }
 
         public string SearchingText
@@ -293,8 +305,11 @@ namespace SupRealClient.ViewModels
 
         private void Finish()
         {
-            OnClose?.Invoke(currentLevel != CurrentLevel.Department ? null :
-                new BaseModelResult { Id = currentDep, Name = description });
+            if (OkVisibility == Visibility.Visible)
+            {
+                OnClose?.Invoke(currentLevel != CurrentLevel.Department ? null :
+                    new BaseModelResult { Id = currentDep, Name = description });
+            }                
         }
 
         private Action<object> Cancel()
