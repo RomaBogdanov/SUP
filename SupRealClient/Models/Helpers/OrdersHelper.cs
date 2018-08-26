@@ -14,28 +14,73 @@ namespace SupRealClient.Models.Helpers
 	/// </summary>
 	public static class OrdersHelper
 	{
-		/// <summary>
+        /// <summary>
 		/// Возвращает строку номера заявки в принятом формате
 		/// При ошибке возвращает null
 		/// </summary>
 		/// <param name="orderId">Id заявки</param>
 		/// <returns></returns>
 		public static string GetOrderNumber(int orderId)
-		{
-			var order = OrdersWrapper.CurrentTable().Table.AsEnumerable().FirstOrDefault(arg => arg.Field<int>("f_ord_id") == orderId);
-			if (order == null)
-			{
-				return null;
-			}
+        {
+            var order = OrdersWrapper.CurrentTable().Table.AsEnumerable().FirstOrDefault(arg => arg.Field<int>("f_ord_id") == orderId);
+            if (order == null)
+            {
+                return null;
+            }
 
-			var orderType = SprOrderTypesWrapper.CurrentTable().Table.AsEnumerable()
-				.FirstOrDefault(arg => arg.Field<int>("f_order_type_id") == order.Field<int>("f_order_type_id"));
-			if (orderType == null)
-			{
-				return order.Field<string>("f_reg_number");
-			}
-			string type = GetOrderTypeString(orderType.Field<string>("f_order_text"));
-			return order.Field<DateTime>("f_new_rec_date").Year % 100 + "-" + order.Field<int>("f_reg_number") +  (string.IsNullOrEmpty(type) ? "" : ("-" + type[0]));
+            var orderType = SprOrderTypesWrapper.CurrentTable().Table.AsEnumerable()
+                .FirstOrDefault(arg => arg.Field<int>("f_order_type_id") == order.Field<int>("f_order_type_id"));
+            if (orderType == null)
+            {
+                return order.Field<string>("f_reg_number");
+            }
+            string type = GetOrderTypeString(orderType.Field<string>("f_order_text"));
+            return order.Field<DateTime>("f_new_rec_date").Year % 100 + "-" + order.Field<int>("f_reg_number") + (string.IsNullOrEmpty(type) ? "" : ("-" + type[0]));
+        }
+
+        /// <summary>
+        /// Возвращает строку номера заявок через запятую
+        /// </summary>
+        /// <param name="orderId">Id заявки</param>
+        /// <returns></returns>
+        public static string GetOrderNumber(string orders)
+		{
+            List<int> oredrIds = orders.Split(new[] { ';' },
+                StringSplitOptions.RemoveEmptyEntries).
+                Select(o => int.Parse(o)).ToList();
+
+            var sb = new StringBuilder();
+            foreach (int orderId in oredrIds)
+            {
+                var order = OrdersWrapper.CurrentTable().Table.AsEnumerable().
+                FirstOrDefault(arg => arg.Field<int>("f_ord_id") == orderId);
+                if (order == null)
+                {
+                    continue;
+                }
+
+                var orderType = SprOrderTypesWrapper.CurrentTable().Table.AsEnumerable()
+                    .FirstOrDefault(arg => arg.Field<int>("f_order_type_id") == order.Field<int>("f_order_type_id"));
+                if (orderType == null)
+                {
+                    sb.Append(order.Field<string>("f_reg_number"));
+                    continue;
+                }
+
+                string type = GetOrderTypeString(orderType.Field<string>("f_order_text"));
+                sb.Append(order.Field<DateTime>("f_new_rec_date").Year % 100 + "-" +
+                    order.Field<int>("f_reg_number") +
+                    (string.IsNullOrEmpty(type) ? "" : ("-" + type[0])));
+                sb.Append(", ");
+            }
+
+            string result = sb.ToString();
+            if (result.Length > 2)
+            {
+                result = result.Substring(0, result.Length - 2);
+            }
+
+            return result;
 		}
 
 		/// <summary>
