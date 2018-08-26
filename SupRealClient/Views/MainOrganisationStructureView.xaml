@@ -52,12 +52,13 @@
                 <Style TargetType="{x:Type TreeViewItem}">
                     <Setter Property="IsExpanded" Value="{Binding Path=IsExpanded, Mode=TwoWay}"/>
                     <Setter Property="IsSelected" Value="{Binding Path=IsSelected, Mode=TwoWay}"/>
+                    <Setter Property="ToolTip" Value="{Binding Path=FullDescription, Mode=TwoWay}"/>
                     <EventSetter Event="Selected" Handler="TreeViewSelectedItemChanged" />
                 </Style>
             </TreeView.ItemContainerStyle>
             <TreeView.ItemTemplate>
                 <HierarchicalDataTemplate ItemsSource="{Binding Path=Items}">
-                    <TextBlock Text="{Binding Description}" Background="{Binding Background}"/>
+                    <TextBlock Text="{Binding Description}" ToolTip="{Binding FullDesription}" Background="{Binding Background}"/>
                 </HierarchicalDataTemplate>
             </TreeView.ItemTemplate>
             <TreeView.InputBindings>

@@ -22,7 +22,7 @@ namespace SupRealClient.Views
         public AddDepartmentView()
         {
             InitializeComponent();
-            tbName.Focus();
+            tbFullName.Focus();
         }
 
         private void UIElement_OnPreviewKeyUp(object sender, KeyEventArgs e)

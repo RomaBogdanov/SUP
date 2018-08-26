@@ -64,8 +64,8 @@
             LoadingRow="baseTab_LoadingRow" 
             Loaded="baseTab_Loaded"
             Sorted="baseTab_Sorted"
-            PreviewKeyDown="baseTab_PreviewKeyDown">            
-            <!-- TODO - вернуть SelectedValue="{Binding Path=SelectedValue, Mode=TwoWay}"  -->
+            PreviewKeyDown="baseTab_PreviewKeyDown"            
+            SelectedValue="{Binding Path=SelectedValue, Mode=TwoWay}">
             <DataGrid.ColumnHeaderStyle>
                 <Style TargetType="DataGridColumnHeader" BasedOn="{StaticResource SelectionColumnHeader}">
                     <EventSetter Event="PreviewMouseLeftButtonUp" Handler="dgColumnHeader_PreviewMouseLeftButtonUp"></EventSetter>

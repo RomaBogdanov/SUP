@@ -25,6 +25,7 @@ namespace SupRealClient.Models
 
         public event PropertyChangedEventHandler PropertyChanged;
         public string Description { get; set; }
+        public string FullDescription { get; set; }
         public bool Save { get; set; }
         public event Action OnClose;
         public void EditItem()

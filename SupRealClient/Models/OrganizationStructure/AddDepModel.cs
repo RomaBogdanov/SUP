@@ -13,6 +13,7 @@ namespace SupRealClient.Models.OrganizationStructure
     class AddDepModel : IModel
     {
         public string Description { get; set; }
+        public string FullDescription { get; set; }
         public int IdEditedItem { get; set; }
         public bool Save
         {
@@ -35,7 +36,7 @@ namespace SupRealClient.Models.OrganizationStructure
 
         public void EditItem()
         {
-            if (!(Description == "" | Description == null))
+            if (!(string.IsNullOrEmpty(Description) || string.IsNullOrEmpty(FullDescription)))
             {
                 DepartmentWrapper departments = DepartmentWrapper.CurrentTable();
 
@@ -43,14 +44,16 @@ namespace SupRealClient.Models.OrganizationStructure
 
                 var sameRow = rows.FirstOrDefault(
                       r =>
-                          r.Field<string>("f_dep_name").ToUpper() == Description.ToUpper() &&
+                          (r.Field<string>("f_dep_name").ToUpper() == FullDescription.ToUpper() ||
+                          r.Field<string>("f_short_dep_name").ToUpper() == Description.ToUpper()) &&
                           r.Field<int>("f_org_id") == organizationId);
 
                 int Id = -1;
                 if (sameRow == null)
                 {
                     DataRow row = DepartmentWrapper.CurrentTable().Table.NewRow();
-                    row["f_dep_name"] = Description;
+                    row["f_dep_name"] = FullDescription;
+                    row["f_short_dep_name"] = Description;
                     row["f_org_id"] = organizationId;
                     row["f_parent_id"] = departmentId;
                     row["f_rec_date"] = DateTime.Now;
@@ -65,6 +68,8 @@ namespace SupRealClient.Models.OrganizationStructure
                     Id = sameRow.Field<int>("f_dep_id");
                     DataRow row = departments.Table.Rows.Find(Id);
                     row.BeginEdit();
+                    row["f_dep_name"] = FullDescription;
+                    row["f_short_dep_name"] = Description;
                     row["f_parent_id"] = departmentId;
                     row["f_rec_date"] = DateTime.Now;
                     row["f_rec_operator"] = Authorizer.AppAuthorizer.Id;

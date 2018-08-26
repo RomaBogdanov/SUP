@@ -68,32 +68,37 @@ namespace SupClientConnectionLib
                     authorizer.Id = this.tableService.Authorize(
                         authorizer.GetInfo(), pass ?? "");
                 }
-                catch
+                catch (Exception err)
                 {
+                    Logger.Log.Error(err.GetType() + err.Message + err.StackTrace);
                 }
             }
-            catch (CommunicationObjectFaultedException)
+            catch (CommunicationObjectFaultedException err)
             {
+                Logger.Log.Error(err.GetType() + err.Message + err.StackTrace);
                 ResetConnection();
                 try
                 {
                     authorizer.Id = this.tableService.Authorize(
                         authorizer.GetInfo(), pass ?? "");
                 }
-                catch
+                catch(Exception err2)
                 {
+                    Logger.Log.Error(err2.GetType() + err2.Message + err2.StackTrace);
                 }
             }
-            catch (EndpointNotFoundException)
+            catch (EndpointNotFoundException err)
             {
+                Logger.Log.Error(err.GetType() + err.Message + err.StackTrace);
                 ResetConnection();
                 try
                 {
                     authorizer.Id = this.tableService.Authorize(
                         authorizer.GetInfo(), pass ?? "");
                 }
-                catch
+                catch(Exception err2)
                 {
+                    Logger.Log.Error(err2.GetType() + err2.Message + err2.StackTrace);
                     authorizer.Id = -999; // Сюда приходим, если сервер указан неправильно.
                 }
             }
@@ -103,41 +108,124 @@ namespace SupClientConnectionLib
 
         public bool Ping()
         {
+            Attempt:
             try
             {
-                return this.tableService.Ping(authorizer.GetInfo()) == "OK";
+                bool b = this.tableService.Ping(authorizer.GetInfo()) == "OK";
+                return b;
             }
-            catch (Exception)
+            catch (CommunicationObjectFaultedException err)
             {
+                Logger.Log.Error(err.GetType() + err.Message + err.StackTrace);
+                goto Attempt;
+            }
+            catch (Exception err)
+            {
+                Logger.Log.Error(err.GetType() + err.Message + err.StackTrace);
                 return false;
             }
         }
 
         public bool ExitAuthorize()
         {
-            return this.tableService.ExitAuthorize(authorizer.GetInfo());
+            Attempt:
+            try
+            {
+                bool b = this.tableService.ExitAuthorize(authorizer.GetInfo());
+                return b;
+            }
+            catch (CommunicationObjectFaultedException err)
+            {
+                Logger.Log.Error(err.GetType() + err.Message + err.StackTrace);
+                goto Attempt;
+            }
+            catch (Exception err)
+            {
+                Logger.Log.Error(err.GetType() + err.Message + err.StackTrace);
+                return false;
+            }
         }
 
 	    public int GetDocumentTypeId(string documentType, int operatorId)
 	    {
-		    return this.tableService.GetDocumentTypeId(documentType,operatorId);
+            Attempt:
+            try
+            {
+                int b = this.tableService.GetDocumentTypeId(documentType, operatorId);
+                return b;
+            }
+            catch (CommunicationObjectFaultedException err)
+            {
+                Logger.Log.Error(err.GetType() + err.Message + err.StackTrace);
+                goto Attempt;
+            }
+            catch (Exception err)
+            {
+                Logger.Log.Error(err.GetType() + err.Message + err.StackTrace);
+                return -1;
+            }
 	    }
 
 		public bool ImportFromAndover(string tables)
         {
-            return this.tableService.ImportFromAndover(tables,authorizer.GetInfo());
+            Attempt:
+            try
+            {
+                bool b = this.tableService.ImportFromAndover(tables, authorizer.GetInfo());
+                return b;
+            }
+            catch (CommunicationObjectFaultedException err)
+            {
+                Logger.Log.Error(err.GetType() + err.Message + err.StackTrace);
+                goto Attempt;
+            }
+            catch (Exception err)
+            {
+                Logger.Log.Error(err.GetType() + err.Message + err.StackTrace);
+                return false;
+            }
         }
 
         public CExtraditionContract ExportToAndover(AndoverExportData data)
         {
-            return this.tableService.ExportToAndover(data, authorizer.GetInfo());
+            Attempt:
+            try
+            {
+                CExtraditionContract b = this.tableService.ExportToAndover(data, authorizer.GetInfo());
+                return b;
+            }
+            catch (CommunicationObjectFaultedException err)
+            {
+                Logger.Log.Error(err.GetType() + err.Message + err.StackTrace);
+                goto Attempt;
+            }
+            catch (Exception err)
+            {
+                Logger.Log.Error(err.GetType() + err.Message + err.StackTrace);
+                return null;
+            }
         }
 
         public DataTable GetTable(TableName tableName)
         {
-            this.compositeType.TableName = tableName;
-            return this.tableService.GetTable(this.compositeType,
-                authorizer.GetInfo());
+            Attempt:
+            try
+            {
+                this.compositeType.TableName = tableName;
+                DataTable dataTable = this.tableService.GetTable(this.compositeType,
+                    authorizer.GetInfo());
+                return dataTable;
+            }
+            catch (CommunicationObjectFaultedException err)
+            {
+                Logger.Log.Error(err.GetType() + err.Message + err.StackTrace);
+                goto Attempt;
+            }
+            catch (Exception err)
+            {
+                Logger.Log.Error(err.GetType() + err.Message + err.StackTrace);
+                return null;
+            }
         }
 
         public bool InsertRow(object[] rowValues)

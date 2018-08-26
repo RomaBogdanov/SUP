@@ -19,6 +19,20 @@ namespace SupRealClient.Models.OrganizationStructure
             set
             {
                 _description = value; 
+                if (string.IsNullOrEmpty(_description))
+                {
+                    _description = fullDescription;
+                }                
+                OnPropertyChanged();
+            }
+        }
+
+        public string FullDescription
+        {
+            get { return fullDescription; }
+            set
+            {
+                fullDescription = value;
                 OnPropertyChanged();
             }
         }
@@ -62,6 +76,7 @@ namespace SupRealClient.Models.OrganizationStructure
         public bool Save { get; set; }
 
         private string _description;
+        private string fullDescription;
         public event PropertyChangedEventHandler PropertyChanged;
         public event Action OnClose;
 
