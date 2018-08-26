@@ -96,6 +96,29 @@ namespace SupRealClient.Views
                 dep.IsExpanded = false;
                 CollapseDeps(dep.Items);
             }
+        }              
+
+        private void treeViewItemTextBlock_Drop(object sender, DragEventArgs e)
+        {
+            object dropData = (sender as TextBlock)?.DataContext;
+            Department dragData = e.Data.GetData("SupRealClient.Models.OrganizationStructure.Department") as Department;
+            if (dragData != null && 
+                !dragData.Equals(dropData) &&
+                (dropData is Department || dropData is Organization))
+            {
+                ((MainOrganizationViewModel)DataContext).DragAndDropDepartment(dropData, dragData);
+            }
+
+            e.Handled = true;
+        }
+
+        private void treeViewItemTextBlock_MouseDown(object sender, MouseButtonEventArgs e)
+        {
+            TextBlock item = sender as TextBlock;
+            if (item != null && item.DataContext is Department)
+            {
+                DragDrop.DoDragDrop(item, item.DataContext, DragDropEffects.Move);
+            }            
         }
     }
 }

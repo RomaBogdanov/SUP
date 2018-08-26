@@ -5,6 +5,7 @@ namespace SupRealClient.Models.OrganizationStructure
     public class Department : ModelBase, IDepartment
     {
         public int ParentId;
+        public int OrganizationId;
 
         public ObservableCollection<Department> Items
         {

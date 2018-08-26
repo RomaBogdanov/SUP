@@ -58,7 +58,10 @@
             </TreeView.ItemContainerStyle>
             <TreeView.ItemTemplate>
                 <HierarchicalDataTemplate ItemsSource="{Binding Path=Items}">
-                    <TextBlock Text="{Binding Description}" ToolTip="{Binding FullDesription}" Background="{Binding Background}"/>
+                    <TextBlock Text="{Binding Description}" ToolTip="{Binding FullDesription}" Background="{Binding Background}"
+                               AllowDrop="True"
+                               Drop="treeViewItemTextBlock_Drop" 
+                               MouseDown="treeViewItemTextBlock_MouseDown"/>
                 </HierarchicalDataTemplate>
             </TreeView.ItemTemplate>
             <TreeView.InputBindings>
