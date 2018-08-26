@@ -701,7 +701,8 @@
 							</Style>
 						</DataGrid.RowStyle>
 						<DataGrid.Columns>
-							<DataGridTextColumn Binding="{Binding Path=CardNumber}" Header="Пропуск" />
+                            <DataGridTextColumn Binding="{Binding Path=Card}" Header="Пропуск" />
+                            <DataGridTextColumn Binding="{Binding Path=CardNumber}" Header="Номер" />
 							<DataGridTextColumn Binding="{Binding Path=From, StringFormat=dd.MM.yyyy}" Header="Когда выдан" />
 							<DataGridTextColumn Binding="{Binding Path=To, StringFormat=dd.MM.yyyy}" Header="Срок по" />
 							<DataGridTextColumn Binding="{Binding Path=Change, StringFormat=dd.MM.yyyy HH:mm:ss}" Header="Изменён" />

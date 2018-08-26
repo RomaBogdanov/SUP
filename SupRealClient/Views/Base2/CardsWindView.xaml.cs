@@ -39,12 +39,6 @@ namespace SupRealClient.Views
             base2.baseTab.Columns.Add(dataGridTextColumn);
             dataGridTextColumn = new DataGridTextColumn
             {
-                Header = "№ MAFW",
-                Binding = new Binding("NumMAFW")
-            };
-            base2.baseTab.Columns.Add(dataGridTextColumn);
-            dataGridTextColumn = new DataGridTextColumn
-            {
                 Header = "Примечание",
                 Binding = new Binding("Comment")
             };

@@ -755,7 +755,6 @@ namespace SupRealClient.Views
                 { "Name", "Наименование" },
                 { "CurdNum", "Номер" },
                 { "CreateDate", "Занесён в БД" },
-                { "NumMAFW", "№ MAFW" },
                 { "Comment", "Примечание" },
                 { "State", "Состояние" },
                 { "ReceiversName", "Кому выдан" },
@@ -845,7 +844,7 @@ namespace SupRealClient.Views
 			row1["f_visitor_id"] = visitorId; //todo: проставить id визитёра
 			row1["f_time_out"] = DateTime.Now; //todo: пока непонятно, что за дата
 			row1["f_time_in"] = DateTime.Now; //todo: пока непонятно, что за дата
-			row1["f_visit_text"] = "текст"; //todo: пока непонятно, что за текст
+			row1["f_visit_text"] = ""; //todo: пока непонятно, что за текст
 			row1["f_date_from"] = DateTime.Now; //todo: пока непонятно, что за дата
 			row1["f_date_to"] = DateTime.Now; //todo: пока непонятно, что за дата
 			row1["f_order_id"] =
