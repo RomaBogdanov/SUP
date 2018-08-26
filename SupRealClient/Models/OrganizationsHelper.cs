@@ -182,16 +182,16 @@ namespace SupRealClient.Models
 		    return org.IsBasic;
 	    }
 
-        public static bool IsChildOrg(Organization org)
+        public static bool IsChildOrg(int orgId)
         {
-            if (org.Id <= 0)
+            if (orgId <= 0)
             {
                 return false;
             }
 
             var row = (from DataRow irow in OrganizationsWrapper.CurrentTable().
                        Table.AsEnumerable()
-                       where irow.Field<int>("f_org_id") == org.Id
+                       where irow.Field<int>("f_org_id") == orgId
                        select irow).FirstOrDefault();
 
             return row?.Field<string>("f_has_free_access") == CommonHelper.BoolToString(true);

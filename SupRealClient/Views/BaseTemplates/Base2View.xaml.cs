@@ -190,6 +190,7 @@ namespace SupRealClient.Views
         void RowColorOrganizationTable(DataGridRow oRow)
         {
             Organization oOrg = oRow.Item as Organization;
+            int orgId = oOrg.Id;
             if (oOrg.FullName == string.Empty)
             {
                 if (IsOrgHasSynonim(oOrg))
@@ -198,13 +199,16 @@ namespace SupRealClient.Views
                     oRow.Background = Brushes.GreenYellow;
             }
             else
+            {
                 oRow.Background = Brushes.White;
+                orgId = oOrg.SynId;
+            }
 
-            if (OrganizationsHelper.GetBasicParametr(oOrg.Id, true))
+            if (OrganizationsHelper.GetBasicParametr(orgId, true))
             {
                 oRow.FontWeight = FontWeights.Bold;
             }
-            if (OrganizationsHelper.IsChildOrg(oOrg))
+            if (OrganizationsHelper.IsChildOrg(orgId))
             {
                 oRow.FontStyle = FontStyles.Oblique;
                 oRow.Foreground = Brushes.Blue;
