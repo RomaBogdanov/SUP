@@ -76,7 +76,9 @@ namespace SupRealClient.Models.Helpers
                 ReturnCard(data);
             }
 
-            foreach (DataRow r in CardAreaWrapper.CurrentTable().Table.Rows)
+            // TODO - временно закомментировано
+            // К0гда понадобятся данные таблицы vis_card_area, раскомментировать
+            /*foreach (DataRow r in CardAreaWrapper.CurrentTable().Table.Rows)
             {
                 if (r.Field<string>("f_deleted") == "N" &&
                     r.Field<int>("f_card_id_hi") == data.CardIdHi &&
@@ -88,12 +90,12 @@ namespace SupRealClient.Models.Helpers
                     r["f_deleted"] = "Y";
                     r.EndEdit();
                 }
-            }
+            }*/
 
             // TODO - здесь в Andover выгружается пропуск с пустым списком областей доступа
 
 
-	        var cardId = CardsExtWrapper.CurrentTable().Table.AsEnumerable().Where(x =>
+            var cardId = CardsExtWrapper.CurrentTable().Table.AsEnumerable().Where(x =>
 		        x.Field<int>("f_object_id_hi") == data.CardIdHi && x.Field<int>("f_object_id_lo") == data.CardIdLo).First().Field<int>("f_card_id");
 	        var cardName = CardsWrapper.CurrentTable().Table.AsEnumerable().Where(x => x.Field<int>("f_card_id") == cardId)
 		        .First().Field<string>("f_card_name");

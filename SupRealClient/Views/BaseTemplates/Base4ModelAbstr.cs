@@ -996,7 +996,9 @@ namespace SupRealClient.Views
 				}
 			}
 
-			list.ForEach(arg =>
+            // TODO - временно закомментировано
+            // К0гда понадобятся данные таблицы vis_card_area, раскомментировать
+            /*list.ForEach(arg =>
 			{
 				DataRow r = CardAreaWrapper.CurrentTable().Table.NewRow();
 				r["f_card_id_hi"] = arg.CardIdHi;
@@ -1007,14 +1009,14 @@ namespace SupRealClient.Views
 				r["f_rec_date"] = DateTime.Now;
 				r["f_rec_operator"] = Authorizer.AppAuthorizer.Id;
 				CardAreaWrapper.CurrentTable().Table.Rows.Add(r);
-			});
+			});*/
 
-			// TODO - здесь выгрузить в Andover
-			// Предположительно понадобятся поля:
-			// - row["f_card_num"] 
-			// - список областей доступа (получить из list)
-			// - список расписаний (orderElement.Schedule)
-			var schedulesHash = new Dictionary<string,int>();
+            // TODO - здесь выгрузить в Andover
+            // Предположительно понадобятся поля:
+            // - row["f_card_num"] 
+            // - список областей доступа (получить из list)
+            // - список расписаний (orderElement.Schedule)
+            var schedulesHash = new Dictionary<string,int>();
 
 			foreach (var order in orders)
 			{
