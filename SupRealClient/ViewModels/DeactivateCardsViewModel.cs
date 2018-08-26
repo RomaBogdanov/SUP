@@ -33,7 +33,8 @@ namespace SupRealClient.ViewModels
                     CardIdHi = card.CardIdHi,
                     CardIdLo = card.CardIdLo,
                     StateId = card.StateId,
-                    CardNumber = card.CardNumber
+                    CardNumber = card.CardNumber,
+                    Card = card.Card
                 });
             }
             this.Ok = new RelayCommand(arg => OkCommand());
@@ -66,6 +67,7 @@ namespace SupRealClient.ViewModels
                 CardIdLo = this.CardIdLo,
                 StateId = (int)CardState.Inactive,
                 CurdNum = int.Parse(this.CardNumber),
+                Name = this.Card,
                 ChangeDate = DateTime.Now
             };
         }
