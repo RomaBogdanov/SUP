@@ -755,7 +755,6 @@ namespace SupRealClient.Views
                 { "Name", "Наименование" },
                 { "CurdNum", "Номер" },
                 { "CreateDate", "Занесён в БД" },
-                { "NumMAFW", "№ MAFW" },
                 { "Comment", "Примечание" },
                 { "State", "Состояние" },
                 { "ReceiversName", "Кому выдан" },
