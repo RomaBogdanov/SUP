@@ -773,7 +773,6 @@ namespace SupRealClient.Views
                 { "Name", "Наименование" },
                 { "CurdNum", "Номер" },
                 { "CreateDate", "Занесён в БД" },
-                { "NumMAFW", "№ MAFW" },
                 { "Comment", "Примечание" },
                 { "State", "Состояние" },
                 { "ReceiversName", "Кому выдан" },
@@ -863,7 +862,7 @@ namespace SupRealClient.Views
 			row1["f_visitor_id"] = visitorId; //todo: проставить id визитёра
 			row1["f_time_out"] = DateTime.Now; //todo: пока непонятно, что за дата
 			row1["f_time_in"] = DateTime.Now; //todo: пока непонятно, что за дата
-			row1["f_visit_text"] = "текст"; //todo: пока непонятно, что за текст
+			row1["f_visit_text"] = ""; //todo: пока непонятно, что за текст
 			row1["f_date_from"] = DateTime.Now; //todo: пока непонятно, что за дата
 			row1["f_date_to"] = DateTime.Now; //todo: пока непонятно, что за дата
 			row1["f_order_id"] =
@@ -1015,7 +1014,9 @@ namespace SupRealClient.Views
 				}
 			}
 
-			list.ForEach(arg =>
+            // TODO - временно закомментировано
+            // К0гда понадобятся данные таблицы vis_card_area, раскомментировать
+            /*list.ForEach(arg =>
 			{
 				DataRow r = CardAreaWrapper.CurrentTable().Table.NewRow();
 				r["f_card_id_hi"] = arg.CardIdHi;
@@ -1026,14 +1027,14 @@ namespace SupRealClient.Views
 				r["f_rec_date"] = DateTime.Now;
 				r["f_rec_operator"] = Authorizer.AppAuthorizer.Id;
 				CardAreaWrapper.CurrentTable().Table.Rows.Add(r);
-			});
+			});*/
 
-			// TODO - здесь выгрузить в Andover
-			// Предположительно понадобятся поля:
-			// - row["f_card_num"] 
-			// - список областей доступа (получить из list)
-			// - список расписаний (orderElement.Schedule)
-			var schedulesHash = new Dictionary<string,int>();
+            // TODO - здесь выгрузить в Andover
+            // Предположительно понадобятся поля:
+            // - row["f_card_num"] 
+            // - список областей доступа (получить из list)
+            // - список расписаний (orderElement.Schedule)
+            var schedulesHash = new Dictionary<string,int>();
 
 			foreach (var order in orders)
 			{

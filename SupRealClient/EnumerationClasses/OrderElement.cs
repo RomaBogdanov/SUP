@@ -507,9 +507,10 @@ namespace SupRealClient.EnumerationClasses
 		/// </summary>
 		public void SetupCardState()
 		{
-			IEnumerable<DataRow> allVisits = VisitsWrapper.CurrentTable().Table.AsEnumerable().Where(arg => 
-				arg.Field<int>("f_visitor_id") == _visitorId &&
-				arg.Field<int>("f_order_id") == _orderId);
+            IEnumerable<DataRow> allVisits = VisitsWrapper.CurrentTable().Table.AsEnumerable().Where(arg =>
+                arg.Field<int>("f_visitor_id") == _visitorId &&
+                arg.Field<string>("f_orders").StartsWith(_orderId.ToString() + ';') ||
+                arg.Field<string>("f_orders").Contains(';' + _orderId.ToString() + ';'));
 			if (!allVisits.Any())
 			{
 				CardState = CardState.Inactive;
