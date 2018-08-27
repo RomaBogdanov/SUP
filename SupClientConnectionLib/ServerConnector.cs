@@ -117,6 +117,8 @@ namespace SupClientConnectionLib
             catch (CommunicationObjectFaultedException err)
             {
                 Logger.Log.Error(err.GetType() + err.Message + err.StackTrace);
+                Logger.Log.Debug("Пытаемся перезапустить соединение");
+                ResetConnection();
                 goto Attempt;
             }
             catch (Exception err)
@@ -137,6 +139,8 @@ namespace SupClientConnectionLib
             catch (CommunicationObjectFaultedException err)
             {
                 Logger.Log.Error(err.GetType() + err.Message + err.StackTrace);
+                Logger.Log.Debug("Пытаемся перезапустить соединение");
+                ResetConnection();
                 goto Attempt;
             }
             catch (Exception err)
@@ -157,6 +161,8 @@ namespace SupClientConnectionLib
             catch (CommunicationObjectFaultedException err)
             {
                 Logger.Log.Error(err.GetType() + err.Message + err.StackTrace);
+                Logger.Log.Debug("Пытаемся перезапустить соединение");
+                ResetConnection();
                 goto Attempt;
             }
             catch (Exception err)
@@ -177,6 +183,8 @@ namespace SupClientConnectionLib
             catch (CommunicationObjectFaultedException err)
             {
                 Logger.Log.Error(err.GetType() + err.Message + err.StackTrace);
+                Logger.Log.Debug("Пытаемся перезапустить соединение");
+                ResetConnection();
                 goto Attempt;
             }
             catch (Exception err)
@@ -197,6 +205,8 @@ namespace SupClientConnectionLib
             catch (CommunicationObjectFaultedException err)
             {
                 Logger.Log.Error(err.GetType() + err.Message + err.StackTrace);
+                Logger.Log.Debug("Пытаемся перезапустить соединение");
+                ResetConnection();
                 goto Attempt;
             }
             catch (Exception err)
@@ -219,6 +229,8 @@ namespace SupClientConnectionLib
             catch (CommunicationObjectFaultedException err)
             {
                 Logger.Log.Error(err.GetType() + err.Message + err.StackTrace);
+                Logger.Log.Debug("Пытаемся перезапустить соединение");
+                ResetConnection();
                 goto Attempt;
             }
             catch (Exception err)
