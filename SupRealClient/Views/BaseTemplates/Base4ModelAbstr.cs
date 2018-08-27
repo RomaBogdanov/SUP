@@ -413,11 +413,10 @@ namespace SupRealClient.Views
             //{
             //    DataContext = viewModel
             //};            
-            var view = new Base4OrganizationsLargeWindView();
+            var view = new Base4OrganizationsLargeWindView(Visibility.Visible);
             (view.base4.DataContext as Base4ViewModel<Organization>).Model = model;
             //view.base4.butAdd.Visibility = Visibility.Hidden;
-            //view.base4.btnEdit.Visibility = Visibility.Hidden;
-            (view.base4.DataContext as Base4ViewModel<Organization>).OkVisibility = Visibility.Visible;
+            //view.base4.btnEdit.Visibility = Visibility.Hidden;            
             view.Owner = Parent as Window;
             view.WindowStartupLocation = WindowStartupLocation.CenterOwner;
             view.ShowDialog();
@@ -521,11 +520,10 @@ namespace SupRealClient.Views
             //{
             //    DataContext = viewModel
             //};            
-            var view = new Base4OrganizationsLargeWindView();           
+            var view = new Base4OrganizationsLargeWindView(Visibility.Visible);           
             (view.base4.DataContext as Base4ViewModel<Organization>).Model = model;
             //view.base4.butAdd.Visibility = Visibility.Hidden;
             //view.base4.btnEdit.Visibility = Visibility.Hidden;
-            (view.base4.DataContext as Base4ViewModel<Organization>).OkVisibility = Visibility.Visible;
             view.Owner = Parent as Window;
             view.WindowStartupLocation = WindowStartupLocation.CenterOwner;
             view.ShowDialog();            

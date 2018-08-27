@@ -19,12 +19,12 @@ namespace SupRealClient.Views
     /// </summary>
     public partial class Base4OrganizationsLargeWindView
     {
-        public Base4OrganizationsLargeWindView()
+        public Base4OrganizationsLargeWindView(Visibility OkVisibility)
         {
             InitializeComponent();
             base4.tbxSearch.Focus();
             AfterInitialize();
-            (base4.DataContext as Base4ViewModel<EnumerationClasses.Organization>).OkVisibility = Visibility.Hidden;
+            (base4.DataContext as Base4ViewModel<EnumerationClasses.Organization>).OkVisibility = OkVisibility;
             (base4.DataContext as Base4ViewModel<EnumerationClasses.Organization>).ScrollCurrentItem = base4.ScrollIntoViewCurrentItem;
             base4.Focus();
         }
