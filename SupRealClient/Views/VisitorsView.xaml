@@ -768,7 +768,7 @@
 								Grid.Row="0"
 								Grid.Column="0"
 								Style="{StaticResource TextBLockStyle}"
-								Text="Поздразделение:" />
+								Text="Подразделение:" />
 
 							<TextBox
 								Grid.Row="1"

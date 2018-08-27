@@ -204,7 +204,8 @@
 			Grid.ColumnSpan="2"
 			HorizontalAlignment="Left"
 			Style="{StaticResource TextBLockStyle}"
-			Text="Проходы" />
+			Text="Доступные помещения" />
+		<!--Text="Проходы"-->
 		<TextBox
 			Grid.Row="13"
 			Grid.ColumnSpan="3"
