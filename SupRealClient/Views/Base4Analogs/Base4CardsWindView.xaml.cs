@@ -84,6 +84,9 @@ namespace SupRealClient.Views
             {
                 Header = "Утерян",
                 Binding = new Binding("Lost")
+                {
+                    StringFormat = "{0:dd.MM.yyyy HH:mm:ss}"
+                }
             };
             base4.baseTab.Columns.Add(dataGridTextColumn);
             dataGridTextColumn = new DataGridTextColumn

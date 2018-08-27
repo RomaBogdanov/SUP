@@ -677,7 +677,8 @@ namespace SupRealClient.Views
                from ce in cardsExtWrapper.Table.AsEnumerable()
                join s in sprCardstatesWrapper.Table.AsEnumerable()
                on ce.Field<int>("f_state_id") equals s.Field<int>("f_state_id")
-               where ce.Field<int>("f_card_id") != 0               
+               where ce.Field<int>("f_card_id") != 0 &&
+               CommonHelper.NotDeleted(ce)
                select new Card
                {
                    CardIdHi = ce.Field<int>("f_object_id_hi"),
@@ -685,7 +686,6 @@ namespace SupRealClient.Views
                    CreateDate = ce.Field<DateTime>("f_create_date"),
                    ChangeDate = ce.Field<DateTime>("f_rec_date"),
                    Comment = ce.Field<string>("f_comment"),
-                   //NumMAFW = ce.Field<string>("f_card_text"),
                    Lost = ce.Field<DateTime?>("f_lost_date") > d
                        ? ce.Field<DateTime?>("f_lost_date") : null,
                    State = s.Field<string>("f_state_text"),
@@ -694,8 +694,7 @@ namespace SupRealClient.Views
                        (cardsPersons.FirstOrDefault(p =>
                        p.IdCardHi == ce.Field<int>("f_object_id_hi") &&
                        p.IdCardLo == ce.Field<int>("f_object_id_lo"))?
-                       .PersonName.ToString()),
-                   IsDeleted = !CommonHelper.NotDeleted(ce)
+                       .PersonName.ToString())
                });
 
             var states = new Dictionary<int, string>((
@@ -716,33 +715,41 @@ namespace SupRealClient.Views
                     CardIdLo = c.Field<int>("f_object_id_lo"),
                     Name = c.Field<string>("f_card_name"),
                     CurdNum = c.Field<int>("f_card_num"),
-                    CreateDate = DateTime.MinValue,
-                    ChangeDate = DateTime.MinValue,
-                    Comment = "",
-                    Lost = null,
-                    State = states.ContainsKey(1) ? states[1] : "",
-                    StateId = 1,
-                    ReceiversName = "",
+                    CreateDate = (cardsExt.FirstOrDefault(ce =>
+                        c.Field<int>("f_object_id_hi") == ce.CardIdHi &&
+                        c.Field<int>("f_object_id_lo") == ce.CardIdLo)?.
+                        CreateDate) ?? DateTime.MinValue,
+                    ChangeDate = (cardsExt.FirstOrDefault(ce =>
+                        c.Field<int>("f_object_id_hi") == ce.CardIdHi &&
+                        c.Field<int>("f_object_id_lo") == ce.CardIdLo)?.
+                        ChangeDate) ?? DateTime.MinValue,
+                    Comment = (cardsExt.FirstOrDefault(ce =>
+                        c.Field<int>("f_object_id_hi") == ce.CardIdHi &&
+                        c.Field<int>("f_object_id_lo") == ce.CardIdLo)?.
+                        Comment),
+                    Lost = (cardsExt.FirstOrDefault(ce =>
+                        c.Field<int>("f_object_id_hi") == ce.CardIdHi &&
+                        c.Field<int>("f_object_id_lo") == ce.CardIdLo)?.
+                        Lost),
+                    StateId = (cardsExt.FirstOrDefault(ce =>
+                        c.Field<int>("f_object_id_hi") == ce.CardIdHi &&
+                        c.Field<int>("f_object_id_lo") == ce.CardIdLo)?.
+                        StateId) ?? 1,
+                    State = states.ContainsKey((int)CardState.Active) ?
+                        states[(int)CardState.Active] : "",
+                    ReceiversName = (cardsExt.FirstOrDefault(ce =>
+                        c.Field<int>("f_object_id_hi") == ce.CardIdHi &&
+                        c.Field<int>("f_object_id_lo") == ce.CardIdLo)?.
+                        ReceiversName)
+                   
                 });
 
-            foreach (var ce in cardsExt)
+            for (int i = 0; i < Set.Count; i++)
             {
-                var row = Set.FirstOrDefault(r => r.CardIdHi == ce.CardIdHi &&
-                    r.CardIdLo == ce.CardIdLo);
-                if (row != null)
+                if (Set[i].StateId != (int)CardState.Active)
                 {
-                    if (ce.IsDeleted)
-                    {
-                        Set.Remove(row);
-                        continue;
-                    }
-                    row.CreateDate = ce.CreateDate;
-                    row.ChangeDate = ce.ChangeDate;
-                    row.Comment = ce.Comment;
-                    row.Lost = ce.Lost;
-                    row.State = ce.State;
-                    row.StateId = ce.StateId;
-                    row.ReceiversName = ce.ReceiversName;
+                    Set[i].State = states.ContainsKey(Set[i].StateId) ?
+                       states[Set[i].StateId] : "";
                 }
             }
         }
