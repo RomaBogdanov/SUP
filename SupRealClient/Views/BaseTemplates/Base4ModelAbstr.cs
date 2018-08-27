@@ -673,13 +673,13 @@ namespace SupRealClient.Views
                     PersonName = p.Field<string>("f_full_name")
                 };
 
-            var cardsExt = new List<Card>(
+            var cardsExt = new List<T>(
                from ce in cardsExtWrapper.Table.AsEnumerable()
                join s in sprCardstatesWrapper.Table.AsEnumerable()
                on ce.Field<int>("f_state_id") equals s.Field<int>("f_state_id")
                where ce.Field<int>("f_card_id") != 0 &&
                CommonHelper.NotDeleted(ce)
-               select new Card
+               select new T
                {
                    CardIdHi = ce.Field<int>("f_object_id_hi"),
                    CardIdLo = ce.Field<int>("f_object_id_lo"),
@@ -708,41 +708,7 @@ namespace SupRealClient.Views
             Set = new ObservableCollection<T>(
                 from c in cardsWrapper.Table.AsEnumerable()
                 where c.Field<int>("f_card_id") != 0
-                select new T
-                {
-                    Id = c.Field<int>("f_card_id"),
-                    CardIdHi = c.Field<int>("f_object_id_hi"),
-                    CardIdLo = c.Field<int>("f_object_id_lo"),
-                    Name = c.Field<string>("f_card_name"),
-                    CurdNum = c.Field<int>("f_card_num"),
-                    CreateDate = (cardsExt.FirstOrDefault(ce =>
-                        c.Field<int>("f_object_id_hi") == ce.CardIdHi &&
-                        c.Field<int>("f_object_id_lo") == ce.CardIdLo)?.
-                        CreateDate) ?? DateTime.MinValue,
-                    ChangeDate = (cardsExt.FirstOrDefault(ce =>
-                        c.Field<int>("f_object_id_hi") == ce.CardIdHi &&
-                        c.Field<int>("f_object_id_lo") == ce.CardIdLo)?.
-                        ChangeDate) ?? DateTime.MinValue,
-                    Comment = (cardsExt.FirstOrDefault(ce =>
-                        c.Field<int>("f_object_id_hi") == ce.CardIdHi &&
-                        c.Field<int>("f_object_id_lo") == ce.CardIdLo)?.
-                        Comment),
-                    Lost = (cardsExt.FirstOrDefault(ce =>
-                        c.Field<int>("f_object_id_hi") == ce.CardIdHi &&
-                        c.Field<int>("f_object_id_lo") == ce.CardIdLo)?.
-                        Lost),
-                    StateId = (cardsExt.FirstOrDefault(ce =>
-                        c.Field<int>("f_object_id_hi") == ce.CardIdHi &&
-                        c.Field<int>("f_object_id_lo") == ce.CardIdLo)?.
-                        StateId) ?? 1,
-                    State = states.ContainsKey((int)CardState.Active) ?
-                        states[(int)CardState.Active] : "",
-                    ReceiversName = (cardsExt.FirstOrDefault(ce =>
-                        c.Field<int>("f_object_id_hi") == ce.CardIdHi &&
-                        c.Field<int>("f_object_id_lo") == ce.CardIdLo)?.
-                        ReceiversName)
-                   
-                });
+                select GetCard(c, cardsExt, states));
 
             for (int i = 0; i < Set.Count; i++)
             {
@@ -785,6 +751,38 @@ namespace SupRealClient.Views
                 { "ReceiversName", "Кому выдан" },
                 { "Lost", "Утерян" },
                 { "ChangeDate", "Изменён" },
+            };
+        }
+
+        private T GetCard(DataRow card, List<T> cardsExt,
+            Dictionary<int, string> states)
+        {
+            T cardExt = cardsExt.FirstOrDefault(ce =>
+                card.Field<int>("f_object_id_hi") == ce.CardIdHi &&
+                card.Field<int>("f_object_id_lo") == ce.CardIdLo);
+            int stateId = cardExt != null ? cardExt.StateId :
+                (int)CardState.Active;
+
+            return new T
+            {
+                Id = card.Field<int>("f_card_id"),
+                CardIdHi = card.Field<int>("f_object_id_hi"),
+                CardIdLo = card.Field<int>("f_object_id_lo"),
+                Name = card.Field<string>("f_card_name"),
+                CurdNum = card.Field<int>("f_card_num"),
+                CreateDate = cardExt != null ?
+                    cardExt.CreateDate : DateTime.MinValue,
+                ChangeDate = cardExt != null ?
+                    cardExt.ChangeDate : DateTime.MinValue,
+                Comment = cardExt != null ?
+                    cardExt.Comment : "",
+                Lost = cardExt != null ?
+                    cardExt.Lost : null,
+                StateId = stateId,
+                State = states.ContainsKey(stateId) ?
+                        states[stateId] : "",
+                ReceiversName = cardExt != null ?
+                    cardExt.ReceiversName : ""
             };
         }
 
