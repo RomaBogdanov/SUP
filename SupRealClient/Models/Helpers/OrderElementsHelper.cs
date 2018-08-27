@@ -36,11 +36,11 @@ namespace SupRealClient.Models.Helpers
                 return false;
             }
 
-            if (string.IsNullOrEmpty(orderElement.Position))
-            {
-                errorMessage = "Не указана должность.";
-                return false;
-            }
+            //if (string.IsNullOrEmpty(orderElement.Position))
+            //{
+            //    errorMessage = "Не указана должность.";
+            //    return false;
+            //}
 
 	        if (!isVirtueOrder && string.IsNullOrEmpty(orderElement.Catcher))
 	        {
@@ -60,11 +60,11 @@ namespace SupRealClient.Models.Helpers
                 return false;
             }
 
-            if (!CommonHelper.IsPositionCorrect(orderElement.Position))
-            {
-                errorMessage = "Неверно введена должность.";
-                return false;
-            }
+            //if (!CommonHelper.IsPositionCorrect(orderElement.Position))
+            //{
+            //    errorMessage = "Неверно введена должность.";
+            //    return false;
+            //}
 
             errorMessage = null;
             return true;
