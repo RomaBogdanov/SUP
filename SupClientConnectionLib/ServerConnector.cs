@@ -259,6 +259,10 @@ namespace SupClientConnectionLib
             {
                 b = this.tableService.InsertRow(compositeType, rowValues,
                     authorizer.GetInfo());
+                if (!b)
+                {
+                    goto Attempt;
+                }
             }
             catch (CommunicationObjectFaultedException err)
             {
@@ -277,10 +281,6 @@ namespace SupClientConnectionLib
                 Logger.Log.Error(err.GetType() + err.Message + err.StackTrace);
             }
                 Logger.Log.Debug($"Окончание отправки данных по новой строке. Результат отправки: {b}");
-            if (!b)
-            {
-                goto Attempt;
-            }
                 string st = "";
                 foreach (var item in rowValues)
                 {
@@ -311,7 +311,11 @@ namespace SupClientConnectionLib
                 {
                     b = this.tableService.UpdateRow(compositeType, numRow, rowValues,
                         authorizer.GetInfo());
+                if (!b)
+                {
+                    goto Attempt;
                 }
+            }
             catch(CommunicationObjectFaultedException err)
             {
                 Logger.Log.Error(err.GetType() + err.Message + err.StackTrace);
@@ -330,10 +334,7 @@ namespace SupClientConnectionLib
                     Logger.Log.Error(err.GetType() + err.Message + err.StackTrace);
                 }
                 Logger.Log.Debug($"Окончание редактирования данных по строке. Результат отправки: {b}");
-            if (!b)
-            {
-                goto Attempt;
-            }
+
             string st = "";
                 foreach (var item in rowValues)
                 {
@@ -354,6 +355,10 @@ namespace SupClientConnectionLib
             {
                 b = this.tableService.DeleteRow(compositeType, objs,
                     authorizer.GetInfo());
+                if (!b)
+                {
+                    goto Attempt;
+                }
             }
             catch (CommunicationObjectFaultedException err)
             {
@@ -368,10 +373,6 @@ namespace SupClientConnectionLib
                 Logger.Log.Error(err.GetType() + err.Message + err.StackTrace);
             }
             Logger.Log.Debug($"Окончание удаления строки. Результат отправки: {b}");
-            if (!b)
-            {
-                goto Attempt;
-            }
             string st = "";
             foreach (var item in objs)
             {
