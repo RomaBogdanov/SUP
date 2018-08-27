@@ -385,8 +385,9 @@ namespace SupRealClient
                 case "Base4OrganizationsWindView":
                     return new Base4OrganizationsWindView();
                 case "Base4OrganizationsLargeWindView":
-                    return new Base4OrganizationsLargeWindView();
-                //Base4OrganizationsLargeWindView
+                    return new Base4OrganizationsLargeWindView(Visibility.Hidden);
+                case "Base4OrganizationsLargeWindViewOk":
+                    return new Base4OrganizationsLargeWindView(Visibility.Visible);
                 case "Base4RegionsWindView":
                     return new Base4RegionsWindView(Visibility.Hidden);
                 case "Base4RegionsWindViewOk":

@@ -948,7 +948,7 @@ namespace SupRealClient.Views
 		private void OrganizationsList()
 		{
 			var result = ViewManager.Instance.OpenWindowModal(
-			    "Base4OrganizationsWindView", view) as BaseModelResult;
+                "Base4OrganizationsLargeWindViewOk", view) as BaseModelResult;
 			if (result == null)
 			{
 				return;
