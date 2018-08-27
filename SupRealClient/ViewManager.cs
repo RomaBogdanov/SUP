@@ -351,7 +351,9 @@ namespace SupRealClient
                 case "LogsWindView":
                     return new LogsWindView();
                 case "MainOrganisationStructureView":
-                    return new MainOrganisationStructureView();
+                    return new MainOrganisationStructureView(Visibility.Hidden);
+                case "MainOrganisationStructureViewOk":
+                    return new MainOrganisationStructureView(Visibility.Visible);
                 case "ChildOrgsView":
                     return new ChildOrgsView();
                 case "BaseOrgsView":

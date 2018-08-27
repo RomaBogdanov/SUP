@@ -38,17 +38,17 @@
             FontSize="{Binding FontSize}"
             HorizontalAlignment="Left"
             Style="{StaticResource TextBLockStyle}"
-            Text="Полное имя:"/>
-        
+            Text="Краткое наименование:"/>
+
         <TextBox
-            x:Name="tbFullName"
+            x:Name="tbShortName"
             Grid.Row="1"
             Grid.ColumnSpan="4"
             Margin="2"
             FontSize="{Binding FontSize}"
             Style="{StaticResource TextBoxStyle}"
             PreviewKeyUp="UIElement_OnPreviewKeyUp"
-            Text="{Binding FullDescription, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
+            Text="{Binding Description, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
 
         <TextBlock 
             Grid.Row="2"
@@ -56,17 +56,17 @@
             FontSize="{Binding FontSize}"
             HorizontalAlignment="Left"
             Style="{StaticResource TextBLockStyle}"
-            Text="Короткое имя:"/>
+            Text="Полное наименование:"/>
 
         <TextBox
-            x:Name="tbShortName"
+            x:Name="tbFullName"
             Grid.Row="3"
             Grid.ColumnSpan="4"
             Margin="2"
             FontSize="{Binding FontSize}"
             Style="{StaticResource TextBoxStyle}"
             PreviewKeyUp="UIElement_OnPreviewKeyUp"
-            Text="{Binding Description, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
+            Text="{Binding FullDescription, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
 
         <Button
             Grid.Row="4"

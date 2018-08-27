@@ -30,7 +30,7 @@
             <RowDefinition Height="40"/>
             <RowDefinition Height="70"/>
         </Grid.RowDefinitions>
-        
+
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="121"/>
             <ColumnDefinition Width="94"/>
@@ -38,7 +38,7 @@
             <ColumnDefinition/>
             <ColumnDefinition Width="94"/>
         </Grid.ColumnDefinitions>
-        
+
         <TreeView
             x:Name="treeView"
             Grid.Row="0"
@@ -58,14 +58,17 @@
             </TreeView.ItemContainerStyle>
             <TreeView.ItemTemplate>
                 <HierarchicalDataTemplate ItemsSource="{Binding Path=Items}">
-                    <TextBlock Text="{Binding Description}" ToolTip="{Binding FullDesription}" Background="{Binding Background}"/>
+                    <TextBlock Text="{Binding Description}" ToolTip="{Binding FullDesription}" Background="{Binding Background}"
+                               AllowDrop="True"
+                               Drop="treeViewItemTextBlock_Drop" 
+                               MouseDown="treeViewItemTextBlock_MouseDown"/>
                 </HierarchicalDataTemplate>
             </TreeView.ItemTemplate>
             <TreeView.InputBindings>
                 <KeyBinding Key="Enter" Command="{Binding OkCommand}" />
             </TreeView.InputBindings>
         </TreeView>
-        
+
         <TextBlock
             Grid.Row="1"
             Grid.Column="0"
@@ -108,7 +111,7 @@
 					Text="Подразделение" />
             </Grid>
         </Button>
-        
+
         <Button
             Grid.Row="3"
             Grid.Column="1"
@@ -155,8 +158,31 @@
 
         <Button
             Grid.Row="3"
-            Grid.Column="4"
+            Grid.Column="3"
             Command="{Binding OkCommand}"
+            Style="{DynamicResource SquareButtonStyle1}" 
+            Visibility="{Binding OkVisibility}"
+            Margin="1,1,1,1">
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition />
+                    <RowDefinition Height="0.5*" />
+                </Grid.RowDefinitions>
+
+                <Image Grid.Row="0" Source="../Resources/Принять (2).ico" />
+
+                <TextBlock
+					Grid.Row="1"
+					FontSize="{Binding FontSize}"
+					Style="{StaticResource TextBLockDetailStyle}"                    
+					Text="Ок" HorizontalAlignment="Center"/>
+            </Grid>
+        </Button>
+
+        <Button
+            Grid.Row="3"
+            Grid.Column="4"
+            Command="{Binding CancelCommand}"
             Style="{DynamicResource SquareButtonStyle1}" 
             Margin="1,1,5,1">
             <Grid>

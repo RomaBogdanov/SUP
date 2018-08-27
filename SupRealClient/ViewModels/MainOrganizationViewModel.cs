@@ -25,6 +25,8 @@ namespace SupRealClient.ViewModels
         private string searchingText;
         private List<ModelBase> searchResult = new List<ModelBase>();
 
+        private Visibility okVisibility;
+
         System.Collections.Generic.List<Organization> memOrgs = new System.Collections.Generic.List<Organization>();
         System.Collections.Generic.List<Department> memDeps = new System.Collections.Generic.List<Department>();
    
@@ -33,6 +35,16 @@ namespace SupRealClient.ViewModels
             None,
             Organization,
             Department
+        }
+
+        public Visibility OkVisibility
+        {
+            get { return okVisibility; }
+            set
+            {
+                okVisibility = value;
+                OnPropertyChanged();
+            }
         }
 
         public string SearchingText
@@ -293,8 +305,11 @@ namespace SupRealClient.ViewModels
 
         private void Finish()
         {
-            OnClose?.Invoke(currentLevel != CurrentLevel.Department ? null :
-                new BaseModelResult { Id = currentDep, Name = description });
+            if (OkVisibility == Visibility.Visible)
+            {
+                OnClose?.Invoke(currentLevel != CurrentLevel.Department ? null :
+                    new BaseModelResult { Id = currentDep, Name = description });
+            }                
         }
 
         private Action<object> Cancel()
@@ -335,6 +350,7 @@ namespace SupRealClient.ViewModels
                         {
                             Id = department.Field<int>("f_dep_id"),
                             ParentId = department.Field<int>("f_parent_id"),
+                            OrganizationId = department.Field<int>("f_org_id"),
                             FullDescription = department.Field<string>("f_dep_name"),
                             Description = department.Field<string>("f_short_dep_name"),                            
                             IsExpanded = memDeps.Find(x => x.Id == department.Field<int>("f_dep_id"))?.IsExpanded ?? false,
@@ -359,6 +375,7 @@ namespace SupRealClient.ViewModels
                 {
                     Id = department.Field<int>("f_dep_id"),
                     ParentId = department.Field<int>("f_parent_id"),
+                    OrganizationId = department.Field<int>("f_org_id"),
                     FullDescription = department.Field<string>("f_dep_name"),
                     Description = department.Field<string>("f_short_dep_name"),                   
                     IsExpanded = memDeps.Find(x => x.Id == department.Field<int>("f_dep_id"))?.IsExpanded ?? false,
@@ -477,6 +494,70 @@ namespace SupRealClient.ViewModels
                     SelectedObject = Organizations[0];
                 }
             }
+        }
+
+        public void DragAndDropDepartment(object oDrop, Department oDepDrag)
+        {
+            var depsDropNode = new ObservableCollection<Department>();
+            int parentId = -1;
+            int orgId = -1;
+            
+            if (oDrop is Department)
+            {
+                var dep = oDrop as Department;
+                parentId = dep.Id;
+                orgId = dep.OrganizationId;
+                depsDropNode.Add(dep);
+            }
+            else if (oDrop is Organization)
+            {
+                var org = oDrop as Organization;
+                depsDropNode = org.Items;
+                orgId = org.Id;
+            }                       
+
+            List<Department> depsDrop = new List<Department>();
+            GetDeps(depsDropNode, depsDrop);
+            List<Department> depsDrag = new List<Department>();
+            GetDeps(new ObservableCollection<Department>() { oDepDrag }, depsDrag);
+
+           
+            if ( oDepDrag.OrganizationId != orgId &&
+                (from idepDrag in depsDrag
+                 where depsDrop.Find(depDrop => 
+                                     depDrop.Description.ToUpper() == idepDrag.Description.ToUpper() ||
+                                     depDrop.FullDescription.ToUpper() == idepDrag.FullDescription.ToUpper()) != null
+                 select idepDrag).Any())
+            {
+                MessageBox.Show(@"Перемещение невозможно, т.к. есть подразделение с таким же коротким или полным наименованием!", "Информация", MessageBoxButton.OK, MessageBoxImage.Information);
+                return;
+            }
+
+            DepartmentWrapper.CurrentTable().OnChanged -= Query;
+            foreach (var dep in depsDrag)
+            {
+                DataRow row = DepartmentWrapper.CurrentTable().Table.Rows.Find(dep.Id);
+                row.BeginEdit();
+                row["f_org_id"] = orgId;               
+                row["f_rec_date"] = DateTime.Now;
+                row["f_rec_operator"] = Authorizer.AppAuthorizer.Id;                
+            }
+
+            DataRow rowDepDrag = DepartmentWrapper.CurrentTable().Table.Rows.Find(oDepDrag.Id);
+            rowDepDrag.BeginEdit();
+            rowDepDrag["f_parent_id"] = parentId;
+            rowDepDrag["f_rec_date"] = DateTime.Now;
+            rowDepDrag["f_rec_operator"] = Authorizer.AppAuthorizer.Id;
+
+            DepartmentWrapper.CurrentTable().Table.AcceptChanges();   
+            DepartmentWrapper.CurrentTable().OnChanged += Query;
+            Query();
+
+            if (parentId == -1)
+            {
+                parentId = orgId;
+            }
+            SelectItem(parentId);
         }
     }
 }
