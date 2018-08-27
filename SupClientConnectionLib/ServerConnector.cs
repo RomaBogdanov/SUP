@@ -117,6 +117,8 @@ namespace SupClientConnectionLib
             catch (CommunicationObjectFaultedException err)
             {
                 Logger.Log.Error(err.GetType() + err.Message + err.StackTrace);
+                Logger.Log.Debug("Пытаемся перезапустить соединение");
+                ResetConnection();
                 goto Attempt;
             }
             catch (Exception err)
@@ -137,6 +139,8 @@ namespace SupClientConnectionLib
             catch (CommunicationObjectFaultedException err)
             {
                 Logger.Log.Error(err.GetType() + err.Message + err.StackTrace);
+                Logger.Log.Debug("Пытаемся перезапустить соединение");
+                ResetConnection();
                 goto Attempt;
             }
             catch (Exception err)
@@ -157,6 +161,8 @@ namespace SupClientConnectionLib
             catch (CommunicationObjectFaultedException err)
             {
                 Logger.Log.Error(err.GetType() + err.Message + err.StackTrace);
+                Logger.Log.Debug("Пытаемся перезапустить соединение");
+                ResetConnection();
                 goto Attempt;
             }
             catch (Exception err)
@@ -177,6 +183,8 @@ namespace SupClientConnectionLib
             catch (CommunicationObjectFaultedException err)
             {
                 Logger.Log.Error(err.GetType() + err.Message + err.StackTrace);
+                Logger.Log.Debug("Пытаемся перезапустить соединение");
+                ResetConnection();
                 goto Attempt;
             }
             catch (Exception err)
@@ -197,6 +205,8 @@ namespace SupClientConnectionLib
             catch (CommunicationObjectFaultedException err)
             {
                 Logger.Log.Error(err.GetType() + err.Message + err.StackTrace);
+                Logger.Log.Debug("Пытаемся перезапустить соединение");
+                ResetConnection();
                 goto Attempt;
             }
             catch (Exception err)
@@ -219,6 +229,8 @@ namespace SupClientConnectionLib
             catch (CommunicationObjectFaultedException err)
             {
                 Logger.Log.Error(err.GetType() + err.Message + err.StackTrace);
+                Logger.Log.Debug("Пытаемся перезапустить соединение");
+                ResetConnection();
                 goto Attempt;
             }
             catch (Exception err)
@@ -265,6 +277,10 @@ namespace SupClientConnectionLib
                 Logger.Log.Error(err.GetType() + err.Message + err.StackTrace);
             }
                 Logger.Log.Debug($"Окончание отправки данных по новой строке. Результат отправки: {b}");
+            if (!b)
+            {
+                goto Attempt;
+            }
                 string st = "";
                 foreach (var item in rowValues)
                 {
@@ -314,7 +330,11 @@ namespace SupClientConnectionLib
                     Logger.Log.Error(err.GetType() + err.Message + err.StackTrace);
                 }
                 Logger.Log.Debug($"Окончание редактирования данных по строке. Результат отправки: {b}");
-                string st = "";
+            if (!b)
+            {
+                goto Attempt;
+            }
+            string st = "";
                 foreach (var item in rowValues)
                 {
                     st += item + " ";
@@ -348,6 +368,10 @@ namespace SupClientConnectionLib
                 Logger.Log.Error(err.GetType() + err.Message + err.StackTrace);
             }
             Logger.Log.Debug($"Окончание удаления строки. Результат отправки: {b}");
+            if (!b)
+            {
+                goto Attempt;
+            }
             string st = "";
             foreach (var item in objs)
             {
