@@ -43,7 +43,6 @@ namespace SupRealClient.Models.Helpers
                     break;
                 }
             }
-            int prevStateId = -1;
             if (row == null)
             {
                 row = cards.Table.NewRow();
@@ -61,7 +60,6 @@ namespace SupRealClient.Models.Helpers
             }
             else
             {
-                prevStateId = row.Field<int>("f_state_id");
                 row.BeginEdit();
                 row["f_state_id"] = data.StateId;
                 row["f_lost_date"] = data.Lost ?? DateTime.MinValue;
@@ -71,7 +69,7 @@ namespace SupRealClient.Models.Helpers
                 row.EndEdit();
             }
 
-            if (data.StateId == (int)CardState.Active && prevStateId == (int)CardState.Issued)
+            if (data.StateId == (int)CardState.Active)
             {
                 ReturnCard(data);
             }

@@ -707,15 +707,6 @@ namespace SupRealClient.Views
                 from c in cardsWrapper.Table.AsEnumerable()
                 where c.Field<int>("f_card_id") != 0
                 select GetCard(c, cardsExt, states));
-
-            for (int i = 0; i < Set.Count; i++)
-            {
-                if (Set[i].StateId != (int)CardState.Active)
-                {
-                    Set[i].State = states.ContainsKey(Set[i].StateId) ?
-                       states[Set[i].StateId] : "";
-                }
-            }
         }
 
 	    public override bool Remove()
