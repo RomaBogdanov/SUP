@@ -278,10 +278,12 @@ namespace SupRealClient.Views
 				if (!model.IsRedactMode)
 				{
 					Close();
+					e.Handled = true;
 				}
 				else
 				{
 					model.Cancel();
+					e.Handled = true;
 				}
 			} else if ((e.Key == Key.Home || e.Key == Key.Left && Keyboard.IsKeyDown(Key.LeftCtrl)) && butFirst.IsEnabled)
 			{

@@ -69,11 +69,9 @@
 			</DataGrid.ColumnHeaderStyle>
 			<DataGrid.InputBindings>
 				<KeyBinding Key="Delete" Command="{Binding Remove}" />
+				<KeyBinding Key="F2" Command="{Binding Update}" />
 				<KeyBinding Key="F4" Command="{Binding Watch}" />
-				<MouseBinding
-					Command="{Binding Ok}"
-					CommandParameter="{Binding SelectedElement}"
-					MouseAction="LeftDoubleClick" />
+				<MouseBinding Command="{Binding Ok}" MouseAction="LeftDoubleClick" />
 			</DataGrid.InputBindings>
 		</local:CustomDataGrid>
 
