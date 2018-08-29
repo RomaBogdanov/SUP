@@ -14,6 +14,7 @@ using RegulaLib;
 using SupRealClient.Common;
 using SupRealClient.TabsSingleton;
 using SupRealClient.Views;
+using SupRealClient.Common.Data;
 
 namespace SupRealClient.ViewModels
 {
@@ -400,7 +401,7 @@ namespace SupRealClient.ViewModels
 
 	    private void AddImage()
 	    {
-			var dlg = new OpenFileDialog();
+			var dlg = new ImageOpenFileDialog();
 			if (dlg.ShowDialog() == DialogResult.OK)
 			{
 				var guid = ImagesHelper.LoadImage(dlg.FileName);

@@ -129,6 +129,7 @@ namespace SupRealClient.Views
 
 				SelectedDocument = -1;
 				OnPropertyChanged(nameof(VisibleTabItem_Employee));
+				OnPropertyChanged(nameof(CommentText));
 				OnPropertyChanged(nameof(CommentTextEnable));
 				OnPropertyChanged(nameof(Name));
 				OnPropertyChanged(nameof(Family));
@@ -221,6 +222,17 @@ namespace SupRealClient.Views
             }
         }
 
+		public string CommentText
+		{
+			get { return Model?.CurrentItem.Comment; }
+			set
+			{
+				if(Model!=null && Model.CurrentItem!=null)
+					Model.CurrentItem.Comment = value;
+				OnPropertyChanged(nameof(CommentText));
+			}
+		}
+
 		public bool CommentTextEnable
 		{
 			get { return Model.CommentTextEnable; }
@@ -228,6 +240,7 @@ namespace SupRealClient.Views
 			{
 				Model.CommentTextEnable = value;
 				OnPropertyChanged(nameof(CommentTextEnable));
+				OnPropertyChanged(nameof(CommentText));
 			}
 		}
 
@@ -376,6 +389,7 @@ namespace SupRealClient.Views
 					OnPropertyChanged(nameof(BirthDate));
 					OnPropertyChanged(nameof(VisibleTabItem_Employee));
 					OnPropertyChanged(nameof(CommentTextEnable));
+					OnPropertyChanged(nameof(CommentText));
 					Update_Fields();
 
 				}
@@ -1257,6 +1271,7 @@ namespace SupRealClient.Views
 				OnPropertyChanged(nameof(BirthDate));
 				OnPropertyChanged(nameof(VisibleTabItem_Employee));
 				OnPropertyChanged(nameof(CommentTextEnable));
+				OnPropertyChanged(nameof(CommentText));
 				Update_Fields();
 
 
@@ -1566,6 +1581,8 @@ namespace SupRealClient.Views
 			{
 				EditingVisitorCommentMode = false;
 			}
+
+			OnPropertyChanged(nameof(CommentText));
 		}
 
 		private void SavingEditedVisitorComment()
@@ -1584,6 +1601,8 @@ namespace SupRealClient.Views
 		{
 			EditingVisitorCommentMode = false;
 			CommentTextEnable = false;
+
+			OnPropertyChanged(nameof(CommentText));
 		}
 
 

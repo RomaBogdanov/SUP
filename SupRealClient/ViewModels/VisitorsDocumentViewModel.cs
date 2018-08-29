@@ -11,6 +11,7 @@ using System.Data;
 using System.Windows;
 using SupRealClient.Handlers;
 using SupRealClient.Views;
+using SupRealClient.Common.Data;
 
 namespace SupRealClient.ViewModels
 {
@@ -173,7 +174,7 @@ namespace SupRealClient.ViewModels
 
         private void AddImage()
         {
-            var dlg = new OpenFileDialog();
+            var dlg = new ImageOpenFileDialog();
             if (dlg.ShowDialog() == DialogResult.OK)
             {
                 Guid id = ImagesHelper.LoadImage(dlg.FileName);
