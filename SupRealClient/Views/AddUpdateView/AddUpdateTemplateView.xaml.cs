@@ -16,12 +16,14 @@ namespace SupRealClient.Views.AddUpdateView
         /// </summary>
         private TraversalRequest _focusMover = new TraversalRequest(FocusNavigationDirection.Next);
 
-        public AddUpdateTemplateView()
+        public AddUpdateTemplateView(string windowTitle="")
         {
             InitializeComponent();
 
             this.WindowStartupLocation = WindowStartupLocation.CenterScreen;
-        }
+
+			Set_WindowTitle(windowTitle);
+		}
 
         public bool CanMinimize { get; private set; }
 
@@ -57,5 +59,13 @@ namespace SupRealClient.Views.AddUpdateView
                 ((UIElement)sender).MoveFocus(_focusMover);
             }
         }
+
+		private void Set_WindowTitle(string windowTitle)
+		{
+			if (!string.IsNullOrEmpty(windowTitle) && !string.IsNullOrWhiteSpace(windowTitle))
+			{
+				Title = windowTitle;
+			}
+		}
     }
 }
