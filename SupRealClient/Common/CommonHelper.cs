@@ -188,8 +188,8 @@ namespace SupRealClient.Common
 			var result = match.Groups[1].Value;
 			result = Regex.Replace(result, @"\s+", "");
 			//result = Regex.Replace(result, @"\s*[-–——]\s*", "-");
-			result = Regex.Replace(result, @"[^\s-\w]", "");
 			result = Regex.Replace(result, @"(\s*[-–——-]\s*)+", "-");
+			result = Regex.Replace(result, @"[^\s-\w]", "");
 
 
 

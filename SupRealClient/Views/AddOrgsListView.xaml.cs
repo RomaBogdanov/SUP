@@ -676,8 +676,9 @@ namespace SupRealClient.Views
                         .Table.AsEnumerable().FirstOrDefault(
                         arg => arg.Field<int>("f_region_id") ==
                         orgs.Field<int>("f_region_id"))["f_region_name"].ToString(),
-                       SynId = 0
-                   });
+                       SynId = 0,
+					   IsBasic = true
+				   });
             this.viewModel.Set = new ObservableCollection<object>(Organizations);
             if (viewModel.NumItem == -1)
             {
@@ -822,8 +823,9 @@ namespace SupRealClient.Views
                         .Table.AsEnumerable().FirstOrDefault(
                         arg => arg.Field<int>("f_region_id") ==
                         orgs.Field<int>("f_region_id"))["f_region_name"].ToString(),
-                     SynId = 0
-                 });
+                     SynId = 0,
+					 IsBasic = true
+				 });
             this.viewModel.Set = new ObservableCollection<object>(Organizations);
             if (viewModel.NumItem == -1)
             {

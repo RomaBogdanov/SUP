@@ -286,7 +286,8 @@ namespace SupRealClient.ViewModels
                 {
                     DataRow row = OrganizationsWrapper.CurrentTable().Table.Rows.Find((SelectedObject as Organization).Id);
                     row.BeginEdit();
-                    row["f_is_basic"] = "N";
+
+					row["f_is_basic"] = "N";
                     row["f_rec_date"] = DateTime.Now;
                     row["f_rec_operator"] = Authorizer.AppAuthorizer.Id;
                     row.EndEdit();

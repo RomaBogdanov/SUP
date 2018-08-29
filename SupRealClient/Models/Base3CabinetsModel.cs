@@ -42,7 +42,7 @@ namespace SupRealClient.Models
         {
             //ViewManager.Instance.Update(new UpdateItemDocumentsModel((Document)this.viewModel.CurrentItem), parent);
             AddUpdateCabinetView addUpdateCabinetView = 
-                new AddUpdateCabinetView(this.viewModel.CurrentItem as Cabinet);
+                new AddUpdateCabinetView(this.viewModel.CurrentItem as Cabinet, "Изменение кабинета");
             addUpdateCabinetView.Show();
         }
 

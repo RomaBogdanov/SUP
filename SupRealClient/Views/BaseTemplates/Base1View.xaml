@@ -68,6 +68,8 @@
 
 			<DataGrid.InputBindings>
 				<KeyBinding Key="Delete" Command="{Binding Remove}" />
+				<KeyBinding Key="F2" Command="{Binding Update}" />
+				<MouseBinding Command="{Binding Ok}" MouseAction="LeftDoubleClick" />
 			</DataGrid.InputBindings>
 		</local:CustomDataGrid>
 
@@ -218,7 +220,7 @@
 		</Button>
 
 		<Button
-            Name="btnHome"
+			Name="btnHome"
 			Grid.Row="3"
 			Grid.Column="0"
 			Margin="1"
@@ -297,7 +299,7 @@
 
 
 		<Button
-            Name="btnEnd"
+			Name="btnEnd"
 			Grid.Row="3"
 			Grid.Column="3"
 			Margin="1"

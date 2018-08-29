@@ -25,6 +25,7 @@ namespace SupRealClient.ViewModels
         private string region = "";
         private bool countryRegionEnabled;
         private int synId = 0;
+		private bool isBasic = false;
         public int FontSize => GlobalSettings.GetFontSize();
 
         public ICommand FullNameCommand { get; set; }
@@ -191,6 +192,8 @@ namespace SupRealClient.ViewModels
             this.Region = model.Data.Region;
             this.synId = model.Data.SynId;
             this.CountryRegionEnabled = this.synId <= 0;
+			this.isBasic = model.Data.IsBasic;
+			
 
             this.Ok = new RelayCommand(arg => this.model.Ok(new Organization
             {
@@ -202,7 +205,8 @@ namespace SupRealClient.ViewModels
                 Country = Country,
                 RegionId = regionId,
                 Region = Region,
-                SynId = synId
+                SynId = synId,
+				IsBasic=isBasic
             }));
             this.Cancel = new RelayCommand(arg => this.model.Cancel());
 

@@ -1,307 +1,289 @@
-﻿<UserControl x:Class="SupRealClient.Views.ListViews.BaseListSmallView"
-             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
-             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
-             xmlns:local="clr-namespace:SupRealClient.Views.ListViews"
-             xmlns:behaviour="clr-namespace:SupRealClient.Behaviour"
-             mc:Ignorable="d" 
-             d:DesignHeight="500" d:DesignWidth="600"
-             PreviewKeyDown="BaseListSmallView_OnKeyDown">
-    
-    <UserControl.InputBindings>
-        <KeyBinding Key="Insert" Command="{Binding Add}"/>
-        <KeyBinding Key="Home" Command="{Binding Begin}"/>
-        <KeyBinding Key="End" Command="{Binding End}"/>
-        <KeyBinding Key="Escape" Command="{Binding Close}"/>
-        <KeyBinding Gesture="Ctrl+F" Command="{Binding Search}"/>
-    </UserControl.InputBindings>
-    
-    <Grid>
-        <Grid.RowDefinitions>
-            <RowDefinition/>
-            <RowDefinition Height="50"/>
-            <RowDefinition Height="45"/>
-            <RowDefinition Height="45"/>
-        </Grid.RowDefinitions>
-        <Grid.ColumnDefinitions>
-            <ColumnDefinition/>
-            <ColumnDefinition/>
-            <ColumnDefinition/>
-            <ColumnDefinition/>
-            <ColumnDefinition/>
-        </Grid.ColumnDefinitions>
-        
-        <DataGrid
-            Name="DataGrid"
-            Grid.Row="0"
-            Grid.Column="0"
-            Grid.ColumnSpan="5"
-            Focusable="True" 
-            AutoGenerateColumns="True"
-            CanUserAddRows="False"
-            IsReadOnly="True"
-            behaviour:DataGridTextSearch.SearchValue="{Binding ElementName=aaa, Path=Text, UpdateSourceTrigger=PropertyChanged}"
-            ItemsSource="{Binding Path=Set, Mode=TwoWay}" 
-            CurrentItem="{Binding Path=CurrentItem, Mode=TwoWay}"
-            SelectedItem="{Binding Path=CurrentItem, Mode=TwoWay}" 
-            SelectedIndex="{Binding Path=SelectedIndex, Mode=TwoWay}"
-            CurrentColumn="{Binding Path=CurrentColumn, Mode=TwoWay}" 
-            Style="{StaticResource AzureDataGrid}"
-            KeyDown="DataGrid_OnKeyDown"/>
-        
-        <TextBlock
-            Grid.Row="1"
-            Grid.Column="0"
-            Text="Поиск"
-            Style="{StaticResource TextBLockStyle}"/>
-        
-        <TextBox
-            Name="tbxSearch"
-            Grid.Row="1"
-            Grid.Column="1"
-            Grid.ColumnSpan="4"
-            Text="{Binding SearchingText}"
-            Style="{StaticResource TextBoxStyle}"/>
-        
-        <Button
-            x:Name="btnadd"
-            Grid.Column="0"
-            Grid.Row="2"
-            Style="{StaticResource ButtonStyle}"
-            Command="{Binding Add}"
-            KeyDown="DataGrid_OnKeyDown">
-            <Grid>
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="30"/>
-                    <ColumnDefinition/>
-                </Grid.ColumnDefinitions>
-                
-                <Image
-                    Grid.Column="0"
-                    Source="../../Resources/Добавить1 (2).ico"/>
+﻿<UserControl
+	x:Class="SupRealClient.Views.ListViews.BaseListSmallView"
+	xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+	xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+	xmlns:behaviour="clr-namespace:SupRealClient.Behaviour"
+	xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+	xmlns:local="clr-namespace:SupRealClient.Views.ListViews"
+	xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+	d:DesignHeight="500"
+	d:DesignWidth="600"
+	PreviewKeyDown="BaseListSmallView_OnKeyDown"
+	mc:Ignorable="d">
 
-                <TextBlock
-                    Grid.Column="1"
-                    Text="Добавить"
-                    Style="{StaticResource TextBLockStyle}"/>
-            </Grid>
-        </Button>
+	<UserControl.InputBindings>
+		<KeyBinding Key="Insert" Command="{Binding Add}" />
+		<KeyBinding Key="Home" Command="{Binding Begin}" />
+		<KeyBinding Key="End" Command="{Binding End}" />
+		<KeyBinding Key="Escape" Command="{Binding Close}" />
+		<KeyBinding Command="{Binding Search}" Gesture="Ctrl+F" />
+	</UserControl.InputBindings>
 
-        <Button
-            x:Name="btnedit"
-            Grid.Column="1"
-            Grid.Row="2"
-            Style="{StaticResource ButtonStyle}"
-            Command="{Binding Update}"
-            KeyDown="DataGrid_OnKeyDown">
-            <Grid>
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="30"/>
-                    <ColumnDefinition/>
-                </Grid.ColumnDefinitions>
+	<Grid>
+		<Grid.RowDefinitions>
+			<RowDefinition />
+			<RowDefinition Height="50" />
+			<RowDefinition Height="45" />
+			<RowDefinition Height="45" />
+		</Grid.RowDefinitions>
+		<Grid.ColumnDefinitions>
+			<ColumnDefinition />
+			<ColumnDefinition />
+			<ColumnDefinition />
+			<ColumnDefinition />
+			<ColumnDefinition />
+		</Grid.ColumnDefinitions>
 
-                <Image
-                    Grid.Column="0"
-                    Source="../../Resources/Редактировать (2).ico"/>
+		<DataGrid
+			Name="DataGrid"
+			Grid.Row="0"
+			Grid.Column="0"
+			Grid.ColumnSpan="5"
+			behaviour:DataGridTextSearch.SearchValue="{Binding ElementName=aaa, Path=Text, UpdateSourceTrigger=PropertyChanged}"
+			AutoGenerateColumns="True"
+			CanUserAddRows="False"
+			CurrentColumn="{Binding Path=CurrentColumn, Mode=TwoWay}"
+			CurrentItem="{Binding Path=CurrentItem, Mode=TwoWay}"
+			Focusable="True"
+			IsReadOnly="True"
+			ItemsSource="{Binding Path=Set, Mode=TwoWay}"
+			KeyDown="DataGrid_OnKeyDown"
+			SelectedIndex="{Binding Path=SelectedIndex, Mode=TwoWay}"
+			SelectedItem="{Binding Path=CurrentItem, Mode=TwoWay}"
+			Style="{StaticResource AzureDataGrid}" />
 
-                <TextBlock
-                    Grid.Column="1"
-                    Text="Правка"
-                    Style="{StaticResource TextBLockStyle}"/>
-            </Grid>
-        </Button>
+		<TextBlock
+			Grid.Row="1"
+			Grid.Column="0"
+			Style="{StaticResource TextBLockStyle}"
+			Text="Поиск" />
 
-        <Button
-            x:Name="btnsearch"
-            Grid.Column="2"
-            Grid.Row="2"
-            Style="{StaticResource ButtonStyle}"
-            Command="{Binding Search}"
-            KeyDown="DataGrid_OnKeyDown">
-            <Grid>
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="30"/>
-                    <ColumnDefinition/>
-                </Grid.ColumnDefinitions>
+		<TextBox
+			Name="tbxSearch"
+			Grid.Row="1"
+			Grid.Column="1"
+			Grid.ColumnSpan="4"
+			Style="{StaticResource TextBoxStyle}"
+			Text="{Binding SearchingText}" />
 
-                <Image
-                    Grid.Column="0"
-                    Source="../../Resources/Найти (2).ico"/>
+		<Button
+			x:Name="btnadd"
+			Grid.Row="2"
+			Grid.Column="0"
+			Command="{Binding Add}"
+			KeyDown="DataGrid_OnKeyDown"
+			Style="{StaticResource ButtonStyle}">
+			<Grid>
+				<Grid.ColumnDefinitions>
+					<ColumnDefinition Width="30" />
+					<ColumnDefinition />
+				</Grid.ColumnDefinitions>
 
-                <TextBlock
-                    Grid.Column="1"
-                    Text="Найти"
-                    Style="{StaticResource TextBLockStyle}"/>
-            </Grid>
-        </Button>
+				<Image Grid.Column="0" Source="../../Resources/Добавить1 (2).ico" />
 
-        <Button
-            x:Name="btnefarther"
-            Grid.Column="3"
-            Grid.Row="2"
-            Style="{StaticResource ButtonStyle}"
-            Command="{Binding Farther}"
-            KeyDown="DataGrid_OnKeyDown">
-            <Grid>
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="30"/>
-                    <ColumnDefinition/>
-                </Grid.ColumnDefinitions>
+				<TextBlock
+					Grid.Column="1"
+					Style="{StaticResource TextBLockStyle}"
+					Text="Добавить" />
+			</Grid>
+		</Button>
 
-                <Image
-                    Grid.Column="0"
-                    Source="../../Resources/Далее.ico"/>
+		<Button
+			x:Name="btnedit"
+			Grid.Row="2"
+			Grid.Column="1"
+			Command="{Binding Update}"
+			KeyDown="DataGrid_OnKeyDown"
+			Style="{StaticResource ButtonStyle}">
+			<Grid>
+				<Grid.ColumnDefinitions>
+					<ColumnDefinition Width="30" />
+					<ColumnDefinition />
+				</Grid.ColumnDefinitions>
 
-                <TextBlock
-                    Grid.Column="1"
-                    Text="Далее"
-                    Style="{StaticResource TextBLockStyle}"/>
-            </Grid>
-        </Button>
+				<Image Grid.Column="0" Source="../../Resources/Редактировать (2).ico" />
 
-        <Button
-            x:Name="btnok"
-            Grid.Column="4"
-            Grid.Row="2"
-            Style="{StaticResource ButtonStyle}"
-            Command="{Binding Ok}"
-            KeyDown="DataGrid_OnKeyDown">
-            <Grid>
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="30"/>
-                    <ColumnDefinition/>
-                </Grid.ColumnDefinitions>
+				<TextBlock
+					Grid.Column="1"
+					Style="{StaticResource TextBLockStyle}"
+					Text="Правка" />
+			</Grid>
+		</Button>
 
-                <Image
-                    Grid.Column="0"
-                    Source="../../Resources/Принять (2).ico"/>
+		<Button
+			x:Name="btnsearch"
+			Grid.Row="2"
+			Grid.Column="2"
+			Command="{Binding Search}"
+			KeyDown="DataGrid_OnKeyDown"
+			Style="{StaticResource ButtonStyle}">
+			<Grid>
+				<Grid.ColumnDefinitions>
+					<ColumnDefinition Width="30" />
+					<ColumnDefinition />
+				</Grid.ColumnDefinitions>
 
-                <TextBlock
-                    Grid.Column="1"
-                    Text="Ок"
-                    Style="{StaticResource TextBLockStyle}"/>
-            </Grid>
-        </Button>
+				<Image Grid.Column="0" Source="../../Resources/Найти (2).ico" />
 
-        <Button
-            x:Name="btnstart"
-            Grid.Column="0"
-            Grid.Row="3"
-            Style="{StaticResource ButtonStyle}"
-            Command="{Binding Begin}"
-            KeyDown="DataGrid_OnKeyDown">
-            <Grid>
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="30"/>
-                    <ColumnDefinition/>
-                </Grid.ColumnDefinitions>
+				<TextBlock
+					Grid.Column="1"
+					Style="{StaticResource TextBLockStyle}"
+					Text="Найти" />
+			</Grid>
+		</Button>
 
-                <Image
-                    Grid.Column="0"
-                    Source="../../Resources/Начало (2).ico"/>
+		<Button
+			x:Name="btnefarther"
+			Grid.Row="2"
+			Grid.Column="3"
+			Command="{Binding Farther}"
+			KeyDown="DataGrid_OnKeyDown"
+			Style="{StaticResource ButtonStyle}">
+			<Grid>
+				<Grid.ColumnDefinitions>
+					<ColumnDefinition Width="30" />
+					<ColumnDefinition />
+				</Grid.ColumnDefinitions>
 
-                <TextBlock
-                    Grid.Column="1"
-                    Text="Начало"
-                    Style="{StaticResource TextBLockStyle}"/>
-            </Grid>
-        </Button>
+				<Image Grid.Column="0" Source="../../Resources/Далее.ico" />
 
-        <Button
-            x:Name="btnprev"
-            Grid.Column="1"
-            Grid.Row="3"
-            Style="{StaticResource ButtonStyle}"
-            Command="{Binding Prev}"
-            KeyDown="DataGrid_OnKeyDown">
-            <Grid>
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="30"/>
-                    <ColumnDefinition/>
-                </Grid.ColumnDefinitions>
+				<TextBlock
+					Grid.Column="1"
+					Style="{StaticResource TextBLockStyle}"
+					Text="Далее" />
+			</Grid>
+		</Button>
 
-                <Image
-                    Grid.Column="0"
-                    Source="../../Resources/Предыдущий (2).ico"/>
+		<Button
+			x:Name="btnok"
+			Grid.Row="2"
+			Grid.Column="4"
+			Command="{Binding Ok}"
+			KeyDown="DataGrid_OnKeyDown"
+			Style="{StaticResource ButtonStyle}">
+			<Grid>
+				<Grid.ColumnDefinitions>
+					<ColumnDefinition Width="30" />
+					<ColumnDefinition />
+				</Grid.ColumnDefinitions>
 
-                <TextBlock
-                    Grid.Column="1"
-                    Text="Пред."
-                    Style="{StaticResource TextBLockStyle}"/>
-            </Grid>
-        </Button>
+				<Image Grid.Column="0" Source="../../Resources/Принять (2).ico" />
 
-        <Button
-            x:Name="btnnext"
-            Grid.Column="2"
-            Grid.Row="3"
-            Style="{StaticResource ButtonStyle}"
-            Command="{Binding Next}"
-            KeyDown="DataGrid_OnKeyDown">
-            <Grid>
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="30"/>
-                    <ColumnDefinition/>
-                </Grid.ColumnDefinitions>
+				<TextBlock
+					Grid.Column="1"
+					Style="{StaticResource TextBLockStyle}"
+					Text="Ок" />
+			</Grid>
+		</Button>
 
-                <Image
-                    Grid.Column="0"
-                    Source="../../Resources/Следующий (2).ico"/>
+		<Button
+			x:Name="btnstart"
+			Grid.Row="3"
+			Grid.Column="0"
+			Command="{Binding Begin}"
+			KeyDown="DataGrid_OnKeyDown"
+			Style="{StaticResource ButtonStyle}">
+			<Grid>
+				<Grid.ColumnDefinitions>
+					<ColumnDefinition Width="30" />
+					<ColumnDefinition />
+				</Grid.ColumnDefinitions>
 
-                <TextBlock
-                    Grid.Column="1"
-                    Text="След."
-                    Style="{StaticResource TextBLockStyle}"/>
-            </Grid>
-        </Button>
+				<Image Grid.Column="0" Source="../../Resources/Начало (2).ico" />
 
-        <Button
-            x:Name="btnend"
-            Grid.Column="3"
-            Grid.Row="3"
-            Style="{StaticResource ButtonStyle}"
-            Command="{Binding End}"
-            KeyDown="DataGrid_OnKeyDown">
-            <Grid>
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="30"/>
-                    <ColumnDefinition/>
-                </Grid.ColumnDefinitions>
+				<TextBlock
+					Grid.Column="1"
+					Style="{StaticResource TextBLockStyle}"
+					Text="Начало" />
+			</Grid>
+		</Button>
 
-                <Image
-                    Grid.Column="0"
-                    Source="../../Resources/Конец (2).ico"/>
+		<Button
+			x:Name="btnprev"
+			Grid.Row="3"
+			Grid.Column="1"
+			Command="{Binding Prev}"
+			KeyDown="DataGrid_OnKeyDown"
+			Style="{StaticResource ButtonStyle}">
+			<Grid>
+				<Grid.ColumnDefinitions>
+					<ColumnDefinition Width="30" />
+					<ColumnDefinition />
+				</Grid.ColumnDefinitions>
 
-                <TextBlock
-                    Grid.Column="1"
-                    Text="Конец"
-                    Style="{StaticResource TextBLockStyle}"/>
-            </Grid>
-        </Button>
+				<Image Grid.Column="0" Source="../../Resources/Предыдущий (2).ico" />
 
-        <Button 
-            x:Name="btnclose"
-            Grid.Column="4"
-            Grid.Row="3"
-            Style="{StaticResource ButtonStyle}"
-            Command="{Binding Close}"
-            KeyDown="DataGrid_OnKeyDown">
-            <Grid>
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="30"/>
-                    <ColumnDefinition/>
-                </Grid.ColumnDefinitions>
+				<TextBlock
+					Grid.Column="1"
+					Style="{StaticResource TextBLockStyle}"
+					Text="Пред." />
+			</Grid>
+		</Button>
 
-                <Image
-                    Grid.Column="0"
-                    Source="../../Resources/Отмена (2).ico"/>
+		<Button
+			x:Name="btnnext"
+			Grid.Row="3"
+			Grid.Column="2"
+			Command="{Binding Next}"
+			KeyDown="DataGrid_OnKeyDown"
+			Style="{StaticResource ButtonStyle}">
+			<Grid>
+				<Grid.ColumnDefinitions>
+					<ColumnDefinition Width="30" />
+					<ColumnDefinition />
+				</Grid.ColumnDefinitions>
 
-                <TextBlock
-                    Grid.Column="1"
-                    Text="Закрыть"
-                    Style="{StaticResource TextBLockStyle}"/>
-            </Grid>
-        </Button>
-    </Grid>
+				<Image Grid.Column="0" Source="../../Resources/Следующий (2).ico" />
+
+				<TextBlock
+					Grid.Column="1"
+					Style="{StaticResource TextBLockStyle}"
+					Text="След." />
+			</Grid>
+		</Button>
+
+		<Button
+			x:Name="btnend"
+			Grid.Row="3"
+			Grid.Column="3"
+			Command="{Binding End}"
+			KeyDown="DataGrid_OnKeyDown"
+			Style="{StaticResource ButtonStyle}">
+			<Grid>
+				<Grid.ColumnDefinitions>
+					<ColumnDefinition Width="30" />
+					<ColumnDefinition />
+				</Grid.ColumnDefinitions>
+
+				<Image Grid.Column="0" Source="../../Resources/Конец (2).ico" />
+
+				<TextBlock
+					Grid.Column="1"
+					Style="{StaticResource TextBLockStyle}"
+					Text="Конец" />
+			</Grid>
+		</Button>
+
+		<Button
+			x:Name="btnclose"
+			Grid.Row="3"
+			Grid.Column="4"
+			Command="{Binding Close}"
+			KeyDown="DataGrid_OnKeyDown"
+			Style="{StaticResource ButtonStyle}">
+			<Grid>
+				<Grid.ColumnDefinitions>
+					<ColumnDefinition Width="30" />
+					<ColumnDefinition />
+				</Grid.ColumnDefinitions>
+
+				<Image Grid.Column="0" Source="../../Resources/Отмена (2).ico" />
+
+				<TextBlock
+					Grid.Column="1"
+					Style="{StaticResource TextBLockStyle}"
+					Text="Закрыть" />
+			</Grid>
+		</Button>
+	</Grid>
 </UserControl>

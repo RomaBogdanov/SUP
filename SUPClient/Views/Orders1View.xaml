@@ -1,178 +1,398 @@
-﻿<UserControl x:Class="SUPClient.Orders1View"
-             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
-             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
-             xmlns:wpfx="http://schemas.xceed.com/wpf/xaml/toolkit"
-             xmlns:gl="clr-namespace:System.Globalization;assembly=mscorlib"
-             xmlns:local="clr-namespace:SUPClient"
-             mc:Ignorable="d">
-    <UserControl.DataContext>
-        <local:Orders1ViewModel></local:Orders1ViewModel>
-    </UserControl.DataContext>
-    <Grid>
-        <Grid.RowDefinitions>
-            <RowDefinition Height="30"/>
-            <RowDefinition Height="94*"/>
-            <RowDefinition Height="250"/>
-            <RowDefinition Height="50"/>
-        </Grid.RowDefinitions>
-        <Grid Grid.Row="0">
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="80"/>
-                <ColumnDefinition Width="160"/>
-                <ColumnDefinition Width="120"/>
-                <ColumnDefinition Width="35"/>
-                <ColumnDefinition Width="130"/>
-                <ColumnDefinition Width="35"/>
-                <ColumnDefinition Width="*"/>
-            </Grid.ColumnDefinitions>
-            <Label Grid.Column="0">Список на:</Label>
-            <DatePicker Grid.Column="1" Margin="3" Text="{Binding SelectedDate, Mode=TwoWay}" IsEnabled="False"></DatePicker>
-            <Label Grid.Column="2" Margin="30,2,2,2">Посетителей:</Label>
-            <TextBox Grid.Column="3" Margin="3" Text="{Binding Path=CountVisitors, Mode=TwoWay}" TextAlignment="Center" IsEnabled="False"></TextBox>
-            <Label Grid.Column="4" Margin="30,2,2,2">Автотранспорт:</Label>
-            <TextBox Grid.Column="5" Margin="3" Text="{Binding Path=CountCars, Mode=TwoWay}" TextAlignment="Center" IsEnabled="False"></TextBox>
-        </Grid>
-        <Grid Grid.Row="1">
-            <DataGrid Margin="2" IsReadOnly="True" ItemsSource="{Binding Path=FullOrders, Mode=TwoWay}" CurrentItem="{Binding CurrentItem, Mode=TwoWay}" AutoGenerateColumns="False">
-                <DataGrid.Columns>
-                    <DataGridTextColumn Header="№ заявки" Binding="{Binding OrderID}"></DataGridTextColumn>
-                    <DataGridTextColumn Header="ФИО" Binding="{Binding FullName}"></DataGridTextColumn>
-                    <DataGridTextColumn Header="Организация" Binding="{Binding Organization}"></DataGridTextColumn>
-                    <DataGridTextColumn Header="От" Binding="{Binding From}"></DataGridTextColumn>
-                    <DataGridTextColumn Header="До" Binding="{Binding To}"></DataGridTextColumn>
-                    <DataGridTextColumn Header="Статус" Binding="{Binding Status}"></DataGridTextColumn>
-                    <DataGridTextColumn Header="Принимающий" Binding="{Binding ReceivePerson}"></DataGridTextColumn>
-                    <DataGridTextColumn Header="Согласовано" Binding="{Binding AdjustPerson}"></DataGridTextColumn>
-                </DataGrid.Columns>
-            </DataGrid>
-        </Grid>
-        <Grid Grid.Row="2">
-            <Grid>
-                <Grid.RowDefinitions>
-                    <RowDefinition Height="30"/>
-                    <RowDefinition Height="26*"/>
-                    <RowDefinition Height="26*"/>
-                    <RowDefinition Height="26*"/>
-                    <RowDefinition Height="26*"/>
-                    <RowDefinition Height="26*"/>
-                    <RowDefinition Height="26*"/>
-                    <RowDefinition Height="26*"/>
-                    <RowDefinition Height="26*"/>
-                </Grid.RowDefinitions>
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="100"/>
-                    <ColumnDefinition Width="1*"/>
-                    <ColumnDefinition Width="75"/>
-                    <ColumnDefinition Width="1*"/>
-                    <ColumnDefinition Width="90"/>
-                    <ColumnDefinition Width="2*"/>
-                </Grid.ColumnDefinitions>
-                <Grid Grid.Row="0" Grid.ColumnSpan="4">
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="140*"></ColumnDefinition>
-                        <ColumnDefinition Width="100*"></ColumnDefinition>
-                        <ColumnDefinition Width="100*"></ColumnDefinition>
-                        <ColumnDefinition Width="100*"></ColumnDefinition>
-                        <ColumnDefinition Width="100*"></ColumnDefinition>
-                    </Grid.ColumnDefinitions>
-                    <Button Grid.Column="0" Margin="3" Content="Сканировать заявку" IsEnabled="False"></Button>
-                    <Button Grid.Column="1" Margin="3" Content="Создать" Command="{Binding CreateOrder}"></Button>
-                    <Button Grid.Column="2" Margin="3" Content="Найти" IsEnabled="False"></Button>
-                    <Button Grid.Column="3" Margin="3" Content="Принять" IsEnabled="False"></Button>
-                    <Button Grid.Column="4" Margin="3" Content="Отложить" IsEnabled="False"></Button>
-                </Grid>
-                <Grid Grid.Row="0" Grid.Column="7" Grid.ColumnSpan="3">
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="1*"></ColumnDefinition>
-                        <ColumnDefinition Width="120"></ColumnDefinition>
-                        <ColumnDefinition Width="120"></ColumnDefinition>
-                    </Grid.ColumnDefinitions>
-                    <CheckBox Grid.Column="1" VerticalAlignment="Center">Без формуляра</CheckBox>
-                    <Button Grid.Column="2" Margin="3" Content="Ограничений нет" IsEnabled="False"></Button>
-                </Grid>
-                <Label Grid.Row="1" Grid.Column="0">Номер заявки</Label>
-                <Label Grid.Row="2" Grid.Column="0">Организация</Label>
-                <Label Grid.Row="3" Grid.Column="0">Принимающий</Label>
-                <Label Grid.Row="4" Grid.Column="0">Согласовано</Label>
-                <Label Grid.Row="5" Grid.Column="0">Доступ в</Label>
-                <Label Grid.Row="6" Grid.Column="0">Внос/вынос</Label>
-                <Label Grid.Row="7" Grid.Column="0">Период с</Label>
-                <Label Grid.Row="8" Grid.Column="0">Автотранспорт</Label>
-                <Grid Grid.Row="1" Grid.Column="1">
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="5*"></ColumnDefinition>
-                        <ColumnDefinition Width="1*" MinWidth="22"></ColumnDefinition>
-                        <ColumnDefinition Width="4*"></ColumnDefinition>
-                    </Grid.ColumnDefinitions>
-                    <TextBox Grid.Column="0" Margin="3" Text="{Binding Path=CurrentItem.OrderID, Mode=TwoWay}" IsEnabled="{Binding EditingOrder}"></TextBox>
-                    <Label Grid.Column="1">от</Label>
-                    <DatePicker Grid.Column="2" Margin="3" SelectedDate="{Binding Path=CurrentItem.OrderDate, Mode=TwoWay}" IsEnabled="{Binding EditingOrder, Mode=TwoWay}"></DatePicker>
-                </Grid>
-                <ComboBox Grid.Row="2" Grid.Column="1" Margin="2" Grid.ColumnSpan="3" Text="{Binding CurrentItem.ReceiveOrganization, Mode=TwoWay}" ItemsSource="{Binding Path=Orgs, Mode=TwoWay}" DisplayMemberPath="FullNameOrganization" IsEnabled="{Binding EditingOrder}" IsEditable="True"></ComboBox>
-                <ComboBox Grid.Row="3" Grid.Column="1" Margin="2" Text="{Binding CurrentItem.ReceivePerson, Mode=TwoWay}" IsEnabled="{Binding EditingOrder}" IsEditable="True" ItemsSource="{Binding Path=AllPeoples, Mode=TwoWay}" DisplayMemberPath="FullName"></ComboBox>
-                <ComboBox Grid.Row="4" Grid.Column="1" Margin="2" Text="{Binding CurrentItem.AdjustPerson, Mode=TwoWay}" IsEnabled="{Binding EditingOrder}" IsEditable="True" ItemsSource="{Binding Path=AllPeoples, Mode=TwoWay}" DisplayMemberPath="FullName"></ComboBox>
-                <TextBox Grid.Row="5" Grid.Column="1" Margin="2" Grid.ColumnSpan="3" Text="{Binding CurrentItem.Pass, Mode=TwoWay}" IsEnabled="{Binding EditingOrder}"></TextBox>
-                <TextBox Grid.Row="6" Grid.Column="1" Margin="2" Grid.ColumnSpan="3" IsEnabled="False" Text="В разработке"></TextBox>
-                <DatePicker Grid.Row="7" Grid.Column="1" Margin="2" SelectedDate="{Binding CurrentItem.From, Mode=TwoWay}" IsEnabled="{Binding EditingOrder}"></DatePicker>
-                <TextBox Grid.Row="8" Grid.Column="1" Margin="2" IsEnabled="False" Text="В разработке"></TextBox>
-                <Label Grid.Row="3" Grid.Column="2" HorizontalAlignment="Right">тел.:</Label>
-                <Label Grid.Row="4" Grid.Column="2" HorizontalAlignment="Right">тел.:</Label>
-                <Label Grid.Row="7" Grid.Column="2" HorizontalAlignment="Right">по</Label>
-                <Label Grid.Row="8" Grid.Column="2" HorizontalAlignment="Right">гос. номер:</Label>
-                <Button Grid.Row="1" Grid.Column="3" Margin="2" Content="Активная" IsEnabled="False"></Button>
-                <TextBox Grid.Row="3" Grid.Column="3" Margin="2" Text="{Binding CurrentItem.ReceivePersonTelephone, Mode=TwoWay}" IsEnabled="{Binding EditingOrder}"></TextBox>
-                <TextBox Grid.Row="4" Grid.Column="3" Margin="2" Text="{Binding CurrentItem.AdjustPersonTelephone, Mode=TwoWay}" IsEnabled="{Binding EditingOrder}"></TextBox>
-                <DatePicker Grid.Row="7" Grid.Column="3" Margin="2" SelectedDate="{Binding CurrentItem.To, Mode=TwoWay}" IsEnabled="{Binding EditingOrder}"></DatePicker>
-                <TextBox Grid.Row="8" Grid.Column="3" Margin="2" IsEnabled="False" Text="В разработке"></TextBox>
-                <Label Grid.Row="1" Grid.Column="4">Фамилия</Label>
-                <Label Grid.Row="2" Grid.Column="4">Имя</Label>
-                <Label Grid.Row="3" Grid.Column="4">Отчество</Label>
-                <Label Grid.Row="4" Grid.Column="4">Организация</Label>
-                <Label Grid.Row="5" Grid.Column="4">Должность</Label>
-                <Label Grid.Row="6" Grid.Column="4">Документ</Label>
-                <Label Grid.Row="7" Grid.Column="4">Серия</Label>
-                <Label Grid.Row="8" Grid.Column="4">Применить</Label>
-                <ComboBox Grid.Row="1" Grid.Column="5" Margin="2" Text="{Binding Path=CurrentItem.Family, Mode=TwoWay}" ItemsSource="{Binding AllPeoples}" DisplayMemberPath="FullName" IsEnabled="{Binding EditingOrder}" IsEditable="True"></ComboBox>
-                <TextBox Grid.Row="2" Grid.Column="5" Margin="2" Text="{Binding Path=CurrentItem.FirstName, Mode=TwoWay}" IsEnabled="{Binding EditingOrder}"></TextBox>
-                <TextBox Grid.Row="3" Grid.Column="5" Margin="2" Text="{Binding Path=CurrentItem.SecondName, Mode=TwoWay}" IsEnabled="{Binding EditingOrder}"></TextBox>
-                <ComboBox Grid.Row="4" Grid.Column="5" Margin="2" Text="{Binding Path=CurrentItem.Organization, Mode=TwoWay}" ItemsSource="{Binding Path=Orgs, Mode=TwoWay}" DisplayMemberPath="FullNameOrganization" IsEnabled="{Binding EditingOrder}" IsEditable="True"></ComboBox>
-                <TextBox Grid.Row="5" Grid.Column="5" Margin="2" Text="{Binding Path=CurrentItem.Job, Mode=TwoWay}" IsEnabled="{Binding EditingOrder}"></TextBox>
-                <ComboBox Grid.Row="6" Grid.Column="5" Margin="2" IsEnabled="False"></ComboBox>
-                <Grid Grid.Row="7" Grid.Column="5">
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="90"></ColumnDefinition>
-                        <ColumnDefinition Width="50"></ColumnDefinition>
-                        <ColumnDefinition Width="60"></ColumnDefinition>
-                        <ColumnDefinition Width="40"></ColumnDefinition>
-                        <ColumnDefinition></ColumnDefinition>
-                    </Grid.ColumnDefinitions>
-                    <TextBox Grid.Column="0" Margin="2" Text="{Binding Path=CurrentItem.DocSeria, Mode=TwoWay}" IsEnabled="{Binding EditingOrder}"></TextBox>
-                    <Label Grid.Column="1" HorizontalAlignment="Right">номер</Label>
-                    <TextBox Grid.Column="2" Margin="2" Text="{Binding Path=CurrentItem.DocNumber, Mode=TwoWay}" IsEnabled="{Binding EditingOrder}"></TextBox>
-                    <Label Grid.Column="3" HorizontalAlignment="Right">тел.:</Label>
-                    <TextBox Grid.Column="4" Margin="2" Text="{Binding Path=CurrentItem.Phone, Mode=TwoWay}" IsEnabled="{Binding EditingOrder}"></TextBox>
-                </Grid>
-                <TextBox Grid.Row="8" Grid.Column="5" Margin="2" IsEnabled="False" Text="В разработке"></TextBox>
-            </Grid>
-        </Grid>
-        <Grid Grid.Row="3">
-            <Grid>
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="150"/>
-                    <ColumnDefinition Width="150"/>
-                    <ColumnDefinition Width="150"/>
-                    <ColumnDefinition Width="150"/>
-                    <ColumnDefinition Width="*"/>
-                    <ColumnDefinition Width="150"/>
-                </Grid.ColumnDefinitions>
-                <Button Content="Редактировать" Grid.Column="0" Margin="5" Command="{Binding EditOrder}"></Button>
-                <Button Content="Очистить" Grid.Column="1" Margin="5" IsEnabled="False"></Button>
-                <Button Content="Блокировать" Grid.Column="2" Margin="5" IsEnabled="False"></Button>
-                <Button Content="Удалить" Grid.Column="3" Margin="5" Command="{Binding DeleteOrder}"></Button>
-                <Button Content="Сохранить" Grid.Column="5" Margin="5" Command="{Binding SaveOrder}" IsEnabled="{Binding EditingOrder}"></Button>
-            </Grid>
-        </Grid>
-    </Grid>
+﻿<UserControl
+	x:Class="SUPClient.Orders1View"
+	xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+	xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+	xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+	xmlns:gl="clr-namespace:System.Globalization;assembly=mscorlib"
+	xmlns:local="clr-namespace:SUPClient"
+	xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+	xmlns:wpfx="http://schemas.xceed.com/wpf/xaml/toolkit"
+	mc:Ignorable="d">
+	<UserControl.DataContext>
+		<local:Orders1ViewModel />
+	</UserControl.DataContext>
+	<Grid>
+		<Grid.RowDefinitions>
+			<RowDefinition Height="30" />
+			<RowDefinition Height="94*" />
+			<RowDefinition Height="250" />
+			<RowDefinition Height="50" />
+		</Grid.RowDefinitions>
+		<Grid Grid.Row="0">
+			<Grid.ColumnDefinitions>
+				<ColumnDefinition Width="80" />
+				<ColumnDefinition Width="160" />
+				<ColumnDefinition Width="120" />
+				<ColumnDefinition Width="35" />
+				<ColumnDefinition Width="130" />
+				<ColumnDefinition Width="35" />
+				<ColumnDefinition Width="*" />
+			</Grid.ColumnDefinitions>
+			<Label Grid.Column="0">Список на:</Label>
+			<DatePicker
+				Grid.Column="1"
+				Margin="3"
+				IsEnabled="False"
+				Text="{Binding SelectedDate, Mode=TwoWay}" />
+			<Label Grid.Column="2" Margin="30,2,2,2">Посетителей:</Label>
+			<TextBox
+				Grid.Column="3"
+				Margin="3"
+				IsEnabled="False"
+				Text="{Binding Path=CountVisitors, Mode=TwoWay}"
+				TextAlignment="Center" />
+			<Label Grid.Column="4" Margin="30,2,2,2">Автотранспорт:</Label>
+			<TextBox
+				Grid.Column="5"
+				Margin="3"
+				IsEnabled="False"
+				Text="{Binding Path=CountCars, Mode=TwoWay}"
+				TextAlignment="Center" />
+		</Grid>
+		<Grid Grid.Row="1">
+			<DataGrid
+				Margin="2"
+				AutoGenerateColumns="False"
+				CurrentItem="{Binding CurrentItem, Mode=TwoWay}"
+				IsReadOnly="True"
+				ItemsSource="{Binding Path=FullOrders, Mode=TwoWay}">
+				<DataGrid.Columns>
+					<DataGridTextColumn Binding="{Binding OrderID}" Header="№ заявки" />
+					<DataGridTextColumn Binding="{Binding FullName}" Header="ФИО" />
+					<DataGridTextColumn Binding="{Binding Organization}" Header="Организация" />
+					<DataGridTextColumn Binding="{Binding From}" Header="От" />
+					<DataGridTextColumn Binding="{Binding To}" Header="До" />
+					<DataGridTextColumn Binding="{Binding Status}" Header="Статус" />
+					<DataGridTextColumn Binding="{Binding ReceivePerson}" Header="Принимающий" />
+					<DataGridTextColumn Binding="{Binding AdjustPerson}" Header="Согласовано" />
+				</DataGrid.Columns>
+			</DataGrid>
+		</Grid>
+		<Grid Grid.Row="2">
+			<Grid>
+				<Grid.RowDefinitions>
+					<RowDefinition Height="30" />
+					<RowDefinition Height="26*" />
+					<RowDefinition Height="26*" />
+					<RowDefinition Height="26*" />
+					<RowDefinition Height="26*" />
+					<RowDefinition Height="26*" />
+					<RowDefinition Height="26*" />
+					<RowDefinition Height="26*" />
+					<RowDefinition Height="26*" />
+				</Grid.RowDefinitions>
+				<Grid.ColumnDefinitions>
+					<ColumnDefinition Width="100" />
+					<ColumnDefinition Width="1*" />
+					<ColumnDefinition Width="75" />
+					<ColumnDefinition Width="1*" />
+					<ColumnDefinition Width="90" />
+					<ColumnDefinition Width="2*" />
+				</Grid.ColumnDefinitions>
+				<Grid Grid.Row="0" Grid.ColumnSpan="4">
+					<Grid.ColumnDefinitions>
+						<ColumnDefinition Width="140*" />
+						<ColumnDefinition Width="100*" />
+						<ColumnDefinition Width="100*" />
+						<ColumnDefinition Width="100*" />
+						<ColumnDefinition Width="100*" />
+					</Grid.ColumnDefinitions>
+					<Button
+						Grid.Column="0"
+						Margin="3"
+						Content="Сканировать заявку"
+						IsEnabled="False" />
+					<Button
+						Grid.Column="1"
+						Margin="3"
+						Command="{Binding CreateOrder}"
+						Content="Создать" />
+					<Button
+						Grid.Column="2"
+						Margin="3"
+						Content="Найти"
+						IsEnabled="False" />
+					<Button
+						Grid.Column="3"
+						Margin="3"
+						Content="Принять"
+						IsEnabled="False" />
+					<Button
+						Grid.Column="4"
+						Margin="3"
+						Content="Отложить"
+						IsEnabled="False" />
+				</Grid>
+				<Grid
+					Grid.Row="0"
+					Grid.Column="7"
+					Grid.ColumnSpan="3">
+					<Grid.ColumnDefinitions>
+						<ColumnDefinition Width="1*" />
+						<ColumnDefinition Width="120" />
+						<ColumnDefinition Width="120" />
+					</Grid.ColumnDefinitions>
+					<CheckBox Grid.Column="1" VerticalAlignment="Center">Без формуляра</CheckBox>
+					<Button
+						Grid.Column="2"
+						Margin="3"
+						Content="Ограничений нет"
+						IsEnabled="False" />
+				</Grid>
+				<Label Grid.Row="1" Grid.Column="0">Номер заявки</Label>
+				<Label Grid.Row="2" Grid.Column="0">Организация</Label>
+				<Label Grid.Row="3" Grid.Column="0">Принимающий</Label>
+				<Label Grid.Row="4" Grid.Column="0">Согласовано</Label>
+				<Label Grid.Row="5" Grid.Column="0">Доступ в</Label>
+				<Label Grid.Row="6" Grid.Column="0">Внос/вынос</Label>
+				<Label Grid.Row="7" Grid.Column="0">Период с</Label>
+				<Label Grid.Row="8" Grid.Column="0">Автотранспорт</Label>
+				<Grid Grid.Row="1" Grid.Column="1">
+					<Grid.ColumnDefinitions>
+						<ColumnDefinition Width="5*" />
+						<ColumnDefinition Width="1*" MinWidth="22" />
+						<ColumnDefinition Width="4*" />
+					</Grid.ColumnDefinitions>
+					<TextBox
+						Grid.Column="0"
+						Margin="3"
+						IsEnabled="{Binding EditingOrder}"
+						Text="{Binding Path=CurrentItem.OrderID, Mode=TwoWay}" />
+					<Label Grid.Column="1">от</Label>
+					<DatePicker
+						Grid.Column="2"
+						Margin="3"
+						IsEnabled="{Binding EditingOrder, Mode=TwoWay}"
+						SelectedDate="{Binding Path=CurrentItem.OrderDate, Mode=TwoWay}" />
+				</Grid>
+				<ComboBox
+					Grid.Row="2"
+					Grid.Column="1"
+					Grid.ColumnSpan="3"
+					Margin="2"
+					DisplayMemberPath="FullNameOrganization"
+					IsEditable="True"
+					IsEnabled="{Binding EditingOrder}"
+					ItemsSource="{Binding Path=Orgs, Mode=TwoWay}"
+					Text="{Binding CurrentItem.ReceiveOrganization, Mode=TwoWay}" />
+				<ComboBox
+					Grid.Row="3"
+					Grid.Column="1"
+					Margin="2"
+					DisplayMemberPath="FullName"
+					IsEditable="True"
+					IsEnabled="{Binding EditingOrder}"
+					ItemsSource="{Binding Path=AllPeoples, Mode=TwoWay}"
+					Text="{Binding CurrentItem.ReceivePerson, Mode=TwoWay}" />
+				<ComboBox
+					Grid.Row="4"
+					Grid.Column="1"
+					Margin="2"
+					DisplayMemberPath="FullName"
+					IsEditable="True"
+					IsEnabled="{Binding EditingOrder}"
+					ItemsSource="{Binding Path=AllPeoples, Mode=TwoWay}"
+					Text="{Binding CurrentItem.AdjustPerson, Mode=TwoWay}" />
+				<TextBox
+					Grid.Row="5"
+					Grid.Column="1"
+					Grid.ColumnSpan="3"
+					Margin="2"
+					IsEnabled="{Binding EditingOrder}"
+					Text="{Binding CurrentItem.Pass, Mode=TwoWay}" />
+				<TextBox
+					Grid.Row="6"
+					Grid.Column="1"
+					Grid.ColumnSpan="3"
+					Margin="2"
+					IsEnabled="False"
+					Text="В разработке" />
+				<DatePicker
+					Grid.Row="7"
+					Grid.Column="1"
+					Margin="2"
+					IsEnabled="{Binding EditingOrder}"
+					SelectedDate="{Binding CurrentItem.From, Mode=TwoWay}" />
+				<TextBox
+					Grid.Row="8"
+					Grid.Column="1"
+					Margin="2"
+					IsEnabled="False"
+					Text="В разработке" />
+				<Label
+					Grid.Row="3"
+					Grid.Column="2"
+					HorizontalAlignment="Right">
+					тел.:
+				</Label>
+				<Label
+					Grid.Row="4"
+					Grid.Column="2"
+					HorizontalAlignment="Right">
+					тел.:
+				</Label>
+				<Label
+					Grid.Row="7"
+					Grid.Column="2"
+					HorizontalAlignment="Right">
+					по
+				</Label>
+				<Label
+					Grid.Row="8"
+					Grid.Column="2"
+					HorizontalAlignment="Right">
+					гос. номер:
+				</Label>
+				<Button
+					Grid.Row="1"
+					Grid.Column="3"
+					Margin="2"
+					Content="Активная"
+					IsEnabled="False" />
+				<TextBox
+					Grid.Row="3"
+					Grid.Column="3"
+					Margin="2"
+					IsEnabled="{Binding EditingOrder}"
+					Text="{Binding CurrentItem.ReceivePersonTelephone, Mode=TwoWay}" />
+				<TextBox
+					Grid.Row="4"
+					Grid.Column="3"
+					Margin="2"
+					IsEnabled="{Binding EditingOrder}"
+					Text="{Binding CurrentItem.AdjustPersonTelephone, Mode=TwoWay}" />
+				<DatePicker
+					Grid.Row="7"
+					Grid.Column="3"
+					Margin="2"
+					IsEnabled="{Binding EditingOrder}"
+					SelectedDate="{Binding CurrentItem.To, Mode=TwoWay}" />
+				<TextBox
+					Grid.Row="8"
+					Grid.Column="3"
+					Margin="2"
+					IsEnabled="False"
+					Text="В разработке" />
+				<Label Grid.Row="1" Grid.Column="4">Фамилия</Label>
+				<Label Grid.Row="2" Grid.Column="4">Имя</Label>
+				<Label Grid.Row="3" Grid.Column="4">Отчество</Label>
+				<Label Grid.Row="4" Grid.Column="4">Организация</Label>
+				<Label Grid.Row="5" Grid.Column="4">Должность</Label>
+				<Label Grid.Row="6" Grid.Column="4">Документ</Label>
+				<Label Grid.Row="7" Grid.Column="4">Серия</Label>
+				<Label Grid.Row="8" Grid.Column="4">Применить</Label>
+				<ComboBox
+					Grid.Row="1"
+					Grid.Column="5"
+					Margin="2"
+					DisplayMemberPath="FullName"
+					IsEditable="True"
+					IsEnabled="{Binding EditingOrder}"
+					ItemsSource="{Binding AllPeoples}"
+					Text="{Binding Path=CurrentItem.Family, Mode=TwoWay}" />
+				<TextBox
+					Grid.Row="2"
+					Grid.Column="5"
+					Margin="2"
+					IsEnabled="{Binding EditingOrder}"
+					Text="{Binding Path=CurrentItem.FirstName, Mode=TwoWay}" />
+				<TextBox
+					Grid.Row="3"
+					Grid.Column="5"
+					Margin="2"
+					IsEnabled="{Binding EditingOrder}"
+					Text="{Binding Path=CurrentItem.SecondName, Mode=TwoWay}" />
+				<ComboBox
+					Grid.Row="4"
+					Grid.Column="5"
+					Margin="2"
+					DisplayMemberPath="FullNameOrganization"
+					IsEditable="True"
+					IsEnabled="{Binding EditingOrder}"
+					ItemsSource="{Binding Path=Orgs, Mode=TwoWay}"
+					Text="{Binding Path=CurrentItem.Organization, Mode=TwoWay}" />
+				<TextBox
+					Grid.Row="5"
+					Grid.Column="5"
+					Margin="2"
+					IsEnabled="{Binding EditingOrder}"
+					Text="{Binding Path=CurrentItem.Job, Mode=TwoWay}" />
+				<ComboBox
+					Grid.Row="6"
+					Grid.Column="5"
+					Margin="2"
+					IsEnabled="False" />
+				<Grid Grid.Row="7" Grid.Column="5">
+					<Grid.ColumnDefinitions>
+						<ColumnDefinition Width="90" />
+						<ColumnDefinition Width="50" />
+						<ColumnDefinition Width="60" />
+						<ColumnDefinition Width="40" />
+						<ColumnDefinition />
+					</Grid.ColumnDefinitions>
+					<TextBox
+						Grid.Column="0"
+						Margin="2"
+						IsEnabled="{Binding EditingOrder}"
+						Text="{Binding Path=CurrentItem.DocSeria, Mode=TwoWay}" />
+					<Label Grid.Column="1" HorizontalAlignment="Right">номер</Label>
+					<TextBox
+						Grid.Column="2"
+						Margin="2"
+						IsEnabled="{Binding EditingOrder}"
+						Text="{Binding Path=CurrentItem.DocNumber, Mode=TwoWay}" />
+					<Label Grid.Column="3" HorizontalAlignment="Right">тел.:</Label>
+					<TextBox
+						Grid.Column="4"
+						Margin="2"
+						IsEnabled="{Binding EditingOrder}"
+						Text="{Binding Path=CurrentItem.Phone, Mode=TwoWay}" />
+				</Grid>
+				<TextBox
+					Grid.Row="8"
+					Grid.Column="5"
+					Margin="2"
+					IsEnabled="False"
+					Text="В разработке" />
+			</Grid>
+		</Grid>
+		<Grid Grid.Row="3">
+			<Grid>
+				<Grid.ColumnDefinitions>
+					<ColumnDefinition Width="150" />
+					<ColumnDefinition Width="150" />
+					<ColumnDefinition Width="150" />
+					<ColumnDefinition Width="150" />
+					<ColumnDefinition Width="*" />
+					<ColumnDefinition Width="150" />
+				</Grid.ColumnDefinitions>
+				<Button
+					Grid.Column="0"
+					Margin="5"
+					Command="{Binding EditOrder}"
+					Content="Редактировать" />
+				<Button
+					Grid.Column="1"
+					Margin="5"
+					Content="Очистить"
+					IsEnabled="False" />
+				<Button
+					Grid.Column="2"
+					Margin="5"
+					Content="Блокировать"
+					IsEnabled="False" />
+				<Button
+					Grid.Column="3"
+					Margin="5"
+					Command="{Binding DeleteOrder}"
+					Content="Удалить" />
+				<Button
+					Grid.Column="5"
+					Margin="5"
+					Command="{Binding SaveOrder}"
+					Content="Сохранить"
+					IsEnabled="{Binding EditingOrder}" />
+			</Grid>
+		</Grid>
+	</Grid>
 </UserControl>

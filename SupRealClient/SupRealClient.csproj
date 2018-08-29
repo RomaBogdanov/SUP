@@ -104,6 +104,7 @@
       <DependentUpon>AndoverTestView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Andover\AndoverTestViewModel.cs" />
+    <Compile Include="Behaviour\BaseOrganizationToColorConverter.cs" />
     <Compile Include="Behaviour\BoolToGridRowHeightConverter.cs" />
     <Compile Include="Behaviour\BoolToStringConverter.cs" />
     <Compile Include="Behaviour\BoolTo_BoldFontWeight.cs" />
@@ -115,6 +116,7 @@
     <Compile Include="Behaviour\HeaderToCurrentColumnConverter.cs" />
     <Compile Include="Behaviour\IDialogService.cs" />
     <Compile Include="Behaviour\InverseBooleanConverterюcs.cs" />
+    <Compile Include="Behaviour\OrganizationInfoToBold_MultiConverter.cs" />
     <Compile Include="Behaviour\OrganizationTypeToColorConverter.cs" />
     <Compile Include="Behaviour\SearchValueConverter.cs" />
     <Compile Include="Behaviour\SupDateConverter.cs" />

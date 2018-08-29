@@ -602,8 +602,9 @@ namespace SupRealClient.ViewModels
             .Table.AsEnumerable().FirstOrDefault(
             arg => arg.Field<int>("f_region_id") ==
             orgs.Field<int>("f_region_id"))["f_region_name"].ToString(),
-        SynId = orgs.Field<int>("f_syn_id")
-    });
+        SynId = orgs.Field<int>("f_syn_id"),
+		IsBasic = CommonHelper.StringToBool(orgs.Field<string>("f_is_basic"))
+	});
         }
 
         protected override BaseModelResult GetResult()

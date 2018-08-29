@@ -31,41 +31,49 @@ namespace SupRealClient.Views
 
         private void CreateColumns()
         {
-            DataGridTextColumn dataGridTextColumn = new DataGridTextColumn
-            {
-                Header = "Тип",
-                Binding = new Binding("Type")
+			Style style = (Style)App.Current.Resources["OrganizationDataGrid_TextColumn_TextBlock"];
+			byte[] data = null;
+			DataGridTextColumn dataGridTextColumn = new DataGridTextColumn
+			{
+				Header = "Тип",
+				Binding = new Binding("Type"),
+				ElementStyle = (Style)App.Current.Resources["OrganizationDataGrid_TextColumn_ElementStyle"]
             };
             base4.baseTab.Columns.Add(dataGridTextColumn);
             dataGridTextColumn = new DataGridTextColumn
             {
                 Header = "Название организации",
-                Binding = new Binding("Name")
-            };
+                Binding = new Binding("Name"),
+				ElementStyle = (Style)App.Current.Resources["OrganizationDataGrid_TextColumn_ElementStyle"]
+			};
             base4.baseTab.Columns.Add(dataGridTextColumn);
             dataGridTextColumn = new DataGridTextColumn
             {
                 Header = "Примечание",
-                Binding = new Binding("Comment")
-            };
+                Binding = new Binding("Comment"),
+				ElementStyle = (Style)App.Current.Resources["OrganizationDataGrid_TextColumn_ElementStyle"]
+			};
             base4.baseTab.Columns.Add(dataGridTextColumn);
             dataGridTextColumn = new DataGridTextColumn
             {
                 Header = "Основное название",
-                Binding = new Binding("FullName")
-            };
+                Binding = new Binding("FullName"),
+				ElementStyle = (Style)App.Current.Resources["OrganizationDataGrid_TextColumn_ElementStyle"]
+			};
             base4.baseTab.Columns.Add(dataGridTextColumn);
             dataGridTextColumn = new DataGridTextColumn
             {
                 Header = "Страна",
-                Binding = new Binding("Country")
-            };
+                Binding = new Binding("Country"),
+				ElementStyle = (Style)App.Current.Resources["OrganizationDataGrid_TextColumn_ElementStyle"]
+			};
             base4.baseTab.Columns.Add(dataGridTextColumn);
             dataGridTextColumn = new DataGridTextColumn
             {
                 Header = "Регион",
-                Binding = new Binding("Region")
-            };
+                Binding = new Binding("Region"),
+				ElementStyle = (Style)App.Current.Resources["OrganizationDataGrid_TextColumn_ElementStyle"]
+			};
             base4.baseTab.Columns.Add(dataGridTextColumn);
         }
 

@@ -968,8 +968,11 @@ namespace SupRealClient.Views
 
 		private void CountyList()
 		{
+			//var result = ViewManager.Instance.OpenWindowModal(
+			//    "Base4NationsWindViewOk", view) as BaseModelResult;
 			var result = ViewManager.Instance.OpenWindowModal(
-			    "Base4NationsWindViewOk", view) as BaseModelResult;
+	"Base4СitizenshipWindViewOk", view) as BaseModelResult;
+			
 			if (result == null)
 			{
 				return;
@@ -1568,7 +1571,11 @@ namespace SupRealClient.Views
 		private void SavingEditedVisitorComment()
 		{
 			_bufer_CurrentItem_Comment = CurrentItem.Comment;
-			Model.Ok();
+			if (Model.Ok())
+			{
+				if(Model is VisitsModel)
+					CurrentItem = Model?.CurrentItem;
+			}
 
 			EndEditingVisitorComment();
 		}

@@ -22,7 +22,25 @@ namespace SupRealClient.Views
             base4.Focus();
         }
 
-        private void CreateColumns()
+		public Base4NationsWindView(Visibility okVisibility, string titleName)
+		{
+			InitializeComponent();
+			base4.tbxSearch.Focus();
+
+			Title = titleName;
+
+			AfterInitialize();
+
+
+			((Base4ViewModel<EnumerationClasses.Nation>)base4.DataContext)
+				.OkVisibility = okVisibility;//Visibility.Hidden;
+			((Base4ViewModel<EnumerationClasses.Nation>)base4.DataContext)
+			   .ScrollCurrentItem = base4.ScrollIntoViewCurrentItem;
+			base4.btnRemove.Visibility = Visibility.Collapsed;
+			base4.Focus();
+		}
+
+		private void CreateColumns()
         {
             DataGridTextColumn dataGridTextColumn = new DataGridTextColumn
             {

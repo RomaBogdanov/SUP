@@ -16,17 +16,22 @@ namespace SupRealClient.Views
         bool isUpdate;
         Cabinet cabinet;
 
-        public AddUpdateCabinetView()
+        public AddUpdateCabinetView(string windowTitle="")
         {
             InitializeComponent();
 
-            AfterInitialize();
+			Set_WindowTitle(windowTitle);
+
+			AfterInitialize();
         }
 
-        public AddUpdateCabinetView(Cabinet cabinet)
+        public AddUpdateCabinetView(Cabinet cabinet, string windowTitle= "")
         {
             InitializeComponent();
-            isUpdate = true;
+
+			Set_WindowTitle(windowTitle);
+
+			isUpdate = true;
             this.cabinet = cabinet;
             numCab.Text = cabinet.CabNum;
             descript.Text = cabinet.Descript;
@@ -83,5 +88,13 @@ namespace SupRealClient.Views
             DataRow row = cabinetsWrapper.Table.Rows.Find(this.cabinet.Id);
             cabinetsWrapper.Table.Rows.Remove(row);
         }
+
+		private void Set_WindowTitle(string windowTitle)
+		{
+			if (!string.IsNullOrEmpty(windowTitle) && !string.IsNullOrWhiteSpace(windowTitle))
+			{
+				Title = windowTitle;
+			}
+		}
     }
 }

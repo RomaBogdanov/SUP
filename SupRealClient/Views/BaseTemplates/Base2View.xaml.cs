@@ -189,30 +189,30 @@ namespace SupRealClient.Views
 
         void RowColorOrganizationTable(DataGridRow oRow)
         {
-            Organization oOrg = oRow.Item as Organization;
-            int orgId = oOrg.Id;
-            if (oOrg.FullName == string.Empty)
-            {
-                if (IsOrgHasSynonim(oOrg))
-                    oRow.Background = Brushes.LightGreen;
-                else
-                    oRow.Background = Brushes.GreenYellow;
-            }
-            else
-            {
-                oRow.Background = Brushes.White;
-                orgId = oOrg.SynId;
-            }
+            //Organization oOrg = oRow.Item as Organization;
+            //int orgId = oOrg.Id;
+            //if (oOrg.FullName == string.Empty)
+            //{
+            //    if (IsOrgHasSynonim(oOrg))
+            //        oRow.Background = Brushes.LightGreen;
+            //    else
+            //        oRow.Background = Brushes.GreenYellow;
+            //}
+            //else
+            //{
+            //    oRow.Background = Brushes.White;
+            //    orgId = oOrg.SynId;
+            //}
 
-            if (OrganizationsHelper.GetBasicParametr(orgId, true))
-            {
-                oRow.FontWeight = FontWeights.Bold;
-            }
-            if (OrganizationsHelper.IsChildOrg(orgId))
-            {
-                oRow.FontStyle = FontStyles.Oblique;
-                oRow.Foreground = Brushes.Blue;
-            }
+            //if (OrganizationsHelper.GetBasicParametr(orgId, true))
+            //{
+            //    oRow.FontWeight = FontWeights.Bold;
+            //}
+            //if (OrganizationsHelper.IsChildOrg(orgId))
+            //{
+            //    oRow.FontStyle = FontStyles.Oblique;
+            //    oRow.Foreground = Brushes.Blue;
+            //}
         }
 
         bool IsOrgHasSynonim(Organization org)

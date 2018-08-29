@@ -42,11 +42,11 @@ namespace SupRealClient.Models.Helpers
             //    return false;
             //}
 
-	        if (!isVirtueOrder && string.IsNullOrEmpty(orderElement.Catcher))
-	        {
-				errorMessage = "Не указано принимающее лицо.";
-		        return false;
-			}
+			//if (!isVirtueOrder && string.IsNullOrEmpty(orderElement.Catcher))
+			//{
+			//	errorMessage = "Не указано принимающее лицо.";
+			//  return false;
+			//}
 
 			if (string.IsNullOrEmpty(orderElement.Passes) || orderElement.Passes == OrderElementsHelper.NoPassesString)
 			{

@@ -32,7 +32,8 @@ namespace SupRealClient.Models
                     Country = organization.Country,
                     RegionId = organization.RegionId,
                     Region = organization.Region,
-                    SynId = organization.SynId
+                    SynId = organization.SynId,
+					IsBasic=organization.IsBasic
                 };
             }
         }

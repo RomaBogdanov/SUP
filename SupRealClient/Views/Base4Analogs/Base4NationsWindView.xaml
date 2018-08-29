@@ -1,15 +1,19 @@
-﻿<mah:MetroWindow x:Class="SupRealClient.Views.Base4NationsWindView"
-      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
-      xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
-      xmlns:local="clr-namespace:SupRealClient.Views"
-      xmlns:mah="http://metro.mahapps.com/winfx/xaml/controls"      
-      mc:Ignorable="d" 
-      Title="Страны" Height="600" Width="596" ResizeMode="NoResize"
-      PreviewKeyDown="Window_PreviewKeyDown" 
-      IsVisibleChanged="MetroWindow_IsVisibleChanged">
-    <Grid>
-        <local:Base1View x:Name="base4" ></local:Base1View>
-    </Grid>
+﻿<mah:MetroWindow
+	x:Class="SupRealClient.Views.Base4NationsWindView"
+	xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+	xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+	xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+	xmlns:local="clr-namespace:SupRealClient.Views"
+	xmlns:mah="http://metro.mahapps.com/winfx/xaml/controls"
+	xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+	Title="Страны"
+	Width="596"
+	Height="600"
+	IsVisibleChanged="MetroWindow_IsVisibleChanged"
+	PreviewKeyDown="Window_PreviewKeyDown"
+	ResizeMode="NoResize"
+	mc:Ignorable="d">
+	<Grid>
+		<local:Base1View x:Name="base4" />
+	</Grid>
 </mah:MetroWindow>
