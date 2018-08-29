@@ -116,17 +116,16 @@ namespace SupRealClient.Models
                 string path = GetImagePath(alias);
                 if (!File.Exists(path))
                 {
-                    byte[] data =
-                        ImagesWrapper.CurrentTable().Connector.GetImage(alias);
-                    if (data != null)
-                    {
-                        File.WriteAllBytes(path, data);
-                    }
-                    else
-                    {
-                        alias = Guid.Empty;
-                    }
-                }
+                    byte[] data = ImagesWrapper.CurrentTable().Connector.GetImage(alias);
+					if (data != null)
+					{
+						File.WriteAllBytes(path, data);
+					}
+					else
+					{
+						alias = Guid.Empty;
+					}
+				}
             }
             return alias;
         }

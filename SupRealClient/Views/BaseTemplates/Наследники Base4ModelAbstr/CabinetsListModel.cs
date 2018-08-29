@@ -28,7 +28,7 @@ namespace SupRealClient.Views
         {
             if (CurrentItem != null)
             {
-                ViewManager.Instance.OpenWindow(new AddUpdateCabinetView(CurrentItem), Parent);
+                ViewManager.Instance.OpenWindow(new AddUpdateCabinetView(CurrentItem, "Изменение кабинета"), Parent);
             }
         }
 

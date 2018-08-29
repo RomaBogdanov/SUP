@@ -385,8 +385,15 @@ namespace SupClientConnectionLib
 
         public byte[] GetImage(Guid alias)
         {
-            return this.tableService.GetImage(alias,
-                authorizer.GetInfo());
+			object result = this.tableService.GetImage(alias,
+				authorizer.GetInfo());
+
+			if (result != DBNull.Value)
+			{
+				return (byte[])result;
+			}
+
+			return null;
         }
 
         public bool SetImages(Dictionary<Guid, byte[]> images)

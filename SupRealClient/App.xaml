@@ -3,10 +3,17 @@
 	xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
 	xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
 	xmlns:behaviour="clr-namespace:SupRealClient.Behaviour"
-	xmlns:local="clr-namespace:SupRealClient"
+	xmlns:local="clr-namespace:SupRealClient"			 
+	xmlns:converters="clr-namespace:SupRealClient.Behaviour"
 	StartupUri="MainWindow.xaml">
 	<Application.Resources>
 		<ResourceDictionary>
+			<converters:BoolTo_BoldFontWeight x:Key="BoolToBoldFontWeight" />
+			<converters:OrganizationTypeToColorConverter x:Key="OrganizationTypeToColorConverter" />
+			<converters:BaseOrganizationToColorConverter x:Key="BaseOrganizationToColorConverter" />
+			<converters:OrganizationInfoToBold_MultiConverter x:Key="OrganizationInfoToBoldMultiConverter" />
+
+
 			<Style x:Key="MenuItemStyle" TargetType="MenuItem">
 				<Setter Property="Margin" Value="1" />
 				<Setter Property="FontSize" Value="18" />
@@ -93,6 +100,16 @@
 			</Style>
 
 			<Style
+				x:Key="OrganizationDataGrid_TextColumn_TextBlock"
+				BasedOn="{StaticResource MetroTextBlock}"
+				TargetType="TextBlock">
+				<Setter Property="Margin" Value="2" />
+				<Setter Property="FontSize" Value="12" />
+				<Setter Property="HorizontalAlignment" Value="Left" />
+				<Setter Property="VerticalAlignment" Value="Center" />
+			</Style>
+
+			<Style
 				x:Key="TextBoxStyle"
 				BasedOn="{StaticResource MetroTextBox}"
 				TargetType="TextBox">
@@ -126,6 +143,20 @@
 				TargetType="ComboBox">
 				<Setter Property="FontSize" Value="12" />
 				<Setter Property="Margin" Value="10" />
+			</Style>
+
+			<Style x:Key="OrganizationDataGrid_TextColumn_ElementStyle" BasedOn="{StaticResource OrganizationDataGrid_TextColumn_TextBlock}" TargetType="{x:Type TextBlock}" >
+				<Setter  Property="FontWeight" >
+					<Setter.Value>
+						<MultiBinding Mode="OneWay" Converter="{StaticResource OrganizationInfoToBoldMultiConverter}">
+							<!--Value="{Binding IsBasic, Converter={StaticResource BoolToBoldFontWeight}, Mode=OneWay}"-->
+							<Binding Path="SynId" Mode="OneWay"/>
+							<Binding Path="IsBasic" Mode="OneWay"/>
+						</MultiBinding>
+					</Setter.Value>
+				</Setter>
+				<Setter  Property="Foreground" Value="{Binding SynId, Converter={StaticResource BaseOrganizationToColorConverter}, Mode=OneWay}">
+				</Setter>
 			</Style>
 
 			<ResourceDictionary.MergedDictionaries>

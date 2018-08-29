@@ -4,7 +4,8 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:SupRealClient.Views"
-        xmlns:mah="http://metro.mahapps.com/winfx/xaml/controls"
+        xmlns:mah="http://metro.mahapps.com/winfx/xaml/controls"				 
+		xmlns:converters="clr-namespace:SupRealClient.Behaviour"
         mc:Ignorable="d"
         Title="Список организаций" 
         Height="700" Width="1200" 
@@ -13,8 +14,13 @@
         ResizeMode="NoResize"
         FontSize="{Binding FontSize}"
         KeyDown="OrganizationsWindView_OnKeyDown">
-    
-    <Grid>
+	<mah:MetroWindow.Resources>
+		
+		<!--FontWeight="{Binding VisibleTabItem_Employee, Converter={StaticResource BoolToBoldFontWeight}}"
+				Foreground="{Binding VisibleTabItem_Employee, Converter={StaticResource OrganizationTypeToColorConverter}}"-->
+	</mah:MetroWindow.Resources>
+
+	<Grid>
         <local:Base2View x:Name="base2"></local:Base2View>
     </Grid>
 </mah:MetroWindow>

@@ -382,7 +382,9 @@ namespace SupRealClient
                     return new Base4NationsWindView(Visibility.Hidden);
                 case "Base4NationsWindViewOk":
                     return new Base4NationsWindView(Visibility.Visible);
-                case "Base4OrganizationsWindView":
+				case "Base4СitizenshipWindViewOk":
+					return new Base4NationsWindView(Visibility.Visible, "Гражданство");
+				case "Base4OrganizationsWindView":
                     return new Base4OrganizationsWindView();
                 case "Base4OrganizationsLargeWindView":
                     return new Base4OrganizationsLargeWindView(Visibility.Hidden);

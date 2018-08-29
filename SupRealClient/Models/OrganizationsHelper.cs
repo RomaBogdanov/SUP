@@ -75,8 +75,9 @@ namespace SupRealClient.Models
                         .Table.AsEnumerable().FirstOrDefault(
                         arg => arg.Field<int>("f_region_id") ==
                         orgs.Field<int>("f_region_id"))["f_region_name"].ToString(),
-                     SynId = 0
-                 });
+                     SynId = 0,
+					 IsBasic = CommonHelper.StringToBool(orgs.Field<string>("f_is_basic"))
+				 });
         }
 
         public static string GenerateFullName(int id, bool calculated = false)
@@ -175,7 +176,6 @@ namespace SupRealClient.Models
 							    arg => arg.Field<int>("f_region_id") ==
 							           orgs.Field<int>("f_region_id"))["f_region_name"].ToString(),
 				    SynId = orgs.Field<int>("f_syn_id"),
-
 				    IsBasic = CommonHelper.StringToBool(orgs.Field<string>("f_is_basic"))
 			    }).FirstOrDefault();
 
@@ -264,8 +264,9 @@ namespace SupRealClient.Models
                             arg => arg.Field<int>("f_region_id") ==
                             orgs.Field<int>("f_region_id"))["f_region_name"].
                             ToString(),
-                     SynId = orgs.Field<int>("f_syn_id")
-                 }).ToDictionary(o => o.Id, o => GenerateFullName(o));
+                     SynId = orgs.Field<int>("f_syn_id"),
+					 IsBasic = CommonHelper.StringToBool(orgs.Field<string>("f_is_basic"))
+				 }).ToDictionary(o => o.Id, o => GenerateFullName(o));
            
             return new KeyValuePair<string, Dictionary<int, string>>(fullName, synonims);
         }

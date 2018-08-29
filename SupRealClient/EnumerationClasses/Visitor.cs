@@ -10,7 +10,8 @@ namespace SupRealClient.EnumerationClasses
 {
     public class Visitor : IdEntity, ICloneable
     {
-        private int organizationId;
+		private string _сomment;
+		private int organizationId;
 	    private ObservableCollection<VisitorsMainDocument> _mainDocuments;
 
 		public string FullName { get; set; }
@@ -34,7 +35,15 @@ namespace SupRealClient.EnumerationClasses
         }
         public string Organization { get; set; }
 	    public bool OrganizationIsBasic { get; set; } = true;
-		public string Comment { get; set; }
+		public string Comment
+		{
+			get => _сomment;
+			set
+			{
+				_сomment = value;
+				int i = 0;
+			}
+		}
         public bool IsAccessDenied { get; set; }
         public bool IsCanHaveVisitors { get; set; }
         public bool IsNotFormular { get; set; }

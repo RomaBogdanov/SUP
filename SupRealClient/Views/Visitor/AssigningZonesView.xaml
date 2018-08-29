@@ -159,7 +159,7 @@
 			Grid.ColumnSpan="2"
 			FontSize="15"
 			Style="{StaticResource TextBLockStyle}"
-			Text="Все доступные области доступа" />
+			Text="Все разрешенные области доступа" />
 
 		<TextBlock
 			Grid.Row="8"
