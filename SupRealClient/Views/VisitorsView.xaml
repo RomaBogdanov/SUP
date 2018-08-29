@@ -86,6 +86,7 @@
 				GotFocus="GotFocus_FirstTabItemControls"
 				IsEnabled="{Binding Path=TextEnable, Mode=TwoWay}"
 				KeyDown="MoveNextFocusControl"
+				PreviewKeyDown="CheckIsSpaceAsTab"
 				PreviewMouseDoubleClick="PrevMouseDown"
 				PreviewMouseDown="PrevMouseDown"
 				PreviewMouseLeftButtonDown="PrevMouseDown"
@@ -99,11 +100,13 @@
 				Text="Имя" />
 
 			<TextBox
+				Name="textBox_Name"
 				Grid.Row="1"
 				Grid.Column="1"
 				Margin="2"
 				IsEnabled="{Binding Path=TextEnable, Mode=TwoWay}"
 				KeyDown="MoveNextFocusControl"
+				PreviewKeyDown="CheckIsSpaceAsTab"
 				Style="{StaticResource TextBoxStyle}"
 				Text="{Binding Path=Name, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
 
@@ -120,6 +123,7 @@
 				Margin="2"
 				IsEnabled="{Binding Path=TextEnable, Mode=TwoWay}"
 				KeyDown="MoveNextFocusControl_ToName"
+				PreviewKeyDown="CheckIsSpaceAsTab"
 				Style="{StaticResource TextBoxStyle}"
 				Text="{Binding Path=Patronymic, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
 

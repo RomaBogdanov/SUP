@@ -1810,7 +1810,7 @@
 				</Grid>
 			</Button>
 
-			<Button
+			<!--<Button
 				Grid.Row="0"
 				Grid.Column="5"
 				Margin="2"
@@ -1831,7 +1831,7 @@
 						Style="{StaticResource TextBLockStyle}"
 						Text="Отложить" />
 				</Grid>
-			</Button>
+			</Button>-->
 
 			<Button
 				Name="btnAddOrder"

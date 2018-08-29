@@ -152,6 +152,38 @@ namespace SupRealClient.Views
 			}
 		}
 
+		/// <summary>
+		/// На полях ФИО посетителя пробел воспринимается как Tab
+		/// </summary>
+		/// <param name="sender"></param>
+		/// <param name="e"></param>
+		private void CheckIsSpaceAsTab(object sender, KeyEventArgs e)
+		{
+			if (e.Key != Key.Space) return;
+
+			if (!(sender is TextBox textBoxElement)) return;
+
+			bool spaceOnNameFields = textBoxElement.Equals(textBox_Family) ||
+			                         textBoxElement.Equals(textBox_Name) ||
+			                         textBoxElement.Equals(textbox_Patronymic); // Если на полях имени нажимается пробел, он воспринимается как таб
+
+			if (spaceOnNameFields)
+			{
+				if (Keyboard.IsKeyDown(Key.LeftCtrl) && Keyboard.IsKeyDown(Key.LeftShift)) // при комбинации Ctrl+Shift+Space пробел должен добавляться обычным образом
+				{
+					var selectionStart = textBoxElement.SelectionStart;
+					textBoxElement.Text = textBoxElement.Text.Insert(selectionStart, " ");
+					textBoxElement.SelectionStart = selectionStart + 1;
+					
+					return;
+				}
+
+				textBoxElement.MoveFocus(_focusMover);
+			}
+
+			e.Handled = true;
+		}
+
 		private void MoveNextFocusControl(object sender, KeyEventArgs e)
 		{
 			if (e.Key == Key.Enter)
@@ -246,10 +278,12 @@ namespace SupRealClient.Views
 				if (!model.IsRedactMode)
 				{
 					Close();
+					e.Handled = true;
 				}
 				else
 				{
 					model.Cancel();
+					e.Handled = true;
 				}
 			} else if ((e.Key == Key.Home || e.Key == Key.Left && Keyboard.IsKeyDown(Key.LeftCtrl)) && butFirst.IsEnabled)
 			{

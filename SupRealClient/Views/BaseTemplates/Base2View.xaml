@@ -77,9 +77,9 @@
 
 			<DataGrid.InputBindings>
 				<KeyBinding Key="Delete" Command="{Binding Remove}" />
+				<KeyBinding Key="F2" Command="{Binding Update}" />
 				<MouseBinding Command="{Binding RightClickCommand}" MouseAction="RightClick" />
-
-				<MouseBinding Command="{Binding Update}" MouseAction="LeftDoubleClick" />
+				<MouseBinding Command="{Binding Ok}" MouseAction="LeftDoubleClick" />
 			</DataGrid.InputBindings>
 		</local:CustomDataGrid>
 
