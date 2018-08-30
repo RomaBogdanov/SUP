@@ -11,6 +11,7 @@ namespace SupRealClient.EnumerationClasses
     public class Visitor : IdEntity, ICloneable
     {
 		private string _сomment;
+		private string _сomment_buf;
 		private int organizationId;
 	    private ObservableCollection<VisitorsMainDocument> _mainDocuments;
 
@@ -40,7 +41,7 @@ namespace SupRealClient.EnumerationClasses
 			get => _сomment;
 			set
 			{
-				_сomment = value;
+				_сomment = value; _сomment_buf = _сomment;
 				int i = 0;
 			}
 		}
@@ -81,7 +82,10 @@ namespace SupRealClient.EnumerationClasses
 		/// </summary>
 		public ObservableCollection<OrderElement> OrderElements { get; set; }
 
-
+	    private int HashCode
+		{
+			get { return GetHashCode(); }
+		}
 
         public object Clone()
         {

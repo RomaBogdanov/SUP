@@ -2168,7 +2168,7 @@ select new T
             {
                 Model = model
             };
-            AddUpdateTemplateView view = new AddUpdateTemplateView();
+            AddUpdateTemplateView view = new AddUpdateTemplateView("Добавить шаблон");
             view.DataContext = viewModel;
             model.OnClose += view.Handling_OnClose;
             view.ShowDialog();
@@ -2182,7 +2182,7 @@ select new T
             {
                 Model = model
             };
-            AddUpdateTemplateView view = new AddUpdateTemplateView();
+            AddUpdateTemplateView view = new AddUpdateTemplateView("Изменить шаблон");
             view.DataContext = viewModel;
             model.OnClose += view.Handling_OnClose;
             view.ShowDialog();
