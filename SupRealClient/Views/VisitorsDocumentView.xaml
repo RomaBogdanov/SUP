@@ -31,8 +31,8 @@
 		</Grid.ColumnDefinitions>
 		<Grid.RowDefinitions>
 			<RowDefinition Height="30" />
-			<RowDefinition Height="30" />
-			<RowDefinition Height="30" />
+			<RowDefinition Height="32" />
+			<RowDefinition Height="28" />
 			<RowDefinition />
 			<RowDefinition Height="Auto" />
 			<RowDefinition Height="Auto" />

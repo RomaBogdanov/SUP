@@ -58,6 +58,7 @@ namespace SupRealClient.Views
 			{
 				e.Handled = false;
 				Close();
+				e.Handled = true;
 			}
 		}
 	}

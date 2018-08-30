@@ -42,6 +42,7 @@ using KeyEventArgs = System.Windows.Input.KeyEventArgs;
 using MessageBox = System.Windows.Forms.MessageBox;
 using System.Text.RegularExpressions;
 using log4net;
+using Application = System.Windows.Application;
 
 namespace SupRealClient.Views
 {
@@ -83,8 +84,8 @@ namespace SupRealClient.Views
 		private int selectedCard = -1;
 		private int selectedOrderElement = -1;
 		private int selectedOrder = -1;
-		private const string _nameDocument_PhotoImageType = "Личная фотография";
-		private const string _nameDocument_SignatureImageType = "Личная подпись";
+		public  const string _nameDocument_PhotoImageType = "Личная фотография";
+		public const string _nameDocument_SignatureImageType = "Личная подпись";
 		private bool _visibleButtonOpenDocument = false;
 		private bool _enableButtonOpenDocument = false;
 		private bool _enableButtonOpenMainDocument = false;
@@ -1135,9 +1136,33 @@ namespace SupRealClient.Views
 				return;
 			}
 
-			var wnd = new BidsView();
-			wnd.Show();
-			wnd.SetToOrder(CurrentItem.Orders[SelectedOrder]);
+			// Такой же код есть в OrdersListModel.xaml.cs todo: избавиться от повторения кода
+			var bidsModel = new BidsModel();
+			bidsModel.CurrentOrder = CurrentItem.Orders[SelectedOrder];
+			var typeId = CurrentItem.Orders[SelectedOrder].TypeId - 1;
+
+			var viewModel = new BidsViewModel()
+			{
+				BidsModel = bidsModel,
+				CurrentOrder = CurrentItem.Orders[SelectedOrder],
+				SelectedIndex = typeId
+			};
+
+			switch (typeId)
+			{
+				case 0:
+					viewModel.CurrentSingleOrder = CurrentItem.Orders[SelectedOrder];
+					break;
+				case 1:
+					viewModel.CurrentTemporaryOrder = CurrentItem.Orders[SelectedOrder];
+					break;
+				case 2:
+					viewModel.CurrentVirtueOrder = CurrentItem.Orders[SelectedOrder];
+					break;
+			}
+
+			var owner = Application.Current.Windows.OfType<Window>().SingleOrDefault(x => x.IsActive);
+			ViewManager.Instance.OpenWindow("BidsView", viewModel, owner as IWindow);
 		}
 
 		private void Edit()
@@ -2970,8 +2995,11 @@ namespace SupRealClient.Views
 					    VisitorId = Set[index].Id,
 					    TypeId = 0,
 					    Name = documents.Field<string>("f_doc_name"),
-				    });
+						IsCanAddChanges= VisitorsDocument.Detecting_CanAddChanges(Set[index].MainDocuments, documents.Field<string>("f_doc_name"))
+					});
 			}
+
+
 		}
 
 		private string GetOperator(int id, DateTime date)
