@@ -83,8 +83,8 @@ namespace SupRealClient.Views
 		private int selectedCard = -1;
 		private int selectedOrderElement = -1;
 		private int selectedOrder = -1;
-		private const string _nameDocument_PhotoImageType = "Личная фотография";
-		private const string _nameDocument_SignatureImageType = "Личная подпись";
+		public  const string _nameDocument_PhotoImageType = "Личная фотография";
+		public const string _nameDocument_SignatureImageType = "Личная подпись";
 		private bool _visibleButtonOpenDocument = false;
 		private bool _enableButtonOpenDocument = false;
 		private bool _enableButtonOpenMainDocument = false;
@@ -2970,8 +2970,11 @@ namespace SupRealClient.Views
 					    VisitorId = Set[index].Id,
 					    TypeId = 0,
 					    Name = documents.Field<string>("f_doc_name"),
-				    });
+						IsCanAddChanges= VisitorsDocument.Detecting_CanAddChanges(Set[index].MainDocuments, documents.Field<string>("f_doc_name"))
+					});
 			}
+
+
 		}
 
 		private string GetOperator(int id, DateTime date)
