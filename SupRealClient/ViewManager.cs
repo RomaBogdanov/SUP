@@ -23,20 +23,6 @@ namespace SupRealClient
 
         private static Authorize1View authorizeView;
 
-	    public IWindow CheckIfWindowAlreadyExists(IWindow wind)
-	    {
-		    if (windows.ContainsKey(wind.WindowName))
-		    {
-			    return windows[wind.WindowName];
-
-		    }
-		    else
-		    {
-			    windows[wind.WindowName] = wind;
-				return  wind;
-			}
-		}
-
         public static IViewManager Instance
         {
             get { return viewManager = viewManager ?? new ViewManager(); }

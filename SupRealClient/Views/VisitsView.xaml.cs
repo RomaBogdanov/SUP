@@ -1136,6 +1136,7 @@ namespace SupRealClient.Views
 				return;
 			}
 
+			// Такой же код есть в OrdersListModel.xaml.cs todo: избавиться от повторения кода
 			var bidsModel = new BidsModel();
 			bidsModel.CurrentOrder = CurrentItem.Orders[SelectedOrder];
 			var typeId = CurrentItem.Orders[SelectedOrder].TypeId - 1;
@@ -1160,9 +1161,8 @@ namespace SupRealClient.Views
 					break;
 			}
 
-			var window = new BidsView();
-			var test = Application.Current.Windows.OfType<Window>().SingleOrDefault(x => x.IsActive);
-			ViewManager.Instance.OpenWindow(window.WindowName, viewModel, test as IWindow);
+			var owner = Application.Current.Windows.OfType<Window>().SingleOrDefault(x => x.IsActive);
+			ViewManager.Instance.OpenWindow("BidsView", viewModel, owner as IWindow);
 		}
 
 		private void Edit()
