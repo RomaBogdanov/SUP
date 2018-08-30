@@ -108,6 +108,7 @@ namespace SupRealClient.Views
         private void baseTab_Loaded(object sender, RoutedEventArgs e)
         {
             SortItemsSource();
+	        Keyboard.Focus(baseTab);
         }
 
         private void UserControl_IsVisibleChanged(object sender, System.Windows.DependencyPropertyChangedEventArgs e)
@@ -115,8 +116,9 @@ namespace SupRealClient.Views
             Window parentWindow = Window.GetWindow(this);
             if (parentWindow.Visibility == System.Windows.Visibility.Visible)
             {
-                tbxSearch.Focus();
-                tbxSearch.Text = string.Empty;
+				// tbxSearch.Focus();
+				Keyboard.Focus(baseTab);
+				tbxSearch.Text = string.Empty;
                 SortItemsSource();
             }
         }

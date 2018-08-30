@@ -224,7 +224,7 @@ namespace SupRealClient.Views
 
 		public string CommentText
 		{
-			get { return Model?.CurrentItem.Comment; }
+			get { return Model?.CurrentItem?.Comment; }
 			set
 			{
 				if(Model!=null && Model.CurrentItem!=null)
