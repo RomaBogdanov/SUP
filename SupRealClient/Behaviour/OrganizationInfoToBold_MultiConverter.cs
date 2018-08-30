@@ -24,15 +24,15 @@ namespace SupRealClient.Behaviour
 					{
 						if (isBasic.Value)
 						{
-							return FontWeights.Bold;
+							return FontWeights.SemiBold;
 						}
 					}
 
-					return SystemFonts.MessageFontWeight;
+					return FontWeights.SemiBold;
 				}
 				else
 				{
-					return SystemFonts.MessageFontWeight;
+					return FontWeights.Light;
 				}
 			}
 

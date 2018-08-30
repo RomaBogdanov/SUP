@@ -283,7 +283,7 @@
 				Margin="8,13"
 				VerticalAlignment="Stretch"
 				Style="{StaticResource TextBLockStyle}"
-				Text="Примечания" />
+				Text="Примечания"  />
 
 			<TextBox
 				Grid.Row="1"

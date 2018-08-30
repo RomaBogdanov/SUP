@@ -67,11 +67,18 @@ namespace SupContract
         [OperationContract]
         byte[] GetImage(Guid alias, OperationInfo info);
 
-        /// <summary>
-        /// Процедура загрузки изображения в базу.
-        /// </summary>
-        /// <returns></returns>
-        [OperationContract(IsOneWay = true)]
+		/// <summary>
+		/// Процедура получения изображения в виде набора байтов.
+		/// </summary>
+		/// <returns></returns>
+		[OperationContract]
+		byte[] GetImageUsingParametr(Guid alias, OperationInfo info, bool? isNotDeleted);
+
+		/// <summary>
+		/// Процедура загрузки изображения в базу.
+		/// </summary>
+		/// <returns></returns>
+		[OperationContract(IsOneWay = true)]
         void SetImages(Dictionary<Guid, byte[]> images, OperationInfo info);
 
         /// <summary>

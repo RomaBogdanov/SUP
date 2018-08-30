@@ -54,6 +54,10 @@ namespace SupRealClient.Models
 			if (orderImageID >= 0)
 			{
 				DataRow row = null;
+
+				DataRowCollection rows = ImagesWrapper.CurrentTable().Table.Rows;
+
+
 				foreach (DataRow r in ImagesWrapper.CurrentTable().Table.Rows)
 				{
 					if (r.Field<int>("f_visitor_id") == 0 &&
@@ -70,7 +74,22 @@ namespace SupRealClient.Models
 					return Guid.Empty;
 
 				Guid imageData = row.Field<Guid>("f_image_alias");
-				CacheImage(imageData);
+				//CacheImage(imageData);
+
+				string path = GetImagePath(imageData);
+				if (!File.Exists(path))
+				{
+					byte[] data =
+						ImagesWrapper.CurrentTable().Connector.GetImage(imageData, true);
+					if (data != null)
+					{
+						File.WriteAllBytes(path, data);
+					}
+					else
+					{
+						return Guid.Empty;
+					}
+				}
 
 				return imageData;
 			}
@@ -116,7 +135,7 @@ namespace SupRealClient.Models
                 string path = GetImagePath(alias);
                 if (!File.Exists(path))
                 {
-                    byte[] data = ImagesWrapper.CurrentTable().Connector.GetImage(alias);
+                    byte[] data = ImagesWrapper.CurrentTable().Connector.GetImage(alias, true);
 					if (data != null)
 					{
 						File.WriteAllBytes(path, data);
@@ -139,7 +158,7 @@ namespace SupRealClient.Models
             if (!File.Exists(path))
             {
                 byte[] data =
-                    ImagesWrapper.CurrentTable().Connector.GetImage(alias);
+                    ImagesWrapper.CurrentTable().Connector.GetImage(alias, true);
                 if (data != null)
                 {
                     File.WriteAllBytes(path, data);

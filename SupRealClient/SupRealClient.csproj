@@ -119,6 +119,7 @@
     <Compile Include="Behaviour\OrganizationInfoToBold_MultiConverter.cs" />
     <Compile Include="Behaviour\OrganizationTypeToColorConverter.cs" />
     <Compile Include="Behaviour\OrganizationTypeToColor_MultiConverter.cs" />
+    <Compile Include="Behaviour\OrganizationTypeToFontStyleConverter.cs" />
     <Compile Include="Behaviour\SearchValueConverter.cs" />
     <Compile Include="Behaviour\SupDateConverter.cs" />
     <Compile Include="ChildWinSet.cs" />
