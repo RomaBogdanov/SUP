@@ -96,7 +96,7 @@ namespace SupRealClient.Views
 
 		private void MetroWindow_Activated(object sender, System.EventArgs e)
 		{
-			parentWindowChecking();
+			//parentWindowChecking();
 		}
 
 		void parentWindowChecking()
