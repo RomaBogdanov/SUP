@@ -99,8 +99,10 @@ namespace SupRealClient.Views
 
 		private void MetroWindow_Initialized(object sender, EventArgs e)
 		{
-			this.DataContext = new ViewModels.BidsViewModel() {BidsModel = new Models.BidsModel()}; // Контекст данных.
-			this.Height = (this.DataContext as ViewModels.BidsViewModel).WinSet.Height;
+			if (DataContext == null)
+			{
+				this.DataContext = new ViewModels.BidsViewModel() { BidsModel = new Models.BidsModel() }; // Контекст данных.this.Height = (this.DataContext as ViewModels.BidsViewModel).WinSet.Height;
+			}
 			this.Width = (this.DataContext as ViewModels.BidsViewModel).WinSet.Width;
 			this.Left = (this.DataContext as ViewModels.BidsViewModel).WinSet.Left;
 			this.Top = (this.DataContext as ViewModels.BidsViewModel).WinSet.Top;
