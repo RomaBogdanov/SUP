@@ -84,7 +84,6 @@ namespace SupRealClient.Views
         {
 	        if (CurrentItem != null)
 	        {
-				
 				IWindow parent = Parent;
 		        if (parent == null) //todo: создание нового view - костыль для открытия в режиме редактирования. Позже нужно удалить.
 				{
@@ -103,16 +102,15 @@ namespace SupRealClient.Views
         {
             if (CurrentItem != null)
             {
-				
 	            IWindow parent = Parent;
 	            if (parent == null) //todo: создание нового view - костыль для открытия в режиме редактирования. Позже нужно удалить.
 				{
 		            parent = new VisitorsListWindView(null);
 	            }
-	            if (parent is VisitorsListWindView view)
+	            if (parent is VisitorsListWindView parentView)
 	            {
-		            view.base4.modeWatch = true;
-		            view.base4.baseTab.CurrentItem = currentItem;
+		            parentView.base4.modeWatch = true;
+		            parentView.base4.baseTab.CurrentItem = currentItem;
 	            }
 				ViewManager.Instance.OpenWindow("VisitorsView", parent);
             }

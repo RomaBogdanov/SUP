@@ -19,7 +19,6 @@
 		<KeyBinding Key="F2" Command="{Binding Path=Update}" />
 		<KeyBinding Key="F4" Command="{Binding Path=Watch}" />
 	</UserControl.InputBindings>
-
 	<UserControl.Resources>
 		<ResourceDictionary>
 			<ResourceDictionary.MergedDictionaries>

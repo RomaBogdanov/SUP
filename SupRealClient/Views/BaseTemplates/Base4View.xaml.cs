@@ -4,6 +4,7 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Controls.Primitives;
 using System.Windows.Input;
+using MahApps.Metro.Controls;
 using SupRealClient.Common.Interfaces;
 
 namespace SupRealClient.Views
@@ -20,7 +21,7 @@ namespace SupRealClient.Views
 
         public Base4View()
         {
-            InitializeComponent();            
+            InitializeComponent();
         }
 
         public DataGrid BaseTab
@@ -90,7 +91,7 @@ namespace SupRealClient.Views
 
         private void BaseTab_OnKeyDown(object sender, KeyEventArgs e)
         {
-            if (e.Key != Key.Down && e.Key != Key.Up)
+            if ((e.Key == Key.Back || (e.Key >= Key.A && e.Key <= Key.Z) || (e.Key >= Key.D0 && e.Key <= Key.D9) || (e.Key >= Key.NumPad0 && e.Key <= Key.NumPad9)) && !Keyboard.IsKeyDown(Key.LeftCtrl))
             {
                 SelectSearchBox();
             }
@@ -98,7 +99,10 @@ namespace SupRealClient.Views
 
         public void SelectSearchBox()
         {
-            tbxSearch.Focus();
+	        if (tbxSearch.IsFocused == false)
+	        {
+		        tbxSearch.Focus();
+			}
         }
 
         private void baseTab_Loaded(object sender, RoutedEventArgs e)
