@@ -23,6 +23,11 @@ namespace SupRealClient.Views
 		private readonly List<UIElement> _enterUiElementsSequenceVirtOrder;
 		private UIElement _previousEnterUiElement = null;
 
+		public BidsView(object dataContext) : this()
+		{
+			DataContext = dataContext;
+		}
+
 		public BidsView()
 		{
 			InitializeComponent();

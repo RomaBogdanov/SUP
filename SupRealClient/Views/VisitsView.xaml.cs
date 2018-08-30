@@ -42,6 +42,7 @@ using KeyEventArgs = System.Windows.Input.KeyEventArgs;
 using MessageBox = System.Windows.Forms.MessageBox;
 using System.Text.RegularExpressions;
 using log4net;
+using Application = System.Windows.Application;
 
 namespace SupRealClient.Views
 {
@@ -1135,9 +1136,33 @@ namespace SupRealClient.Views
 				return;
 			}
 
-			var wnd = new BidsView();
-			wnd.Show();
-			wnd.SetToOrder(CurrentItem.Orders[SelectedOrder]);
+			var bidsModel = new BidsModel();
+			bidsModel.CurrentOrder = CurrentItem.Orders[SelectedOrder];
+			var typeId = CurrentItem.Orders[SelectedOrder].TypeId - 1;
+
+			var viewModel = new BidsViewModel()
+			{
+				BidsModel = bidsModel,
+				CurrentOrder = CurrentItem.Orders[SelectedOrder],
+				SelectedIndex = typeId
+			};
+
+			switch (typeId)
+			{
+				case 0:
+					viewModel.CurrentSingleOrder = CurrentItem.Orders[SelectedOrder];
+					break;
+				case 1:
+					viewModel.CurrentTemporaryOrder = CurrentItem.Orders[SelectedOrder];
+					break;
+				case 2:
+					viewModel.CurrentVirtueOrder = CurrentItem.Orders[SelectedOrder];
+					break;
+			}
+
+			var window = new BidsView();
+			var test = Application.Current.Windows.OfType<Window>().SingleOrDefault(x => x.IsActive);
+			ViewManager.Instance.OpenWindow(window.WindowName, viewModel, test as IWindow);
 		}
 
 		private void Edit()

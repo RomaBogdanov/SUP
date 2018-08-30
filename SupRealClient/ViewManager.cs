@@ -23,6 +23,20 @@ namespace SupRealClient
 
         private static Authorize1View authorizeView;
 
+	    public IWindow CheckIfWindowAlreadyExists(IWindow wind)
+	    {
+		    if (windows.ContainsKey(wind.WindowName))
+		    {
+			    return windows[wind.WindowName];
+
+		    }
+		    else
+		    {
+			    windows[wind.WindowName] = wind;
+				return  wind;
+			}
+		}
+
         public static IViewManager Instance
         {
             get { return viewManager = viewManager ?? new ViewManager(); }
@@ -111,25 +125,72 @@ namespace SupRealClient
                 new Search1View(searchHelper), parent);
         }
 
+	    private IWindow GetWindow(string name)
+	    {
+		    return windows.ContainsKey(name) ?
+			    windows[name] : CreateWindow(name);
+		}
+
+	    public void OpenWindow(string name, object dataContext, IWindow parent = null)
+	    {
+		    var window = GetWindow(name);
+		    if (window is Window windowWithContext)
+		    {
+			    windowWithContext.DataContext = dataContext;
+		    }
+			OpenWindow(name,parent);
+	    }
+
+	    private void SetupWindow(IWindow window, string name,IWindow parent)
+	    {
+		    if (window == null)
+		    {
+			    return;
+		    }
+		    if (!windows.ContainsKey(name))
+		    {
+			    windows[name] = window;
+		    }
+		    window.ParentWindow = parent;
+		    OpenWindow(window);
+		}
+
         /// <summary>
         /// Открыть окно
         /// </summary>
         /// <param name="name"></param>
         public void OpenWindow(string name, IWindow parent = null)
         {
-            IWindow window = windows.ContainsKey(name) ?
-                windows[name] : CreateWindow(name);
-            if (window == null)
-            {
-                return;
-            }
-            if (!windows.ContainsKey(name))
-            {
-                windows[name] = window;
-            }
-            window.ParentWindow = parent;
-            OpenWindow(window);
+	        var window = GetWindow(name);
+
+	       SetupWindow(window,name, parent);
         }
+
+	    private object SetupWindowModal(IWindow window, string name, IWindow parent)
+	    {
+		    if (window == null)
+		    {
+			    return null;
+		    }
+		    if (!windows.ContainsKey(name))
+		    {
+			    windows[name] = window;
+		    }
+		    window.ParentWindow = parent;
+		    return OpenWindowModal(window);
+		}
+
+	    public object OpenWindowModal(string name, object dataContext, IWindow parent = null)
+	    {
+		    var window = GetWindow(name);
+			
+		    if (dataContext != null && window is Window windowWithContext)
+		    {
+			    windowWithContext.DataContext = dataContext;
+		    }
+
+		    return SetupWindowModal(window, name, parent);
+	    }
 
         /// <summary>
         /// Открыть окно
@@ -137,18 +198,8 @@ namespace SupRealClient
         /// <param name="name"></param>
         public object OpenWindowModal(string name, IWindow parent = null)
         {
-            IWindow window = windows.ContainsKey(name) ?
-                windows[name] : CreateWindow(name);
-            if (window == null)
-            {
-                return null;
-            }
-            if (!windows.ContainsKey(name))
-            {
-                windows[name] = window;
-            }
-            window.ParentWindow = parent;
-            return OpenWindowModal(window);
+			var window = GetWindow(name);
+	        return SetupWindowModal(window, name, parent);
         }
 
         /// <summary>
