@@ -15,7 +15,9 @@
 		<KeyBinding Command="{Binding Update}" Gesture="Ctrl+D" />
 		<KeyBinding Command="{Binding Search}" Gesture="Ctrl+F" />
 		<KeyBinding Command="{Binding Farther}" Gesture="Ctrl+G" />
-		<KeyBinding Key="F4" Command="{Binding Watch}" />
+		<KeyBinding Key="Delete" Command="{Binding Path=Remove}" />
+		<KeyBinding Key="F2" Command="{Binding Path=Update}" />
+		<KeyBinding Key="F4" Command="{Binding Path=Watch}" />
 	</UserControl.InputBindings>
 
 	<UserControl.Resources>
@@ -68,9 +70,6 @@
 				</Style>
 			</DataGrid.ColumnHeaderStyle>
 			<DataGrid.InputBindings>
-				<KeyBinding Key="Delete" Command="{Binding Remove}" />
-				<KeyBinding Key="F2" Command="{Binding Update}" />
-				<KeyBinding Key="F4" Command="{Binding Watch}" />
 				<MouseBinding Command="{Binding Ok}" MouseAction="LeftDoubleClick" />
 			</DataGrid.InputBindings>
 		</local:CustomDataGrid>
@@ -123,7 +122,6 @@
 			Margin="1"
 			Command="{Binding Path=Update}"
 			KeyDown="BaseTab_OnKeyDown"
-			PreviewMouseLeftButtonDown="btnUpdate_PreviewMouseLeftButtonDown"
 			Style="{StaticResource ButtonStyle}"
 			ToolTip="Ctrl+D">
 			<Grid>
@@ -196,7 +194,6 @@
 			Margin="1"
 			Command="{Binding Path=Watch}"
 			KeyDown="BaseTab_OnKeyDown"
-			PreviewMouseLeftButtonDown="btnWatch_PreviewMouseLeftButtonDown"
 			Style="{StaticResource ButtonStyle}"
 			Visibility="{Binding Path=WatchVisibility, Mode=OneTime}">
 			<Grid>

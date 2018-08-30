@@ -13,10 +13,10 @@ namespace SupRealClient.Views
     /// </summary>
     public partial class Base4View : UserControl
     {
-        public bool modeEdit { get; set; }
-        public bool modeWatch { get; set; }
+        public bool modeEdit { get; set; } // меняются в VisitorsListModel
+		public bool modeWatch { get; set; } // меняются в VisitorsListModel
 
-        DataGridColumnHeader headerCliked = null;        
+		DataGridColumnHeader headerCliked = null;        
 
         public Base4View()
         {
@@ -129,16 +129,6 @@ namespace SupRealClient.Views
                 baseTab.CurrentColumn = headerCliked.Column;
                 headerCliked = null;
             }
-        }
-
-        private void btnUpdate_PreviewMouseLeftButtonDown(object sender, MouseButtonEventArgs e)
-        {
-            modeEdit = true;
-        }
-
-        private void btnWatch_PreviewMouseLeftButtonDown(object sender, MouseButtonEventArgs e)
-        {
-            modeWatch = true;
         }
 
         void SortItemsSource()
