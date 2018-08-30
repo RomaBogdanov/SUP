@@ -32,7 +32,7 @@ namespace SupRealClient.Views
         {
             DataGridTextColumn dataGridTextColumn = new DataGridTextColumn
             {
-                Header = "Название",
+                Header = "Регион",
                 Binding = new Binding("Name")
             };
             base4.baseTab.Columns.Add(dataGridTextColumn);
