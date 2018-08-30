@@ -125,7 +125,7 @@ namespace SupRealClient.ViewModels
             if (!ChangeStateHelper.CanChangeState(
                 (CardState)rows.Value.Field<int>("f_state_id"), CardState.Lost))
             {
-                MessageBox.Show("Некорретное изменение состояния пропуска", "Внимание",
+                MessageBox.Show("Некорректное изменение состояния пропуска", "Внимание",
                     MessageBoxButton.OK, MessageBoxImage.Warning);
                 return;
             }
