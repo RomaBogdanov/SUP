@@ -84,29 +84,17 @@ namespace SupRealClient.Views
         {
 	        if (CurrentItem != null)
 	        {
-                if (this.Parent is VisitorsListWindView)
-                {
-                    //todo: создание нового view - костыль для открытия в режиме редактирования. Позже нужно удалить.
-                    ViewManager.Instance.OpenWindow("VisitorsView", this.Parent ?? new VisitorsListWindView(null));
-                }
-                else
-                {
-                    VisitsModel model = new VisitsModel();
-
-                    model.CurrentItem = model.Find(CurrentItem.Id);
-                    VisitorsView view = new VisitorsView();
-                    view.Owner = Application.Current.Windows.OfType<Window>().SingleOrDefault(x => x.IsActive);
-                    view.WindowStartupLocation = WindowStartupLocation.CenterOwner;
-                    VisitsViewModel vm = new VisitsViewModel(view) { Model = model };
-
-                    if (view.DataContext is VisitsViewModel visitsView)
-                    {
-                        visitsView.DocumentScanerRemoveSubscription();
-                    }
-
-                    view.DataContext = vm;
-                    view.ShowDialog();
-                }		        
+				IWindow parent = Parent;
+		        if (parent == null) //todo: создание нового view - костыль для открытия в режиме редактирования. Позже нужно удалить.
+				{
+			        parent = new VisitorsListWindView(null);
+		        }
+		        if (parent is VisitorsListWindView parentView)
+		        {
+			        parentView.base4.modeEdit = true;
+			        parentView.base4.baseTab.CurrentItem = currentItem;
+		        }
+				ViewManager.Instance.OpenWindow("VisitorsView", parent);
 	        }
         }
 
@@ -114,18 +102,17 @@ namespace SupRealClient.Views
         {
             if (CurrentItem != null)
             {
-				//todo: создание нового view - костыль для открытия в режиме редактирования. Позже нужно удалить.
 	            IWindow parent = Parent;
-	            if (parent == null)
-	            {
+	            if (parent == null) //todo: создание нового view - костыль для открытия в режиме редактирования. Позже нужно удалить.
+				{
 		            parent = new VisitorsListWindView(null);
-		            if (parent is VisitorsListWindView view)
-		            {
-			            view.base4.modeWatch = true;
-						view.base4.baseTab.CurrentItem = currentItem;
-		            }
 	            }
-                ViewManager.Instance.OpenWindow("VisitorsView", parent);
+	            if (parent is VisitorsListWindView parentView)
+	            {
+		            parentView.base4.modeWatch = true;
+		            parentView.base4.baseTab.CurrentItem = currentItem;
+	            }
+				ViewManager.Instance.OpenWindow("VisitorsView", parent);
             }
         }
 

@@ -4,6 +4,7 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Controls.Primitives;
 using System.Windows.Input;
+using MahApps.Metro.Controls;
 using SupRealClient.Common.Interfaces;
 
 namespace SupRealClient.Views
@@ -13,14 +14,14 @@ namespace SupRealClient.Views
     /// </summary>
     public partial class Base4View : UserControl
     {
-        public bool modeEdit { get; set; }
-        public bool modeWatch { get; set; }
+        public bool modeEdit { get; set; } // меняются в VisitorsListModel
+		public bool modeWatch { get; set; } // меняются в VisitorsListModel
 
-        DataGridColumnHeader headerCliked = null;        
+		DataGridColumnHeader headerCliked = null;        
 
         public Base4View()
         {
-            InitializeComponent();            
+            InitializeComponent();
         }
 
         public DataGrid BaseTab
@@ -90,7 +91,7 @@ namespace SupRealClient.Views
 
         private void BaseTab_OnKeyDown(object sender, KeyEventArgs e)
         {
-            if (e.Key != Key.Down && e.Key != Key.Up)
+            if ((e.Key == Key.Back || (e.Key >= Key.A && e.Key <= Key.Z) || (e.Key >= Key.D0 && e.Key <= Key.D9) || (e.Key >= Key.NumPad0 && e.Key <= Key.NumPad9)) && !Keyboard.IsKeyDown(Key.LeftCtrl))
             {
                 SelectSearchBox();
             }
@@ -98,12 +99,16 @@ namespace SupRealClient.Views
 
         public void SelectSearchBox()
         {
-            tbxSearch.Focus();
+	        if (tbxSearch.IsFocused == false)
+	        {
+		        tbxSearch.Focus();
+			}
         }
 
         private void baseTab_Loaded(object sender, RoutedEventArgs e)
         {
             SortItemsSource();
+	        Keyboard.Focus(baseTab);
         }
 
         private void UserControl_IsVisibleChanged(object sender, System.Windows.DependencyPropertyChangedEventArgs e)
@@ -111,8 +116,9 @@ namespace SupRealClient.Views
             Window parentWindow = Window.GetWindow(this);
             if (parentWindow.Visibility == System.Windows.Visibility.Visible)
             {
-                tbxSearch.Focus();
-                tbxSearch.Text = string.Empty;
+				// tbxSearch.Focus();
+				Keyboard.Focus(baseTab);
+				tbxSearch.Text = string.Empty;
                 SortItemsSource();
             }
         }
@@ -129,16 +135,6 @@ namespace SupRealClient.Views
                 baseTab.CurrentColumn = headerCliked.Column;
                 headerCliked = null;
             }
-        }
-
-        private void btnUpdate_PreviewMouseLeftButtonDown(object sender, MouseButtonEventArgs e)
-        {
-            modeEdit = true;
-        }
-
-        private void btnWatch_PreviewMouseLeftButtonDown(object sender, MouseButtonEventArgs e)
-        {
-            modeWatch = true;
         }
 
         void SortItemsSource()

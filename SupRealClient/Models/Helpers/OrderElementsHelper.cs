@@ -50,7 +50,7 @@ namespace SupRealClient.Models.Helpers
 
 			if (string.IsNullOrEmpty(orderElement.Passes) || orderElement.Passes == OrderElementsHelper.NoPassesString)
 			{
-				errorMessage = "Необходимо назначить доступ. Поле \"Проходы\".";
+				errorMessage = "Необходимо назначить доступные помещения.";
 				return false;
 			}
 
