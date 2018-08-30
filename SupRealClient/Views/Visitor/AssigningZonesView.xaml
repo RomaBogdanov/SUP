@@ -71,7 +71,7 @@
 			SelectedCellsChanged="DataGrid_OnSelectedCellsChanged"
 			SelectedItem="{Binding CurrentAllTemplate, Mode=TwoWay}">
 			<DataGrid.Columns>
-				<DataGridTextColumn Binding="{Binding Name}" Header="Названиие" />
+				<DataGridTextColumn Binding="{Binding Name}" Header="Название" />
 			</DataGrid.Columns>
 			<DataGrid.InputBindings>
 				<MouseBinding
@@ -129,7 +129,7 @@
 				<DataGridTextColumn
 					Width="100"
 					Binding="{Binding Name}"
-					Header="Названиие" />
+					Header="Название" />
 				<DataGridTextColumn
 					Width="*"
 					Binding="{Binding Schedule}"
@@ -184,7 +184,7 @@
 			SelectedCellsChanged="DataGrid_OnSelectedCellsChanged"
 			SelectedItem="{Binding CurrentAllZone, Mode=TwoWay}">
 			<DataGrid.Columns>
-				<DataGridTextColumn Binding="{Binding Name}" Header="Названиие" />
+				<DataGridTextColumn Binding="{Binding Name}" Header="Название" />
 			</DataGrid.Columns>
 			<DataGrid.InputBindings>
 				<MouseBinding
@@ -242,7 +242,7 @@
 				<DataGridTextColumn
 					Width="100"
 					Binding="{Binding Name}"
-					Header="Названиие" />
+					Header="Название" />
 				<DataGridTextColumn
 					Width="*"
 					Binding="{Binding Schedule}"
