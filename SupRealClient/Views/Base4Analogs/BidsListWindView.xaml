@@ -6,7 +6,7 @@
     xmlns:local="clr-namespace:SupRealClient.Views"
     xmlns:mah="http://metro.mahapps.com/winfx/xaml/controls"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-    Title="Список заявок"
+    Title="Заявки"
     Width="720"
     Height="600"
     PreviewKeyDown="Window_PreviewKeyDown"

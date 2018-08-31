@@ -237,7 +237,15 @@ namespace SupRealClient.Models
                     row["f_visitor_id"] = id;
                     row["f_image_type"] = image.Value;
                     row["f_deleted"] = "N";
-                    ImagesWrapper.CurrentTable().Table.Rows.Add(row);
+
+					try
+					{
+						ImagesWrapper.CurrentTable().Table.Rows.Add(row);
+					}
+					catch (Exception ex)
+					{
+						int i = 0;
+					}
 
 					//imagesToSave.Add(image.Key,
 					//    File.ReadAllBytes(GetImagePath(image.Key)));
@@ -303,7 +311,14 @@ namespace SupRealClient.Models
 				row["f_visitor_id"] = visitorID;
 				row["f_image_type"] = imageType;
 				row["f_deleted"] = "N";
-				ImagesWrapper.CurrentTable().Table.Rows.Add(row);
+				try
+				{
+					ImagesWrapper.CurrentTable().Table.Rows.Add(row);
+				}
+				catch (Exception ex)
+				{
+					int i = 0;
+				}
 				//imagesToSave.Add(imageData,
 				//	File.ReadAllBytes(GetImagePath(imageData)));
 				imagesToSave.Add(imageData, ReadAllBytes(imageData));
