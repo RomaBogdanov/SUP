@@ -8,7 +8,7 @@ namespace SUPClient
 {
     class Order1Model1 : IOrders1Model
     {
-        private Dictionary<string, ClientConnector> tabConnectors;
+        private Dictionary<string, IClientConnector> tabConnectors;
         private DataTable tabVisitors;
         private DataTable tabOrganizations;
         private DataTable tabOrders;
@@ -40,7 +40,7 @@ namespace SUPClient
         {
             this.viewModel = viewModel;
 
-            this.tabConnectors = new Dictionary<string, ClientConnector>();
+            this.tabConnectors = new Dictionary<string, IClientConnector>();
             VisitorsWrapper visitors = VisitorsWrapper.CurrentTable();
             this.tabVisitors = visitors.table;
             this.tabConnectors.Add(visitors.table.TableName, visitors.Connector);

@@ -47,7 +47,10 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Authorizer.cs" />
+    <Compile Include="ClientConnectorFactory.cs" />
+    <Compile Include="IClientConnector.cs" />
     <Compile Include="Logger.cs" />
+    <Compile Include="NewMessageHandler.cs" />
     <Compile Include="ServerConnector.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

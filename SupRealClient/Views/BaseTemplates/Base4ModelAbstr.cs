@@ -626,7 +626,7 @@ namespace SupRealClient.Views
                 "Данные будут загружены из Andover. Старые данные будут удалены. Продолжить?",
                     "Внимание", MessageBoxButtons.YesNo, MessageBoxIcon.Information) == DialogResult.Yes)
             {
-                ClientConnector clientConnector = ClientConnector.CurrentConnector;
+                IClientConnector clientConnector = ClientConnectorFactory.CurrentConnector;
                 if (clientConnector.ImportFromAndover(EAndoverExportItem.Personnel.ToString()))
                 {
                     System.Windows.MessageBox.Show("Пропуска были загружены из Andover", "Информация",
@@ -1170,9 +1170,9 @@ namespace SupRealClient.Views
 				IsExtradition = true
 			};
 
-			var clientConnector = ClientConnector.CurrentConnector;
+            IClientConnector clientConnector = ClientConnectorFactory.CurrentConnector;
 
-			var result = clientConnector.ExportToAndover(data);
+            var result = clientConnector.ExportToAndover(data);
 
 			if (result?.Success ?? false)
 			{
@@ -1297,8 +1297,8 @@ namespace SupRealClient.Views
                 "Данные будут загружены из Andover. Старые данные будут удалены. Продолжить?",
                 "Внимание", MessageBoxButtons.YesNo, MessageBoxIcon.Information) == DialogResult.Yes)
             {
-	            ClientConnector clientConnector = ClientConnector.CurrentConnector;
-	            if (clientConnector.ImportFromAndover(EAndoverExportItem.Areas.ToString()))
+                IClientConnector clientConnector = ClientConnectorFactory.CurrentConnector;
+                if (clientConnector.ImportFromAndover(EAndoverExportItem.Areas.ToString()))
 	            {
 		            System.Windows.MessageBox.Show("Области доступа были загружены из Andover", "Информация",
 			            MessageBoxButton.OK, MessageBoxImage.Information);
@@ -1495,8 +1495,8 @@ namespace SupRealClient.Views
 		"Данные будут загружены из Andover. Старые данные будут удалены. Продолжить?",
                 "Внимание", MessageBoxButtons.YesNo, MessageBoxIcon.Information) == DialogResult.Yes)
             {
-	            ClientConnector clientConnector = ClientConnector.CurrentConnector;
-	            if (clientConnector.ImportFromAndover(EAndoverExportItem.Doors.ToString()))
+                IClientConnector clientConnector = ClientConnectorFactory.CurrentConnector;
+                if (clientConnector.ImportFromAndover(EAndoverExportItem.Doors.ToString()))
 	            {
 		            System.Windows.MessageBox.Show("Точки доступа были загружены из Andover", "Информация",
 			            MessageBoxButton.OK, MessageBoxImage.Information);
@@ -1684,8 +1684,8 @@ namespace SupRealClient.Views
 				"Данные будут загружены из Andover. Старые данные будут удалены. Продолжить?",
 			        "Внимание", MessageBoxButtons.YesNo, MessageBoxIcon.Information) == DialogResult.Yes)
 		    {
-			    ClientConnector clientConnector = ClientConnector.CurrentConnector;
-			    if (clientConnector.ImportFromAndover(EAndoverExportItem.Schedules.ToString()))
+                IClientConnector clientConnector = ClientConnectorFactory.CurrentConnector;
+                if (clientConnector.ImportFromAndover(EAndoverExportItem.Schedules.ToString()))
 			    {
 				    System.Windows.MessageBox.Show("Расписания были загружены из Andover", "Информация",
 					    MessageBoxButton.OK, MessageBoxImage.Information);

@@ -12,7 +12,7 @@ namespace SupRealClient.Models
     class Organizations1Model : IOrganizations1Model
     {
         private DataTable tabOrganizations;
-        private ClientConnector tabConnector;
+        private IClientConnector tabConnector;
         private string tabName;
         private IBase2ViewModel viewModel;
 

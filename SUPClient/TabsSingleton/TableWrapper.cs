@@ -6,7 +6,7 @@ namespace SUPClient
     class TableWrapper
     {
         private DataTable _table;
-        protected ClientConnector connector;
+        protected IClientConnector connector;
 
 	    public DataTable table
 	    {
@@ -14,11 +14,11 @@ namespace SUPClient
 		    protected set { _table = value; }
 	    }
 
-        public ClientConnector Connector { get { return this.connector; } }
+        public IClientConnector Connector { get { return this.connector; } }
 
         protected TableWrapper()
         {
-            this.connector = new ClientConnector();
+            this.connector = ClientConnectorFactory.CurrentConnector;
         }
 
         protected void Subscribe()

@@ -307,7 +307,7 @@ namespace SupRealClient.ViewModels
 
         private void UserExitProc()
         {
-            ClientConnector clientConnector = ClientConnector.CurrentConnector;
+            IClientConnector clientConnector = ClientConnectorFactory.CurrentConnector;
             clientConnector.ExitAuthorize();
             setupStorage.UserExit = true;
             ViewManager.Instance.ExitApp();
@@ -343,7 +343,7 @@ namespace SupRealClient.ViewModels
             ViewManager.Instance.ExitApp();
             try
             {
-                ClientConnector clientConnector = ClientConnector.CurrentConnector;
+                IClientConnector clientConnector = ClientConnectorFactory.CurrentConnector;
                 clientConnector.ExitAuthorize();
             }
             catch
@@ -360,9 +360,9 @@ namespace SupRealClient.ViewModels
 		    }
 
 
-		    ClientConnector clientConnector = ClientConnector.CurrentConnector;
+            IClientConnector clientConnector = ClientConnectorFactory.CurrentConnector;
 
-		    if (clientConnector.ImportFromAndover(tableSelectWindow.AndoverExportItem.ToString()))
+            if (clientConnector.ImportFromAndover(tableSelectWindow.AndoverExportItem.ToString()))
 		    {
 
 			    var dataArray = tableSelectWindow.AndoverExportItem.ToString().Split(',');

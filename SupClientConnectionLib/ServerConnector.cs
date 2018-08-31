@@ -2,10 +2,8 @@
 using System.Collections.Generic;
 using System.Data;
 using System.ServiceModel;
-using System.ServiceModel.Dispatcher;
 using System.Xml;
 using SupContract;
-using log4net;
 
 namespace SupClientConnectionLib
 {
@@ -17,10 +15,8 @@ namespace SupClientConnectionLib
     /// из всех точек приложения.
     /// </remarks>
     [CallbackBehavior(ConcurrencyMode = ConcurrencyMode.Reentrant)]
-    public class ClientConnector
+    internal class ClientConnector : IClientConnector
     {
-        private static ClientConnector connector;
-        private static Uri uri;
         ITableService tableService;
         CompositeType compositeType = new CompositeType();
         Authorizer authorizer;
@@ -30,26 +26,6 @@ namespace SupClientConnectionLib
         public event Action<string, object[]> OnDelete;
 
         #region Public
-
-        public static ClientConnector CurrentConnector
-        {
-            get
-            {
-                if (connector == null)
-                {
-                    connector = new ClientConnector();
-                    return connector;
-                }
-                return connector;
-            }
-        }
-
-        public static ClientConnector ResetConnector(Uri uri)
-        {
-            ClientConnector.uri = uri;
-            connector = new ClientConnector();
-            return connector;
-        }
 
         public int Authorize(string login, string pass)
         {
@@ -388,7 +364,7 @@ namespace SupClientConnectionLib
 			try
 			{
 				object result = this.tableService.GetImage(alias,
-	authorizer.GetInfo());
+                    authorizer.GetInfo());
 
 				if (result != DBNull.Value)
 				{
@@ -408,7 +384,7 @@ namespace SupClientConnectionLib
 			try
 			{
 				object result = this.tableService.GetImageUsingParametr(alias,
-	authorizer.GetInfo(), isDeletedParam);
+                    authorizer.GetInfo(), isDeletedParam);
 
 				if (result != DBNull.Value)
 				{
@@ -500,35 +476,12 @@ namespace SupClientConnectionLib
                 SendTimeout = TimeSpan.FromMinutes(5)
             };
             var myChannelFactory = new DuplexChannelFactory<ITableService>(
-                instanceContext, binding, new EndpointAddress(ClientConnector.uri));
+                instanceContext, binding, new EndpointAddress(ClientConnectorFactory.Uri));
             this.tableService = myChannelFactory.CreateChannel();
             //this.compositeType = new CompositeType();
         }
 
         #endregion
     }
-
-    public class NewMessageHandler : ITableCallback
-    {
-        public event Action<string, object[]> OnInsert;
-        public event Action<string, int, object[]> OnUpdate;
-        public event Action<string, object[]> OnDelete;
-
-        public void InsRow(string tableName, object[] objs)
-        {
-            this.OnInsert?.Invoke(tableName, objs);
-        }
-
-        public void UpdRow(string tableName, int rowNumber, object[] objs)
-        {
-            this.OnUpdate?.Invoke(tableName, rowNumber, objs);
-        }
-
-        public void DelRow(string tableName, object[] objs)
-        {
-            this.OnDelete?.Invoke(tableName, objs);
-        }
-
-	}
 }
  
