@@ -371,7 +371,7 @@ namespace SupClientConnectionLib
                         return false;
                     }
                 }
-                while (!repeat);
+                while (repeat);
             }
 
             return true;
