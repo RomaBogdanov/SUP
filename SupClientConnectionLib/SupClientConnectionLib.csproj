@@ -47,6 +47,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Authorizer.cs" />
+    <Compile Include="ClientConnector2.cs" />
     <Compile Include="ClientConnectorFactory.cs" />
     <Compile Include="IClientConnector.cs" />
     <Compile Include="Logger.cs" />
