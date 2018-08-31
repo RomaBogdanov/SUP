@@ -35,9 +35,10 @@ namespace SupRealClient.Models
         public static Guid LoadImage(string path)
         {
             var alias = Guid.NewGuid();
-            byte[] data = File.ReadAllBytes(path);
+			//byte[] data = File.ReadAllBytes(path);
+			byte[] data = ReadAllBytes(path);
 
-            string image = GetImagePath(alias);
+			string image = GetImagePath(alias);
 
 			//File.WriteAllBytes(image, data);
 			WriteFileToDisk(image, data);
@@ -237,20 +238,26 @@ namespace SupRealClient.Models
                     row["f_image_type"] = image.Value;
                     row["f_deleted"] = "N";
                     ImagesWrapper.CurrentTable().Table.Rows.Add(row);
-                    imagesToSave.Add(image.Key,
-                        File.ReadAllBytes(GetImagePath(image.Key)));
-                }
+
+					//imagesToSave.Add(image.Key,
+					//    File.ReadAllBytes(GetImagePath(image.Key)));
+
+					imagesToSave.Add(image.Key,
+							ReadAllBytes(image.Key));
+				}
                 else if (image.Value == ImageType.Document)
                 {
-                    imagesToSave[image.Key] = File.ReadAllBytes(GetImagePath(image.Key));
-                }
+					//imagesToSave[image.Key] = File.ReadAllBytes(GetImagePath(image.Key));
+					imagesToSave[image.Key] = ReadAllBytes(image.Key);
+				}
                 else if (!image.Key.Equals(row["f_image_alias"]))
                 {
                     row["f_image_alias"] = image.Key;
                     row["f_deleted"] = "N";
-                    imagesToSave.Add(image.Key,
-                        File.ReadAllBytes(GetImagePath(image.Key)));
-                }
+					//imagesToSave.Add(image.Key,
+					//    File.ReadAllBytes(GetImagePath(image.Key)));  
+					imagesToSave.Add(image.Key, ReadAllBytes(image.Key));
+				}
             }
             if (imagesToSave.Any())
             {
@@ -289,28 +296,32 @@ namespace SupRealClient.Models
 				}
 			}
 
-				if (row == null)
-				{
-					row = ImagesWrapper.CurrentTable().Table.NewRow();
-					row["f_image_alias"] = imageData;
-					row["f_visitor_id"] = visitorID;
-					row["f_image_type"] = imageType;
-					row["f_deleted"] = "N";
-					ImagesWrapper.CurrentTable().Table.Rows.Add(row);
-					imagesToSave.Add(imageData,
-						File.ReadAllBytes(GetImagePath(imageData)));
-				}
-				else if (imageType == ImageType.Document)
-				{
-					imagesToSave[imageData] = File.ReadAllBytes(GetImagePath(imageData));
-				}
-				else if (!imageData.Equals(row["f_image_alias"]))
-				{
-					row["f_image_alias"] = imageData;
-					row["f_deleted"] = "N";
-					imagesToSave.Add(imageData,
-						File.ReadAllBytes(GetImagePath(imageData)));
-				}
+			if (row == null)
+			{
+				row = ImagesWrapper.CurrentTable().Table.NewRow();
+				row["f_image_alias"] = imageData;
+				row["f_visitor_id"] = visitorID;
+				row["f_image_type"] = imageType;
+				row["f_deleted"] = "N";
+				ImagesWrapper.CurrentTable().Table.Rows.Add(row);
+				//imagesToSave.Add(imageData,
+				//	File.ReadAllBytes(GetImagePath(imageData)));
+				imagesToSave.Add(imageData, ReadAllBytes(imageData));
+			}
+			else if (imageType == ImageType.Document)
+			{
+				//imagesToSave[imageData] = File.ReadAllBytes(GetImagePath(imageData));
+				imagesToSave[imageData] = ReadAllBytes(imageData);
+			}
+			else if (!imageData.Equals(row["f_image_alias"]))
+			{
+				row["f_image_alias"] = imageData;
+				row["f_deleted"] = "N";
+				//imagesToSave.Add(imageData,
+				//	File.ReadAllBytes(GetImagePath(imageData)));
+				imagesToSave.Add(imageData,
+ReadAllBytes(imageData));
+			}
 			if (imagesToSave.Any())
 			{
 				ImagesWrapper.CurrentTable().Connector.SetImages(imagesToSave);
@@ -391,11 +402,27 @@ namespace SupRealClient.Models
 				{
 					Directory.CreateDirectory(System.IO.Path.GetDirectoryName(ImageDirectory));
 				}
-				File.WriteAllBytes(path, data);
+				if(data!=null)
+					File.WriteAllBytes(path, data);
 			}
 			catch (Exception ex)
 			{ }
 
 		}
-    }
+
+		private static byte[] ReadAllBytes(Guid imageData)
+		{
+			string adress = GetImagePath(imageData);
+			return ReadAllBytes(adress);
+		}
+
+		private static byte[] ReadAllBytes(string imagePath)
+		{
+			if (!string.IsNullOrEmpty(imagePath) && !string.IsNullOrWhiteSpace(imagePath) && File.Exists(imagePath))
+				return File.ReadAllBytes(imagePath);
+
+			return null;
+		}
+
+	}
 }
