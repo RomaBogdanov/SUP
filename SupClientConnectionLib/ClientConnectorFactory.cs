@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Configuration;
 
 namespace SupClientConnectionLib
 {
@@ -14,8 +15,7 @@ namespace SupClientConnectionLib
             {
                 if (connector == null)
                 {
-                    // TODO - создавать разные коннекторы
-                    connector = new ClientConnector();
+                    connector = CreateClientConnector();
                     return connector;
                 }
                 return connector;
@@ -25,9 +25,19 @@ namespace SupClientConnectionLib
         public static IClientConnector ResetConnector(Uri uri)
         {
             ClientConnectorFactory.Uri = uri;
-            // TODO - создавать разные коннекторы
-            connector = new ClientConnector();
+            connector = CreateClientConnector();
             return connector;
         }
+
+        private static IClientConnector CreateClientConnector()
+        {
+            string className = ConfigurationManager.AppSettings["IClientConnector"];
+            if (className == "ClientConnector2")
+            {
+                return new ClientConnector2();
+            }
+
+            return new ClientConnector();
+    }
     }
 }
