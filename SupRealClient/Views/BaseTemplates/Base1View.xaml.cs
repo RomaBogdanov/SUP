@@ -105,6 +105,10 @@ namespace SupRealClient.Views
                         e.Handled = true;
                     }
                 }
+                else if (e.Key == Key.Escape)
+                {                    
+                    e.Handled = true;
+                }
             }            
         }
 

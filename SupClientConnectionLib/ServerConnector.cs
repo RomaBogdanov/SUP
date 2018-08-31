@@ -377,11 +377,29 @@ namespace SupClientConnectionLib
 			{
 				return null;
 			}
-
-			return null;
 		}
 
-        public bool SetImages(Dictionary<Guid, byte[]> images)
+		public byte[] GetImage(Guid alias, bool isDeletedParam )
+		{
+			try
+			{
+				object result = this.tableService.GetImageUsingParametr(alias,
+                    authorizer.GetInfo(), isDeletedParam);
+
+				if (result != DBNull.Value)
+				{
+					return (byte[])result;
+				}
+
+				return null;
+			}
+			catch (Exception ex)
+			{
+				return null;
+			}
+		}
+
+		public bool SetImages(Dictionary<Guid, byte[]> images)
         {
             Logger.Log.Debug("Начало процедуры SetImages");
             Attempt:

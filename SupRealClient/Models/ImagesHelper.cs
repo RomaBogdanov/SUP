@@ -38,9 +38,12 @@ namespace SupRealClient.Models
             byte[] data = File.ReadAllBytes(path);
 
             string image = GetImagePath(alias);
-            File.WriteAllBytes(image, data);
 
-            return alias;
+			//File.WriteAllBytes(image, data);
+			WriteFileToDisk(image, data);
+
+
+			return alias;
 		}
 
 		/// <summary>
@@ -54,6 +57,10 @@ namespace SupRealClient.Models
 			if (orderImageID >= 0)
 			{
 				DataRow row = null;
+
+				DataRowCollection rows = ImagesWrapper.CurrentTable().Table.Rows;
+
+
 				foreach (DataRow r in ImagesWrapper.CurrentTable().Table.Rows)
 				{
 					if (r.Field<int>("f_visitor_id") == 0 &&
@@ -70,7 +77,23 @@ namespace SupRealClient.Models
 					return Guid.Empty;
 
 				Guid imageData = row.Field<Guid>("f_image_alias");
-				CacheImage(imageData);
+				//CacheImage(imageData);
+
+				string path = GetImagePath(imageData);
+				if (!File.Exists(path))
+				{
+					byte[] data =
+						ImagesWrapper.CurrentTable().Connector.GetImage(imageData, true);
+					if (data != null)
+					{
+						//File.WriteAllBytes(path, data);
+						WriteFileToDisk(path, data);
+					}
+					else
+					{
+						return Guid.Empty;
+					}
+				}
 
 				return imageData;
 			}
@@ -85,9 +108,10 @@ namespace SupRealClient.Models
 	    {
 		    var alias = Guid.NewGuid();
 		    var imagePath = GetImagePath(alias);
-		    File.WriteAllBytes(imagePath, imageArray);
+			//File.WriteAllBytes(imagePath, imageArray);
+			WriteFileToDisk(imagePath, imageArray);
 
-		    return alias;
+			return alias;
 	    }
 
 	    /// <summary>
@@ -116,10 +140,11 @@ namespace SupRealClient.Models
                 string path = GetImagePath(alias);
                 if (!File.Exists(path))
                 {
-                    byte[] data = ImagesWrapper.CurrentTable().Connector.GetImage(alias);
+                    byte[] data = ImagesWrapper.CurrentTable().Connector.GetImage(alias, true);
 					if (data != null)
 					{
-						File.WriteAllBytes(path, data);
+						//File.WriteAllBytes(path, data);
+						WriteFileToDisk(path, data);
 					}
 					else
 					{
@@ -139,11 +164,12 @@ namespace SupRealClient.Models
             if (!File.Exists(path))
             {
                 byte[] data =
-                    ImagesWrapper.CurrentTable().Connector.GetImage(alias);
+                    ImagesWrapper.CurrentTable().Connector.GetImage(alias, true);
                 if (data != null)
                 {
-                    File.WriteAllBytes(path, data);
-                }
+					//File.WriteAllBytes(path, data);
+					WriteFileToDisk(path, data);
+				}
             }
         }
 
@@ -154,18 +180,35 @@ namespace SupRealClient.Models
         /// <returns></returns>
         public static string GetImagePath(Guid alias)
         {
-            return alias.Equals(Guid.Empty) ? "" :
-                Directory.GetCurrentDirectory() +
-                "\\" + Images + "\\" + alias;
-        }
+			//return alias.Equals(Guid.Empty) ? "" :
+			//    Directory.GetCurrentDirectory() +
+			//    "\\" + Images + "\\" + alias;
 
-        /// <summary>
-        /// Добавляем картинку в БД
-        /// </summary>
-        /// <param name="id"></param>
-        /// <param name="alias"></param>
-        /// <param name="imageType"></param>
-        public static void AddImages(int id, List<KeyValuePair<Guid, ImageType>> images)
+			return alias.Equals(Guid.Empty) ? "" :
+				ImageDirectory + "\\" + alias;
+		}
+
+		/// <summary>
+		/// Путь к папке, где хранится изображение по Guid
+		/// </summary>
+		/// <param name="alias"></param>
+		/// <returns></returns>
+		public static string ImageDirectory
+		{
+			get
+			{
+				return
+					Directory.GetCurrentDirectory() + "\\" + Images;
+			}
+		}
+
+		/// <summary>
+		/// Добавляем картинку в БД
+		/// </summary>
+		/// <param name="id"></param>
+		/// <param name="alias"></param>
+		/// <param name="imageType"></param>
+		public static void AddImages(int id, List<KeyValuePair<Guid, ImageType>> images)
         {
             Dictionary<Guid, byte[]> imagesToSave = new Dictionary<Guid, byte[]>();
             foreach (var image in images)
@@ -339,5 +382,20 @@ namespace SupRealClient.Models
                 row.Field<int>("f_image_type") == (int)imageType &&
                 row.Field<string>("f_deleted") == "N";
         }
+
+		private static void WriteFileToDisk(string path, byte[] data)
+		{
+			try
+			{
+				if (ImageDirectory != null && path != null && !Directory.Exists(System.IO.Path.GetDirectoryName(ImageDirectory)))
+				{
+					Directory.CreateDirectory(System.IO.Path.GetDirectoryName(ImageDirectory));
+				}
+				File.WriteAllBytes(path, data);
+			}
+			catch (Exception ex)
+			{ }
+
+		}
     }
 }

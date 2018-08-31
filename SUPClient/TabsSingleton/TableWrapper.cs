@@ -5,10 +5,14 @@ namespace SUPClient
 {
     class TableWrapper
     {
-        protected DataTable table;
+        private DataTable _table;
         protected IClientConnector connector;
 
-        public DataTable Table { get { return this.table; } }
+	    public DataTable table
+	    {
+		    get { return this._table ?? new DataTable(); }
+		    protected set { _table = value; }
+	    }
 
         public IClientConnector Connector { get { return this.connector; } }
 

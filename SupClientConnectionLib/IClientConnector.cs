@@ -33,6 +33,8 @@ namespace SupClientConnectionLib
 
         byte[] GetImage(Guid alias);
 
+        byte[] GetImage(Guid alias, bool isDeletedParam);
+
         bool SetImages(Dictionary<Guid, byte[]> images);
     }
 }

@@ -189,11 +189,56 @@ namespace SupHost
             return bytes;
         }
 
-        /// <summary>
-        /// Процедура загрузки изображения в базу.
-        /// </summary>
-        /// <returns></returns>
-        public void SetImages(Dictionary<Guid, byte[]> images, OperationInfo info)
+		/// <summary>
+		/// Процедура получения изображения в виде набора байтов.
+		/// </summary>
+		/// <returns></returns>
+		public byte[] GetImageUsingParametr(Guid alias, OperationInfo info, bool? isNotDeleted)
+		{
+			if (isNotDeleted == null)
+				return GetImage(alias, info);
+			else
+			{
+				byte[] bytes = null;
+				var connector = new VisServerImagesTableWrapper().GetConnector();
+				using (SqlConnection cn = new SqlConnection(connector.ToString()))
+				{
+					cn.Open();
+					using (SqlCommand sqlCommand = new SqlCommand())
+					{
+						sqlCommand.Connection = cn;
+						sqlCommand.CommandText =
+							"select f_data, f_deleted from vis_image WHERE f_image_alias=@alias";
+						sqlCommand.Parameters.AddWithValue("@alias", alias);
+						using (SqlDataReader sqlReader = sqlCommand.ExecuteReader())
+						{
+							while (sqlReader.Read())
+							{
+								if (Test_DeletedParam(sqlReader, isNotDeleted.Value))
+								{
+									object value = sqlReader["f_data"];
+									if (value != null && value != DBNull.Value && value is byte[])
+									{
+										bytes = (byte[])sqlReader["f_data"];
+										break;
+									}
+								}
+							}
+						}
+					}
+					cn.Close();
+				}
+				//string.Equals(docRow?.Field<string>("f_deleted").Trim().ToLower(), "y")
+
+				return bytes;
+			}
+		}
+
+		/// <summary>
+		/// Процедура загрузки изображения в базу.
+		/// </summary>
+		/// <returns></returns>
+		public void SetImages(Dictionary<Guid, byte[]> images, OperationInfo info)
         {
             var connector = new VisServerImagesTableWrapper().GetConnector();
             using (SqlConnection cn = new SqlConnection(connector.ToString()))
@@ -367,5 +412,37 @@ namespace SupHost
 		    }
 		    return maxId;
 	    }
+
+		private bool Test_DeletedParam(SqlDataReader sqlDataReader, bool deletedParam)
+		{
+			object value1 = sqlDataReader["f_data"];
+			object value= sqlDataReader["f_deleted"];
+			return Test_DeletedParam(value, deletedParam);
+		}
+
+		private bool Test_DeletedParam(DataRow row, bool deletedParam)
+		{
+			object value = row?.Field<string>("f_deleted");
+			return Test_DeletedParam(value, deletedParam);
+		}
+
+		private bool Test_DeletedParam(object value, bool deletedParam)
+		{
+			if (value != null && value != DBNull.Value && value is string)
+			{
+				if (deletedParam)
+					return !string.Equals((value as string).Trim().ToLower(), "y");
+				else
+					return string.Equals((value as string).Trim().ToLower(), "y");
+			}
+			else
+			{
+				// Считаем по умолчанию N, если поле является пустым или DBNull
+				if (deletedParam)
+					return true;
+				else
+					return false;
+			}
+		}
 	}
 }

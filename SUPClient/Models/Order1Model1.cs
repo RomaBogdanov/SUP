@@ -42,16 +42,16 @@ namespace SUPClient
 
             this.tabConnectors = new Dictionary<string, IClientConnector>();
             VisitorsWrapper visitors = VisitorsWrapper.CurrentTable();
-            this.tabVisitors = visitors.Table;
-            this.tabConnectors.Add(visitors.Table.TableName, visitors.Connector);
+            this.tabVisitors = visitors.table;
+            this.tabConnectors.Add(visitors.table.TableName, visitors.Connector);
             OrganizationsWrapper organizationsWrapper = OrganizationsWrapper.CurrentTable();
-            this.tabOrganizations = organizationsWrapper.Table;
+            this.tabOrganizations = organizationsWrapper.table;
             this.tabConnectors.Add(tabOrganizations.TableName, organizationsWrapper.Connector);
             OrdersWrapper ordersWrapper = OrdersWrapper.CurrentTable();
-            this.tabOrders = ordersWrapper.Table;
+            this.tabOrders = ordersWrapper.table;
             this.tabConnectors.Add(tabOrders.TableName, ordersWrapper.Connector);
             OrderElementsWrapper orderElementsWrapper = OrderElementsWrapper.CurrentTable();
-            this.tabOrderElements = orderElementsWrapper.Table;
+            this.tabOrderElements = orderElementsWrapper.table;
             this.tabConnectors.Add(tabOrderElements.TableName, orderElementsWrapper.Connector);
             this.tabVisitors.RowChanged += Table_RowChanged;
             this.tabOrganizations.RowChanged += Table_RowChanged;

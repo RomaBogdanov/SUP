@@ -11,9 +11,11 @@ namespace SupRealClient.Behaviour
 {
 	public class OrganizationInfoToColor_MultiConverter : IMultiValueConverter
 	{
-		SolidColorBrush BaseOrganization_ColorBrush = new SolidColorBrush((Color)ColorConverter.ConvertFromString("#00825b"));
-		SolidColorBrush NotBaseOrganization_ColorBrush = new SolidColorBrush((Color)ColorConverter.ConvertFromString("#998800"));
-		SolidColorBrush SynOrganization_ColorBrush = new SolidColorBrush((Color)ColorConverter.ConvertFromString("#949494"));
+		//SolidColorBrush BaseOrganization_ColorBrush = new SolidColorBrush((Color)ColorConverter.ConvertFromString("#9e8e00"));
+		SolidColorBrush BaseOrganization_ColorBrush = new SolidColorBrush(Colors.Black);
+		//SolidColorBrush NotBaseOrganization_ColorBrush = new SolidColorBrush((Color)ColorConverter.ConvertFromString("#00a600"));
+		SolidColorBrush NotBaseOrganization_ColorBrush = new SolidColorBrush((Color)ColorConverter.ConvertFromString("#9e8e00"));
+		SolidColorBrush SynOrganization_ColorBrush = new SolidColorBrush((Color)ColorConverter.ConvertFromString("#8E8E8E"));
 
 		public object Convert(object[] values, Type targetType, object parameter, CultureInfo culture)
 		{
