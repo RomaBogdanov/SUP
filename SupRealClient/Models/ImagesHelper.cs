@@ -83,7 +83,11 @@ namespace SupRealClient.Models
 						ImagesWrapper.CurrentTable().Connector.GetImage(imageData, true);
 					if (data != null)
 					{
-						File.WriteAllBytes(path, data);
+						// todo
+						try
+						{
+							File.WriteAllBytes(path, data);
+						} catch { }
 					}
 					else
 					{
