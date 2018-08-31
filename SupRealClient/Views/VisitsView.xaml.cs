@@ -759,7 +759,7 @@ namespace SupRealClient.Views
 			var documentType = CommonHelper.GetDocumentTypeInRussian(person.DocumentType?.Value);
 			if (!string.IsNullOrEmpty(documentType))
 			{
-				ClientConnector connector = ClientConnector.CurrentConnector;
+				IClientConnector connector = ClientConnectorFactory.CurrentConnector;
 				var typeId = connector.GetDocumentTypeId(documentType, Authorizer.AppAuthorizer.Id);
 
 				if (typeId!=0)

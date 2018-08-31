@@ -193,7 +193,7 @@ namespace SupRealClient.Andover
 		//Schedules = SchedulesList.Select(x=>x.Path).ToList()
             };
 
-            ClientConnector clientConnector = ClientConnector.CurrentConnector;
+            IClientConnector clientConnector = ClientConnectorFactory.CurrentConnector;
             if (clientConnector.ExportToAndover(data).Success??false)
             {
                 MessageBox.Show("Пропуск был выгружен в Andover", "Информация",

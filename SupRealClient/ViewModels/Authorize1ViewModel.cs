@@ -31,7 +31,7 @@ namespace SupRealClient.ViewModels
         bool IsAuthorization = false;
         Timer timer;
         int timerInterval; // 
-        private ClientConnector connector;
+        private IClientConnector connector;
         private MainWindowViewModel mainWindowViewModel;
         private string msg = "";
         private Brush infoStyle = Brushes.Red;
@@ -193,7 +193,7 @@ namespace SupRealClient.ViewModels
             {
                 try
                 {
-                    this.connector = ClientConnector.ResetConnector(ParseUri());
+                    this.connector = ClientConnectorFactory.ResetConnector(ParseUri());
 
                     // Если пустые логин и пароль, то ошибка "Введите логин и пароль".
                     if ((Login == String.Empty) || (Password == String.Empty))
@@ -294,7 +294,7 @@ namespace SupRealClient.ViewModels
         {
             UsersWrapper usersWrapper = UsersWrapper.CurrentTable();
             DataTable table = usersWrapper.Table;
-            ClientConnector tabConnector = usersWrapper.Connector;
+            IClientConnector tabConnector = usersWrapper.Connector;
             string tabName = usersWrapper.Table.TableName;
             var users = from u in table.AsEnumerable()
                        where u.Field<int>("f_user_id") == id

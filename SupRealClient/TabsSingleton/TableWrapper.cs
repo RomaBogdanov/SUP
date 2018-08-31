@@ -7,14 +7,13 @@ using SupClientConnectionLib;
 using SupRealClient.Common;
 using SupRealClient.EnumerationClasses;
 using SupRealClient.Models.AddUpdateModel;
-using log4net;
 
 namespace SupRealClient.TabsSingleton
 {
 	class TableWrapper : IDisposable
 	{
 		protected DataTable table;
-		protected ClientConnector connector;
+		protected IClientConnector connector;
 		protected static List<TableWrapper> wrappers = new List<TableWrapper>();
 		public event Action OnChanged;
 
@@ -23,15 +22,15 @@ namespace SupRealClient.TabsSingleton
 			get { return this.table; }
 		}
 
-		public ClientConnector Connector
+		public IClientConnector Connector
 		{
 			get { return this.connector; }
 		}
 
 		protected TableWrapper()
 		{
-			this.connector = new ClientConnector();
-			this.connector.OnInsert += Connector_OnInsert;
+            this.connector = ClientConnectorFactory.CurrentConnector;
+            this.connector.OnInsert += Connector_OnInsert;
 			this.connector.OnUpdate += Connector_OnUpdate;
 			this.connector.OnDelete += Connector_OnDelete;
 		}

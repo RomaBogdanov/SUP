@@ -478,7 +478,7 @@ namespace SupRealClient.Views
     public abstract class AddOrgsListModel : ISearchHelper
     {
         protected DataTable table;
-        protected ClientConnector tabConnector;
+        protected IClientConnector tabConnector;
         protected string tabName;
         protected AddOrgsListViewModel viewModel;
         protected IWindow parent;

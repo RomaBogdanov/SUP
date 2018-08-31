@@ -6,15 +6,15 @@ namespace SUPClient
     class TableWrapper
     {
         protected DataTable table;
-        protected ClientConnector connector;
+        protected IClientConnector connector;
 
         public DataTable Table { get { return this.table; } }
 
-        public ClientConnector Connector { get { return this.connector; } }
+        public IClientConnector Connector { get { return this.connector; } }
 
         protected TableWrapper()
         {
-            this.connector = new ClientConnector();
+            this.connector = ClientConnectorFactory.CurrentConnector;
         }
 
         protected void Subscribe()

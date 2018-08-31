@@ -13,7 +13,7 @@ namespace SupRealClient.Models
     public abstract class Base1ModelAbstr : ISearchHelper
     {
         protected DataTable table;
-        protected ClientConnector tabConnector;
+        protected IClientConnector tabConnector;
         protected string tabName;
         protected IBase1ViewModel viewModel;
         protected IWindow parent;

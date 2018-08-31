@@ -105,7 +105,7 @@ namespace SupRealClient.Models.Helpers
 				IsExtradition = false
 			};
 
-			var clientConnector = ClientConnector.CurrentConnector;
+			var clientConnector = ClientConnectorFactory.CurrentConnector;
 
 			//смена курсора
 			System.Windows.Forms.Cursor.Current = System.Windows.Forms.Cursors.WaitCursor;

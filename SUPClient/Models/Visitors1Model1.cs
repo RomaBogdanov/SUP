@@ -10,7 +10,7 @@ namespace SUPClient
 {
     class Visitors1Model1 : IVisitors1Model
     {
-        private Dictionary<string, ClientConnector> tabConnectors;
+        private Dictionary<string, IClientConnector> tabConnectors;
         private DataTable tabVisitors;
         private DataTable tabOrganizations;
         private DataTable tabOrders;
@@ -22,7 +22,7 @@ namespace SUPClient
         {
             this.viewModel = viewModel;
 
-            this.tabConnectors = new Dictionary<string, ClientConnector>();
+            this.tabConnectors = new Dictionary<string, IClientConnector>();
             VisitorsWrapper visitors = VisitorsWrapper.CurrentTable();
             this.tabVisitors = visitors.Table;
             this.tabConnectors.Add(visitors.Table.TableName, visitors.Connector);
@@ -49,7 +49,7 @@ namespace SUPClient
         /// <param name="fullOrder"></param>
         public void GetImage(FullOrder fullOrder)
         {
-            ClientConnector connector = new ClientConnector();
+            IClientConnector connector = ClientConnectorFactory.CurrentConnector;
             byte[] b = new byte[0];// connector.GetImage((int)fullOrder.Visitor["f_visitor_id"]);
             MemoryStream memoryStream = new MemoryStream(b);
             BitmapImage im = new BitmapImage();

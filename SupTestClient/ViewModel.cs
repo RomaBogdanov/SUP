@@ -20,7 +20,7 @@ namespace SupTestClient
         private string queryName = "";
         private DataTable table = new DataTable();
         private DataView dv;
-        private ClientConnector connector;
+        private IClientConnector connector;
         private string testField = "";
         private object currentItem;
         private BitmapImage picture;
@@ -202,7 +202,7 @@ namespace SupTestClient
                     this.queriesDict.Add(t.ToString(), t);
                 }
             }
-            this.connector = ClientConnector.CurrentConnector;
+            this.connector = ClientConnectorFactory.CurrentConnector;
             this.connector.OnInsert += Connector_OnInsert;
             this.connector.OnDelete += Connector_OnDelete;
             this.connector.OnUpdate += Connector_OnUpdate;
