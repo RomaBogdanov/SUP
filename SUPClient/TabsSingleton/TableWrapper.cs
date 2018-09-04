@@ -18,7 +18,7 @@ namespace SUPClient
 
         protected TableWrapper()
         {
-            this.connector = ClientConnectorFactory.CurrentConnector;
+            this.connector = ClientConnectorFactory.CreateClientConnector();
         }
 
         protected void Subscribe()
