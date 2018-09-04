@@ -15,7 +15,7 @@
 			<converters:OrganizationInfoToColor_MultiConverter x:Key="OrganizationInfoToColorMultiConverter" />
 			<converters:OrganizationTypeToFontStyleConverter x:Key="OrganizationTypeToFontStyleConverter" />
 
-			
+
 
 
 			<Style x:Key="MenuItemStyle" TargetType="MenuItem">
@@ -163,9 +163,9 @@
 						</MultiBinding>
 					</Setter.Value>
 				</Setter>
-				<!--OrganizationInfoToColorMultiConverter-->
+				<!--  OrganizationInfoToColorMultiConverter  -->
 				<!--<Setter Property="Foreground" Value="{Binding SynId, Converter={StaticResource BaseOrganizationToColorConverter}, Mode=OneWay}" />-->
-				<Setter Property="Foreground" >
+				<Setter Property="Foreground">
 					<Setter.Value>
 						<MultiBinding Converter="{StaticResource OrganizationInfoToColorMultiConverter}" Mode="OneWay">
 							<!--  Value="{Binding IsBasic, Converter={StaticResource BoolToBoldFontWeight}, Mode=OneWay}"  -->
@@ -174,7 +174,7 @@
 						</MultiBinding>
 					</Setter.Value>
 				</Setter>
-				<Setter Property="FontStyle" Value="{Binding IsBasic, Converter={StaticResource OrganizationTypeToFontStyleConverter}, Mode=OneWay}"/>
+				<Setter Property="FontStyle" Value="{Binding IsBasic, Converter={StaticResource OrganizationTypeToFontStyleConverter}, Mode=OneWay}" />
 			</Style>
 
 			<ResourceDictionary.MergedDictionaries>

@@ -283,7 +283,7 @@
 				Margin="8,13"
 				VerticalAlignment="Stretch"
 				Style="{StaticResource TextBLockStyle}"
-				Text="Примечания"  />
+				Text="Примечания" />
 
 			<TextBox
 				Grid.Row="1"
@@ -293,7 +293,7 @@
 				IsEnabled="{Binding Path=CommentTextEnable, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
 				Style="{StaticResource TextBoxStyle}"
 				Text="{Binding Path=CommentText, Mode=TwoWay}" />
-				<!--Text="{Binding Path=CurrentItem.Comment, Mode=TwoWay}" />--> 
+			<!--  Text="{Binding Path=CurrentItem.Comment, Mode=TwoWay}" />  -->
 			<Grid
 				Grid.Row="1"
 				Grid.Column="2"
