@@ -49,7 +49,7 @@ namespace SUPClient
         /// <param name="fullOrder"></param>
         public void GetImage(FullOrder fullOrder)
         {
-            IClientConnector connector = ClientConnectorFactory.CurrentConnector;
+            IClientConnector connector = ClientConnectorFactory.CreateClientConnector();
             byte[] b = new byte[0];// connector.GetImage((int)fullOrder.Visitor["f_visitor_id"]);
             MemoryStream memoryStream = new MemoryStream(b);
             BitmapImage im = new BitmapImage();
