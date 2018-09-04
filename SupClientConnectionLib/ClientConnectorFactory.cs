@@ -29,7 +29,7 @@ namespace SupClientConnectionLib
             return connector;
         }
 
-        private static IClientConnector CreateClientConnector()
+        public static IClientConnector CreateClientConnector()
         {
             string className = ConfigurationManager.AppSettings["IClientConnector"];
             if (className == "ClientConnector2")

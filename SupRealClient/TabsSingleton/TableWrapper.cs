@@ -29,7 +29,7 @@ namespace SupRealClient.TabsSingleton
 
 		protected TableWrapper()
 		{
-            this.connector = ClientConnectorFactory.CurrentConnector;
+            this.connector = ClientConnectorFactory.CreateClientConnector();
             this.connector.OnInsert += Connector_OnInsert;
 			this.connector.OnUpdate += Connector_OnUpdate;
 			this.connector.OnDelete += Connector_OnDelete;
