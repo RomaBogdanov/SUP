@@ -477,5 +477,20 @@ namespace SupRealClient.Views
 		{
 
 		}
+
+		private void Associate_IsVisibleChanged(object sender, DependencyPropertyChangedEventArgs e)
+		{
+			if (e.NewValue is bool)
+			{
+				if (!(bool)e.NewValue)
+				{
+					if ((panel_TabItems.SelectedItem as TabItem).Header == (sender as TabItem).Header)
+					{
+						panel_TabItems.SelectedIndex = 0;
+					}
+					//if(panel_TabItems.SelectedIndex) 
+				}
+			}
+		}
 	}
 }

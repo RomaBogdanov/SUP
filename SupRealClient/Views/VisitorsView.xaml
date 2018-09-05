@@ -745,7 +745,8 @@
 						</DataGrid.Columns>
 					</DataGrid>
 				</mah:MetroTabItem>
-				<mah:MetroTabItem Header="Сотрудник" Visibility="{Binding VisibleTabItem_Employee, Converter={StaticResource BooleanToVisibilityConverter}}">
+				<mah:MetroTabItem Header="Сотрудник" Visibility="{Binding VisibleTabItem_Employee, Converter={StaticResource BooleanToVisibilityConverter}}"
+								  IsVisibleChanged="Associate_IsVisibleChanged">
 					<ScrollViewer
 						CanContentScroll="True"
 						ScrollViewer.VerticalScrollBarVisibility="Auto"
