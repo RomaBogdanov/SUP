@@ -15,19 +15,19 @@ namespace SupRealClient.Views
         public SelectedMainOrganisationStructureView(Visibility okVisibility)
         {
             InitializeComponent();
-            ((MainOrganizationViewModel)DataContext).OnClose += 
+            ((SelectedMainOrganisationViewModel)DataContext).OnClose += 
                 Handling_OnClose;
 
             AfterInitialize();
 
-            ((MainOrganizationViewModel)DataContext).OkVisibility = okVisibility;
+            ((SelectedMainOrganisationViewModel)DataContext).OkVisibility = okVisibility;
 
-            tbSearch.Focus();			
+            tbSearch.Focus();	
         }
 
 		private void TreeView_OnSelectedItemChanged(object sender, RoutedPropertyChangedEventArgs<object> e)
         {
-            ((MainOrganizationViewModel)DataContext).SelectedObject = e.NewValue;
+            ((SelectedMainOrganisationViewModel)DataContext).SelectedObject = e.NewValue;
         }
 
         private void TreeViewSelectedItemChanged(object sender, RoutedEventArgs e)
@@ -48,7 +48,7 @@ namespace SupRealClient.Views
                 tbSearch.Text = string.Empty;
                 tbSearch.Focus();
 
-                MainOrganizationViewModel vm = DataContext as MainOrganizationViewModel;
+				SelectedMainOrganisationViewModel vm = DataContext as SelectedMainOrganisationViewModel;
                 if (vm != null && vm.Organizations.Count > 0)
                 {
                     CollapseOrgs(vm.Organizations[0].Items);
@@ -106,7 +106,7 @@ namespace SupRealClient.Views
                 !dragData.Equals(dropData) &&
                 (dropData is Department || dropData is Organization))
             {
-                ((MainOrganizationViewModel)DataContext).DragAndDropDepartment(dropData, dragData);
+                ((SelectedMainOrganisationViewModel)DataContext).DragAndDropDepartment(dropData, dragData);
             }
 
             e.Handled = true;
@@ -124,9 +124,9 @@ namespace SupRealClient.Views
 		public void SetSelectedOrganizationId(object orgID)
 		{
 			if(orgID!=null && orgID is int?)
-				((MainOrganizationViewModel)DataContext).SetSelectedOrganizationID(orgID as int?);
+				((SelectedMainOrganisationViewModel)DataContext).SetSelectedOrganizationID(orgID as int?);
 			else
-				((MainOrganizationViewModel)DataContext).SetSelectedOrganizationID(null);
+				((SelectedMainOrganisationViewModel)DataContext).SetSelectedOrganizationID(null);
 		}
     }
 }

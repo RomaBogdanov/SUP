@@ -20,7 +20,8 @@ namespace SupRealClient.Behaviour
 			{
 				if ((bool)value)
 				{
-					return unstandartColorBrush;
+					//return unstandartColorBrush;
+					return standartColorBrush;
 				}
 			}
 

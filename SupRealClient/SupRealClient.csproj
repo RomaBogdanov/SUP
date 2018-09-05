@@ -237,6 +237,7 @@
     <Compile Include="Models\Bids\NewBidsModel.cs" />
     <Compile Include="EnumerationClasses\OrderType.cs" />
     <Compile Include="ViewModels\ReturnBidViewModel.cs" />
+    <Compile Include="ViewModels\SelectedMainOrganisationViewModel.cs" />
     <Compile Include="ViewModels\SynonimViewModel.cs" />
     <Compile Include="ViewModels\VisitorsDocumentViewModel.cs" />
     <Compile Include="ViewModels\Base3ViewModel.cs" />

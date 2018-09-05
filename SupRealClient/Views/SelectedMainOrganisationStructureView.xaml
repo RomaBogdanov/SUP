@@ -20,7 +20,7 @@
     </mah:MetroWindow.InputBindings>
 
     <mah:MetroWindow.DataContext>
-        <viewModels:MainOrganizationViewModel/>
+		<viewModels:SelectedMainOrganisationViewModel/>
     </mah:MetroWindow.DataContext>
 
     <Grid>

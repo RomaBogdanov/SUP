@@ -963,7 +963,7 @@ namespace SupRealClient.Views
 			}
 			else
 			{
-				MessageBox.Show("Не указана организация для пользователя", "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
+				MessageBox.Show("Не указана организация для посетителя", "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
 			}
 		}
 

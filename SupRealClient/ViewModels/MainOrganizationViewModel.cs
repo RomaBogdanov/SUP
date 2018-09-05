@@ -619,10 +619,5 @@ namespace SupRealClient.ViewModels
             }
             SelectItem(parentId);
         }
-
-		public void SetSelectedOrganizationID(int? orgID)
-		{
-			Query(orgID);
-		}
     }
 }
