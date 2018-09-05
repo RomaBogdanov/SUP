@@ -1715,10 +1715,12 @@ namespace SupRealClient.Views
 
         protected override void DoQuery()
         {
-            var descriptions = new List<T>(
-                from schdext in SchedulesExtWrapper.CurrentTable().Table.AsEnumerable()
-                where !string.IsNullOrEmpty(schdext.Field<string>("f_description"))
-                select new T
+			var descriptions = new List<T>(
+				from schdext in SchedulesExtWrapper.CurrentTable().Table.AsEnumerable()
+				where !string.IsNullOrEmpty(schdext.Field<string>("f_description")) &&
+				schdext["f_object_id_hi"] != DBNull.Value && schdext["f_object_id_hi"] != null && 
+				schdext["f_object_id_lo"] != DBNull.Value && schdext["f_object_id_lo"] != null
+				select new T
                 {
                     ObjectIdHi = schdext.Field<int>("f_object_id_hi"),
                     ObjectIdLo = schdext.Field<int>("f_object_id_lo"),
