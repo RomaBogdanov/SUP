@@ -762,8 +762,8 @@
 								<RowDefinition />
 								<RowDefinition />
 								<RowDefinition />
-								<RowDefinition />
-								<RowDefinition />
+								<RowDefinition Height="Auto"/>
+								<RowDefinition Height="0*" />
 								<RowDefinition />
 								<RowDefinition />
 								<RowDefinition Height="1.5*" />
@@ -818,6 +818,35 @@
 									IsEnabled="{Binding Path=ButtonEnable, Mode=TwoWay}"
 									IsTabStop="False"
 									Style="{StaticResource VisitorsSquareButtonStyle}" />
+							</Grid>
+
+							<Grid Grid.Row="4"
+								  Grid.Column="0"
+								Grid.ColumnSpan="3">
+								<Grid.ColumnDefinitions>
+									<ColumnDefinition Width="100"/>
+									<ColumnDefinition Width="*"/>
+								</Grid.ColumnDefinitions>
+								<TextBlock
+								Grid.Row="2"
+								Grid.Column="0"
+								HorizontalAlignment="Left"
+								FontSize="15"
+								Style="{StaticResource TextBLockStyle}"
+								Text="Должность" />
+
+								<ComboBox
+								Grid.Row="2"
+								Grid.Column="1"
+								Grid.ColumnSpan="2"
+								Margin="10,3,10,7"
+								HorizontalAlignment="Stretch"
+								FontSize="15"
+								IsEditable="True"
+								IsEnabled="{Binding Path=TextEnable, Mode=TwoWay}"
+								ItemsSource="{Binding Path=PositionList}"
+								SelectedValue="{Binding Path=CurrentItem.Position, Mode=OneWay}"
+								Text="{Binding Path=CurrentItem.Position, Mode=TwoWay}" />
 							</Grid>
 
 							<Grid Grid.Row="6" Grid.Column="0">

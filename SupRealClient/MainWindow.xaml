@@ -127,7 +127,7 @@
 				<MenuItem Command="{Binding Path=ListSpacesClick}" Header="Помещения" />
 				<MenuItem Command="{Binding Path=ListDoorsClick}" Header="Двери" />
 				<MenuItem Command="{Binding Path=ListAreasClick}" Header="Области доступа" />
-				<MenuItem Command="{Binding Path=ListAreasSpacesClick}" Header="Помещения и области доступа" />
+				<MenuItem Command="{Binding Path=ListAreasSpacesClick}" Header="Связь между помещениями и областями доступа" />
 				<MenuItem Command="{Binding Path=ListAccessPointsClick}" Header="Точки доступа" />
 				<MenuItem Command="{Binding Path=ListKeysClick}" Header="Ключи" />
 				<MenuItem Command="{Binding Path=ListKeyHoldersClick}" Header="Ключницы" />

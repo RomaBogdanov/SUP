@@ -178,11 +178,34 @@ namespace SupRealClient
 		    return SetupWindowModal(window, name, parent);
 	    }
 
-        /// <summary>
-        /// Открыть окно
-        /// </summary>
-        /// <param name="name"></param>
-        public object OpenWindowModal(string name, IWindow parent = null)
+		public object OpenWindowModal(string name, object dataContext, object parametrToOpen = null, IWindow parent = null)
+		{
+			var window = GetWindow(name);
+
+			if (dataContext != null && window is Window windowWithContext)
+			{
+				windowWithContext.DataContext = dataContext;
+			}
+
+			if (parametrToOpen != null && window is Window openingWindow)
+			{
+				openingWindow.Tag = parametrToOpen;
+
+				if (openingWindow is SelectedMainOrganisationStructureView)
+				{
+					(openingWindow as SelectedMainOrganisationStructureView).SetSelectedOrganizationId(parametrToOpen);
+				}
+			}
+
+			return SetupWindowModal(window, name, parent);
+		}
+
+
+		/// <summary>
+		/// Открыть окно
+		/// </summary>
+		/// <param name="name"></param>
+		public object OpenWindowModal(string name, IWindow parent = null)
         {
 			var window = GetWindow(name);
 	        return SetupWindowModal(window, name, parent);
@@ -487,7 +510,9 @@ namespace SupRealClient
                     return new Base4TemplatesWindView(Visibility.Hidden);
                 case "Base4TemplatesWindViewOk":
                     return new Base4TemplatesWindView(Visibility.Visible);
-                default:
+				case "SelectedMainOrganisationStructureView":
+					return new SelectedMainOrganisationStructureView(Visibility.Visible);		
+				default:
                     break;
             }
 

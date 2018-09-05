@@ -55,11 +55,13 @@ namespace SupRealClient.Common.Interfaces
 
 	    object OpenWindowModal(string name, object dataContext, IWindow parent = null);
 
-        /// <summary>
-        /// Открыть окно
-        /// </summary>
-        /// <param name="name"></param>
-        object OpenWindowModal(string name, IWindow parent = null);
+		object OpenWindowModal(string name, object dataContext, object parametrToOpen = null, IWindow parent = null);
+
+		/// <summary>
+		/// Открыть окно
+		/// </summary>
+		/// <param name="name"></param>
+		object OpenWindowModal(string name, IWindow parent = null);
 
         /// <summary>
         /// Открыть окно

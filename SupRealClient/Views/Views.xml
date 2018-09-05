@@ -12,6 +12,7 @@
   <Item Name="CabinetsWindView" />
   <Item Name="LogsWindView" />
   <Item Name="MainOrganisationStructureView" />
+  <Item Name="SelectedMainOrganisationStructureView" />  
   <Item Name="BaseOrgsView" />
   <Item Name="ChildOrgsView" />
   <Item Name="VisitorsListWindView" />

@@ -120,6 +120,7 @@
     <Compile Include="Behaviour\OrganizationTypeToColorConverter.cs" />
     <Compile Include="Behaviour\OrganizationTypeToColor_MultiConverter.cs" />
     <Compile Include="Behaviour\OrganizationTypeToFontStyleConverter.cs" />
+    <Compile Include="Behaviour\OrganizationTypeToFontStyle_MultiConverter.cs" />
     <Compile Include="Behaviour\SearchValueConverter.cs" />
     <Compile Include="Behaviour\SupDateConverter.cs" />
     <Compile Include="ChildWinSet.cs" />
@@ -405,6 +406,9 @@
     </Compile>
     <Compile Include="Views\ListViews\BaseListSmallView.xaml.cs">
       <DependentUpon>BaseListSmallView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\SelectedMainOrganisationStructureView.xaml.cs">
+      <DependentUpon>SelectedMainOrganisationStructureView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\ScheduleChoiceView.xaml.cs">
       <DependentUpon>ScheduleChoiceView.xaml</DependentUpon>
@@ -732,6 +736,10 @@
     <Page Include="Views\ListViews\BaseListSmallView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\SelectedMainOrganisationStructureView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
     </Page>
     <Page Include="Views\ScheduleChoiceView.xaml">
       <SubType>Designer</SubType>

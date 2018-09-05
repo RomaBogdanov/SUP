@@ -945,19 +945,26 @@ namespace SupRealClient.Views
 			CurrentItem.Cabinet = result.Name;
 			OnPropertyChanged("CurrentItem");
 		}
-
+		
 		private void DepartmentsList()
 		{
-			var result = ViewManager.Instance.OpenWindowModal(
-			    "MainOrganisationStructureViewOk", view) as BaseModelResult;
-			if (result == null)
+			if (CurrentItem?.OrganizationId != null && CurrentItem?.OrganizationId > 0)
 			{
-				return;
+				var result = ViewManager.Instance.OpenWindowModal(
+					"SelectedMainOrganisationStructureView", null, CurrentItem?.OrganizationId, view) as BaseModelResult;
+				if (result == null)
+				{
+					return;
+				}
+				CurrentItem.DepartmentId = result.Id;
+				CurrentItem.Department =
+					Model.GetDepartmenstList(CurrentItem.DepartmentId);
+				OnPropertyChanged("CurrentItem");
 			}
-			CurrentItem.DepartmentId = result.Id;
-			CurrentItem.Department =
-			    Model.GetDepartmenstList(CurrentItem.DepartmentId);
-			OnPropertyChanged("CurrentItem");
+			else
+			{
+				MessageBox.Show("Не указана организация для пользователя", "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
+			}
 		}
 
 		private void OrganizationsList()

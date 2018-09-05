@@ -9,7 +9,7 @@ using System.Windows.Data;
 
 namespace SupRealClient.Behaviour
 {
-	class OrganizationInfoToBold_MultiConverter : IMultiValueConverter
+	public class OrganizationTypeToFontStyle_MultiConverter : IMultiValueConverter
 	{
 		public object Convert(object[] values, Type targetType, object parameter, CultureInfo culture)
 		{
@@ -24,19 +24,20 @@ namespace SupRealClient.Behaviour
 					{
 						if (isBasic.Value)
 						{
-							return FontWeights.Bold;
+							//return BaseOrganization_ColorBrush;
+							return FontStyles.Normal;
 						}
 					}
 
-					return FontWeights.Regular;
+					return FontStyles.Normal;
 				}
 				else
 				{
-					return FontWeights.Light;
+					return FontStyles.Italic;
 				}
 			}
 
-			return SystemFonts.MessageFontWeight;
+			return FontStyles.Normal;
 		}
 
 		public object[] ConvertBack(object value, Type[] targetTypes, object parameter, CultureInfo culture)

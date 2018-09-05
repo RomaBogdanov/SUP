@@ -10,9 +10,9 @@ namespace SupRealClient.Views
     /// <summary>
     /// Interaction logic for MainOrganisationStructureView.xaml
     /// </summary>
-    public partial class MainOrganisationStructureView
-    {
-        public MainOrganisationStructureView(Visibility okVisibility)
+    public partial class SelectedMainOrganisationStructureView
+	{
+        public SelectedMainOrganisationStructureView(Visibility okVisibility)
         {
             InitializeComponent();
             ((MainOrganizationViewModel)DataContext).OnClose += 
@@ -22,8 +22,7 @@ namespace SupRealClient.Views
 
             ((MainOrganizationViewModel)DataContext).OkVisibility = okVisibility;
 
-            tbSearch.Focus();
-			
+            tbSearch.Focus();			
         }
 
 		private void TreeView_OnSelectedItemChanged(object sender, RoutedPropertyChangedEventArgs<object> e)
@@ -121,5 +120,13 @@ namespace SupRealClient.Views
                 DragDrop.DoDragDrop(item, item.DataContext, DragDropEffects.Move);
             }            
         }
+
+		public void SetSelectedOrganizationId(object orgID)
+		{
+			if(orgID!=null && orgID is int?)
+				((MainOrganizationViewModel)DataContext).SetSelectedOrganizationID(orgID as int?);
+			else
+				((MainOrganizationViewModel)DataContext).SetSelectedOrganizationID(null);
+		}
     }
 }

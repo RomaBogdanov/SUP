@@ -14,7 +14,7 @@ namespace SupRealClient.Behaviour
 		//SolidColorBrush BaseOrganization_ColorBrush = new SolidColorBrush((Color)ColorConverter.ConvertFromString("#9e8e00"));
 		SolidColorBrush BaseOrganization_ColorBrush = new SolidColorBrush(Colors.Black);
 		//SolidColorBrush NotBaseOrganization_ColorBrush = new SolidColorBrush((Color)ColorConverter.ConvertFromString("#00a600"));
-		SolidColorBrush NotBaseOrganization_ColorBrush = new SolidColorBrush((Color)ColorConverter.ConvertFromString("#9e8e00"));
+		SolidColorBrush GoldColor_ColorBrush = new SolidColorBrush((Color)ColorConverter.ConvertFromString("#9e8e00"));
 		SolidColorBrush SynOrganization_ColorBrush = new SolidColorBrush((Color)ColorConverter.ConvertFromString("#8E8E8E"));
 
 		public object Convert(object[] values, Type targetType, object parameter, CultureInfo culture)
@@ -30,11 +30,12 @@ namespace SupRealClient.Behaviour
 					{
 						if (isBasic.Value)
 						{
-							return BaseOrganization_ColorBrush;
+							//return BaseOrganization_ColorBrush;
+							return GoldColor_ColorBrush;
 						}
 					}
 
-					return NotBaseOrganization_ColorBrush;
+					return GoldColor_ColorBrush;
 				}
 				else
 				{
