@@ -176,7 +176,7 @@
 			Command="{Binding AddImageSourceCommand}"
 			IsEnabled="{Binding Path=ButtonEnable, Mode=TwoWay}"
 			IsTabStop="False"
-			ToolTip="Добавить фото">
+			ToolTip="Добавление фото">
 			<Grid Width="180" Height="240">
 				<Grid.RowDefinitions>
 					<RowDefinition Height="40" />
@@ -745,8 +745,10 @@
 						</DataGrid.Columns>
 					</DataGrid>
 				</mah:MetroTabItem>
-				<mah:MetroTabItem Header="Сотрудник" Visibility="{Binding VisibleTabItem_Employee, Converter={StaticResource BooleanToVisibilityConverter}}"
-								  IsVisibleChanged="Associate_IsVisibleChanged">
+				<mah:MetroTabItem
+					Header="Сотрудник"
+					IsVisibleChanged="Associate_IsVisibleChanged"
+					Visibility="{Binding VisibleTabItem_Employee, Converter={StaticResource BooleanToVisibilityConverter}}">
 					<ScrollViewer
 						CanContentScroll="True"
 						ScrollViewer.VerticalScrollBarVisibility="Auto"
@@ -763,7 +765,7 @@
 								<RowDefinition />
 								<RowDefinition />
 								<RowDefinition />
-								<RowDefinition Height="Auto"/>
+								<RowDefinition Height="Auto" />
 								<RowDefinition Height="0*" />
 								<RowDefinition />
 								<RowDefinition />
@@ -821,33 +823,34 @@
 									Style="{StaticResource VisitorsSquareButtonStyle}" />
 							</Grid>
 
-							<Grid Grid.Row="4"
-								  Grid.Column="0"
+							<Grid
+								Grid.Row="4"
+								Grid.Column="0"
 								Grid.ColumnSpan="3">
 								<Grid.ColumnDefinitions>
-									<ColumnDefinition Width="100"/>
-									<ColumnDefinition Width="*"/>
+									<ColumnDefinition Width="100" />
+									<ColumnDefinition Width="*" />
 								</Grid.ColumnDefinitions>
 								<TextBlock
-								Grid.Row="2"
-								Grid.Column="0"
-								HorizontalAlignment="Left"
-								FontSize="15"
-								Style="{StaticResource TextBLockStyle}"
-								Text="Должность" />
+									Grid.Row="2"
+									Grid.Column="0"
+									HorizontalAlignment="Left"
+									FontSize="15"
+									Style="{StaticResource TextBLockStyle}"
+									Text="Должность" />
 
 								<ComboBox
-								Grid.Row="2"
-								Grid.Column="1"
-								Grid.ColumnSpan="2"
-								Margin="10,3,10,7"
-								HorizontalAlignment="Stretch"
-								FontSize="15"
-								IsEditable="True"
-								IsEnabled="{Binding Path=TextEnable, Mode=TwoWay}"
-								ItemsSource="{Binding Path=PositionList}"
-								SelectedValue="{Binding Path=CurrentItem.Position, Mode=OneWay}"
-								Text="{Binding Path=CurrentItem.Position, Mode=TwoWay}" />
+									Grid.Row="2"
+									Grid.Column="1"
+									Grid.ColumnSpan="2"
+									Margin="10,3,10,7"
+									HorizontalAlignment="Stretch"
+									FontSize="15"
+									IsEditable="True"
+									IsEnabled="{Binding Path=TextEnable, Mode=TwoWay}"
+									ItemsSource="{Binding Path=PositionList}"
+									SelectedValue="{Binding Path=CurrentItem.Position, Mode=OneWay}"
+									Text="{Binding Path=CurrentItem.Position, Mode=TwoWay}" />
 							</Grid>
 
 							<Grid Grid.Row="6" Grid.Column="0">
@@ -963,7 +966,7 @@
 									Command="{Binding AddSignatureCommand}"
 									IsEnabled="{Binding Path=ButtonEnable, Mode=TwoWay}"
 									IsTabStop="False"
-									ToolTip="Добавить подпись">
+									ToolTip="Добавление подписи">
 									<Grid Width="180" Height="40">
 										<Grid.RowDefinitions>
 											<RowDefinition Height="40" />

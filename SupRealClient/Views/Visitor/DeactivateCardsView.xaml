@@ -11,19 +11,19 @@
 	ResizeMode="NoResize"
 	mc:Ignorable="d">
 
-    <Grid>
-        <Grid.RowDefinitions>
-            <RowDefinition Height="40" />
-            <RowDefinition />
-            <RowDefinition Height="40" />
-        </Grid.RowDefinitions>
-        <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="2*" />
-            <ColumnDefinition />
-            <ColumnDefinition />
-        </Grid.ColumnDefinitions>
+	<Grid>
+		<Grid.RowDefinitions>
+			<RowDefinition Height="40" />
+			<RowDefinition />
+			<RowDefinition Height="40" />
+		</Grid.RowDefinitions>
+		<Grid.ColumnDefinitions>
+			<ColumnDefinition Width="2*" />
+			<ColumnDefinition />
+			<ColumnDefinition />
+		</Grid.ColumnDefinitions>
 
-        <TextBlock
+		<TextBlock
 			Grid.Row="0"
 			Grid.Column="0"
 			Grid.ColumnSpan="3"
@@ -33,63 +33,63 @@
 			Style="{StaticResource TextBLockStyle}"
 			Text="Список пропусков" />
 
-        <DataGrid
+		<DataGrid
 			Grid.Row="1"
 			Grid.Column="0"
 			Grid.ColumnSpan="3"
 			AutoGenerateColumns="False"
 			CanUserAddRows="False"
 			ItemsSource="{Binding Path=Cards, Mode=TwoWay}">
-            <DataGrid.Columns>
-                <DataGridCheckBoxColumn Binding="{Binding Path=IsChecked, Mode=TwoWay}" Header="Неактивен" />
-                <DataGridTextColumn
+			<DataGrid.Columns>
+				<DataGridCheckBoxColumn Binding="{Binding Path=IsChecked, Mode=TwoWay}" Header="Неактивен" />
+				<DataGridTextColumn
+					Width="*"
 					Binding="{Binding Path=CardNumber, Mode=TwoWay}"
 					Header="Номер"
-					IsReadOnly="True"
-                    Width="*" />
-            </DataGrid.Columns>
-        </DataGrid>
+					IsReadOnly="True" />
+			</DataGrid.Columns>
+		</DataGrid>
 
-        <Button
+		<Button
 			Grid.Row="2"
 			Grid.Column="1"
 			Margin="5"
 			Command="{Binding Path=Ok}"
 			Style="{StaticResource ButtonStyle}">
-            <Grid>
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="40" />
-                    <ColumnDefinition />
-                </Grid.ColumnDefinitions>
+			<Grid>
+				<Grid.ColumnDefinitions>
+					<ColumnDefinition Width="40" />
+					<ColumnDefinition />
+				</Grid.ColumnDefinitions>
 
-                <Image Grid.Column="0" Source="../../Resources/Принять (2).ico" />
+				<Image Grid.Column="0" Source="../../Resources/Принять (2).ico" />
 
-                <TextBlock
+				<TextBlock
 					Grid.Column="1"
 					Style="{StaticResource TextBLockStyle}"
 					Text="Ок" />
-            </Grid>
-        </Button>
+			</Grid>
+		</Button>
 
-        <Button
+		<Button
 			Grid.Row="2"
 			Grid.Column="2"
 			Margin="5"
 			Command="{Binding Path=Cancel}"
 			Style="{StaticResource ButtonStyle}">
-            <Grid>
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="40" />
-                    <ColumnDefinition />
-                </Grid.ColumnDefinitions>
+			<Grid>
+				<Grid.ColumnDefinitions>
+					<ColumnDefinition Width="40" />
+					<ColumnDefinition />
+				</Grid.ColumnDefinitions>
 
-                <Image Grid.Column="0" Source="../../Resources/Отмена (2).ico" />
+				<Image Grid.Column="0" Source="../../Resources/Отмена (2).ico" />
 
-                <TextBlock
+				<TextBlock
 					Grid.Column="1"
 					Style="{StaticResource TextBLockStyle}"
 					Text="Отмена" />
-            </Grid>
-        </Button>
-    </Grid>
+			</Grid>
+		</Button>
+	</Grid>
 </mah:MetroWindow>

@@ -11,9 +11,7 @@ namespace SupRealClient.Behaviour
 {
 	public class OrganizationInfoToColor_MultiConverter : IMultiValueConverter
 	{
-		//SolidColorBrush BaseOrganization_ColorBrush = new SolidColorBrush((Color)ColorConverter.ConvertFromString("#9e8e00"));
 		SolidColorBrush BaseOrganization_ColorBrush = new SolidColorBrush(Colors.Black);
-		//SolidColorBrush NotBaseOrganization_ColorBrush = new SolidColorBrush((Color)ColorConverter.ConvertFromString("#00a600"));
 		SolidColorBrush GoldColor_ColorBrush = new SolidColorBrush((Color)ColorConverter.ConvertFromString("#9e8e00"));
 		SolidColorBrush SynOrganization_ColorBrush = new SolidColorBrush((Color)ColorConverter.ConvertFromString("#8E8E8E"));
 
@@ -30,7 +28,6 @@ namespace SupRealClient.Behaviour
 					{
 						if (isBasic.Value)
 						{
-							//return BaseOrganization_ColorBrush;
 							return BaseOrganization_ColorBrush;
 						}
 					}

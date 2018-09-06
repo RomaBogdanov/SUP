@@ -228,7 +228,6 @@ namespace SupHost
 					}
 					cn.Close();
 				}
-				//string.Equals(docRow?.Field<string>("f_deleted").Trim().ToLower(), "y")
 
 				return bytes;
 			}

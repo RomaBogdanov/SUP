@@ -15,7 +15,7 @@
 			<converters:OrganizationInfoToColor_MultiConverter x:Key="OrganizationInfoToColorMultiConverter" />
 			<converters:OrganizationTypeToFontStyle_MultiConverter x:Key="OrganizationTypeToFontStyleMultiConverter" />
 			<converters:OrganizationTypeToFontStyleConverter x:Key="OrganizationTypeToFontStyleConverter" />
-			
+
 
 
 
@@ -174,7 +174,7 @@
 							<Binding Mode="OneWay" Path="IsBasic" />
 						</MultiBinding>
 					</Setter.Value>
-				</Setter>				
+				</Setter>
 				<!--<Setter Property="FontStyle" Value="{Binding IsBasic, Converter={StaticResource OrganizationTypeToFontStyleConverter}, Mode=OneWay}" />-->
 				<Setter Property="FontStyle">
 					<Setter.Value>

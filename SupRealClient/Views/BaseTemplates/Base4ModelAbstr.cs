@@ -1407,7 +1407,7 @@ namespace SupRealClient.Views
             AddUpdateBaseViewModel viewModel = new AddUpdateAreaSpaceViewModel
             {
                 Model = model,
-                Title = @"Добавить связь"
+                Title = @"Добавление связи"
             };
             AddUpdateAreaSpaceWindView view = new AddUpdateAreaSpaceWindView();
             view.DataContext = viewModel;
@@ -1609,7 +1609,7 @@ namespace SupRealClient.Views
             AddUpdateBaseViewModel viewModel = new AddUpdateBaseViewModel
             {
                 Model = model,
-                Title = @"Добавить ключ"
+                Title = @"Добавление ключа"
             };
             AddUpdateKeyWindView view = new AddUpdateKeyWindView();
             view.DataContext = viewModel;
@@ -1802,7 +1802,7 @@ namespace SupRealClient.Views
             AddUpdateBaseViewModel viewModel = new AddUpdateAccessLevelViewModel
             {
                 Model = model,
-                Title = @"Добавить уровень доступа"
+                Title = @"Добавление уровня доступа"
             };
             AddUpdateAccessLevelWindView view = new AddUpdateAccessLevelWindView();
             view.DataContext = viewModel;
@@ -1906,7 +1906,7 @@ namespace SupRealClient.Views
             AddUpdateBaseViewModel viewModel = new AddUpdateBaseViewModel
             {
                 Model = model,
-                Title = @"Добавить транспорт"
+                Title = @"Добавление транспорта"
             };
             AddUpdateCarWindView view = new AddUpdateCarWindView();
             view.DataContext = viewModel;
@@ -2170,7 +2170,7 @@ select new T
             {
                 Model = model
             };
-            AddUpdateTemplateView view = new AddUpdateTemplateView("Добавить шаблон");
+            AddUpdateTemplateView view = new AddUpdateTemplateView("Добавление шаблона");
             view.DataContext = viewModel;
             model.OnClose += view.Handling_OnClose;
             view.ShowDialog();
@@ -2184,7 +2184,7 @@ select new T
             {
                 Model = model
             };
-            AddUpdateTemplateView view = new AddUpdateTemplateView("Изменить шаблон");
+            AddUpdateTemplateView view = new AddUpdateTemplateView("Изменение шаблона");
             view.DataContext = viewModel;
             model.OnClose += view.Handling_OnClose;
             view.ShowDialog();

@@ -2288,6 +2288,7 @@ namespace SupRealClient.Views
 					row["f_doc_code"] = "";
 					row["f_comment"] = "";
 					row["f_deleted"] = "N";
+					row["f_birth_date"] = DateTime.MinValue;
 					VisitorsDocumentsWrapper.
 					    CurrentTable().Table.Rows.Add(row);
 					int documentId = row.Field<int>("f_vd_id");
@@ -3034,90 +3035,7 @@ namespace SupRealClient.Views
 			row["f_rec_operator_pass"] = Authorizer.AppAuthorizer.Id;
 
 			bool fullNameChanged = false;
-			//if (OldVisitor.Family != CurrentItem.Family)
-			//{
-			//	row["f_family"] = CurrentItem.Family;
-			//	fullNameChanged = true;
-			//}
-			//if (OldVisitor.Name != CurrentItem.Name)
-			//{
-			//	row["f_fst_name"] = CurrentItem.Name;
-			//	fullNameChanged = true;
-			//}
-			//if (OldVisitor.Patronymic != CurrentItem.Patronymic)
-			//{
-			//	row["f_sec_name"] = CurrentItem.Patronymic;
-			//	fullNameChanged = true;
-			//}
-			//if (fullNameChanged)
-			//{
-			//	row["f_full_name"] = CommonHelper.CreateFullName(
-			//		CurrentItem.Family, CurrentItem.Name, CurrentItem.Patronymic);
-			//}
-			//if (OldVisitor.OrganizationId != CurrentItem.OrganizationId)
-			//	row["f_org_id"] = CurrentItem.OrganizationId >= 0 ?
-			//		CurrentItem.OrganizationId : 0;
-			//if (OldVisitor.Comment != CurrentItem.Comment)
 			row["f_vr_text"] = CurrentItem.Comment;
-			//if (OldVisitor.IsAccessDenied != CurrentItem.IsAccessDenied)
-			//{
-			//	row["f_persona_non_grata"] =
-			//		CommonHelper.BoolToString(CurrentItem.IsAccessDenied);
-			//}
-			//if (OldVisitor.IsCanHaveVisitors != CurrentItem.IsCanHaveVisitors)
-			//{
-			//	row["f_can_have_visitors"] =
-			//		CommonHelper.BoolToString(CurrentItem.IsCanHaveVisitors);
-			//}
-			//if (OldVisitor.IsAgree != CurrentItem.IsAgree)
-			//{
-			//	row["f_personal_data_agreement"] =
-			//		CommonHelper.BoolToString(CurrentItem.IsAgree);
-			//}
-			//if (OldVisitor.AgreeToDate != CurrentItem.AgreeToDate)
-			//{
-			//	row["f_personal_data_last_date"] = CurrentItem.AgreeToDate;
-			//}
-			//if (OldVisitor.Telephone != CurrentItem.Telephone)
-			//	row["f_phones"] = CurrentItem.Telephone;
-			//if (OldVisitor.Nation != CurrentItem.Nation)
-			//	row["f_cntr_id"] = CurrentItem.NationId >= 0 ?
-			//		CurrentItem.NationId : 0;
-			//if (OldVisitor.DocType != CurrentItem.DocType)
-			//	row["f_doc_id"] = CurrentItem.DocumentId >= 0 ?
-			//		CurrentItem.DocumentId : 0;
-			//if (OldVisitor.DocSeria != CurrentItem.DocSeria)
-			//	row["f_doc_seria"] = CurrentItem.DocSeria;
-			//if (OldVisitor.DocNum != CurrentItem.DocNum)
-			//	row["f_doc_num"] = CurrentItem.DocNum;
-			//if (OldVisitor.DocDate != CurrentItem.DocDate)
-			//	row["f_doc_date"] = CurrentItem.DocDate;
-			//if (OldVisitor.DocCode != CurrentItem.DocCode)
-			//	row["f_doc_code"] = CurrentItem.DocCode;
-			//if (OldVisitor.DocPlace != CurrentItem.DocPlace)
-			//	row["f_doc_org"] = CurrentItem.DocPlace;
-			//if (OldVisitor.Position != CurrentItem.Position)
-			//	row["f_job"] = CurrentItem.Position;
-			//if (OldVisitor.IsRightSign != CurrentItem.IsRightSign)
-			//{
-			//	row["f_can_sign_orders"] =
-			//		CommonHelper.BoolToString(CurrentItem.IsRightSign);
-			//}
-			//if (OldVisitor.IsAgreement != CurrentItem.IsAgreement)
-			//{
-			//	row["f_can_adjust_orders"] =
-			//		CommonHelper.BoolToString(CurrentItem.IsAgreement);
-			//}
-			//if (OldVisitor.Cabinet != CurrentItem.Cabinet)
-			//{
-			//	row["f_cabinet_id"] = CurrentItem.CabinetId >= 0 ?
-			//		CurrentItem.CabinetId : 0;
-			//}
-			//if (OldVisitor.Department != CurrentItem.Department)
-			//{
-			//	row["f_dep_id"] = CurrentItem.DepartmentId >= 0 ?
-			//		CurrentItem.DepartmentId : 0;
-			//}
 			row.EndEdit();
 
 			SaveAdditionalData(CurrentItem.Id);

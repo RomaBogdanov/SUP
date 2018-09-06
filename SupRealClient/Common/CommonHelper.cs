@@ -24,7 +24,6 @@ namespace SupRealClient.Common
 
         public static bool NotDeleted(DataRow row)
         {
-	        //return row.Field<string>("f_deleted").ToUpper() != "Y";
 	        object value = row.Field<string>("f_deleted");
 	        return value != null && value is string ? ((string)value).ToUpper() != "Y" : true;
         }
@@ -105,10 +104,7 @@ namespace SupRealClient.Common
 
 		    var result = match.Groups[1].Value;
 		    result = Regex.Replace(result, @"\s+", " ");
-			////result = Regex.Replace(result, @"\s*[-–——]\s*", " - ");
-			//result = Regex.Replace(result, @"[!|@|#|$|%|^|&|*|(|)|_|+|-|=|:|?|/|'|<|>|,|;]", "");
 			result = Regex.Replace(result, @"[^\s-\d]", "");
-			//result = Regex.Replace(result, @"[а-яёa-z]", "");
 			result = Regex.Replace(result, @"(\s*[-–——-]\s*)+", "-");
 
 
@@ -147,8 +143,6 @@ namespace SupRealClient.Common
 
 		    var result = match.Groups[1].Value;
 		    result = Regex.Replace(result, @"\s+", " ");
-			////result = Regex.Replace(result, @"\s*[-–——]\s*", " - ");
-			//result = Regex.Replace(result, @"[!|@|#|$|%|^|&|*|(|)|_|+|-|=|:|?|/|'|<|>|,|;]", "");
 			result = Regex.Replace(result, @"[^\s-\w]", "");
 			result = Regex.Replace(result, @"(\s*[-–——-]\s*)+", "-");
 
@@ -160,8 +154,7 @@ namespace SupRealClient.Common
 			{
 				return "";
 			}
-
-			//match = Regex.Match(result, @"^\s*([\w|!|@|#|$|%|^|&|*|(|)|_|+|-|=|:|?|/|'|<|>|,|;]+(\s*([-–——]\s*)?[\w|!|@|#|$|%|^|&|*|(|)|_|+|-|=|:|?|/|'|<|>|,|;]+)*)\s*$", RegexOptions.IgnoreCase);
+			
 			match = Regex.Match(result, @"^\s*([\w|\W|\d]+(\s*([-–——-]\s*)?[\w|\W|\d]+)*)\s*$", RegexOptions.IgnoreCase);
 			if (!match.Success)
 			{
@@ -177,8 +170,7 @@ namespace SupRealClient.Common
 			{
 				return "-";
 			}
-
-			//var match = Regex.Match(text, @"^\s*([\w|!|@|#|$|%|^|&|*|(|)|_|+|-|=|:|?|/|'|<|>|,|;]+(\s*([-–——]\s*)?[\w|!|@|#|$|%|^|&|*|(|)|_|+|-|=|:|?|/|'|<|>|,|;]+)*)\s*$", RegexOptions.IgnoreCase);		
+	
 			var match = Regex.Match(text, @"^\s*([\w|\W|\d]+(\s*([-–——-]\s*)?[\w|\W|\d]+)*)\s*$", RegexOptions.IgnoreCase);
 			if (!match.Success)
 			{
@@ -187,7 +179,6 @@ namespace SupRealClient.Common
 
 			var result = match.Groups[1].Value;
 			result = Regex.Replace(result, @"\s+", "");
-			//result = Regex.Replace(result, @"\s*[-–——]\s*", "-");
 			result = Regex.Replace(result, @"(\s*[-–——-]\s*)+", "-");
 			result = Regex.Replace(result, @"[^\s-\w]", "");
 
@@ -201,8 +192,7 @@ namespace SupRealClient.Common
 			{
 				return "-";
 			}
-
-			//match = Regex.Match(result, @"^\s*([\w|!|@|#|$|%|^|&|*|(|)|_|+|-|=|:|?|/|'|<|>|,|;]+(\s*([-–——]\s*)?[\w|!|@|#|$|%|^|&|*|(|)|_|+|-|=|:|?|/|'|<|>|,|;]+)*)\s*$", RegexOptions.IgnoreCase);
+			
 			match = Regex.Match(result, @"^\s*([\w|\W|\d]+(\s*([-–——-]\s*)?[\w|\W|\d]+)*)\s*$", RegexOptions.IgnoreCase);
 			if (!match.Success)
 			{

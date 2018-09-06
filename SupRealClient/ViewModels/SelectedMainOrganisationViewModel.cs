@@ -225,7 +225,7 @@ namespace SupRealClient.ViewModels
 					var viewModel1 = new UnitViewModel
 					{
 						Model = new EditDepModel(this.currentOrg, this.currentDep),
-						Title = @"Отредактировать подразделение"
+						Title = @"Редактирование подразделения"
 					};
 					viewModel1.Description = description;
 					viewModel1.FullDescription = fullDescription;
@@ -326,49 +326,6 @@ namespace SupRealClient.ViewModels
 
 		private void Query()
 		{
-			//memIsExpandedIsSelectedState();
-
-			//Organizations.Clear();
-			//mainOrganization = new MainOrganization
-			//{
-			//	Description = "Главные организации",
-			//	Items = new ObservableCollection<Organization>(
-			//	from org in OrganizationsWrapper.CurrentTable().Table.AsEnumerable()
-			//	where org.Field<string>("f_is_basic").ToUpper() == "Y" &&
-			//		  org.Field<int?>("f_syn_id") == 0 &&
-			//		  org.Field<string>("f_deleted") != CommonHelper.BoolToString(true)
-			//	select new Organization
-			//	{
-			//		Description = $"{org.Field<string>("f_org_type")} " +
-			//			$"{org.Field<string>("f_org_name")}",
-			//		Id = org.Field<int>("f_org_id"),
-			//		IsExpanded = memOrgs.Find(x => x.Id == org.Field<int>("f_org_id"))?.IsExpanded ?? false,
-			//		IsSelected = memOrgs.Find(x => x.Id == org.Field<int>("f_org_id"))?.IsSelected ?? false,
-			//		Items = new ObservableCollection<Department>(
-			//			from department in DepartmentWrapper
-			//				.CurrentTable().Table.AsEnumerable()
-			//				//                  where department.Field<int>("f_org_id")!=null &&  department.Field<int?>("f_org_id") == org.Field<int>("f_org_id") &&
-			//				//department.Field<int>("f_parent_id")!=null && department.Field<int?>("f_parent_id") == -1 &&
-			//				//                        department.Field<string>("f_deleted") != CommonHelper.BoolToString(true)
-			//			where department.Field<int?>("f_org_id") == org.Field<int>("f_org_id") &&
-			//					department.Field<int?>("f_parent_id") == -1 &&
-			//			department.Field<string>("f_deleted") != CommonHelper.BoolToString(true)
-			//			select new Department
-			//			{
-			//				Id = department.Field<int>("f_dep_id"),
-			//				ParentId = department.Field<int>("f_parent_id"),
-			//				OrganizationId = department.Field<int>("f_org_id"),
-			//				FullDescription = department.Field<string>("f_dep_name"),
-			//				Description = department.Field<string>("f_short_dep_name"),
-			//				IsExpanded = memDeps.Find(x => x.Id == department.Field<int>("f_dep_id"))?.IsExpanded ?? false,
-			//				IsSelected = memDeps.Find(x => x.Id == department.Field<int>("f_dep_id"))?.IsSelected ?? false,
-			//				Items = GetItems(department.Field<int>("f_dep_id"))
-			//			})
-			//	})
-			//};
-			//Organizations.Add(mainOrganization);
-
-			//mainOrganization.IsExpanded = true;
 
 			memIsExpandedIsSelectedState();
 
@@ -394,9 +351,6 @@ namespace SupRealClient.ViewModels
 						Items = new ObservableCollection<Department>(
 							from department in DepartmentWrapper
 								.CurrentTable().Table.AsEnumerable()
-								//                  where department.Field<int>("f_org_id")!=null &&  department.Field<int?>("f_org_id") == org.Field<int>("f_org_id") &&
-								//department.Field<int>("f_parent_id")!=null && department.Field<int?>("f_parent_id") == -1 &&
-								//                        department.Field<string>("f_deleted") != CommonHelper.BoolToString(true)
 							where department.Field<int?>("f_org_id") == org.Field<int>("f_org_id") &&
 										department.Field<int?>("f_parent_id") == -1 &&
 								department.Field<string>("f_deleted") != CommonHelper.BoolToString(true)

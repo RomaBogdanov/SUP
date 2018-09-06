@@ -172,7 +172,7 @@ namespace SupRealClient.ViewModels
         public void SetModel(IAddUpdateOrgsModel addItem1Model)
         {
             this.model = addItem1Model;
-            this.Caption = model.Data.Id <= 0 ? "Добавить организацию" :
+            this.Caption = model.Data.Id <= 0 ? "Добавление организации" :
                 "Редактирование организации";
             this.TypeList = 
                 (CollectionView)CollectionViewSource.GetDefaultView(OrganizationsHelper.GetTypes(model.Data.Type));

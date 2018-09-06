@@ -222,7 +222,7 @@ namespace SupRealClient.ViewModels
                     var viewModel1 = new UnitViewModel
                     {
                         Model = new EditDepModel(this.currentOrg, this.currentDep),
-                        Title = @"Отредактировать подразделение"
+                        Title = @"Редактирование подразделения"
                     };
                     viewModel1.Description = description;
                     viewModel1.FullDescription = fullDescription;
@@ -344,9 +344,6 @@ namespace SupRealClient.ViewModels
                     Items = new ObservableCollection<Department>(
                         from department in DepartmentWrapper
                             .CurrentTable().Table.AsEnumerable()
-							//                  where department.Field<int>("f_org_id")!=null &&  department.Field<int?>("f_org_id") == org.Field<int>("f_org_id") &&
-							//department.Field<int>("f_parent_id")!=null && department.Field<int?>("f_parent_id") == -1 &&
-							//                        department.Field<string>("f_deleted") != CommonHelper.BoolToString(true)
 						where department.Field<int?>("f_org_id") == org.Field<int>("f_org_id") &&
 								department.Field<int?>("f_parent_id") == -1 &&
 						department.Field<string>("f_deleted") != CommonHelper.BoolToString(true)
@@ -394,9 +391,6 @@ namespace SupRealClient.ViewModels
 						Items = new ObservableCollection<Department>(
 							from department in DepartmentWrapper
 								.CurrentTable().Table.AsEnumerable()
-								//                  where department.Field<int>("f_org_id")!=null &&  department.Field<int?>("f_org_id") == org.Field<int>("f_org_id") &&
-								//department.Field<int>("f_parent_id")!=null && department.Field<int?>("f_parent_id") == -1 &&
-								//                        department.Field<string>("f_deleted") != CommonHelper.BoolToString(true)
 							where department.Field<int?>("f_org_id") == org.Field<int>("f_org_id") &&
 										department.Field<int?>("f_parent_id") == -1 &&
 								department.Field<string>("f_deleted") != CommonHelper.BoolToString(true)

@@ -51,9 +51,9 @@ namespace SupRealClient.ViewModels
         /// <param name="addItem1Model"></param>
         private void SetTitle(IAddItem1Model addItem1Model)
         {
-            this.Caption = addItem1Model is AddItemDocumentsModel ? "Добавить документ" :
+            this.Caption = addItem1Model is AddItemDocumentsModel ? "Добавление документа" :
                 addItem1Model is UpdateItemDocumentsModel ? "Редактирование документа" :
-                addItem1Model is AddItemNationsModel ? "Добавить страну" :
+                addItem1Model is AddItemNationsModel ? "Добавление страны" :
                 addItem1Model is UpdateItemNationsModel ? "Редактирование страны" :
                 string.Empty;
         }
@@ -65,7 +65,7 @@ namespace SupRealClient.ViewModels
             
             this.InputHeader = addItem1Model is AddItemDocumentsModel ? "Введите документ:" :
                                addItem1Model is AddItemNationsModel ? "Введите страну:" :
-                               addItem1Model is UpdateItemNationsModel ? "Отредактировать страну:" :
+                               addItem1Model is UpdateItemNationsModel ? "Отредактируйте страну:" :
                                "Введите новое имя:";
             this.Field = model.Data.Field;
             this.Ok = new RelayCommand(arg => this.model.Ok(new FieldData { Field = Field }));

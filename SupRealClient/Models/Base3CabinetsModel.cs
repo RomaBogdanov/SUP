@@ -33,16 +33,14 @@ namespace SupRealClient.Models
 
         public override void Add()
         {
-            //ViewManager.Instance.Add(new AddItemDocumentsModel(), parent);
             AddUpdateCabinetView addUpdateCabinetView = new AddUpdateCabinetView();
             addUpdateCabinetView.Show();
         }
 
         public override void Update()
         {
-            //ViewManager.Instance.Update(new UpdateItemDocumentsModel((Document)this.viewModel.CurrentItem), parent);
             AddUpdateCabinetView addUpdateCabinetView = 
-                new AddUpdateCabinetView(this.viewModel.CurrentItem as Cabinet, "Изменение кабинета");
+                new AddUpdateCabinetView(this.viewModel.CurrentItem as Cabinet, "Редактирование кабинета");
             addUpdateCabinetView.Show();
         }
 

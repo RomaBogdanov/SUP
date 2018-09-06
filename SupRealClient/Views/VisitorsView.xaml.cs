@@ -488,7 +488,6 @@ namespace SupRealClient.Views
 					{
 						panel_TabItems.SelectedIndex = 0;
 					}
-					//if(panel_TabItems.SelectedIndex) 
 				}
 			}
 		}

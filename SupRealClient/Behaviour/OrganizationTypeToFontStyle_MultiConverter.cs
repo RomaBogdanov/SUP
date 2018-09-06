@@ -24,7 +24,6 @@ namespace SupRealClient.Behaviour
 					{
 						if (isBasic.Value)
 						{
-							//return BaseOrganization_ColorBrush;
 							return FontStyles.Normal;
 						}
 					}

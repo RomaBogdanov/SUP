@@ -1,130 +1,149 @@
-﻿<UserControl x:Name="authorizeControl" x:Class="SupRealClient.Views.Authorize1View"
-             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
-             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-             xmlns:local="clr-namespace:SupRealClient.ViewModels"
-             mc:Ignorable="d"
-             IsVisibleChanged="UserControl_IsVisibleChanged" Height="408.844" Width="469.95"
-             KeyboardNavigation.TabNavigation="Cycle">
-    <UserControl.DataContext>
-        <local:Authorize1ViewModel/>
-    </UserControl.DataContext>
-    <Grid>
-        <Grid.RowDefinitions>
-            <RowDefinition Height="1*"/>
-            <RowDefinition Height="380"/>
-            <RowDefinition Height="1*"/>
-        </Grid.RowDefinitions>
-        <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="1*"/>
-            <ColumnDefinition Width="400"/>
-            <ColumnDefinition Width="1*"/>
-        </Grid.ColumnDefinitions>
-        <Grid Grid.Row="1" Grid.Column="1">
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="1*"/>
-                <ColumnDefinition Width="1*"/>
-            </Grid.ColumnDefinitions>
-            <Grid.RowDefinitions>
-                <RowDefinition Height="1*"/>
-                <RowDefinition Height="1*"/>
-                <RowDefinition Height="1*"/>
-                <RowDefinition Height="1*"/>
-                <RowDefinition Height="1*"/>
-                <RowDefinition Height="1*"/>
-                <RowDefinition Height="1*"/>
-                <RowDefinition Height="1*"/>
-                <RowDefinition Height="1*"/>
-            </Grid.RowDefinitions>
-            <TextBlock 
-                Grid.Column="0"
-                Grid.ColumnSpan="2" 
-                FontSize="24" 
-                FontWeight="Bold" 
-                Margin="2"
-                Text="Регистрация"
-                HorizontalAlignment="Left"
-                Style="{StaticResource TextBLockStyle}"/>
+﻿<UserControl
+	x:Class="SupRealClient.Views.Authorize1View"
+	xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+	xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+	xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+	xmlns:local="clr-namespace:SupRealClient.ViewModels"
+	xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+	x:Name="authorizeControl"
+	Width="469.95"
+	Height="408.844"
+	IsVisibleChanged="UserControl_IsVisibleChanged"
+	KeyboardNavigation.TabNavigation="Cycle"
+	mc:Ignorable="d">
+	<UserControl.DataContext>
+		<local:Authorize1ViewModel />
+	</UserControl.DataContext>
+	<Grid>
+		<Grid.RowDefinitions>
+			<RowDefinition Height="1*" />
+			<RowDefinition Height="380" />
+			<RowDefinition Height="1*" />
+		</Grid.RowDefinitions>
+		<Grid.ColumnDefinitions>
+			<ColumnDefinition Width="1*" />
+			<ColumnDefinition Width="400" />
+			<ColumnDefinition Width="1*" />
+		</Grid.ColumnDefinitions>
+		<Grid Grid.Row="1" Grid.Column="1">
+			<Grid.ColumnDefinitions>
+				<ColumnDefinition Width="1*" />
+				<ColumnDefinition Width="1*" />
+			</Grid.ColumnDefinitions>
+			<Grid.RowDefinitions>
+				<RowDefinition Height="1*" />
+				<RowDefinition Height="1*" />
+				<RowDefinition Height="1*" />
+				<RowDefinition Height="1*" />
+				<RowDefinition Height="1*" />
+				<RowDefinition Height="1*" />
+				<RowDefinition Height="1*" />
+				<RowDefinition Height="1*" />
+				<RowDefinition Height="1*" />
+			</Grid.RowDefinitions>
+			<TextBlock
+				Grid.Column="0"
+				Grid.ColumnSpan="2"
+				Margin="2"
+				HorizontalAlignment="Left"
+				FontSize="24"
+				FontWeight="Bold"
+				Style="{StaticResource TextBLockStyle}"
+				Text="Регистрация" />
 
-            <TextBlock 
-                Grid.Row="1" 
-                Grid.Column="0"
-                Grid.ColumnSpan="2" 
-                FontSize="{Binding FontSize}" 
-                Margin="2"
-                Text="Имя пользователя:"
-                HorizontalAlignment="Left"
-                Style="{StaticResource TextBLockStyle}"/>
+			<TextBlock
+				Grid.Row="1"
+				Grid.Column="0"
+				Grid.ColumnSpan="2"
+				Margin="2"
+				HorizontalAlignment="Left"
+				FontSize="{Binding FontSize}"
+				Style="{StaticResource TextBLockStyle}"
+				Text="Имя пользователя:" />
 
-            <TextBox Name="txtLogin"
-                Grid.Row="2" 
-                Grid.Column="0"
-                Grid.ColumnSpan="2" 
-                TabIndex="0"
-                FontSize="{Binding FontSize}" VerticalContentAlignment="Center"
-                Margin="2" 
-                Text="{Binding Path=Login, Mode=TwoWay}"
-                KeyUp="TextBox_KeyUp"/>
+			<TextBox
+				Name="txtLogin"
+				Grid.Row="2"
+				Grid.Column="0"
+				Grid.ColumnSpan="2"
+				Margin="2"
+				VerticalContentAlignment="Center"
+				FontSize="{Binding FontSize}"
+				KeyUp="TextBox_KeyUp"
+				TabIndex="0"
+				Text="{Binding Path=Login, Mode=TwoWay}" />
 
-            <TextBlock 
-                Grid.Row="3" 
-                Grid.Column="0"
-                Grid.ColumnSpan="2" 
-                FontSize="{Binding FontSize}" 
-                Margin="2"
-                Text="Пароль:"
-                HorizontalAlignment="Left"
-                Style="{StaticResource TextBLockStyle}"/>
+			<TextBlock
+				Grid.Row="3"
+				Grid.Column="0"
+				Grid.ColumnSpan="2"
+				Margin="2"
+				HorizontalAlignment="Left"
+				FontSize="{Binding FontSize}"
+				Style="{StaticResource TextBLockStyle}"
+				Text="Пароль:" />
 
-            <PasswordBox TabIndex="1"
-                Grid.Row="4" 
-                Grid.Column="0"
-                Grid.ColumnSpan="2" 
-                FontSize="{Binding FontSize}" VerticalContentAlignment="Center"
-                Margin="2" 
-                Name="txtPass" KeyUp="TextBox_KeyUp"/>
+			<PasswordBox
+				Name="txtPass"
+				Grid.Row="4"
+				Grid.Column="0"
+				Grid.ColumnSpan="2"
+				Margin="2"
+				VerticalContentAlignment="Center"
+				FontSize="{Binding FontSize}"
+				KeyUp="TextBox_KeyUp"
+				TabIndex="1" />
 
-            <TextBlock 
-                Grid.Row="5" 
-                Grid.Column="0"
-                Grid.ColumnSpan="2" 
-                FontSize="{Binding FontSize}" 
-                Margin="2"
-                Text="Выбрать сервер:"
-                HorizontalAlignment="Left"
-                Style="{StaticResource TextBLockStyle}"/>
+			<TextBlock
+				Grid.Row="5"
+				Grid.Column="0"
+				Grid.ColumnSpan="2"
+				Margin="2"
+				HorizontalAlignment="Left"
+				FontSize="{Binding FontSize}"
+				Style="{StaticResource TextBLockStyle}"
+				Text="Выбрать сервер:" />
 
-            <ComboBox TabIndex="2"
-                Grid.Row="6" 
-                Grid.Column="0"
-                Grid.ColumnSpan="2" 
-                FontSize="{Binding FontSize}" 
-                Margin="2" 
-                IsEnabled="True"
-                ItemsSource="{Binding Path=Hosts, Mode=OneTime}" 
-                SelectedItem="{Binding Path=SelectedHost, Mode=TwoWay}"
-                SelectedValuePath="Key" 
-                DisplayMemberPath="Value" KeyUp="TextBox_KeyUp"/>
+			<ComboBox
+				Grid.Row="6"
+				Grid.Column="0"
+				Grid.ColumnSpan="2"
+				Margin="2"
+				DisplayMemberPath="Value"
+				FontSize="{Binding FontSize}"
+				IsEnabled="True"
+				ItemsSource="{Binding Path=Hosts, Mode=OneTime}"
+				KeyUp="TextBox_KeyUp"
+				SelectedItem="{Binding Path=SelectedHost, Mode=TwoWay}"
+				SelectedValuePath="Key"
+				TabIndex="2" />
 
-            <Button Name="btnOK" TabIndex="3"
-                Grid.Column="0"
-                Grid.ColumnSpan="2" 
-                Grid.Row="7" 
-                Margin="2" 
-                Content="Ок" 
-                FontSize="{Binding FontSize}"                  
-                Command="{Binding Path=Enter}"
-                CommandParameter="{Binding ElementName=txtPass}"
-                KeyDown="Button_KeyDown"/>
+			<Button
+				Name="btnOK"
+				Grid.Row="7"
+				Grid.Column="0"
+				Grid.ColumnSpan="2"
+				Margin="2"
+				Command="{Binding Path=Enter}"
+				CommandParameter="{Binding ElementName=txtPass}"
+				Content="Ок"
+				FontSize="{Binding FontSize}"
+				KeyDown="Button_KeyDown"
+				TabIndex="3" />
 
-            <ScrollViewer Grid.Row="8" Grid.Column="0" Grid.ColumnSpan="2" VerticalScrollBarVisibility="Auto" >
-                <TextBlock FontSize="{Binding FontSize}" TextWrapping="WrapWithOverflow"
-                Foreground="{Binding Path=InfoStyle, Mode=TwoWay}" 
-                Text="{Binding Path=Msg, Mode=TwoWay}"
-                HorizontalAlignment="Left"
-                Style="{StaticResource TextBLockStyle}" />
-            </ScrollViewer>
-        </Grid>
-    </Grid>
+			<ScrollViewer
+				Grid.Row="8"
+				Grid.Column="0"
+				Grid.ColumnSpan="2"
+				VerticalScrollBarVisibility="Auto">
+				<TextBlock
+					HorizontalAlignment="Left"
+					FontSize="{Binding FontSize}"
+					Foreground="{Binding Path=InfoStyle, Mode=TwoWay}"
+					Style="{StaticResource TextBLockStyle}"
+					Text="{Binding Path=Msg, Mode=TwoWay}"
+					TextWrapping="WrapWithOverflow" />
+			</ScrollViewer>
+		</Grid>
+	</Grid>
 </UserControl>

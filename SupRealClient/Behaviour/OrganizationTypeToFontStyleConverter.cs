@@ -11,7 +11,6 @@ namespace SupRealClient.Behaviour
 {
 	public class OrganizationTypeToFontStyleConverter : IValueConverter
 	{
-		//FontStyle="Italic"
 		public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
 		{
 			if (value is bool)
